@@ -1,0 +1,8 @@
+.coverage
+.idea/
+*pytest_cache/
+*__pycache__*
+
+dist/
+*/build/
+*.DS_Store
