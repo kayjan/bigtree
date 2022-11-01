@@ -111,7 +111,7 @@ def find_name(tree: Node, name: str, max_depth: int = None) -> Node:
     Returns:
         (BaseNode)
     """
-    return find(tree, lambda node: node.name == name, max_depth)
+    return find(tree, lambda node: node.node_name == name, max_depth)
 
 
 def find_names(tree: Node, name: str, max_depth: int = None) -> Iterable[Node]:
@@ -136,7 +136,7 @@ def find_names(tree: Node, name: str, max_depth: int = None) -> Iterable[Node]:
     Returns:
         (tuple)
     """
-    return findall(tree, lambda node: node.name == name, max_depth)
+    return findall(tree, lambda node: node.node_name == name, max_depth)
 
 
 def find_full_path(tree: Node, path_name: str) -> BaseNode:
@@ -307,7 +307,7 @@ def find_children(tree: Node, name: str) -> Node:
     Returns:
         (Node)
     """
-    child = [node for node in tree.children if node.name == name]
+    child = [node for node in tree.children if node.node_name == name]
     if len(child) > 1:  # pragma: no cover
         raise CorruptedTreeError(
             f"There are more than one path for {child[0].path_name}, check {child}"

@@ -31,16 +31,16 @@ def preorder_iter(
     `-- c
         `-- f
 
-    >>> [node.name for node in preorder_iter(root)]
+    >>> [node.node_name for node in preorder_iter(root)]
     ['a', 'b', 'd', 'e', 'g', 'h', 'c', 'f']
 
-    >>> [node.name for node in preorder_iter(root, filter_condition=lambda x: x.name in ["a", "d", "e", "f", "g"])]
+    >>> [node.node_name for node in preorder_iter(root, filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
     ['a', 'd', 'e', 'g', 'f']
 
-    >>> [node.name for node in preorder_iter(root, stop_condition=lambda x: x.name=="e")]
+    >>> [node.node_name for node in preorder_iter(root, stop_condition=lambda x: x.node_name=="e")]
     ['a', 'b', 'd', 'c', 'f']
 
-    >>> [node.name for node in preorder_iter(root, max_depth=3)]
+    >>> [node.node_name for node in preorder_iter(root, max_depth=3)]
     ['a', 'b', 'd', 'e', 'c', 'f']
 
     Args:
@@ -92,7 +92,7 @@ def postorder_iter(
     `-- c
         `-- f
 
-    >>> [node.name for node in postorder_iter(root)]
+    >>> [node.node_name for node in postorder_iter(root)]
     ['d', 'g', 'h', 'e', 'b', 'f', 'c', 'a']
 
     Args:
@@ -144,7 +144,7 @@ def levelorder_iter(
     `-- c
         `-- f
 
-    >>> [node.name for node in levelorder_iter(root)]
+    >>> [node.node_name for node in levelorder_iter(root)]
     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
     Args:
@@ -199,7 +199,7 @@ def levelordergroup_iter(
     `-- c
         `-- f
 
-    >>> [[node.name for node in group] for group in levelordergroup_iter(root)]
+    >>> [[node.node_name for node in group] for group in levelordergroup_iter(root)]
     [['a'], ['b', 'c'], ['d', 'e', 'f'], ['g', 'h']]
 
     Args:

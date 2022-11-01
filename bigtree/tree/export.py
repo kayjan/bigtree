@@ -12,6 +12,7 @@ __all__ = [
     "tree_to_dataframe",
     "tree_to_dict",
     "tree_to_nested_dict",
+    "tree_to_image",
 ]
 
 
@@ -171,7 +172,7 @@ def print_tree(
                 [f"{attr_name}={_node.get_attr(attr_name)}" for attr_name in attr_list]
             )
             attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
-        node_str = f"{_node.name}{attr_str}"
+        node_str = f"{_node.node_name}{attr_str}"
         print(f"{pre_str}{fill_str}{node_str}")
 
 
@@ -202,7 +203,7 @@ def yield_tree(
     >>> d = Node("d", age=40, parent=b)
     >>> e = Node("e", age=35, parent=b)
     >>> for branch, stem, node in yield_tree(root):
-    ...     print(f"{branch}{stem}{node.name}")
+    ...     print(f"{branch}{stem}{node.node_name}")
     a
     |-- b
     |   |-- d
@@ -212,13 +213,13 @@ def yield_tree(
     **Printing Sub-tree**
 
     >>> for branch, stem, node in yield_tree(root, node_name="b"):
-    ...     print(f"{branch}{stem}{node.name}")
+    ...     print(f"{branch}{stem}{node.node_name}")
     b
     |-- d
     `-- e
 
     >>> for branch, stem, node in yield_tree(root, max_depth=2):
-    ...     print(f"{branch}{stem}{node.name}")
+    ...     print(f"{branch}{stem}{node.node_name}")
     a
     |-- b
     `-- c
@@ -226,7 +227,7 @@ def yield_tree(
     **Available Styles**
 
     >>> for branch, stem, node in yield_tree(root, style="ansi"):
-    ...     print(f"{branch}{stem}{node.name}")
+    ...     print(f"{branch}{stem}{node.node_name}")
     a
     |-- b
     |   |-- d
@@ -234,7 +235,7 @@ def yield_tree(
     `-- c
 
     >>> for branch, stem, node in yield_tree(root, style="ascii"):
-    ...     print(f"{branch}{stem}{node.name}")
+    ...     print(f"{branch}{stem}{node.node_name}")
     a
     |-- b
     |   |-- d
@@ -242,7 +243,7 @@ def yield_tree(
     +-- c
 
     >>> for branch, stem, node in yield_tree(root, style="const"):
-    ...     print(f"{branch}{stem}{node.name}")
+    ...     print(f"{branch}{stem}{node.node_name}")
     a
     ├── b
     │   ├── d
@@ -250,7 +251,7 @@ def yield_tree(
     └── c
 
     >>> for branch, stem, node in yield_tree(root, style="const_bold"):
-    ...     print(f"{branch}{stem}{node.name}")
+    ...     print(f"{branch}{stem}{node.node_name}")
     a
     ┣━━ b
     ┃   ┣━━ d
@@ -258,15 +259,15 @@ def yield_tree(
     ┗━━ c
 
     >>> for branch, stem, node in yield_tree(root, style="rounded"):
-    ...     print(f"{branch}{stem}{node.name}")
+    ...     print(f"{branch}{stem}{node.node_name}")
     a
     ├── b
     │   ├── d
     │   ╰── e
     ╰── c
 
-    >>> for branch, stem, node in yield_tree(root, style="double"):
-    ...     print(f"{branch}{stem}{node.name}")
+    >>> for branch, stem, node in node_name(root, style="double"):
+    ...     print(f"{branch}{stem}{node.node_name}")
     a
     ╠══ b
     ║   ╠══ d
@@ -276,7 +277,7 @@ def yield_tree(
     **Printing Attributes**
 
     >>> for branch, stem, node in yield_tree(root, style="const"):
-    ...     print(f"{branch}{stem}{node.name} [age={node.age}]")
+    ...     print(f"{branch}{stem}{node.node_name} [age={node.age}]")
     a [age=90]
     ├── b [age=65]
     │   ├── d [age=40]
@@ -381,8 +382,8 @@ def tree_to_dataframe(
     Args:
         tree (Node): tree to be exported
         path_col (str): column name for `node.path_name`, optional
-        name_col (str): column name for `node.name`, defaults to 'name'
-        parent_col (str): column name for `node.parent.name`, optional
+        name_col (str): column name for `node.node_name`, defaults to 'name'
+        parent_col (str): column name for `node.parent.node_name`, optional
         attr_dict (dict): dictionary mapping node attributes to column name,
             key: node attributes, value: corresponding column in dataframe, optional
         all_attrs (bool): indicator whether to retrieve all `Node` attributes
@@ -406,11 +407,11 @@ def tree_to_dataframe(
             if path_col:
                 data_child[path_col] = node.path_name
             if name_col:
-                data_child[name_col] = node.name
+                data_child[name_col] = node.node_name
             if parent_col:
                 parent_name = None
                 if node.parent:
-                    parent_name = node.parent.name
+                    parent_name = node.parent.node_name
                 data_child[parent_col] = parent_name
 
             if all_attrs:
@@ -460,8 +461,8 @@ def tree_to_dict(
 
     Args:
         tree (Node): tree to be exported
-        name_key (str): dictionary key for `node.name`, defaults to 'name'
-        parent_key (str): dictionary key for `node.parent.name`, optional
+        name_key (str): dictionary key for `node.node_name`, defaults to 'name'
+        parent_key (str): dictionary key for `node.parent.node_name`, optional
         attr_dict (dict): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
         all_attrs (bool): indicator whether to retrieve all `Node` attributes
@@ -483,11 +484,11 @@ def tree_to_dict(
         ):
             data_child = {}
             if name_key:
-                data_child[name_key] = node.name
+                data_child[name_key] = node.node_name
             if parent_key:
                 parent_name = None
                 if node.parent:
-                    parent_name = node.parent.name
+                    parent_name = node.parent.node_name
                 data_child[parent_key] = parent_name
             if all_attrs:
                 data_child.update(
@@ -529,7 +530,7 @@ def tree_to_nested_dict(
 
     Args:
         tree (Node): tree to be exported
-        name_key (str): dictionary key for `node.name`, defaults to 'name'
+        name_key (str): dictionary key for `node.node_name`, defaults to 'name'
         child_key (str): dictionary key for list of children, optional
         attr_dict (dict): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
@@ -544,7 +545,7 @@ def tree_to_nested_dict(
 
     def recursive_append(node, parent_dict):
         if not max_depth or node.depth <= max_depth:
-            data_child = {name_key: node.name}
+            data_child = {name_key: node.node_name}
             if all_attrs:
                 data_child.update(
                     dict(node.describe(exclude_attributes=["name"], exclude_prefix="_"))
@@ -562,3 +563,46 @@ def tree_to_nested_dict(
 
     recursive_append(tree, data_dict)
     return data_dict[child_key][0]
+
+
+def tree_to_image(
+    tree: Node,
+    save_path: str = "",
+    directed: bool = True,
+):
+    """Export tree to image.
+
+    >>> from bigtree import Node, tree_to_image
+    >>> root = Node("a", age=90)
+    >>> b = Node("b", age=65, parent=root)
+    >>> c = Node("c", age=60, parent=root)
+    >>> d = Node("d", age=40, parent=b)
+    >>> e = Node("e", age=35, parent=b)
+    >>> tree_to_image(root, "tree.png")
+    {'name': 'a', 'age': 90, 'children': [{'name': 'b', 'age': 65, 'children': [{'name': 'd', 'age': 40}, {'name': 'e', 'age': 35}]}, {'name': 'c', 'age': 60}]}
+
+    Args:
+        tree (Node): tree to be exported
+        save_path (str): save path of tree
+        directed (bool): indicator whether graph should be directed or undirected, defaults to True
+    """
+    try:
+        import pydot
+    except ImportError:
+        raise ImportError(
+            "pydot not available. Please perform a `pip install bigtree[graph]` to install required dependencies"
+        )
+
+    tree = tree.copy()
+
+    if directed:
+        graph = pydot.Dot(graph_type="digraph")
+    else:
+        graph = pydot.Dot(graph_type="graph")
+
+    data_parent_child = tree_to_dataframe(tree, name_col="node", parent_col="parent")
+    for child, parent in list(
+        zip(data_parent_child["node"], data_parent_child["parent"])
+    ):
+        if child and parent:
+            graph.add_edge(pydot.Edge(child.node_name, parent.node_name))
