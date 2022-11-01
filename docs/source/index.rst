@@ -1,9 +1,21 @@
 Big Tree Documentation
 ===================================
 
+.. image:: https://img.shields.io/pypi/pyversions/bigtree.svg
+   :target: https://pypi.python.org/pypi/bigtree
+   :alt: python-compatibility
+
+.. image:: https://readthedocs.org/projects/bigtree/badge/?version=latest
+    :target: https://bigtree.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 .. image:: https://codecov.io/gh/kayjan/bigtree/branch/main/graph/badge.svg?token=OBJRFKYAIQ
    :target: https://codecov.io/gh/kayjan/bigtree
    :alt: code-coverage
+
+.. image:: https://github.com/kayjan/bigtree/actions/workflows/pytest.yml/badge.svg
+   :target: https://github.com/kayjan/bigtree/actions/workflows/pytest.yml
+   :alt: github-workflows
 
 .. image:: https://img.shields.io/static/v1?label=license&message=MIT&color=blue
    :alt: license
