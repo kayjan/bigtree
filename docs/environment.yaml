@@ -1,0 +1,8 @@
+name: docs
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pip:
+    - autodocsumm==0.2.9
+    - pandas==1.5.1
