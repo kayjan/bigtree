@@ -1,0 +1,24 @@
+/* Font */
+h3, h4 {
+    font-family: Nobile, sans-serif !important;
+}
+span.pre {
+    font-style: italic;
+    letter-spacing: 0.5px;
+}
+.sig {
+    background-color: lightgrey;
+}
+
+/* Image */
+.logo img {
+    height: 150px;
+}
+
+/* Links */
+a, a:visited {
+    color: #2980B9;
+}
+a:hover {
+    color: black;
+}

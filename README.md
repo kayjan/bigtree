@@ -1,0 +1,602 @@
+# Big Tree Python Package
+
+Python Tree data structure, integrated with Python *list*, *dictionary*, and *pandas DataFrame*.
+
+It is pythonic, making it easy to learn and extendable to many types of workflows.
+
+## Components
+There are 8 main components to Big Tree.
+
+1. **Node**
+   1. ``BaseNode``, extendable class
+   2. ``Node``, BaseNode with node name attribute
+2. **Constructing Tree**
+   1. From *list*, containing paths
+   2. From *nested dictionary*
+   3. From *nested recursive dictionary*
+   4. From *pandas DataFrame*
+   5. Add nodes to existing tree using list
+   6. Add nodes and attributes to existing tree using dictionary or pandas DataFrame, add using path
+   7. Add only attributes to existing tree using dictionary or pandas DataFrame, add using name
+3. **Traversing Tree**
+   1. Pre-Order Traversal
+   2. Post-Order Traversal
+   3. Level-Order Traversal
+   4. Level-Order-Group Traversal
+4. **Modifying Tree**
+   1. Shift nodes from location to destination
+   2. Copy nodes from location to destination
+   3. Copy nodes from one tree to another
+5. **Tree Search**
+   1. Find multiple nodes based on name, partial path, attribute value, user-defined condition
+   2. Find single nodes based on name, path, attribute value, user-defined condition
+   3. Find multiple child nodes based on attribute value, user-defined condition
+   4. Find single child node based on name
+6. **Helper Function**
+   1. Cloning tree to another `Node` type
+   2. Prune tree
+   3. Get difference between two trees
+7. **Exporting Tree**
+   1. Print to console
+   2. Export to *pandas DataFrame*, *dictionary*, or *nested dictionary*
+8. **Workflows**
+   1. Sample workflows for tree demonstration!
+
+## Installation
+
+To install `bigtree`, run the following line in command prompt:
+
+```pip install bigtree```
+
+
+## Demonstration
+
+Here are some codes to getting started.
+
+### Construct Tree
+
+Nodes can have attributes if they are initialized from `Node`, *dictionary*, or *pandas DataFrame*.
+
+1. **From `Node`**
+
+Nodes can be linked to each other with `parent` and `children` setter methods.
+
+```python
+from bigtree import Node, print_tree
+
+root = Node("a", age=90)
+b = Node("b", age=65)
+c = Node("c", age=60)
+d = Node("d", age=40)
+
+root.children = [b, c]
+d.parent = b
+
+print_tree(root, attr_list=["age"])
+# a [age=90]
+# |-- b [age=65]
+# |   `-- d [age=40]
+# `-- c [age=60]
+```
+
+Alternatively, we can directly pass `parent` or `children` argument.
+
+```python
+from bigtree import Node, print_tree
+
+root = Node("a")
+b = Node("b", parent=root)
+c = Node("c", parent=root)
+
+print_tree(root, style="ascii")
+# a
+# |-- b
+# +-- c
+```
+
+```python
+from bigtree import Node, print_tree
+
+b = Node("b")
+c = Node("c")
+root = Node("a", children=[b, c])
+
+print_tree(root, style="ascii")
+# a
+# |-- b
+# +-- c
+```
+
+2. **From *list***
+
+Construct nodes only, list contains full paths of nodes.
+
+```python
+from bigtree import list_to_tree, print_tree
+
+root = list_to_tree(["a/b/d", "a/c"])
+
+print_tree(root)
+# a
+# |-- b
+# |   `-- d
+# `-- c
+```
+
+3. **From *nested dictionary***
+
+Construct nodes with attributes, `key`: path, `value`: dict of node attribute names and attribute values.
+
+```python
+from bigtree import dict_to_tree, print_tree
+
+path_dict = {
+   "a": {"age": 90},
+   "a/b": {"age": 65},
+   "a/c": {"age": 60},
+   "a/b/d": {"age": 40},
+}
+root = dict_to_tree(path_dict)
+
+print_tree(root, attr_list=["age"])
+# a [age=90]
+# |-- b [age=65]
+# |   `-- d [age=40]
+# `-- c [age=60]
+```
+
+4. **From *nested recursive dictionary***
+
+Construct nodes with attributes, `key`: node attribute names, `value`: node attribute values, and list of
+children (recursive).
+
+```python
+from bigtree import nested_dict_to_tree, print_tree
+
+path_dict = {
+   "name": "a",
+   "age": 90,
+   "children": [
+      {
+         "name": "b",
+         "age": 65,
+         "children": [
+            {"name": "d", "age": 40},
+         ],
+      },
+      {"name": "c", "age": 60},
+   ],
+}
+root = nested_dict_to_tree(path_dict)
+
+print_tree(root, attr_list=["age"])
+# a [age=90]
+# |-- b [age=65]
+# |   `-- d [age=40]
+# `-- c [age=60]
+```
+
+5. **From *pandas DataFrame***
+
+Construct nodes with attributes, *pandas DataFrame* contains path column and attribute columns.
+
+```python
+import pandas as pd
+
+from bigtree import dataframe_to_tree, print_tree
+
+data = pd.DataFrame(
+   [
+      ["a", 90],
+      ["a/b", 65],
+      ["a/c", 60],
+      ["a/b/d", 40],
+   ],
+   columns=["path", "age"],
+)
+root = dataframe_to_tree(data)
+
+print_tree(root, attr_list=["age"])
+# a [age=90]
+# |-- b [age=65]
+# |   `-- d [age=40]
+# `-- c [age=60]
+```
+
+### Print Tree
+
+After tree is constructed, it can be viewed by printing to console using `print_tree` method.
+
+```python
+from bigtree import Node, print_tree
+root = Node("a", age=90)
+b = Node("b", age=65, parent=root)
+c = Node("c", age=60, parent=root)
+d = Node("d", age=40, parent=b)
+e = Node("e", age=35, parent=b)
+print_tree(root)
+# a
+# |-- b
+# |   |-- d
+# |   `-- e
+# `-- c
+
+# Print sub-tree
+print_tree(root, node_name="b")
+# b
+# |-- d
+# `-- e
+
+print_tree(root, max_depth=2)
+# a
+# |-- b
+# `-- c
+
+# Print attributes
+print_tree(root, attr_list=["age"])
+# a [age=90]
+# |-- b [age=65]
+# |   |-- d [age=40]
+# |   `-- e [age=35]
+# `-- c [age=60]
+
+print_tree(root, attr_list=["age"], attr_bracket_open="*(", attr_bracket_close=")")
+# a *(age=90)
+# |-- b *(age=65)
+# |   |-- d *(age=40)
+# |   `-- e *(age=35)
+# `-- c *(age=60)
+
+# Available styles
+print_tree(root, style="ansi")
+# a
+# |-- b
+# |   |-- d
+# |   `-- e
+# `-- c
+
+print_tree(root, style="ascii")
+# a
+# |-- b
+# |   |-- d
+# |   +-- e
+# +-- c
+
+print_tree(root, style="const")
+# a
+# ├── b
+# │   ├── d
+# │   └── e
+# └── c
+
+print_tree(root, style="const_bold")
+# a
+# ┣━━ b
+# ┃   ┣━━ d
+# ┃   ┗━━ e
+# ┗━━ c
+
+print_tree(root, style="rounded")
+# a
+# ├── b
+# │   ├── d
+# │   ╰── e
+# ╰── c
+
+print_tree(root, style="double")
+# a
+# ╠══ b
+# ║   ╠══ d
+# ║   ╚══ e
+# ╚══ c
+
+print_tree(
+   root, style="custom",
+   style_stem="|   ", style_branch="|-- ", style_stem_final="+-- "
+)
+# a
+# |-- b
+# |   |-- d
+# |   +-- e
+# +-- c
+```
+
+### Modify Tree
+
+Nodes can be shifted or copied from one path to another.
+
+```python
+from bigtree import Node, shift_nodes, print_tree
+
+root = Node("a")
+b = Node("b", parent=root)
+c = Node("c", parent=root)
+d = Node("d", parent=root)
+print_tree(root)
+# a
+# |-- b
+# |-- c
+# `-- d
+
+shift_nodes(
+   tree=root,
+   from_paths=["a/c", "a/d"],
+   to_paths=["a/b/c", "a/dummy/d"],
+)
+print_tree(root)
+# a
+# |-- b
+# |   `-- c
+# `-- dummy
+#     `-- d
+```
+
+```python
+from bigtree import Node, copy_nodes, print_tree
+
+root = Node("a")
+b = Node("b", parent=root)
+c = Node("c", parent=root)
+d = Node("d", parent=root)
+print_tree(root)
+# a
+# |-- b
+# |-- c
+# `-- d
+
+copy_nodes(
+   tree=root,
+   from_paths=["a/c", "a/d"],
+   to_paths=["a/b/c", "a/dummy/d"],
+)
+print_tree(root)
+# a
+# |-- b
+# |   `-- c
+# |-- c
+# |-- d
+# `-- dummy
+#     `-- d
+```
+
+Nodes can also be copied between two different trees.
+
+```python
+from bigtree import Node, copy_nodes_from_tree_to_tree, print_tree
+root = Node("a")
+b = Node("b", parent=root)
+c = Node("c", parent=root)
+d = Node("d", parent=root)
+print_tree(root)
+# a
+# |-- b
+# |-- c
+# `-- d
+
+root_other = Node("aa")
+copy_nodes_from_tree_to_tree(
+   from_tree=root,
+   to_tree=root_other,
+   from_paths=["a/b", "a/c", "a/d"],
+   to_paths=["aa/b", "aa/b/c", "aa/dummy/d"],
+)
+print_tree(root_other)
+# aa
+# |-- b
+# |   `-- c
+# `-- dummy
+#     `-- d
+```
+
+### Tree Search
+
+One or multiple nodes can be search based on name, path, attribute value, or user-defined condition.
+
+To find a single node,
+```python
+from bigtree import Node, print_tree, find, find_name, find_path, find_full_path, find_attr
+root = Node("a", age=90)
+b = Node("b", age=65, parent=root)
+c = Node("c", age=60, parent=root)
+d = Node("d", age=40, parent=c)
+print_tree(root, attr_list=["age"])
+# a [age=90]
+# |-- b [age=65]
+# `-- c [age=60]
+#     `-- d [age=40]
+
+find(root, lambda node: node.age == 60)
+# Node(/a/c, age=60)
+
+find_name(root, "d")
+# Node(/a/c/d, age=40)
+
+find_path(root, "/c/d")  # partial path
+# Node(/a/c/d, age=40)
+
+find_full_path(root, "a/c/d")  # full path
+# Node(/a/c/d, age=40)
+
+find_attr(root, "age", 40)
+# Node(/a/c/d, age=40)
+```
+
+To find multiple nodes,
+```python
+from bigtree import Node, print_tree, findall, find_names, find_paths, find_attrs
+root = Node("a", age=90)
+b = Node("b", age=65, parent=root)
+c = Node("c", age=65, parent=root)
+d = Node("c", age=40, parent=c)
+print_tree(root, attr_list=["age"])
+# a [age=90]
+# |-- b [age=65]
+# `-- c [age=65]
+#     `-- c [age=40]
+
+findall(root, lambda node: node.age == 65)
+# (Node(/a/b, age=65), Node(/a/c, age=65))
+
+find_names(root, "c")
+# (Node(/a/c, age=65), Node(/a/c/c, age=40))
+
+find_paths(root, "/c")  # partial path
+# (Node(/a/c, age=65), Node(/a/c/c, age=40))
+
+find_attrs(root, "age", 40)
+# (Node(/a/c/c, age=40),)
+```
+
+### Helper Utility
+
+There following are helper functions for cloning tree to another `Node` type, pruning tree, and getting difference
+between two trees.
+
+```python
+from bigtree import BaseNode, Node, print_tree, clone_tree, prune_tree, get_tree_diff
+
+# Cloning tree from `BaseNode` to `Node` type
+root = BaseNode(name="a")
+b = BaseNode(name="b", parent=root)
+clone_tree(root, Node)
+# Node(/a, )
+
+# Prune tree to only path a/b
+root = Node("a")
+b = Node("b", parent=root)
+c = Node("c", parent=root)
+print_tree(root)
+# a
+# |-- b
+# `-- c
+
+root_pruned = prune_tree(root, "a/b")
+print_tree(root_pruned)
+# a
+# `-- b
+
+# Get difference between two trees
+root = Node("a")
+b = Node("b", parent=root)
+c = Node("c", parent=root)
+print_tree(root)
+# a
+# |-- b
+# `-- c
+
+root_other = Node("a")
+b_other = Node("b", parent=root_other)
+print_tree(root_other)
+# a
+# `-- b
+
+tree_diff = get_tree_diff(root, root_other)
+print_tree(tree_diff)
+# a
+# `-- c (-)
+```
+
+### Export Tree
+
+Tree can be exported to another data type.
+
+1. *Export to **nested dictionary***
+2. *Export to **nested recursive dictionary***
+3. *Export to **pandas DataFrame***
+
+```python
+from bigtree import Node, print_tree, tree_to_dict, tree_to_nested_dict, tree_to_dataframe
+root = Node("a", age=90)
+b = Node("b", age=65, parent=root)
+c = Node("c", age=60, parent=root)
+d = Node("d", age=40, parent=b)
+e = Node("e", age=35, parent=b)
+print_tree(root)
+# a
+# |-- b
+# |   |-- d
+# |   `-- e
+# `-- c
+
+tree_to_dict(
+   root,
+   name_key="name",
+   parent_key="parent",
+   attr_dict={"age": "person age"}
+)
+# {
+#    '/a': {'name': 'a', 'parent': None, 'person age': 90},
+#    '/a/b': {'name': 'b', 'parent': 'a', 'person age': 65},
+#    '/a/b/d': {'name': 'd', 'parent': 'b', 'person age': 40},
+#    '/a/b/e': {'name': 'e', 'parent': 'b', 'person age': 35},
+#    '/a/c': {'name': 'c', 'parent': 'a', 'person age': 60}
+# }
+
+tree_to_nested_dict(root, all_attrs=True)
+# {
+#    'name': 'a',
+#    'age': 90,
+#    'children': [
+#       {
+#          'name': 'b',
+#          'age': 65,
+#          'children': [
+#             {
+#                'name': 'd',
+#                'age': 40
+#             },
+#             {
+#                'name': 'e',
+#                'age': 35
+#             }
+#          ]
+#       },
+#       {
+#          'name': 'c',
+#          'age': 60
+#       }
+#    ]
+# }
+
+tree_to_dataframe(
+   root,
+   name_col="name",
+   parent_col="parent",
+   path_col="path",
+   attr_dict={"age": "person age"}
+)
+#      path name parent  person age
+# 0      /a    a   None          90
+# 1    /a/b    b      a          65
+# 2  /a/b/d    d      b          40
+# 3  /a/b/e    e      b          35
+# 4    /a/c    c      a          60
+```
+
+## Demo Usage
+
+### To Do Application
+
+There is existing implementation of a To-Do app to showcase how `bigtree` can be used. There are functions to:
+- Add or remove list to To-Do application
+- Add or remove item to list, default list is the 'General' list
+- Prioritize a list/item by reordering them as first list/item
+- Save and import To-Do application to and from an external JSON file
+- Show To-Do application, which prints tree to console
+
+```python
+from bigtree import AppToDo
+app = AppToDo("To Do App")
+app.add_item(item_name="Homework 1", list_name="School")
+app.add_item(item_name=["Milk", "Bread"], list_name="Groceries", description="Urgent")
+app.add_item(item_name="Cook")
+app.show(style="const")
+# To Do App
+# ├── School
+# │   └── Homework 1
+# ├── Groceries
+# │   ├── Milk [description=Urgent]
+# │   └── Bread [description=Urgent]
+# └── General
+#   └── Cook
+```
