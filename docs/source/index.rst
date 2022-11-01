@@ -9,7 +9,7 @@ Big Tree Documentation
     :target: https://bigtree.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://codecov.io/gh/kayjan/bigtree/branch/main/graph/badge.svg?token=O5gyTsGIiw
+.. image:: https://codecov.io/github/kayjan/bigtree/branch/master/graph/badge.svg?token=O5gyTsGIiw
    :target: https://codecov.io/gh/kayjan/bigtree
    :alt: code-coverage
 
