@@ -466,3 +466,19 @@ class BaseNode:
         obj = type(self).__new__(self.__class__)
         obj.__dict__.update(self.__dict__)
         return obj
+
+    def __rshift__(self, other):
+        """Set children using >> bitshift operator for self >> other
+
+        Args:
+            other (Self): other node, children
+        """
+        other.parent = self
+
+    def __lshift__(self, other):
+        """Set parent using << bitshift operator for self << other
+
+        Args:
+            other (Self): other node, parent
+        """
+        self.parent = other

@@ -33,6 +33,11 @@ Documentation = "https://bigtree.readthedocs.io"
 Issues = "https://github.com/kayjan/bigtree/issues"
 Source = "https://github.com/kayjan/bigtree"
 
+[project.optional-dependencies]
+image = [
+  "pydot",
+]
+
 [tool.hatch.version]
 path = "bigtree/__init__.py"
 
@@ -41,6 +46,7 @@ dependencies = [
   "pytest",
   "pytest-cov",
   "black",
+  "pydot",
 ]
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree --cov=tests {args}"

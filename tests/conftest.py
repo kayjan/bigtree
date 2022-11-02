@@ -139,6 +139,38 @@ def tree_node_no_attr():
     return a
 
 
+@pytest.fixture
+def tree_node_style():
+    """
+    Tree should have structure
+    a
+    |-- b
+    |   |-- d
+    |   +-- e
+    |       |-- g
+    |       +-- h
+    +-- c
+        +-- f
+    """
+    a = Node("a", node_style={"style": "filled", "fillcolor": "gold"})
+    b = Node("b", node_style={"style": "filled", "fillcolor": "blue"})
+    c = Node("c", node_style={"style": "filled", "fillcolor": "blue"})
+    d = Node("d", node_style={"style": "filled", "fillcolor": "green"})
+    e = Node("e", node_style={"style": "filled", "fillcolor": "green"})
+    f = Node("f", node_style={"style": "filled", "fillcolor": "green"})
+    g = Node("g", node_style={"style": "filled", "fillcolor": "red"})
+    h = Node("h", node_style={"style": "filled", "fillcolor": "red"})
+
+    b.parent = a
+    c.parent = a
+    d.parent = b
+    e.parent = b
+    f.parent = c
+    g.parent = d
+    h.parent = e
+    return a
+
+
 def assert_print_statement(func, expected, **kwargs):
     captured_output = io.StringIO()
     sys.stdout = captured_output

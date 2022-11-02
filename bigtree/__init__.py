@@ -17,6 +17,7 @@ from bigtree.tree.export import (
     print_tree,
     tree_to_dataframe,
     tree_to_dict,
+    tree_to_dot,
     tree_to_nested_dict,
     yield_tree,
 )

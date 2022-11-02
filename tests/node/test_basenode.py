@@ -74,6 +74,32 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
+    def test_set_parent_rshift(self):
+        self.a >> self.b
+        self.a >> self.c
+        self.b >> self.d
+        self.b >> self.e
+        self.c >> self.f
+        self.e >> self.g
+        self.e >> self.h
+
+        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
+    def test_set_parent_lshift(self):
+        self.b << self.a
+        self.c << self.a
+        self.d << self.b
+        self.e << self.b
+        self.f << self.c
+        self.g << self.e
+        self.h << self.e
+
+        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
     def test_set_parent_constructor(self):
         self.a = BaseNode(name="a", age=90)
         self.b = BaseNode(name="b", age=65, parent=self.a)

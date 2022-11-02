@@ -12,7 +12,7 @@ __all__ = [
     "tree_to_dataframe",
     "tree_to_dict",
     "tree_to_nested_dict",
-    "tree_to_image",
+    "tree_to_dot",
 ]
 
 
@@ -565,44 +565,80 @@ def tree_to_nested_dict(
     return data_dict[child_key][0]
 
 
-def tree_to_image(
+def tree_to_dot(
     tree: Node,
-    save_path: str = "",
     directed: bool = True,
+    bgcolor: str = None,
+    fillcolor: str = None,
+    node_attr: str = None,
 ):
     """Export tree to image.
+    Note that node names must be unique.
 
-    >>> from bigtree import Node, tree_to_image
+    >>> from bigtree import Node, tree_to_dot
     >>> root = Node("a", age=90)
     >>> b = Node("b", age=65, parent=root)
     >>> c = Node("c", age=60, parent=root)
     >>> d = Node("d", age=40, parent=b)
     >>> e = Node("e", age=35, parent=b)
-    >>> tree_to_image(root, "tree.png")
-    {'name': 'a', 'age': 90, 'children': [{'name': 'b', 'age': 65, 'children': [{'name': 'd', 'age': 40}, {'name': 'e', 'age': 35}]}, {'name': 'c', 'age': 60}]}
+    >>> graph = tree_to_dot(root, "tree.png")
+
+    Export to image, dot file, etc.
+
+    >>> graph.write_png("tree.png")
+    >>> graph.write_dot("tree.dot")
+
+    Export to string
+
+    >>> graph.to_string()
+    'strict digraph G {\na [label=a];\nb [label=b];\nb -> a;\nd [label=d];\nd -> b;\ne [label=e];\ne -> b;\nc [label=c];\nc -> a;\n}\n'
 
     Args:
         tree (Node): tree to be exported
-        save_path (str): save path of tree
         directed (bool): indicator whether graph should be directed or undirected, defaults to True
+        bgcolor (str): background color of image, defaults to None
+        fillcolor (str): fill colour of nodes, defaults to None
+        node_attr (str): node attribute for style, overrides fillcolor, defaults to None
+
+    Returns:
+        (pydot.Dot)
     """
     try:
         import pydot
-    except ImportError:
+    except ImportError:  # pragma: no cover
         raise ImportError(
             "pydot not available. Please perform a `pip install bigtree[graph]` to install required dependencies"
         )
 
+    # Get style
+    if bgcolor:
+        graph_style = dict(bgcolor=bgcolor)
+    else:
+        graph_style = dict()
+
+    if fillcolor:
+        node_style = dict(style="filled", fillcolor=fillcolor)
+    else:
+        node_style = dict()
+
     tree = tree.copy()
 
     if directed:
-        graph = pydot.Dot(graph_type="digraph")
+        graph = pydot.Dot(graph_type="digraph", strict=True, **graph_style)
     else:
-        graph = pydot.Dot(graph_type="graph")
+        graph = pydot.Dot(graph_type="graph", strict=True, **graph_style)
 
-    data_parent_child = tree_to_dataframe(tree, name_col="node", parent_col="parent")
-    for child, parent in list(
-        zip(data_parent_child["node"], data_parent_child["parent"])
-    ):
-        if child and parent:
-            graph.add_edge(pydot.Edge(child.node_name, parent.node_name))
+    def recursive_create_node_and_edges(parent_name, child_node):
+        child_name = child_node.node_name
+        if node_attr and child_node.get_attr(node_attr):
+            node_style.update(child_node.get_attr(node_attr))
+        node = pydot.Node(name=child_name, label=child_name, **node_style)
+        graph.add_node(node)
+        if parent_name is not None:
+            edge = pydot.Edge(child_name, parent_name)
+            graph.add_edge(edge)
+        for child in child_node.children:
+            recursive_create_node_and_edges(child_name, child)
+
+    recursive_create_node_and_edges(None, tree.root)
+    return graph

@@ -48,6 +48,13 @@ To install `bigtree`, run the following line in command prompt:
 
 ```pip install bigtree```
 
+If tree needs to be exported to image, it requires additional dependencies.
+Run the following lines in command prompt:
+
+```
+pip install bigtree[image]
+brew install gprof2dot
+```
 
 ## Demonstration
 
@@ -59,7 +66,8 @@ Nodes can have attributes if they are initialized from `Node`, *dictionary*, or 
 
 1. **From `Node`**
 
-Nodes can be linked to each other with `parent` and `children` setter methods.
+Nodes can be linked to each other with `parent` and `children` setter methods,
+or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
 ```python
 from bigtree import Node, print_tree
@@ -71,6 +79,25 @@ d = Node("d", age=40)
 
 root.children = [b, c]
 d.parent = b
+
+print_tree(root, attr_list=["age"])
+# a [age=90]
+# |-- b [age=65]
+# |   `-- d [age=40]
+# `-- c [age=60]
+```
+
+```python
+from bigtree import Node, print_tree
+
+root = Node("a", age=90)
+b = Node("b", age=65)
+c = Node("c", age=60)
+d = Node("d", age=40)
+
+root >> b
+root >> c
+d << b
 
 print_tree(root, attr_list=["age"])
 # a [age=90]

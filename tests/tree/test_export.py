@@ -6,6 +6,7 @@ from bigtree.tree.export import (
     print_tree,
     tree_to_dataframe,
     tree_to_dict,
+    tree_to_dot,
     tree_to_nested_dict,
 )
 from tests.conftest import assert_print_statement
@@ -685,3 +686,45 @@ class TestTreeToNestedDict:
         assert_tree_structure_basenode_root_generic(tree)
         assert_tree_structure_basenode_root_attr(tree)
         assert_tree_structure_node_root_generic(tree)
+
+
+class TestTreeToDot:
+    @staticmethod
+    def test_tree_to_dot(tree_node):
+        graph = tree_to_dot(tree_node)
+        expected = """strict digraph G {\na [label=a];\nb [label=b];\nb -> a;\nd [label=d];\nd -> b;\ne [label=e];\ne -> b;\ng [label=g];\ng -> e;\nh [label=h];\nh -> e;\nc [label=c];\nc -> a;\nf [label=f];\nf -> c;\n}\n"""
+        actual = graph.to_string()
+        graph.write_png("tests/tree.png")
+        assert expected == actual, "Graph string is wrong"
+
+    @staticmethod
+    def test_tree_to_dot_directed(tree_node):
+        graph = tree_to_dot(tree_node, directed=False)
+        expected = """strict graph G {\na [label=a];\nb [label=b];\nb -- a;\nd [label=d];\nd -- b;\ne [label=e];\ne -- b;\ng [label=g];\ng -- e;\nh [label=h];\nh -- e;\nc [label=c];\nc -- a;\nf [label=f];\nf -- c;\n}\n"""
+        actual = graph.to_string()
+        graph.write_png("tests/tree_undirected.png")
+        assert expected == actual, "Graph string is wrong"
+
+    @staticmethod
+    def test_tree_to_dot_bg_color(tree_node):
+        graph = tree_to_dot(tree_node, bgcolor="blue")
+        expected = """strict digraph G {\nbgcolor=blue;\na [label=a];\nb [label=b];\nb -> a;\nd [label=d];\nd -> b;\ne [label=e];\ne -> b;\ng [label=g];\ng -> e;\nh [label=h];\nh -> e;\nc [label=c];\nc -> a;\nf [label=f];\nf -> c;\n}\n"""
+        actual = graph.to_string()
+        graph.write_png("tests/tree_bg.png")
+        assert expected == actual, "Graph string is wrong"
+
+    @staticmethod
+    def test_tree_to_dot_fill_color(tree_node):
+        graph = tree_to_dot(tree_node, fillcolor="gold")
+        expected = """strict digraph G {\na [fillcolor=gold, label=a, style=filled];\nb [fillcolor=gold, label=b, style=filled];\nb -> a;\nd [fillcolor=gold, label=d, style=filled];\nd -> b;\ne [fillcolor=gold, label=e, style=filled];\ne -> b;\ng [fillcolor=gold, label=g, style=filled];\ng -> e;\nh [fillcolor=gold, label=h, style=filled];\nh -> e;\nc [fillcolor=gold, label=c, style=filled];\nc -> a;\nf [fillcolor=gold, label=f, style=filled];\nf -> c;\n}\n"""
+        actual = graph.to_string()
+        graph.write_png("tests/tree_fill.png")
+        assert expected == actual, "Graph string is wrong"
+
+    @staticmethod
+    def test_tree_to_dot_node_attr(tree_node_style):
+        graph = tree_to_dot(tree_node_style, node_attr="node_style")
+        expected = """strict digraph G {\na [fillcolor=gold, label=a, style=filled];\nb [fillcolor=blue, label=b, style=filled];\nb -> a;\nd [fillcolor=green, label=d, style=filled];\nd -> b;\ng [fillcolor=red, label=g, style=filled];\ng -> d;\ne [fillcolor=green, label=e, style=filled];\ne -> b;\nh [fillcolor=red, label=h, style=filled];\nh -> e;\nc [fillcolor=blue, label=c, style=filled];\nc -> a;\nf [fillcolor=green, label=f, style=filled];\nf -> c;\n}\n"""
+        actual = graph.to_string()
+        graph.write_png("tests/tree_style.png")
+        assert expected == actual, "Graph string is wrong"
