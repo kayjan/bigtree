@@ -28,6 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           conda install pandas
+          conda install pydot
       - name: Lint with flake8
         run: |
           conda install flake8
