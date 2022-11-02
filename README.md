@@ -39,6 +39,7 @@ There are 8 main components to Big Tree.
 7. **Exporting Tree**
    1. Print to console
    2. Export to *pandas DataFrame*, *dictionary*, or *nested dictionary*
+   3. Export to dot (can save to .dot, .png, .jpeg files)
 8. **Workflows**
    1. Sample workflows for tree demonstration!
 
@@ -530,9 +531,10 @@ Tree can be exported to another data type.
 1. *Export to **nested dictionary***
 2. *Export to **nested recursive dictionary***
 3. *Export to **pandas DataFrame***
+4. *Export to **dot** (and png)*
 
 ```python
-from bigtree import Node, print_tree, tree_to_dict, tree_to_nested_dict, tree_to_dataframe
+from bigtree import Node, print_tree, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
 c = Node("c", age=60, parent=root)
@@ -598,7 +600,12 @@ tree_to_dataframe(
 # 2  /a/b/d    d      b          40
 # 3  /a/b/e    e      b          35
 # 4    /a/c    c      a          60
+
+graph = tree_to_dot(root, fillcolor="gold")
+graph.write_png("demo.png")
 ```
+
+![Sample Image Output](assets/demo.png)
 
 ## Demo Usage
 
