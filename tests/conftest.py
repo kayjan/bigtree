@@ -171,10 +171,10 @@ def tree_node_style():
     return a
 
 
-def assert_print_statement(func, expected, **kwargs):
+def assert_print_statement(func, expected, *args, **kwargs):
     captured_output = io.StringIO()
     sys.stdout = captured_output
-    func(**kwargs)
+    func(*args, **kwargs)
     sys.stdout = sys.__stdout__
     actual = captured_output.getvalue()
     assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"

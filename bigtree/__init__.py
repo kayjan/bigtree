@@ -1,6 +1,7 @@
 __version__ = "0.1.0"
 
 from bigtree.node.basenode import BaseNode
+from bigtree.node.dagnode import DAGNode
 from bigtree.node.node import Node
 from bigtree.tree.construct import (
     add_dataframe_to_tree_by_name,
