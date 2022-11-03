@@ -15,6 +15,7 @@ from bigtree.tree.construct import (
     nested_dict_to_tree,
 )
 from bigtree.tree.export import (
+    dag_to_dot,
     print_tree,
     tree_to_dataframe,
     tree_to_dict,

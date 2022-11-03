@@ -10,6 +10,7 @@ There are 8 main components to Big Tree.
 1. **Node**
    1. ``BaseNode``, extendable class
    2. ``Node``, BaseNode with node name attribute
+   3. ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
 2. **Constructing Tree**
    1. From *list*, containing paths
    2. From *nested dictionary*
@@ -39,7 +40,7 @@ There are 8 main components to Big Tree.
 7. **Exporting Tree**
    1. Print to console
    2. Export to *pandas DataFrame*, *dictionary*, or *nested dictionary*
-   3. Export to dot (can save to .dot, .png, .jpeg files)
+   3. Export tree or DAG to dot (can save to .dot, .png, .jpeg files)
 8. **Workflows**
    1. Sample workflows for tree demonstration!
 
@@ -57,7 +58,7 @@ pip install bigtree[image]
 brew install gprof2dot
 ```
 
-## Demonstration
+## Tree Demonstration
 
 Here are some codes to getting started.
 
@@ -605,7 +606,28 @@ graph = tree_to_dot(root, fillcolor="gold")
 graph.write_png("demo.png")
 ```
 
-![Sample Image Output](assets/demo.png)
+![Sample Tree Output](assets/demo.png)
+
+## DAG Demonstration
+
+```python
+from bigtree import DAGNode, dag_to_dot
+
+a = DAGNode("a")
+b = DAGNode("b")
+c = DAGNode("c", parents=[a, b])
+d = DAGNode("d", parents=[a, c])
+e = DAGNode("e", parents=[d])
+f = DAGNode("f", parents=[c, d])
+g = DAGNode("g", parents=[c])
+h = DAGNode("h", parents=[g])
+
+graph = dag_to_dot(a, fillcolor="gold")
+graph.write_png("assets/demo_dag.png")
+```
+
+![Sample DAG Output](assets/demo_dag.png)
+
 
 ## Demo Usage
 

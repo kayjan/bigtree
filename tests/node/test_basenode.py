@@ -61,6 +61,21 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
+    def test_set_parent_error(self):
+        with pytest.raises(ValueError) as exc_info:
+            self.b.parents = [self.a]
+        assert str(exc_info.value).startswith("Attempting to set `parents` attribute")
+
+        with pytest.raises(ValueError) as exc_info:
+            self.b = BaseNode(parents=[self.a])
+        assert str(exc_info.value).startswith("Attempting to set `parents` attribute")
+
+        with pytest.raises(ValueError) as exc_info:
+            self.b.parents
+        assert str(exc_info.value).startswith(
+            "Attempting to access `parents` attribute"
+        )
+
     def test_set_parent(self):
         self.b.parent = self.a
         self.c.parent = self.a

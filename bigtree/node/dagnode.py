@@ -14,37 +14,37 @@ class DAGNode:
 
     Nodes can be linked to each other with `parents` and `children` setter methods.
 
-    >>> from bigtree import Node
-    >>> a = Node("a")
-    >>> b = Node("b")
-    >>> c = Node("c")
-    >>> d = Node("d")
+    >>> from bigtree import DAGNode
+    >>> a = DAGNode("a")
+    >>> b = DAGNode("b")
+    >>> c = DAGNode("c")
+    >>> d = DAGNode("d")
     >>> b.parents = [a]
     >>> b.children = [c, d]
 
     Directly passing `parents` argument.
 
-    >>> from bigtree import Node
-    >>> a = Node("a")
-    >>> b = Node("b", parent=[a])
-    >>> c = Node("c", parent=[a, b])
-    >>> d = Node("d", parent=[a, b])
+    >>> from bigtree import DAGNode
+    >>> a = DAGNode("a")
+    >>> b = DAGNode("b", parent=[a])
+    >>> c = DAGNode("c", parent=[a, b])
+    >>> d = DAGNode("d", parent=[a, b])
 
     Directly passing `children` argument.
 
-    >>> from bigtree import Node
-    >>> d = Node("d")
-    >>> c = Node("c")
-    >>> b = Node("b", children=[c, d])
-    >>> a = Node("a", children=[b])
+    >>> from bigtree import DAGNode
+    >>> d = DAGNode("d")
+    >>> c = DAGNode("c")
+    >>> b = DAGNode("b", children=[c, d])
+    >>> a = DAGNode("a", children=[b])
 
     **Node Creation**
 
     Node can be created by instantiating a `Node` class or by using a *dictionary*.
     If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
-    >>> from bigtree import Node
-    >>> a = Node.from_dict({"name": "a", "age": 90})
+    >>> from bigtree import DAGNode
+    >>> a = DAGNode.from_dict({"name": "a", "age": 90})
 
     **Node Attributes**
 
@@ -96,7 +96,27 @@ class DAGNode:
             children = []
         self.parents = parents
         self.children = children
+        if "parent" in kwargs:
+            raise ValueError(
+                "Attempting to set `parent` attribute, do you mean `parents`?"
+            )
         self.__dict__.update(**kwargs)
+
+    @property
+    def parent(self) -> None:
+        """Do not allow `parent` attribute to be accessed"""
+        raise ValueError(
+            "Attempting to access `parent` attribute, do you mean `parents`?"
+        )
+
+    @parent.setter
+    def parent(self, new_parent):
+        """Do not allow `parent` attribute to be set
+
+        Args:
+            new_parent (Self): parent node
+        """
+        raise ValueError("Attempting to set `parent` attribute, do you mean `parents`?")
 
     @property
     def parents(self) -> Iterable:

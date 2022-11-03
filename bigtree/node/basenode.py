@@ -97,6 +97,10 @@ class BaseNode:
             children = []
         self.parent = parent
         self.children = children
+        if "parents" in kwargs:
+            raise ValueError(
+                "Attempting to set `parents` attribute, do you mean `parent`?"
+            )
         self.__dict__.update(**kwargs)
 
     @property
@@ -177,6 +181,22 @@ class BaseNode:
             new_parent (Self): new parent to be added
         """
         pass
+
+    @property
+    def parents(self) -> None:
+        """Do not allow `parents` attribute to be accessed"""
+        raise ValueError(
+            "Attempting to access `parents` attribute, do you mean `parent`?"
+        )
+
+    @parents.setter
+    def parents(self, new_parent):
+        """Do not allow `parents` attribute to be set
+
+        Args:
+            new_parent (Self): parent node
+        """
+        raise ValueError("Attempting to set `parents` attribute, do you mean `parent`?")
 
     @property
     def children(self) -> Iterable:

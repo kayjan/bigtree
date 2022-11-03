@@ -3,7 +3,8 @@ import unittest
 
 import pytest
 
-from bigtree import DAGNode
+from bigtree.node.dagnode import DAGNode
+from bigtree.node.node import Node
 from bigtree.utils.exceptions import LoopError, TreeError
 from tests.conftest import assert_print_statement
 
@@ -56,6 +57,19 @@ class TestDAGNode(unittest.TestCase):
         self.g.parents = [self.f]
 
         assert_tree_structure_dag_self(self)
+
+    def test_set_parent_error(self):
+        with pytest.raises(ValueError) as exc_info:
+            self.b.parent = self.a
+        assert str(exc_info.value).startswith("Attempting to set `parent` attribute")
+
+        with pytest.raises(ValueError) as exc_info:
+            self.b = DAGNode("b", parent=self.a)
+        assert str(exc_info.value).startswith("Attempting to set `parent` attribute")
+
+        with pytest.raises(ValueError) as exc_info:
+            self.b.parent
+        assert str(exc_info.value).startswith("Attempting to access `parent` attribute")
 
     def test_set_parents(self):
         self.b.parents = [self.a]
@@ -192,6 +206,10 @@ class TestDAGNode(unittest.TestCase):
         with pytest.raises(TypeError):
             self.a.parents = [1]
 
+        # Error: wrong type
+        with pytest.raises(TypeError):
+            self.a.parents = [Node("a"), Node("b")]
+
     def test_error_set_parent_loop_error(self):
         # Error: set self as parent
         with pytest.raises(LoopError):
@@ -215,6 +233,10 @@ class TestDAGNode(unittest.TestCase):
 
         with pytest.raises(TypeError):
             self.a.children = [self.b, 1]
+
+        # Error: wrong type
+        with pytest.raises(TypeError):
+            self.a.children = [Node("a"), Node("b")]
 
     def test_error_set_children_loop_error(self):
         # Error: set self as child
