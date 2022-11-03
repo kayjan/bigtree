@@ -24,6 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterators: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/HEAD...v0.2.0
 [0.2.0]: https://github.com/kayjan/bigtree/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/kayjan/bigtree/releases/tag/v0.1.0
