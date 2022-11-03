@@ -4,6 +4,12 @@ Tree Implementation for Python, integrated with Python list, dictionary, and pan
 
 It is pythonic, making it easy to learn and extendable to many types of workflows.
 
+Related Links:
+- [Documentation](https://bigtree.readthedocs.io/en/latest/)
+- [GitHub](https://github.com/kayjan/bigtree/)
+- [Changelog](https://github.com/kayjan/bigtree/blob/master/CHANGELOG.md)
+- [PyPI](https://pypi.org/project/bigtree/)
+
 ## Components
 There are 8 main components to Big Tree.
 
@@ -606,7 +612,7 @@ graph = tree_to_dot(root, fillcolor="gold")
 graph.write_png("demo.png")
 ```
 
-![Sample Tree Output](assets/demo.png)
+![Sample Tree Output](../../assets/demo.png)
 
 ## DAG Demonstration
 
@@ -626,7 +632,7 @@ graph = dag_to_dot(a, fillcolor="gold")
 graph.write_png("assets/demo_dag.png")
 ```
 
-![Sample DAG Output](assets/demo_dag.png)
+![Sample DAG Output](../../assets/demo_dag.png)
 
 
 ## Demo Usage

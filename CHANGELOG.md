@@ -5,12 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Added
-- Node: DAGNode for creating DAG graph.
-- Tree Exporter: To dot which can export to png, jpeg, dot files.
-
 ### Work In Progress
 - Node: WeightedNode for weighted edge tree implementation.
+- Tree Exporter: More customizations for Node to dot and DAGNode to dot.
+
+## [0.2.0] - 2022-11-03
+### Added
+- Node: DAGNode for creating DAG graph.
+- Tree Exporter: Support Node to dot which can export to png, jpeg, dot files.
 - Tree Exporter: Support DAGNode to dot.
 
 ## [0.1.0] - 2022-11-01
