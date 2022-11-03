@@ -1,4 +1,4 @@
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from bigtree.node.basenode import BaseNode
 from bigtree.node.dagnode import DAGNode
