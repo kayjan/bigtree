@@ -61,6 +61,21 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
+    def test_set_parent_error(self):
+        with pytest.raises(ValueError) as exc_info:
+            self.b.parents = [self.a]
+        assert str(exc_info.value).startswith("Attempting to set `parents` attribute")
+
+        with pytest.raises(ValueError) as exc_info:
+            self.b = BaseNode(parents=[self.a])
+        assert str(exc_info.value).startswith("Attempting to set `parents` attribute")
+
+        with pytest.raises(ValueError) as exc_info:
+            self.b.parents
+        assert str(exc_info.value).startswith(
+            "Attempting to access `parents` attribute"
+        )
+
     def test_set_parent(self):
         self.b.parent = self.a
         self.c.parent = self.a
@@ -193,6 +208,10 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
+    def test_set_children_none_parent(self):
+        with pytest.raises(TypeError):
+            self.h.children = None
+
     def test_set_children_duplicate(self):
         # Set child again
         self.a.children = [self.b]
@@ -210,7 +229,9 @@ class TestBaseNode(unittest.TestCase):
         self.e.children = [self.g, self.h]
 
         a2 = self.a.copy()
-        assert len(a2.children) == 2, "Expected 2 children, received {len(a2.children)}"
+        assert (
+            len(a2.children) == 2
+        ), f"Expected 2 children, received {len(a2.children)}"
         assert (
             not a2.children[0] == self.b and not a2.children[1] == self.b
         ), "Copy does not copy child nodes"
@@ -225,7 +246,9 @@ class TestBaseNode(unittest.TestCase):
         self.e.children = [self.g, self.h]
 
         a2 = copy.copy(self.a)
-        assert len(a2.children) == 2, "Expected 2 children, received {len(a2.children)}"
+        assert (
+            len(a2.children) == 2
+        ), f"Expected 2 children, received {len(a2.children)}"
         assert (
             a2.children[0] == self.b or a2.children[1] == self.b
         ), "Shallow copy does not copy child nodes"
@@ -486,21 +509,6 @@ def assert_tree_structure_basenode_self(self):
             actual == expected
         ), f"Node {node} max_depth should be {expected}, but it is {actual}"
 
-    # Test get_attribute()
-    expected_ans = ["a", "b", "c", "d", "e", "f", "g", "h"]
-    for node, expected in zip(nodes, expected_ans):
-        actual = node.get_attr("name")
-        assert (
-            actual == expected
-        ), f"Node attribute should be {expected}, but it is {actual}"
-
-    expected = None
-    for node in nodes:
-        actual = node.get_attr("something")
-        assert (
-            actual == expected
-        ), f"Node attribute should be {expected}, but it is {actual}"
-
     # Test describe()
     expected_ans = [
         [("age", 90), ("name", "a")],
@@ -517,3 +525,18 @@ def assert_tree_structure_basenode_self(self):
         assert (
             actual == expected
         ), f"Node description should be {expected}, but it is {actual}"
+
+    # Test get_attr()
+    expected_ans = ["a", "b", "c", "d", "e", "f", "g", "h"]
+    for node, expected in zip(nodes, expected_ans):
+        actual = node.get_attr("name")
+        assert (
+            actual == expected
+        ), f"Node attribute should be {expected}, but it is {actual}"
+
+    expected = None
+    for node in nodes:
+        actual = node.get_attr("something")
+        assert (
+            actual == expected
+        ), f"Node attribute should be {expected}, but it is {actual}"

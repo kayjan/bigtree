@@ -5,7 +5,9 @@ from typing import List, Union
 
 import pytest
 
-from bigtree import BaseNode, Node
+from bigtree.node.basenode import BaseNode
+from bigtree.node.dagnode import DAGNode
+from bigtree.node.node import Node
 
 
 @pytest.fixture
@@ -171,10 +173,70 @@ def tree_node_style():
     return a
 
 
-def assert_print_statement(func, expected, **kwargs):
+@pytest.fixture
+def dag_node():
+    a = DAGNode("a")
+    b = DAGNode("b")
+    c = DAGNode("c")
+    d = DAGNode("d")
+    e = DAGNode("e")
+    f = DAGNode("f")
+    g = DAGNode("g")
+    h = DAGNode("h")
+
+    c.parents = [a, b]
+    d.parents = [a, c]
+    e.parents = [d]
+    f.parents = [c, d]
+    g.parents = [c]
+    h.parents = [g]
+    return a
+
+
+@pytest.fixture
+def dag_node_child():
+    a = DAGNode("a")
+    b = DAGNode("b")
+    c = DAGNode("c")
+    d = DAGNode("d")
+    e = DAGNode("e")
+    f = DAGNode("f")
+    g = DAGNode("g")
+    h = DAGNode("h")
+
+    c.parents = [a, b]
+    d.parents = [a, c]
+    e.parents = [d]
+    f.parents = [c, d]
+    g.parents = [c]
+    h.parents = [g]
+    return f
+
+
+@pytest.fixture
+def dag_node_style():
+    a = DAGNode("a", node_style={"style": "filled", "fillcolor": "gold"})
+    b = DAGNode("b", node_style={"style": "filled", "fillcolor": "blue"})
+    c = DAGNode("c", node_style={"style": "filled", "fillcolor": "blue"})
+    d = DAGNode("d", node_style={"style": "filled", "fillcolor": "green"})
+    e = DAGNode("e", node_style={"style": "filled", "fillcolor": "green"})
+    f = DAGNode("f", node_style={"style": "filled", "fillcolor": "green"})
+    g = DAGNode("g", node_style={"style": "filled", "fillcolor": "red"})
+    h = DAGNode("h", node_style={"style": "filled", "fillcolor": "red"})
+
+    c.parents = [a, b]
+    d.parents = [a, c]
+    e.parents = [d]
+    f.parents = [c, d]
+    g.parents = [c]
+    h.parents = [g]
+    return a
+
+
+def assert_print_statement(func, expected, *args, **kwargs):
     captured_output = io.StringIO()
     sys.stdout = captured_output
-    func(**kwargs)
+    func(*args, **kwargs)
     sys.stdout = sys.__stdout__
     actual = captured_output.getvalue()
     assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
