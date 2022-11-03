@@ -11,12 +11,13 @@ Related Links:
 - [PyPI](https://pypi.org/project/bigtree/)
 
 ## Components
-There are 8 main components to Big Tree.
+There are 2 segments to Big Tree, to construct tree with `Nodes` or Directed Acyclic Graph (DAG) with `DAGNode`.
+
+For Tree, there are 8 main components.
 
 1. **Node**
    1. ``BaseNode``, extendable class
    2. ``Node``, BaseNode with node name attribute
-   3. ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
 2. **Constructing Tree**
    1. From *list*, containing paths
    2. From *nested dictionary*
@@ -46,9 +47,21 @@ There are 8 main components to Big Tree.
 7. **Exporting Tree**
    1. Print to console
    2. Export to *pandas DataFrame*, *dictionary*, or *nested dictionary*
-   3. Export tree or DAG to dot (can save to .dot, .png, .jpeg files)
+   3. Export tree to dot (can save to .dot, .png, .jpeg files)
 8. **Workflows**
    1. Sample workflows for tree demonstration!
+
+For Directed Acyclic Graph (DAG), there are 3 main components.
+
+1. **Node**
+   1. ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
+2. **Constructing DAG**
+   1. From *list*, containing tuple of parent-child
+   2. From *pandas DataFrame*
+   3. Add nodes to existing tree using list
+   4. Add nodes and attributes to existing DAG tree using pandas DataFrame
+3. **Exporting Tree**
+   1. Export DAG to dot (can save to .dot, .png, .jpeg files)
 
 ## Installation
 
@@ -542,6 +555,7 @@ Tree can be exported to another data type.
 
 ```python
 from bigtree import Node, print_tree, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot
+
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
 c = Node("c", age=60, parent=root)
@@ -608,7 +622,7 @@ tree_to_dataframe(
 # 3  /a/b/e    e      b          35
 # 4    /a/c    c      a          60
 
-graph = tree_to_dot(root, fillcolor="gold")
+graph = tree_to_dot(root, node_colour="gold")
 graph.write_png("demo.png")
 ```
 
@@ -628,7 +642,7 @@ f = DAGNode("f", parents=[c, d])
 g = DAGNode("g", parents=[c])
 h = DAGNode("h", parents=[g])
 
-graph = dag_to_dot(a, fillcolor="gold")
+graph = dag_to_dot(a, node_colour="gold")
 graph.write_png("assets/demo_dag.png")
 ```
 

@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Work In Progress
+- DAG Constructors: From list, nested dictionary, pandas DataFrame.
 - Node: WeightedNode for weighted edge tree implementation.
+
+## [0.3.0]
+### Added
 - Tree Exporter: More customizations for Node to dot and DAGNode to dot.
 
 ## [0.2.0] - 2022-11-03
@@ -27,5 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Workflow To Do App: Tree use case with to-do list implementation.
 
 [Unreleased]: https://github.com/kayjan/bigtree/compare/HEAD...v0.2.0
+[0.3.0]: https://github.com/kayjan/bigtree/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/kayjan/bigtree/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/kayjan/bigtree/releases/tag/v0.1.0

@@ -1,5 +1,6 @@
 __version__ = "0.2.0"
 
+from bigtree.dag.export import dag_to_dot
 from bigtree.node.basenode import BaseNode
 from bigtree.node.dagnode import DAGNode
 from bigtree.node.node import Node
@@ -15,7 +16,6 @@ from bigtree.tree.construct import (
     nested_dict_to_tree,
 )
 from bigtree.tree.export import (
-    dag_to_dot,
     print_tree,
     tree_to_dataframe,
     tree_to_dict,
