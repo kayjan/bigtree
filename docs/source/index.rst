@@ -1,6 +1,10 @@
 Big Tree Documentation
 ===================================
 
+.. image:: https://badge.fury.io/py/bigtree.svg
+   :target: https://badge.fury.io/py/bigtree
+   :alt: python-version
+
 .. image:: https://img.shields.io/pypi/pyversions/bigtree.svg
    :target: https://pypi.python.org/pypi/bigtree
    :alt: python-compatibility
