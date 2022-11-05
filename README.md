@@ -11,9 +11,9 @@ Related Links:
 - [PyPI](https://pypi.org/project/bigtree/)
 
 ## Components
-There are 2 segments to Big Tree, to construct tree with `Nodes` or Directed Acyclic Graph (DAG) with `DAGNode`.
+There are 2 segments to Big Tree consisting of Tree implementation and Directed Acyclic Graph (DAG) implementation.
 
-For Tree, there are 8 main components.
+For Tree implementation, there are 8 main components.
 
 1. **Node**
    1. ``BaseNode``, extendable class
@@ -51,16 +51,17 @@ For Tree, there are 8 main components.
 8. **Workflows**
    1. Sample workflows for tree demonstration!
 
-For Directed Acyclic Graph (DAG), there are 3 main components.
+For Directed Acyclic Graph (DAG) implementation, there are 4 main components.
 
 1. **Node**
    1. ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
 2. **Constructing DAG**
-   1. From *list*, containing tuple of parent-child
-   2. From *pandas DataFrame*
-   3. Add nodes to existing tree using list
-   4. Add nodes and attributes to existing DAG tree using pandas DataFrame
-3. **Exporting Tree**
+   1. From *list*, containing parent-child tuples
+   2. From *nested dictionary*
+   3. From *pandas DataFrame*
+3. **Traversing DAG**
+   1. Generic traversal method
+4. **Exporting DAG**
    1. Export DAG to dot (can save to .dot, .png, .jpeg files)
 
 ## Installation
@@ -630,6 +631,15 @@ graph.write_png("demo.png")
 
 ## DAG Demonstration
 
+Compared to nodes in tree, nodes in DAG are able to have multiple parents.
+
+### Construct DAG
+
+1. **From `DAGNode`**
+
+DAGNode can be linked to each other with `parents` and `children` setter methods,
+or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
+
 ```python
 from bigtree import DAGNode, dag_to_dot
 
@@ -639,8 +649,8 @@ c = DAGNode("c", parents=[a, b])
 d = DAGNode("d", parents=[a, c])
 e = DAGNode("e", parents=[d])
 f = DAGNode("f", parents=[c, d])
-g = DAGNode("g", parents=[c])
-h = DAGNode("h", parents=[g])
+h = DAGNode("h")
+g = DAGNode("g", parents=[c], children=[h])
 
 graph = dag_to_dot(a, node_colour="gold")
 graph.write_png("assets/demo_dag.png")
@@ -648,6 +658,67 @@ graph.write_png("assets/demo_dag.png")
 
 ![Sample DAG Output](../../assets/demo_dag.png)
 
+2. **From *list***
+
+Construct nodes only, list contains parent-child tuples.
+
+```python
+from bigtree import list_to_dag, dag_iterator
+
+relations_list = [
+   ("a", "c"),
+   ("a", "d"),
+   ("b", "c"),
+   ("c", "d"),
+   ("d", "e")
+]
+dag = list_to_dag(relations_list)
+print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
+# [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
+```
+
+3. **From *nested dictionary***
+
+Construct nodes with attributes, `key`: child name, `value`: dict of parent name, child node attributes.
+
+```python
+from bigtree import dict_to_dag, dag_iterator
+
+relation_dict = {
+   "a": {"step": 1},
+   "b": {"step": 1},
+   "c": {"parent": ["a", "b"], "step": 2},
+   "d": {"parent": ["a", "c"], "step": 2},
+   "e": {"parent": ["d"], "step": 3},
+}
+dag = dict_to_dag(relation_dict, parent_key="parent")
+print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
+# [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
+```
+
+4. **From *pandas DataFrame***
+
+Construct nodes with attributes, *pandas DataFrame* contains child column, parent column, and attribute columns.
+
+```python
+import pandas as pd
+from bigtree import dataframe_to_dag, dag_iterator
+
+path_data = pd.DataFrame([
+   ["a", None, 1],
+   ["b", None, 1],
+   ["c", "a", 2],
+   ["c", "b", 2],
+   ["d", "a", 2],
+   ["d", "c", 2],
+   ["e", "d", 3],
+],
+   columns=["child", "parent", "step"]
+)
+dag = dataframe_to_dag(path_data)
+print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
+# [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
+```
 
 ## Demo Usage
 

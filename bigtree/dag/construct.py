@@ -57,7 +57,7 @@ def dict_to_dag(
     attribute value.
     Note that node names must be unique.
 
-    >>> from bigtree import dict_to_tree, dag_iterator
+    >>> from bigtree import dict_to_dag, dag_iterator
     >>> relation_dict = {
     ...     "a": {"step": 1},
     ...     "b": {"step": 1},
