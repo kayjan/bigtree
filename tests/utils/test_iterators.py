@@ -1,4 +1,5 @@
 from bigtree.utils.iterators import (
+    dag_iterator,
     levelorder_iter,
     levelordergroup_iter,
     postorder_iter,
@@ -233,3 +234,53 @@ class TestLevelOrderGroupIter:
             for group in levelordergroup_iter(tree_node, max_depth=3)
         ]
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+
+class DAGIterator:
+    @staticmethod
+    def test_dag_iterator(dag_node):
+        expected = [
+            ("a", "c"),
+            ("a", "d"),
+            ("b", "c"),
+            ("c", "d"),
+            ("c", "f"),
+            ("c", "g"),
+            ("d", "e"),
+            ("d", "f"),
+            ("g", "h"),
+        ]
+        actual = [
+            (parent.node_name, child.node_name)
+            for parent, child in dag_iterator(dag_node)
+        ]
+        len_expected = 9
+        len_actual = len(actual)
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert (
+            len_expected == len_actual
+        ), f"Expected\n{len_expected}\nReceived\n{len_actual}"
+
+    @staticmethod
+    def test_dag_iterator_child(dag_node_child):
+        expected = [
+            ("c", "f"),
+            ("d", "f"),
+            ("a", "c"),
+            ("b", "c"),
+            ("c", "d"),
+            ("c", "g"),
+            ("a", "d"),
+            ("d", "e"),
+            ("g", "h"),
+        ]
+        actual = [
+            (parent.node_name, child.node_name)
+            for parent, child in dag_iterator(dag_node_child)
+        ]
+        len_expected = 9
+        len_actual = len(actual)
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert (
+            len_expected == len_actual
+        ), f"Expected\n{len_expected}\nReceived\n{len_actual}"

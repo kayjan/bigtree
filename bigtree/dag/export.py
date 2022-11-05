@@ -1,10 +1,11 @@
 from bigtree.node.dagnode import DAGNode
+from bigtree.utils.iterators import dag_iterator
 
 __all__ = ["dag_to_dot"]
 
 
 def dag_to_dot(
-    tree: DAGNode,
+    dag: DAGNode,
     bgcolor: str = None,
     node_colour: str = None,
     edge_colour: str = None,
@@ -33,7 +34,7 @@ def dag_to_dot(
     'strict digraph G {\na [label=a];\nc [label=c];\na -> c;\nd [label=d];\na -> d;\nc [label=c];\na [label=a];\na -> c;\nb [label=b];\nb -> c;\nd [label=d];\nc -> d;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nc -> d;\ne [label=e];\nd -> e;\ne [label=e];\nd [label=d];\nd -> e;\nb [label=b];\nc [label=c];\nb -> c;\n}\n'
 
     Args:
-        tree (DAGNode): tree to be exported
+        dag (DAGNode): tree to be exported
         bgcolor (str): background color of image, defaults to None
         node_colour (str): fill colour of nodes, defaults to None
         edge_colour (str): colour of edges, defaults to None
@@ -46,10 +47,10 @@ def dag_to_dot(
         import pydot
     except ImportError:  # pragma: no cover
         raise ImportError(
-            "pydot not available. Please perform a `pip install bigtree[graph]` to install required dependencies"
+            "pydot not available. Please perform a\n\npip install 'bigtree[image]'\n\nto install required dependencies"
         )
 
-    if not isinstance(tree, DAGNode):
+    if not isinstance(dag, DAGNode):
         raise ValueError("Tree should be of type `DAGNode`, or inherit from `DAGNode`")
 
     # Get style
@@ -68,69 +69,28 @@ def dag_to_dot(
     else:
         edge_style = dict()
 
-    tree = tree.copy()
+    dag = dag.copy()
 
     _graph = pydot.Dot(graph_type="digraph", strict=True, **graph_style)
-    visited_nodes = set()
 
-    def recursive_create_node_and_edges(
-        node: DAGNode, node_from_name: str, direction: int
-    ):
-        node = node.copy()
-        node_name = node.node_name
-        if node_name not in visited_nodes:
-            visited_nodes.add(node_name)
-            if node_attr and node.get_attr(node_attr):
-                node_style.update(node.get_attr(node_attr))
-            pydot_node = pydot.Node(name=node_name, label=node_name, **node_style)
-            _graph.add_node(pydot_node)
+    for parent_node, child_node in dag_iterator(dag):
+        parent_name = parent_node.name
+        parent_node_style = node_style.copy()
+        if node_attr and parent_node.get_attr(node_attr):
+            parent_node_style.update(parent_node.get_attr(node_attr))
+        pydot_parent = pydot.Node(
+            name=parent_name, label=parent_name, **parent_node_style
+        )
+        _graph.add_node(pydot_parent)
 
-            # Parse upwards
-            for parent in node.parents:
-                parent_name = parent.node_name
-                pydot_parent_node = pydot.Node(
-                    name=parent_name, label=parent_name, **node_style
-                )
-                edge = pydot.Edge(parent_name, node_name, **edge_style)
-                _graph.add_node(pydot_parent_node)
-                _graph.add_edge(edge)
+        child_name = child_node.name
+        child_node_style = node_style.copy()
+        if node_attr and child_node.get_attr(node_attr):
+            child_node_style.update(child_node.get_attr(node_attr))
+        pydot_child = pydot.Node(name=child_name, label=child_name, **parent_node_style)
+        _graph.add_node(pydot_child)
 
-            # Parse downwards
-            for child in node.children:
-                child_name = child.node_name
-                pydot_child_node = pydot.Node(
-                    name=child_name, label=child_name, **node_style
-                )
-                edge = pydot.Edge(node_name, child_name, **edge_style)
-                _graph.add_node(pydot_child_node)
-                _graph.add_edge(edge)
+        edge = pydot.Edge(parent_name, child_name, **edge_style)
+        _graph.add_edge(edge)
 
-            # Came from parent
-            if direction == 1:
-                children = list(node.children)
-                parents = list(node.parents)
-                if node_from_name is not None:
-                    parents = [
-                        parent
-                        for parent in parents
-                        if parent.node_name != node_from_name
-                    ]
-                for child in children:
-                    recursive_create_node_and_edges(child, node_name, 1)
-                for parent in parents:
-                    recursive_create_node_and_edges(parent, node_name, 0)
-
-            # Came from child
-            else:
-                children = list(node.children)
-                parents = list(node.parents)
-                children = [
-                    child for child in children if child.node_name != node_from_name
-                ]
-                for child in children:
-                    recursive_create_node_and_edges(child, node_name, 0)
-                for parent in parents:
-                    recursive_create_node_and_edges(parent, node_name, 1)
-
-    recursive_create_node_and_edges(tree, None, 1)
     return _graph

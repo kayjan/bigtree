@@ -610,7 +610,7 @@ def tree_to_dot(
         import pydot
     except ImportError:  # pragma: no cover
         raise ImportError(
-            "pydot not available. Please perform a `pip install bigtree[graph]` to install required dependencies"
+            "pydot not available. Please perform a\n\npip install 'bigtree[image]'\n\nto install required dependencies"
         )
 
     if not isinstance(tree, Node):

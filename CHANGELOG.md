@@ -6,12 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Work In Progress
-- DAG Constructors: From list, nested dictionary, pandas DataFrame.
 - Node: WeightedNode for weighted edge tree implementation.
 
 ## [0.3.0]
 ### Added
-- Tree Exporter: More customizations for Node to dot and DAGNode to dot.
+- DAG Constructors: From list, nested dictionary, pandas DataFrame.
+- Tree Exporter and DAG Exporter: More customizations for Node to dot and DAGNode to dot.
+- Utility Iterators: DAG traversal methods.
 
 ## [0.2.0] - 2022-11-03
 ### Added
