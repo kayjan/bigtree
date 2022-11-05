@@ -11,12 +11,13 @@ Related Links:
 - [PyPI](https://pypi.org/project/bigtree/)
 
 ## Components
-There are 8 main components to Big Tree.
+There are 2 segments to Big Tree consisting of Tree implementation and Directed Acyclic Graph (DAG) implementation.
+
+For Tree implementation, there are 8 main components.
 
 1. **Node**
    1. ``BaseNode``, extendable class
    2. ``Node``, BaseNode with node name attribute
-   3. ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
 2. **Constructing Tree**
    1. From *list*, containing paths
    2. From *nested dictionary*
@@ -46,9 +47,22 @@ There are 8 main components to Big Tree.
 7. **Exporting Tree**
    1. Print to console
    2. Export to *pandas DataFrame*, *dictionary*, or *nested dictionary*
-   3. Export tree or DAG to dot (can save to .dot, .png, .jpeg files)
+   3. Export tree to dot (can save to .dot, .png, .jpeg files)
 8. **Workflows**
    1. Sample workflows for tree demonstration!
+
+For Directed Acyclic Graph (DAG) implementation, there are 4 main components.
+
+1. **Node**
+   1. ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
+2. **Constructing DAG**
+   1. From *list*, containing parent-child tuples
+   2. From *nested dictionary*
+   3. From *pandas DataFrame*
+3. **Traversing DAG**
+   1. Generic traversal method
+4. **Exporting DAG**
+   1. Export DAG to dot (can save to .dot, .png, .jpeg files)
 
 ## Installation
 
@@ -542,6 +556,7 @@ Tree can be exported to another data type.
 
 ```python
 from bigtree import Node, print_tree, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot
+
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
 c = Node("c", age=60, parent=root)
@@ -608,13 +623,22 @@ tree_to_dataframe(
 # 3  /a/b/e    e      b          35
 # 4    /a/c    c      a          60
 
-graph = tree_to_dot(root, fillcolor="gold")
+graph = tree_to_dot(root, node_colour="gold")
 graph.write_png("demo.png")
 ```
 
 ![Sample Tree Output](../../assets/demo.png)
 
 ## DAG Demonstration
+
+Compared to nodes in tree, nodes in DAG are able to have multiple parents.
+
+### Construct DAG
+
+1. **From `DAGNode`**
+
+DAGNode can be linked to each other with `parents` and `children` setter methods,
+or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
 ```python
 from bigtree import DAGNode, dag_to_dot
@@ -625,15 +649,76 @@ c = DAGNode("c", parents=[a, b])
 d = DAGNode("d", parents=[a, c])
 e = DAGNode("e", parents=[d])
 f = DAGNode("f", parents=[c, d])
-g = DAGNode("g", parents=[c])
-h = DAGNode("h", parents=[g])
+h = DAGNode("h")
+g = DAGNode("g", parents=[c], children=[h])
 
-graph = dag_to_dot(a, fillcolor="gold")
+graph = dag_to_dot(a, node_colour="gold")
 graph.write_png("assets/demo_dag.png")
 ```
 
 ![Sample DAG Output](../../assets/demo_dag.png)
 
+2. **From *list***
+
+Construct nodes only, list contains parent-child tuples.
+
+```python
+from bigtree import list_to_dag, dag_iterator
+
+relations_list = [
+   ("a", "c"),
+   ("a", "d"),
+   ("b", "c"),
+   ("c", "d"),
+   ("d", "e")
+]
+dag = list_to_dag(relations_list)
+print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
+# [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
+```
+
+3. **From *nested dictionary***
+
+Construct nodes with attributes, `key`: child name, `value`: dict of parent name, child node attributes.
+
+```python
+from bigtree import dict_to_dag, dag_iterator
+
+relation_dict = {
+   "a": {"step": 1},
+   "b": {"step": 1},
+   "c": {"parent": ["a", "b"], "step": 2},
+   "d": {"parent": ["a", "c"], "step": 2},
+   "e": {"parent": ["d"], "step": 3},
+}
+dag = dict_to_dag(relation_dict, parent_key="parent")
+print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
+# [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
+```
+
+4. **From *pandas DataFrame***
+
+Construct nodes with attributes, *pandas DataFrame* contains child column, parent column, and attribute columns.
+
+```python
+import pandas as pd
+from bigtree import dataframe_to_dag, dag_iterator
+
+path_data = pd.DataFrame([
+   ["a", None, 1],
+   ["b", None, 1],
+   ["c", "a", 2],
+   ["c", "b", 2],
+   ["d", "a", 2],
+   ["d", "c", 2],
+   ["e", "d", 3],
+],
+   columns=["child", "parent", "step"]
+)
+dag = dataframe_to_dag(path_data)
+print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
+# [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
+```
 
 ## Demo Usage
 

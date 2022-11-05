@@ -26,9 +26,9 @@ class DAGNode:
 
     >>> from bigtree import DAGNode
     >>> a = DAGNode("a")
-    >>> b = DAGNode("b", parent=[a])
-    >>> c = DAGNode("c", parent=[a, b])
-    >>> d = DAGNode("d", parent=[a, b])
+    >>> b = DAGNode("b", parents=[a])
+    >>> c = DAGNode("c", parents=[a, b])
+    >>> d = DAGNode("d", parents=[a, b])
 
     Directly passing `children` argument.
 

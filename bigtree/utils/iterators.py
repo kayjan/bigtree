@@ -1,6 +1,12 @@
 from typing import Callable, Iterable, List
 
-__all__ = ["preorder_iter", "postorder_iter", "levelorder_iter", "levelordergroup_iter"]
+__all__ = [
+    "preorder_iter",
+    "postorder_iter",
+    "levelorder_iter",
+    "levelordergroup_iter",
+    "dag_iterator",
+]
 
 
 def preorder_iter(
@@ -231,3 +237,59 @@ def levelordergroup_iter(
         yield from levelordergroup_iter(
             next_tree, filter_condition, stop_condition, max_depth
         )
+
+
+def dag_iterator(dag):
+    """Iterate through all nodes of a Directed Acyclic Graph (DAG).
+    Note that node names must be unique.
+
+    1. Visit the current node.
+    2. Recursively traverse the current node's parents.
+    3. Recursively traverse the current node's children.
+
+    >>> from bigtree import DAGNode, dag_iterator
+    >>> a = DAGNode("a", step=1)
+    >>> b = DAGNode("b", step=1)
+    >>> c = DAGNode("c", step=2, parents=[a, b])
+    >>> d = DAGNode("d", step=2, parents=[a, c])
+    >>> e = DAGNode("e", step=3, parents=[d])
+    >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(a)]
+    [('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]
+
+    Args:
+        dag (DAGNode): input dag
+
+    Returns:
+        (List[Tuple[DAGNode, DAGNode]])
+    """
+    visited_nodes = set()
+
+    def recursively_parse_dag(node):
+        node_name = node.node_name
+        visited_nodes.add(node_name)
+
+        # Parse upwards
+        for parent in node.parents:
+            parent_name = parent.node_name
+            if parent_name not in visited_nodes:
+                yield parent, node
+
+        # Parse downwards
+        for child in node.children:
+            child_name = child.node_name
+            if child_name not in visited_nodes:
+                yield node, child
+
+        # Parse upwards
+        for parent in node.parents:
+            parent_name = parent.node_name
+            if parent_name not in visited_nodes:
+                yield from recursively_parse_dag(parent)
+
+        # Parse downwards
+        for child in node.children:
+            child_name = child.node_name
+            if child_name not in visited_nodes:
+                yield from recursively_parse_dag(child)
+
+    yield from recursively_parse_dag(dag)

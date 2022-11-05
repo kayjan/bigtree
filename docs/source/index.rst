@@ -34,6 +34,7 @@ Big Tree Documentation
 .. toctree::
    :maxdepth: 2
 
+   dag
    node
    tree
    utils
