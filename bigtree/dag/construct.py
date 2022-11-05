@@ -18,8 +18,8 @@ def list_to_dag(
     >>> from bigtree import list_to_dag, dag_iterator
     >>> relations_list = [("a", "c"), ("a", "d"), ("b", "c"), ("c", "d"), ("d", "e")]
     >>> dag = list_to_dag(relations_list)
-    >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(a)]
-    [('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]
+    >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
+    [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
         relations (list): list containing tuple of parent-child names
@@ -66,8 +66,8 @@ def dict_to_dag(
     ...     "e": {"parent": ["d"], "step": 3},
     ... }
     >>> dag = dict_to_dag(relation_dict, parent_key="parent")
-    >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(a)]
-    [('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]
+    >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
+    [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
         relation_attrs (dict): dictioning containing node, node parents, and node attribute information,
@@ -112,7 +112,7 @@ def dataframe_to_dag(
     columns are `attribute_cols`.
 
     >>> import pandas as pd
-    >>> from bigtree import dataframe_to_dag, print_tree
+    >>> from bigtree import dataframe_to_dag, dag_iterator
     >>> path_data = pd.DataFrame([
     ...     ["a", None, 1],
     ...     ["b", None, 1],
@@ -125,8 +125,8 @@ def dataframe_to_dag(
     ...     columns=["child", "parent", "step"]
     ... )
     >>> dag = dataframe_to_dag(path_data)
-    >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(a)]
-    [('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]
+    >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
+    [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
         data (pandas.DataFrame): data containing path and node attribute information

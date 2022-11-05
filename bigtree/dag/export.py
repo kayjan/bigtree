@@ -31,7 +31,7 @@ def dag_to_dot(
     Export to string
 
     >>> dag_graph.to_string()
-    'strict digraph G {\na [label=a];\nc [label=c];\na -> c;\nd [label=d];\na -> d;\nc [label=c];\na [label=a];\na -> c;\nb [label=b];\nb -> c;\nd [label=d];\nc -> d;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nc -> d;\ne [label=e];\nd -> e;\ne [label=e];\nd [label=d];\nd -> e;\nb [label=b];\nc [label=c];\nb -> c;\n}\n'
+    'strict digraph G {\na [label=a];\nc [label=c];\na -> c;\na [label=a];\nd [label=d];\na -> d;\nb [label=b];\nc [label=c];\nb -> c;\nc [label=c];\nd [label=d];\nc -> d;\nd [label=d];\ne [label=e];\nd -> e;\n}\n'
 
     Args:
         dag (DAGNode): tree to be exported
