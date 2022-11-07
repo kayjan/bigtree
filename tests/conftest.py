@@ -75,6 +75,38 @@ def tree_node():
 
 
 @pytest.fixture
+def tree_node_duplicate_names():
+    """
+    Tree should have structure
+    a (age=90)
+    |-- a (age=65)
+    |   |-- a (age=40)
+    |   +-- b (age=35)
+    |       |-- a (age=10)
+    |       +-- b (age=6)
+    +-- b (age=60)
+        +-- a (age=38)
+    """
+    a = Node("a", age=90)
+    b = Node("a", age=65)
+    c = Node("b", age=60)
+    d = Node("a", age=40)
+    e = Node("b", age=35)
+    f = Node("a", age=38)
+    g = Node("a", age=10)
+    h = Node("b", age=6)
+
+    b.parent = a
+    c.parent = a
+    d.parent = b
+    e.parent = b
+    f.parent = c
+    g.parent = e
+    h.parent = e
+    return a
+
+
+@pytest.fixture
 def tree_node2():
     """
     Tree should have structure

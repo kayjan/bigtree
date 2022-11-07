@@ -1,3 +1,4 @@
+import collections
 from typing import Any, Dict, List
 
 import pandas as pd
@@ -575,7 +576,6 @@ def tree_to_dot(
     node_attr: str = None,
 ):
     r"""Export tree to image.
-    Note that node names must be unique.
     Posible node attributes include style, fillcolor, shape.
 
     >>> from bigtree import Node, tree_to_dot
@@ -645,11 +645,18 @@ def tree_to_dot(
             graph_type="graph", strict=True, rankdir=rankdir, **graph_style
         )
 
+    name_dict = collections.defaultdict(list)
+
     def recursive_create_node_and_edges(parent_name, child_node):
-        child_name = child_node.node_name
+        child_label = child_node.node_name
+        if child_node.path_name not in name_dict[child_label]:  # pragma: no cover
+            name_dict[child_label].append(child_node.path_name)
+        child_name = child_label + str(
+            name_dict[child_label].index(child_node.path_name)
+        )
         if node_attr and child_node.get_attr(node_attr):
             node_style.update(child_node.get_attr(node_attr))
-        node = pydot.Node(name=child_name, label=child_name, **node_style)
+        node = pydot.Node(name=child_name, label=child_label, **node_style)
         _graph.add_node(node)
         if parent_name is not None:
             edge = pydot.Edge(parent_name, child_name, **edge_style)
