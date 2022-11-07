@@ -1,6 +1,126 @@
+import pandas as pd
 import pytest
 
-from bigtree import dag_to_dot
+from bigtree import (
+    dag_to_dataframe,
+    dag_to_dict,
+    dag_to_dot,
+    dag_to_list,
+    dataframe_to_dag,
+    dict_to_dag,
+    list_to_dag,
+)
+from tests.node.test_dagnode import (
+    assert_dag_structure_attr_root,
+    assert_dag_structure_root,
+)
+
+
+class TestDAGToList:
+    @staticmethod
+    def test_dag_to_list(dag_node):
+        expected = [
+            ("a", "c"),
+            ("a", "d"),
+            ("b", "c"),
+            ("c", "d"),
+            ("c", "f"),
+            ("c", "g"),
+            ("d", "e"),
+            ("d", "f"),
+            ("g", "h"),
+        ]
+        actual = dag_to_list(dag_node)
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+        dag = list_to_dag(actual)
+        assert_dag_structure_root(dag)
+
+
+class TestDAGToDict:
+    @staticmethod
+    def test_dag_to_dict(dag_node):
+        expected = {
+            "a": {"age": 90},
+            "c": {"parents": ["a", "b"], "age": 60},
+            "d": {"parents": ["a", "c"], "age": 40},
+            "b": {"age": 65},
+            "f": {"parents": ["c", "d"], "age": 38},
+            "g": {"parents": ["c"], "age": 10},
+            "e": {"parents": ["d"], "age": 35},
+            "h": {"parents": ["g"], "age": 6},
+        }
+        actual = dag_to_dict(dag_node, all_attrs=True)
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+        dag = dict_to_dag(actual)
+        assert_dag_structure_root(dag)
+        assert_dag_structure_attr_root(dag)
+
+    @staticmethod
+    def test_dag_to_dict_attr_dict(dag_node):
+        expected = {
+            "a": {"AGE": 90},
+            "c": {"PARENTS": ["a", "b"], "AGE": 60},
+            "d": {"PARENTS": ["a", "c"], "AGE": 40},
+            "b": {"AGE": 65},
+            "f": {"PARENTS": ["c", "d"], "AGE": 38},
+            "g": {"PARENTS": ["c"], "AGE": 10},
+            "e": {"PARENTS": ["d"], "AGE": 35},
+            "h": {"PARENTS": ["g"], "AGE": 6},
+        }
+        actual = dag_to_dict(dag_node, parent_key="PARENTS", attr_dict={"age": "AGE"})
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+
+class TestDAGToDataFrame:
+    @staticmethod
+    def test_dag_to_dataframe(dag_node):
+        expected = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["c", "a", 60],
+                ["d", "a", 40],
+                ["b", None, 65],
+                ["c", "b", 60],
+                ["d", "c", 40],
+                ["f", "c", 38],
+                ["g", "c", 10],
+                ["e", "d", 35],
+                ["f", "d", 38],
+                ["h", "g", 6],
+            ],
+            columns=["name", "parent", "age"],
+        )
+        actual = dag_to_dataframe(dag_node, all_attrs=True)
+        pd.testing.assert_frame_equal(expected, actual)
+
+        dag = dataframe_to_dag(actual)
+        assert_dag_structure_root(dag)
+        assert_dag_structure_attr_root(dag)
+
+    @staticmethod
+    def test_dag_to_dataframe_attr_dict(dag_node):
+        expected = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["c", "a", 60],
+                ["d", "a", 40],
+                ["b", None, 65],
+                ["c", "b", 60],
+                ["d", "c", 40],
+                ["f", "c", 38],
+                ["g", "c", 10],
+                ["e", "d", 35],
+                ["f", "d", 38],
+                ["h", "g", 6],
+            ],
+            columns=["NAME", "PARENT", "AGE"],
+        )
+        actual = dag_to_dataframe(
+            dag_node, name_col="NAME", parent_col="PARENT", attr_dict={"age": "AGE"}
+        )
+        pd.testing.assert_frame_equal(expected, actual)
 
 
 class TestDAGToDot:

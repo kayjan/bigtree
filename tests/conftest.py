@@ -207,14 +207,14 @@ def tree_node_style():
 
 @pytest.fixture
 def dag_node():
-    a = DAGNode("a")
-    b = DAGNode("b")
-    c = DAGNode("c")
-    d = DAGNode("d")
-    e = DAGNode("e")
-    f = DAGNode("f")
-    g = DAGNode("g")
-    h = DAGNode("h")
+    a = DAGNode("a", age=90)
+    b = DAGNode("b", age=65)
+    c = DAGNode("c", age=60)
+    d = DAGNode("d", age=40)
+    e = DAGNode("e", age=35)
+    f = DAGNode("f", age=38)
+    g = DAGNode("g", age=10)
+    h = DAGNode("h", age=6)
 
     c.parents = [a, b]
     d.parents = [a, c]
@@ -227,14 +227,14 @@ def dag_node():
 
 @pytest.fixture
 def dag_node_child():
-    a = DAGNode("a")
-    b = DAGNode("b")
-    c = DAGNode("c")
-    d = DAGNode("d")
-    e = DAGNode("e")
-    f = DAGNode("f")
-    g = DAGNode("g")
-    h = DAGNode("h")
+    a = DAGNode("a", age=90)
+    b = DAGNode("b", age=65)
+    c = DAGNode("c", age=60)
+    d = DAGNode("d", age=40)
+    e = DAGNode("e", age=35)
+    f = DAGNode("f", age=38)
+    g = DAGNode("g", age=10)
+    h = DAGNode("h", age=6)
 
     c.parents = [a, b]
     d.parents = [a, c]
