@@ -10,13 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.3] - 2022-11-07
 ### Added
+- DAG Exporter: To list, nested dictionary, pandas DataFrame.
+
+### Changed
+- BaseNode and DAGNode: Modify docstring.
 - Tree Exporter: Support Nodes with same name.
 - Tree Modifier: Modify docstring.
 - Utility Iterators: Modify docstring.
-- DAG Exporter: To list, nested dictionary, pandas DataFrame.
 
 ## [0.3.2] - 2022-11-07
-### Added
+### Fixed
 - Tree Exporter: Fix edge direction error.
 
 ## [0.3.1] - 2022-11-07
@@ -26,13 +29,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.3.0] - 2022-11-05
 ### Added
 - DAG Constructors: From list, nested dictionary, pandas DataFrame.
-- Tree Exporter and DAG Exporter: More customizations for Node to dot and DAGNode to dot.
 - Utility Iterators: DAG traversal methods.
+
+### Changed
+- Tree Exporter and DAG Exporter: More customizations for Node to dot and DAGNode to dot.
 
 ## [0.2.0] - 2022-11-03
 ### Added
 - Node: DAGNode for creating DAG graph.
-- Tree Exporter: Support Node to dot which can export to png, jpeg, dot files.
+- Tree Exporter: Support Node to dot which can export to png, svg, jpeg, dot files.
 - DAG Exporter: Support DAGNode to dot.
 
 ## [0.1.0] - 2022-11-01
