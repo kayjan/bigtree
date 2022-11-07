@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from typing import Type
+from typing import List, Tuple, Type
 
 import pandas as pd
 
@@ -14,6 +14,7 @@ __all__ = [
     "add_dict_to_tree_by_name",
     "add_dataframe_to_tree_by_path",
     "add_dataframe_to_tree_by_name",
+    "list_to_tree_tuples",
     "list_to_tree",
     "dict_to_tree",
     "nested_dict_to_tree",
@@ -400,6 +401,49 @@ def add_dataframe_to_tree_by_name(
     return dataframe_to_tree(
         data_tree_attrs, path_col=path_col, sep=sep, node_type=node_type
     )
+
+
+def list_to_tree_tuples(
+    relations: List[Tuple[str, str]],
+    node_type: Type[Node] = Node,
+) -> Node:
+    """Construct tree from list of tuple containing parent-child names.
+
+    >>> from bigtree import list_to_tree_tuples, print_tree
+    >>> relations_list = [("a", "b"), ("a", "c"), ("b", "d"), ("b", "e"), ("c", "f"), ("e", "g"), ("e", "h")]
+    >>> root = list_to_tree_tuples(relations_list)
+    >>> print_tree(root)
+    a
+    |-- b
+    |   |-- d
+    |   `-- e
+    |       |-- g
+    |       `-- h
+    `-- c
+        `-- f
+
+    Args:
+        relations (list): list containing tuple containing parent-child names
+        node_type (Type[Node]): node type of tree to be created, defaults to Node
+
+    Returns:
+        (Node)
+    """
+    if not len(relations):
+        raise ValueError("Path list does not contain any data, check `relations`")
+
+    node_dict = {}
+    for parent_name, child_name in relations:
+        if not node_dict.get(parent_name):
+            node_dict[parent_name] = node_type(parent_name)
+        if not node_dict.get(child_name):
+            node_dict[child_name] = node_type(child_name)
+
+        parent_node = node_dict[parent_name]
+        child_node = node_dict[child_name]
+        child_node.parent = parent_node
+    root = child_node.root
+    return root
 
 
 def list_to_tree(

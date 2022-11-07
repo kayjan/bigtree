@@ -20,12 +20,13 @@ For Tree implementation, there are 8 main components.
    2. ``Node``, BaseNode with node name attribute
 2. **Constructing Tree**
    1. From *list*, containing paths
-   2. From *nested dictionary*
-   3. From *nested recursive dictionary*
-   4. From *pandas DataFrame*
-   5. Add nodes to existing tree using list
-   6. Add nodes and attributes to existing tree using dictionary or pandas DataFrame, add using path
-   7. Add only attributes to existing tree using dictionary or pandas DataFrame, add using name
+   2. From *list*, containing parent-child tuples
+   3. From *nested dictionary*
+   4. From *nested recursive dictionary*
+   5. From *pandas DataFrame*
+   6. Add nodes to existing tree using list
+   7. Add nodes and attributes to existing tree using dictionary or pandas DataFrame, add using path
+   8. Add only attributes to existing tree using dictionary or pandas DataFrame, add using name
 3. **Traversing Tree**
    1. Pre-Order Traversal
    2. Post-Order Traversal
@@ -163,13 +164,20 @@ print_tree(root, style="ascii")
 
 2. **From *list***
 
-Construct nodes only, list contains full paths of nodes.
+Construct nodes only, list contains full paths of nodes or tuples of parent-child names.
 
 ```python
-from bigtree import list_to_tree, print_tree
+from bigtree import list_to_tree, list_to_tree_tuples, print_tree
 
 root = list_to_tree(["a/b/d", "a/c"])
 
+print_tree(root)
+# a
+# |-- b
+# |   `-- d
+# `-- c
+
+root = list_to_tree_tuples([("a", "b"), ("a", "c"), ("b", "d")])
 print_tree(root)
 # a
 # |-- b
