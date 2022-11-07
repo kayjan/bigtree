@@ -14,6 +14,7 @@ from bigtree.tree.construct import (
     dataframe_to_tree,
     dict_to_tree,
     list_to_tree,
+    list_to_tree_tuples,
     nested_dict_to_tree,
 )
 from bigtree.utils.exceptions import DuplicatedNodeError, TreeError
@@ -823,6 +824,47 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         root = add_dataframe_to_tree_by_name(root, self.data)
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_basenode_root_attr(root)
+
+
+class TestListToTreeTuples(unittest.TestCase):
+    def setUp(self):
+        """
+        Tree should have structure
+        a
+        |-- b
+        |   |-- d
+        |   +-- e
+        |       |-- g
+        |       +-- h
+        +-- c
+            +-- f
+        """
+        self.relations = [
+            ("a", "b"),
+            ("a", "c"),
+            ("b", "d"),
+            ("b", "e"),
+            ("c", "f"),
+            ("e", "g"),
+            ("e", "h"),
+        ]
+
+    def tearDown(self):
+        self.relations = None
+
+    def test_list_to_tree_tuples(self):
+        root = list_to_tree_tuples(self.relations)
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
+    def test_list_to_tree_tuples_reversed(self):
+        root = list_to_tree_tuples(self.relations[::-1])
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
+    def test_list_to_tree_tuples_empty(self):
+        with pytest.raises(ValueError):
+            list_to_tree_tuples([])
 
 
 class TestListToTree(unittest.TestCase):
