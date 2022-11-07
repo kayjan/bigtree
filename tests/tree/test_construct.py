@@ -1269,17 +1269,20 @@ class TestDataFrameToTree(unittest.TestCase):
         root = dataframe_to_tree(path_data)
         assert_tree_structure_basenode_root_generic(root)
 
-    def test_dataframe_to_tree_empty_row(self):
+    @staticmethod
+    def test_dataframe_to_tree_empty_row():
         data = pd.DataFrame(columns=["PATH", "age"])
         with pytest.raises(ValueError):
             dataframe_to_tree(data)
 
-    def test_dataframe_to_tree_empty_col(self):
+    @staticmethod
+    def test_dataframe_to_tree_empty_col():
         data = pd.DataFrame()
         with pytest.raises(ValueError):
             dataframe_to_tree(data)
 
-    def test_dataframe_to_tree_sep_leading(self):
+    @staticmethod
+    def test_dataframe_to_tree_sep_leading():
         data = pd.DataFrame(
             [
                 ["/a", 90],
