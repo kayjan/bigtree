@@ -623,8 +623,8 @@ tree_to_dataframe(
 # 3  /a/b/e    e      b          35
 # 4    /a/c    c      a          60
 
-graph = tree_to_dot(root, node_colour="gold")
-graph.write_png("demo.png")
+graph = tree_to_dot(root, rankdir="BT", node_colour="gold")
+graph.write_png("assets/demo.png")
 ```
 
 ![Sample Tree Output](../../assets/demo.png)

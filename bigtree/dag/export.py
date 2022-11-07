@@ -6,6 +6,7 @@ __all__ = ["dag_to_dot"]
 
 def dag_to_dot(
     dag: DAGNode,
+    rankdir: str = "TB",
     bgcolor: str = None,
     node_colour: str = None,
     edge_colour: str = None,
@@ -35,6 +36,7 @@ def dag_to_dot(
 
     Args:
         dag (DAGNode): tree to be exported
+        rankdir (str): set direction of graph layout, defaults to 'TB', can be 'BT, 'LR', 'RL'
         bgcolor (str): background color of image, defaults to None
         node_colour (str): fill colour of nodes, defaults to None
         edge_colour (str): colour of edges, defaults to None
@@ -71,7 +73,9 @@ def dag_to_dot(
 
     dag = dag.copy()
 
-    _graph = pydot.Dot(graph_type="digraph", strict=True, **graph_style)
+    _graph = pydot.Dot(
+        graph_type="digraph", strict=True, rankdir=rankdir, **graph_style
+    )
 
     for parent_node, child_node in dag_iterator(dag):
         parent_name = parent_node.name

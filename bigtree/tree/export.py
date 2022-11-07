@@ -568,6 +568,7 @@ def tree_to_nested_dict(
 def tree_to_dot(
     tree: Node,
     directed: bool = True,
+    rankdir: str = "TB",
     bgcolor: str = None,
     node_colour: str = None,
     edge_colour: str = None,
@@ -598,6 +599,7 @@ def tree_to_dot(
     Args:
         tree (Node): tree to be exported
         directed (bool): indicator whether graph should be directed or undirected, defaults to True
+        rankdir (str): set direction of graph layout, defaults to 'TB', can be 'BT, 'LR', 'RL'
         bgcolor (str): background color of image, defaults to None
         node_colour (str): fill colour of nodes, defaults to None
         edge_colour (str): colour of edges, defaults to None
@@ -635,9 +637,13 @@ def tree_to_dot(
     tree = tree.copy()
 
     if directed:
-        _graph = pydot.Dot(graph_type="digraph", strict=True, **graph_style)
+        _graph = pydot.Dot(
+            graph_type="digraph", strict=True, rankdir=rankdir, **graph_style
+        )
     else:
-        _graph = pydot.Dot(graph_type="graph", strict=True, **graph_style)
+        _graph = pydot.Dot(
+            graph_type="graph", strict=True, rankdir=rankdir, **graph_style
+        )
 
     def recursive_create_node_and_edges(parent_name, child_node):
         child_name = child_node.node_name

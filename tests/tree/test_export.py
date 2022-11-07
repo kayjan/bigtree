@@ -695,7 +695,10 @@ class TestTreeToDot:
         expected = """strict digraph G {\na [label=a];\nb [label=b];\nb -> a;\nd [label=d];\nd -> b;\ne [label=e];\ne -> b;\ng [label=g];\ng -> e;\nh [label=h];\nh -> e;\nc [label=c];\nc -> a;\nf [label=f];\nf -> c;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree.png")
-        assert expected == actual, "Graph string is wrong"
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
     def test_tree_to_dot_type_error(dag_node):
@@ -709,7 +712,10 @@ class TestTreeToDot:
         expected = """strict graph G {\na [label=a];\nb [label=b];\nb -- a;\nd [label=d];\nd -- b;\ne [label=e];\ne -- b;\ng [label=g];\ng -- e;\nh [label=h];\nh -- e;\nc [label=c];\nc -- a;\nf [label=f];\nf -- c;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_undirected.png")
-        assert expected == actual, "Graph string is wrong"
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
     def test_tree_to_dot_bg_color(tree_node):
@@ -717,7 +723,10 @@ class TestTreeToDot:
         expected = """strict digraph G {\nbgcolor=blue;\na [label=a];\nb [label=b];\nb -> a;\nd [label=d];\nd -> b;\ne [label=e];\ne -> b;\ng [label=g];\ng -> e;\nh [label=h];\nh -> e;\nc [label=c];\nc -> a;\nf [label=f];\nf -> c;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_bg.png")
-        assert expected == actual, "Graph string is wrong"
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
     def test_tree_to_dot_fill_color(tree_node):
@@ -725,7 +734,10 @@ class TestTreeToDot:
         expected = """strict digraph G {\na [fillcolor=gold, label=a, style=filled];\nb [fillcolor=gold, label=b, style=filled];\nb -> a;\nd [fillcolor=gold, label=d, style=filled];\nd -> b;\ne [fillcolor=gold, label=e, style=filled];\ne -> b;\ng [fillcolor=gold, label=g, style=filled];\ng -> e;\nh [fillcolor=gold, label=h, style=filled];\nh -> e;\nc [fillcolor=gold, label=c, style=filled];\nc -> a;\nf [fillcolor=gold, label=f, style=filled];\nf -> c;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_fill.png")
-        assert expected == actual, "Graph string is wrong"
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
     def test_tree_to_dot_edge_colour(tree_node):
@@ -733,7 +745,10 @@ class TestTreeToDot:
         expected = """strict digraph G {\na [label=a];\nb [label=b];\nb -> a  [color=red];\nd [label=d];\nd -> b  [color=red];\ne [label=e];\ne -> b  [color=red];\ng [label=g];\ng -> e  [color=red];\nh [label=h];\nh -> e  [color=red];\nc [label=c];\nc -> a  [color=red];\nf [label=f];\nf -> c  [color=red];\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_edge.png")
-        assert expected == actual, "Graph string is wrong"
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
     def test_tree_to_dot_node_attr(tree_node_style):
@@ -741,4 +756,7 @@ class TestTreeToDot:
         expected = """strict digraph G {\na [fillcolor=gold, label=a, style=filled];\nb [fillcolor=blue, label=b, style=filled];\nb -> a;\nd [fillcolor=green, label=d, style=filled];\nd -> b;\ng [fillcolor=red, label=g, style=filled];\ng -> d;\ne [fillcolor=green, label=e, style=filled];\ne -> b;\nh [fillcolor=red, label=h, style=filled];\nh -> e;\nc [fillcolor=blue, label=c, style=filled];\nc -> a;\nf [fillcolor=green, label=f, style=filled];\nf -> c;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_style.png")
-        assert expected == actual, "Graph string is wrong"
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
