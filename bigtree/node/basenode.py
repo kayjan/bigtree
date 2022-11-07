@@ -10,22 +10,42 @@ class BaseNode:
     BaseNode extends any Python class to a tree node.
     Nodes can have attributes if they are initialized from `Node`, *dictionary*, or *pandas DataFrame*.
 
-    Nodes can be linked to each other with `parent` and `children` setter methods.
+    Nodes can be linked to each other with `parent` and `children` setter methods,
+    or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
+
+    >>> from bigtree import Node, print_tree
+    >>> root = Node("a", age=90)
+    >>> b = Node("b", age=65)
+    >>> c = Node("c", age=60)
+    >>> d = Node("d", age=40)
+    >>> root.children = [b, c]
+    >>> d.parent = b
+    >>> print_tree(root, attr_list=["age"])
+    a [age=90]
+    |-- b [age=65]
+    |   `-- d [age=40]
+    `-- c [age=60]
 
     >>> from bigtree import Node
-    >>> a = Node("a")
-    >>> b = Node("b")
-    >>> c = Node("c")
-    >>> d = Node("d")
-    >>> b.parent = a
-    >>> b.children = [c, d]
+    >>> root = Node("a", age=90)
+    >>> b = Node("b", age=65)
+    >>> c = Node("c", age=60)
+    >>> d = Node("d", age=40)
+    >>> root >> b
+    >>> root >> c
+    >>> d << b
+    >>> print_tree(root, attr_list=["age"])
+    a [age=90]
+    |-- b [age=65]
+    |   `-- d [age=40]
+    `-- c [age=60]
 
     Directly passing `parent` argument.
 
     >>> from bigtree import Node
-    >>> a = Node("a")
-    >>> b = Node("b", parent=a)
-    >>> c = Node("c", parent=b)
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=root)
     >>> d = Node("d", parent=b)
 
     Directly passing `children` argument.
@@ -33,8 +53,8 @@ class BaseNode:
     >>> from bigtree import Node
     >>> d = Node("d")
     >>> c = Node("c")
-    >>> b = Node("b", children=[c, d])
-    >>> a = Node("a", children=[b])
+    >>> b = Node("b", children=[d])
+    >>> a = Node("a", children=[b, c])
 
     **Node Creation**
 
@@ -42,7 +62,7 @@ class BaseNode:
     If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
     >>> from bigtree import Node
-    >>> a = Node.from_dict({"name": "a", "age": 90})
+    >>> root = Node.from_dict({"name": "a", "age": 90})
 
     **Node Attributes**
 
