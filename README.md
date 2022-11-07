@@ -74,7 +74,7 @@ If tree needs to be exported to image, it requires additional dependencies.
 Run the following lines in command prompt:
 
 ```
-pip install bigtree[image]
+pip install 'bigtree[image]'
 brew install gprof2dot
 ```
 
