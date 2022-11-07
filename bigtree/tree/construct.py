@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from typing import List, Tuple, Type
 
+import numpy as np
 import pandas as pd
 
 from bigtree.node.node import Node
@@ -281,10 +282,10 @@ def add_dataframe_to_tree_by_path(
         attribute_cols.remove(path_col)
 
     tree_root = tree.root
-    data = data.copy()[[path_col] + attribute_cols].drop_duplicates()
     data[path_col] = data[path_col].str.lstrip(sep).str.rstrip(sep)
+    data2 = data.copy()[[path_col] + attribute_cols].astype(str).drop_duplicates()
     _duplicate_check = (
-        data[path_col]
+        data2[path_col]
         .value_counts()
         .to_frame("counts")
         .rename_axis(path_col)
@@ -299,7 +300,7 @@ def add_dataframe_to_tree_by_path(
     for row in data.to_dict(orient="index").values():
         node_attrs = row.copy()
         del node_attrs[path_col]
-        node_attrs = {k: v for k, v in node_attrs.items() if not pd.isnull(v)}
+        node_attrs = {k: v for k, v in node_attrs.items() if not np.any(pd.isnull(v))}
         add_path_to_tree(
             tree_root,
             row[path_col],
@@ -370,9 +371,9 @@ def add_dataframe_to_tree_by_name(
 
     # Attribute data
     path_col = "PATH"
-    data = data.copy()[[name_col] + attribute_cols].drop_duplicates()
+    data2 = data.copy()[[name_col] + attribute_cols].astype(str).drop_duplicates()
     _duplicate_check = (
-        data[name_col]
+        data2[name_col]
         .value_counts()
         .to_frame("counts")
         .rename_axis(name_col)
@@ -381,7 +382,7 @@ def add_dataframe_to_tree_by_name(
     _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
     if len(_duplicate_check):
         raise ValueError(
-            f"There exists duplicate path with different attributes\nCheck {_duplicate_check}"
+            f"There exists duplicate name with different attributes\nCheck {_duplicate_check}"
         )
 
     # Tree data
@@ -699,10 +700,10 @@ def dataframe_to_tree(
         attribute_cols = list(data.columns)
         attribute_cols.remove(path_col)
 
-    data = data.copy()[[path_col] + attribute_cols].drop_duplicates()
     data[path_col] = data[path_col].str.lstrip(sep).str.rstrip(sep)
+    data2 = data.copy()[[path_col] + attribute_cols].astype(str).drop_duplicates()
     _duplicate_check = (
-        data[path_col]
+        data2[path_col]
         .value_counts()
         .to_frame("counts")
         .rename_axis(path_col)

@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Work In Progress
 - Node: WeightedNode for weighted edge tree implementation.
 
+## [0.4.1] - 2022-11-07
+### Fixed
+- Tree Constructors: Able to handle adding attributes that are list - error in drop_duplicate() and pd.isnull()
+
 ## [0.4.0] - 2022-11-07
 ### Added
 - Tree Constructors: From list of tuples of parent-child.
@@ -55,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterators: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.4.1]: https://github.com/kayjan/bigtree/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/kayjan/bigtree/compare/v0.3.3...v0.4.0
 [0.3.3]: https://github.com/kayjan/bigtree/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/kayjan/bigtree/compare/v0.3.1...v0.3.2
