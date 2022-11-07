@@ -46,8 +46,8 @@ For Tree implementation, there are 8 main components.
    3. Get difference between two trees
 7. **Exporting Tree**
    1. Print to console
-   2. Export to *pandas DataFrame*, *dictionary*, or *nested dictionary*
-   3. Export tree to dot (can save to .dot, .png, .jpeg files)
+   2. Export to *dictionary*, *nested dictionary*, or *pandas DataFrame*
+   3. Export tree to dot (can save to .dot, .png, .svg, .jpeg files)
 8. **Workflows**
    1. Sample workflows for tree demonstration!
 
@@ -62,7 +62,8 @@ For Directed Acyclic Graph (DAG) implementation, there are 4 main components.
 3. **Traversing DAG**
    1. Generic traversal method
 4. **Exporting DAG**
-   1. Export DAG to dot (can save to .dot, .png, .jpeg files)
+   1. Export to *list*, *dictionary*, or *pandas DataFrame*
+   2. Export DAG to dot (can save to .dot, .png, .svg, .jpeg files)
 
 ## Installation
 
