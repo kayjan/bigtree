@@ -136,23 +136,27 @@ from bigtree import Node, print_tree
 root = Node("a")
 b = Node("b", parent=root)
 c = Node("c", parent=root)
+d = Node("d", parent=b)
 
 print_tree(root, style="ascii")
 # a
 # |-- b
+# |   +-- d
 # +-- c
 ```
 
 ```python
 from bigtree import Node, print_tree
 
-b = Node("b")
+d = Node("d")
 c = Node("c")
+b = Node("b", children=[d])
 root = Node("a", children=[b, c])
 
 print_tree(root, style="ascii")
 # a
 # |-- b
+# |   +-- d
 # +-- c
 ```
 

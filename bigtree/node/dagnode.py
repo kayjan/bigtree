@@ -7,36 +7,46 @@ from bigtree.utils.iterators import preorder_iter
 
 class DAGNode:
     """
-    Base DAGNode extends any Python class to a tree node, for DAG implementation.
+    Base DAGNode extends any Python class to a DAG node, for DAG implementation.
     In DAG implementation, a node can have multiple parents.
     If each node only has one parent, use `Node` class.
-    Nodes can have attributes if they are initialized from `DAGNode` or dictionary.
+    DAGNodes can have attributes if they are initialized from `DAGNode` or dictionary.
 
-    Nodes can be linked to each other with `parents` and `children` setter methods.
+    DAGNode can be linked to each other with `parents` and `children` setter methods,
+    or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
     >>> from bigtree import DAGNode
     >>> a = DAGNode("a")
     >>> b = DAGNode("b")
     >>> c = DAGNode("c")
     >>> d = DAGNode("d")
-    >>> b.parents = [a]
-    >>> b.children = [c, d]
+    >>> c.parents = [a, b]
+    >>> c.children = [d]
+
+    >>> from bigtree import DAGNode
+    >>> a = DAGNode("a")
+    >>> b = DAGNode("b")
+    >>> c = DAGNode("c")
+    >>> d = DAGNode("d")
+    >>> a >> c
+    >>> b >> c
+    >>> d << c
 
     Directly passing `parents` argument.
 
     >>> from bigtree import DAGNode
     >>> a = DAGNode("a")
-    >>> b = DAGNode("b", parents=[a])
+    >>> b = DAGNode("b")
     >>> c = DAGNode("c", parents=[a, b])
-    >>> d = DAGNode("d", parents=[a, b])
+    >>> d = DAGNode("d", parents=[c])
 
     Directly passing `children` argument.
 
     >>> from bigtree import DAGNode
     >>> d = DAGNode("d")
-    >>> c = DAGNode("c")
-    >>> b = DAGNode("b", children=[c, d])
-    >>> a = DAGNode("a", children=[b])
+    >>> c = DAGNode("c", children=[d])
+    >>> b = DAGNode("b", children=[c])
+    >>> a = DAGNode("a", children=[c])
 
     **Node Creation**
 
