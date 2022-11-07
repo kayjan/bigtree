@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Work In Progress
 - Node: WeightedNode for weighted edge tree implementation.
 
+## [0.4.3] - 2022-11-08
+### Fixed
+- Node: Print format for BaseNode.
+
 ## [0.4.2] - 2022-11-08
 ### Fixed
 - Tree Constructors: For list of tuples, handle cases where parent name is None
