@@ -692,7 +692,7 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot(tree_node):
         graph = tree_to_dot(tree_node)
-        expected = """strict digraph G {\na [label=a];\nb [label=b];\nb -> a;\nd [label=d];\nd -> b;\ne [label=e];\ne -> b;\ng [label=g];\ng -> e;\nh [label=h];\nh -> e;\nc [label=c];\nc -> a;\nf [label=f];\nf -> c;\n}\n"""
+        expected = """strict digraph G {\nrankdir=TB;\na [label=a];\nb [label=b];\na -> b;\nd [label=d];\nb -> d;\ne [label=e];\nb -> e;\ng [label=g];\ne -> g;\nh [label=h];\ne -> h;\nc [label=c];\na -> c;\nf [label=f];\nc -> f;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree.png")
         for expected_str in expected.split():
@@ -709,7 +709,7 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_directed(tree_node):
         graph = tree_to_dot(tree_node, directed=False)
-        expected = """strict graph G {\na [label=a];\nb [label=b];\nb -- a;\nd [label=d];\nd -- b;\ne [label=e];\ne -- b;\ng [label=g];\ng -- e;\nh [label=h];\nh -- e;\nc [label=c];\nc -- a;\nf [label=f];\nf -- c;\n}\n"""
+        expected = """strict graph G {\nrankdir=TB;\na [label=a];\nb [label=b];\na -- b;\nd [label=d];\nb -- d;\ne [label=e];\nb -- e;\ng [label=g];\ne -- g;\nh [label=h];\ne -- h;\nc [label=c];\na -- c;\nf [label=f];\nc -- f;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_undirected.png")
         for expected_str in expected.split():
@@ -720,7 +720,7 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_bg_color(tree_node):
         graph = tree_to_dot(tree_node, bgcolor="blue")
-        expected = """strict digraph G {\nbgcolor=blue;\na [label=a];\nb [label=b];\nb -> a;\nd [label=d];\nd -> b;\ne [label=e];\ne -> b;\ng [label=g];\ng -> e;\nh [label=h];\nh -> e;\nc [label=c];\nc -> a;\nf [label=f];\nf -> c;\n}\n"""
+        expected = """strict digraph G {\nbgcolor=blue;\nrankdir=TB;\na [label=a];\nb [label=b];\na -> b;\nd [label=d];\nb -> d;\ne [label=e];\nb -> e;\ng [label=g];\ne -> g;\nh [label=h];\ne -> h;\nc [label=c];\na -> c;\nf [label=f];\nc -> f;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_bg.png")
         for expected_str in expected.split():
@@ -731,7 +731,7 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_fill_color(tree_node):
         graph = tree_to_dot(tree_node, node_colour="gold")
-        expected = """strict digraph G {\na [fillcolor=gold, label=a, style=filled];\nb [fillcolor=gold, label=b, style=filled];\nb -> a;\nd [fillcolor=gold, label=d, style=filled];\nd -> b;\ne [fillcolor=gold, label=e, style=filled];\ne -> b;\ng [fillcolor=gold, label=g, style=filled];\ng -> e;\nh [fillcolor=gold, label=h, style=filled];\nh -> e;\nc [fillcolor=gold, label=c, style=filled];\nc -> a;\nf [fillcolor=gold, label=f, style=filled];\nf -> c;\n}\n"""
+        expected = """strict digraph G {\nrankdir=TB;\na [fillcolor=gold, label=a, style=filled];\nb [fillcolor=gold, label=b, style=filled];\na -> b;\nd [fillcolor=gold, label=d, style=filled];\nb -> d;\ne [fillcolor=gold, label=e, style=filled];\nb -> e;\ng [fillcolor=gold, label=g, style=filled];\ne -> g;\nh [fillcolor=gold, label=h, style=filled];\ne -> h;\nc [fillcolor=gold, label=c, style=filled];\na -> c;\nf [fillcolor=gold, label=f, style=filled];\nc -> f;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_fill.png")
         for expected_str in expected.split():
@@ -742,7 +742,7 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_edge_colour(tree_node):
         graph = tree_to_dot(tree_node, edge_colour="red")
-        expected = """strict digraph G {\na [label=a];\nb [label=b];\nb -> a  [color=red];\nd [label=d];\nd -> b  [color=red];\ne [label=e];\ne -> b  [color=red];\ng [label=g];\ng -> e  [color=red];\nh [label=h];\nh -> e  [color=red];\nc [label=c];\nc -> a  [color=red];\nf [label=f];\nf -> c  [color=red];\n}\n"""
+        expected = """strict digraph G {\nrankdir=TB;\na [label=a];\nb [label=b];\na -> b  [color=red];\nd [label=d];\nb -> d  [color=red];\ne [label=e];\nb -> e  [color=red];\ng [label=g];\ne -> g  [color=red];\nh [label=h];\ne -> h  [color=red];\nc [label=c];\na -> c  [color=red];\nf [label=f];\nc -> f  [color=red];\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_edge.png")
         for expected_str in expected.split():
@@ -753,7 +753,7 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_node_attr(tree_node_style):
         graph = tree_to_dot(tree_node_style, node_attr="node_style")
-        expected = """strict digraph G {\na [fillcolor=gold, label=a, style=filled];\nb [fillcolor=blue, label=b, style=filled];\nb -> a;\nd [fillcolor=green, label=d, style=filled];\nd -> b;\ng [fillcolor=red, label=g, style=filled];\ng -> d;\ne [fillcolor=green, label=e, style=filled];\ne -> b;\nh [fillcolor=red, label=h, style=filled];\nh -> e;\nc [fillcolor=blue, label=c, style=filled];\nc -> a;\nf [fillcolor=green, label=f, style=filled];\nf -> c;\n}\n"""
+        expected = """strict digraph G {\nrankdir=TB;\na [fillcolor=gold, label=a, style=filled];\nb [fillcolor=blue, label=b, style=filled];\na -> b;\nd [fillcolor=green, label=d, style=filled];\nb -> d;\ng [fillcolor=red, label=g, style=filled];\nd -> g;\ne [fillcolor=green, label=e, style=filled];\nb -> e;\nh [fillcolor=red, label=h, style=filled];\ne -> h;\nc [fillcolor=blue, label=c, style=filled];\na -> c;\nf [fillcolor=green, label=f, style=filled];\nc -> f;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_style.png")
         for expected_str in expected.split():

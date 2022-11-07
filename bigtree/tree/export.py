@@ -652,7 +652,7 @@ def tree_to_dot(
         node = pydot.Node(name=child_name, label=child_name, **node_style)
         _graph.add_node(node)
         if parent_name is not None:
-            edge = pydot.Edge(child_name, parent_name, **edge_style)
+            edge = pydot.Edge(parent_name, child_name, **edge_style)
             _graph.add_edge(edge)
         for child in child_node.children:
             recursive_create_node_and_edges(child_name, child)
