@@ -18,9 +18,9 @@ def preorder_iter(
     """Iterate through all children of a tree.
 
     Pre-Order Iteration Algorithm, NLR
-    1. Visit the current node.
-    2. Recursively traverse the current node's left subtree.
-    3. Recursively traverse the current node's right subtree.
+        1. Visit the current node.
+        2. Recursively traverse the current node's left subtree.
+        3. Recursively traverse the current node's right subtree.
     It is topologically sorted because a parent node is processed before its child nodes.
 
     >>> from bigtree import Node, list_to_tree, preorder_iter, print_tree
@@ -79,10 +79,10 @@ def postorder_iter(
 ) -> Iterable:
     """Iterate through all children of a tree.
 
-    Post-Order Iteration Algorithm, LNR
-    1. Recursively traverse the current node's left subtree.
-    2. Recursively traverse the current node's right subtree.
-    3. Visit the current node.
+    Post-Order Iteration Algorithm, LRN
+        1. Recursively traverse the current node's left subtree.
+        2. Recursively traverse the current node's right subtree.
+        3. Visit the current node.
 
     >>> from bigtree import Node, list_to_tree, postorder_iter, print_tree
     >>> root = Node("a")
@@ -134,7 +134,7 @@ def levelorder_iter(
     """Iterate through all children of a tree.
 
     Level Order Algorithm
-    1. Recursively traverse the nodes on same level.
+        1. Recursively traverse the nodes on same level.
 
     >>> from bigtree import Node, list_to_tree, levelorder_iter, print_tree
     >>> root = Node("a")
@@ -189,7 +189,7 @@ def levelordergroup_iter(
     """Iterate through all children of a tree.
 
     Level Order Group Algorithm
-    1. Recursively traverse the nodes on same level, returns nodes level by level in a nested list.
+        1. Recursively traverse the nodes on same level, returns nodes level by level in a nested list.
 
     >>> from bigtree import Node, list_to_tree, levelordergroup_iter, print_tree
     >>> root = Node("a")

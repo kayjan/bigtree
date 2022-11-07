@@ -35,6 +35,7 @@ def shift_nodes(
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
       - Path name can be partial path (trailing part of path) or node name.
+      - Path name must be unique to one node.
 
     For paths in `to_paths`,
       - Can set to empty string or None to delete the path in `from_paths`.
@@ -99,6 +100,7 @@ def copy_nodes(
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
       - Path name can be partial path (trailing part of path) or node name.
+      - Path name must be unique to one node.
 
     For paths in `to_paths`,
       - Can set to empty string or None to delete the path in `from_paths`.
@@ -166,6 +168,7 @@ def copy_nodes_from_tree_to_tree(
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
       - Path name can be partial path (trailing part of path) or node name.
+      - Path name must be unique to one node.
 
     For paths in `to_paths`,
       - Can set to empty string or None to delete the path in `from_paths`.
@@ -236,6 +239,7 @@ def copy_or_shift_logic(
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
       - Path name can be partial path (trailing part of path) or node name.
+      - Path name must be unique to one node.
 
     For paths in `to_paths`,
       - Can set to empty string or None to delete the path in `from_paths`.

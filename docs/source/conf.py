@@ -3,6 +3,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../.."))
+import bigtree
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -15,7 +16,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 project = "bigtree"
 copyright = "2022, Kay Jan WONG"
 author = "Kay Jan WONG"
-release = "0.1.0"
+release = bigtree.__version__
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

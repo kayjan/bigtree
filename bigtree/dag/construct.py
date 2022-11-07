@@ -50,7 +50,7 @@ def list_to_dag(
 
 def dict_to_dag(
     relation_attrs: dict,
-    parent_key: str = "parent",
+    parent_key: str = "parents",
     node_type: Type[DAGNode] = DAGNode,
 ) -> DAGNode:
     """Construct DAG from nested dictionary, ``key``: child name, ``value``: dict of parent names, attribute name and
@@ -61,11 +61,11 @@ def dict_to_dag(
     >>> relation_dict = {
     ...     "a": {"step": 1},
     ...     "b": {"step": 1},
-    ...     "c": {"parent": ["a", "b"], "step": 2},
-    ...     "d": {"parent": ["a", "c"], "step": 2},
-    ...     "e": {"parent": ["d"], "step": 3},
+    ...     "c": {"parents": ["a", "b"], "step": 2},
+    ...     "d": {"parents": ["a", "c"], "step": 2},
+    ...     "e": {"parents": ["d"], "step": 3},
     ... }
-    >>> dag = dict_to_dag(relation_dict, parent_key="parent")
+    >>> dag = dict_to_dag(relation_dict, parent_key="parents")
     >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
     [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
