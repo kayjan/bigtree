@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Work In Progress
 - Node: WeightedNode for weighted edge tree implementation.
 
+## [0.3.2] - 2022-11-07
+### Added
+- Tree Exporter: Fix edge direction error
+
 ## [0.3.1] - 2022-11-07
 ### Added
 - Tree Exporter and DAG Exporter: More customizations for Node to dot and DAGNode to dot.
@@ -35,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterators: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.3.2]: https://github.com/kayjan/bigtree/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/kayjan/bigtree/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/kayjan/bigtree/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/kayjan/bigtree/compare/v0.1.0...v0.2.0
