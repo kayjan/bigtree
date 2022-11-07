@@ -512,6 +512,12 @@ class BaseNode:
         obj.__dict__.update(self.__dict__)
         return obj
 
+    def __repr__(self):
+        class_name = self.__class__.__name__
+        node_dict = self.describe(exclude_prefix="_")
+        node_description = ", ".join([f"{k}={v}" for k, v in node_dict])
+        return f"{class_name}({node_description})"
+
     def __rshift__(self, other):
         """Set children using >> bitshift operator for self >> other
 

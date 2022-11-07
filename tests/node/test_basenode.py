@@ -5,6 +5,7 @@ import pytest
 
 from bigtree import BaseNode
 from bigtree.utils.exceptions import LoopError, TreeError
+from tests.conftest import assert_print_statement
 
 
 class TestBaseNode(unittest.TestCase):
@@ -60,6 +61,7 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_generic(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
+        assert_print_statement(print, "BaseNode(age=90, name=a)\n", self.a)
 
     def test_set_parent_error(self):
         with pytest.raises(ValueError) as exc_info:

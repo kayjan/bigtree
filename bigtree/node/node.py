@@ -145,8 +145,6 @@ class Node(BaseNode):
 
     def __repr__(self):
         class_name = self.__class__.__name__
-        node_dict = self.describe(exclude_attributes=["name"])
-        node_description = ", ".join(
-            [f"{k}={v}" for k, v in node_dict if not k.startswith("_")]
-        )
+        node_dict = self.describe(exclude_prefix="_", exclude_attributes=["name"])
+        node_description = ", ".join([f"{k}={v}" for k, v in node_dict])
         return f"{class_name}({self.path_name}, {node_description})"
