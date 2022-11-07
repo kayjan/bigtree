@@ -435,14 +435,15 @@ def list_to_tree_tuples(
 
     node_dict = {}
     for parent_name, child_name in relations:
-        if not node_dict.get(parent_name):
-            node_dict[parent_name] = node_type(parent_name)
         if not node_dict.get(child_name):
             node_dict[child_name] = node_type(child_name)
-
-        parent_node = node_dict[parent_name]
         child_node = node_dict[child_name]
-        child_node.parent = parent_node
+
+        if parent_name:
+            if not node_dict.get(parent_name):
+                node_dict[parent_name] = node_type(parent_name)
+            parent_node = node_dict[parent_name]
+            child_node.parent = parent_node
     root = child_node.root
     return root
 

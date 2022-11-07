@@ -862,6 +862,19 @@ class TestListToTreeTuples(unittest.TestCase):
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_node_root_generic(root)
 
+    def test_list_to_tree_tuples_empty_parent(self):
+        self.relations = self.relations[::-1]
+        self.relations.append((None, "a"))
+        root = list_to_tree_tuples(self.relations)
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
+    @staticmethod
+    def test_list_to_tree_tuples_one_tuple():
+        root = list_to_tree_tuples([(None, "a")])
+        assert root.max_depth == 1, "Max depth is wrong"
+        assert root.node_name == "a", "Node name is wrong"
+
     def test_list_to_tree_tuples_empty(self):
         with pytest.raises(ValueError):
             list_to_tree_tuples([])
