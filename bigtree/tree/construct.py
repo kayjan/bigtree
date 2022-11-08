@@ -567,7 +567,6 @@ def nested_dict_to_tree(
     node_attrs: dict,
     name_key: str = "name",
     child_key: str = "children",
-    sep: str = "/",
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from nested recursive dictionary.
@@ -605,7 +604,6 @@ def nested_dict_to_tree(
             value of `child_key` (list): list of dict containing `name_key` and `child_key` (recursive)
         name_key (str): key of node name, value is type str
         child_key (str): key of child list, value is type list
-        sep (str): path separator of created tree, defaults to `/`
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -622,7 +620,6 @@ def nested_dict_to_tree(
         return node
 
     root_node = recursive_add_child(node_attrs)
-    root_node.sep = sep
     return root_node
 
 
@@ -728,7 +725,6 @@ def dataframe_to_tree_by_relation(
     child_col: str = "",
     parent_col: str = "",
     attribute_cols: list = [],
-    sep: str = "/",
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from pandas DataFrame using parent and child names, return root of tree.
@@ -772,8 +768,7 @@ def dataframe_to_tree_by_relation(
         parent_col (str): column of data containing parent name information, defaults to None
             if not set, it will take the second column of data
         attribute_cols (list): columns of data containing node attribute information,
-            if not set, it will take all columns of data except `path_col`
-        sep (str): path separator of input `path_col` and created tree, defaults to `/`
+            if not set, it will take all columns of data except `child_col` and `parent_col`
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -839,5 +834,4 @@ def dataframe_to_tree_by_relation(
             child_node = node_type(**node_attrs)
             child_node.parent = parent_node
 
-    root_node.sep = sep
     return root_node
