@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Node: WeightedNode for weighted edge tree implementation.
 
 ## [0.4.3] - 2022-11-08
-### Fixed
+### Added
 - Node: Print format for BaseNode.
 
 ## [0.4.2] - 2022-11-08
@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.1] - 2022-11-07
 ### Fixed
-- Tree Constructors: Able to handle adding attributes that are list - error in drop_duplicate() and pd.isnull()
+- Tree Constructors: Handle adding attributes that are array-like - error in drop_duplicate() and pd.isnull()
 
 ## [0.4.0] - 2022-11-07
 ### Added
