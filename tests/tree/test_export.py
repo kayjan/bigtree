@@ -70,9 +70,26 @@ class TestPrintTree:
         )
 
     @staticmethod
-    def test_print_tree_child_node(tree_node):
+    def test_print_tree_child_node_name(tree_node):
         expected_str = """b\n|-- d\n`-- e\n    |-- g\n    `-- h\n"""
-        assert_print_statement(print_tree, expected_str, tree=tree_node, node_name="b")
+        assert_print_statement(
+            print_tree,
+            expected_str,
+            tree=tree_node,
+            node_name_or_path="b",
+            style="ansi",
+        )
+
+    @staticmethod
+    def test_print_tree_child_node_path(tree_node):
+        expected_str = """b\n|-- d\n`-- e\n    |-- g\n    `-- h\n"""
+        assert_print_statement(
+            print_tree,
+            expected_str,
+            tree=tree_node,
+            node_name_or_path="a/b",
+            style="ansi",
+        )
 
     @staticmethod
     def test_print_tree_unequal_char(tree_node):
@@ -94,18 +111,25 @@ class TestPrintTree:
             tree=tree_node,
             attr_list=["age"],
             attr_omit_null=False,
+            style="ansi",
         )
 
     @staticmethod
     def test_print_tree_all_attr(tree_node):
         expected_str = """a [age=90]\n|-- b [age=65]\n|   |-- d [age=40]\n|   `-- e [age=35]\n|       |-- g [age=10]\n|       `-- h [age=6]\n`-- c [age=60]\n    `-- f [age=38]\n"""
-        assert_print_statement(print_tree, expected_str, tree=tree_node, all_attrs=True)
+        assert_print_statement(
+            print_tree, expected_str, tree=tree_node, all_attrs=True, style="ansi"
+        )
 
     @staticmethod
     def test_print_tree_all_attr_empty(tree_node_no_attr):
         expected_str = """a\n|-- b\n|   |-- d\n|   `-- e\n|       |-- g\n|       `-- h\n`-- c\n    `-- f\n"""
         assert_print_statement(
-            print_tree, expected_str, tree=tree_node_no_attr, all_attrs=True
+            print_tree,
+            expected_str,
+            tree=tree_node_no_attr,
+            all_attrs=True,
+            style="ansi",
         )
 
 

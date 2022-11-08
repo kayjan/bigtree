@@ -23,7 +23,7 @@ class AppToDo:
     >>> app.add_item(item_name="Homework 1", list_name="School")
     >>> app.add_item(item_name=["Milk", "Bread"], list_name="Groceries", description="Urgent")
     >>> app.add_item(item_name="Cook")
-    >>> app.show(style="const")
+    >>> app.show()
     To Do App
     ├── School
     │   └── Homework 1
@@ -36,7 +36,7 @@ class AppToDo:
     *Reorder List and Item*
 
     >>> app.prioritize_list(list_name="General")
-    >>> app.show(style="const")
+    >>> app.show()
     To Do App
     ├── General
     │   └── Cook
@@ -47,7 +47,7 @@ class AppToDo:
         └── Bread [description=Urgent]
 
     >>> app.prioritize_item(item_name="Bread")
-    >>> app.show(style="const")
+    >>> app.show()
     To Do App
     ├── General
     │   └── Cook
@@ -60,7 +60,7 @@ class AppToDo:
     *Removing Items*
 
     >>> app.remove_item("Homework 1")
-    >>> app.show(style="const")
+    >>> app.show()
     To Do App
     ├── General
     │   └── Cook
@@ -72,7 +72,7 @@ class AppToDo:
 
     >>> app.save("list.json")
     >>> app2 = AppToDo.load("list.json")
-    >>> app2.show(style="const")
+    >>> app2.show()
     To Do App
     ├── General
     │   └── Cook

@@ -11,13 +11,16 @@ from bigtree.tree.construct import (
     add_dict_to_tree_by_path,
     add_path_to_tree,
     dataframe_to_tree,
+    dataframe_to_tree_by_relation,
     dict_to_tree,
     list_to_tree,
-    list_to_tree_tuples,
+    list_to_tree_by_relation,
     nested_dict_to_tree,
 )
+from bigtree.tree.export import print_tree
 from bigtree.tree.search import find_name, find_names
 from bigtree.utils.exceptions import DuplicatedNodeError, TreeError
+from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root_attr,
     assert_tree_structure_basenode_root_generic,
@@ -844,7 +847,7 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(root)
 
 
-class TestListToTreeTuples(unittest.TestCase):
+class TestListToTreeByRelation(unittest.TestCase):
     def setUp(self):
         """
         Tree should have structure
@@ -870,32 +873,48 @@ class TestListToTreeTuples(unittest.TestCase):
     def tearDown(self):
         self.relations = None
 
-    def test_list_to_tree_tuples(self):
-        root = list_to_tree_tuples(self.relations)
+    def test_list_to_tree_by_relation(self):
+        root = list_to_tree_by_relation(self.relations)
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_node_root_generic(root)
 
-    def test_list_to_tree_tuples_reversed(self):
-        root = list_to_tree_tuples(self.relations[::-1])
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
-
-    def test_list_to_tree_tuples_empty_parent(self):
-        self.relations = self.relations[::-1]
-        self.relations.append((None, "a"))
-        root = list_to_tree_tuples(self.relations)
+    def test_list_to_tree_by_relation_reversed(self):
+        root = list_to_tree_by_relation(self.relations[::-1])
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_node_root_generic(root)
 
     @staticmethod
-    def test_list_to_tree_tuples_one_tuple():
-        root = list_to_tree_tuples([(None, "a")])
+    def test_list_to_tree_by_relation_duplicate_leaf_node():
+        relations = [
+            ("a", "b"),
+            ("a", "c"),
+            ("b", "d"),
+            ("b", "e"),
+            ("b", "h"),
+            ("c", "h"),
+            ("e", "g"),
+            ("e", "h"),
+        ]
+        root = list_to_tree_by_relation(relations)
+        expected = """a\n├── b\n│   ├── d\n│   ├── e\n│   │   ├── g\n│   │   └── h\n│   └── h\n└── c\n    └── h\n"""
+        assert_print_statement(print_tree, expected, tree=root, style="const")
+
+    def test_list_to_tree_by_relation_empty_parent(self):
+        self.relations = self.relations[::-1]
+        self.relations.append((None, "a"))
+        root = list_to_tree_by_relation(self.relations)
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
+    @staticmethod
+    def test_list_to_tree_by_relation_one_tuple():
+        root = list_to_tree_by_relation([(None, "a")])
         assert root.max_depth == 1, "Max depth is wrong"
         assert root.node_name == "a", "Node name is wrong"
 
-    def test_list_to_tree_tuples_empty(self):
+    def test_list_to_tree_by_relation_empty(self):
         with pytest.raises(ValueError):
-            list_to_tree_tuples([])
+            list_to_tree_by_relation([])
 
 
 class TestListToTree(unittest.TestCase):
@@ -1453,3 +1472,134 @@ class TestDataFrameToTree(unittest.TestCase):
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root_generic(root)
+
+
+class TestDataFrameToTreeByRelation(unittest.TestCase):
+    def setUp(self):
+        self.relation_data = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            columns=["child", "parent", "age"],
+        )
+
+    def tearDown(self):
+        self.relation_data = None
+
+    def test_dataframe_to_tree_by_relation(self):
+        root = dataframe_to_tree_by_relation(self.relation_data)
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root_generic(root)
+
+    def test_dataframe_to_tree_by_relation_col_name(self):
+        root = dataframe_to_tree_by_relation(
+            self.relation_data,
+            child_col="child",
+            parent_col="parent",
+            attribute_cols=["age"],
+        )
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root_generic(root)
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_duplicate_leaf_node():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["h", "b", 1],
+                ["h", "c", 2],
+                ["g", "e", 10],
+                ["h", "e", 1],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        root = dataframe_to_tree_by_relation(relation_data)
+        expected = """a\n├── b\n│   ├── d\n│   ├── e\n│   │   ├── g\n│   │   └── h\n│   └── h\n└── c\n    └── h\n"""
+        assert_print_statement(print_tree, expected, tree=root, style="const")
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_empty_row():
+        data = pd.DataFrame(columns=["child", "parent"])
+        with pytest.raises(ValueError):
+            dataframe_to_tree_by_relation(data)
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_empty_col():
+        data = pd.DataFrame()
+        with pytest.raises(ValueError):
+            dataframe_to_tree_by_relation(data)
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_duplicated_intermediate_node():
+        data = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["e", "c", 1],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            dataframe_to_tree_by_relation(data)
+        assert str(exc_info.value).startswith(
+            "There exists duplicate child with different parent"
+        )
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_multiple_root():
+        data = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", None, 65],
+                ["c", "a", 60],
+                ["e", "b", 40],
+                ["e", "b", 35],
+                ["h", "b", 1],
+                ["h", "c", 2],
+                ["g", "e", 10],
+                ["h", "e", 1],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            dataframe_to_tree_by_relation(data)
+        assert str(exc_info.value).startswith("Unable to determine root node")
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_no_root():
+        data = pd.DataFrame(
+            [
+                ["a", "b", 90],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["h", "b", 1],
+                ["h", "c", 2],
+                ["g", "e", 10],
+                ["h", "e", 1],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            dataframe_to_tree_by_relation(data)
+        assert str(exc_info.value).startswith("Unable to determine root node")

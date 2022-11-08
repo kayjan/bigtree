@@ -64,13 +64,13 @@ def prune_tree(tree: Node, prune_path: str, sep: str = "/") -> Node:
     >>> c = Node("c", parent=root)
     >>> print_tree(root)
     a
-    |-- b
-    `-- c
+    ├── b
+    └── c
 
     >>> root_pruned = prune_tree(root, "a/b")
     >>> print_tree(root_pruned)
     a
-    `-- b
+    └── b
 
     Args:
         tree (Node): existing tree
@@ -111,19 +111,19 @@ def get_tree_diff(
     >>> c = Node("c", parent=root)
     >>> print_tree(root)
     a
-    |-- b
-    `-- c
+    ├── b
+    └── c
 
     >>> root_other = Node("a")
     >>> b_other = Node("b", parent=root_other)
     >>> print_tree(root_other)
     a
-    `-- b
+    └── b
 
     >>> tree_diff = get_tree_diff(root, root_other)
     >>> print_tree(tree_diff)
     a
-    `-- c (-)
+    └── c (-)
 
     Args:
         tree (Node): tree to be compared against

@@ -1,4 +1,4 @@
-__version__ = "0.4.5"
+__version__ = "0.4.6"
 
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
 from bigtree.dag.export import dag_to_dataframe, dag_to_dict, dag_to_dot, dag_to_list
@@ -12,9 +12,10 @@ from bigtree.tree.construct import (
     add_dict_to_tree_by_path,
     add_path_to_tree,
     dataframe_to_tree,
+    dataframe_to_tree_by_relation,
     dict_to_tree,
     list_to_tree,
-    list_to_tree_tuples,
+    list_to_tree_by_relation,
     nested_dict_to_tree,
 )
 from bigtree.tree.export import (

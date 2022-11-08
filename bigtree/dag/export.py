@@ -114,11 +114,11 @@ def dag_to_dataframe(
       name parent  step no.
     0    a   None         1
     1    c      a         2
-    3    d      a         2
-    4    b   None         1
-    5    c      b         2
-    6    d      c         2
-    7    e      d         3
+    2    d      a         2
+    3    b   None         1
+    4    c      b         2
+    5    d      c         2
+    6    e      d         3
 
     Args:
         dag (DAGNode): DAG to be exported
