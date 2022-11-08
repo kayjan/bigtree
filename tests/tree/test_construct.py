@@ -3,7 +3,6 @@ import unittest
 import pandas as pd
 import pytest
 
-from bigtree import find_names
 from bigtree.node.node import Node
 from bigtree.tree.construct import (
     add_dataframe_to_tree_by_name,
@@ -17,6 +16,7 @@ from bigtree.tree.construct import (
     list_to_tree_tuples,
     nested_dict_to_tree,
 )
+from bigtree.tree.search import find_name, find_names
 from bigtree.utils.exceptions import DuplicatedNodeError, TreeError
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root_attr,
@@ -361,6 +361,24 @@ class TestAddDictToTreeByName(unittest.TestCase):
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root_generic(root)
+
+    def test_add_dict_to_tree_by_name_different_dtype(self):
+        name_dict = {
+            "a": {"random": [1]},
+            "b": {"random": [1, 2]},
+            "c": {"random": [1, None]},
+            "d": {"random": [None]},
+            "e": {"random": None},
+            "f": {"random": 0},
+            "g": {"random": -1},
+            "h": {"random": [-1]},
+        }
+        root = add_dict_to_tree_by_name(self.root, name_dict)
+        nodes = ["a", "b", "c", "d", "e", "f", "g", "h"]
+        expected_list = [[1], [1, 2], [1, None], None, None, 0, -1, [-1]]
+        for node_name, expected in zip(nodes, expected_list):
+            actual = find_name(root, node_name).get_attr("random")
+            assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
     def test_add_dict_to_tree_by_name_empty(self):
         with pytest.raises(ValueError):
