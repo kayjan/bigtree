@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Work In Progress
 - Node: WeightedNode for weighted edge tree implementation.
 
+## [0.4.5] - 2022-11-08
+### Changed
+- Tree Exporter: Printing tree with added ability to omit null attributes.
+
 ## [0.4.4] - 2022-11-08
 ### Fixed
 - Tree Constructors: Handle adding attributes that are array-like - add array even when one of the items is null
@@ -71,7 +75,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterators: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[0.4.3]: https://github.com/kayjan/bigtree/compare/v0.4.3...v0.4.4
+[0.4.5]: https://github.com/kayjan/bigtree/compare/v0.4.4...v0.4.5
+[0.4.4]: https://github.com/kayjan/bigtree/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/kayjan/bigtree/compare/v0.4.2...v0.4.3
 [0.4.2]: https://github.com/kayjan/bigtree/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/kayjan/bigtree/compare/v0.4.0...v0.4.1

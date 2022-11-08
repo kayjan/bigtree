@@ -63,6 +63,13 @@ class TestPrintTree:
             print_tree(tree_node, style="something")
 
     @staticmethod
+    def test_print_tree_no_attr(tree_node):
+        expected_str = """a\n|-- b\n|   |-- d\n|   `-- e\n|       |-- g\n|       `-- h\n`-- c\n    `-- f\n"""
+        assert_print_statement(
+            print_tree, expected_str, tree=tree_node, attr_list=["random"], style="ansi"
+        )
+
+    @staticmethod
     def test_print_tree_child_node(tree_node):
         expected_str = """b\n|-- d\n`-- e\n    |-- g\n    `-- h\n"""
         assert_print_statement(print_tree, expected_str, tree=tree_node, node_name="b")
@@ -82,7 +89,11 @@ class TestPrintTree:
     def test_print_tree_attr(tree_node):
         expected_str = """a [age=90]\n|-- b [age=65]\n|   |-- d [age=40]\n|   `-- e [age=35]\n|       |-- g [age=10]\n|       `-- h [age=6]\n`-- c [age=60]\n    `-- f [age=38]\n"""
         assert_print_statement(
-            print_tree, expected_str, tree=tree_node, attr_list=["age"]
+            print_tree,
+            expected_str,
+            tree=tree_node,
+            attr_list=["age"],
+            attr_omit_null=False,
         )
 
     @staticmethod
