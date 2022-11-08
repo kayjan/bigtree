@@ -300,7 +300,7 @@ def add_dataframe_to_tree_by_path(
     for row in data.to_dict(orient="index").values():
         node_attrs = row.copy()
         del node_attrs[path_col]
-        node_attrs = {k: v for k, v in node_attrs.items() if not np.any(pd.isnull(v))}
+        node_attrs = {k: v for k, v in node_attrs.items() if not np.all(pd.isnull(v))}
         add_path_to_tree(
             tree_root,
             row[path_col],

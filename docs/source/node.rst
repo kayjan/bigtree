@@ -6,3 +6,4 @@ Node
 
    bigtree/node/basenode
    bigtree/node/node
+   bigtree/node/dagnode
