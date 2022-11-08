@@ -34,6 +34,7 @@ def print_tree(
     max_depth: int = None,
     all_attrs: bool = False,
     attr_list: List[str] = None,
+    attr_omit_null: bool = True,
     attr_bracket_open: str = "[",
     attr_bracket_close: str = "]",
     style: str = "ansi",
@@ -46,6 +47,7 @@ def print_tree(
     - Able to select which node to print from, resulting in a subtree, using `node_name`
     - Able to customize for maximum depth to print, using `max_depth`
     - Able to choose which attributes to show or show all attributes, using `attr_name_filter` and `all_attrs`
+    - Able to omit showing of attributes if it is null, using `attr_omit_null`
     - Able to customize open and close brackets if attributes are shown
     - Able to customize style, to choose from `ansi`, `ascii`, `const`, `rounded`, `double`, and `custom` style
         - Default style is `ansi` style
@@ -145,6 +147,7 @@ def print_tree(
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         all_attrs (bool): indicator to show all attributes, overrides `attr_list`
         attr_list (list): list of node attributes to print, optional
+        attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to True
         attr_bracket_open (str): open bracket for `attr_list`
         attr_bracket_close (str): close bracket for `attr_list`
         style (str): style of print, defaults to abstract style
@@ -169,10 +172,23 @@ def print_tree(
                 attr_str = ", ".join([f"{k}={v}" for k, v in attrs])
                 attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
         elif attr_list:
-            attr_str = ", ".join(
-                [f"{attr_name}={_node.get_attr(attr_name)}" for attr_name in attr_list]
-            )
-            attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
+            if attr_omit_null:
+                attr_str = ", ".join(
+                    [
+                        f"{attr_name}={_node.get_attr(attr_name)}"
+                        for attr_name in attr_list
+                        if _node.get_attr(attr_name)
+                    ]
+                )
+            else:
+                attr_str = ", ".join(
+                    [
+                        f"{attr_name}={_node.get_attr(attr_name)}"
+                        for attr_name in attr_list
+                    ]
+                )
+            if attr_str:
+                attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
         node_str = f"{_node.node_name}{attr_str}"
         print(f"{pre_str}{fill_str}{node_str}")
 
