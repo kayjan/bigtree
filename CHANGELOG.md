@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Tree Exporter: Printing tree to define node name or path, and default to const style.
 - Tree Constructor: Rename `list_to_tree_tuples` to `list_to_tree_by_relation`
+- Tree Constructor: Remove parameter `sep` for `nested_dict_to_tree`
 
 ## [0.4.5] - 2022-11-08
 ### Changed
