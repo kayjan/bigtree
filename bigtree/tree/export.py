@@ -4,7 +4,7 @@ from typing import Any, Dict, List
 import pandas as pd
 
 from bigtree.node.node import Node
-from bigtree.tree.search import find_name
+from bigtree.tree.search import find_path
 from bigtree.utils.iterators import preorder_iter
 
 __all__ = [
@@ -30,27 +30,27 @@ available_styles = {
 
 def print_tree(
     tree: Node,
-    node_name: str = "",
+    node_name_or_path: str = "",
     max_depth: int = None,
     all_attrs: bool = False,
     attr_list: List[str] = None,
     attr_omit_null: bool = True,
     attr_bracket_open: str = "[",
     attr_bracket_close: str = "]",
-    style: str = "ansi",
+    style: str = "const",
     style_stem: str = "",
     style_branch: str = "",
     style_stem_final: str = "",
 ):
     """Print tree to console, starting from `tree`.
 
-    - Able to select which node to print from, resulting in a subtree, using `node_name`
+    - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
     - Able to choose which attributes to show or show all attributes, using `attr_name_filter` and `all_attrs`
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
     - Able to customize open and close brackets if attributes are shown
     - Able to customize style, to choose from `ansi`, `ascii`, `const`, `rounded`, `double`, and `custom` style
-        - Default style is `ansi` style
+        - Default style is `const` style
         - If style is set to custom, user can choose their own style for stem, branch and final stem icons
         - Stem, branch, and final stem symbol should have the same number of characters
 
@@ -64,38 +64,38 @@ def print_tree(
     >>> e = Node("e", age=35, parent=b)
     >>> print_tree(root)
     a
-    |-- b
-    |   |-- d
-    |   `-- e
-    `-- c
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
 
     **Printing Sub-tree**
 
-    >>> print_tree(root, node_name="b")
+    >>> print_tree(root, node_name_or_path="b")
     b
-    |-- d
-    `-- e
+    ├── d
+    └── e
 
     >>> print_tree(root, max_depth=2)
     a
-    |-- b
-    `-- c
+    ├── b
+    └── c
 
     **Printing Attributes**
 
     >>> print_tree(root, attr_list=["age"])
     a [age=90]
-    |-- b [age=65]
-    |   |-- d [age=40]
-    |   `-- e [age=35]
-    `-- c [age=60]
+    ├── b [age=65]
+    │   ├── d [age=40]
+    │   └── e [age=35]
+    └── c [age=60]
 
     >>> print_tree(root, attr_list=["age"], attr_bracket_open="*(", attr_bracket_close=")")
     a *(age=90)
-    |-- b *(age=65)
-    |   |-- d *(age=40)
-    |   `-- e *(age=35)
-    `-- c *(age=60)
+    ├── b *(age=65)
+    │   ├── d *(age=40)
+    │   └── e *(age=35)
+    └── c *(age=60)
 
     **Available Styles**
 
@@ -143,7 +143,7 @@ def print_tree(
 
     Args:
         tree (Node): tree to print
-        node_name (str): node to print from, becomes the root node of printing
+        node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         all_attrs (bool): indicator to show all attributes, overrides `attr_list`
         attr_list (list): list of node attributes to print, optional
@@ -157,7 +157,7 @@ def print_tree(
     """
     for pre_str, fill_str, _node in yield_tree(
         tree=tree,
-        node_name=node_name,
+        node_name_or_path=node_name_or_path,
         max_depth=max_depth,
         style=style,
         style_stem=style_stem,
@@ -195,19 +195,19 @@ def print_tree(
 
 def yield_tree(
     tree: Node,
-    node_name: str = "",
+    node_name_or_path: str = "",
     max_depth: int = None,
-    style: str = "ansi",
+    style: str = "const",
     style_stem: str = "",
     style_branch: str = "",
     style_stem_final: str = "",
 ):
     """Generator method for customizing printing of tree, starting from `tree`.
 
-    - Able to select which node to print from, resulting in a subtree, using `node_name`
+    - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
     - Able to customize style, to choose from `ansi`, `ascii`, `const`, `rounded`, `double`, and `custom` style
-        - Default style is `ansi` style
+        - Default style is `const` style
         - If style is set to custom, user can choose their own style for stem, branch and final stem icons
         - Stem, branch, and final stem symbol should have the same number of characters
 
@@ -222,24 +222,24 @@ def yield_tree(
     >>> for branch, stem, node in yield_tree(root):
     ...     print(f"{branch}{stem}{node.node_name}")
     a
-    |-- b
-    |   |-- d
-    |   `-- e
-    `-- c
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
 
     **Printing Sub-tree**
 
-    >>> for branch, stem, node in yield_tree(root, node_name="b"):
+    >>> for branch, stem, node in yield_tree(root, node_name_or_path="b"):
     ...     print(f"{branch}{stem}{node.node_name}")
     b
-    |-- d
-    `-- e
+    ├── d
+    └── e
 
     >>> for branch, stem, node in yield_tree(root, max_depth=2):
     ...     print(f"{branch}{stem}{node.node_name}")
     a
-    |-- b
-    `-- c
+    ├── b
+    └── c
 
     **Available Styles**
 
@@ -303,7 +303,7 @@ def yield_tree(
 
     Args:
         tree (Node): tree to print
-        node_name (str): node to print from, becomes the root node of printing, optional
+        node_name_or_path (str): node to print from, becomes the root node of printing, optional
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         style (str): style of print, defaults to abstract style
         style_stem (str): style of stem, used when `style` is set to 'custom'
@@ -316,8 +316,8 @@ def yield_tree(
         )
 
     tree = tree.copy()
-    if node_name:
-        tree = find_name(tree, node_name)
+    if node_name_or_path:
+        tree = find_path(tree, node_name_or_path)
     tree.parent = None
 
     # Set style

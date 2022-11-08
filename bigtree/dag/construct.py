@@ -108,12 +108,12 @@ def dataframe_to_dag(
 
     `child_col` and `parent_col` specify columns for child name and parent name to construct DAG.
     `attribute_cols` specify columns for node attribute for child name
-    If columns are not specified, `parent_col` takes first column, `child_col` takes second column, and all other
+    If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
     columns are `attribute_cols`.
 
     >>> import pandas as pd
     >>> from bigtree import dataframe_to_dag, dag_iterator
-    >>> path_data = pd.DataFrame([
+    >>> relation_data = pd.DataFrame([
     ...     ["a", None, 1],
     ...     ["b", None, 1],
     ...     ["c", "a", 2],
@@ -124,7 +124,7 @@ def dataframe_to_dag(
     ... ],
     ...     columns=["child", "parent", "step"]
     ... )
-    >>> dag = dataframe_to_dag(path_data)
+    >>> dag = dataframe_to_dag(relation_data)
     >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
     [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 

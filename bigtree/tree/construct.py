@@ -15,11 +15,12 @@ __all__ = [
     "add_dict_to_tree_by_name",
     "add_dataframe_to_tree_by_path",
     "add_dataframe_to_tree_by_name",
-    "list_to_tree_tuples",
+    "list_to_tree_by_relation",
     "list_to_tree",
     "dict_to_tree",
     "nested_dict_to_tree",
     "dataframe_to_tree",
+    "dataframe_to_tree_by_relation",
 ]
 
 
@@ -49,8 +50,8 @@ def add_path_to_tree(
     Node(/a/b/c, )
     >>> print_tree(root)
     a
-    `-- b
-        `-- c
+    └── b
+        └── c
 
     Args:
         tree (Node): existing tree
@@ -132,13 +133,13 @@ def add_dict_to_tree_by_path(
     >>> root = add_dict_to_tree_by_path(root, path_dict)
     >>> print_tree(root)
     a
-    |-- b
-    |   |-- d
-    |   `-- e
-    |       |-- g
-    |       `-- h
-    `-- c
-        `-- f
+    ├── b
+    │   ├── d
+    │   └── e
+    │       ├── g
+    │       └── h
+    └── c
+        └── f
 
     Args:
         tree (Node): existing tree
@@ -186,7 +187,7 @@ def add_dict_to_tree_by_name(
     >>> root = add_dict_to_tree_by_name(root, name_dict)
     >>> print_tree(root, attr_list=["age"])
     a [age=90]
-    `-- b [age=65]
+    └── b [age=65]
 
     Args:
         tree (Node): existing tree
@@ -249,13 +250,13 @@ def add_dataframe_to_tree_by_path(
     >>> root = add_dataframe_to_tree_by_path(root, path_data)
     >>> print_tree(root, attr_list=["age"])
     a [age=90]
-    |-- b [age=65]
-    |   |-- d [age=40]
-    |   `-- e [age=35]
-    |       |-- g [age=10]
-    |       `-- h [age=6]
-    `-- c [age=60]
-        `-- f [age=38]
+    ├── b [age=65]
+    │   ├── d [age=40]
+    │   └── e [age=35]
+    │       ├── g [age=10]
+    │       └── h [age=6]
+    └── c [age=60]
+        └── f [age=38]
 
     Args:
         tree (Node): existing tree
@@ -340,7 +341,7 @@ def add_dataframe_to_tree_by_name(
     >>> root = add_dataframe_to_tree_by_name(root, name_data)
     >>> print_tree(root, attr_list=["age"])
     a [age=90]
-    `-- b [age=65]
+    └── b [age=65]
 
     Args:
         tree (Node): existing tree
@@ -404,24 +405,26 @@ def add_dataframe_to_tree_by_name(
     )
 
 
-def list_to_tree_tuples(
+def list_to_tree_by_relation(
     relations: List[Tuple[str, str]],
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from list of tuple containing parent-child names.
+    Note that node names must be unique since tree is created from parent-child names,
+    except for leaf nodes - names of leaf nodes may be repeated as there is no confusion.
 
-    >>> from bigtree import list_to_tree_tuples, print_tree
+    >>> from bigtree import list_to_tree_by_relation, print_tree
     >>> relations_list = [("a", "b"), ("a", "c"), ("b", "d"), ("b", "e"), ("c", "f"), ("e", "g"), ("e", "h")]
-    >>> root = list_to_tree_tuples(relations_list)
+    >>> root = list_to_tree_by_relation(relations_list)
     >>> print_tree(root)
     a
-    |-- b
-    |   |-- d
-    |   `-- e
-    |       |-- g
-    |       `-- h
-    `-- c
-        `-- f
+    ├── b
+    │   ├── d
+    │   └── e
+    │       ├── g
+    │       └── h
+    └── c
+        └── f
 
     Args:
         relations (list): list containing tuple containing parent-child names
@@ -433,19 +436,10 @@ def list_to_tree_tuples(
     if not len(relations):
         raise ValueError("Path list does not contain any data, check `relations`")
 
-    node_dict = {}
-    for parent_name, child_name in relations:
-        if not node_dict.get(child_name):
-            node_dict[child_name] = node_type(child_name)
-        child_node = node_dict[child_name]
-
-        if parent_name:
-            if not node_dict.get(parent_name):
-                node_dict[parent_name] = node_type(parent_name)
-            parent_node = node_dict[parent_name]
-            child_node.parent = parent_node
-    root = child_node.root
-    return root
+    relation_data = pd.DataFrame(relations, columns=["parent", "child"])
+    return dataframe_to_tree_by_relation(
+        relation_data, child_col="child", parent_col="parent", node_type=node_type
+    )
 
 
 def list_to_tree(
@@ -470,13 +464,13 @@ def list_to_tree(
     >>> root = list_to_tree(path_list)
     >>> print_tree(root)
     a
-    |-- b
-    |   |-- d
-    |   `-- e
-    |       |-- g
-    |       `-- h
-    `-- c
-        `-- f
+    ├── b
+    │   ├── d
+    │   └── e
+    │       ├── g
+    │       └── h
+    └── c
+        └── f
 
     Args:
         paths (list): list containing path strings
@@ -512,7 +506,8 @@ def dict_to_tree(
     duplicate_name_allowed: bool = True,
     node_type: Type[Node] = Node,
 ) -> Node:
-    """Construct tree from nested dictionary, ``key``: path, ``value``: dict of attribute name and attribute value.
+    """Construct tree from nested dictionary using path,
+    ``key``: path, ``value``: dict of attribute name and attribute value.
 
     Path should contain `Node` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
@@ -537,13 +532,13 @@ def dict_to_tree(
     >>> root = dict_to_tree(path_dict)
     >>> print_tree(root, attr_list=["age"])
     a [age=90]
-    |-- b [age=65]
-    |   |-- d [age=40]
-    |   `-- e [age=35]
-    |       |-- g [age=10]
-    |       `-- h [age=6]
-    `-- c [age=60]
-        `-- f [age=38]
+    ├── b [age=65]
+    │   ├── d [age=40]
+    │   └── e [age=35]
+    │       ├── g [age=10]
+    │       └── h [age=6]
+    └── c [age=60]
+        └── f [age=38]
 
     Args:
         path_attrs (dict): dictioning containing path and node attribute information,
@@ -598,10 +593,10 @@ def nested_dict_to_tree(
     >>> root = nested_dict_to_tree(path_dict)
     >>> print_tree(root, attr_list=["age"])
     a [age=90]
-    `-- b [age=65]
-        |-- d [age=40]
-        `-- e [age=35]
-            `-- g [age=10]
+    └── b [age=65]
+        ├── d [age=40]
+        └── e [age=35]
+            └── g [age=10]
 
     Args:
         node_attrs (dict): dictioning containing node, children, and node attribute information,
@@ -639,7 +634,7 @@ def dataframe_to_tree(
     duplicate_name_allowed: bool = True,
     node_type: Type[Node] = Node,
 ) -> Node:
-    """Construct tree from pandas DataFrame, return root of tree.
+    """Construct tree from pandas DataFrame using path, return root of tree.
     `path_col` and `attribute_cols` specify columns for node path and attributes to construct tree.
     If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`.
 
@@ -669,13 +664,13 @@ def dataframe_to_tree(
     >>> root = dataframe_to_tree(path_data)
     >>> print_tree(root, attr_list=["age"])
     a [age=90]
-    |-- b [age=65]
-    |   |-- d [age=40]
-    |   `-- e [age=35]
-    |       |-- g [age=10]
-    |       `-- h [age=6]
-    `-- c [age=60]
-        `-- f [age=38]
+    ├── b [age=65]
+    │   ├── d [age=40]
+    │   └── e [age=35]
+    │       ├── g [age=10]
+    │       └── h [age=6]
+    └── c [age=60]
+        └── f [age=38]
 
     Args:
         data (pandas.DataFrame): data containing path and node attribute information
@@ -724,5 +719,125 @@ def dataframe_to_tree(
         sep=sep,
         duplicate_name_allowed=duplicate_name_allowed,
     )
+    root_node.sep = sep
+    return root_node
+
+
+def dataframe_to_tree_by_relation(
+    data: pd.DataFrame,
+    child_col: str = "",
+    parent_col: str = "",
+    attribute_cols: list = [],
+    sep: str = "/",
+    node_type: Type[Node] = Node,
+) -> Node:
+    """Construct tree from pandas DataFrame using parent and child names, return root of tree.
+    Note that node names must be unique since tree is created from parent-child names,
+    except for leaf nodes - names of leaf nodes may be repeated as there is no confusion.
+
+    `child_col` and `parent_col` specify columns for child name and parent name to construct tree.
+    `attribute_cols` specify columns for node attribute for child name
+    If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
+    columns are `attribute_cols`.
+
+    >>> import pandas as pd
+    >>> from bigtree import dataframe_to_tree_by_relation, print_tree
+    >>> relation_data = pd.DataFrame([
+    ...     ["a", None, 90],
+    ...     ["b", "a", 65],
+    ...     ["c", "a", 60],
+    ...     ["d", "b", 40],
+    ...     ["e", "b", 35],
+    ...     ["f", "c", 38],
+    ...     ["g", "e", 10],
+    ...     ["h", "e", 6],
+    ... ],
+    ...     columns=["child", "parent", "age"]
+    ... )
+    >>> root = dataframe_to_tree_by_relation(relation_data)
+    >>> print_tree(root, attr_list=["age"])
+    a [age=90]
+    ├── b [age=65]
+    │   ├── d [age=40]
+    │   └── e [age=35]
+    │       ├── g [age=10]
+    │       └── h [age=6]
+    └── c [age=60]
+        └── f [age=38]
+
+    Args:
+        data (pandas.DataFrame): data containing path and node attribute information
+        child_col (str): column of data containing child name information, defaults to None
+            if not set, it will take the first column of data
+        parent_col (str): column of data containing parent name information, defaults to None
+            if not set, it will take the second column of data
+        attribute_cols (list): columns of data containing node attribute information,
+            if not set, it will take all columns of data except `path_col`
+        sep (str): path separator of input `path_col` and created tree, defaults to `/`
+        node_type (Type[Node]): node type of tree to be created, defaults to Node
+
+    Returns:
+        (Node)
+    """
+    if not len(data.columns):
+        raise ValueError("Data does not contain any columns, check `data`")
+    if not len(data):
+        raise ValueError("Data does not contain any rows, check `data`")
+
+    if not child_col:
+        child_col = data.columns[0]
+    if not parent_col:
+        parent_col = data.columns[1]
+    if not len(attribute_cols):
+        attribute_cols = list(data.columns)
+        attribute_cols.remove(child_col)
+        attribute_cols.remove(parent_col)
+
+    data_check = data.copy()[[child_col, parent_col]].drop_duplicates()
+    # Filter for child nodes that are parent of other nodes
+    data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
+    _duplicate_check = (
+        data_check[child_col]
+        .value_counts()
+        .to_frame("counts")
+        .rename_axis(child_col)
+        .reset_index()
+    )
+    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
+    if len(_duplicate_check):
+        raise ValueError(
+            f"There exists duplicate child with different parent where the child is also a parent node.\n"
+            f"Duplicated node names should not happen, but can only exist in leaf nodes to avoid confusion.\n"
+            f"Check {_duplicate_check}"
+        )
+
+    # If parent-child contains None -> root
+    root_names = list(data[data[parent_col].isnull()][child_col])
+    if not len(root_names):
+        root_names = list(set(data[parent_col]) - set(data[child_col]))
+    if len(root_names) != 1:
+        raise ValueError(f"Unable to determine root node\nCheck {root_names}")
+    root_name = root_names[0]
+    root_node = node_type(root_name)
+
+    # Child must be created before parent
+    data = data.sort_values([child_col, parent_col])
+
+    for row in data.to_dict(orient="index").values():
+        node_attrs = row.copy()
+        node_attrs["name"] = node_attrs[child_col]
+        parent_name = node_attrs[parent_col]
+        del node_attrs[child_col]
+        del node_attrs[parent_col]
+        node_attrs = {k: v for k, v in node_attrs.items() if not np.all(pd.isnull(v))}
+
+        # For root node
+        if not parent_name:
+            root_node.set_attrs(node_attrs)
+        else:
+            parent_node = find_name(root_node, parent_name)
+            child_node = node_type(**node_attrs)
+            child_node.parent = parent_node
+
     root_node.sep = sep
     return root_node

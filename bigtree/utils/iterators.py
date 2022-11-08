@@ -29,13 +29,13 @@ def preorder_iter(
     >>> root = list_to_tree(path_list)
     >>> print_tree(root)
     a
-    |-- b
-    |   |-- d
-    |   `-- e
-    |       |-- g
-    |       `-- h
-    `-- c
-        `-- f
+    ├── b
+    │   ├── d
+    │   └── e
+    │       ├── g
+    │       └── h
+    └── c
+        └── f
 
     >>> [node.node_name for node in preorder_iter(root)]
     ['a', 'b', 'd', 'e', 'g', 'h', 'c', 'f']
@@ -90,13 +90,13 @@ def postorder_iter(
     >>> root = list_to_tree(path_list)
     >>> print_tree(root)
     a
-    |-- b
-    |   |-- d
-    |   `-- e
-    |       |-- g
-    |       `-- h
-    `-- c
-        `-- f
+    ├── b
+    │   ├── d
+    │   └── e
+    │       ├── g
+    │       └── h
+    └── c
+        └── f
 
     >>> [node.node_name for node in postorder_iter(root)]
     ['d', 'g', 'h', 'e', 'b', 'f', 'c', 'a']
@@ -142,13 +142,13 @@ def levelorder_iter(
     >>> root = list_to_tree(path_list)
     >>> print_tree(root)
     a
-    |-- b
-    |   |-- d
-    |   `-- e
-    |       |-- g
-    |       `-- h
-    `-- c
-        `-- f
+    ├── b
+    │   ├── d
+    │   └── e
+    │       ├── g
+    │       └── h
+    └── c
+        └── f
 
     >>> [node.node_name for node in levelorder_iter(root)]
     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
@@ -197,13 +197,13 @@ def levelordergroup_iter(
     >>> root = list_to_tree(path_list)
     >>> print_tree(root)
     a
-    |-- b
-    |   |-- d
-    |   `-- e
-    |       |-- g
-    |       `-- h
-    `-- c
-        `-- f
+    ├── b
+    │   ├── d
+    │   └── e
+    │       ├── g
+    │       └── h
+    └── c
+        └── f
 
     >>> [[node.node_name for node in group] for group in levelordergroup_iter(root)]
     [['a'], ['b', 'c'], ['d', 'e', 'f'], ['g', 'h']]

@@ -47,17 +47,17 @@ def shift_nodes(
     >>> d = Node("d", parent=root)
     >>> print_tree(root)
     a
-    |-- b
-    |-- c
-    `-- d
+    ├── b
+    ├── c
+    └── d
 
     >>> shift_nodes(root, ["a/c", "a/d"], ["a/b/c", "a/dummy/d"])
     >>> print_tree(root)
     a
-    |-- b
-    |   `-- c
-    `-- dummy
-        `-- d
+    ├── b
+    │   └── c
+    └── dummy
+        └── d
 
     Args:
         tree (Node): tree to modify
@@ -112,19 +112,19 @@ def copy_nodes(
     >>> d = Node("d", parent=root)
     >>> print_tree(root)
     a
-    |-- b
-    |-- c
-    `-- d
+    ├── b
+    ├── c
+    └── d
 
     >>> copy_nodes(root, ["a/c", "a/d"], ["a/b/c", "a/dummy/d"])
     >>> print_tree(root)
     a
-    |-- b
-    |   `-- c
-    |-- c
-    |-- d
-    `-- dummy
-        `-- d
+    ├── b
+    │   └── c
+    ├── c
+    ├── d
+    └── dummy
+        └── d
 
     Args:
         tree (Node): tree to modify
@@ -180,18 +180,18 @@ def copy_nodes_from_tree_to_tree(
     >>> d = Node("d", parent=root)
     >>> print_tree(root)
     a
-    |-- b
-    |-- c
-    `-- d
+    ├── b
+    ├── c
+    └── d
 
     >>> root_other = Node("aa")
     >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/b", "a/c", "a/d"], ["aa/b", "aa/b/c", "aa/dummy/d"])
     >>> print_tree(root_other)
     aa
-    |-- b
-    |   `-- c
-    `-- dummy
-        `-- d
+    ├── b
+    │   └── c
+    └── dummy
+        └── d
 
     Args:
         from_tree (Node): tree to copy nodes from

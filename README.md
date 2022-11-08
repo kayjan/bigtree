@@ -106,9 +106,9 @@ d.parent = b
 
 print_tree(root, attr_list=["age"])
 # a [age=90]
-# |-- b [age=65]
-# |   `-- d [age=40]
-# `-- c [age=60]
+# ├── b [age=65]
+# │   └── d [age=40]
+# └── c [age=60]
 ```
 
 ```python
@@ -125,9 +125,9 @@ d << b
 
 print_tree(root, attr_list=["age"])
 # a [age=90]
-# |-- b [age=65]
-# |   `-- d [age=40]
-# `-- c [age=60]
+# ├── b [age=65]
+# │   └── d [age=40]
+# └── c [age=60]
 ```
 
 Alternatively, we can directly pass `parent` or `children` argument.
@@ -167,22 +167,22 @@ print_tree(root, style="ascii")
 Construct nodes only, list contains full paths of nodes or tuples of parent-child names.
 
 ```python
-from bigtree import list_to_tree, list_to_tree_tuples, print_tree
+from bigtree import list_to_tree, list_to_tree_by_relation, print_tree
 
 root = list_to_tree(["a/b/d", "a/c"])
 
 print_tree(root)
 # a
-# |-- b
-# |   `-- d
-# `-- c
+# ├── b
+# │   └── d
+# └── c
 
-root = list_to_tree_tuples([("a", "b"), ("a", "c"), ("b", "d")])
+root = list_to_tree_by_relation([("a", "b"), ("a", "c"), ("b", "d")])
 print_tree(root)
 # a
-# |-- b
-# |   `-- d
-# `-- c
+# ├── b
+# │   └── d
+# └── c
 ```
 
 3. **From *nested dictionary***
@@ -202,9 +202,9 @@ root = dict_to_tree(path_dict)
 
 print_tree(root, attr_list=["age"])
 # a [age=90]
-# |-- b [age=65]
-# |   `-- d [age=40]
-# `-- c [age=60]
+# ├── b [age=65]
+# │   └── d [age=40]
+# └── c [age=60]
 ```
 
 4. **From *nested recursive dictionary***
@@ -233,9 +233,9 @@ root = nested_dict_to_tree(path_dict)
 
 print_tree(root, attr_list=["age"])
 # a [age=90]
-# |-- b [age=65]
-# |   `-- d [age=40]
-# `-- c [age=60]
+# ├── b [age=65]
+# │   └── d [age=40]
+# └── c [age=60]
 ```
 
 5. **From *pandas DataFrame***
@@ -260,9 +260,9 @@ root = dataframe_to_tree(data)
 
 print_tree(root, attr_list=["age"])
 # a [age=90]
-# |-- b [age=65]
-# |   `-- d [age=40]
-# `-- c [age=60]
+# ├── b [age=65]
+# │   └── d [age=40]
+# └── c [age=60]
 ```
 
 ### Print Tree
@@ -271,6 +271,7 @@ After tree is constructed, it can be viewed by printing to console using `print_
 
 ```python
 from bigtree import Node, print_tree
+
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
 c = Node("c", age=60, parent=root)
@@ -278,36 +279,36 @@ d = Node("d", age=40, parent=b)
 e = Node("e", age=35, parent=b)
 print_tree(root)
 # a
-# |-- b
-# |   |-- d
-# |   `-- e
-# `-- c
+# ├── b
+# │   ├── d
+# │   └── e
+# └── c
 
 # Print sub-tree
-print_tree(root, node_name="b")
+print_tree(root, node_name_or_path="b")
 # b
-# |-- d
-# `-- e
+# ├── d
+# └── e
 
 print_tree(root, max_depth=2)
 # a
-# |-- b
-# `-- c
+# ├── b
+# └── c
 
 # Print attributes
 print_tree(root, attr_list=["age"])
 # a [age=90]
-# |-- b [age=65]
-# |   |-- d [age=40]
-# |   `-- e [age=35]
-# `-- c [age=60]
+# ├── b [age=65]
+# │   ├── d [age=40]
+# │   └── e [age=35]
+# └── c [age=60]
 
 print_tree(root, attr_list=["age"], attr_bracket_open="*(", attr_bracket_close=")")
 # a *(age=90)
-# |-- b *(age=65)
-# |   |-- d *(age=40)
-# |   `-- e *(age=35)
-# `-- c *(age=60)
+# ├── b *(age=65)
+# │   ├── d *(age=40)
+# │   └── e *(age=35)
+# └── c *(age=60)
 
 # Available styles
 print_tree(root, style="ansi")
@@ -353,8 +354,8 @@ print_tree(root, style="double")
 # ╚══ c
 
 print_tree(
-   root, style="custom",
-   style_stem="|   ", style_branch="|-- ", style_stem_final="+-- "
+    root, style="custom",
+    style_stem="|   ", style_branch="|-- ", style_stem_final="+-- "
 )
 # a
 # |-- b
@@ -376,9 +377,9 @@ c = Node("c", parent=root)
 d = Node("d", parent=root)
 print_tree(root)
 # a
-# |-- b
-# |-- c
-# `-- d
+# ├── b
+# ├── c
+# └── d
 
 shift_nodes(
    tree=root,
@@ -387,10 +388,10 @@ shift_nodes(
 )
 print_tree(root)
 # a
-# |-- b
-# |   `-- c
-# `-- dummy
-#     `-- d
+# ├── b
+# │   └── c
+# └── dummy
+#     └── d
 ```
 
 ```python
@@ -402,9 +403,9 @@ c = Node("c", parent=root)
 d = Node("d", parent=root)
 print_tree(root)
 # a
-# |-- b
-# |-- c
-# `-- d
+# ├── b
+# ├── c
+# └── d
 
 copy_nodes(
    tree=root,
@@ -413,12 +414,12 @@ copy_nodes(
 )
 print_tree(root)
 # a
-# |-- b
-# |   `-- c
-# |-- c
-# |-- d
-# `-- dummy
-#     `-- d
+# ├── b
+# │   └── c
+# ├── c
+# ├── d
+# └── dummy
+#     └── d
 ```
 
 Nodes can also be copied between two different trees.
@@ -431,9 +432,9 @@ c = Node("c", parent=root)
 d = Node("d", parent=root)
 print_tree(root)
 # a
-# |-- b
-# |-- c
-# `-- d
+# ├── b
+# ├── c
+# └── d
 
 root_other = Node("aa")
 copy_nodes_from_tree_to_tree(
@@ -444,10 +445,10 @@ copy_nodes_from_tree_to_tree(
 )
 print_tree(root_other)
 # aa
-# |-- b
-# |   `-- c
-# `-- dummy
-#     `-- d
+# ├── b
+# │   └── c
+# └── dummy
+#     └── d
 ```
 
 ### Tree Search
@@ -463,9 +464,9 @@ c = Node("c", age=60, parent=root)
 d = Node("d", age=40, parent=c)
 print_tree(root, attr_list=["age"])
 # a [age=90]
-# |-- b [age=65]
-# `-- c [age=60]
-#     `-- d [age=40]
+# ├── b [age=65]
+# └── c [age=60]
+#     └── d [age=40]
 
 find(root, lambda node: node.age == 60)
 # Node(/a/c, age=60)
@@ -492,9 +493,9 @@ c = Node("c", age=65, parent=root)
 d = Node("c", age=40, parent=c)
 print_tree(root, attr_list=["age"])
 # a [age=90]
-# |-- b [age=65]
-# `-- c [age=65]
-#     `-- c [age=40]
+# ├── b [age=65]
+# └── c [age=65]
+#     └── c [age=40]
 
 findall(root, lambda node: node.age == 65)
 # (Node(/a/b, age=65), Node(/a/c, age=65))
@@ -529,13 +530,13 @@ b = Node("b", parent=root)
 c = Node("c", parent=root)
 print_tree(root)
 # a
-# |-- b
-# `-- c
+# ├── b
+# └── c
 
 root_pruned = prune_tree(root, "a/b")
 print_tree(root_pruned)
 # a
-# `-- b
+# └── b
 
 # Get difference between two trees
 root = Node("a")
@@ -543,19 +544,19 @@ b = Node("b", parent=root)
 c = Node("c", parent=root)
 print_tree(root)
 # a
-# |-- b
-# `-- c
+# ├── b
+# └── c
 
 root_other = Node("a")
 b_other = Node("b", parent=root_other)
 print_tree(root_other)
 # a
-# `-- b
+# └── b
 
 tree_diff = get_tree_diff(root, root_other)
 print_tree(tree_diff)
 # a
-# `-- c (-)
+# └── c (-)
 ```
 
 ### Export Tree
@@ -577,10 +578,10 @@ d = Node("d", age=40, parent=b)
 e = Node("e", age=35, parent=b)
 print_tree(root)
 # a
-# |-- b
-# |   |-- d
-# |   `-- e
-# `-- c
+# ├── b
+# │   ├── d
+# │   └── e
+# └── c
 
 tree_to_dict(
    root,
@@ -750,7 +751,7 @@ app = AppToDo("To Do App")
 app.add_item(item_name="Homework 1", list_name="School")
 app.add_item(item_name=["Milk", "Bread"], list_name="Groceries", description="Urgent")
 app.add_item(item_name="Cook")
-app.show(style="const")
+app.show()
 # To Do App
 # ├── School
 # │   └── Homework 1
