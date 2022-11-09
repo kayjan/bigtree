@@ -22,3 +22,8 @@ a, a:visited {
 a:hover {
     color: black;
 }
+
+/* Container */
+.highlight {
+    background: lightyellow;
+}
