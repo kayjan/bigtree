@@ -75,6 +75,14 @@ def tree_node():
 
 
 @pytest.fixture
+def tree_node_plot():
+    z = Node("z")
+    y = Node("y")
+    y.parent = z
+    return z
+
+
+@pytest.fixture
 def tree_node_duplicate_names():
     """
     Tree should have structure
@@ -223,6 +231,14 @@ def dag_node():
     g.parents = [c]
     h.parents = [g]
     return a
+
+
+@pytest.fixture
+def dag_node_plot():
+    z = DAGNode("z")
+    y = DAGNode("y")
+    y.parents = [z]
+    return z
 
 
 @pytest.fixture

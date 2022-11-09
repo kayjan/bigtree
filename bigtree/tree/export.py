@@ -1,5 +1,5 @@
 import collections
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 import pandas as pd
 
@@ -35,12 +35,9 @@ def print_tree(
     all_attrs: bool = False,
     attr_list: List[str] = None,
     attr_omit_null: bool = True,
-    attr_bracket_open: str = "[",
-    attr_bracket_close: str = "]",
+    attr_bracket: List[str] = ["[", "]"],
     style: str = "const",
-    style_stem: str = "",
-    style_branch: str = "",
-    style_stem_final: str = "",
+    custom_style: List[str] = [],
 ):
     """Print tree to console, starting from `tree`.
 
@@ -48,7 +45,7 @@ def print_tree(
     - Able to customize for maximum depth to print, using `max_depth`
     - Able to choose which attributes to show or show all attributes, using `attr_name_filter` and `all_attrs`
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
-    - Able to customize open and close brackets if attributes are shown
+    - Able to customize open and close brackets if attributes are shown, using `attr_bracket`
     - Able to customize style, to choose from `ansi`, `ascii`, `const`, `rounded`, `double`, and `custom` style
         - Default style is `const` style
         - If style is set to custom, user can choose their own style for stem, branch and final stem icons
@@ -90,7 +87,7 @@ def print_tree(
     │   └── e [age=35]
     └── c [age=60]
 
-    >>> print_tree(root, attr_list=["age"], attr_bracket_open="*(", attr_bracket_close=")")
+    >>> print_tree(root, attr_list=["age"], attr_bracket=["*(", ")"])
     a *(age=90)
     ├── b *(age=65)
     │   ├── d *(age=40)
@@ -148,45 +145,41 @@ def print_tree(
         all_attrs (bool): indicator to show all attributes, overrides `attr_list`
         attr_list (list): list of node attributes to print, optional
         attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to True
-        attr_bracket_open (str): open bracket for `attr_list`
-        attr_bracket_close (str): close bracket for `attr_list`
+        attr_bracket (List[str]): open and close bracket for `all_attrs` or `attr_list`
         style (str): style of print, defaults to abstract style
-        style_stem (str): style of stem, used when `style` is set to 'custom'
-        style_branch (str): style of branch, used when `style` is set to 'custom'
-        style_stem_final (str): style of final stem, used when `style` is set to 'custom'
+        custom_style (List[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
     """
     for pre_str, fill_str, _node in yield_tree(
         tree=tree,
         node_name_or_path=node_name_or_path,
         max_depth=max_depth,
         style=style,
-        style_stem=style_stem,
-        style_branch=style_branch,
-        style_stem_final=style_stem_final,
+        custom_style=custom_style,
     ):
         # Get node_str (node name and attributes)
         attr_str = ""
-        if all_attrs:
-            attrs = _node.describe(exclude_attributes=["name"], exclude_prefix="_")
-            if len(attrs):
-                attr_str = ", ".join([f"{k}={v}" for k, v in attrs])
-                attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
-        elif attr_list:
-            if attr_omit_null:
-                attr_str = ", ".join(
-                    [
+        if all_attrs or attr_list:
+            if len(attr_bracket) != 2:
+                raise ValueError(
+                    f"Expect open and close brackets in `attr_bracket`, received {attr_bracket}"
+                )
+            attr_bracket_open, attr_bracket_close = attr_bracket
+            if all_attrs:
+                attrs = _node.describe(exclude_attributes=["name"], exclude_prefix="_")
+                attr_str_list = [f"{k}={v}" for k, v in attrs]
+            else:
+                if attr_omit_null:
+                    attr_str_list = [
                         f"{attr_name}={_node.get_attr(attr_name)}"
                         for attr_name in attr_list
                         if _node.get_attr(attr_name)
                     ]
-                )
-            else:
-                attr_str = ", ".join(
-                    [
+                else:
+                    attr_str_list = [
                         f"{attr_name}={_node.get_attr(attr_name)}"
                         for attr_name in attr_list
                     ]
-                )
+            attr_str = ", ".join(attr_str_list)
             if attr_str:
                 attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
         node_str = f"{_node.node_name}{attr_str}"
@@ -198,9 +191,7 @@ def yield_tree(
     node_name_or_path: str = "",
     max_depth: int = None,
     style: str = "const",
-    style_stem: str = "",
-    style_branch: str = "",
-    style_stem_final: str = "",
+    custom_style: List[str] = [],
 ):
     """Generator method for customizing printing of tree, starting from `tree`.
 
@@ -306,9 +297,7 @@ def yield_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing, optional
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         style (str): style of print, defaults to abstract style
-        style_stem (str): style of stem, used when `style` is set to 'custom'
-        style_branch (str): style of branch, used when `style` is set to 'custom'
-        style_stem_final (str): style of final stem, used when `style` is set to 'custom'
+        custom_style (List[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
     """
     if style not in available_styles.keys():
         raise ValueError(
@@ -321,7 +310,13 @@ def yield_tree(
     tree.parent = None
 
     # Set style
-    if style != "custom":
+    if style == "custom":
+        if len(custom_style) != 3:
+            raise ValueError(
+                "Custom style selected, please specify the style of stem, branch, and final stem in `custom_style`"
+            )
+        style_stem, style_branch, style_stem_final = custom_style
+    else:
         style_stem, style_branch, style_stem_final = available_styles[style]
 
     if not len(style_stem) == len(style_branch) == len(style_stem_final):
@@ -583,15 +578,15 @@ def tree_to_dataframe(
 
 
 def tree_to_dot(
-    tree: Node,
+    tree: Union[Node, List[Node]],
     directed: bool = True,
     rankdir: str = "TB",
-    bgcolor: str = None,
+    bg_colour: str = None,
     node_colour: str = None,
     edge_colour: str = None,
     node_attr: str = None,
 ):
-    r"""Export tree to image.
+    r"""Export tree or list of trees to image.
     Posible node attributes include style, fillcolor, shape.
 
     >>> from bigtree import Node, tree_to_dot
@@ -613,10 +608,10 @@ def tree_to_dot(
     'strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\nc0 [label=c];\na0 -> c0;\n}\n'
 
     Args:
-        tree (Node): tree to be exported
+        tree (Node/List[Node]): tree to be exported
         directed (bool): indicator whether graph should be directed or undirected, defaults to True
         rankdir (str): set direction of graph layout, defaults to 'TB', can be 'BT, 'LR', 'RL'
-        bgcolor (str): background color of image, defaults to None
+        bg_colour (str): background color of image, defaults to None
         node_colour (str): fill colour of nodes, defaults to None
         edge_colour (str): colour of edges, defaults to None
         node_attr (str): node attribute for style, overrides node_colour, defaults to None
@@ -631,12 +626,9 @@ def tree_to_dot(
             "pydot not available. Please perform a\n\npip install 'bigtree[image]'\n\nto install required dependencies"
         )
 
-    if not isinstance(tree, Node):
-        raise ValueError("Tree should be of type `Node`, or inherit from `Node`")
-
     # Get style
-    if bgcolor:
-        graph_style = dict(bgcolor=bgcolor)
+    if bg_colour:
+        graph_style = dict(bgcolor=bg_colour)
     else:
         graph_style = dict()
 
@@ -661,24 +653,31 @@ def tree_to_dot(
             graph_type="graph", strict=True, rankdir=rankdir, **graph_style
         )
 
-    name_dict = collections.defaultdict(list)
+    if not isinstance(tree, list):
+        tree = [tree]
 
-    def recursive_create_node_and_edges(parent_name, child_node):
-        child_label = child_node.node_name
-        if child_node.path_name not in name_dict[child_label]:  # pragma: no cover
-            name_dict[child_label].append(child_node.path_name)
-        child_name = child_label + str(
-            name_dict[child_label].index(child_node.path_name)
-        )
-        if node_attr and child_node.get_attr(node_attr):
-            node_style.update(child_node.get_attr(node_attr))
-        node = pydot.Node(name=child_name, label=child_label, **node_style)
-        _graph.add_node(node)
-        if parent_name is not None:
-            edge = pydot.Edge(parent_name, child_name, **edge_style)
-            _graph.add_edge(edge)
-        for child in child_node.children:
-            recursive_create_node_and_edges(child_name, child)
+    for _tree in tree:
+        if not isinstance(_tree, Node):
+            raise ValueError("Tree should be of type `Node`, or inherit from `Node`")
 
-    recursive_create_node_and_edges(None, tree.root)
+        name_dict = collections.defaultdict(list)
+
+        def recursive_create_node_and_edges(parent_name, child_node):
+            child_label = child_node.node_name
+            if child_node.path_name not in name_dict[child_label]:  # pragma: no cover
+                name_dict[child_label].append(child_node.path_name)
+            child_name = child_label + str(
+                name_dict[child_label].index(child_node.path_name)
+            )
+            if node_attr and child_node.get_attr(node_attr):
+                node_style.update(child_node.get_attr(node_attr))
+            node = pydot.Node(name=child_name, label=child_label, **node_style)
+            _graph.add_node(node)
+            if parent_name is not None:
+                edge = pydot.Edge(parent_name, child_name, **edge_style)
+                _graph.add_edge(edge)
+            for child in child_node.children:
+                recursive_create_node_and_edges(child_name, child)
+
+        recursive_create_node_and_edges(None, _tree.root)
     return _graph

@@ -136,6 +136,17 @@ class TestDAGToDot:
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
+    def test_dag_to_dot_multiple(dag_node, dag_node_plot):
+        graph = dag_to_dot([dag_node, dag_node_plot])
+        expected = """strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nb [label=b];\nb -> c;\nd [label=d];\nc [label=c];\nc -> d;\nf [label=f];\nc [label=c];\nc -> f;\ng [label=g];\nc [label=c];\nc -> g;\ne [label=e];\nd [label=d];\nd -> e;\nf [label=f];\nd [label=d];\nd -> f;\nh [label=h];\ng [label=g];\ng -> h;\ny [label=y];\nz [label=z];\nz -> y;\n}\n"""
+        actual = graph.to_string()
+        graph.write_png("tests/dag_multiple.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
     def test_dag_to_dot_from_child(dag_node_child):
         graph = dag_to_dot(dag_node_child)
         expected = """strict digraph G {\nf [label=f];\nc [label=c];\nc -> f;\nd [label=d];\nd -> f;\nc [label=c];\na [label=a];\na -> c;\nb [label=b];\nb -> c;\nd [label=d];\nc -> d;\nf [label=f];\nc -> f;\ng [label=g];\nc -> g;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nc -> d;\ne [label=e];\nd -> e;\nf [label=f];\nd -> f;\ne [label=e];\nd [label=d];\nd -> e;\na [label=a];\nc [label=c];\na -> c;\nd [label=d];\na -> d;\ng [label=g];\nc [label=c];\nc -> g;\nh [label=h];\ng -> h;\nh [label=h];\ng [label=g];\ng -> h;\nb [label=b];\nc [label=c];\nb -> c;\n}\n"""
@@ -154,7 +165,7 @@ class TestDAGToDot:
 
     @staticmethod
     def test_dag_to_dot_bg_color(dag_node):
-        graph = dag_to_dot(dag_node, bgcolor="blue")
+        graph = dag_to_dot(dag_node, bg_colour="blue")
         expected = """strict digraph G {\nbgcolor=blue;\na [label=a];\nc [label=c];\na -> c;\nd [label=d];\na -> d;\nc [label=c];\na [label=a];\na -> c;\nb [label=b];\nb -> c;\nd [label=d];\nc -> d;\nf [label=f];\nc -> f;\ng [label=g];\nc -> g;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nc -> d;\ne [label=e];\nd -> e;\nf [label=f];\nd -> f;\ne [label=e];\nd [label=d];\nd -> e;\nf [label=f];\nc [label=c];\nc -> f;\nd [label=d];\nd -> f;\ng [label=g];\nc [label=c];\nc -> g;\nh [label=h];\ng -> h;\nh [label=h];\ng [label=g];\ng -> h;\nb [label=b];\nc [label=c];\nb -> c;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/dag_bg.png")

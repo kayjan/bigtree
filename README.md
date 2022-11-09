@@ -4,11 +4,17 @@ Tree Implementation for Python, integrated with Python list, dictionary, and pan
 
 It is pythonic, making it easy to learn and extendable to many types of workflows.
 
+----
+
 Related Links:
 - [Documentation](https://bigtree.readthedocs.io/en/latest/)
 - [GitHub](https://github.com/kayjan/bigtree/)
 - [Changelog](https://github.com/kayjan/bigtree/blob/master/CHANGELOG.md)
 - [PyPI](https://pypi.org/project/bigtree/)
+- Articles
+  - [Python Tree Implementation with BigTree](https://towardsdatascience.com/python-tree-implementation-with-bigtree-13cdabd77adc#245a-94ae81f0b3f1)
+
+----
 
 ## Components
 There are 2 segments to Big Tree consisting of Tree implementation and Directed Acyclic Graph (DAG) implementation.
@@ -70,15 +76,19 @@ For Directed Acyclic Graph (DAG) implementation, there are 4 main components.
 
 To install `bigtree`, run the following line in command prompt:
 
-```pip install bigtree```
+```shell
+$ pip install bigtree
+```
 
 If tree needs to be exported to image, it requires additional dependencies.
 Run the following lines in command prompt:
 
+```shell
+$ pip install 'bigtree[image]'
+$ brew install gprof2dot
 ```
-pip install 'bigtree[image]'
-brew install gprof2dot
-```
+
+----
 
 ## Tree Demonstration
 
@@ -94,7 +104,7 @@ Nodes can be linked to each other with `parent` and `children` setter methods,
 or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
 ```python
-from bigtree import Node, print_tree
+from bigtree import Node, print_tree, tree_to_dot
 
 root = Node("a", age=90)
 b = Node("b", age=65)
@@ -109,7 +119,12 @@ print_tree(root, attr_list=["age"])
 # ├── b [age=65]
 # │   └── d [age=40]
 # └── c [age=60]
+
+graph = tree_to_dot(root, node_colour="gold")
+graph.write_png("assets/tree.png")
 ```
+
+![Sample Tree Output](../../assets/tree.png)
 
 ```python
 from bigtree import Node, print_tree
@@ -643,6 +658,8 @@ graph.write_png("assets/demo.png")
 
 ![Sample Tree Output](../../assets/demo.png)
 
+----
+
 ## DAG Demonstration
 
 Compared to nodes in tree, nodes in DAG are able to have multiple parents.
@@ -734,6 +751,8 @@ print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag
 # [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 ```
 
+----
+
 ## Demo Usage
 
 ### To Do Application
@@ -760,4 +779,7 @@ app.show()
 # │   └── Bread [description=Urgent]
 # └── General
 #   └── Cook
+
+app.save("list.json")
+app2 = AppToDo.load("list.json")
 ```

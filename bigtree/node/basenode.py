@@ -106,7 +106,7 @@ class BaseNode:
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
     4. ``copy()``: Deep copy BaseNode
 
-    ------------
+    ----
 
     """
 

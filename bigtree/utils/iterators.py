@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, List
+from typing import Callable, Iterable, List, Tuple
 
 __all__ = [
     "preorder_iter",
@@ -239,9 +239,10 @@ def levelordergroup_iter(
         )
 
 
-def dag_iterator(dag):
+def dag_iterator(dag) -> Iterable[Tuple]:
     """Iterate through all nodes of a Directed Acyclic Graph (DAG).
     Note that node names must be unique.
+    Note that DAG must at least have two nodes to be shown on graph.
 
     1. Visit the current node.
     2. Recursively traverse the current node's parents.
@@ -260,7 +261,7 @@ def dag_iterator(dag):
         dag (DAGNode): input dag
 
     Returns:
-        (List[Tuple[DAGNode, DAGNode]])
+        (Iterable[Tuple[DAGNode, DAGNode]])
     """
     visited_nodes = set()
 

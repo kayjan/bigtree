@@ -57,7 +57,7 @@ class Node(BaseNode):
     1. ``node_name``: Get node name, without accessing `name` directly
     2. ``path_name``: Get path name from root, separated by `sep`
 
-    ------------
+    ----
 
     """
 

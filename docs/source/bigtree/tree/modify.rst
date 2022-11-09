@@ -1,6 +1,70 @@
 Modify
 ===================
 
+Shift or copy nodes within same tree or between two trees using
+`from_paths` (list of paths) and `to_paths` (list of paths).
+
+There are several configurations available for more customization
+
+- `skippable`: Skip shifting/copying of nodes if from_path cannot be found, defaults to False (from node must be found)
+- `overriding`: Override existing node if it exists, defaults to False (to node must not exist)
+- `merge_children`: Merge children and remove intermediate parent node, defaults to False (nodes are not merged)
+
+.. note:: Error will always be thrown if multiple from-nodes are found, paths in `from_paths` must be unique.
+
+.. list-table:: Sample Tree Modification
+   :widths: 20 30 30 40 10 10
+   :header-rows: 1
+
+   * - Setting
+     - Sample path in `from_paths`
+     - Sample path in `to_paths`
+     - Description
+     - If from node not found
+     - If to node already exists
+   * - Default
+     - "/a/b/c"
+     - "/a/b/d/c"
+     - Shift/copy node `c`
+     - Error
+     - Error
+   * - Default
+     - "/c"
+     - "/a/b/d/c"
+     - Shift/copy node `c`
+     - Error
+     - Error
+   * - Default
+     - "c"
+     - "/a/b/d/c"
+     - Shift/copy node `c`
+     - Error
+     - Error
+   * - Default
+     - "/a/b/c"
+     - None
+     - Delete node `c`
+     - Error
+     - Error
+   * - skippable
+     - "/a/b/c"
+     - "/a/b/d/c"
+     - Shift/copy node `c`
+     - Skip
+     - Error
+   * - overriding
+     - "/a/b/c"
+     - "/a/b/d/c"
+     - Shift/copy node `c`
+     - Error
+     - Replaced
+   * - merge_children
+     - "/a/b/c"
+     - "/a/b/d/c"
+     - Shift/copy children of node `c` to be children of node `d`, removing node `c`
+     - Error
+     - Error
+
 .. automodule:: bigtree.tree.modify
    :members:
    :show-inheritance:

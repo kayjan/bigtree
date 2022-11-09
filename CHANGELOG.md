@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Work In Progress
 - Node: WeightedNode for weighted edge tree implementation.
 
+## [0.5.0] - 2022-11-09
+### Added
+- Clean codes and documentation.
+
+### Changed
+- Tree Exporter: Printing tree to group multiple arguments together.
+- DAG and Tree Exporter: Export to dot able to plot multiple disjointed trees/dags, rename `bgcolor` to `bg_colour`
+
 ## [0.4.6] - 2022-11-09
 ### Added
 - Tree Constructor: From DataFrame of parent-child columns.
@@ -84,6 +92,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.5.0]: https://github.com/kayjan/bigtree/compare/v0.4.6...v0.5.0
 [0.4.6]: https://github.com/kayjan/bigtree/compare/v0.4.5...v0.4.6
 [0.4.5]: https://github.com/kayjan/bigtree/compare/v0.4.4...v0.4.5
 [0.4.4]: https://github.com/kayjan/bigtree/compare/v0.4.3...v0.4.4
