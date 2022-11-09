@@ -28,24 +28,10 @@ def list_to_dag(
     Returns:
         (DAGNode)
     """
-    node_dict = dict()
-    parent_node = None
-
-    for parent_name, child_name in relations:
-        parent_node = node_dict.get(parent_name)
-        if not parent_node:
-            parent_node = node_type(parent_name)
-
-        child_node = node_dict.get(child_name)
-        if not child_node:
-            child_node = node_type(child_name)
-
-        node_dict[parent_name] = parent_node
-        node_dict[child_name] = child_node
-
-        parent_node.children = [child_node]
-
-    return parent_node
+    relation_data = pd.DataFrame(relations, columns=["parent", "child"])
+    return dataframe_to_dag(
+        relation_data, child_col="child", parent_col="parent", node_type=node_type
+    )
 
 
 def dict_to_dag(

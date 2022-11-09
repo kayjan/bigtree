@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Union
 
 import pandas as pd
 
@@ -161,14 +161,14 @@ def dag_to_dataframe(
 
 
 def dag_to_dot(
-    dag: DAGNode,
+    dag: Union[DAGNode, List[DAGNode]],
     rankdir: str = "TB",
-    bgcolor: str = None,
+    bg_colour: str = None,
     node_colour: str = None,
     edge_colour: str = None,
     node_attr: str = None,
 ):
-    r"""Export DAG tree to image.
+    r"""Export DAG tree or list of DAG trees to image.
     Note that node names must be unique.
     Posible node attributes include style, fillcolor, shape.
 
@@ -188,12 +188,12 @@ def dag_to_dot(
     Export to string
 
     >>> dag_graph.to_string()
-    'strict digraph G {\nrankdir=TB;\na [label=a];\nc [label=c];\na -> c;\na [label=a];\nd [label=d];\na -> d;\nb [label=b];\nc [label=c];\nb -> c;\nc [label=c];\nd [label=d];\nc -> d;\nd [label=d];\ne [label=e];\nd -> e;\n}\n'
+    'strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nb [label=b];\nb -> c;\nd [label=d];\nc [label=c];\nc -> d;\ne [label=e];\nd [label=d];\nd -> e;\n}\n'
 
     Args:
         dag (DAGNode): tree to be exported
         rankdir (str): set direction of graph layout, defaults to 'TB', can be 'BT, 'LR', 'RL'
-        bgcolor (str): background color of image, defaults to None
+        bg_colour (str): background color of image, defaults to None
         node_colour (str): fill colour of nodes, defaults to None
         edge_colour (str): colour of edges, defaults to None
         node_attr (str): node attribute for style, overrides node_colour, defaults to None
@@ -208,12 +208,9 @@ def dag_to_dot(
             "pydot not available. Please perform a\n\npip install 'bigtree[image]'\n\nto install required dependencies"
         )
 
-    if not isinstance(dag, DAGNode):
-        raise ValueError("Tree should be of type `DAGNode`, or inherit from `DAGNode`")
-
     # Get style
-    if bgcolor:
-        graph_style = dict(bgcolor=bgcolor)
+    if bg_colour:
+        graph_style = dict(bgcolor=bg_colour)
     else:
         graph_style = dict()
 
@@ -227,30 +224,40 @@ def dag_to_dot(
     else:
         edge_style = dict()
 
-    dag = dag.copy()
-
     _graph = pydot.Dot(
         graph_type="digraph", strict=True, rankdir=rankdir, **graph_style
     )
 
-    for parent_node, child_node in dag_iterator(dag):
-        parent_name = parent_node.name
-        parent_node_style = node_style.copy()
-        if node_attr and parent_node.get_attr(node_attr):
-            parent_node_style.update(parent_node.get_attr(node_attr))
-        pydot_parent = pydot.Node(
-            name=parent_name, label=parent_name, **parent_node_style
-        )
-        _graph.add_node(pydot_parent)
+    if not isinstance(dag, list):
+        dag = [dag]
 
-        child_name = child_node.name
-        child_node_style = node_style.copy()
-        if node_attr and child_node.get_attr(node_attr):
-            child_node_style.update(child_node.get_attr(node_attr))
-        pydot_child = pydot.Node(name=child_name, label=child_name, **parent_node_style)
-        _graph.add_node(pydot_child)
+    for _dag in dag:
+        if not isinstance(_dag, DAGNode):
+            raise ValueError(
+                "Tree should be of type `DAGNode`, or inherit from `DAGNode`"
+            )
+        _dag = _dag.copy()
 
-        edge = pydot.Edge(parent_name, child_name, **edge_style)
-        _graph.add_edge(edge)
+        for parent_node, child_node in dag_iterator(_dag):
+            child_name = child_node.name
+            child_node_style = node_style.copy()
+            if node_attr and child_node.get_attr(node_attr):
+                child_node_style.update(child_node.get_attr(node_attr))
+            pydot_child = pydot.Node(
+                name=child_name, label=child_name, **child_node_style
+            )
+            _graph.add_node(pydot_child)
+
+            parent_name = parent_node.name
+            parent_node_style = node_style.copy()
+            if node_attr and parent_node.get_attr(node_attr):
+                parent_node_style.update(parent_node.get_attr(node_attr))
+            pydot_parent = pydot.Node(
+                name=parent_name, label=parent_name, **parent_node_style
+            )
+            _graph.add_node(pydot_parent)
+
+            edge = pydot.Edge(parent_name, child_name, **edge_style)
+            _graph.add_edge(edge)
 
     return _graph

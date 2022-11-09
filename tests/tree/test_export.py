@@ -55,7 +55,13 @@ class TestPrintTree:
     @staticmethod
     def test_print_tree_custom(tree_node):
         expected_str = """a\nb\nd\ne\ng\nh\nc\nf\n"""
-        assert_print_statement(print_tree, expected_str, tree=tree_node, style="custom")
+        assert_print_statement(
+            print_tree,
+            expected_str,
+            tree=tree_node,
+            style="custom",
+            custom_style=["", "", ""],
+        )
 
     @staticmethod
     def test_print_tree_unknown_style(tree_node):
@@ -97,10 +103,22 @@ class TestPrintTree:
             print_tree(
                 tree_node,
                 style="custom",
-                style_stem="",
-                style_branch=" ",
-                style_stem_final="",
+                custom_style=["", " ", ""],
             )
+
+    @staticmethod
+    def test_print_tree_missing_style(tree_node):
+        with pytest.raises(ValueError):
+            print_tree(
+                tree_node,
+                style="custom",
+                custom_style=["", ""],
+            )
+
+    @staticmethod
+    def test_print_tree_missing_bracket(tree_node):
+        with pytest.raises(ValueError):
+            print_tree(tree_node, all_attrs=True, attr_bracket=[""])
 
     @staticmethod
     def test_print_tree_attr(tree_node):
@@ -736,6 +754,17 @@ class TestTreeToDot:
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
+    def test_tree_to_dot_multiple(tree_node, tree_node_plot):
+        graph = tree_to_dot([tree_node, tree_node_plot])
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\nz0 [label=z];\ny0 [label=y];\nz0 -> y0;\n}\n"""
+        actual = graph.to_string()
+        graph.write_png("tests/tree_multiple.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
     def test_tree_to_dot_duplicate_names(tree_node_duplicate_names):
         graph = tree_to_dot(tree_node_duplicate_names)
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\na1 [label=a];\na0 -> a1;\na2 [label=a];\na1 -> a2;\nb0 [label=b];\na1 -> b0;\na3 [label=a];\nb0 -> a3;\nb1 [label=b];\nb0 -> b1;\nb2 [label=b];\na0 -> b2;\na4 [label=a];\nb2 -> a4;\n}\n"""
@@ -765,7 +794,7 @@ class TestTreeToDot:
 
     @staticmethod
     def test_tree_to_dot_bg_color(tree_node):
-        graph = tree_to_dot(tree_node, bgcolor="blue")
+        graph = tree_to_dot(tree_node, bg_colour="blue")
         expected = """strict digraph G {\nbgcolor=blue;\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_bg.png")
