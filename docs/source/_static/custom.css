@@ -1,23 +1,43 @@
 /* Palette
- #A6A37A Green
- #D9C687 Lime
- #D7A068 Orange
- #A46D55 Maroon
- #262424 Black
+ #1D4289 Blue
+ #212322 Black
+ #D7A068 Gold (Replace #CEB47E Sand)
+ #DBE2E9 Light blue
+ #B7926C Dark sand
 */
 
-/* Image */
-.logo img {
-    height: 150px;
+/* Content */
+.main-outer {
+    background: #FFFFF4;
+}
+header {
+    background: #212322;
+}
+.document {
+    width: 900px;
 }
 
 /* Font */
-h1, h2, h3, h4, a {
+h1, h2, h3, h4, p, a {
     font-family: Nobile, sans-serif !important;
 }
-a, h4 {
+a {
     color: #D7A068 !important;
 }
+blockquote {
+    border-left: 5px solid grey;
+}
+blockquote p {
+    display: inline;
+}
+ol {
+    padding-left: 40px;
+}
+ol p {
+    margin-bottom: 0;
+}
+
+/* Code font */
 span.pre {
     color: #D7A068;
     font-size: 1.1em;
@@ -25,66 +45,22 @@ span.pre {
     letter-spacing: 0.3px;
 }
 .sig span {
-    color: #262424;
+    color: #212322 !important;
 }
 .sig {
-    background-color: #D9C687;
-}
-blockquote p {
-    padding: 5px 10px;
+    background-color: #DBE2E9 !important;
+    border-top: 3px solid #1D4289 !important;
 }
 
-/* Top bar */
-div.header {
-    display: none;
-    border-bottom: 0;
-}
-div.related {
+/* Code box */
+.highlight pre {
+    background: lightyellow !important;
 }
 
-/* Sidebar */
-.sphinxsidebar {
-    background: #262424;
-    display: inline-block;
-    position: fixed;
-    height: 100vh;
-    transform: translateY(-30px);
-    padding-top: 30px;
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
-.sphinxsidebar h3,
-.sphinxsidebar h4,
-.sphinxsidebar a,
-.sphinxsidebar span {
-    font-family: Nobile, sans-serif !important;
-    font-weight: normal !important;
-    color: #D7A068 !important;
-    border: 0 !important;
-}
-.sphinxsidebar span {
-    font-size: 12px;
-}
-.sphinxsidebarwrapper > div:nth-child(2) {
-    display: none;
-}
-.sphinxsidebarwrapper > div:nth-child(3) {
-    display: none;
-}
-.sphinxsidebarwrapper > div:nth-child(4) {
-    display: none;
-}
-
-/* Container */
-div .body {
-    max-width: 1200px;
-}
-.highlight {
-    background: lightyellow;
-}
+/* Table */
 table {
     background: lightyellow;
 }
-blockquote {
-    border-left: 10px solid grey;
+.table-headed th, table.docutils:not(.footnote):not(.citation) th {
+    background: #ffffc9;
 }
