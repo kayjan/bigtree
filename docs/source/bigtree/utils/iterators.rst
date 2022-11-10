@@ -1,5 +1,5 @@
 |:curly_loop:| Iterators
-=======================
+===========================
 
 Iterator methods for Trees and DAGs.
 
