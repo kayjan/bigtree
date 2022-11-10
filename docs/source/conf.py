@@ -41,8 +41,8 @@ language = "Python"
 
 html_theme = "karma_sphinx_theme"
 html_static_path = ["_static"]
-# html_favicon = "_static/favicon.ico"
-# html_logo = "_static/favicon.ico"
+html_favicon = "_static/favicon.ico"
+html_logo = "_static/favicon.ico"
 
 
 def setup(app):
