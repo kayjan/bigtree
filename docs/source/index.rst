@@ -1,5 +1,5 @@
-Big Tree Documentation
-===================================
+|:deciduous_tree:| Big Tree Documentation
+============================================
 
 .. image:: https://badge.fury.io/py/bigtree.svg
    :target: https://badge.fury.io/py/bigtree

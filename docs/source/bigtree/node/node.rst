@@ -1,4 +1,4 @@
-Node
+|:hibiscus:| Node
 =================
 
 .. automodule:: bigtree.node.node

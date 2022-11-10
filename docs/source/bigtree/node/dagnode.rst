@@ -1,4 +1,4 @@
-DAGNode
+|:blossom:| DAGNode
 =====================
 
 .. automodule:: bigtree.node.dagnode
