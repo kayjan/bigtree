@@ -13,7 +13,7 @@ There are several configurations available for more customization
 .. note:: Error will always be thrown if multiple from-nodes are found, paths in `from_paths` must be unique.
 
 .. list-table:: Sample Tree Modification
-   :widths: 20 30 30 40
+   :widths: 20 20 20 50
    :header-rows: 1
 
    * - Setting
@@ -39,11 +39,11 @@ There are several configurations available for more customization
    * - skippable
      - "/a/b/c"
      - "/a/b/d/c"
-     - Shift/copy node `c`
+     - Shift/copy node `c`, skip if "/a/b/c" cannot be found
    * - overriding
      - "/a/b/c"
      - "/a/b/d/c"
-     - Shift/copy node `c`
+     - Shift/copy node `c`, override if "/a/b/d/c" exists
    * - merge_children
      - "/a/b/c"
      - "/a/b/d/c"
