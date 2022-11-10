@@ -56,6 +56,9 @@ span.pre {
 .highlight pre {
     background: lightyellow !important;
 }
+.highlight .c1 {
+    font-style: normal;
+}
 
 /* Table */
 table {
