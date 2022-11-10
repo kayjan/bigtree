@@ -30,6 +30,9 @@ span.pre {
 .sig {
     background-color: #D9C687;
 }
+blockquote p {
+    padding: 5px 10px;
+}
 
 /* Top bar */
 div.header {
@@ -81,4 +84,7 @@ div .body {
 }
 table {
     background: lightyellow;
+}
+blockquote {
+    border-left: 10px solid grey;
 }

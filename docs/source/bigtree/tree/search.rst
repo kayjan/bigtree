@@ -1,4 +1,4 @@
-Search
+|:mag:| Search
 ===================
 
 Search methods for Trees.

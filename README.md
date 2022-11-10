@@ -25,14 +25,12 @@ For Tree implementation, there are 8 main components.
    1. ``BaseNode``, extendable class
    2. ``Node``, BaseNode with node name attribute
 2. **Constructing Tree**
-   1. From *list*, containing paths
-   2. From *list*, containing parent-child tuples
-   3. From *nested dictionary*
-   4. From *nested recursive dictionary*
-   5. From *pandas DataFrame*
-   6. Add nodes to existing tree using list
-   7. Add nodes and attributes to existing tree using dictionary or pandas DataFrame, add using path
-   8. Add only attributes to existing tree using dictionary or pandas DataFrame, add using name
+   1. From *list*, using paths or parent-child tuples
+   2. From *nested dictionary*, using path or recursive structure
+   3. From *pandas DataFrame*, using paths or parent-child columns
+   4. Add nodes to existing tree using string
+   5. Add nodes and attributes to existing tree using dictionary or pandas DataFrame, using path
+   6. Add only attributes to existing tree using dictionary or pandas DataFrame, using node name
 3. **Traversing Tree**
    1. Pre-Order Traversal
    2. Post-Order Traversal
@@ -179,7 +177,7 @@ print_tree(root, style="ascii")
 
 2. **From *list***
 
-Construct nodes only, list contains full paths of nodes or tuples of parent-child names.
+Construct nodes only, list can contain either full paths or tuples of parent-child names.
 
 ```python
 from bigtree import list_to_tree, list_to_tree_by_relation, print_tree
@@ -255,12 +253,13 @@ print_tree(root, attr_list=["age"])
 
 5. **From *pandas DataFrame***
 
-Construct nodes with attributes, *pandas DataFrame* contains path column and attribute columns.
+Construct nodes with attributes, *pandas DataFrame* can contain either path column or parent-child columns,
+and attribute columns.
 
 ```python
 import pandas as pd
 
-from bigtree import dataframe_to_tree, print_tree
+from bigtree import dataframe_to_tree, dataframe_to_tree_by_relation, print_tree
 
 data = pd.DataFrame(
    [
@@ -278,7 +277,26 @@ print_tree(root, attr_list=["age"])
 # ├── b [age=65]
 # │   └── d [age=40]
 # └── c [age=60]
+
+data = pd.DataFrame(
+   [
+      ["a", None, 90],
+      ["b", "a", 65],
+      ["c", "a", 60],
+      ["d", "b", 40],
+   ],
+   columns=["child", "parent", "age"],
+)
+root = dataframe_to_tree_by_relation(data)
+
+print_tree(root, attr_list=["age"])
+# a [age=90]
+# ├── b [age=65]
+# │   └── d [age=40]
+# └── c [age=60]
 ```
+
+> If tree is already created, attributes can still be added using dictionary or pandas DataFrame!
 
 ### Print Tree
 
