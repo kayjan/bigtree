@@ -32,8 +32,8 @@ def print_tree(
     tree: Node,
     node_name_or_path: str = "",
     max_depth: int = None,
-    all_attrs: bool = False,
     attr_list: List[str] = None,
+    all_attrs: bool = False,
     attr_omit_null: bool = True,
     attr_bracket: List[str] = ["[", "]"],
     style: str = "const",
@@ -142,8 +142,8 @@ def print_tree(
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        all_attrs (bool): indicator to show all attributes, overrides `attr_list`
         attr_list (list): list of node attributes to print, optional
+        all_attrs (bool): indicator to show all attributes, overrides `attr_list`
         attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to True
         attr_bracket (List[str]): open and close bracket for `all_attrs` or `attr_list`
         style (str): style of print, defaults to abstract style
