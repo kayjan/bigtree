@@ -27,13 +27,9 @@ extensions = [
     "autodocsumm",
     "myst_parser",
     "sphinxemoji.sphinxemoji",
-    "sphinxext.opengraph",
 ]
 autodoc_default_options = {"autosummary": True}
 sphinxemoji_style = "twemoji"
-
-ogp_site_url = "bigtree.readthedocs.io"
-ogp_image = "https://i.ibb.co/fpvtpTC/temp-Imagese-Jj0e.jpg"
 
 templates_path = ["_templates"]
 exclude_patterns = []
