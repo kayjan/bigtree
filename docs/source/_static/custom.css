@@ -22,3 +22,15 @@ a, a:visited {
 a:hover {
     color: black;
 }
+
+/* Container */
+.highlight {
+    background: lightyellow;
+}
+table {
+    background: lightyellow;
+}
+.sphinxsidebar {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
