@@ -55,13 +55,20 @@ div.related {
 .sphinxsidebar a,
 .sphinxsidebar span {
     font-family: Nobile, sans-serif !important;
+    font-weight: normal !important;
     color: #D7A068 !important;
     border: 0 !important;
+}
+.sphinxsidebar span {
+    font-size: 12px;
 }
 .sphinxsidebarwrapper > div:nth-child(2) {
     display: none;
 }
 .sphinxsidebarwrapper > div:nth-child(3) {
+    display: none;
+}
+.sphinxsidebarwrapper > div:nth-child(4) {
     display: none;
 }
 
