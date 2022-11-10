@@ -13,57 +13,41 @@ There are several configurations available for more customization
 .. note:: Error will always be thrown if multiple from-nodes are found, paths in `from_paths` must be unique.
 
 .. list-table:: Sample Tree Modification
-   :widths: 20 30 30 40 10 10
+   :widths: 20 30 30 40
    :header-rows: 1
 
    * - Setting
      - Sample path in `from_paths`
      - Sample path in `to_paths`
      - Description
-     - If from node not found
-     - If to node already exists
    * - Default
      - "/a/b/c"
      - "/a/b/d/c"
      - Shift/copy node `c`
-     - Error
-     - Error
    * - Default
      - "/c"
      - "/a/b/d/c"
      - Shift/copy node `c`
-     - Error
-     - Error
    * - Default
      - "c"
      - "/a/b/d/c"
      - Shift/copy node `c`
-     - Error
-     - Error
    * - Default
      - "/a/b/c"
      - None
      - Delete node `c`
-     - Error
-     - Error
    * - skippable
      - "/a/b/c"
      - "/a/b/d/c"
      - Shift/copy node `c`
-     - Skip
-     - Error
    * - overriding
      - "/a/b/c"
      - "/a/b/d/c"
      - Shift/copy node `c`
-     - Error
-     - Replaced
    * - merge_children
      - "/a/b/c"
      - "/a/b/d/c"
      - Shift/copy children of node `c` to be children of node `d`, removing node `c`
-     - Error
-     - Error
 
 .. automodule:: bigtree.tree.modify
    :members:
