@@ -608,7 +608,7 @@ def tree_to_dot(
     'strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\nc0 [label=c];\na0 -> c0;\n}\n'
 
     Args:
-        tree (Node/List[Node]): tree to be exported
+        tree (Node/List[Node]): tree or list of trees to be exported
         directed (bool): indicator whether graph should be directed or undirected, defaults to True
         rankdir (str): set direction of graph layout, defaults to 'TB', can be 'BT, 'LR', 'RL'
         bg_colour (str): background color of image, defaults to None

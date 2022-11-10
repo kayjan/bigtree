@@ -27,3 +27,10 @@ a:hover {
 .highlight {
     background: lightyellow;
 }
+table {
+    background: lightyellow;
+}
+.sphinxsidebar {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}

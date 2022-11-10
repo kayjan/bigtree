@@ -20,7 +20,8 @@ Construct Directed Acyclic Graph (DAG) from list, dictionary, and pandas DataFra
      - `dataframe_to_dag`
      - Yes
 
-The functions have the following dependency,
+These functions are not standalone functions.
+Under the hood, they have the following dependency,
 
 .. image:: ../../../../assets/dag_construct.png
    :alt: DAG Constructor Dependency Diagram

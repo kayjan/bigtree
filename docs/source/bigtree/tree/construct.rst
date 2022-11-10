@@ -3,12 +3,13 @@ Construct
 
 Construct Tree from list, dictionary, and pandas DataFrame.
 
+To decide which method to use, consider your data type and data values.
 
 .. list-table:: Tree Construct Methods
    :widths: 35 30 50 40
    :header-rows: 1
 
-   * - Construct DAG from
+   * - Construct Tree from
      - Using full path
      - Using parent-child relation
      - Add node attributes
@@ -32,9 +33,12 @@ To add attributes to existing tree,
    :widths: 30 40 30
    :header-rows: 1
 
-   * - Construct DAG from
+   * - Add attributes from
      - Using full path
      - Using node name
+   * - String
+     - `add_path_to_tree`
+     - NA
    * - Dictionary
      - `add_dict_to_tree_by_path`
      - `add_dict_to_tree_by_name`
@@ -42,7 +46,8 @@ To add attributes to existing tree,
      - `add_dataframe_to_tree_by_path`
      - `add_dataframe_to_tree_by_name`
 
-The functions have the following dependency,
+These functions are not standalone functions.
+Under the hood, they have the following dependency,
 
 .. image:: ../../../../assets/tree_construct.png
    :alt: Tree Constructor Dependency Diagram
