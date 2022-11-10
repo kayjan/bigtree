@@ -847,90 +847,6 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(root)
 
 
-class TestListToTreeByRelation(unittest.TestCase):
-    def setUp(self):
-        """
-        Tree should have structure
-        a
-        |-- b
-        |   |-- d
-        |   +-- e
-        |       |-- g
-        |       +-- h
-        +-- c
-            +-- f
-        """
-        self.relations = [
-            ("a", "b"),
-            ("a", "c"),
-            ("b", "d"),
-            ("b", "e"),
-            ("c", "f"),
-            ("e", "g"),
-            ("e", "h"),
-        ]
-
-    def tearDown(self):
-        self.relations = None
-
-    def test_list_to_tree_by_relation(self):
-        root = list_to_tree_by_relation(self.relations)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
-
-    def test_list_to_tree_by_relation_reversed(self):
-        root = list_to_tree_by_relation(self.relations[::-1])
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
-
-    @staticmethod
-    def test_list_to_tree_by_relation_duplicate_leaf_node():
-        relations = [
-            ("a", "b"),
-            ("a", "c"),
-            ("b", "d"),
-            ("b", "e"),
-            ("b", "h"),
-            ("c", "h"),
-            ("e", "g"),
-            ("e", "h"),
-        ]
-        root = list_to_tree_by_relation(relations)
-        expected = """a\n├── b\n│   ├── d\n│   ├── e\n│   │   ├── g\n│   │   └── h\n│   └── h\n└── c\n    └── h\n"""
-        assert_print_statement(print_tree, expected, tree=root, style="const")
-
-    def test_list_to_tree_by_relation_empty_parent(self):
-        self.relations = self.relations[::-1]
-        self.relations.append((None, "a"))
-        root = list_to_tree_by_relation(self.relations)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
-
-    @staticmethod
-    def test_list_to_tree_by_relation_one_tuple():
-        root = list_to_tree_by_relation([(None, "a")])
-        assert root.max_depth == 1, "Max depth is wrong"
-        assert root.node_name == "a", "Node name is wrong"
-
-    def test_list_to_tree_by_relation_empty(self):
-        with pytest.raises(ValueError):
-            list_to_tree_by_relation([])
-
-    def test_list_to_tree_by_relation_switch_order(self):
-        relations = [
-            ("h", "g"),
-            ("h", "f"),
-            ("g", "e"),
-            ("g", "d"),
-            ("g", "a"),
-            ("f", "a"),
-            ("d", "b"),
-            ("d", "a"),
-        ]
-        root = list_to_tree_by_relation(relations)
-        assert root.max_depth == 4
-
-
 class TestListToTree(unittest.TestCase):
     def setUp(self):
         """
@@ -1034,6 +950,96 @@ class TestListToTree(unittest.TestCase):
         ]
         with pytest.raises(TreeError):
             list_to_tree(path_list)
+
+
+class TestListToTreeByRelation(unittest.TestCase):
+    def setUp(self):
+        """
+        Tree should have structure
+        a
+        |-- b
+        |   |-- d
+        |   +-- e
+        |       |-- g
+        |       +-- h
+        +-- c
+            +-- f
+        """
+        self.relations = [
+            ("a", "b"),
+            ("a", "c"),
+            ("b", "d"),
+            ("b", "e"),
+            ("c", "f"),
+            ("e", "g"),
+            ("e", "h"),
+        ]
+        self.relations_switch = [
+            ("h", "g"),
+            ("h", "f"),
+            ("g", "e"),
+            ("g", "d"),
+            ("g", "a"),
+            ("f", "a"),
+            ("d", "b"),
+            ("d", "a"),
+        ]
+
+    def tearDown(self):
+        self.relations = None
+
+    def test_list_to_tree_by_relation(self):
+        root = list_to_tree_by_relation(self.relations)
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
+    def test_list_to_tree_by_relation_reverse(self):
+        root = list_to_tree_by_relation(self.relations[::-1])
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
+    @staticmethod
+    def test_list_to_tree_by_relation_duplicate_leaf_node():
+        relations = [
+            ("a", "b"),
+            ("a", "c"),
+            ("b", "d"),
+            ("b", "e"),
+            ("b", "h"),
+            ("c", "h"),
+            ("e", "g"),
+            ("e", "h"),
+        ]
+        root = list_to_tree_by_relation(relations)
+        expected = """a\n├── b\n│   ├── d\n│   ├── e\n│   │   ├── g\n│   │   └── h\n│   └── h\n└── c\n    └── h\n"""
+        assert_print_statement(print_tree, expected, tree=root, style="const")
+
+    def test_list_to_tree_by_relation_empty_parent(self):
+        self.relations = self.relations[::-1]
+        self.relations.append((None, "a"))
+        root = list_to_tree_by_relation(self.relations)
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
+    @staticmethod
+    def test_list_to_tree_by_relation_one_tuple():
+        root = list_to_tree_by_relation([(None, "a")])
+        assert root.max_depth == 1, "Max depth is wrong"
+        assert root.node_name == "a", "Node name is wrong"
+
+    def test_list_to_tree_by_relation_empty(self):
+        with pytest.raises(ValueError):
+            list_to_tree_by_relation([])
+
+    def test_list_to_tree_by_relation_switch_order(self):
+        root = list_to_tree_by_relation(self.relations_switch)
+        expected = """h\n├── g\n│   ├── e\n│   ├── d\n│   │   ├── b\n│   │   └── a\n│   └── a\n└── f\n    └── a\n"""
+        assert_print_statement(print_tree, expected, root)
+
+    def test_list_to_tree_by_relation_switch_order_reverse(self):
+        root = list_to_tree_by_relation(self.relations_switch[::-1])
+        expected = """h\n├── f\n│   └── a\n└── g\n    ├── a\n    ├── d\n    │   ├── a\n    │   └── b\n    └── e\n"""
+        assert_print_statement(print_tree, expected, root)
 
 
 class TestDictToTree(unittest.TestCase):

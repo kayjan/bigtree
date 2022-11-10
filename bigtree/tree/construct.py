@@ -838,7 +838,7 @@ def dataframe_to_tree_by_relation(
 
     # Create root node attributes
     if len(root_row):
-        node_attrs = retrieve_attr(list(root_row.to_dict(orient="index").values())[0])
-        root_node.set_attrs(node_attrs)
+        row = list(root_row.to_dict(orient="index").values())[0]
+        root_node.set_attrs(retrieve_attr(row))
     recursive_create_child(root_node)
     return root_node
