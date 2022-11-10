@@ -3,3 +3,4 @@ karma-sphinx-theme==0.0.8
 myst-parser==0.18.1
 pandas==1.5.1
 sphinxemoji==0.2.0
+sphinxext-opengraph==0.7.2

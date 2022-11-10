@@ -1,6 +1,10 @@
 |:deciduous_tree:| Big Tree Documentation
 ============================================
 
+.. meta::
+    :description lang=en:
+        Tree Implementation for Python, integrated with Python list, dictionary, and pandas DataFrame.
+
 .. image:: https://badge.fury.io/py/bigtree.svg
    :target: https://badge.fury.io/py/bigtree
    :alt: python-version
