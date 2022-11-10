@@ -15,8 +15,8 @@ __all__ = [
     "add_dict_to_tree_by_name",
     "add_dataframe_to_tree_by_path",
     "add_dataframe_to_tree_by_name",
-    "list_to_tree_by_relation",
     "list_to_tree",
+    "list_to_tree_by_relation",
     "dict_to_tree",
     "nested_dict_to_tree",
     "dataframe_to_tree",
@@ -170,7 +170,7 @@ def add_dict_to_tree_by_path(
 def add_dict_to_tree_by_name(
     tree: Node, path_attrs: dict, join_type: str = "left"
 ) -> Node:
-    """Add nodes and attributes to tree, return *new* root of tree.
+    """Add attributes to tree, return *new* root of tree.
     Adds to existing tree from nested dictionary, ``key``: name, ``value``: dict of attribute name and attribute value.
 
     Function can return all existing tree nodes or only tree nodes that are in the input dictionary keys.
@@ -219,6 +219,7 @@ def add_dataframe_to_tree_by_path(
     duplicate_name_allowed: bool = True,
 ) -> Node:
     """Add nodes and attributes to tree *in-place*, return root of tree.
+
     `path_col` and `attribute_cols` specify columns for node path and attributes to add to existing tree.
     If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`
 
@@ -319,7 +320,7 @@ def add_dataframe_to_tree_by_name(
     attribute_cols: list = [],
     join_type: str = "left",
 ):
-    """Add nodes and attributes to tree, return *new* root of tree.
+    """Add attributes to tree, return *new* root of tree.
 
     `name_col` and `attribute_cols` specify columns for node name and attributes to add to existing tree.
     If columns are not specified, the first column will be taken as name column and all other columns as attributes.
@@ -405,43 +406,6 @@ def add_dataframe_to_tree_by_name(
     )
 
 
-def list_to_tree_by_relation(
-    relations: List[Tuple[str, str]],
-    node_type: Type[Node] = Node,
-) -> Node:
-    """Construct tree from list of tuple containing parent-child names.
-    Note that node names must be unique since tree is created from parent-child names,
-    except for leaf nodes - names of leaf nodes may be repeated as there is no confusion.
-
-    >>> from bigtree import list_to_tree_by_relation, print_tree
-    >>> relations_list = [("a", "b"), ("a", "c"), ("b", "d"), ("b", "e"), ("c", "f"), ("e", "g"), ("e", "h")]
-    >>> root = list_to_tree_by_relation(relations_list)
-    >>> print_tree(root)
-    a
-    ├── b
-    │   ├── d
-    │   └── e
-    │       ├── g
-    │       └── h
-    └── c
-        └── f
-
-    Args:
-        relations (list): list containing tuple containing parent-child names
-        node_type (Type[Node]): node type of tree to be created, defaults to Node
-
-    Returns:
-        (Node)
-    """
-    if not len(relations):
-        raise ValueError("Path list does not contain any data, check `relations`")
-
-    relation_data = pd.DataFrame(relations, columns=["parent", "child"])
-    return dataframe_to_tree_by_relation(
-        relation_data, child_col="child", parent_col="parent", node_type=node_type
-    )
-
-
 def list_to_tree(
     paths: list,
     sep: str = "/",
@@ -498,6 +462,44 @@ def list_to_tree(
         )
     root_node.sep = sep
     return root_node
+
+
+def list_to_tree_by_relation(
+    relations: List[Tuple[str, str]],
+    node_type: Type[Node] = Node,
+) -> Node:
+    """Construct tree from list of tuple containing parent-child names.
+
+    Note that node names must be unique since tree is created from parent-child names,
+    except for leaf nodes - names of leaf nodes may be repeated as there is no confusion.
+
+    >>> from bigtree import list_to_tree_by_relation, print_tree
+    >>> relations_list = [("a", "b"), ("a", "c"), ("b", "d"), ("b", "e"), ("c", "f"), ("e", "g"), ("e", "h")]
+    >>> root = list_to_tree_by_relation(relations_list)
+    >>> print_tree(root)
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    │       ├── g
+    │       └── h
+    └── c
+        └── f
+
+    Args:
+        relations (list): list containing tuple containing parent-child names
+        node_type (Type[Node]): node type of tree to be created, defaults to Node
+
+    Returns:
+        (Node)
+    """
+    if not len(relations):
+        raise ValueError("Path list does not contain any data, check `relations`")
+
+    relation_data = pd.DataFrame(relations, columns=["parent", "child"])
+    return dataframe_to_tree_by_relation(
+        relation_data, child_col="child", parent_col="parent", node_type=node_type
+    )
 
 
 def dict_to_tree(
@@ -632,6 +634,7 @@ def dataframe_to_tree(
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from pandas DataFrame using path, return root of tree.
+
     `path_col` and `attribute_cols` specify columns for node path and attributes to construct tree.
     If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`.
 
@@ -728,6 +731,7 @@ def dataframe_to_tree_by_relation(
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from pandas DataFrame using parent and child names, return root of tree.
+
     Note that node names must be unique since tree is created from parent-child names,
     except for leaf nodes - names of leaf nodes may be repeated as there is no confusion.
 

@@ -46,6 +46,10 @@ To add attributes to existing tree,
      - `add_dataframe_to_tree_by_path`
      - `add_dataframe_to_tree_by_name`
 
+.. note::
+ | If attributes are added to existing tree using **full path**, paths that previously did not exist will be added.
+ | If attributes are added to existing tree using **node name**, names that previously did not exist will not be created.
+
 These functions are not standalone functions.
 Under the hood, they have the following dependency,
 
