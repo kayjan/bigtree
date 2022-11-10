@@ -807,7 +807,8 @@ def dataframe_to_tree_by_relation(
         )
 
     # If parent-child contains None -> root
-    root_names = list(data[data[parent_col].isnull()][child_col])
+    root_row = data[data[parent_col].isnull()]
+    root_names = list(root_row[child_col])
     if not len(root_names):
         root_names = list(set(data[parent_col]) - set(data[child_col]))
     if len(root_names) != 1:
@@ -815,23 +816,25 @@ def dataframe_to_tree_by_relation(
     root_name = root_names[0]
     root_node = node_type(root_name)
 
-    # Child must be created before parent
-    data = data.sort_values([child_col, parent_col])
-
-    for row in data.to_dict(orient="index").values():
+    def retrieve_attr(row):
         node_attrs = row.copy()
         node_attrs["name"] = node_attrs[child_col]
-        parent_name = node_attrs[parent_col]
         del node_attrs[child_col]
         del node_attrs[parent_col]
-        node_attrs = {k: v for k, v in node_attrs.items() if not np.all(pd.isnull(v))}
+        _node_attrs = {k: v for k, v in node_attrs.items() if not np.all(pd.isnull(v))}
+        return _node_attrs
 
-        # For root node
-        if not parent_name:
-            root_node.set_attrs(node_attrs)
-        else:
-            parent_node = find_name(root_node, parent_name)
-            child_node = node_type(**node_attrs)
+    def recursive_create_child(parent_node):
+        child_rows = data[data[parent_col] == parent_node.node_name]
+
+        for row in child_rows.to_dict(orient="index").values():
+            child_node = node_type(**retrieve_attr(row))
             child_node.parent = parent_node
+            recursive_create_child(child_node)
 
+    # Create root node attributes
+    if len(root_row):
+        node_attrs = retrieve_attr(list(root_row.to_dict(orient="index").values())[0])
+        root_node.set_attrs(node_attrs)
+    recursive_create_child(root_node)
     return root_node

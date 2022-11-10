@@ -916,6 +916,20 @@ class TestListToTreeByRelation(unittest.TestCase):
         with pytest.raises(ValueError):
             list_to_tree_by_relation([])
 
+    def test_list_to_tree_by_relation_switch_order(self):
+        relations = [
+            ("h", "g"),
+            ("h", "f"),
+            ("g", "e"),
+            ("g", "d"),
+            ("g", "a"),
+            ("f", "a"),
+            ("d", "b"),
+            ("d", "a"),
+        ]
+        root = list_to_tree_by_relation(relations)
+        assert root.max_depth == 4
+
 
 class TestListToTree(unittest.TestCase):
     def setUp(self):
