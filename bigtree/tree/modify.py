@@ -5,7 +5,7 @@ from bigtree.node.node import Node
 from bigtree.tree.search import find_path
 from bigtree.utils.exceptions import NotFoundError, TreeError
 
-logger = logging.getLogger(__name__)
+logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 __all__ = [
@@ -39,6 +39,8 @@ def shift_nodes(
 
     For paths in `to_paths`,
       - Can set to empty string or None to delete the path in `from_paths`.
+
+    If ``merge_children=True``, overriding happens by default
 
     >>> from bigtree import Node, shift_nodes, print_tree
     >>> root = Node("a")
@@ -104,6 +106,8 @@ def copy_nodes(
 
     For paths in `to_paths`,
       - Can set to empty string or None to delete the path in `from_paths`.
+
+    If ``merge_children=True``, overriding happens by default
 
     >>> from bigtree import Node, copy_nodes, print_tree
     >>> root = Node("a")
@@ -173,6 +177,9 @@ def copy_nodes_from_tree_to_tree(
     For paths in `to_paths`,
       - Can set to empty string or None to delete the path in `from_paths`.
 
+    If ``merge_children=True``, specify ``overriding=True`` to override the node,
+    else the original node children will be merged with new children
+
     >>> from bigtree import Node, copy_nodes_from_tree_to_tree, print_tree
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
@@ -234,7 +241,7 @@ def copy_or_shift_logic(
     - Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable)
     - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)
     - Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged)
-    - Able to copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)
+    - Able to shift/copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)
 
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
@@ -243,6 +250,11 @@ def copy_or_shift_logic(
 
     For paths in `to_paths`,
       - Can set to empty string or None to delete the path in `from_paths`.
+
+    If ``merge_children=True``,
+      - For shifting/copying within same tree, overriding happens by default
+      - For shifting/copying between two trees, specify ``overriding=True`` to override the node,
+        else the original node children will be merged with new children
 
     Args:
         tree (Node): tree to modify
@@ -292,7 +304,7 @@ def copy_or_shift_logic(
                     f"Set `skippable` to True to skip shifting for nodes not found"
                 )
             else:
-                logger.info(f"Unable to find from_path {from_path}")
+                logging.info(f"Unable to find from_path {from_path}")
 
         # From node found
         else:
@@ -309,22 +321,42 @@ def copy_or_shift_logic(
 
                 # To node found
                 if to_node:
-                    if merge_children:
-                        continue
                     if from_node == to_node:
                         raise TreeError(
                             f"Attempting to shift the same node {from_node} back to the same position\n"
                             f"Check from path {from_path} and to path {to_path}"
                         )
-                    if not overriding:
-                        raise TreeError(
-                            f"Path {to_path} already exists and unable to override\n"
-                            f"Set `overriding` to True to perform overrides"
+                    if merge_children:
+                        # If same tree, overriding happens by default
+                        if not transfer_indicator:
+                            logging.info(
+                                f"Path {to_path} already exists and will be overridden by the merge"
+                            )
+                            parent = to_node.parent
+                            to_node.parent = None
+                            to_node = parent
+                        # If different tree, specify override to remove existing node, else children are merged
+                        elif overriding:
+                            logging.info(
+                                f"Path {to_path} already exists and its children be overridden by the merge"
+                            )
+                            parent = to_node.parent
+                            to_node.parent = None
+                            to_node = parent
+                            merge_children = False
+                    else:
+                        if not overriding:
+                            raise TreeError(
+                                f"Path {to_path} already exists and unable to override\n"
+                                f"Set `overriding` to True to perform overrides\n"
+                                f"Alternatively, set `merge_children` to True if nodes are to be merged"
+                            )
+                        logging.info(
+                            f"Path {to_path} already exists and will be overridden"
                         )
-                    logger.info(f"Path {to_path} already exists and will be overridden")
-                    parent = to_node.parent
-                    to_node.parent = None
-                    to_node = parent
+                        parent = to_node.parent
+                        to_node.parent = None
+                        to_node = parent
 
                 # To node not found
                 else:
@@ -357,11 +389,11 @@ def copy_or_shift_logic(
 
             # Reassign from_node to new parent
             if copy:
-                logger.info(f"Copying {from_node} to {to_node}")
+                logging.info(f"Copying {from_node} to {to_node}")
                 from_node = from_node.copy()
             if merge_children:
-                logger.info(f"Reassigning children from {from_node} to {to_node}")
-                for children in list(from_node.children):
+                logging.info(f"Reassigning children from {from_node} to {to_node}")
+                for children in from_node.children:
                     children.parent = to_node
                 from_node.parent = None
             else:

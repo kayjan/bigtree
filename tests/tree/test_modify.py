@@ -3,7 +3,8 @@ import unittest
 import pytest
 
 from bigtree.node.node import Node
-from bigtree.tree.modify import copy_or_shift_logic
+from bigtree.tree.export import print_tree
+from bigtree.tree.modify import copy_nodes, copy_nodes_from_tree_to_tree, shift_nodes
 from bigtree.tree.search import find_path
 from bigtree.utils.exceptions import NotFoundError, TreeError
 from tests.node.test_basenode import (
@@ -48,157 +49,243 @@ class TestCopyOrShiftNodes(unittest.TestCase):
     def tearDown(self):
         self.root = None
 
-    def test_copy_or_shift_nodes(self):
+    def test_shift_nodes(self):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        copy_or_shift_logic(self.root, from_paths, to_paths)
+        shift_nodes(self.root, from_paths, to_paths)
         assert_tree_structure_basenode_root_generic(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
         assert_tree_structure_node_root_generic(self.root)
 
-    def test_copy_or_shift_nodes_invalid_type(self):
+    def test_shift_nodes_invalid_type(self):
         with pytest.raises(ValueError) as exc_info:
-            copy_or_shift_logic(self.root, {}, [])
+            shift_nodes(self.root, {}, [])
         assert str(exc_info.value).startswith("Invalid type")
 
-    def test_copy_or_shift_nodes_unequal_length(self):
+    def test_shift_nodes_unequal_length(self):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d"]
         with pytest.raises(ValueError) as exc_info:
-            copy_or_shift_logic(self.root, from_paths, to_paths)
+            shift_nodes(self.root, from_paths, to_paths)
         assert str(exc_info.value).startswith("Paths are different length")
 
-    def test_copy_or_shift_nodes_invalid_paths(self):
-        from_paths = ["d", "e", "g", "h", "f"]
-        to_paths = ["a/b/e", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+    def test_shift_nodes_invalid_paths(self):
+        from_paths = ["d"]
+        to_paths = ["a/b/e"]
         with pytest.raises(ValueError) as exc_info:
-            copy_or_shift_logic(self.root, from_paths, to_paths)
+            shift_nodes(self.root, from_paths, to_paths)
         assert str(exc_info.value).startswith("Unable to assign")
 
-    def test_copy_or_shift_nodes_invalid_from_paths(self):
+    def test_shift_nodes_invalid_from_paths(self):
         from_paths = ["i"]
         to_paths = ["a/b/i"]
         with pytest.raises(NotFoundError) as exc_info:
-            copy_or_shift_logic(self.root, from_paths, to_paths)
+            shift_nodes(self.root, from_paths, to_paths)
         assert str(exc_info.value).startswith("Unable to find from_path")
 
-    def test_copy_or_shift_nodes_invalid_to_paths(self):
+    def test_shift_nodes_invalid_to_paths(self):
         from_paths = ["d"]
         to_paths = ["aa/b/d"]
         with pytest.raises(NotFoundError) as exc_info:
-            copy_or_shift_logic(self.root, from_paths, to_paths)
+            shift_nodes(self.root, from_paths, to_paths)
         assert str(exc_info.value).startswith("Unable to find to_path")
 
-    def test_copy_or_shift_nodes_create_intermediate_path(self):
+    def test_shift_nodes_create_intermediate_path(self):
         from_paths = ["d"]
         to_paths = ["a/b/c/d"]
-        copy_or_shift_logic(self.root, from_paths, to_paths)
+        shift_nodes(self.root, from_paths, to_paths)
         assert self.root.max_depth == 4, "Shift did not create a tree of depth 4"
 
-    def test_copy_or_shift_nodes_sep_undefined(self):
+    def test_shift_nodes_sep_undefined(self):
         from_paths = ["\\d", "\\e", "\\g", "\\h", "\\f"]
         to_paths = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
         with pytest.raises(ValueError) as exc_info:
-            copy_or_shift_logic(self.root, from_paths, to_paths)
+            shift_nodes(self.root, from_paths, to_paths)
         assert str(exc_info.value).startswith("Unable to assign from_path")
 
-    def test_copy_or_shift_nodes_sep(self):
+    def test_shift_nodes_sep(self):
         from_paths = ["\\d", "\\e", "\\g", "\\h", "\\f"]
         to_paths = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
-        copy_or_shift_logic(self.root, from_paths, to_paths, sep="\\")
+        shift_nodes(self.root, from_paths, to_paths, sep="\\")
         assert_tree_structure_basenode_root_generic(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
         assert_tree_structure_node_root_generic(self.root)
 
-    def test_copy_or_shift_nodes_copy_node(self):
+    def test_copy_nodes_copy_node(self):
         from_paths = ["d"]
         to_paths = ["a/b/c/d"]
-        copy_or_shift_logic(self.root, from_paths, to_paths, copy=True)
+        copy_nodes(self.root, from_paths, to_paths)
         assert self.root.max_depth == 4, "Shift did not create a tree of depth 4"
         assert find_path(self.root, "a/d"), "Original node is not there"
         assert find_path(self.root, "a/b/c/d"), "Copied node is not there"
 
-    def test_copy_or_shift_nodes_skippable(self):
+    def test_shift_nodes_skippable(self):
         from_paths = ["i", "d", "e", "g", "h", "f"]
         to_paths = ["a/c/f/i", "a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
         with pytest.raises(NotFoundError):
-            copy_or_shift_logic(self.root, from_paths, to_paths)
+            shift_nodes(self.root, from_paths, to_paths)
 
-        copy_or_shift_logic(self.root, from_paths, to_paths, skippable=True)
+        shift_nodes(self.root, from_paths, to_paths, skippable=True)
         assert_tree_structure_basenode_root_generic(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
         assert_tree_structure_node_root_generic(self.root)
 
-    def test_copy_or_shift_nodes_delete_and_overriding_error(self):
+    def test_shift_nodes_delete_and_overriding_error(self):
         new_aa = Node("aa", parent=self.root)
         new_d = Node("d")
         new_d.parent = new_aa
         from_paths = ["/a/d", "aa/d", "e", "g", "h", "f", "a/aa"]
         to_paths = ["a/b/d", "a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f", None]
         with pytest.raises(TreeError):
-            copy_or_shift_logic(self.root, from_paths, to_paths)
+            shift_nodes(self.root, from_paths, to_paths)
 
-    def test_copy_or_shift_nodes_delete_and_overriding(self):
+    def test_shift_nodes_delete_and_overriding(self):
         new_aa = Node("aa", parent=self.root)
         new_d = Node("d")
         new_d.parent = new_aa
         from_paths = ["/a/d", "aa/d", "e", "g", "h", "f", "a/aa"]
         to_paths = ["a/b/d", "a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f", None]
-        copy_or_shift_logic(self.root, from_paths, to_paths, overriding=True)
+        shift_nodes(self.root, from_paths, to_paths, overriding=True)
         assert_tree_structure_basenode_root_generic(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
         assert_tree_structure_node_root_generic(self.root)
 
-    def test_copy_or_shift_nodes_merge_children_change_levels(self):
+    def test_shift_nodes_merge_children(self):
         new_aa = Node("aa", parent=self.root)
         new_bb = Node("bb", parent=new_aa)
-        new_cc = Node("cc")
+        new_cc = Node("cc", age=1)
         new_cc.parent = new_bb
 
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        copy_or_shift_logic(self.root, from_paths, to_paths)
+        shift_nodes(self.root, from_paths, to_paths)
 
         from_paths = ["aa/bb"]
         to_paths = ["/a/bb"]
-        copy_or_shift_logic(self.root, from_paths, to_paths, merge_children=True)
+        shift_nodes(self.root, from_paths, to_paths, merge_children=True)
         assert len(list(self.root.children)) == 4
         assert find_path(self.root, "a/cc"), "Node children not merged"
+        assert (
+            find_path(self.root, "a/cc").get_attr("age") == 1
+        ), f"Merged children not overridden, {print_tree(self.root)}"
         assert not len(
             list(find_path(self.root, "a/aa").children)
         ), "Node parent not deleted"
 
-    def test_copy_or_shift_nodes_merge_children_same_level(self):
+    def test_shift_nodes_merge_children_overriding(self):
         new_aa = Node("aa", parent=self.root)
         new_bb = Node("bb", parent=new_aa)
-        new_cc = Node("cc")
+        new_cc = Node("cc", age=1)
         new_cc.parent = new_bb
+        bb2 = Node("bb")
+        bb2.parent = self.root
 
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        copy_or_shift_logic(self.root, from_paths, to_paths)
+        shift_nodes(self.root, from_paths, to_paths)
 
-        from_paths = ["aa"]
-        to_paths = ["/a/aa"]
-        copy_or_shift_logic(self.root, from_paths, to_paths, merge_children=True)
-        assert len(list(self.root.children)) == 3
-        assert find_path(self.root, "a/bb"), "Node children not merged"
+        from_paths = ["a/aa/bb"]
+        to_paths = ["/a/bb"]
+        shift_nodes(
+            self.root, from_paths, to_paths, overriding=True, merge_children=True
+        )
+        assert (
+            len(list(self.root.children)) == 4
+        ), f"Node children not merged, {print_tree(self.root)}"
+        assert find_path(
+            self.root, "a/cc"
+        ), f"Node children not merged, {print_tree(self.root)}"
+        assert (
+            find_path(self.root, "a/cc").get_attr("age") == 1
+        ), f"Merged children not overridden, {print_tree(self.root)}"
+        assert not len(
+            list(find_path(self.root, "a/aa").children)
+        ), "Node parent not deleted"
 
-    def test_copy_or_shift_nodes_shift_same_node(self):
+    def test_shift_nodes_same_node_error(self):
         from_paths = ["d"]
         to_paths = ["a/d"]
         with pytest.raises(TreeError) as exc_info:
-            copy_or_shift_logic(self.root, from_paths, to_paths)
+            shift_nodes(self.root, from_paths, to_paths)
         assert str(exc_info.value).startswith("Attempting to shift the same node")
 
-    def test_copy_or_shift_nodes_tree_to_tree(self):
+    def test_copy_nodes_from_tree_to_tree(self):
         root_other = Node("a", age=90)
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        copy_or_shift_logic(
-            self.root, from_paths, to_paths, copy=True, to_tree=root_other
+        copy_nodes_from_tree_to_tree(
+            from_tree=self.root,
+            to_tree=root_other,
+            from_paths=from_paths,
+            to_paths=to_paths,
         )
         assert_tree_structure_basenode_root_generic(root_other)
         assert_tree_structure_basenode_root_attr(root_other)
         assert_tree_structure_node_root_generic(root_other)
         assert self.root.max_depth == 2, "Copying changes original tree"
+
+    def test_copy_nodes_from_tree_to_tree_merge_children(self):
+        from_paths = ["d", "e", "g", "h", "f"]
+        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        shift_nodes(self.root, from_paths, to_paths)
+
+        root_other = Node("a", age=90)
+        from_paths = ["a"]
+        to_paths = ["a"]
+        copy_nodes_from_tree_to_tree(
+            self.root,
+            root_other,
+            from_paths,
+            to_paths,
+            merge_children=True,
+        )
+        assert_tree_structure_basenode_root_generic(root_other)
+        assert_tree_structure_basenode_root_attr(root_other)
+        assert_tree_structure_node_root_generic(root_other)
+
+    def test_copy_nodes_from_tree_to_tree_merge_children_overriding(self):
+        from_paths = ["d", "e", "g", "h", "f"]
+        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        shift_nodes(self.root, from_paths, to_paths)
+
+        root_other = Node("a", age=90)
+        b = Node("b", age=1)
+        c = Node("c", age=1)
+        b.parent = root_other
+        c.parent = root_other
+        from_paths = ["a/b", "a/c"]
+        to_paths = ["a/b", "a/c"]
+        assert find_path(root_other, "a/b").get_attr("age") == 1
+        assert find_path(root_other, "a/c").get_attr("age") == 1
+
+        copy_nodes_from_tree_to_tree(
+            from_tree=self.root,
+            from_paths=from_paths,
+            to_paths=to_paths,
+            merge_children=True,
+            overriding=True,
+            to_tree=root_other,
+        )
+        assert_tree_structure_basenode_root_generic(root_other)
+        assert_tree_structure_basenode_root_attr(root_other)
+        assert_tree_structure_node_root_generic(root_other)
+
+    def test_copy_nodes_from_tree_to_tree_merge_children_overriding_error(self):
+        from_paths = ["d", "e", "g", "h", "f"]
+        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        shift_nodes(self.root, from_paths, to_paths)
+
+        root_other = Node("a", age=90)
+        c = Node("c", parent=root_other)
+        f = Node("f")
+        f.parent = c
+        from_paths = ["a/c"]
+        to_paths = ["a/c"]
+        with pytest.raises(TreeError):
+            copy_nodes_from_tree_to_tree(
+                from_tree=self.root,
+                from_paths=from_paths,
+                to_paths=to_paths,
+                merge_children=True,
+                to_tree=root_other,
+            )
