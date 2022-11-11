@@ -35,6 +35,7 @@
    tree
    utils
    workflows
+   others
 
 .. include:: ../../README.md
    :parser: myst_parser.sphinx_
