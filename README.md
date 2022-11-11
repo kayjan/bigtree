@@ -10,9 +10,11 @@ Related Links:
 - [Documentation](https://bigtree.readthedocs.io/en/latest/)
 - [GitHub](https://github.com/kayjan/bigtree/)
 - [Changelog](https://github.com/kayjan/bigtree/blob/master/CHANGELOG.md)
+- [Issues](https://github.com/kayjan/bigtree/issues)
 - [PyPI](https://pypi.org/project/bigtree/)
 - Articles
   - [Python Tree Implementation with BigTree](https://towardsdatascience.com/python-tree-implementation-with-bigtree-13cdabd77adc#245a-94ae81f0b3f1)
+- <div>If you want to support bigtree, <a href="https://www.buymeacoffee.com/kayjan"><img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me a Coffee" style="vertical-align:middle"></a> </div>
 
 ----
 
