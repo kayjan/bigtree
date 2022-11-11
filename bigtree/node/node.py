@@ -108,12 +108,49 @@ class Node(BaseNode):
             return f"{self.sep}{self.name}"
         return f"{self.parent.path_name}{self.sep}{self.name}"
 
+    def __pre_assign_children(self, new_children: List):
+        """Custom method to check before attaching children
+        Can be overriden with `_Node__pre_assign_children()`
+
+        Args:
+            new_children (List[Self]): new children to be added
+        """
+        pass
+
+    def __post_assign_children(self, new_children: List):
+        """Custom method to check after attaching children
+        Can be overriden with `_Node__post_assign_children()`
+
+        Args:
+            new_children (List[Self]): new children to be added
+        """
+        pass
+
+    def __pre_assign_parent(self, new_parent):
+        """Custom method to check before attaching parent
+        Can be overriden with `_Node__pre_assign_parent()`
+
+        Args:
+            new_parent (Self): new parent to be added
+        """
+        pass
+
+    def __post_assign_parent(self, new_parent):
+        """Custom method to check after attaching parent
+        Can be overriden with `_Node__post_assign_parent()`
+
+        Args:
+            new_parent (Self): new parent to be added
+        """
+        pass
+
     def _BaseNode__pre_assign_parent(self, new_parent):
         """Do not allow duplicate nodes of same path
 
         Args:
             new_parent (Self): new parent to be added
         """
+        self.__pre_assign_parent(new_parent)
         if new_parent is not None:
             if any(
                 child.node_name == self.node_name and child is not self
@@ -124,12 +161,21 @@ class Node(BaseNode):
                     f"There exist a node with same path {new_parent.path_name}{self.sep}{self.node_name}"
                 )
 
+    def _BaseNode__post_assign_parent(self, new_parent):
+        """No rules
+
+        Args:
+            new_parent (Self): new parent to be added
+        """
+        self.__post_assign_parent(new_parent)
+
     def _BaseNode__pre_assign_children(self, new_children: List):
         """Do not allow duplicate nodes of same path
 
         Args:
             new_children (List[Self]): new children to be added
         """
+        self.__pre_assign_children(new_children)
         children_names = [node.node_name for node in new_children]
         duplicated_names = [
             item[0] for item in Counter(children_names).items() if item[1] > 1
@@ -142,6 +188,14 @@ class Node(BaseNode):
                 f"Error: Duplicate node with same path\n"
                 f"Attempting to add nodes same path {duplicated_names}"
             )
+
+    def _BaseNode__post_assign_children(self, new_children: List):
+        """No rules
+
+        Args:
+            new_children (List[Self]): new children to be added
+        """
+        self.__post_assign_children(new_children)
 
     def __repr__(self):
         class_name = self.__class__.__name__

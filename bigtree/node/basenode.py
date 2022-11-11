@@ -235,7 +235,6 @@ class BaseNode:
             new_children (List[Self]): child node
         """
         if not isinstance(new_children, list):
-            print(new_children)
             raise TypeError(
                 f"Children input should be list type, received input type {type(new_children)}"
             )
