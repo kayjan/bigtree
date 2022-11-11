@@ -194,14 +194,46 @@ def tree_node_style():
     +-- c
         +-- f
     """
-    a = Node("a", node_style={"style": "filled", "fillcolor": "gold"})
-    b = Node("b", node_style={"style": "filled", "fillcolor": "blue"})
-    c = Node("c", node_style={"style": "filled", "fillcolor": "blue"})
-    d = Node("d", node_style={"style": "filled", "fillcolor": "green"})
-    e = Node("e", node_style={"style": "filled", "fillcolor": "green"})
-    f = Node("f", node_style={"style": "filled", "fillcolor": "green"})
-    g = Node("g", node_style={"style": "filled", "fillcolor": "red"})
-    h = Node("h", node_style={"style": "filled", "fillcolor": "red"})
+    a = Node(
+        "a",
+        node_style={"style": "filled", "fillcolor": "gold"},
+        edge_style={"style": "bold", "label": "a"},
+    )
+    b = Node(
+        "b",
+        node_style={"style": "filled", "fillcolor": "blue"},
+        edge_style={"style": "bold", "label": "b"},
+    )
+    c = Node(
+        "c",
+        node_style={"style": "filled", "fillcolor": "blue"},
+        edge_style={"style": "bold", "label": "c"},
+    )
+    d = Node(
+        "d",
+        node_style={"style": "filled", "fillcolor": "green"},
+        edge_style={"style": "bold", "label": 1},
+    )
+    e = Node(
+        "e",
+        node_style={"style": "filled", "fillcolor": "green"},
+        edge_style={"style": "bold", "label": 2},
+    )
+    f = Node(
+        "f",
+        node_style={"style": "filled", "fillcolor": "green"},
+        edge_style={"style": "bold", "label": 3},
+    )
+    g = Node(
+        "g",
+        node_style={"style": "filled", "fillcolor": "red"},
+        edge_style={"style": "bold", "label": 4},
+    )
+    h = Node(
+        "h",
+        node_style={"style": "filled", "fillcolor": "red"},
+        edge_style={"style": "bold", "label": 5},
+    )
 
     b.parent = a
     c.parent = a
@@ -263,14 +295,46 @@ def dag_node_child():
 
 @pytest.fixture
 def dag_node_style():
-    a = DAGNode("a", node_style={"style": "filled", "fillcolor": "gold"})
-    b = DAGNode("b", node_style={"style": "filled", "fillcolor": "blue"})
-    c = DAGNode("c", node_style={"style": "filled", "fillcolor": "blue"})
-    d = DAGNode("d", node_style={"style": "filled", "fillcolor": "green"})
-    e = DAGNode("e", node_style={"style": "filled", "fillcolor": "green"})
-    f = DAGNode("f", node_style={"style": "filled", "fillcolor": "green"})
-    g = DAGNode("g", node_style={"style": "filled", "fillcolor": "red"})
-    h = DAGNode("h", node_style={"style": "filled", "fillcolor": "red"})
+    a = DAGNode(
+        "a",
+        node_style={"style": "filled", "fillcolor": "gold"},
+        edge_style={"style": "bold", "label": "a"},
+    )
+    b = DAGNode(
+        "b",
+        node_style={"style": "filled", "fillcolor": "blue"},
+        edge_style={"style": "bold", "label": "b"},
+    )
+    c = DAGNode(
+        "c",
+        node_style={"style": "filled", "fillcolor": "blue"},
+        edge_style={"style": "bold", "label": "c"},
+    )
+    d = DAGNode(
+        "d",
+        node_style={"style": "filled", "fillcolor": "green"},
+        edge_style={"style": "bold", "label": 1},
+    )
+    e = DAGNode(
+        "e",
+        node_style={"style": "filled", "fillcolor": "green"},
+        edge_style={"style": "bold", "label": 2},
+    )
+    f = DAGNode(
+        "f",
+        node_style={"style": "filled", "fillcolor": "green"},
+        edge_style={"style": "bold", "label": 3},
+    )
+    g = DAGNode(
+        "g",
+        node_style={"style": "filled", "fillcolor": "red"},
+        edge_style={"style": "bold", "label": 4},
+    )
+    h = DAGNode(
+        "h",
+        node_style={"style": "filled", "fillcolor": "red"},
+        edge_style={"style": "bold", "label": 5},
+    )
 
     c.parents = [a, b]
     d.parents = [a, c]

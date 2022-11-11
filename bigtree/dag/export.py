@@ -167,6 +167,7 @@ def dag_to_dot(
     node_colour: str = None,
     edge_colour: str = None,
     node_attr: str = None,
+    edge_attr: str = None,
 ):
     r"""Export DAG tree or list of DAG trees to image.
     Note that node names must be unique.
@@ -197,6 +198,9 @@ def dag_to_dot(
         node_colour (str): fill colour of nodes, defaults to None
         edge_colour (str): colour of edges, defaults to None
         node_attr (str): node attribute for style, overrides node_colour, defaults to None
+            Possible node attributes include {"style": "filled", "fillcolor": "gold"}
+        edge_attr (str): edge attribute for style, overrides edge_colour, defaults to None
+            Possible edge attributes include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
         (pydot.Dot)
@@ -243,6 +247,8 @@ def dag_to_dot(
             child_node_style = node_style.copy()
             if node_attr and child_node.get_attr(node_attr):
                 child_node_style.update(child_node.get_attr(node_attr))
+            if edge_attr:
+                edge_style.update(child_node.get_attr(edge_attr))
             pydot_child = pydot.Node(
                 name=child_name, label=child_name, **child_node_style
             )

@@ -585,6 +585,7 @@ def tree_to_dot(
     node_colour: str = None,
     edge_colour: str = None,
     node_attr: str = None,
+    edge_attr: str = None,
 ):
     r"""Export tree or list of trees to image.
     Posible node attributes include style, fillcolor, shape.
@@ -615,6 +616,9 @@ def tree_to_dot(
         node_colour (str): fill colour of nodes, defaults to None
         edge_colour (str): colour of edges, defaults to None
         node_attr (str): node attribute for style, overrides node_colour, defaults to None
+            Possible node attributes include {"style": "filled", "fillcolor": "gold"}
+        edge_attr (str): edge attribute for style, overrides edge_colour, defaults to None
+            Possible edge attributes include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
         (pydot.Dot)
@@ -671,6 +675,8 @@ def tree_to_dot(
             )
             if node_attr and child_node.get_attr(node_attr):
                 node_style.update(child_node.get_attr(node_attr))
+            if edge_attr:
+                edge_style.update(child_node.get_attr(edge_attr))
             node = pydot.Node(name=child_name, label=child_label, **node_style)
             _graph.add_node(node)
             if parent_name is not None:
