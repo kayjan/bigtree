@@ -124,7 +124,7 @@ graph = tree_to_dot(root, node_colour="gold")
 graph.write_png("assets/tree.png")
 ```
 
-![Sample Tree Output](../../assets/tree.png)
+![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/tree.png)
 
 ```python
 from bigtree import Node, print_tree
