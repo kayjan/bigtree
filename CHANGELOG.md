@@ -4,10 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.4] - 2022-11-12
+### Added
+- BaseNode: Add sort() to sort children.
+- Node: Made more extendable with pre-/post-assign checks.
+- Add Tips and Tricks to documentation (Extending Nodes).
+- More test cases.
+
+### Fixed
+- Tree Search: Type hints
+
 ## [0.5.3] - 2022-11-11
 ### Added
 - DAG and Tree Exporter: More customizations allowed on edges.
-- Add Tips and Tricks to documentation,
+- Add Tips and Tricks to documentation (Weighted Trees, Merging Trees).
 
 ### Fixed
 - Tree Modifier: Fix issue with `merge_children` argument not working as expected.
@@ -104,6 +114,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.5.4]: https://github.com/kayjan/bigtree/compare/v0.5.3...v0.5.4
 [0.5.3]: https://github.com/kayjan/bigtree/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/kayjan/bigtree/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/kayjan/bigtree/compare/v0.5.0...v0.5.1

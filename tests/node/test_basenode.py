@@ -3,8 +3,9 @@ import unittest
 
 import pytest
 
-from bigtree import BaseNode
+from bigtree.node.basenode import BaseNode
 from bigtree.utils.exceptions import LoopError, TreeError
+from bigtree.utils.iterators import preorder_iter
 from tests.conftest import assert_print_statement
 
 
@@ -91,6 +92,22 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
+    def test_set_parent_sort(self):
+        self.h.parent = self.e
+        self.g.parent = self.e
+        self.f.parent = self.c
+        self.e.parent = self.b
+        self.d.parent = self.b
+        self.c.parent = self.a
+        self.b.parent = self.a
+
+        self.a.sort(key=lambda x: x.name)
+        self.b.sort(key=lambda x: x.name)
+        self.e.sort(key=lambda x: x.name)
+        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
     def test_set_parent_rshift(self):
         self.a >> self.b
         self.a >> self.c
@@ -165,6 +182,19 @@ class TestBaseNode(unittest.TestCase):
         self.c.children = [self.f]
         self.e.children = [self.g, self.h]
 
+        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
+    def test_set_children_sort(self):
+        self.a.children = [self.c, self.b]
+        self.b.children = [self.e, self.d]
+        self.c.children = [self.f]
+        self.e.children = [self.h, self.g]
+
+        self.a.sort(key=lambda x: x.name)
+        self.b.sort(key=lambda x: x.name)
+        self.e.sort(key=lambda x: x.name)
         assert_tree_structure_basenode_root_generic(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
@@ -395,13 +425,31 @@ def assert_tree_structure_basenode_root_generic(root):
     ), f"Node attribute should be {expected}, but it is {actual}"
 
 
-def assert_tree_structure_basenode_root_attr(root):
+def assert_tree_structure_basenode_root_attr(
+    root,
+    a=("a", 90),
+    b=("b", 65),
+    c=("c", 60),
+    d=("d", 40),
+    e=("e", 35),
+    f=("f", 38),
+    g=("g", 10),
+    h=("h", 6),
+):
     # Test describe()
     expected = [("age", 90), ("name", "a")]
     actual = root.describe(exclude_prefix="_")
     assert (
         actual == expected
     ), f"Node description should be {expected}, but it is {actual}"
+
+    # Test age attribute
+    expected_attrs = [a, b, d, e, g, h, c, f]
+    for node, expected in zip(preorder_iter(root), expected_attrs):
+        actual = node.get_attr("name"), node.get_attr("age")
+        assert (
+            actual == expected
+        ), f"Node name and age should be {expected}, but it is {actual}"
 
 
 def assert_tree_structure_basenode_self(self):

@@ -307,7 +307,8 @@ def yield_tree(
     tree = tree.copy()
     if node_name_or_path:
         tree = find_path(tree, node_name_or_path)
-    tree.parent = None
+    if not tree.is_root:
+        tree.parent = None
 
     # Set style
     if style == "custom":

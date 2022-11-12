@@ -141,13 +141,13 @@ class TestCopyOrShiftNodes(unittest.TestCase):
 
     def test_shift_nodes_delete_and_overriding(self):
         new_aa = Node("aa", parent=self.root)
-        new_d = Node("d")
+        new_d = Node("d", age=1)
         new_d.parent = new_aa
         from_paths = ["/a/d", "aa/d", "e", "g", "h", "f", "a/aa"]
         to_paths = ["a/b/d", "a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f", None]
         shift_nodes(self.root, from_paths, to_paths, overriding=True)
         assert_tree_structure_basenode_root_generic(self.root)
-        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_basenode_root_attr(self.root, d=("d", 1))
         assert_tree_structure_node_root_generic(self.root)
 
     def test_shift_nodes_merge_children(self):
@@ -211,8 +211,8 @@ class TestCopyOrShiftNodes(unittest.TestCase):
 
     def test_copy_nodes_from_tree_to_tree(self):
         root_other = Node("a", age=90)
-        from_paths = ["d", "e", "g", "h", "f"]
-        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        from_paths = ["b", "c", "d", "e", "f", "g", "h"]
+        to_paths = ["a/b", "a/c", "a/b/d", "a/b/e", "a/c/f", "a/b/e/g", "a/b/e/h"]
         copy_nodes_from_tree_to_tree(
             from_tree=self.root,
             to_tree=root_other,
@@ -224,14 +224,33 @@ class TestCopyOrShiftNodes(unittest.TestCase):
         assert_tree_structure_node_root_generic(root_other)
         assert self.root.max_depth == 2, "Copying changes original tree"
 
+    def test_copy_nodes_from_tree_to_tree_reversed(self):
+        root_other = Node("a", age=90)
+        from_paths = ["b", "c", "d", "e", "f", "g", "h"][::-1]
+        to_paths = ["a/b", "a/c", "a/b/d", "a/b/e", "a/c/f", "a/b/e/g", "a/b/e/h"][::-1]
+        with pytest.raises(TreeError) as exc_info:
+            copy_nodes_from_tree_to_tree(
+                from_tree=self.root,
+                to_tree=root_other,
+                from_paths=from_paths,
+                to_paths=to_paths,
+            )
+        assert "already exists and unable to override" in str(exc_info.value)
+
     def test_copy_nodes_from_tree_to_tree_merge_children(self):
-        from_paths = ["d", "e", "g", "h", "f"]
-        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        from_paths = ["e", "g", "h"]
+        to_paths = ["a/b/e", "a/b/e/g", "a/b/e/h"]
         shift_nodes(self.root, from_paths, to_paths)
 
         root_other = Node("a", age=90)
-        from_paths = ["a"]
-        to_paths = ["a"]
+        b = Node("b", age=65, parent=root_other)
+        d = Node("d", age=40)
+        d.parent = b
+        c = Node("c", age=60, parent=root_other)
+        f = Node("f", age=38)
+        f.parent = c
+        from_paths = ["a/b"]
+        to_paths = ["a/b"]
         copy_nodes_from_tree_to_tree(
             self.root,
             root_other,
@@ -250,9 +269,10 @@ class TestCopyOrShiftNodes(unittest.TestCase):
 
         root_other = Node("a", age=90)
         b = Node("b", age=1)
-        c = Node("c", age=1)
+        c = Node("c", age=1, parent=root_other)
         b.parent = root_other
-        c.parent = root_other
+        f = Node("f")
+        f.parent = c
         from_paths = ["a/b", "a/c"]
         to_paths = ["a/b", "a/c"]
         assert find_path(root_other, "a/b").get_attr("age") == 1

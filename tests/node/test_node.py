@@ -2,6 +2,7 @@ import unittest
 
 import pytest
 
+from bigtree import preorder_iter
 from bigtree.node.node import Node
 from bigtree.utils.exceptions import LoopError, TreeError
 from tests.node.test_basenode import (
@@ -231,11 +232,27 @@ class TestNode(unittest.TestCase):
             self.a.children = [self.b, self.b]
 
 
-def assert_tree_structure_node_root_generic(root):
+def assert_tree_structure_node_root_generic(
+    root,
+    a="/a",
+    b="/a/b",
+    c="/a/c",
+    d="/a/b/d",
+    e="/a/b/e",
+    f="/a/c/f",
+    g="/a/b/e/g",
+    h="/a/b/e/h",
+):
     # Test path_name
     expected = "/a"
     actual = root.path_name
     assert actual == expected, f"Node should have path {expected}, but path is {actual}"
+
+    # Test age attribute
+    expected_attrs = [a, b, d, e, g, h, c, f]
+    for node, expected in zip(preorder_iter(root), expected_attrs):
+        actual = node.get_attr("path_name")
+        assert actual == expected, f"Node path should be {expected}, but it is {actual}"
 
 
 def assert_tree_structure_node_self(self):
