@@ -22,9 +22,9 @@ class BaseNode:
     >>> d.parent = b
     >>> print_tree(root, attr_list=["age"])
     a [age=90]
-    |-- b [age=65]
-    |   `-- d [age=40]
-    `-- c [age=60]
+    ├── b [age=65]
+    │   └── d [age=40]
+    └── c [age=60]
 
     >>> from bigtree import Node
     >>> root = Node("a", age=90)
@@ -36,9 +36,9 @@ class BaseNode:
     >>> d << b
     >>> print_tree(root, attr_list=["age"])
     a [age=90]
-    |-- b [age=65]
-    |   `-- d [age=40]
-    `-- c [age=60]
+    ├── b [age=65]
+    │   └── d [age=40]
+    └── c [age=60]
 
     Directly passing `parent` argument.
 
@@ -447,6 +447,15 @@ class BaseNode:
     def describe(self, exclude_attributes: List[str] = [], exclude_prefix: str = ""):
         """Get node information sorted by attribute name, returns list of tuples
 
+        >>> from bigtree.node.node import Node
+        >>> a = Node('a', age=90)
+        >>> a.describe()
+        [('_BaseNode__children', []), ('_BaseNode__parent', None), ('_sep', '/'), ('age', 90), ('name', 'a')]
+        >>> a.describe(exclude_prefix="_")
+        [('age', 90), ('name', 'a')]
+        >>> a.describe(exclude_prefix="_", exclude_attributes=["name"])
+        [('age', 90)]
+
         Args:
             exclude_attributes (List[str]): list of attributes to exclude
             exclude_prefix (str): prefix of attributes to exclude
@@ -465,6 +474,11 @@ class BaseNode:
         """Get value of node attribute
         Returns None if attribute name does not exist
 
+        >>> from bigtree.node.node import Node
+        >>> a = Node('a', age=90)
+        >>> a.get_attr("age")
+        90
+
         Args:
             attr_name (str): attribute name
 
@@ -478,6 +492,12 @@ class BaseNode:
 
     def set_attrs(self, attrs: Dict[str, Any]):
         """Set node attributes
+
+        >>> from bigtree.node.node import Node
+        >>> a = Node('a')
+        >>> a.set_attrs({"age": 90})
+        >>> a
+        Node(/a, age=90)
 
         Args:
             attrs (Dict[str, Any]): attribute dictionary,
@@ -498,7 +518,22 @@ class BaseNode:
         return copy.deepcopy(self)
 
     def sort(self, **kwargs):
-        """Sort children, possible keyword arguments include ``key=lambda node: node.name``, ``reverse=True``"""
+        """Sort children, possible keyword arguments include ``key=lambda node: node.name``, ``reverse=True``
+
+        >>> from bigtree import Node, print_tree
+        >>> a = Node('a')
+        >>> c = Node("c", parent=a)
+        >>> b = Node("b", parent=a)
+        >>> print_tree(a)
+        a
+        ├── c
+        └── b
+        >>> a.sort(key=lambda node: node.name)
+        >>> print_tree(a)
+        a
+        ├── b
+        └── c
+        """
         children = list(self.children)
         children.sort(**kwargs)
         self.__children = children
