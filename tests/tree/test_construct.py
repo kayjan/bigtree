@@ -663,7 +663,7 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         add_dataframe_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root_generic(self.root)
         assert_tree_structure_basenode_root_attr(self.root, f=("d", 38))
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root_generic(self.root, f="/a/c/d")
 
 
 class TestAddDataFrameToTreeByName(unittest.TestCase):
@@ -926,7 +926,7 @@ class TestListToTree(unittest.TestCase):
 
         root = list_to_tree(path_list)
         assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root_generic(root, f="/a/c/d")
 
     def test_list_to_tree_node_type(self):
         root = list_to_tree(self.path_list, node_type=NodeA)
@@ -971,6 +971,15 @@ class TestListToTreeByRelation(unittest.TestCase):
             ("e", "g"),
             ("e", "h"),
         ]
+        self.relations_reverse = [
+            ("e", "g"),
+            ("e", "h"),
+            ("b", "d"),
+            ("b", "e"),
+            ("c", "f"),
+            ("a", "b"),
+            ("a", "c"),
+        ]
         self.relations_switch = [
             ("h", "g"),
             ("h", "f"),
@@ -991,7 +1000,7 @@ class TestListToTreeByRelation(unittest.TestCase):
         assert_tree_structure_node_root_generic(root)
 
     def test_list_to_tree_by_relation_reverse(self):
-        root = list_to_tree_by_relation(self.relations[::-1])
+        root = list_to_tree_by_relation(self.relations_reverse)
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_node_root_generic(root)
 
@@ -1012,7 +1021,6 @@ class TestListToTreeByRelation(unittest.TestCase):
         assert_print_statement(print_tree, expected, tree=root, style="const")
 
     def test_list_to_tree_by_relation_empty_parent(self):
-        self.relations = self.relations[::-1]
         self.relations.append((None, "a"))
         root = list_to_tree_by_relation(self.relations)
         assert_tree_structure_basenode_root_generic(root)
@@ -1161,7 +1169,7 @@ class TestDictToTree(unittest.TestCase):
         root = dict_to_tree(path_dict)
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_basenode_root_attr(root, f=("d", 38))
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root_generic(root, f="/a/c/d")
 
     def test_dict_to_tree_node_type(self):
         root = dict_to_tree(self.path_dict, node_type=NodeA)
@@ -1488,7 +1496,7 @@ class TestDataFrameToTree(unittest.TestCase):
         root = dataframe_to_tree(path_data)
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_basenode_root_attr(root, f=("d", 38))
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root_generic(root, f="/a/c/d")
 
 
 class TestDataFrameToTreeByRelation(unittest.TestCase):
