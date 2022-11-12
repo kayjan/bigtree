@@ -498,7 +498,7 @@ class BaseNode:
         return copy.deepcopy(self)
 
     def sort(self, **kwargs):
-        """Sort children, possible keyword arguments include key=lambda node: node.name, reverse=True"""
+        """Sort children, possible keyword arguments include ``key=lambda node: node.name``, ``reverse=True``"""
         children = list(self.children)
         children.sort(**kwargs)
         self.__children = children

@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BaseNode: Add sort() to sort children.
 - Node: Made more extendable with pre-/post-assign checks.
 - Add Tips and Tricks to documentation (Extending Nodes).
-- More test cases
+- More test cases.
 
 ### Fixed
 - Tree Search: Type hints
