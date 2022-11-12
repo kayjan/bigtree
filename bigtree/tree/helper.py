@@ -109,27 +109,45 @@ def get_tree_diff(
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> c = Node("c", parent=root)
+    >>> d = Node("d", parent=b)
+    >>> e = Node("e", parent=root)
     >>> print_tree(root)
     a
     ├── b
-    └── c
+    │   └── d
+    ├── c
+    └── e
 
     >>> root_other = Node("a")
     >>> b_other = Node("b", parent=root_other)
+    >>> c_other = Node("c", parent=b_other)
+    >>> d_other = Node("d", parent=root_other)
+    >>> e_other = Node("e", parent=root_other)
     >>> print_tree(root_other)
     a
-    └── b
+    ├── b
+    │   └── c
+    ├── d
+    └── e
 
     >>> tree_diff = get_tree_diff(root, root_other)
     >>> print_tree(tree_diff)
     a
-    └── c (-)
+    ├── b
+    │   ├── c (+)
+    │   └── d (-)
+    ├── c (-)
+    └── d (+)
 
     >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
     >>> print_tree(tree_diff)
     a
     ├── b
-    └── c (-)
+    │   ├── c (+)
+    │   └── d (-)
+    ├── c (-)
+    ├── d (+)
+    └── e
 
     Args:
         tree (Node): tree to be compared against
