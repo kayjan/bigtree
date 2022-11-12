@@ -53,7 +53,7 @@ To add attributes to existing tree,
 These functions are not standalone functions.
 Under the hood, they have the following dependency,
 
-.. image:: ../../../../assets/tree_construct.png
+.. image:: https://github.com/kayjan/bigtree/raw/master/assets/tree_construct.png
    :alt: Tree Constructor Dependency Diagram
 
 .. automodule:: bigtree.tree.construct
