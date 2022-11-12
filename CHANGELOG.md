@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.5.5] - 2022-11-12
 ### Added
-- Tree Modifier: Added more docstring examples.
+- More docstring examples.
+- More test cases.
 
 ### Fixed
 - Tree Modifier: Fix issue with `merge_children` argument not working as expected.

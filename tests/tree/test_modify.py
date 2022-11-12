@@ -203,6 +203,25 @@ class TestCopyOrShiftNodes(unittest.TestCase):
             list(find_path(self.root, "a/aa").children)
         ), "Node parent not deleted"
 
+    def test_shift_nodes_merge_children_non_overriding_error(self):
+        new_aa = Node("aa", parent=self.root)
+        new_bb = Node("bb", parent=new_aa)
+        new_cc = Node("cc", age=1)
+        new_cc.parent = new_bb
+        bb2 = Node("bb")
+        cc2 = Node("cc")
+        bb2.parent = self.root
+        cc2.parent = bb2
+
+        from_paths = ["d", "e", "g", "h", "f"]
+        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        shift_nodes(self.root, from_paths, to_paths)
+
+        from_paths = ["aa/bb"]
+        to_paths = ["/a/bb"]
+        with pytest.raises(TreeError):
+            shift_nodes(self.root, from_paths, to_paths, merge_children=True)
+
     def test_shift_nodes_merge_children_overriding(self):
         new_aa = Node("aa", parent=self.root)
         new_bb = Node("bb", parent=new_aa)
@@ -313,6 +332,31 @@ class TestCopyOrShiftNodes(unittest.TestCase):
 
     def test_copy_nodes_from_tree_to_tree_merge_children(self):
         from_paths = ["e", "g", "h"]
+        to_paths = ["a/bb/e", "a/bb/e/g", "a/bb/e/h"]
+        shift_nodes(self.root, from_paths, to_paths)
+
+        root_other = Node("a", age=90)
+        b = Node("b", age=65, parent=root_other)
+        d = Node("d", age=40)
+        d.parent = b
+        c = Node("c", age=60, parent=root_other)
+        f = Node("f", age=38)
+        f.parent = c
+        from_paths = ["a/bb"]
+        to_paths = ["a/b/bb"]
+        copy_nodes_from_tree_to_tree(
+            self.root,
+            root_other,
+            from_paths,
+            to_paths,
+            merge_children=True,
+        )
+        assert_tree_structure_basenode_root_generic(root_other)
+        assert_tree_structure_basenode_root_attr(root_other)
+        assert_tree_structure_node_root_generic(root_other)
+
+    def test_copy_nodes_from_tree_to_tree_merge_children_non_overriding(self):
+        from_paths = ["e", "g", "h"]
         to_paths = ["a/b/e", "a/b/e/g", "a/b/e/h"]
         shift_nodes(self.root, from_paths, to_paths)
 
@@ -335,6 +379,26 @@ class TestCopyOrShiftNodes(unittest.TestCase):
         assert_tree_structure_basenode_root_generic(root_other)
         assert_tree_structure_basenode_root_attr(root_other)
         assert_tree_structure_node_root_generic(root_other)
+
+    def test_copy_nodes_from_tree_to_tree_merge_children_non_overriding_error(self):
+        from_paths = ["d", "e", "g", "h", "f"]
+        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        shift_nodes(self.root, from_paths, to_paths)
+
+        root_other = Node("a", age=90)
+        c = Node("c", parent=root_other)
+        f = Node("f")
+        f.parent = c
+        from_paths = ["a/c"]
+        to_paths = ["a/c"]
+        with pytest.raises(TreeError):
+            copy_nodes_from_tree_to_tree(
+                from_tree=self.root,
+                from_paths=from_paths,
+                to_paths=to_paths,
+                merge_children=True,
+                to_tree=root_other,
+            )
 
     def test_copy_nodes_from_tree_to_tree_merge_children_overriding(self):
         from_paths = ["d", "e", "g", "h", "f"]
@@ -364,22 +428,29 @@ class TestCopyOrShiftNodes(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(root_other)
         assert_tree_structure_node_root_generic(root_other)
 
-    def test_copy_nodes_from_tree_to_tree_merge_children_overriding_error(self):
+    def test_copy_nodes_from_tree_to_tree_overriding(self):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
         shift_nodes(self.root, from_paths, to_paths)
 
         root_other = Node("a", age=90)
-        c = Node("c", parent=root_other)
+        b = Node("b", age=1)
+        c = Node("c", age=1, parent=root_other)
+        b.parent = root_other
         f = Node("f")
         f.parent = c
-        from_paths = ["a/c"]
-        to_paths = ["a/c"]
-        with pytest.raises(TreeError):
-            copy_nodes_from_tree_to_tree(
-                from_tree=self.root,
-                from_paths=from_paths,
-                to_paths=to_paths,
-                merge_children=True,
-                to_tree=root_other,
-            )
+        from_paths = ["a/b", "a/c"]
+        to_paths = ["a/b", "a/c"]
+        assert find_path(root_other, "a/b").get_attr("age") == 1
+        assert find_path(root_other, "a/c").get_attr("age") == 1
+
+        copy_nodes_from_tree_to_tree(
+            from_tree=self.root,
+            from_paths=from_paths,
+            to_paths=to_paths,
+            overriding=True,
+            to_tree=root_other,
+        )
+        assert_tree_structure_basenode_root_generic(root_other)
+        assert_tree_structure_basenode_root_attr(root_other)
+        assert_tree_structure_node_root_generic(root_other)
