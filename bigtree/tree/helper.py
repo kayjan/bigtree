@@ -103,6 +103,8 @@ def get_tree_diff(
       - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
       - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
 
+    Note that only leaf nodes are compared and have (+) or (-) indicator. Intermediate parent nodes are not compared.
+
     Function can return all original tree nodes and differences, or only the differences.
 
     >>> from bigtree import Node, get_tree_diff, print_tree
@@ -152,7 +154,7 @@ def get_tree_diff(
     Args:
         tree (Node): tree to be compared against
         other_tree (Node): tree to be compared with
-        only_diff (bool): indicator to show only nodes that are different (added and subtracted), defaults to True
+        only_diff (bool): indicator to show all nodes or only nodes that are different (+/-), defaults to True
 
     Returns:
         (Node)
