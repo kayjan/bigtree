@@ -402,18 +402,18 @@ class TestCopyOrShiftNodes(unittest.TestCase):
 
     def test_copy_nodes_from_tree_to_tree_merge_children_overriding(self):
         from_paths = ["d", "e", "g", "h", "f"]
-        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        to_paths = ["a/bb/d", "a/bb/e", "a/bb/e/g", "a/bb/e/h", "a/c/f"]
         shift_nodes(self.root, from_paths, to_paths)
 
         root_other = Node("a", age=90)
-        b = Node("b", age=1)
+        b = Node("b", age=65)
         c = Node("c", age=1, parent=root_other)
         b.parent = root_other
         f = Node("f")
         f.parent = c
-        from_paths = ["a/b", "a/c"]
-        to_paths = ["a/b", "a/c"]
-        assert find_path(root_other, "a/b").get_attr("age") == 1
+        from_paths = ["a/bb", "a/c"]
+        to_paths = ["a/b/bb", "a/c"]
+        assert find_path(root_other, "a/b").get_attr("age") == 65
         assert find_path(root_other, "a/c").get_attr("age") == 1
 
         copy_nodes_from_tree_to_tree(
