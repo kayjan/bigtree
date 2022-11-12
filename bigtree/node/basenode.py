@@ -105,6 +105,7 @@ class BaseNode:
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
     4. ``copy()``: Deep copy BaseNode
+    5. ``sort()``: Sort child nodes
 
     ----
 
@@ -495,6 +496,12 @@ class BaseNode:
             (Self)
         """
         return copy.deepcopy(self)
+
+    def sort(self, **kwargs):
+        """Sort children, possible keyword arguments include key=lambda node: node.name, reverse=True"""
+        children = list(self.children)
+        children.sort(**kwargs)
+        self.__children = children
 
     def __copy__(self):
         """Shallow copy self

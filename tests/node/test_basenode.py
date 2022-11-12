@@ -92,6 +92,22 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
+    def test_set_parent_sort(self):
+        self.h.parent = self.e
+        self.g.parent = self.e
+        self.f.parent = self.c
+        self.e.parent = self.b
+        self.d.parent = self.b
+        self.c.parent = self.a
+        self.b.parent = self.a
+
+        self.a.sort(key=lambda x: x.name)
+        self.b.sort(key=lambda x: x.name)
+        self.e.sort(key=lambda x: x.name)
+        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
     def test_set_parent_rshift(self):
         self.a >> self.b
         self.a >> self.c
@@ -166,6 +182,19 @@ class TestBaseNode(unittest.TestCase):
         self.c.children = [self.f]
         self.e.children = [self.g, self.h]
 
+        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
+    def test_set_children_sort(self):
+        self.a.children = [self.c, self.b]
+        self.b.children = [self.e, self.d]
+        self.c.children = [self.f]
+        self.e.children = [self.h, self.g]
+
+        self.a.sort(key=lambda x: x.name)
+        self.b.sort(key=lambda x: x.name)
+        self.e.sort(key=lambda x: x.name)
         assert_tree_structure_basenode_root_generic(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)

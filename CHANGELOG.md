@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.5.4] - Unreleased
 ### Added
-- Node: Made more extendable with pre-/post-assign checks
+- BaseNode: Add sort() to sort children.
+- Node: Made more extendable with pre-/post-assign checks.
 - Add Tips and Tricks to documentation (Extending Nodes).
 - More test cases
 
