@@ -67,3 +67,6 @@ table {
 .table-headed th, table.docutils:not(.footnote):not(.citation) th {
     background: #ffffc9;
 }
+.line-block {
+    margin: 0;
+}

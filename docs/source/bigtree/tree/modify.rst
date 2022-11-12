@@ -47,7 +47,13 @@ There are several configurations available for more customization
    * - merge_children
      - "/a/b/c"
      - "/a/b/d/c"
-     - Shift/copy children of node `c` to be children of node `d`, removing node `c`
+     - | **If path not present**: Shift/copy children of node `c` to be children of node `d`, removing node `c`.
+       | **If path present**: Shift/copy children of node `c` to be merged with existing "/a/b/d/c" children
+   * - merge_children + overriding
+     - "/a/b/c"
+     - "/a/b/d/c"
+     - | **If path not present**: Behaves like merge_children
+       | **If path present**: Behaves like overriding
 
 .. automodule:: bigtree.tree.modify
    :members:

@@ -38,9 +38,12 @@ def shift_nodes(
       - Path name must be unique to one node.
 
     For paths in `to_paths`,
-      - Can set to empty string or None to delete the path in `from_paths`.
+      - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False.
 
-    If ``merge_children=True``, overriding happens by default
+    If ``merge_children=True``,
+      - If `to_path` is not present, it shifts children of `from_path`.
+      - If `to_path` is present, and ``overriding=False``, original and new children are merged.
+      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
 
     >>> from bigtree import Node, shift_nodes, print_tree
     >>> root = Node("a")
@@ -60,6 +63,74 @@ def shift_nodes(
     │   └── c
     └── dummy
         └── d
+
+    To delete node,
+
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=root)
+    >>> print_tree(root)
+    a
+    ├── b
+    └── c
+
+    >>> shift_nodes(root, ["a/b"], [None])
+    >>> print_tree(root)
+    a
+    └── c
+
+    In overriding case,
+
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=root)
+    >>> d = Node("d", parent=c)
+    >>> c2 = Node("c", parent=b)
+    >>> e = Node("e", parent=c2)
+    >>> print_tree(root)
+    a
+    ├── b
+    │   └── c
+    │       └── e
+    └── c
+        └── d
+
+    >>> shift_nodes(root, ["a/b/c"], ["a/c"], overriding=True)
+    >>> print_tree(root)
+    a
+    ├── b
+    └── c
+        └── e
+
+    In ``merge_children`` case, child nodes are shifted instead of the parent node.
+    However, if the path already exists, child nodes are merged with existing children.
+
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=root)
+    >>> d = Node("d", parent=c)
+    >>> c2 = Node("c", parent=b)
+    >>> e = Node("e", parent=c2)
+    >>> z = Node("z", parent=b)
+    >>> y = Node("y", parent=z)
+    >>> print_tree(root)
+    a
+    ├── b
+    │   ├── c
+    │   │   └── e
+    │   └── z
+    │       └── y
+    └── c
+        └── d
+
+    >>> shift_nodes(root, ["a/b/c", "z"], ["a/c", "a/z"], merge_children=True)
+    >>> print_tree(root)
+    a
+    ├── b
+    ├── c
+    │   ├── d
+    │   └── e
+    └── y
 
     Args:
         tree (Node): tree to modify
@@ -104,10 +175,10 @@ def copy_nodes(
       - Path name can be partial path (trailing part of path) or node name.
       - Path name must be unique to one node.
 
-    For paths in `to_paths`,
-      - Can set to empty string or None to delete the path in `from_paths`.
-
-    If ``merge_children=True``, overriding happens by default
+    If ``merge_children=True``,
+      - If `to_path` is not present, it copies children of `from_path`.
+      - If `to_path` is present, and ``overriding=False``, original and new children are merged.
+      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
 
     >>> from bigtree import Node, copy_nodes, print_tree
     >>> root = Node("a")
@@ -129,6 +200,65 @@ def copy_nodes(
     ├── d
     └── dummy
         └── d
+
+    In overriding case,
+
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=root)
+    >>> d = Node("d", parent=c)
+    >>> c2 = Node("c", parent=b)
+    >>> e = Node("e", parent=c2)
+    >>> print_tree(root)
+    a
+    ├── b
+    │   └── c
+    │       └── e
+    └── c
+        └── d
+
+    >>> copy_nodes(root, ["a/b/c"], ["a/c"], overriding=True)
+    >>> print_tree(root)
+    a
+    ├── b
+    │   └── c
+    │       └── e
+    └── c
+        └── e
+
+    In ``merge_children`` case, child nodes are copied instead of the parent node.
+    However, if the path already exists, child nodes are merged with existing children.
+
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=root)
+    >>> d = Node("d", parent=c)
+    >>> c2 = Node("c", parent=b)
+    >>> e = Node("e", parent=c2)
+    >>> z = Node("z", parent=b)
+    >>> y = Node("y", parent=z)
+    >>> print_tree(root)
+    a
+    ├── b
+    │   ├── c
+    │   │   └── e
+    │   └── z
+    │       └── y
+    └── c
+        └── d
+
+    >>> copy_nodes(root, ["a/b/c", "z"], ["a/c", "a/z"], merge_children=True)
+    >>> print_tree(root)
+    a
+    ├── b
+    │   ├── c
+    │   │   └── e
+    │   └── z
+    │       └── y
+    ├── c
+    │   ├── d
+    │   └── e
+    └── y
 
     Args:
         tree (Node): tree to modify
@@ -174,31 +304,72 @@ def copy_nodes_from_tree_to_tree(
       - Path name can be partial path (trailing part of path) or node name.
       - Path name must be unique to one node.
 
-    For paths in `to_paths`,
-      - Can set to empty string or None to delete the path in `from_paths`.
-
-    If ``merge_children=True``, specify ``overriding=True`` to override the node,
-    else the original node children will be merged with new children
+    If ``merge_children=True``,
+      - If `to_path` is not present, it copies children of `from_path`
+      - If `to_path` is present, and ``overriding=False``, original and new children are merged
+      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained
 
     >>> from bigtree import Node, copy_nodes_from_tree_to_tree, print_tree
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=root)
+    >>> d = Node("d", parent=c)
+    >>> e = Node("e", parent=root)
+    >>> f = Node("f", parent=e)
     >>> print_tree(root)
     a
     ├── b
     ├── c
-    └── d
+    │   └── d
+    └── e
+        └── f
 
     >>> root_other = Node("aa")
-    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/b", "a/c", "a/d"], ["aa/b", "aa/b/c", "aa/dummy/d"])
+    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/b", "a/c", "a/e"], ["aa/b", "aa/b/c", "aa/dummy/e"])
     >>> print_tree(root_other)
     aa
     ├── b
     │   └── c
+    │       └── d
     └── dummy
+        └── e
+            └── f
+
+    In overriding case,
+
+    >>> root_other = Node("aa")
+    >>> c = Node("c", parent=root_other)
+    >>> e = Node("e", parent=c)
+    >>> print_tree(root_other)
+    aa
+    └── c
+        └── e
+
+    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/b", "a/c"], ["aa/b", "aa/c"], overriding=True)
+    >>> print_tree(root_other)
+    aa
+    ├── b
+    └── c
         └── d
+
+    In ``merge_children`` case, child nodes are copied instead of the parent node.
+    However, if the path already exists, child nodes are merged with existing children.
+
+    >>> root_other = Node("aa")
+    >>> c = Node("c", parent=root_other)
+    >>> e = Node("e", parent=c)
+    >>> print_tree(root_other)
+    aa
+    └── c
+        └── e
+
+    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/c", "e"], ["a/c", "a/e"], merge_children=True)
+    >>> print_tree(root_other)
+    aa
+    ├── c
+    │   ├── e
+    │   └── d
+    └── f
 
     Args:
         from_tree (Node): tree to copy nodes from
@@ -249,12 +420,12 @@ def copy_or_shift_logic(
       - Path name must be unique to one node.
 
     For paths in `to_paths`,
-      - Can set to empty string or None to delete the path in `from_paths`.
+      - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False.
 
     If ``merge_children=True``,
-      - For shifting/copying within same tree, overriding happens by default
-      - For shifting/copying between two trees, specify ``overriding=True`` to override the node,
-        else the original node children will be merged with new children
+      - If `to_path` is not present, it shifts/copies children of `from_path`.
+      - If `to_path` is present, and ``overriding=False``, original and new children are merged.
+      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
 
     Args:
         tree (Node): tree to modify
@@ -327,16 +498,12 @@ def copy_or_shift_logic(
                             f"Check from path {from_path} and to path {to_path}"
                         )
                     if merge_children:
-                        # If same tree, overriding happens by default
-                        if not transfer_indicator:
+                        # Specify override to remove existing node, else children are merged
+                        if not overriding:
                             logging.info(
-                                f"Path {to_path} already exists and will be overridden by the merge"
+                                f"Path {to_path} already exists and children are merged"
                             )
-                            parent = to_node.parent
-                            to_node.parent = None
-                            to_node = parent
-                        # If different tree, specify override to remove existing node, else children are merged
-                        elif overriding:
+                        else:
                             logging.info(
                                 f"Path {to_path} already exists and its children be overridden by the merge"
                             )
