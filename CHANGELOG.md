@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Node: Made more extendable with pre-/post-assign checks
 - Add Tips and Tricks to documentation (Extending Nodes).
+- More test cases
+
+### Fixed
+- Tree Search: Type hints
 
 ## [0.5.3] - 2022-11-11
 ### Added

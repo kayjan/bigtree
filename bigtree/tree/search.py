@@ -104,12 +104,12 @@ def find_name(tree: Node, name: str, max_depth: int = None) -> Node:
     Node(/a/c, age=60)
 
     Args:
-        tree (BaseNode): tree to search
+        tree (Node): tree to search
         name (str): value to match for name attribute
         max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
 
     Returns:
-        (BaseNode)
+        (Node)
     """
     return find(tree, lambda node: node.node_name == name, max_depth)
 
@@ -129,17 +129,17 @@ def find_names(tree: Node, name: str, max_depth: int = None) -> Iterable[Node]:
     (Node(/a/b, age=65), Node(/a/c/b, age=40))
 
     Args:
-        tree (BaseNode): tree to search
+        tree (Node): tree to search
         name (str): value to match for name attribute
         max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
 
     Returns:
-        (tuple)
+        (Iterable[Node])
     """
     return findall(tree, lambda node: node.node_name == name, max_depth)
 
 
-def find_full_path(tree: Node, path_name: str) -> BaseNode:
+def find_full_path(tree: Node, path_name: str) -> Node:
     """
     Search tree for single node matching path attribute.
       - Path name can be with or without leading tree path separator symbol.
@@ -158,7 +158,7 @@ def find_full_path(tree: Node, path_name: str) -> BaseNode:
         path_name (str): value to match (full path) of path_name attribute
 
     Returns:
-        (BaseNode)
+        (Node)
     """
     path_name = path_name.rstrip(tree.sep).lstrip(tree.sep)
     path_list = path_name.split(tree.sep)
@@ -176,7 +176,7 @@ def find_full_path(tree: Node, path_name: str) -> BaseNode:
     return child_node
 
 
-def find_path(tree: Node, path_name: str) -> BaseNode:
+def find_path(tree: Node, path_name: str) -> Node:
     """
     Search tree for single node matching path attribute.
       - Path name can be with or without leading tree path separator symbol.
@@ -197,7 +197,7 @@ def find_path(tree: Node, path_name: str) -> BaseNode:
         path_name (str): value to match (full path) or trailing part (partial path) of path_name attribute
 
     Returns:
-        (BaseNode)
+        (Node)
     """
     path_name = path_name.rstrip(tree.sep)
     return find(tree, lambda node: node.path_name.endswith(path_name))

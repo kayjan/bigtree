@@ -292,7 +292,7 @@ class TestAddDictToTreeByPath(unittest.TestCase):
 
         add_dict_to_tree_by_path(self.root, paths)
         assert_tree_structure_basenode_root_generic(self.root)
-        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_basenode_root_attr(self.root, f=("d", 38))
 
     def test_add_dict_to_tree_by_path_node_type(self):
         root = NodeA("a", age=1)
@@ -413,7 +413,7 @@ class TestAddDictToTreeByName(unittest.TestCase):
         assert_tree_structure_node_root_generic(root)
 
     def test_add_dict_to_tree_by_name_left_join(self):
-        root = add_dict_to_tree_by_name(self.root, {"a": {"age": 90}}, join_type="left")
+        root = add_dict_to_tree_by_name(self.root, self.name_dict, join_type="left")
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root_generic(root)
@@ -432,14 +432,15 @@ class TestAddDictToTreeByName(unittest.TestCase):
         b = NodeA("b", parent=root, age=1)
         c = NodeA("c", parent=root, age=1)
         d = NodeA("d", age=1)
-        e = NodeA("e", parent=b)
+        e = NodeA("e")
         f = NodeA("f")
         g = NodeA("g")
         h = NodeA("h")
         d.parent = b
+        e.parent = b
         f.parent = c
         g.parent = e
-        h.parent = b
+        h.parent = e
         root = add_dict_to_tree_by_name(root, self.name_dict)
         assert isinstance(root, NodeA), "Node type is not `NodeA`"
         assert_tree_structure_basenode_root_generic(root)
@@ -661,7 +662,7 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
 
         add_dataframe_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root_generic(self.root)
-        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_basenode_root_attr(self.root, f=("d", 38))
         assert_tree_structure_node_root_generic(self.root)
 
 
@@ -773,13 +774,7 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         assert_tree_structure_node_root_generic(root)
 
     def test_add_dataframe_to_tree_by_name_left_join(self):
-        data = pd.DataFrame(
-            [
-                ["a", 90],
-            ],
-            columns=["NAME", "age"],
-        )
-        root = add_dataframe_to_tree_by_name(self.root, data, join_type="left")
+        root = add_dataframe_to_tree_by_name(self.root, self.data, join_type="left")
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root_generic(root)
@@ -798,14 +793,15 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         b = NodeA("b", parent=root, age=1)
         c = NodeA("c", parent=root, age=1)
         d = NodeA("d", age=1)
-        e = NodeA("e", parent=b)
+        e = NodeA("e")
         f = NodeA("f")
         g = NodeA("g")
         h = NodeA("h")
         d.parent = b
+        e.parent = b
         f.parent = c
         g.parent = e
-        h.parent = b
+        h.parent = e
         root = add_dataframe_to_tree_by_name(root, self.data)
         assert isinstance(root, NodeA), "Node type is not `NodeA`"
         assert_tree_structure_basenode_root_generic(root)
@@ -834,17 +830,18 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         b = Node("b", parent=root, age=1)
         c = Node("c", parent=root, age=1)
         d = Node("d", age=1)
-        e = Node("e", parent=b)
+        e = Node("e")
         f = Node("f")
         g = Node("g")
-        h = Node("g")  # duplicate node
+        h = Node("f")  # duplicate node
         d.parent = b
+        e.parent = b
         f.parent = c
         g.parent = e
-        h.parent = b
+        h.parent = e
         root = add_dataframe_to_tree_by_name(root, self.data)
         assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_basenode_root_attr(root, h=("f", 38))
 
 
 class TestListToTree(unittest.TestCase):
@@ -1163,7 +1160,7 @@ class TestDictToTree(unittest.TestCase):
 
         root = dict_to_tree(path_dict)
         assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_basenode_root_attr(root, f=("d", 38))
         assert_tree_structure_node_root_generic(root)
 
     def test_dict_to_tree_node_type(self):
@@ -1490,7 +1487,7 @@ class TestDataFrameToTree(unittest.TestCase):
 
         root = dataframe_to_tree(path_data)
         assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_basenode_root_attr(root, f=("d", 38))
         assert_tree_structure_node_root_generic(root)
 
 
