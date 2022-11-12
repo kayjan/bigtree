@@ -125,6 +125,12 @@ def get_tree_diff(
     a
     └── c (-)
 
+    >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
+    >>> print_tree(tree_diff)
+    a
+    ├── b
+    └── c (-)
+
     Args:
         tree (Node): tree to be compared against
         other_tree (Node): tree to be compared with
