@@ -27,4 +27,4 @@ graph = tree_to_dot(root, node_colour="gold", edge_attr="edge_attr")
 graph.write_png("assets/weighted_tree.png")
 ```
 
-![Sample DAG Output](../../../assets/weighted_tree.png)
+![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/weighted_tree.png)

@@ -676,7 +676,7 @@ graph = tree_to_dot(root, node_colour="gold")
 graph.write_png("assets/demo.png")
 ```
 
-![Sample Tree Output](../../assets/demo.png)
+![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo.png)
 
 ----
 
@@ -707,7 +707,7 @@ graph = dag_to_dot(a, node_colour="gold")
 graph.write_png("assets/demo_dag.png")
 ```
 
-![Sample DAG Output](../../assets/demo_dag.png)
+![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_dag.png)
 
 2. **From *list***
 
