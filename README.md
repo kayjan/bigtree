@@ -20,7 +20,7 @@ Related Links:
 ----
 
 ## Components
-There are 2 segments to Big Tree consisting of Tree implementation and Directed Acyclic Graph (DAG) implementation.
+There are 3 segments to Big Tree consisting of Tree, Binary Tree (BTree), and Directed Acyclic Graph (DAG) implementation.
 
 For Tree implementation, there are 8 main components.
 
@@ -58,6 +58,16 @@ For Tree implementation, there are 8 main components.
    3. Export tree to dot (can save to .dot, .png, .svg, .jpeg files)
 8. **Workflows**
    1. Sample workflows for tree demonstration!
+
+For Binary Tree (BTree) implementation, there are 3 main components.
+Binary Node (BNode) inherits from Node, so the components in Tree implementation are also available in Binary Tree.
+
+1. **Node**
+   1. ``BNode``, Node with binary tree rules
+2. **Constructing Tree**
+   1. From *list*, using flattened list structure
+3. **Traversing Tree**
+   1. In-Order Traversal
 
 For Directed Acyclic Graph (DAG) implementation, there are 4 main components.
 

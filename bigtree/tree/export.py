@@ -402,29 +402,34 @@ def tree_to_dict(
     data_dict = {}
 
     def recursive_append(node):
-        if (
-            (not max_depth or node.depth <= max_depth)
-            and (not skip_depth or node.depth > skip_depth)
-            and (not leaf_only or node.is_leaf)
-        ):
-            data_child = {}
-            if name_key:
-                data_child[name_key] = node.node_name
-            if parent_key:
-                parent_name = None
-                if node.parent:
-                    parent_name = node.parent.node_name
-                data_child[parent_key] = parent_name
-            if all_attrs:
-                data_child.update(
-                    dict(node.describe(exclude_attributes=["name"], exclude_prefix="_"))
-                )
-            else:
-                for k, v in attr_dict.items():
-                    data_child[v] = node.get_attr(k)
-            data_dict[node.path_name] = data_child
-        for _node in node.children:
-            recursive_append(_node)
+        if node:
+            if (
+                (not max_depth or node.depth <= max_depth)
+                and (not skip_depth or node.depth > skip_depth)
+                and (not leaf_only or node.is_leaf)
+            ):
+                data_child = {}
+                if name_key:
+                    data_child[name_key] = node.node_name
+                if parent_key:
+                    parent_name = None
+                    if node.parent:
+                        parent_name = node.parent.node_name
+                    data_child[parent_key] = parent_name
+                if all_attrs:
+                    data_child.update(
+                        dict(
+                            node.describe(
+                                exclude_attributes=["name"], exclude_prefix="_"
+                            )
+                        )
+                    )
+                else:
+                    for k, v in attr_dict.items():
+                        data_child[v] = node.get_attr(k)
+                data_dict[node.path_name] = data_child
+            for _node in node.children:
+                recursive_append(_node)
 
     recursive_append(tree)
     return data_dict
@@ -469,22 +474,27 @@ def tree_to_nested_dict(
     data_dict = {}
 
     def recursive_append(node, parent_dict):
-        if not max_depth or node.depth <= max_depth:
-            data_child = {name_key: node.node_name}
-            if all_attrs:
-                data_child.update(
-                    dict(node.describe(exclude_attributes=["name"], exclude_prefix="_"))
-                )
-            else:
-                for k, v in attr_dict.items():
-                    data_child[v] = node.get_attr(k)
-            if child_key in parent_dict:
-                parent_dict[child_key].append(data_child)
-            else:
-                parent_dict[child_key] = [data_child]
+        if node:
+            if not max_depth or node.depth <= max_depth:
+                data_child = {name_key: node.node_name}
+                if all_attrs:
+                    data_child.update(
+                        dict(
+                            node.describe(
+                                exclude_attributes=["name"], exclude_prefix="_"
+                            )
+                        )
+                    )
+                else:
+                    for k, v in attr_dict.items():
+                        data_child[v] = node.get_attr(k)
+                if child_key in parent_dict:
+                    parent_dict[child_key].append(data_child)
+                else:
+                    parent_dict[child_key] = [data_child]
 
-            for _node in node.children:
-                recursive_append(_node, data_child)
+                for _node in node.children:
+                    recursive_append(_node, data_child)
 
     recursive_append(tree, data_dict)
     return data_dict[child_key][0]
@@ -547,32 +557,33 @@ def tree_to_dataframe(
     data_list = []
 
     def recursive_append(node):
-        if (
-            (not max_depth or node.depth <= max_depth)
-            and (not skip_depth or node.depth > skip_depth)
-            and (not leaf_only or node.is_leaf)
-        ):
-            data_child = {}
-            if path_col:
-                data_child[path_col] = node.path_name
-            if name_col:
-                data_child[name_col] = node.node_name
-            if parent_col:
-                parent_name = None
-                if node.parent:
-                    parent_name = node.parent.node_name
-                data_child[parent_col] = parent_name
+        if node:
+            if (
+                (not max_depth or node.depth <= max_depth)
+                and (not skip_depth or node.depth > skip_depth)
+                and (not leaf_only or node.is_leaf)
+            ):
+                data_child = {}
+                if path_col:
+                    data_child[path_col] = node.path_name
+                if name_col:
+                    data_child[name_col] = node.node_name
+                if parent_col:
+                    parent_name = None
+                    if node.parent:
+                        parent_name = node.parent.node_name
+                    data_child[parent_col] = parent_name
 
-            if all_attrs:
-                data_child.update(
-                    node.describe(exclude_attributes=["name"], exclude_prefix="_")
-                )
-            else:
-                for k, v in attr_dict.items():
-                    data_child[v] = node.get_attr(k)
-            data_list.append(data_child)
-        for _node in node.children:
-            recursive_append(_node)
+                if all_attrs:
+                    data_child.update(
+                        node.describe(exclude_attributes=["name"], exclude_prefix="_")
+                    )
+                else:
+                    for k, v in attr_dict.items():
+                        data_child[v] = node.get_attr(k)
+                data_list.append(data_child)
+            for _node in node.children:
+                recursive_append(_node)
 
     recursive_append(tree)
     return pd.DataFrame(data_list)
@@ -684,7 +695,8 @@ def tree_to_dot(
                 edge = pydot.Edge(parent_name, child_name, **edge_style)
                 _graph.add_edge(edge)
             for child in child_node.children:
-                recursive_create_node_and_edges(child_name, child)
+                if child:
+                    recursive_create_node_and_edges(child_name, child)
 
         recursive_create_node_and_edges(None, _tree.root)
     return _graph

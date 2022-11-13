@@ -307,7 +307,7 @@ def find_children(tree: Node, name: str) -> Node:
     Returns:
         (Node)
     """
-    child = [node for node in tree.children if node.node_name == name]
+    child = [node for node in tree.children if node and node.node_name == name]
     if len(child) > 1:  # pragma: no cover
         raise CorruptedTreeError(
             f"There are more than one path for {child[0].path_name}, check {child}"

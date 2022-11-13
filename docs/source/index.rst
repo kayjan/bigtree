@@ -30,6 +30,7 @@
 .. toctree::
    :maxdepth: 2
 
+   btree
    dag
    node
    tree

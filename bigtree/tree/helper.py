@@ -3,6 +3,7 @@ from typing import Optional, Type
 import numpy as np
 
 from bigtree.node.basenode import BaseNode
+from bigtree.node.bnode import BNode
 from bigtree.node.node import Node
 from bigtree.tree.construct import dataframe_to_tree
 from bigtree.tree.export import tree_to_dataframe
@@ -40,10 +41,11 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNode]) -> BaseNode:
 
     def recursive_add_child(_new_parent_node, _parent_node):
         for _child in _parent_node.children:
-            child_info = dict(_child.describe(exclude_prefix="_"))
-            child_node = node_type(**child_info)
-            child_node.parent = _new_parent_node
-            recursive_add_child(child_node, _child)
+            if _child:
+                child_info = dict(_child.describe(exclude_prefix="_"))
+                child_node = node_type(**child_info)
+                child_node.parent = _new_parent_node
+                recursive_add_child(child_node, _child)
 
     recursive_add_child(root_node, tree.root)
     return root_node
@@ -87,6 +89,12 @@ def prune_tree(tree: Node, prune_path: str, sep: str = "/") -> Node:
         raise NotFoundError(
             f"Cannot find any node matching path_name ending with {prune_path}"
         )
+
+    if isinstance(child.parent, BNode):
+        while child.parent:
+            child.parent.children = [child, None]
+            child = child.parent
+        return tree_copy
 
     while child.parent:
         child.parent.children = [child]

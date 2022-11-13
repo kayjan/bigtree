@@ -10,6 +10,9 @@ Iterator methods for Trees and DAGs.
    * - Data Structure
      - Algorithm
      - Description
+   * - Binary Tree
+     - In-order Traversal
+     - Depth-First Search, LNR
    * - Tree
      - Pre-order Traversal
      - Depth-First Search, NLR

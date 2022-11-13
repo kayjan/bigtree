@@ -6,6 +6,7 @@ from typing import List, Union
 import pytest
 
 from bigtree.node.basenode import BaseNode
+from bigtree.node.bnode import BNode
 from bigtree.node.dagnode import DAGNode
 from bigtree.node.node import Node
 
@@ -342,6 +343,34 @@ def dag_node_style():
     f.parents = [c, d]
     g.parents = [c]
     h.parents = [g]
+    return a
+
+
+@pytest.fixture
+def btree_node():
+    """
+    BTree should have structure
+    1
+    ├── 2
+    │   ├── 4
+    │   │   └── 8
+    │   └── 5
+    └── 3
+        ├── 6
+        └── 7
+    """
+    a = BNode(1)
+    b = BNode(2, parent=a)
+    c = BNode(3, parent=a)
+    d = BNode(4, parent=b)
+    e = BNode(5)
+    f = BNode(6)
+    g = BNode(7)
+    h = BNode(8)
+    d.children = [None, h]
+    e.parent = b
+    f.parent = c
+    g.parent = c
     return a
 
 
