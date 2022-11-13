@@ -159,31 +159,44 @@ class BaseNode:
                     "Error setting parent: Node cannot be ancestor of itself"
                 )
 
-        # Customizable check before assigning parent
-        self.__pre_assign_parent(new_parent)
-
         current_parent = self.__parent
-
-        # Remove child from current_parent
+        current_child_idx = None
         if current_parent is not None:
-            # Check for loop tree structure
-            if not any(
-                child is self for child in current_parent.children
-            ):  # pragma: no cover
-                raise CorruptedTreeError(
-                    "Error setting parent: Node does not exist as children of its parent"
-                )
+            current_child_idx = current_parent.__children.index(self)
 
-            # Detach child from current parent
-            current_parent.__children.remove(self)
+        # Assign new parent - rollback if error
+        try:
+            # Customizable check before assigning parent
+            self.__pre_assign_parent(new_parent)
 
-        # Add child to new_parent
-        self.__parent = new_parent
-        if new_parent is not None:
-            new_parent.__children.append(self)
+            # Remove child from current_parent
+            if current_parent is not None:
+                # Check for loop tree structure
+                if not any(
+                    child is self for child in current_parent.children
+                ):  # pragma: no cover
+                    raise CorruptedTreeError(
+                        "Error setting parent: Node does not exist as children of its parent"
+                    )
 
-        # Customizable check after assigning parent
-        self.__post_assign_parent(new_parent)
+                # Detach child from current parent
+                current_parent.__children.remove(self)
+
+            # Add child to new_parent
+            self.__parent = new_parent
+            if new_parent is not None:
+                new_parent.__children.append(self)
+
+            # Customizable check after assigning parent
+            self.__post_assign_parent(new_parent)
+
+        except Exception as exc_info:
+            self.__parent = current_parent
+            if current_parent is not None and self not in current_parent.__children:
+                current_parent.__children.insert(current_child_idx, self)
+            if new_parent is not None and self in new_parent.__children:
+                new_parent.__children.remove(self)
+            raise TreeError(exc_info)
 
     def __pre_assign_parent(self, new_parent):
         """Custom method to check before attaching parent
@@ -263,7 +276,12 @@ class BaseNode:
             else:
                 seen_children.append(id(new_child))
 
-        # Detach existing child node(s)
+        # Detach existing child node(s) - rollback if error
+        current_new_children = {
+            new_child: (new_child.parent.__children.index(new_child), new_child.parent)
+            for new_child in new_children
+            if new_child.parent is not None
+        }
         current_children = list(self.children)
         del self.children
         try:
@@ -271,15 +289,22 @@ class BaseNode:
             for new_child in new_children:
                 new_child.parent = self
             self.__post_assign_children(new_children)
-        except TreeError or TypeError as exc_info:
-            self.children = current_children
+        except Exception as exc_info:
+            for child, idx_parent in current_new_children.items():
+                child_idx, parent = idx_parent
+                child.__parent = parent
+                parent.__children.insert(child_idx, child)
+            self.__children = current_children
+            for child in current_children:
+                child.__parent = self
             raise TreeError(exc_info)
 
     @children.deleter
     def children(self):
         """Delete child node(s)"""
         for child in self.children:
-            child.parent = None
+            child.__parent.__children.remove(child)
+            child.__parent = None
 
     def __pre_assign_children(self, new_children: List):
         """Custom method to check before attaching children
