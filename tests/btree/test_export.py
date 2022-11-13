@@ -1,0 +1,87 @@
+import pandas as pd
+
+from bigtree.tree.export import (
+    print_tree,
+    tree_to_dataframe,
+    tree_to_dict,
+    tree_to_dot,
+    tree_to_nested_dict,
+)
+from tests.conftest import assert_print_statement
+
+
+class TestPrintTree:
+    @staticmethod
+    def test_print_tree(btree_node):
+        expected_str = """1\n├── 2\n│   ├── 4\n│   │   └── 8\n│   └── 5\n└── 3\n    ├── 6\n    └── 7\n"""
+        assert_print_statement(print_tree, expected_str, tree=btree_node)
+
+
+class TestTreeToDataFrame:
+    @staticmethod
+    def test_tree_to_dataframe(btree_node):
+        expected = pd.DataFrame(
+            [
+                ["/1", "1"],
+                ["/1/2", "2"],
+                ["/1/2/4", "4"],
+                ["/1/2/4/8", "8"],
+                ["/1/2/5", "5"],
+                ["/1/3", "3"],
+                ["/1/3/6", "6"],
+                ["/1/3/7", "7"],
+            ],
+            columns=["path", "name"],
+        )
+        actual = tree_to_dataframe(btree_node)
+        pd.testing.assert_frame_equal(expected, actual)
+
+
+class TestTreeToDict:
+    @staticmethod
+    def test_tree_to_dict(btree_node):
+        expected = {
+            "/1": {"name": "1"},
+            "/1/2": {"name": "2"},
+            "/1/2/4": {"name": "4"},
+            "/1/2/4/8": {"name": "8"},
+            "/1/2/5": {"name": "5"},
+            "/1/3": {"name": "3"},
+            "/1/3/6": {"name": "6"},
+            "/1/3/7": {"name": "7"},
+        }
+        actual = tree_to_dict(btree_node)
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+
+class TestTreeToNestedDict:
+    @staticmethod
+    def test_tree_to_nested_dict(btree_node):
+        expected = {
+            "name": "1",
+            "children": [
+                {
+                    "name": "2",
+                    "children": [
+                        {"name": "4", "children": [{"name": "8"}]},
+                        {"name": "5"},
+                    ],
+                },
+                {"name": "3", "children": [{"name": "6"}, {"name": "7"}]},
+            ],
+        }
+        actual = tree_to_nested_dict(btree_node)
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+
+class TestTreeToDot:
+    @staticmethod
+    def test_tree_to_dot(btree_node):
+        graph = tree_to_dot(btree_node)
+        expected = """strict digraph G {\nrankdir=TB;\n10 [label=1];\n20 [label=2];\n10 -> 20;\n40 [label=4];\n20 -> 40;\n80 [label=8];\n40 -> 80;\n50 [label=5];\n20 -> 50;\n30 [label=3];\n10 -> 30;\n60 [label=6];\n30 -> 60;\n70 [label=7];\n30 -> 70;\n}\n"""
+        actual = graph.to_string()
+        graph.write_png("tests/btree.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"

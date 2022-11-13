@@ -1,12 +1,63 @@
 from typing import Callable, Iterable, List, Tuple
 
 __all__ = [
+    "inorder_iter",
     "preorder_iter",
     "postorder_iter",
     "levelorder_iter",
     "levelordergroup_iter",
     "dag_iterator",
 ]
+
+
+def inorder_iter(
+    tree,
+    filter_condition: Callable = None,
+    max_depth: int = None,
+) -> Iterable:
+    """Iterate through all children of a tree.
+
+    In Iteration Algorithm, LNR
+        1. Recursively traverse the current node's left subtree.
+        2. Visit the current node.
+        3. Recursively traverse the current node's right subtree.
+
+    >>> from bigtree import BNode, list_to_btree, inorder_iter, print_tree
+    >>> num_list = [1, 2, 3, 4, 5, 6, 7, 8]
+    >>> root = list_to_btree(num_list)
+    >>> print_tree(root)
+    1
+    ├── 2
+    │   ├── 4
+    │   │   └── 8
+    │   └── 5
+    └── 3
+        ├── 6
+        └── 7
+
+    >>> [node.node_name for node in inorder_iter(root)]
+    ['8', '4', '2', '5', '1', '6', '3', '7']
+
+    >>> [node.node_name for node in inorder_iter(root, filter_condition=lambda x: x.node_name in ["1", "4", "3", "6", "7"])]
+    ['4', '1', '6', '3', '7']
+
+    >>> [node.node_name for node in inorder_iter(root, max_depth=3)]
+    ['4', '2', '5', '1', '6', '3', '7']
+
+    Args:
+        tree (BaseNode): input tree
+        filter_condition (Callable): function that takes in node as argument, optional
+            Returns node if condition evaluates to `True`
+        max_depth (int): maximum depth of iteration, based on `depth` attribute, optional
+
+    Returns:
+        (Iterable[BaseNode])
+    """
+    if tree and (not max_depth or not tree.depth > max_depth):
+        yield from inorder_iter(tree.left, filter_condition, max_depth)
+        if not filter_condition or filter_condition(tree):
+            yield tree
+        yield from inorder_iter(tree.right, filter_condition, max_depth)
 
 
 def preorder_iter(
@@ -24,7 +75,6 @@ def preorder_iter(
     It is topologically sorted because a parent node is processed before its child nodes.
 
     >>> from bigtree import Node, list_to_tree, preorder_iter, print_tree
-    >>> root = Node("a")
     >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
     >>> root = list_to_tree(path_list)
     >>> print_tree(root)
@@ -85,7 +135,6 @@ def postorder_iter(
         3. Visit the current node.
 
     >>> from bigtree import Node, list_to_tree, postorder_iter, print_tree
-    >>> root = Node("a")
     >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
     >>> root = list_to_tree(path_list)
     >>> print_tree(root)
@@ -100,6 +149,15 @@ def postorder_iter(
 
     >>> [node.node_name for node in postorder_iter(root)]
     ['d', 'g', 'h', 'e', 'b', 'f', 'c', 'a']
+
+    >>> [node.node_name for node in postorder_iter(root, filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
+    ['d', 'g', 'e', 'f', 'a']
+
+    >>> [node.node_name for node in postorder_iter(root, stop_condition=lambda x: x.node_name=="e")]
+    ['d', 'b', 'f', 'c', 'a']
+
+    >>> [node.node_name for node in postorder_iter(root, max_depth=3)]
+    ['d', 'e', 'b', 'f', 'c', 'a']
 
     Args:
         tree (BaseNode): input tree
@@ -137,7 +195,6 @@ def levelorder_iter(
         1. Recursively traverse the nodes on same level.
 
     >>> from bigtree import Node, list_to_tree, levelorder_iter, print_tree
-    >>> root = Node("a")
     >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
     >>> root = list_to_tree(path_list)
     >>> print_tree(root)
@@ -152,6 +209,15 @@ def levelorder_iter(
 
     >>> [node.node_name for node in levelorder_iter(root)]
     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+
+    >>> [node.node_name for node in levelorder_iter(root, filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
+    ['a', 'd', 'e', 'f', 'g']
+
+    >>> [node.node_name for node in levelorder_iter(root, stop_condition=lambda x: x.node_name=="e")]
+    ['a', 'b', 'c', 'd', 'f']
+
+    >>> [node.node_name for node in levelorder_iter(root, max_depth=3)]
+    ['a', 'b', 'c', 'd', 'e', 'f']
 
     Args:
         tree (BaseNode): input tree
@@ -168,12 +234,13 @@ def levelorder_iter(
         tree = [tree]
     next_level = []
     for _tree in tree:
-        if (not max_depth or not _tree.depth > max_depth) and (
-            not stop_condition or not stop_condition(_tree)
-        ):
-            if not filter_condition or filter_condition(_tree):
-                yield _tree
-            next_level.extend(list(_tree.children))
+        if _tree:
+            if (not max_depth or not _tree.depth > max_depth) and (
+                not stop_condition or not stop_condition(_tree)
+            ):
+                if not filter_condition or filter_condition(_tree):
+                    yield _tree
+                next_level.extend(list(_tree.children))
     if len(next_level):
         yield from levelorder_iter(
             next_level, filter_condition, stop_condition, max_depth
@@ -192,7 +259,6 @@ def levelordergroup_iter(
         1. Recursively traverse the nodes on same level, returns nodes level by level in a nested list.
 
     >>> from bigtree import Node, list_to_tree, levelordergroup_iter, print_tree
-    >>> root = Node("a")
     >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
     >>> root = list_to_tree(path_list)
     >>> print_tree(root)
@@ -207,6 +273,15 @@ def levelordergroup_iter(
 
     >>> [[node.node_name for node in group] for group in levelordergroup_iter(root)]
     [['a'], ['b', 'c'], ['d', 'e', 'f'], ['g', 'h']]
+
+    >>> [[node.node_name for node in group] for group in levelordergroup_iter(root, filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
+    [['a'], [], ['d', 'e', 'f'], ['g']]
+
+    >>> [[node.node_name for node in group] for group in levelordergroup_iter(root, stop_condition=lambda x: x.node_name=="e")]
+    [['a'], ['b', 'c'], ['d', 'f']]
+
+    >>> [[node.node_name for node in group] for group in levelordergroup_iter(root, max_depth=3)]
+    [['a'], ['b', 'c'], ['d', 'e', 'f']]
 
     Args:
         tree (BaseNode): input tree
@@ -224,16 +299,15 @@ def levelordergroup_iter(
 
     current_tree = []
     next_tree = []
-    depth = tree[0].depth
     for _tree in tree:
-        if (not max_depth or not depth > max_depth) and (
+        if (not max_depth or not _tree.depth > max_depth) and (
             not stop_condition or not stop_condition(_tree)
         ):
             if not filter_condition or filter_condition(_tree):
                 current_tree.append(_tree)
-            next_tree.extend(list(_tree.children))
+            next_tree.extend([_child for _child in _tree.children if _child])
     yield tuple(current_tree)
-    if len(next_tree) and (not max_depth or not depth + 1 > max_depth):
+    if len(next_tree) and (not max_depth or not next_tree[0].depth > max_depth):
         yield from levelordergroup_iter(
             next_tree, filter_condition, stop_condition, max_depth
         )

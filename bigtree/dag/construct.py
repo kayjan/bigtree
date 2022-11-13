@@ -28,6 +28,9 @@ def list_to_dag(
     Returns:
         (DAGNode)
     """
+    if not len(relations):
+        raise ValueError("Input list does not contain any data, check `relations`")
+
     relation_data = pd.DataFrame(relations, columns=["parent", "child"])
     return dataframe_to_dag(
         relation_data, child_col="child", parent_col="parent", node_type=node_type

@@ -513,7 +513,7 @@ def assert_tree_structure_basenode_root_generic(root):
         actual == expected
     ), f"Node {root} max_depth should be {expected}, but it is {actual}"
 
-    # Test get_attribute()
+    # Test get_attr()
     expected = "a"
     actual = root.get_attr("name")
     assert (

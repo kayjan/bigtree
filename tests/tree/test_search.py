@@ -153,7 +153,7 @@ class TestSearch(unittest.TestCase):
             actual = find_names(self.a, input_)
             assert (
                 actual == expected
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_names to return {expected}, received {actual}"
 
     def test_find_full_path(self):
         inputs = [
@@ -171,7 +171,7 @@ class TestSearch(unittest.TestCase):
             actual = find_full_path(self.a, input_)
             assert (
                 actual == expected
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_full_path to return {expected}, received {actual}"
 
     def test_find_full_path_sep_leading(self):
         inputs = [
@@ -189,7 +189,7 @@ class TestSearch(unittest.TestCase):
             actual = find_full_path(self.a, input_)
             assert (
                 actual == expected
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_full_path to return {expected}, received {actual}"
 
     def test_find_full_pathsep_trailing(self):
         inputs = [
@@ -207,7 +207,7 @@ class TestSearch(unittest.TestCase):
             actual = find_full_path(self.a, input_)
             assert (
                 actual == expected
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_full_path to return {expected}, received {actual}"
 
     def test_find_full_wrong_path(self):
         inputs = [
@@ -219,7 +219,7 @@ class TestSearch(unittest.TestCase):
             actual = find_full_path(self.a, input_)
             assert (
                 actual == expected
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_full_path to return {expected}, received {actual}"
 
     def test_find_full_wrong_root(self):
         inputs = [
@@ -259,7 +259,7 @@ class TestSearch(unittest.TestCase):
             actual = find_path(self.a, input_)
             assert (
                 actual == expected
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_path to return {expected}, received {actual}"
 
     def test_find_path_partial(self):
         inputs = ["/a", "/b", "/c", "/d", "/e", "/f", "/g", "/e/h", "/i"]
@@ -278,7 +278,7 @@ class TestSearch(unittest.TestCase):
             actual = find_path(self.a, input_)
             assert (
                 actual == expected
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_path to return {expected}, received {actual}"
 
     def test_find_path_sep_leading(self):
         inputs = [
@@ -296,7 +296,7 @@ class TestSearch(unittest.TestCase):
             actual = find_path(self.a, input_)
             assert (
                 actual == expected
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_path to return {expected}, received {actual}"
 
     def test_find_path_sep_trailing(self):
         inputs = [
@@ -332,7 +332,7 @@ class TestSearch(unittest.TestCase):
             actual = find_paths(self.a, input_)
             assert actual == (
                 expected,
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_paths to return {expected}, received {actual}"
 
     def test_find_paths_partial(self):
         inputs = [
@@ -350,7 +350,7 @@ class TestSearch(unittest.TestCase):
             actual = find_paths(self.a, input_)
             assert actual == (
                 expected,
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_paths to return {expected}, received {actual}"
 
     def test_find_paths_sep_leading(self):
         inputs = [
@@ -368,7 +368,7 @@ class TestSearch(unittest.TestCase):
             actual = find_paths(self.a, input_)
             assert actual == (
                 expected,
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_paths to return {expected}, received {actual}"
 
     def test_find_paths_sep_trailing(self):
         inputs = [
@@ -386,7 +386,7 @@ class TestSearch(unittest.TestCase):
             actual = find_paths(self.a, input_)
             assert actual == (
                 expected,
-            ), f"Expected find_name to return {expected}, received {actual}"
+            ), f"Expected find_paths to return {expected}, received {actual}"
 
     def test_find_attr(self):
         inputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
@@ -442,7 +442,7 @@ class TestSearch(unittest.TestCase):
             actual = find_attrs(self.a, "name", input_)
             assert (
                 actual == expected
-            ), f"Expected find_attr to return {expected}, received {actual}"
+            ), f"Expected find_attrs to return {expected}, received {actual}"
 
         inputs = [90, 65, 60, 40, 35, 38, 10, 6, 1]
         expected_ans = [
@@ -460,9 +460,9 @@ class TestSearch(unittest.TestCase):
             actual = find_attrs(self.a, "age", input_)
             assert (
                 actual == expected
-            ), f"Expected find_attr to return {expected}, received {actual}"
+            ), f"Expected find_attrs to return {expected}, received {actual}"
 
-    def find_children(self):
+    def test_find_children(self):
         inputs1 = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         inputs2 = ["a", "b", "c", "d", "e", "f", "g", "h"]
         expected_ans = [
@@ -479,6 +479,6 @@ class TestSearch(unittest.TestCase):
             for idx2, input_2 in enumerate(inputs2):
                 actual = find_children(input_1, input_2)
                 expected = expected_ans[idx1][idx2]
-                assert actual == (
-                    expected,
+                assert (
+                    actual == expected
                 ), f"Expected find_children to return {expected}, received {actual} for inputs {input_1} and {input_2}"

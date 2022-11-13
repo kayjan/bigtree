@@ -41,6 +41,11 @@ class TestListToDAG(unittest.TestCase):
         assert isinstance(dag, DAGNodeA), "Node type is not `DAGNodeA`"
         assert_dag_structure_root(dag)
 
+    def test_list_to_dag_error(self):
+        with pytest.raises(ValueError) as exc_info:
+            list_to_dag([])
+        assert str(exc_info.value).startswith("Input list does not contain any data")
+
 
 class TestDictToDAG(unittest.TestCase):
     def setUp(self):
