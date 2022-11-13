@@ -30,9 +30,9 @@
 .. toctree::
    :maxdepth: 2
 
+   node
    btree
    dag
-   node
    tree
    utils
    workflows
