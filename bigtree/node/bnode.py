@@ -39,20 +39,18 @@ class BNode(Node):
     If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
     >>> from bigtree import BNode
-    >>> a = BNode.from_dict({"name": "a", "val": 1})
+    >>> a = BNode.from_dict({"name": "1"})
+    >>> a
+    BNode(name=1, val=1)
 
     **Node Attributes**
 
     These are node attributes that have getter and/or setter methods.
 
-    Get and set `Node` configuration
-
-    1. ``sep``: Get/set separator for path name
-
     Get `Node` configuration
 
-    1. ``node_name``: Get node name, without accessing `name` directly
-    2. ``path_name``: Get path name from root, separated by `sep`
+    1. ``left``: Get left children
+    2. ``right``: Get right children
 
     ----
 
