@@ -1,8 +1,10 @@
-__version__ = "0.5.5"
+__version__ = "0.6.0"
 
+from bigtree.btree.construct import list_to_btree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
 from bigtree.dag.export import dag_to_dataframe, dag_to_dict, dag_to_dot, dag_to_list
 from bigtree.node.basenode import BaseNode
+from bigtree.node.bnode import BNode
 from bigtree.node.dagnode import DAGNode
 from bigtree.node.node import Node
 from bigtree.tree.construct import (
@@ -55,6 +57,7 @@ from bigtree.utils.exceptions import (
 )
 from bigtree.utils.iterators import (
     dag_iterator,
+    inorder_iter,
     levelorder_iter,
     levelordergroup_iter,
     postorder_iter,
