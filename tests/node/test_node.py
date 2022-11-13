@@ -83,12 +83,16 @@ class TestNode(unittest.TestCase):
         # Set parent again
         self.b.parent = self.a
         self.b.parent = self.a
+        assert list(self.a.children) == [self.b]
+        assert self.b.parent == self.a
 
     def test_set_parent_duplicate_constructor(self):
         # Set parent again
         self.a = Node(name="a", age=90)
         self.b = Node(name="b", age=65, parent=self.a)
         self.b.parent = self.a
+        assert list(self.a.children) == [self.b]
+        assert self.b.parent == self.a
 
     def test_set_parent_sep_root(self):
         self.b.parent = self.a

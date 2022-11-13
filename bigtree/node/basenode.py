@@ -282,6 +282,9 @@ class BaseNode:
             for new_child in new_children
             if new_child.parent is not None
         }
+        current_new_orphan = [
+            new_child for new_child in new_children if new_child.parent is None
+        ]
         current_children = list(self.children)
         del self.children
         try:
@@ -294,6 +297,8 @@ class BaseNode:
                 child_idx, parent = idx_parent
                 child.__parent = parent
                 parent.__children.insert(child_idx, child)
+            for child in current_new_orphan:
+                child.__parent = None
             self.__children = current_children
             for child in current_children:
                 child.__parent = self

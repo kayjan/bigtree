@@ -44,14 +44,14 @@ class TestDAGNode(unittest.TestCase):
         self.h = None
 
     def test_from_dict(self):
-        self.a = DAGNode().from_dict({"name": "a", "age": 90})
-        self.b = DAGNode().from_dict({"name": "b", "age": 65})
-        self.c = DAGNode().from_dict({"name": "c", "age": 60})
-        self.d = DAGNode().from_dict({"name": "d", "age": 40})
-        self.e = DAGNode().from_dict({"name": "e", "age": 35})
-        self.f = DAGNode().from_dict({"name": "f", "age": 38})
-        self.g = DAGNode().from_dict({"name": "g", "age": 10})
-        self.h = DAGNode().from_dict({"name": "h", "age": 6})
+        self.a = DAGNode.from_dict({"name": "a", "age": 90})
+        self.b = DAGNode.from_dict({"name": "b", "age": 65})
+        self.c = DAGNode.from_dict({"name": "c", "age": 60})
+        self.d = DAGNode.from_dict({"name": "d", "age": 40})
+        self.e = DAGNode.from_dict({"name": "e", "age": 35})
+        self.f = DAGNode.from_dict({"name": "f", "age": 38})
+        self.g = DAGNode.from_dict({"name": "g", "age": 10})
+        self.h = DAGNode.from_dict({"name": "h", "age": 6})
 
         self.c.parents = [self.a, self.b]
         self.d.parents = [self.a, self.c]
@@ -134,12 +134,16 @@ class TestDAGNode(unittest.TestCase):
         # Set parent again
         self.c.parents = [self.a]
         self.c.parents = [self.a]
+        assert list(self.a.children) == [self.c]
+        assert list(self.c.parents) == [self.a]
 
     def test_set_parent_duplicate_constructor(self):
         # Set parent again
         self.a = DAGNode(name="a", age=90)
         self.c = DAGNode(name="c", age=60, parents=[self.a])
         self.c.parents = [self.a]
+        assert list(self.a.children) == [self.c]
+        assert list(self.c.parents) == [self.a]
 
     def test_set_children(self):
         self.a.children = [self.c, self.d]

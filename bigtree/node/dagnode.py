@@ -181,7 +181,8 @@ class DAGNode:
         for new_parent in new_parents:
             if new_parent not in self.__parents:
                 self.__parents.append(new_parent)
-            new_parent.__children.append(self)
+            if self not in new_parent.__children:
+                new_parent.__children.append(self)
 
         # Customizable check after assigning parent
         self.__post_assign_parents(new_parents)

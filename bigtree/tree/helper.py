@@ -40,10 +40,11 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNode]) -> BaseNode:
 
     def recursive_add_child(_new_parent_node, _parent_node):
         for _child in _parent_node.children:
-            child_info = dict(_child.describe(exclude_prefix="_"))
-            child_node = node_type(**child_info)
-            child_node.parent = _new_parent_node
-            recursive_add_child(child_node, _child)
+            if _child:
+                child_info = dict(_child.describe(exclude_prefix="_"))
+                child_node = node_type(**child_info)
+                child_node.parent = _new_parent_node
+                recursive_add_child(child_node, _child)
 
     recursive_add_child(root_node, tree.root)
     return root_node
