@@ -6,16 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.6.0] - Unreleased
 ### Added
-- BaseNode: Rollback functionality to original state when there is error setting parent and children.
+- BaseNode: Rollback functionality to original state when there is error setting parent and children (backwards-compatible).
 - BaseNode and DAGNode: Type hints
 - BNode: Node class for Binary Tree.
+- BTree Constructor: From list.
+- BNode Iterator: Level-Order Iterator.
 
 ### Fixed
 - DAGNode: Fix issue of duplicated parent constructor creating duplicated children.
-
-### In progress
-- BNode Constructor: Construct Binary Tree with list.
-- BNode Iterator: Implement Level-Order Iterator.
 
 ## [0.5.5] - 2022-11-12
 ### Added
