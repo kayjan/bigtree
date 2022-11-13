@@ -103,7 +103,7 @@ $ brew install gprof2dot
 
 ## Tree Demonstration
 
-Here are some codes to getting started.
+Here are some codes to get started.
 
 ### Construct Tree
 
@@ -349,7 +349,7 @@ print_tree(root, attr_list=["age"])
 # │   └── e [age=35]
 # └── c [age=60]
 
-print_tree(root, attr_list=["age"], attr_bracket_open="*(", attr_bracket_close=")")
+print_tree(root, attr_list=["age"], attr_bracket=["*(", ")"])
 # a *(age=90)
 # ├── b *(age=65)
 # │   ├── d *(age=40)
@@ -400,8 +400,9 @@ print_tree(root, style="double")
 # ╚══ c
 
 print_tree(
-    root, style="custom",
-    style_stem="|   ", style_branch="|-- ", style_stem_final="+-- "
+    root,
+    style="custom",
+    custom_style=("|   ", "|-- ", "+-- "),
 )
 # a
 # |-- b
@@ -535,7 +536,7 @@ To find multiple nodes,
 from bigtree import Node, print_tree, findall, find_names, find_paths, find_attrs
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
-c = Node("c", age=65, parent=root)
+c = Node("c", age=60, parent=root)
 d = Node("c", age=40, parent=c)
 print_tree(root, attr_list=["age"])
 # a [age=90]
@@ -543,14 +544,14 @@ print_tree(root, attr_list=["age"])
 # └── c [age=65]
 #     └── c [age=40]
 
-findall(root, lambda node: node.age == 65)
-# (Node(/a/b, age=65), Node(/a/c, age=65))
+findall(root, lambda node: node.age >= 65)
+# (Node(/a, age=90), Node(/a/b, age=65))
 
 find_names(root, "c")
-# (Node(/a/c, age=65), Node(/a/c/c, age=40))
+# (Node(/a/c, age=60), Node(/a/c/c, age=40))
 
 find_paths(root, "/c")  # partial path
-# (Node(/a/c, age=65), Node(/a/c/c, age=40))
+# (Node(/a/c, age=60), Node(/a/c/c, age=40))
 
 find_attrs(root, "age", 40)
 # (Node(/a/c/c, age=40),)
@@ -602,6 +603,12 @@ print_tree(root_other)
 tree_diff = get_tree_diff(root, root_other)
 print_tree(tree_diff)
 # a
+# └── c (-)
+
+tree_diff = get_tree_diff(root, root_other, only_diff=False)
+print_tree(tree_diff)
+# a
+# ├── b
 # └── c (-)
 ```
 
@@ -802,11 +809,11 @@ from bigtree import dict_to_dag, dag_iterator
 relation_dict = {
    "a": {"step": 1},
    "b": {"step": 1},
-   "c": {"parent": ["a", "b"], "step": 2},
-   "d": {"parent": ["a", "c"], "step": 2},
-   "e": {"parent": ["d"], "step": 3},
+   "c": {"parents": ["a", "b"], "step": 2},
+   "d": {"parents": ["a", "c"], "step": 2},
+   "e": {"parents": ["d"], "step": 3},
 }
-dag = dict_to_dag(relation_dict, parent_key="parent")
+dag = dict_to_dag(relation_dict, parent_key="parents")
 print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
 # [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 ```
