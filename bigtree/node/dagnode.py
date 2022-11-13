@@ -96,7 +96,9 @@ class DAGNode:
 
     """
 
-    def __init__(self, name: str = "", parents=None, children=None, **kwargs):
+    def __init__(
+        self, name: str = "", parents: List = None, children: List = None, **kwargs
+    ):
         self.name = name
         self.__parents = []
         self.__children = []

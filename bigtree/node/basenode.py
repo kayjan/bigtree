@@ -111,7 +111,7 @@ class BaseNode:
 
     """
 
-    def __init__(self, parent=None, children=None, **kwargs):
+    def __init__(self, parent=None, children: List = None, **kwargs):
         self.__parent = None
         self.__children = []
         if children is None:
