@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.6.1] - 2022-11-14
 ### Changed
-- Tree Modifier: Handle cases to handle shifting/copying that removes intermediate layer (backwards-compatible).
+- Tree Modifier: Handle shifting/copying that removes intermediate layer (backwards-compatible).
 
 ## [0.6.0] - 2022-11-13
 ### Added
