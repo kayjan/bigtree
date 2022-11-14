@@ -11,9 +11,9 @@ from bigtree import Node, print_tree
 
 class PopulationNode(Node):
 
-    def __init__(self, name: str, _population: int = 0, **kwargs):
+    def __init__(self, name: str, population: int = 0, **kwargs):
         super().__init__(name, **kwargs)
-        self._population = _population
+        self._population = population
 
     @property
     def population(self):
