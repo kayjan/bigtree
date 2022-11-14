@@ -562,10 +562,10 @@ def copy_or_shift_logic(
 
             # Reassign from_node to new parent
             if copy:
-                logging.info(f"Copying {from_node.node_name} to {to_node.node_name}")
+                logging.debug(f"Copying {from_node.node_name} to {to_node.node_name}")
                 from_node = from_node.copy()
             if merge_children:
-                logging.info(
+                logging.debug(
                     f"Reassigning children from {from_node.node_name} to {to_node.node_name}"
                 )
                 for children in from_node.children:
