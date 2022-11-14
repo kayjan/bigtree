@@ -493,11 +493,17 @@ def copy_or_shift_logic(
                 # To node found
                 if to_node:
                     if from_node == to_node:
-                        raise TreeError(
-                            f"Attempting to shift the same node {from_node} back to the same position\n"
-                            f"Check from path {from_path} and to path {to_path}"
-                        )
-                    if merge_children:
+                        if merge_children:
+                            parent = to_node.parent
+                            to_node.parent = None
+                            to_node = parent
+                        else:
+                            raise TreeError(
+                                f"Attempting to shift the same node {from_node} back to the same position\n"
+                                f"Check from path {from_path} and to path {to_path}\n"
+                                f"Alternatively, set `merge_children` to True if intermediate node is to be removed"
+                            )
+                    elif merge_children:
                         # Specify override to remove existing node, else children are merged
                         if not overriding:
                             logging.info(

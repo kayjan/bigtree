@@ -302,6 +302,20 @@ class TestCopyOrShiftNodes(unittest.TestCase):
             shift_nodes(self.root, from_paths, to_paths)
         assert str(exc_info.value).startswith("Attempting to shift the same node")
 
+    def test_shift_nodes_same_node_merge_children(self):
+        from_paths = ["d", "e", "g", "h", "f"]
+        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        shift_nodes(self.root, from_paths, to_paths)
+
+        from_paths = ["b"]
+        to_paths = ["b"]
+        shift_nodes(self.root, from_paths, to_paths, merge_children=True)
+        assert len(list(self.root.children)) == 3, "Node b is not removed"
+        assert not find_path(self.root, "a/b"), "Node b is not removed"
+        assert find_path(self.root, "a/c"), "Node c is gone"
+        assert find_path(self.root, "a/d"), "Node d parent is not Node a"
+        assert find_path(self.root, "a/e"), "Node e parent is not Node a"
+
     def test_copy_nodes_from_tree_to_tree(self):
         root_other = Node("a", age=90)
         from_paths = ["b", "c", "d", "e", "f", "g", "h"]
