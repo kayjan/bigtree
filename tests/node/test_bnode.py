@@ -692,6 +692,34 @@ class TestBNode(unittest.TestCase):
                         child.parent == parent
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
+    def test_rollback_set_children_null_children(self):
+        a = clone_tree(self.a, BNode3)
+        b = clone_tree(self.b, BNode3)
+        e = clone_tree(self.e, BNode3)
+        f = clone_tree(self.f, BNode2)
+        expected_a_children = [b, None]
+        expected_b_children = [None, e]
+        a.children = expected_a_children
+        b.children = expected_b_children
+        f.val = 100
+        with pytest.raises(TreeError) as exc_info:
+            a.children = [e, f]
+        assert str(exc_info.value).startswith("Custom error assigning children")
+
+        expected_a_children = [b, None]
+        expected_b_children = [None, e]
+        assert not f.parent, f"Node f parent, expected {None}, received {f.parent}"
+
+        for parent, children in zip([a, b], [expected_a_children, expected_b_children]):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert (
+                        child.parent == parent
+                    ), f"Node {child} parent, expected {parent}, received {child.parent}"
+
     def test_rollback_set_children_reassign(self):
         a = clone_tree(self.a, BNode3)
         b = clone_tree(self.b, BNode3)
