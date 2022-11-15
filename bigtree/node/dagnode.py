@@ -9,6 +9,7 @@ class DAGNode:
     """
     Base DAGNode extends any Python class to a DAG node, for DAG implementation.
     In DAG implementation, a node can have multiple parents.
+    Parents and children cannot be reassigned once assigned, as Nodes are allowed to have multiple parents and children.
     If each node only has one parent, use `Node` class.
     DAGNodes can have attributes if they are initialized from `DAGNode` or dictionary.
 
