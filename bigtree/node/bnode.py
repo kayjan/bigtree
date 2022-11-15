@@ -327,7 +327,8 @@ class BNode(Node):
             # Reassign old children to self
             self.__children = current_children
             for child in current_children:
-                child.__parent = self
+                if child:
+                    child.__parent = self
             raise TreeError(exc_info)
 
     @children.deleter
