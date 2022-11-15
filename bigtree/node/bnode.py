@@ -164,8 +164,6 @@ class BNode(Node):
 
         current_parent = self.__parent
         current_child_idx = None
-        if current_parent is not None:
-            current_child_idx = current_parent.__children.index(self)
 
         # Assign new parent - rollback if error
         self.__pre_assign_parent(new_parent)
@@ -178,8 +176,8 @@ class BNode(Node):
                     raise CorruptedTreeError(
                         "Error setting parent: Node does not exist as children of its parent"
                     )
-                child_idx = current_parent.__children.index(self)
-                current_parent.__children[child_idx] = None
+                current_child_idx = current_parent.__children.index(self)
+                current_parent.__children[current_child_idx] = None
 
             # Add child to new_parent
             self.__parent = new_parent
@@ -202,7 +200,7 @@ class BNode(Node):
 
             # Reassign old parent to self
             self.__parent = current_parent
-            if current_parent is not None and self not in current_parent.__children:
+            if current_child_idx is not None:
                 current_parent.__children[current_child_idx] = self
             raise TreeError(exc_info)
 

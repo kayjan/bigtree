@@ -102,6 +102,36 @@ class TestBaseNode(unittest.TestCase):
             "Attempting to access `parents` attribute"
         )
 
+    def test_set_parent_reassign(self):
+        self.a.children = [self.b, self.c]
+        self.d.children = [self.e]
+        self.b.parent = self.d
+        assert list(self.a.children) == [
+            self.c
+        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
+        assert list(self.d.children) == [
+            self.e,
+            self.b,
+        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
+        assert (
+            self.b.parent == self.d
+        ), f"Node b parent, expected {self.d}, received {self.b.parent}"
+
+    def test_set_children_reassign(self):
+        self.a.children = [self.c]
+        self.b.parent = self.a
+        self.d.children = [self.e, self.b]
+        assert list(self.a.children) == [
+            self.c
+        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
+        assert list(self.d.children) == [
+            self.e,
+            self.b,
+        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
+        assert (
+            self.b.parent == self.d
+        ), f"Node b parent, expected {self.d}, received {self.b.parent}"
+
     def test_set_parent(self):
         self.b.parent = self.a
         self.c.parent = self.a
@@ -362,7 +392,7 @@ class TestBaseNode(unittest.TestCase):
         with pytest.raises(TreeError):
             self.a.children = [self.b, self.b]
 
-    def test_rollback_setting_parent(self):
+    def test_rollback_set_parent(self):
         a = clone_tree(self.a, BaseNode2)
         b = clone_tree(self.b, BaseNode2)
         c = clone_tree(self.c, BaseNode2)
@@ -393,7 +423,7 @@ class TestBaseNode(unittest.TestCase):
                         child.parent == parent
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
-    def test_rollback_setting_parent_no_parent(self):
+    def test_rollback_set_parent_no_parent(self):
         a = clone_tree(self.a, BaseNode2)
         b = clone_tree(self.b, BaseNode2)
         c = clone_tree(self.c, BaseNode2)
@@ -424,7 +454,7 @@ class TestBaseNode(unittest.TestCase):
                         child.parent == parent
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
-    def test_rollback_setting_parent_null_parent(self):
+    def test_rollback_set_parent_null_parent(self):
         a = clone_tree(self.a, BaseNode2)
         b = clone_tree(self.b, BaseNode2)
         c = clone_tree(self.c, BaseNode2)
@@ -455,7 +485,7 @@ class TestBaseNode(unittest.TestCase):
                         child.parent == parent
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
-    def test_rollback_setting_parent_reassign(self):
+    def test_rollback_set_parent_reassign(self):
         a = clone_tree(self.a, BaseNode2)
         b = clone_tree(self.b, BaseNode2)
         c = clone_tree(self.c, BaseNode2)
@@ -485,7 +515,7 @@ class TestBaseNode(unittest.TestCase):
                         child.parent == parent
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
-    def test_rollback_setting_children(self):
+    def test_rollback_set_children(self):
         a = clone_tree(self.a, BaseNode3)
         b = clone_tree(self.b, BaseNode3)
         c = clone_tree(self.c, BaseNode3)
@@ -499,7 +529,7 @@ class TestBaseNode(unittest.TestCase):
         expected_h_children = [e, f, g]
         a.children = expected_a_children
         h.children = expected_h_children
-        b.set_attrs({"val": 1})
+        g.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             a.children = [b, c, d, g, i, f]
         assert str(exc_info.value).startswith("Custom error assigning children")
@@ -517,7 +547,7 @@ class TestBaseNode(unittest.TestCase):
                         child.parent == parent
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
-    def test_rollback_setting_children_null_children(self):
+    def test_rollback_set_children_null_children(self):
         a = clone_tree(self.a, BaseNode3)
         b = clone_tree(self.b, BaseNode3)
         c = clone_tree(self.c, BaseNode3)
@@ -549,7 +579,7 @@ class TestBaseNode(unittest.TestCase):
                         child.parent == parent
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
-    def test_rollback_setting_children_reassign(self):
+    def test_rollback_set_children_reassign(self):
         a = clone_tree(self.a, BaseNode3)
         b = clone_tree(self.b, BaseNode3)
         c = clone_tree(self.c, BaseNode3)

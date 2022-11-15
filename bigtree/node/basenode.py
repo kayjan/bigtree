@@ -175,8 +175,6 @@ class BaseNode:
 
         current_parent = self.__parent
         current_child_idx = None
-        if current_parent is not None:
-            current_child_idx = current_parent.__children.index(self)
 
         # Assign new parent - rollback if error
         self.__pre_assign_parent(new_parent)
@@ -189,6 +187,7 @@ class BaseNode:
                     raise CorruptedTreeError(
                         "Error setting parent: Node does not exist as children of its parent"
                     )
+                current_child_idx = current_parent.__children.index(self)
                 current_parent.__children.remove(self)
 
             # Add child to new_parent
@@ -200,12 +199,12 @@ class BaseNode:
 
         except Exception as exc_info:
             # Reassign new parent to their old children
-            if new_parent is not None and self in new_parent.__children:
+            if new_parent is not None:
                 new_parent.__children.remove(self)
 
             # Reassign old parent to self
             self.__parent = current_parent
-            if current_parent is not None and self not in current_parent.__children:
+            if current_child_idx is not None:
                 current_parent.__children.insert(current_child_idx, self)
             raise TreeError(exc_info)
 
