@@ -9,6 +9,7 @@ class DAGNode:
     """
     Base DAGNode extends any Python class to a DAG node, for DAG implementation.
     In DAG implementation, a node can have multiple parents.
+    Parents and children cannot be reassigned once assigned, as Nodes are allowed to have multiple parents and children.
     If each node only has one parent, use `Node` class.
     DAGNodes can have attributes if they are initialized from `DAGNode` or dictionary.
 
@@ -139,18 +140,24 @@ class DAGNode:
         """
         return tuple(self.__parents)
 
-    @parents.setter
-    def parents(self, new_parents: List):
-        """Set parent node
+    @staticmethod
+    def __check_parent_type(new_parents: List):
+        """Check parent type
 
         Args:
             new_parents (List[Self]): parent nodes
         """
-        # Check type
         if not isinstance(new_parents, list):
             raise TypeError(
                 f"Parents input should be list type, received input type {type(new_parents)}"
             )
+
+    def __check_parent_loop(self, new_parents: List):
+        """Check parent type
+
+        Args:
+            new_parents (List[Self]): parent nodes
+        """
         seen_parent = []
         for new_parent in new_parents:
             # Check type
@@ -176,18 +183,36 @@ class DAGNode:
             else:
                 seen_parent.append(id(new_parent))
 
-        # Customizable check before assigning parent
+    @parents.setter
+    def parents(self, new_parents: List):
+        """Set parent node
+
+        Args:
+            new_parents (List[Self]): parent nodes
+        """
+        self.__check_parent_type(new_parents)
+        self.__check_parent_loop(new_parents)
+
+        current_parents = self.__parents.copy()
+
         self.__pre_assign_parents(new_parents)
+        try:
+            # Add child to new_parent
+            for new_parent in new_parents:
+                if new_parent not in self.__parents:
+                    self.__parents.append(new_parent)
+                    new_parent.__children.append(self)
 
-        # Add child to new_parent
-        for new_parent in new_parents:
-            if new_parent not in self.__parents:
-                self.__parents.append(new_parent)
-            if self not in new_parent.__children:
-                new_parent.__children.append(self)
-
-        # Customizable check after assigning parent
-        self.__post_assign_parents(new_parents)
+            self.__post_assign_parents(new_parents)
+        except Exception as exc_info:
+            # Reassign old parents to self
+            for new_parent in new_parents:
+                if new_parent not in current_parents:
+                    self.__parents.remove(new_parent)
+                    new_parent.__children.remove(self)
+            raise TreeError(
+                f"{exc_info}, current parents {current_parents}, new parents {new_parents}"
+            )
 
     def __pre_assign_parents(self, new_parents: List):
         """Custom method to check before attaching parent
@@ -216,9 +241,8 @@ class DAGNode:
         """
         return tuple(self.__children)
 
-    @children.setter
-    def children(self, new_children: List):
-        """Set child nodes
+    def __check_children_type(self, new_children: List):
+        """Check child type
 
         Args:
             new_children (List[Self]): child node
@@ -227,6 +251,13 @@ class DAGNode:
             raise TypeError(
                 f"Children input should be list type, received input type {type(new_children)}"
             )
+
+    def __check_children_loop(self, new_children: List):
+        """Check child loop
+
+        Args:
+            new_children (List[Self]): child node
+        """
         seen_children = []
         for new_child in new_children:
             # Check type
@@ -251,15 +282,31 @@ class DAGNode:
             else:
                 seen_children.append(id(new_child))
 
-        # Detach existing child node(s)
+    @children.setter
+    def children(self, new_children: List):
+        """Set child nodes
+
+        Args:
+            new_children (List[Self]): child node
+        """
+        self.__check_children_type(new_children)
+        self.__check_children_loop(new_children)
+
         current_children = list(self.children)
+
+        self.__pre_assign_children(new_children)
         try:
-            self.__pre_assign_children(new_children)
             for new_child in new_children:
-                new_child.parents = [self]
+                if self not in new_child.__parents:
+                    new_child.__parents.append(self)
+                    self.__children.append(new_child)
             self.__post_assign_children(new_children)
-        except TreeError or TypeError as exc_info:  # pragma: no cover
-            self.children = current_children
+        except Exception as exc_info:
+            # Reassign old children to self
+            for new_child in new_children:
+                if new_child not in current_children:
+                    new_child.__parents.remove(self)
+                    self.__children.remove(new_child)
             raise TreeError(exc_info)
 
     def __pre_assign_children(self, new_children: List):

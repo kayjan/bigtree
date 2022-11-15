@@ -4,11 +4,34 @@ import unittest
 import pandas as pd
 import pytest
 
+from bigtree.node.basenode import BaseNode
 from bigtree.node.dagnode import DAGNode
 from bigtree.node.node import Node
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import dag_iterator
 from tests.conftest import assert_print_statement
+
+
+class DAGNode2(DAGNode):
+    def _DAGNode__post_assign_parents(self, new_parents):
+        if self.get_attr("val"):
+            raise Exception("Custom error assigning parent")
+        for parent in new_parents:
+            if parent.get_attr("val"):
+                raise Exception(
+                    f"Custom error assigning parent, new children {new_parents}"
+                )
+
+
+class DAGNode3(DAGNode):
+    def _DAGNode__post_assign_children(self, new_children):
+        if self.get_attr("val"):
+            raise Exception("Custom error assigning children")
+        for child in new_children:
+            if child.get_attr("val"):
+                raise Exception(
+                    f"Custom error assigning children, new children {new_children}"
+                )
 
 
 class TestDAGNode(unittest.TestCase):
@@ -75,6 +98,40 @@ class TestDAGNode(unittest.TestCase):
         with pytest.raises(ValueError) as exc_info:
             self.c.parent
         assert str(exc_info.value).startswith("Attempting to access `parent` attribute")
+
+    def test_set_parent_reassign(self):
+        self.a.children = [self.b, self.c]
+        self.d.children = [self.e]
+        self.b.parents = [self.d]
+        assert list(self.a.children) == [
+            self.b,
+            self.c,
+        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
+        assert list(self.d.children) == [
+            self.e,
+            self.b,
+        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
+        assert list(self.b.parents) == [
+            self.a,
+            self.d,
+        ], f"Node b parents, expected {[self.a, self.d]}, received {self.b.parents}"
+
+    def test_set_children_reassign(self):
+        self.a.children = [self.c]
+        self.b.parents = [self.a]
+        self.d.children = [self.e, self.b]
+        assert list(self.a.children) == [
+            self.c,
+            self.b,
+        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
+        assert list(self.d.children) == [
+            self.e,
+            self.b,
+        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
+        assert list(self.b.parents) == [
+            self.a,
+            self.d,
+        ], f"Node b parents, expected {[self.a, self.d]}, received {self.b.parents}"
 
     def test_set_parents(self):
         self.c.parents = [self.a, self.b]
@@ -218,13 +275,16 @@ class TestDAGNode(unittest.TestCase):
         with pytest.raises(TypeError):
             self.a.parents = 1
 
-        # Error: wrong type
         with pytest.raises(TypeError):
             self.a.parents = [1]
 
-        # Error: wrong type
+        a = BaseNode()
         with pytest.raises(TypeError):
-            self.a.parents = [Node("a"), Node("b")]
+            self.a.parents = [a]
+
+        a = Node("a")
+        with pytest.raises(TypeError):
+            self.a.parents = [a]
 
     def test_error_set_parent_loop_error(self):
         # Error: set self as parent
@@ -250,9 +310,13 @@ class TestDAGNode(unittest.TestCase):
         with pytest.raises(TypeError):
             self.a.children = [self.b, 1]
 
-        # Error: wrong type
+        a = BaseNode()
         with pytest.raises(TypeError):
-            self.a.children = [Node("a"), Node("b")]
+            self.a.children = [a]
+
+        a = Node("a")
+        with pytest.raises(TypeError):
+            self.a.children = [a]
 
     def test_error_set_children_loop_error(self):
         # Error: set self as child
@@ -270,13 +334,238 @@ class TestDAGNode(unittest.TestCase):
         with pytest.raises(TreeError):
             self.a.children = [self.b, self.b]
 
-    def assert_tree_structure_basenode_root_attr(root):
-        # Test describe()
-        expected = [("age", 90), ("name", "a")]
-        actual = root.describe(exclude_prefix="_")
-        assert (
-            actual == expected
-        ), f"Node description should be {expected}, but it is {actual}"
+    @staticmethod
+    def test_rollback_set_parents():
+        a = DAGNode2(name="a", age=90)
+        b = DAGNode2(name="b", age=65)
+        c = DAGNode2(name="c", age=60)
+        d = DAGNode2(name="d", age=40)
+        e = DAGNode2(name="e", age=35)
+        f = DAGNode2(name="f", age=38)
+        g = DAGNode2(name="g", age=10)
+        h = DAGNode2(name="h", age=6)
+        expected_a_children = [b, c]
+        expected_h_children = [e, f, g]
+        a.children = expected_a_children
+        h.children = expected_h_children
+        f.set_attrs({"val": 1})
+        with pytest.raises(TreeError) as exc_info:
+            f.parents = [a, h]
+        assert str(exc_info.value).startswith("Custom error assigning parent")
+
+        expected_a_children = [b, c]
+        expected_h_children = [e, f, g]
+        assert not d.parents, f"Expected Node d parent to be None, received {d.parents}"
+        for parent, children in zip([a, h], [expected_a_children, expected_h_children]):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert list(child.parents) == [
+                        parent
+                    ], f"Node {child} parent, expected {parent}, received {child.parents}"
+
+    @staticmethod
+    def test_rollback_set_parents_no_parents():
+        a = DAGNode2(name="a", age=90)
+        b = DAGNode2(name="b", age=65)
+        c = DAGNode2(name="c", age=60)
+        d = DAGNode2(name="d", age=40)
+        e = DAGNode2(name="e", age=35)
+        f = DAGNode2(name="f", age=38)
+        g = DAGNode2(name="g", age=10)
+        h = DAGNode2(name="h", age=6)
+        expected_a_children = [b, c]
+        expected_h_children = [e, f, g]
+        a.children = expected_a_children
+        h.children = expected_h_children
+        d.set_attrs({"val": 1})
+        with pytest.raises(TreeError) as exc_info:
+            d.parents = [a, h]
+        assert str(exc_info.value).startswith("Custom error assigning parent")
+
+        expected_a_children = [b, c]
+        expected_h_children = [e, f, g]
+        assert not d.parents, f"Expected Node d parent to be None, received {d.parents}"
+        for parent, children in zip([a, h], [expected_a_children, expected_h_children]):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert list(child.parents) == [
+                        parent
+                    ], f"Node {child} parent, expected {parent}, received {child.parents}"
+
+    @staticmethod
+    def test_rollback_set_parents_null_parents():
+        a = DAGNode2(name="a", age=90)
+        b = DAGNode2(name="b", age=65)
+        c = DAGNode2(name="c", age=60)
+        d = DAGNode2(name="d", age=40)
+        e = DAGNode2(name="e", age=35)
+        f = DAGNode2(name="f", age=38)
+        g = DAGNode2(name="g", age=10)
+        h = DAGNode2(name="h", age=6)
+        expected_a_children = [b, c]
+        expected_h_children = [e, f, g]
+        a.children = expected_a_children
+        h.children = expected_h_children
+        f.set_attrs({"val": 1})
+        with pytest.raises(TreeError) as exc_info:
+            f.parents = []
+        assert str(exc_info.value).startswith("Custom error assigning parent")
+
+        expected_a_children = [b, c]
+        expected_h_children = [e, f, g]
+        assert not d.parents, f"Expected Node d parent to be None, received {d.parents}"
+        for parent, children in zip([a, h], [expected_a_children, expected_h_children]):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert list(child.parents) == [
+                        parent
+                    ], f"Node {child} parent, expected {parent}, received {child.parents}"
+
+    @staticmethod
+    def test_rollback_set_parents_reassign():
+        a = DAGNode2(name="a", age=90)
+        b = DAGNode2(name="b", age=65)
+        c = DAGNode2(name="c", age=60)
+        d = DAGNode2(name="d", age=40)
+        e = DAGNode2(name="e", age=35)
+        f = DAGNode2(name="f", age=38)
+        g = DAGNode2(name="g", age=10)
+        h = DAGNode2(name="h", age=6)
+        expected_a_children = [b, c]
+        expected_h_children = [e, f, g]
+        a.children = expected_a_children
+        h.children = expected_h_children
+        f.set_attrs({"val": 1})
+        with pytest.raises(TreeError) as exc_info:
+            f.parents = [h]
+        assert str(exc_info.value).startswith("Custom error assigning parent")
+
+        expected_a_children = [b, c]
+        expected_h_children = [e, f, g]
+        assert not d.parents, f"Expected Node d parent to be None, received {d.parents}"
+        for parent, children in zip([a, h], [expected_a_children, expected_h_children]):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert list(child.parents) == [
+                        parent
+                    ], f"Node {child} parent, expected {parent}, received {child.parents}"
+
+    @staticmethod
+    def test_rollback_set_children():
+        a = DAGNode3(name="a", age=90)
+        b = DAGNode3(name="b", age=65)
+        c = DAGNode3(name="c", age=60)
+        d = DAGNode3(name="d", age=40)
+        e = DAGNode3(name="e", age=35)
+        f = DAGNode3(name="f", age=38)
+        g = DAGNode3(name="g", age=10)
+        h = DAGNode3(name="h", age=6)
+        i = DAGNode3(name="i")
+        expected_a_children = [b, c, d]
+        expected_h_children = [e, f, g]
+        a.children = expected_a_children
+        h.children = expected_h_children
+        b.set_attrs({"val": 1})
+        with pytest.raises(TreeError) as exc_info:
+            a.children = [b, c, d, g, i, f]
+        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert not len(
+            list(i.parents)
+        ), f"Node i parent, expected None, received {i.parents}"
+
+        expected_a_children = [b, c, d]
+        expected_h_children = [e, f, g]
+        for parent, children in zip([a, h], [expected_a_children, expected_h_children]):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert list(child.parents) == [
+                        parent
+                    ], f"Node {child} parent, expected {parent}, received {child.parents}"
+
+    @staticmethod
+    def test_rollback_set_children_null_children():
+        a = DAGNode3(name="a", age=90)
+        b = DAGNode3(name="b", age=65)
+        c = DAGNode3(name="c", age=60)
+        d = DAGNode3(name="d", age=40)
+        e = DAGNode3(name="e", age=35)
+        f = DAGNode3(name="f", age=38)
+        g = DAGNode3(name="g", age=10)
+        h = DAGNode3(name="h", age=6)
+        i = DAGNode3(name="i")
+        expected_a_children = [b, c, d]
+        expected_h_children = [e, f, g]
+        a.children = expected_a_children
+        h.children = expected_h_children
+        a.set_attrs({"val": 1})
+        with pytest.raises(TreeError) as exc_info:
+            a.children = []
+        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert not len(
+            list(i.parents)
+        ), f"Node i parent, expected None, received {i.parents}"
+
+        expected_a_children = [b, c, d]
+        expected_h_children = [e, f, g]
+        for parent, children in zip([a, h], [expected_a_children, expected_h_children]):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert list(child.parents) == [
+                        parent
+                    ], f"Node {child} parent, expected {parent}, received {child.parents}"
+
+    @staticmethod
+    def test_rollback_set_children_reassign():
+        a = DAGNode3(name="a", age=90)
+        b = DAGNode3(name="b", age=65)
+        c = DAGNode3(name="c", age=60)
+        d = DAGNode3(name="d", age=40)
+        e = DAGNode3(name="e", age=35)
+        f = DAGNode3(name="f", age=38)
+        g = DAGNode3(name="g", age=10)
+        h = DAGNode3(name="h", age=6)
+        i = DAGNode3(name="i")
+        expected_a_children = [b, c, d]
+        expected_h_children = [e, f, g]
+        a.children = expected_a_children
+        h.children = expected_h_children
+        b.set_attrs({"val": 1})
+        with pytest.raises(TreeError) as exc_info:
+            a.children = [b, c, d]
+        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert not len(
+            list(i.parents)
+        ), f"Node i parent, expected None, received {i.parents}"
+
+        expected_a_children = [b, c, d]
+        expected_h_children = [e, f, g]
+        for parent, children in zip([a, h], [expected_a_children, expected_h_children]):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert list(child.parents) == [
+                        parent
+                    ], f"Node {child} parent, expected {parent}, received {child.parents}"
 
 
 def assert_dag_structure_self(self):

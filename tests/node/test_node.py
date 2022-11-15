@@ -2,9 +2,9 @@ import unittest
 
 import pytest
 
-from bigtree import preorder_iter
 from bigtree.node.node import Node
 from bigtree.utils.exceptions import LoopError, TreeError
+from bigtree.utils.iterators import preorder_iter
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root_attr,
     assert_tree_structure_basenode_root_generic,
