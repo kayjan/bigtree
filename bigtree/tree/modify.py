@@ -499,7 +499,7 @@ def copy_or_shift_logic(
                             to_node = parent
                         else:
                             raise TreeError(
-                                f"Attempting to shift the same node {from_node} back to the same position\n"
+                                f"Attempting to shift the same node {from_node.node_name} back to the same position\n"
                                 f"Check from path {from_path} and to path {to_path}\n"
                                 f"Alternatively, set `merge_children` to True if intermediate node is to be removed"
                             )
@@ -562,10 +562,12 @@ def copy_or_shift_logic(
 
             # Reassign from_node to new parent
             if copy:
-                logging.info(f"Copying {from_node} to {to_node}")
+                logging.debug(f"Copying {from_node.node_name} to {to_node.node_name}")
                 from_node = from_node.copy()
             if merge_children:
-                logging.info(f"Reassigning children from {from_node} to {to_node}")
+                logging.debug(
+                    f"Reassigning children from {from_node.node_name} to {to_node.node_name}"
+                )
                 for children in from_node.children:
                     children.parent = to_node
                 from_node.parent = None
