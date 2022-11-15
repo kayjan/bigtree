@@ -64,9 +64,9 @@ Binary Node (BNode) inherits from Node, so the components in Tree implementation
 
 1. **Node**
    1. ``BNode``, Node with binary tree rules
-2. **Constructing Tree**
+2. **Constructing BTree**
    1. From *list*, using flattened list structure
-3. **Traversing Tree**
+3. **Traversing BTree**
    1. In-Order Traversal
 
 For Directed Acyclic Graph (DAG) implementation, there are 4 main components.

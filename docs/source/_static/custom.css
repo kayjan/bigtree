@@ -64,6 +64,9 @@ span.pre {
 table {
     background: lightyellow;
 }
+.autosummary > colgroup > col:first-child {
+    width: 25% !important;
+}
 .table-headed th, table.docutils:not(.footnote):not(.citation) th {
     background: #ffffc9;
 }
