@@ -195,9 +195,10 @@ class DAGNode:
 
         current_parents = self.__parents.copy()
 
+        # Assign new parents - rollback if error
         self.__pre_assign_parents(new_parents)
         try:
-            # Add child to new_parent
+            # Assign self to new parent
             for new_parent in new_parents:
                 if new_parent not in self.__parents:
                     self.__parents.append(new_parent)
@@ -205,7 +206,7 @@ class DAGNode:
 
             self.__post_assign_parents(new_parents)
         except Exception as exc_info:
-            # Reassign old parents to self
+            # Remove self from new parent
             for new_parent in new_parents:
                 if new_parent not in current_parents:
                     self.__parents.remove(new_parent)
@@ -294,8 +295,10 @@ class DAGNode:
 
         current_children = list(self.children)
 
+        # Assign new children - rollback if error
         self.__pre_assign_children(new_children)
         try:
+            # Assign new children to self
             for new_child in new_children:
                 if self not in new_child.__parents:
                     new_child.__parents.append(self)
