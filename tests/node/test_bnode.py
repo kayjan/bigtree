@@ -3,7 +3,9 @@ import unittest
 import pytest
 
 from bigtree import LoopError, TreeError
+from bigtree.node.basenode import BaseNode
 from bigtree.node.bnode import BNode
+from bigtree.node.node import Node
 from bigtree.tree.helper import clone_tree
 from tests.conftest import assert_print_statement
 
@@ -15,10 +17,14 @@ class BNode2(BNode):
                 raise Exception(
                     f"Custom error assigning parent, new parent {new_parent} and children are {new_parent.children}"
                 )
+        elif self.val == 100:
+            raise Exception("Custom error assigning parent")
 
 
 class BNode3(BNode):
     def _BNode__post_assign_children(self, new_children):
+        if self.val == 100:
+            raise Exception("Custom error assigning children")
         for child in new_children:
             if child and child.val == 100:
                 raise Exception(
@@ -380,6 +386,14 @@ class TestBNode(unittest.TestCase):
         with pytest.raises(TypeError):
             self.a.parent = 1
 
+        a = BaseNode()
+        with pytest.raises(TypeError):
+            self.a.parent = a
+
+        a = Node("a")
+        with pytest.raises(TypeError):
+            self.a.parent = a
+
     def test_error_set_parent_loop_error(self):
         # Error: set self as parent
         with pytest.raises(LoopError):
@@ -395,6 +409,14 @@ class TestBNode(unittest.TestCase):
         # Error: wrong type
         with pytest.raises(TypeError):
             self.a.children = [self.b, 1]
+
+        a = BaseNode()
+        with pytest.raises(TypeError):
+            self.a.children = [a, None]
+
+        a = Node("a")
+        with pytest.raises(TypeError):
+            self.a.children = [a, None]
 
     def test_error_set_children_length_error(self):
         # Error: wrong type
@@ -435,29 +457,124 @@ class TestBNode(unittest.TestCase):
         with pytest.raises(TreeError) as exc_info:
             b.parent = a
         assert str(exc_info.value).startswith("Custom error assigning parent")
-        assert b.parent == f, f"Node b parent, expected {f}, received {b.parent}"
-        assert (
-            list(a.children) == expected_a_children
-        ), f"Node a children, expected {expected_a_children}, received {a.children}"
-        for child in expected_a_children:
+
+        expected_a_children = [None, c]
+        expected_b_children = [d, e]
+        expected_f_children = [None, b]
+        for parent, children in zip(
+            [a, b, f], [expected_a_children, expected_b_children, expected_f_children]
+        ):
             assert (
-                child.parent == a
-            ), f"Node {child} parent, expected {a}, received {child.parent}"
-        assert (
-            list(b.children) == expected_b_children
-        ), f"Node b children, expected {expected_b_children}, received {list(b.children)}"
-        for child in expected_b_children:
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert (
+                        child.parent == parent
+                    ), f"Node {child} parent, expected {parent}, received {child.parent}"
+
+    def test_rollback_setting_parent_no_parent(self):
+        a = clone_tree(self.a, BNode2)
+        b = clone_tree(self.b, BNode2)
+        c = clone_tree(self.c, BNode2)
+        d = clone_tree(self.d, BNode2)
+        e = clone_tree(self.e, BNode2)
+        f = clone_tree(self.f, BNode2)
+        g = clone_tree(self.g, BNode2)
+        expected_a_children = [None, c]
+        expected_b_children = [d, e]
+        expected_f_children = [None, b]
+        a.children = expected_a_children
+        b.children = expected_b_children
+        f.children = expected_f_children
+        a.val = 100
+        with pytest.raises(TreeError) as exc_info:
+            g.parent = a
+        assert str(exc_info.value).startswith("Custom error assigning parent")
+
+        expected_a_children = [None, c]
+        expected_b_children = [d, e]
+        expected_f_children = [None, b]
+        assert not g.parent, f"Node g parent, expected None, received {g.parent}"
+        for parent, children in zip(
+            [a, b, f], [expected_a_children, expected_b_children, expected_f_children]
+        ):
             assert (
-                child.parent == b
-            ), f"Node {child} parent, expected {a}, received {child.parent}"
-        assert (
-            list(f.children) == expected_f_children
-        ), f"Node f children, expected {expected_f_children}, received {list(f.children)}"
-        for child in expected_f_children:
-            if child:
-                assert (
-                    child.parent == f
-                ), f"Node {child} parent, expected {f}, received {child.parent}"
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert (
+                        child.parent == parent
+                    ), f"Node {child} parent, expected {parent}, received {child.parent}"
+
+    def test_rollback_setting_parent_null_parent(self):
+        a = clone_tree(self.a, BNode2)
+        b = clone_tree(self.b, BNode2)
+        c = clone_tree(self.c, BNode2)
+        d = clone_tree(self.d, BNode2)
+        e = clone_tree(self.e, BNode2)
+        f = clone_tree(self.f, BNode2)
+        g = clone_tree(self.g, BNode2)
+        expected_a_children = [None, c]
+        expected_b_children = [d, e]
+        expected_f_children = [None, b]
+        a.children = expected_a_children
+        b.children = expected_b_children
+        f.children = expected_f_children
+        g.val = 100
+        with pytest.raises(TreeError) as exc_info:
+            g.parent = None
+        assert str(exc_info.value).startswith("Custom error assigning parent")
+
+        expected_a_children = [None, c]
+        expected_b_children = [d, e]
+        expected_f_children = [None, b]
+        assert not g.parent, f"Node g parent, expected None, received {g.parent}"
+        for parent, children in zip(
+            [a, b, f], [expected_a_children, expected_b_children, expected_f_children]
+        ):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert (
+                        child.parent == parent
+                    ), f"Node {child} parent, expected {parent}, received {child.parent}"
+
+    def test_rollback_setting_parent_reassign(self):
+        a = clone_tree(self.a, BNode2)
+        b = clone_tree(self.b, BNode2)
+        c = clone_tree(self.c, BNode2)
+        d = clone_tree(self.d, BNode2)
+        e = clone_tree(self.e, BNode2)
+        f = clone_tree(self.f, BNode2)
+        expected_a_children = [None, c]
+        expected_b_children = [d, e]
+        expected_f_children = [None, b]
+        a.children = expected_a_children
+        b.children = expected_b_children
+        f.children = expected_f_children
+        a.val = 100
+        with pytest.raises(TreeError) as exc_info:
+            c.parent = a
+        assert str(exc_info.value).startswith("Custom error assigning parent")
+
+        expected_a_children = [None, c]
+        expected_b_children = [d, e]
+        expected_f_children = [None, b]
+        for parent, children in zip(
+            [a, b, f], [expected_a_children, expected_b_children, expected_f_children]
+        ):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert (
+                        child.parent == parent
+                    ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_setting_children(self):
         a = clone_tree(self.a, BNode3)
@@ -473,27 +590,79 @@ class TestBNode(unittest.TestCase):
         f.val = 100
         with pytest.raises(TreeError) as exc_info:
             a.children = [d, f]
-        expected_a_children = [b, c]
         assert str(exc_info.value).startswith("Custom error assigning children")
-        assert b.parent == a, f"Node b parent, expected {a}, received {b.parent}"
-        assert c.parent == a, f"Node c parent, expected {a}, received {c.parent}"
-        assert d.parent == b, f"Node d parent, expected {b}, received {d.parent}"
-        assert e.parent == b, f"Node e parent, expected {b}, received {e.parent}"
+
+        expected_a_children = [b, c]
+        expected_b_children = [d, e]
         assert not f.parent, f"Node f parent, expected {None}, received {f.parent}"
-        assert (
-            list(a.children) == expected_a_children
-        ), f"Node a children, expected {expected_a_children}, received {a.children}"
-        for child in expected_a_children:
+
+        for parent, children in zip([a, b], [expected_a_children, expected_b_children]):
             assert (
-                child.parent == a
-            ), f"Node {child} parent, expected {a}, received {child.parent}"
-        assert (
-            list(b.children) == expected_b_children
-        ), f"Node b children, expected {expected_b_children}, received {list(b.children)}"
-        for child in expected_b_children:
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert (
+                        child.parent == parent
+                    ), f"Node {child} parent, expected {parent}, received {child.parent}"
+
+    def test_rollback_setting_children_no_children(self):
+        a = clone_tree(self.a, BNode3)
+        b = clone_tree(self.b, BNode3)
+        c = clone_tree(self.c, BNode3)
+        d = clone_tree(self.d, BNode3)
+        e = clone_tree(self.e, BNode3)
+        f = clone_tree(self.f, BNode2)
+        expected_a_children = [b, c]
+        expected_b_children = [d, e]
+        a.children = expected_a_children
+        b.children = expected_b_children
+        a.val = 100
+        with pytest.raises(TreeError) as exc_info:
+            a.children = []
+        assert str(exc_info.value).startswith("Custom error assigning children")
+
+        expected_a_children = [b, c]
+        expected_b_children = [d, e]
+        assert not f.parent, f"Node f parent, expected {None}, received {f.parent}"
+
+        for parent, children in zip([a, b], [expected_a_children, expected_b_children]):
             assert (
-                child.parent == b
-            ), f"Node {child} parent, expected {a}, received {child.parent}"
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert (
+                        child.parent == parent
+                    ), f"Node {child} parent, expected {parent}, received {child.parent}"
+
+    def test_rollback_setting_children_reassign(self):
+        a = clone_tree(self.a, BNode3)
+        b = clone_tree(self.b, BNode3)
+        c = clone_tree(self.c, BNode3)
+        d = clone_tree(self.d, BNode3)
+        e = clone_tree(self.e, BNode3)
+        expected_a_children = [b, c]
+        expected_b_children = [d, e]
+        a.children = expected_a_children
+        b.children = expected_b_children
+        b.val = 100
+        with pytest.raises(TreeError) as exc_info:
+            a.children = [b, c]
+        assert str(exc_info.value).startswith("Custom error assigning children")
+
+        expected_a_children = [b, c]
+        expected_b_children = [d, e]
+
+        for parent, children in zip([a, b], [expected_a_children, expected_b_children]):
+            assert (
+                list(parent.children) == children
+            ), f"Node {parent} children, expected {children}, received {parent.children}"
+            for child in children:
+                if child:
+                    assert (
+                        child.parent == parent
+                    ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
 
 def assert_btree_structure_self(self):

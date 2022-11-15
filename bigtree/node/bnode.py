@@ -140,20 +140,24 @@ class BNode(Node):
         """
         return self.__parent
 
-    @parent.setter
-    def parent(self, new_parent):
-        """Set parent node
+    @staticmethod
+    def __check_parent_type(new_parent):
+        """Check parent type
 
         Args:
             new_parent (Self): parent node
         """
-        # Check type
         if not (isinstance(new_parent, BNode) or new_parent is None):
             raise TypeError(
                 f"Expect input to be BNode type or NoneType, received input type {type(new_parent)}"
             )
 
-        # Check for loop
+    def __check_parent_loop(self, new_parent):
+        """Check parent type
+
+        Args:
+            new_parent (Self): parent node
+        """
         if new_parent is not None:
             if new_parent is self:
                 raise LoopError("Error setting parent: Node cannot be parent of itself")
@@ -166,27 +170,32 @@ class BNode(Node):
                     "Error setting parent: Node cannot be ancestor of itself"
                 )
 
+    @parent.setter
+    def parent(self, new_parent):
+        """Set parent node
+
+        Args:
+            new_parent (Self): parent node
+        """
+        self.__check_parent_type(new_parent)
+        self.__check_parent_loop(new_parent)
+
         current_parent = self.__parent
         current_child_idx = None
         if current_parent is not None:
             current_child_idx = current_parent.__children.index(self)
 
         # Assign new parent - rollback if error
+        self.__pre_assign_parent(new_parent)
         try:
-            # Customizable check before assigning parent
-            self.__pre_assign_parent(new_parent)
-
             # Remove child from current_parent
             if current_parent is not None:
-                # Check for loop tree structure
                 if not any(
                     child is self for child in current_parent.children
                 ):  # pragma: no cover
                     raise CorruptedTreeError(
                         "Error setting parent: Node does not exist as children of its parent"
                     )
-
-                # Detach child from current parent
                 child_idx = current_parent.__children.index(self)
                 current_parent.__children[child_idx] = None
 
@@ -201,15 +210,18 @@ class BNode(Node):
                 if not inserted:
                     raise TreeError(f"Parent {new_parent} already has 2 children")
 
-            # Customizable check after assigning parent
             self.__post_assign_parent(new_parent)
 
         except Exception as exc_info:
+            # Reassign new parent to their old children
+            if new_parent is not None and self in new_parent.__children:
+                child_idx = new_parent.__children.index(self)
+                new_parent.__children[child_idx] = None
+
+            # Reassign old parent to self
             self.__parent = current_parent
             if current_parent is not None and self not in current_parent.__children:
-                current_parent.__children.insert(current_child_idx, self)
-            if new_parent is not None and self in new_parent.__children:
-                new_parent.__children.remove(self)
+                current_parent.__children[current_child_idx] = self
             raise TreeError(exc_info)
 
     @property
@@ -221,9 +233,8 @@ class BNode(Node):
         """
         return tuple(self.__children)
 
-    @children.setter
-    def children(self, new_children: List):
-        """Set child nodes
+    def __check_children_type(self, new_children: List) -> List:
+        """Check child type
 
         Args:
             new_children (List[Self]): child node
@@ -232,11 +243,19 @@ class BNode(Node):
             raise TypeError(
                 f"Children input should be list type, received input type {type(new_children)}"
             )
+
         if not len(new_children):
             new_children = [None, None]
         if len(new_children) != 2:
             raise ValueError("Children input must have length 2")
+        return new_children
 
+    def __check_children_loop(self, new_children: List):
+        """Check child loop
+
+        Args:
+            new_children (List[Self]): child node
+        """
         seen_children = []
         for new_child in new_children:
             # Check type
@@ -262,7 +281,16 @@ class BNode(Node):
                 else:
                     seen_children.append(id(new_child))
 
-        # Detach existing child node(s) - rollback if error
+    @children.setter
+    def children(self, new_children: List):
+        """Set child nodes
+
+        Args:
+            new_children (List[Self]): child node
+        """
+        new_children = self.__check_children_type(new_children)
+        self.__check_children_loop(new_children)
+
         current_new_children = {
             new_child: (new_child.parent.__children.index(new_child), new_child.parent)
             for new_child in new_children
@@ -274,21 +302,28 @@ class BNode(Node):
             if new_child is not None and new_child.parent is None
         ]
         current_children = list(self.children)
-        del self.children
+
+        # Detach existing child node(s) - rollback if error
+        self.__pre_assign_children(new_children)
         try:
-            self.__pre_assign_children(new_children)
+            del self.children
             self.__children = new_children
             for new_child in new_children:
                 if new_child is not None:
+                    if new_child.__parent:
+                        new_child.__parent.__children.remove(new_child)
                     new_child.__parent = self
             self.__post_assign_children(new_children)
         except Exception as exc_info:
+            # Reassign new children to their old parent
             for child, idx_parent in current_new_children.items():
                 child_idx, parent = idx_parent
                 child.__parent = parent
                 parent.__children.insert(child_idx, child)
             for child in current_new_orphan:
                 child.__parent = None
+
+            # Reassign old children to self
             self.__children = current_children
             for child in current_children:
                 child.__parent = self
