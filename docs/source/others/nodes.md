@@ -2,7 +2,6 @@
 
 Nodes can be extended from `BaseNode` or `Node` class to have extended functionalities or add pre-/post-assign checks.
  - For example, `Node` class extends `BaseNode` and added the ``name`` functionality with pre-assign checks to ensure no duplicated path names.
- - It is recommended to use pre-/post-assign checks for parent methods instead of children methods.
 
 ## Population Node (extended functionalities)
 ```python

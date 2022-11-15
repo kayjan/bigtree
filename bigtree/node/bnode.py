@@ -204,6 +204,24 @@ class BNode(Node):
                 current_parent.__children[current_child_idx] = self
             raise TreeError(exc_info)
 
+    def __pre_assign_parent(self, new_parent):
+        """Custom method to check before attaching parent
+        Can be overriden with `_BNode__pre_assign_parent()`
+
+        Args:
+            new_parent (Self): new parent to be added
+        """
+        pass
+
+    def __post_assign_parent(self, new_parent):
+        """Custom method to check after attaching parent
+        Can be overriden with `_BNode__post_assign_parent()`
+
+        Args:
+            new_parent (Self): new parent to be added
+        """
+        pass
+
     @property
     def children(self) -> Iterable:
         """Get child nodes
@@ -332,24 +350,6 @@ class BNode(Node):
 
         Args:
             new_children (List[Self]): new children to be added
-        """
-        pass
-
-    def __pre_assign_parent(self, new_parent):
-        """Custom method to check before attaching parent
-        Can be overriden with `_BNode__pre_assign_parent()`
-
-        Args:
-            new_parent (Self): new parent to be added
-        """
-        pass
-
-    def __post_assign_parent(self, new_parent):
-        """Custom method to check after attaching parent
-        Can be overriden with `_BNode__post_assign_parent()`
-
-        Args:
-            new_parent (Self): new parent to be added
         """
         pass
 
