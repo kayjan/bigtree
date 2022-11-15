@@ -179,7 +179,7 @@ class BaseNode:
         # Assign new parent - rollback if error
         self.__pre_assign_parent(new_parent)
         try:
-            # Remove child from current_parent
+            # Remove self from old parent
             if current_parent is not None:
                 if not any(
                     child is self for child in current_parent.children
@@ -190,7 +190,7 @@ class BaseNode:
                 current_child_idx = current_parent.__children.index(self)
                 current_parent.__children.remove(self)
 
-            # Add child to new_parent
+            # Assign self to new parent
             self.__parent = new_parent
             if new_parent is not None:
                 new_parent.__children.append(self)
@@ -198,11 +198,11 @@ class BaseNode:
             self.__post_assign_parent(new_parent)
 
         except Exception as exc_info:
-            # Reassign new parent to their old children
+            # Remove self from new parent
             if new_parent is not None:
                 new_parent.__children.remove(self)
 
-            # Reassign old parent to self
+            # Reassign self to old parent
             self.__parent = current_parent
             if current_child_idx is not None:
                 current_parent.__children.insert(current_child_idx, self)
@@ -312,10 +312,13 @@ class BaseNode:
         ]
         current_children = list(self.children)
 
-        # Detach existing child node(s) - rollback if error
+        # Assign new children - rollback if error
         self.__pre_assign_children(new_children)
         try:
+            # Remove old children from self
             del self.children
+
+            # Assign new children to self
             self.__children = new_children
             for new_child in new_children:
                 if new_child.parent:
@@ -323,7 +326,7 @@ class BaseNode:
                 new_child.__parent = self
             self.__post_assign_children(new_children)
         except Exception as exc_info:
-            # Reassign new children to their old parent
+            # Reassign new children to their original parent
             for child, idx_parent in current_new_children.items():
                 child_idx, parent = idx_parent
                 child.__parent = parent
