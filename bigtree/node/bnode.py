@@ -162,7 +162,7 @@ class BNode(Node):
         self.__check_parent_type(new_parent)
         self._BaseNode__check_parent_loop(new_parent)
 
-        current_parent = self.__parent
+        current_parent = self.parent
         current_child_idx = None
 
         # Assign new parent - rollback if error
@@ -288,15 +288,15 @@ class BNode(Node):
         current_new_children = {
             new_child: (
                 new_child.parent.__children.index(new_child),
-                new_child.__parent,
+                new_child.parent,
             )
             for new_child in new_children
-            if new_child is not None and new_child.__parent is not None
+            if new_child is not None and new_child.parent is not None
         }
         current_new_orphan = [
             new_child
             for new_child in new_children
-            if new_child is not None and new_child.__parent is None
+            if new_child is not None and new_child.parent is None
         ]
         current_children = list(self.children)
 
@@ -307,9 +307,9 @@ class BNode(Node):
             self.__children = new_children
             for new_child in new_children:
                 if new_child is not None:
-                    if new_child.__parent:
-                        child_idx = new_child.__parent.__children.index(new_child)
-                        new_child.__parent.__children[child_idx] = None
+                    if new_child.parent:
+                        child_idx = new_child.parent.__children.index(new_child)
+                        new_child.parent.__children[child_idx] = None
                     new_child.__parent = self
             self.__post_assign_children(new_children)
         except Exception as exc_info:
@@ -332,7 +332,7 @@ class BNode(Node):
         """Delete child node(s)"""
         for child in self.children:
             if child is not None:
-                child.__parent.__children.remove(child)
+                child.parent.__children.remove(child)
                 child.__parent = None
 
     def __pre_assign_children(self, new_children: List):

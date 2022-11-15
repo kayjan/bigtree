@@ -173,7 +173,7 @@ class BaseNode:
         self.__check_parent_type(new_parent)
         self.__check_parent_loop(new_parent)
 
-        current_parent = self.__parent
+        current_parent = self.parent
         current_child_idx = None
 
         # Assign new parent - rollback if error
@@ -318,8 +318,8 @@ class BaseNode:
             del self.children
             self.__children = new_children
             for new_child in new_children:
-                if new_child.__parent:
-                    new_child.__parent.__children.remove(new_child)
+                if new_child.parent:
+                    new_child.parent.__children.remove(new_child)
                 new_child.__parent = self
             self.__post_assign_children(new_children)
         except Exception as exc_info:
@@ -341,7 +341,7 @@ class BaseNode:
     def children(self):
         """Delete child node(s)"""
         for child in self.children:
-            child.__parent.__children.remove(child)
+            child.parent.__children.remove(child)
             child.__parent = None
 
     def __pre_assign_children(self, new_children: List):
