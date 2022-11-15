@@ -111,6 +111,59 @@ class TestBNode(unittest.TestCase):
             self.d.parent = self.a
         assert str(exc_info.value).endswith("already has 2 children")
 
+    def test_set_parent_position(self):
+        self.a.children = [self.b, self.c]
+        self.b.parent = self.d
+        assert not self.a.left, f"Node a left, expected None, received {self.a.left}"
+        assert (
+            self.a.right == self.c
+        ), f"Node a right, expected {self.c}, received {self.a.right}"
+        assert (
+            self.d.left == self.b
+        ), f"Node d left, expected {self.b}, received {self.d.left}"
+        assert not self.d.right, f"Node d right, expected None, received {self.d.right}"
+
+    def test_set_parent_position_right(self):
+        self.a.children = [self.b, self.c]
+        self.e.parent = self.d
+        self.b.parent = self.d
+        assert not self.a.left, f"Node a left, expected None, received {self.a.left}"
+        assert (
+            self.a.right == self.c
+        ), f"Node a right, expected {self.c}, received {self.a.right}"
+        assert (
+            self.d.left == self.e
+        ), f"Node d left, expected {self.e}, received {self.d.left}"
+        assert (
+            self.d.right == self.b
+        ), f"Node d right, expected {self.b}, received {self.d.right}"
+
+    def test_set_children_position(self):
+        self.a.children = [self.b, self.c]
+        self.d.children = [self.b, None]
+        assert not self.a.left, f"Node a left, expected None, received {self.a.left}"
+        assert (
+            self.a.right == self.c
+        ), f"Node a right, expected {self.c}, received {self.a.right}"
+        assert (
+            self.d.left == self.b
+        ), f"Node d left, expected {self.b}, received {self.d.left}"
+        assert not self.d.right, f"Node d right, expected None, received {self.d.right}"
+
+    def test_set_children_position_right(self):
+        self.a.children = [self.b, self.c]
+        self.d.children = [self.e, self.b]
+        assert not self.a.left, f"Node a left, expected None, received {self.a.left}"
+        assert (
+            self.a.right == self.c
+        ), f"Node a right, expected {self.c}, received {self.a.right}"
+        assert (
+            self.d.left == self.e
+        ), f"Node d left, expected {self.e}, received {self.d.left}"
+        assert (
+            self.d.right == self.b
+        ), f"Node d right, expected {self.b}, received {self.d.right}"
+
     def test_set_parent(self):
         self.b.parent = self.a
         self.c.parent = self.a
@@ -407,6 +460,9 @@ class TestBNode(unittest.TestCase):
 
     def test_error_set_children_type_error(self):
         # Error: wrong type
+        with pytest.raises(TypeError):
+            self.a.children = self.b
+
         with pytest.raises(TypeError):
             self.a.children = [self.b, 1]
 

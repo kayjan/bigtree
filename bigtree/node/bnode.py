@@ -152,24 +152,6 @@ class BNode(Node):
                 f"Expect input to be BNode type or NoneType, received input type {type(new_parent)}"
             )
 
-    def __check_parent_loop(self, new_parent):
-        """Check parent type
-
-        Args:
-            new_parent (Self): parent node
-        """
-        if new_parent is not None:
-            if new_parent is self:
-                raise LoopError("Error setting parent: Node cannot be parent of itself")
-            if any(
-                ancestor is self
-                for ancestor in new_parent.ancestors
-                if new_parent.ancestors
-            ):
-                raise LoopError(
-                    "Error setting parent: Node cannot be ancestor of itself"
-                )
-
     @parent.setter
     def parent(self, new_parent):
         """Set parent node
@@ -178,7 +160,7 @@ class BNode(Node):
             new_parent (Self): parent node
         """
         self.__check_parent_type(new_parent)
-        self.__check_parent_loop(new_parent)
+        self._BaseNode__check_parent_loop(new_parent)
 
         current_parent = self.__parent
         current_child_idx = None
@@ -239,11 +221,6 @@ class BNode(Node):
         Args:
             new_children (List[Self]): child node
         """
-        if not isinstance(new_children, list):
-            raise TypeError(
-                f"Children input should be list type, received input type {type(new_children)}"
-            )
-
         if not len(new_children):
             new_children = [None, None]
         if len(new_children) != 2:
@@ -288,18 +265,22 @@ class BNode(Node):
         Args:
             new_children (List[Self]): child node
         """
+        self._BaseNode__check_children_type(new_children)
         new_children = self.__check_children_type(new_children)
         self.__check_children_loop(new_children)
 
         current_new_children = {
-            new_child: (new_child.parent.__children.index(new_child), new_child.parent)
+            new_child: (
+                new_child.parent.__children.index(new_child),
+                new_child.__parent,
+            )
             for new_child in new_children
-            if new_child is not None and new_child.parent is not None
+            if new_child is not None and new_child.__parent is not None
         }
         current_new_orphan = [
             new_child
             for new_child in new_children
-            if new_child is not None and new_child.parent is None
+            if new_child is not None and new_child.__parent is None
         ]
         current_children = list(self.children)
 
@@ -311,7 +292,8 @@ class BNode(Node):
             for new_child in new_children:
                 if new_child is not None:
                     if new_child.__parent:
-                        new_child.__parent.__children.remove(new_child)
+                        child_idx = new_child.__parent.__children.index(new_child)
+                        new_child.__parent.__children[child_idx] = None
                     new_child.__parent = self
             self.__post_assign_children(new_children)
         except Exception as exc_info:
@@ -319,7 +301,7 @@ class BNode(Node):
             for child, idx_parent in current_new_children.items():
                 child_idx, parent = idx_parent
                 child.__parent = parent
-                parent.__children.insert(child_idx, child)
+                parent.__children[child_idx] = child
             for child in current_new_orphan:
                 child.__parent = None
 
