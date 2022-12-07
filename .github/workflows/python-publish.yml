@@ -24,4 +24,7 @@ jobs:
     - name: Build package
       run: hatch build
     - name: Publish package
-      run: hatch publish
+        env:
+          HATCH_USER:  ${{ secrets.HATCH_USER }}
+          HATCH_AUTH:  ${{ secrets.HATCH_AUTH }}
+      run: hatch publish -u $HATCH_USER -a $HATCH_AUTH
