@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.5] - 2022-12-07
+### Added
+- Tree Modifier: Shift/copy nodes able to shift node-only and delete the children (backwards-compatible).
+
 ## [0.6.4] - 2022-11-16
 ### Fixed
 - BNode: Minor fix on rollback functionality when original children includes None.
@@ -157,6 +161,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.6.5]: https://github.com/kayjan/bigtree/compare/v0.6.4...v0.6.5
 [0.6.4]: https://github.com/kayjan/bigtree/compare/v0.6.3...v0.6.4
 [0.6.3]: https://github.com/kayjan/bigtree/compare/v0.6.2...v0.6.3
 [0.6.2]: https://github.com/kayjan/bigtree/compare/v0.6.1...v0.6.2

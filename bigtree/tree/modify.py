@@ -24,6 +24,7 @@ def shift_nodes(
     skippable: bool = False,
     overriding: bool = False,
     merge_children: bool = False,
+    delete_children: bool = False,
 ):
     """Shift nodes from `from_paths` to `to_paths` *in-place*.
 
@@ -31,6 +32,7 @@ def shift_nodes(
     - Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable).
     - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).
     - Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged).
+    - Able to shift node only and delete children, defaults to False (nodes are shifted together with children).
 
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
@@ -150,6 +152,7 @@ def shift_nodes(
         skippable=skippable,
         overriding=overriding,
         merge_children=merge_children,
+        delete_children=delete_children,
         to_tree=None,
     )  # pragma: no cover
 
@@ -162,6 +165,7 @@ def copy_nodes(
     skippable: bool = False,
     overriding: bool = False,
     merge_children: bool = False,
+    delete_children: bool = False,
 ):
     """Copy nodes from `from_paths` to `to_paths` *in-place*.
 
@@ -169,6 +173,7 @@ def copy_nodes(
     - Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable).
     - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).
     - Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged).
+    - Able to copy node only and delete children, defaults to False (nodes are copied together with children).
 
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
@@ -278,6 +283,7 @@ def copy_nodes(
         skippable=skippable,
         overriding=overriding,
         merge_children=merge_children,
+        delete_children=delete_children,
         to_tree=None,
     )  # pragma: no cover
 
@@ -291,6 +297,7 @@ def copy_nodes_from_tree_to_tree(
     skippable: bool = False,
     overriding: bool = False,
     merge_children: bool = False,
+    delete_children: bool = False,
 ):
     """Copy nodes from `from_paths` to `to_paths` *in-place*.
 
@@ -298,6 +305,8 @@ def copy_nodes_from_tree_to_tree(
     - Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable).
     - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).
     - Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged).
+    - Able to copy node only and delete children, defaults to False (nodes are copied together with children).
+
 
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
@@ -403,6 +412,7 @@ def copy_or_shift_logic(
     skippable: bool = False,
     overriding: bool = False,
     merge_children: bool = False,
+    delete_children: bool = False,
     to_tree: Optional[Node] = None,
 ):
     """Shift or copy nodes from `from_paths` to `to_paths` *in-place*.
@@ -412,6 +422,7 @@ def copy_or_shift_logic(
     - Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable)
     - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)
     - Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged)
+    - Able to shift/copy node only and delete children, defaults to False (nodes are shifted/copied together with children).
     - Able to shift/copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)
 
     For paths in `from_paths` and `to_paths`,
@@ -436,6 +447,7 @@ def copy_or_shift_logic(
         skippable (bool): indicator to skip if from path is not found, defaults to False
         overriding (bool): indicator to override existing to path if there is clashes, defaults to False
         merge_children (bool): indicator to merge children and remove intermediate parent node, defaults to False
+        delete_children (bool): indicator to shift/copy node only without children, defaults to False
         to_tree (Node): tree to copy to, defaults to None
     """
     if not (isinstance(from_paths, list) and isinstance(to_paths, list)):
@@ -569,7 +581,11 @@ def copy_or_shift_logic(
                     f"Reassigning children from {from_node.node_name} to {to_node.node_name}"
                 )
                 for children in from_node.children:
+                    if delete_children:
+                        del children.children
                     children.parent = to_node
                 from_node.parent = None
             else:
+                if delete_children:
+                    del from_node.children
                 from_node.parent = to_node

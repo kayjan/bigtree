@@ -9,6 +9,7 @@ There are several configurations available for more customization
 - `skippable`: Skip shifting/copying of nodes if from_path cannot be found, defaults to False (from node must be found)
 - `overriding`: Override existing node if it exists, defaults to False (to node must not exist)
 - `merge_children`: Merge children and remove intermediate parent node, defaults to False (nodes are not merged)
+- `delete_children`: Shift/copy node-only and delete its children
 
 .. note:: Error will always be thrown if multiple from-nodes are found, paths in `from_paths` must be unique.
 
@@ -54,6 +55,10 @@ There are several configurations available for more customization
      - "/a/b/d/c"
      - | **If path not present**: Behaves like merge_children
        | **If path present**: Behaves like overriding
+   * - delete_children
+     - "/a/b/c"
+     - "/a/b/d/c"
+     - Shift/copy node `c` only without any node `c` children
 
 .. automodule:: bigtree.tree.modify
    :members:

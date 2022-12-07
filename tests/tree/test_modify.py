@@ -5,7 +5,7 @@ import pytest
 from bigtree.node.node import Node
 from bigtree.tree.export import print_tree
 from bigtree.tree.modify import copy_nodes, copy_nodes_from_tree_to_tree, shift_nodes
-from bigtree.tree.search import find_path
+from bigtree.tree.search import find_name, find_path
 from bigtree.utils.exceptions import NotFoundError, TreeError
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root_attr,
@@ -315,6 +315,36 @@ class TestCopyOrShiftNodes(unittest.TestCase):
         assert find_path(self.root, "a/c"), "Node c is gone"
         assert find_path(self.root, "a/d"), "Node d parent is not Node a"
         assert find_path(self.root, "a/e"), "Node e parent is not Node a"
+
+    def test_shift_nodes_merge_and_delete_children(self):
+        from_paths = ["d", "e", "g", "f"]
+        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/c/f"]
+        shift_nodes(self.root, from_paths, to_paths)
+
+        h2 = Node("h", age=6)
+        h2.children = [Node("i"), Node("j")]
+        h = find_name(self.root, "h")
+        h2.parent = h
+        from_paths = ["a/h"]
+        to_paths = ["a/b/e/h"]
+        shift_nodes(
+            self.root, from_paths, to_paths, merge_children=True, delete_children=True
+        )
+        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root_generic(self.root)
+
+    def test_shift_nodes_delete_children(self):
+        g = find_name(self.root, "g")
+        h = find_name(self.root, "h")
+        g.children = [Node("i"), Node("j")]
+        h.children = [Node("i"), Node("j")]
+        from_paths = ["d", "e", "g", "h", "f"]
+        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        shift_nodes(self.root, from_paths, to_paths, delete_children=True)
+        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root_generic(self.root)
 
     def test_copy_nodes_from_tree_to_tree(self):
         root_other = Node("a", age=90)
