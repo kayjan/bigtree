@@ -1,0 +1,30 @@
+name: Upload Python Package
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install hatch
+    - name: Build package
+      run: hatch build
+    - name: Publish package
+      env:
+        HATCH_USER:  ${{ secrets.HATCH_USER }}
+        HATCH_AUTH:  ${{ secrets.HATCH_AUTH }}
+      run: hatch publish -u $HATCH_USER -a $HATCH_AUTH

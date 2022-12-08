@@ -35,6 +35,7 @@ jobs:
           conda install pytest-cov
           pytest --cov=./ --cov-report=xml
       - name: Upload coverage to Codecov
+        if: ${{ github.event_name == 'push' }}
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true # optional (default = false)
