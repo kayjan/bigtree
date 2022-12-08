@@ -143,7 +143,7 @@ def add_dict_to_tree_by_path(
 
     Args:
         tree (Node): existing tree
-        path_attrs (dict): dictioning containing node path and attribute information,
+        path_attrs (dict): dictionary containing node path and attribute information,
             key: node path, value: dict of node attribute name and attribute value
         sep (str): path separator for input `path_attrs`
         duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
@@ -191,7 +191,7 @@ def add_dict_to_tree_by_name(
 
     Args:
         tree (Node): existing tree
-        path_attrs (dict): dictioning containing node name and attribute information,
+        path_attrs (dict): dictionary containing node name and attribute information,
             key: node name, value: dict of node attribute name and attribute value
         join_type (str): join type with attribute, default of 'left' takes existing tree nodes,
             if join_type is set to 'inner' it will only take tree nodes that are in `path_attrs` key and drop others
@@ -543,7 +543,7 @@ def dict_to_tree(
         └── f [age=38]
 
     Args:
-        path_attrs (dict): dictioning containing path and node attribute information,
+        path_attrs (dict): dictionary containing path and node attribute information,
             key: path, value: dict of tree attribute and attribute value
         sep (str): path separator of input `path_attrs` and created tree, defaults to `/`
         duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
@@ -572,7 +572,7 @@ def nested_dict_to_tree(
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from nested recursive dictionary.
-      - ``key``: `name_key`, `child_key`, or any attributes.
+      - ``key``: `name_key`, `child_key`, or any attributes key.
       - ``value`` of `name_key` (str): node name.
       - ``value`` of `child_key` (list): list of dict containing `name_key` and `child_key` (recursive).
 
@@ -600,7 +600,7 @@ def nested_dict_to_tree(
             └── g [age=10]
 
     Args:
-        node_attrs (dict): dictioning containing node, children, and node attribute information,
+        node_attrs (dict): dictionary containing node, children, and node attribute information,
             key: `name_key` and `child_key`
             value of `name_key` (str): node name
             value of `child_key` (list): list of dict containing `name_key` and `child_key` (recursive)

@@ -59,7 +59,7 @@ def dict_to_dag(
     [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
-        relation_attrs (dict): dictioning containing node, node parents, and node attribute information,
+        relation_attrs (dict): dictionary containing node, node parents, and node attribute information,
             key: child name, value: dict of parent names, node attribute and attribute value
         parent_key (str): key of dictionary to retrieve list of parents name, defaults to "parent"
         node_type (Type[DAGNode]): node type of DAG to be created, defaults to DAGNode
