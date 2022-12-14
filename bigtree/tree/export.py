@@ -704,7 +704,7 @@ def tree_to_dot(
 
 
 def tree_to_pillow(
-    tree,
+    tree: Node,
     width: int = 0,
     height: int = 0,
     start_pos: Tuple[float, float] = (10, 10),
@@ -730,7 +730,7 @@ def tree_to_pillow(
     >>> pillow_image.save("tree_pillow.jpg")
 
     Args:
-        tree:
+        tree (Node): tree to be exported
         width (int): width of image, optional as it can be calculated
         height (int): height of image, optional as it can be calculated
         start_pos (Tuple[float, float]: start position of text, (x-offset, y-offset), defaults to (10, 10)
