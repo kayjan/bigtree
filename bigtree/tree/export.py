@@ -731,13 +731,13 @@ def tree_to_pillow(
 
     Args:
         tree (Node): tree to be exported
-        width (int): width of image, optional as it can be calculated
-        height (int): height of image, optional as it can be calculated
-        start_pos (Tuple[float, float]: start position of text, (x-offset, y-offset), defaults to (10, 10)
-        font_family (str): file path of font family .ttf file, defaults to DejaVuSans
+        width (int): width of image, optional as width of image is calculated automatically
+        height (int): height of image, optional as height of image is calculated automatically
+        start_pos (Tuple[float, float]): start position of text, (x-offset, y-offset), defaults to (10, 10)
+        font_family (str): file path of font family, requires .ttf file, defaults to DejaVuSans
         font_size (int): font size, defaults to 12
-        font_colour (Union[List[int], str]): font colour, defaults to black
-        bg_colour (Union[List[int], str]): background of image, defaults to white
+        font_colour (Union[List[int], str]): font colour, accepts tuple of RGB values or string, defaults to black
+        bg_colour (Union[List[int], str]): background of image, accepts tuple of RGB values or string, defaults to white
 
     Returns:
         (PIL.Image.Image)
