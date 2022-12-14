@@ -29,6 +29,7 @@ jobs:
         run: |
           conda install pandas
           conda install pydot
+          conda install Pillow
       - name: Generate coverage report
         run: |
           conda install pytest

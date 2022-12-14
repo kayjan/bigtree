@@ -8,6 +8,7 @@ from bigtree.tree.export import (
     tree_to_dict,
     tree_to_dot,
     tree_to_nested_dict,
+    tree_to_pillow,
 )
 from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
@@ -846,3 +847,32 @@ class TestTreeToDot:
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
+
+
+class TestTreeToPillow:
+    @staticmethod
+    def test_tree_to_pillow(tree_node):
+        pillow_image = tree_to_pillow(tree_node)
+        pillow_image.save("tests/tree_pillow.png")
+
+    @staticmethod
+    def test_tree_to_pillow_start_pos(tree_node):
+        pillow_image = tree_to_pillow(tree_node, start_pos=(100, 50))
+        pillow_image.save("tests/tree_pillow_start_pos.png")
+
+    @staticmethod
+    def test_tree_to_pillow_start_pos_small(tree_node):
+        pillow_image = tree_to_pillow(tree_node, start_pos=(0, 0))
+        pillow_image.save("tests/tree_pillow_start_pos_small.png")
+
+    @staticmethod
+    def test_tree_to_pillow_font(tree_node):
+        pillow_image = tree_to_pillow(
+            tree_node, font_size=20, font_colour="red", bg_colour="lightblue"
+        )
+        pillow_image.save("tests/tree_pillow_font.png")
+
+    @staticmethod
+    def test_tree_to_pillow_kwargs(tree_node):
+        pillow_image = tree_to_pillow(tree_node, max_depth=2, style="const_bold")
+        pillow_image.save("tests/tree_pillow_style.png")

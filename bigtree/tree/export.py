@@ -1,5 +1,5 @@
 import collections
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Tuple, Union
 
 import pandas as pd
 
@@ -700,3 +700,89 @@ def tree_to_dot(
 
         recursive_create_node_and_edges(None, _tree.root)
     return _graph
+
+
+def tree_to_pillow(
+    tree,
+    width: int = 0,
+    height: int = 0,
+    start_pos: Tuple[float, float] = (10, 10),
+    font_family: str = "assets/DejaVuSans.ttf",
+    font_size: int = 12,
+    font_colour: Union[Tuple[float, float, float], str] = "black",
+    bg_colour: Union[Tuple[float, float, float], str] = "white",
+    **kwargs,
+):
+    """Export tree to image (JPG, PNG).
+    Image will be similar format as `print_tree`, accepts additional keyword arguments as input to `yield_tree`
+
+    >>> from bigtree import Node, tree_to_pillow
+    >>> root = Node("a", age=90)
+    >>> b = Node("b", age=65, parent=root)
+    >>> c = Node("c", age=60, parent=root)
+    >>> d = Node("d", age=40, parent=b)
+    >>> e = Node("e", age=35, parent=b)
+    >>> pillow_image = tree_to_pillow(root)
+
+    Export to image (PNG, JPG) file, etc.
+    >>> pillow_image.save("tree_pillow.png")
+    >>> pillow_image.save("tree_pillow.jpg")
+
+    Args:
+        tree:
+        width (int): width of image, optional as it can be calculated
+        height (int): height of image, optional as it can be calculated
+        start_pos (Tuple[float, float]: start position of text, (x-offset, y-offset), defaults to (10, 10)
+        font_family (str): file path of font family .ttf file, defaults to DejaVuSans
+        font_size (int): font size, defaults to 12
+        font_colour (Union[List[int], str]): font colour, defaults to black
+        bg_colour (Union[List[int], str]): background of image, defaults to white
+
+    Returns:
+        (PIL.Image.Image)
+    """
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+    except ImportError:  # pragma: no cover
+        raise ImportError(
+            "Pillow not available. Please perform a\n\npip install 'bigtree[image]'\n\nto install required dependencies"
+        )
+
+    # Initialize font
+    font = ImageFont.truetype(font_family, font_size)
+
+    # Initialize text
+    image_text = []
+    for branch, stem, node in yield_tree(tree, **kwargs):
+        image_text.append(f"{branch}{stem}{node.node_name}\n")
+
+    # Calculate image dimension from text, otherwise override with argument
+    def get_list_of_text_dimensions(text_list):
+        """Get list dimensions
+
+        Args:
+            text_list (List[str]): list of texts
+
+        Returns:
+            (List[Iterable[int]]): list of (left, top, right, bottom) bounding box
+        """
+        _image = Image.new("RGB", (0, 0))
+        _draw = ImageDraw.Draw(_image)
+        return [_draw.textbbox((0, 0), text_line, font=font) for text_line in text_list]
+
+    text_dimensions = get_list_of_text_dimensions(image_text)
+    text_height = sum(
+        [text_dimension[3] + text_dimension[1] for text_dimension in text_dimensions]
+    )
+    text_width = max(
+        [text_dimension[2] + text_dimension[0] for text_dimension in text_dimensions]
+    )
+    image_text = "".join(image_text)
+    width = max(width, text_width + 2 * start_pos[0])
+    height = max(height, text_height + 2 * start_pos[1])
+
+    # Initialize and draw image
+    image = Image.new("RGB", (width, height), bg_colour)
+    image_draw = ImageDraw.Draw(image)
+    image_draw.text(start_pos, image_text, font=font, fill=font_colour)
+    return image

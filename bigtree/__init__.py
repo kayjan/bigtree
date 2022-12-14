@@ -1,4 +1,4 @@
-__version__ = "0.6.5"
+__version__ = "0.6.6"
 
 from bigtree.btree.construct import list_to_btree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
@@ -26,6 +26,7 @@ from bigtree.tree.export import (
     tree_to_dict,
     tree_to_dot,
     tree_to_nested_dict,
+    tree_to_pillow,
     yield_tree,
 )
 from bigtree.tree.helper import clone_tree, get_tree_diff, prune_tree

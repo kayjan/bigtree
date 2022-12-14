@@ -56,6 +56,7 @@ For Tree implementation, there are 8 main components.
    1. Print to console
    2. Export to *dictionary*, *nested dictionary*, or *pandas DataFrame*
    3. Export tree to dot (can save to .dot, .png, .svg, .jpeg files)
+   4. Export tree to Pillow (can save to .png, .jpg)
 8. **Workflows**
    1. Sample workflows for tree demonstration!
 
@@ -620,9 +621,10 @@ Tree can be exported to another data type.
 2. *Export to **nested recursive dictionary***
 3. *Export to **pandas DataFrame***
 4. *Export to **dot** (and png)*
+5. *Export to **Pillow** (and png)*
 
 ```python
-from bigtree import Node, print_tree, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot
+from bigtree import Node, print_tree, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot, tree_to_pillow
 
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
@@ -692,9 +694,18 @@ tree_to_dataframe(
 
 graph = tree_to_dot(root, node_colour="gold")
 graph.write_png("assets/demo.png")
+
+pillow_image = tree_to_pillow(root)
+pillow_image.save("assets/demo_pillow.png")
 ```
 
-![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo.png)
+- demo.png
+
+![Sample Dot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo.png)
+
+- demo_pillow.png
+
+![Sample Pillow Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_pillow.png)
 
 ----
 
