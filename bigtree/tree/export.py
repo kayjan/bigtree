@@ -14,6 +14,7 @@ __all__ = [
     "tree_to_nested_dict",
     "tree_to_dataframe",
     "tree_to_dot",
+    "tree_to_pillow",
 ]
 
 
