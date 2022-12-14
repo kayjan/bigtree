@@ -726,6 +726,7 @@ def tree_to_pillow(
     >>> pillow_image = tree_to_pillow(root)
 
     Export to image (PNG, JPG) file, etc.
+
     >>> pillow_image.save("tree_pillow.png")
     >>> pillow_image.save("tree_pillow.jpg")
 
