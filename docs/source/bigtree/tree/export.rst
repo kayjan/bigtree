@@ -17,6 +17,8 @@ Export Tree to list, dictionary, and pandas DataFrame.
      - `tree_to_dataframe`
    * - Dot (for .dot, .png, .svg, .jpeg, etc.)
      - `tree_to_dot`
+   * - Pillow (for .png, .jpg, .jpeg, etc.)
+     - `tree_to_pillow`
 
 While exporting to another data type, methods can take in arguments to determine what information to extract.
 
@@ -66,6 +68,12 @@ While exporting to another data type, methods can take in arguments to determine
      - No
      - No
      - Graph attributes, background, node, edge colour, etc.
+   * - `tree_to_pillow`
+     - No
+     - Yes, using keyword arguments similar to `yield_tree`
+     - No
+     - No
+     - Font (family, size, colour), background colour, etc.
 
 .. automodule:: bigtree.tree.export
    :members:
