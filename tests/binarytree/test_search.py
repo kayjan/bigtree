@@ -18,7 +18,7 @@ from bigtree.tree.search import (
 class TestSearch(unittest.TestCase):
     def setUp(self):
         """
-        BinaryTree should have structure
+        Binary Tree should have structure
         1
         ├── 2
         │   ├── 4

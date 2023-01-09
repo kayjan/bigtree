@@ -45,7 +45,7 @@ class TestListToBinaryTree(unittest.TestCase):
 class TestListToTree(unittest.TestCase):
     def setUp(self):
         """
-        BinaryTree should have structure
+        Binary Tree should have structure
         1
         ├── 2
         │   ├── 4
@@ -68,7 +68,7 @@ class TestListToTree(unittest.TestCase):
 class TestListToTreeByRelation(unittest.TestCase):
     def setUp(self):
         """
-        BinaryTree should have structure
+        Binary Tree should have structure
         1
         ├── 2
         │   ├── 4
@@ -99,7 +99,7 @@ class TestListToTreeByRelation(unittest.TestCase):
 class TestDictToTree(unittest.TestCase):
     def setUp(self):
         """
-        BinaryTree should have structure
+        Binary Tree should have structure
         1
         ├── 2
         │   ├── 4
@@ -131,7 +131,7 @@ class TestDictToTree(unittest.TestCase):
 class TestNestedDictToTree(unittest.TestCase):
     def setUp(self):
         """
-        BinaryTree should have structure
+        Binary Tree should have structure
         1
         ├── 2
         │   ├── 4
@@ -175,7 +175,7 @@ class TestNestedDictToTree(unittest.TestCase):
 class TestDataFrameToTree(unittest.TestCase):
     def setUp(self):
         """
-        BinaryTree should have structure
+        Binary Tree should have structure
         1
         ├── 2
         │   ├── 4

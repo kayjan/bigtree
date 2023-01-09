@@ -349,7 +349,7 @@ def dag_node_style():
 @pytest.fixture
 def binarytree_node():
     """
-    BinaryTree should have structure
+    Binary Tree should have structure
     1
     ├── 2
     │   ├── 4
