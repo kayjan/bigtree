@@ -3,15 +3,15 @@ import unittest
 import pytest
 
 from bigtree.node.basenode import BaseNode
-from bigtree.node.bnode import BNode
+from bigtree.node.binarynode import BinaryNode
 from bigtree.node.node import Node
 from bigtree.tree.helper import clone_tree
 from bigtree.utils.exceptions import LoopError, TreeError
 from tests.conftest import assert_print_statement
 
 
-class BNode2(BNode):
-    def _BNode__post_assign_parent(self, new_parent):
+class BinaryNode2(BinaryNode):
+    def _BinaryNode__post_assign_parent(self, new_parent):
         if new_parent is not None:
             if new_parent.val == 100:
                 raise Exception(
@@ -21,8 +21,8 @@ class BNode2(BNode):
             raise Exception("Custom error assigning parent")
 
 
-class BNode3(BNode):
-    def _BNode__post_assign_children(self, new_children):
+class BinaryNode3(BinaryNode):
+    def _BinaryNode__post_assign_children(self, new_children):
         if self.val == 100:
             raise Exception("Custom error assigning children")
         for child in new_children:
@@ -32,16 +32,16 @@ class BNode3(BNode):
                 )
 
 
-class TestBNode(unittest.TestCase):
+class TestBinaryNode(unittest.TestCase):
     def setUp(self):
-        self.a = BNode(1)
-        self.b = BNode(2)
-        self.c = BNode(3)
-        self.d = BNode(4)
-        self.e = BNode(5)
-        self.f = BNode(6)
-        self.g = BNode(7)
-        self.h = BNode(8)
+        self.a = BinaryNode(1)
+        self.b = BinaryNode(2)
+        self.c = BinaryNode(3)
+        self.d = BinaryNode(4)
+        self.e = BinaryNode(5)
+        self.f = BinaryNode(6)
+        self.g = BinaryNode(7)
+        self.h = BinaryNode(8)
 
     def tearDown(self):
         self.a = None
@@ -54,14 +54,14 @@ class TestBNode(unittest.TestCase):
         self.h = None
 
     def test_from_dict(self):
-        self.a = BNode.from_dict({"name": 1})
-        self.b = BNode.from_dict({"name": 2})
-        self.c = BNode.from_dict({"name": 3})
-        self.d = BNode.from_dict({"name": 4})
-        self.e = BNode.from_dict({"name": 5})
-        self.f = BNode.from_dict({"name": 6})
-        self.g = BNode.from_dict({"name": 7})
-        self.h = BNode.from_dict({"name": 8})
+        self.a = BinaryNode.from_dict({"name": 1})
+        self.b = BinaryNode.from_dict({"name": 2})
+        self.c = BinaryNode.from_dict({"name": 3})
+        self.d = BinaryNode.from_dict({"name": 4})
+        self.e = BinaryNode.from_dict({"name": 5})
+        self.f = BinaryNode.from_dict({"name": 6})
+        self.g = BinaryNode.from_dict({"name": 7})
+        self.h = BinaryNode.from_dict({"name": 8})
 
         self.b.parent = self.a
         self.c.parent = self.a
@@ -73,8 +73,8 @@ class TestBNode(unittest.TestCase):
         self.d.children = []
         self.d.children = [None, self.h]
 
-        assert_btree_structure_self(self)
-        assert_print_statement(print, "BNode(name=1, val=1)\n", self.a)
+        assert_binarytree_structure_self(self)
+        assert_print_statement(print, "BinaryNode(name=1, val=1)\n", self.a)
         assert (
             self.a.node_name == "1"
         ), f"Node name is wrong, expected 1, received {self.a.node_name}"
@@ -95,7 +95,7 @@ class TestBNode(unittest.TestCase):
         assert str(exc_info.value).startswith("Attempting to set `parents` attribute")
 
         with pytest.raises(ValueError) as exc_info:
-            self.b = BNode(1, parents=[self.a])
+            self.b = BinaryNode(1, parents=[self.a])
         assert str(exc_info.value).startswith("Attempting to set `parents` attribute")
 
         with pytest.raises(ValueError) as exc_info:
@@ -173,7 +173,7 @@ class TestBNode(unittest.TestCase):
         self.g.parent = self.c
         self.d.children = [None, self.h]
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_parent_children_insert(self):
         self.a.children = [None, None]
@@ -185,7 +185,7 @@ class TestBNode(unittest.TestCase):
         self.f.parent = self.c
         self.d.children = [None, self.h]
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_parent_sort(self):
         self.c.parent = self.a
@@ -204,7 +204,7 @@ class TestBNode(unittest.TestCase):
         self.f.sort(key=lambda x: x.val)
         self.g.sort(key=lambda x: x.val)
         self.h.sort(key=lambda x: x.val)
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_parent_rshift(self):
         self.a >> self.b
@@ -215,7 +215,7 @@ class TestBNode(unittest.TestCase):
         self.c >> self.g
         self.d.children = [None, self.h]
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_parent_lshift(self):
         self.b << self.a
@@ -226,20 +226,20 @@ class TestBNode(unittest.TestCase):
         self.g << self.c
         self.d.children = [None, self.h]
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_parent_constructor(self):
-        self.a = BNode(1)
-        self.b = BNode(2, parent=self.a)
-        self.c = BNode(3, parent=self.a)
-        self.d = BNode(4, parent=self.b)
-        self.e = BNode(5, parent=self.b)
-        self.f = BNode(6, parent=self.c)
-        self.g = BNode(7, parent=self.c)
-        self.h = BNode(8)
+        self.a = BinaryNode(1)
+        self.b = BinaryNode(2, parent=self.a)
+        self.c = BinaryNode(3, parent=self.a)
+        self.d = BinaryNode(4, parent=self.b)
+        self.e = BinaryNode(5, parent=self.b)
+        self.f = BinaryNode(6, parent=self.c)
+        self.g = BinaryNode(7, parent=self.c)
+        self.h = BinaryNode(8)
         self.d.children = [None, self.h]
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_parent_null_parent(self):
         self.b.parent = self.a
@@ -250,12 +250,12 @@ class TestBNode(unittest.TestCase):
         self.g.parent = self.c
         self.d.children = [None, self.h]
 
-        dummy = BNode(100)
+        dummy = BinaryNode(100)
         dummy.parent = self.h
         assert list(self.h.children) == [dummy, None]
 
         dummy.parent = None
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_parent_duplicate(self):
         # Set parent again
@@ -266,8 +266,8 @@ class TestBNode(unittest.TestCase):
 
     def test_set_parent_duplicate_constructor(self):
         # Set parent again
-        self.a = BNode(1)
-        self.b = BNode(2, parent=self.a)
+        self.a = BinaryNode(1)
+        self.b = BinaryNode(2, parent=self.a)
         self.b.parent = self.a
         assert list(self.a.children) == [self.b, None]
         assert self.b.parent == self.a
@@ -281,52 +281,52 @@ class TestBNode(unittest.TestCase):
         self.c.right = self.g
         self.d.right = self.h
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_left_and_right_constructor(self):
-        self.h = BNode(8)
-        self.g = BNode(7)
-        self.f = BNode(6)
-        self.e = BNode(5)
-        self.d = BNode(4, right=self.h)
-        self.c = BNode(3, left=self.f, right=self.g)
-        self.b = BNode(2, left=self.d, right=self.e)
-        self.a = BNode(1, left=self.b, right=self.c)
+        self.h = BinaryNode(8)
+        self.g = BinaryNode(7)
+        self.f = BinaryNode(6)
+        self.e = BinaryNode(5)
+        self.d = BinaryNode(4, right=self.h)
+        self.c = BinaryNode(3, left=self.f, right=self.g)
+        self.b = BinaryNode(2, left=self.d, right=self.e)
+        self.a = BinaryNode(1, left=self.b, right=self.c)
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_left_and_right_and_children_constructor(self):
-        self.h = BNode(8)
-        self.g = BNode(7)
-        self.f = BNode(6)
-        self.e = BNode(5)
-        self.d = BNode(4, right=self.h, children=[None, self.h])
-        self.c = BNode(3, left=self.f, right=self.g, children=[self.f, self.g])
-        self.b = BNode(2, left=self.d, right=self.e, children=[self.d, self.e])
-        self.a = BNode(1, left=self.b, right=self.c, children=[self.b, self.c])
+        self.h = BinaryNode(8)
+        self.g = BinaryNode(7)
+        self.f = BinaryNode(6)
+        self.e = BinaryNode(5)
+        self.d = BinaryNode(4, right=self.h, children=[None, self.h])
+        self.c = BinaryNode(3, left=self.f, right=self.g, children=[self.f, self.g])
+        self.b = BinaryNode(2, left=self.d, right=self.e, children=[self.d, self.e])
+        self.a = BinaryNode(1, left=self.b, right=self.c, children=[self.b, self.c])
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_left_and_right_and_children_constructor_error(self):
         with pytest.raises(ValueError) as exc_info:
-            self.a = BNode(1, left=self.b, right=self.c, children=[self.c])
+            self.a = BinaryNode(1, left=self.b, right=self.c, children=[self.c])
         assert str(exc_info.value).startswith("Children input must have length 2")
 
         with pytest.raises(ValueError) as exc_info:
-            self.a = BNode(1, left=self.b, right=self.c, children=[self.d, self.c])
+            self.a = BinaryNode(1, left=self.b, right=self.c, children=[self.d, self.c])
         assert str(exc_info.value).startswith(
             "Attempting to set both left and children with mismatched values"
         )
 
         with pytest.raises(ValueError) as exc_info:
-            self.a = BNode(1, left=self.b, right=self.c, children=[self.b, self.d])
+            self.a = BinaryNode(1, left=self.b, right=self.c, children=[self.b, self.d])
         assert str(exc_info.value).startswith(
             "Attempting to set both right and children with mismatched values"
         )
 
     def test_set_left_and_right_duplicate(self):
         # Set parent again
-        self.a = BNode(1, left=self.b, right=self.c)
+        self.a = BinaryNode(1, left=self.b, right=self.c)
         self.a.left = self.b
         self.a.right = self.c
         assert list(self.a.children) == [self.b, self.c]
@@ -344,7 +344,7 @@ class TestBNode(unittest.TestCase):
         self.c.children = [self.f, self.g]
         self.d.children = [None, self.h]
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_children_sort(self):
         self.a.children = [self.c, self.b]
@@ -360,19 +360,19 @@ class TestBNode(unittest.TestCase):
         self.f.sort(key=lambda x: x.val)
         self.g.sort(key=lambda x: x.val)
         self.h.sort(key=lambda x: x.val)
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_children_constructor(self):
-        self.h = BNode(8)
-        self.g = BNode(7)
-        self.f = BNode(6)
-        self.e = BNode(5)
-        self.d = BNode(4, children=[None, self.h])
-        self.c = BNode(3, children=[self.f, self.g])
-        self.b = BNode(2, children=[self.d, self.e])
-        self.a = BNode(1, children=[self.b, self.c])
+        self.h = BinaryNode(8)
+        self.g = BinaryNode(7)
+        self.f = BinaryNode(6)
+        self.e = BinaryNode(5)
+        self.d = BinaryNode(4, children=[None, self.h])
+        self.c = BinaryNode(3, children=[self.f, self.g])
+        self.b = BinaryNode(2, children=[self.d, self.e])
+        self.a = BinaryNode(1, children=[self.b, self.c])
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_children_null_children(self):
         self.a.children = [self.b, self.c]
@@ -380,12 +380,12 @@ class TestBNode(unittest.TestCase):
         self.c.children = [self.f, self.g]
         self.d.children = [None, self.h]
 
-        dummy = BNode(100)
+        dummy = BinaryNode(100)
         self.h.children = [dummy, None]
         assert dummy.parent == self.h
         self.h.children = []
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_children_null_parent(self):
         self.a.children = [self.b, self.c]
@@ -393,12 +393,12 @@ class TestBNode(unittest.TestCase):
         self.c.children = [self.f, self.g]
         self.d.children = [None, self.h]
 
-        dummy = BNode(100)
+        dummy = BinaryNode(100)
         self.h.children = [dummy, None]
         assert dummy.parent == self.h
         dummy.parent.children = []
 
-        assert_btree_structure_self(self)
+        assert_binarytree_structure_self(self)
 
     def test_set_children_none_parent(self):
         with pytest.raises(TypeError):
@@ -413,7 +413,7 @@ class TestBNode(unittest.TestCase):
 
     def test_set_children_duplicate_constructor(self):
         # Set child again
-        self.a = BNode(1, children=[self.b, None])
+        self.a = BinaryNode(1, children=[self.b, None])
         self.a.children = [self.b, None]
         assert list(self.a.children) == [self.b, None]
         assert self.b.parent == self.a
@@ -432,7 +432,7 @@ class TestBNode(unittest.TestCase):
             not a2.children[0] == self.b and not a2.children[1] == self.b
         ), "Copy does not copy child nodes"
         assert not a2.children == [self.b, self.c], "Copy does not copy child nodes"
-        assert_btree_structure_root(a2)
+        assert_binarytree_structure_root(a2)
 
     def test_error_set_parent_type_error(self):
         # Error: wrong type
@@ -497,12 +497,12 @@ class TestBNode(unittest.TestCase):
             self.a.children = [self.b, self.b]
 
     def test_rollback_set_parent(self):
-        a = clone_tree(self.a, BNode2)
-        b = clone_tree(self.b, BNode2)
-        c = clone_tree(self.c, BNode2)
-        d = clone_tree(self.d, BNode2)
-        e = clone_tree(self.e, BNode2)
-        f = clone_tree(self.f, BNode2)
+        a = clone_tree(self.a, BinaryNode2)
+        b = clone_tree(self.b, BinaryNode2)
+        c = clone_tree(self.c, BinaryNode2)
+        d = clone_tree(self.d, BinaryNode2)
+        e = clone_tree(self.e, BinaryNode2)
+        f = clone_tree(self.f, BinaryNode2)
         expected_a_children = [None, c]
         expected_b_children = [d, e]
         expected_f_children = [None, b]
@@ -530,13 +530,13 @@ class TestBNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_parent_no_parent(self):
-        a = clone_tree(self.a, BNode2)
-        b = clone_tree(self.b, BNode2)
-        c = clone_tree(self.c, BNode2)
-        d = clone_tree(self.d, BNode2)
-        e = clone_tree(self.e, BNode2)
-        f = clone_tree(self.f, BNode2)
-        g = clone_tree(self.g, BNode2)
+        a = clone_tree(self.a, BinaryNode2)
+        b = clone_tree(self.b, BinaryNode2)
+        c = clone_tree(self.c, BinaryNode2)
+        d = clone_tree(self.d, BinaryNode2)
+        e = clone_tree(self.e, BinaryNode2)
+        f = clone_tree(self.f, BinaryNode2)
+        g = clone_tree(self.g, BinaryNode2)
         expected_a_children = [None, c]
         expected_b_children = [d, e]
         expected_f_children = [None, b]
@@ -565,13 +565,13 @@ class TestBNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_parent_null_parent(self):
-        a = clone_tree(self.a, BNode2)
-        b = clone_tree(self.b, BNode2)
-        c = clone_tree(self.c, BNode2)
-        d = clone_tree(self.d, BNode2)
-        e = clone_tree(self.e, BNode2)
-        f = clone_tree(self.f, BNode2)
-        g = clone_tree(self.g, BNode2)
+        a = clone_tree(self.a, BinaryNode2)
+        b = clone_tree(self.b, BinaryNode2)
+        c = clone_tree(self.c, BinaryNode2)
+        d = clone_tree(self.d, BinaryNode2)
+        e = clone_tree(self.e, BinaryNode2)
+        f = clone_tree(self.f, BinaryNode2)
+        g = clone_tree(self.g, BinaryNode2)
         expected_a_children = [None, c]
         expected_b_children = [d, e]
         expected_f_children = [None, b]
@@ -600,12 +600,12 @@ class TestBNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_parent_reassign(self):
-        a = clone_tree(self.a, BNode2)
-        b = clone_tree(self.b, BNode2)
-        c = clone_tree(self.c, BNode2)
-        d = clone_tree(self.d, BNode2)
-        e = clone_tree(self.e, BNode2)
-        f = clone_tree(self.f, BNode2)
+        a = clone_tree(self.a, BinaryNode2)
+        b = clone_tree(self.b, BinaryNode2)
+        c = clone_tree(self.c, BinaryNode2)
+        d = clone_tree(self.d, BinaryNode2)
+        e = clone_tree(self.e, BinaryNode2)
+        f = clone_tree(self.f, BinaryNode2)
         expected_a_children = [None, c]
         expected_b_children = [d, e]
         expected_f_children = [None, b]
@@ -633,12 +633,12 @@ class TestBNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_children(self):
-        a = clone_tree(self.a, BNode3)
-        b = clone_tree(self.b, BNode3)
-        c = clone_tree(self.c, BNode3)
-        d = clone_tree(self.d, BNode3)
-        e = clone_tree(self.e, BNode3)
-        f = clone_tree(self.f, BNode2)
+        a = clone_tree(self.a, BinaryNode3)
+        b = clone_tree(self.b, BinaryNode3)
+        c = clone_tree(self.c, BinaryNode3)
+        d = clone_tree(self.d, BinaryNode3)
+        e = clone_tree(self.e, BinaryNode3)
+        f = clone_tree(self.f, BinaryNode2)
         expected_a_children = [b, c]
         expected_b_children = [d, e]
         a.children = expected_a_children
@@ -663,12 +663,12 @@ class TestBNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_children_no_children(self):
-        a = clone_tree(self.a, BNode3)
-        b = clone_tree(self.b, BNode3)
-        c = clone_tree(self.c, BNode3)
-        d = clone_tree(self.d, BNode3)
-        e = clone_tree(self.e, BNode3)
-        f = clone_tree(self.f, BNode2)
+        a = clone_tree(self.a, BinaryNode3)
+        b = clone_tree(self.b, BinaryNode3)
+        c = clone_tree(self.c, BinaryNode3)
+        d = clone_tree(self.d, BinaryNode3)
+        e = clone_tree(self.e, BinaryNode3)
+        f = clone_tree(self.f, BinaryNode2)
         expected_a_children = [b, c]
         expected_b_children = [d, e]
         a.children = expected_a_children
@@ -693,10 +693,10 @@ class TestBNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_children_null_children(self):
-        a = clone_tree(self.a, BNode3)
-        b = clone_tree(self.b, BNode3)
-        e = clone_tree(self.e, BNode3)
-        f = clone_tree(self.f, BNode2)
+        a = clone_tree(self.a, BinaryNode3)
+        b = clone_tree(self.b, BinaryNode3)
+        e = clone_tree(self.e, BinaryNode3)
+        f = clone_tree(self.f, BinaryNode2)
         expected_a_children = [b, None]
         expected_b_children = [None, e]
         a.children = expected_a_children
@@ -721,11 +721,11 @@ class TestBNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_children_reassign(self):
-        a = clone_tree(self.a, BNode3)
-        b = clone_tree(self.b, BNode3)
-        c = clone_tree(self.c, BNode3)
-        d = clone_tree(self.d, BNode3)
-        e = clone_tree(self.e, BNode3)
+        a = clone_tree(self.a, BinaryNode3)
+        b = clone_tree(self.b, BinaryNode3)
+        c = clone_tree(self.c, BinaryNode3)
+        d = clone_tree(self.d, BinaryNode3)
+        e = clone_tree(self.e, BinaryNode3)
         expected_a_children = [b, c]
         expected_b_children = [d, e]
         a.children = expected_a_children
@@ -749,7 +749,7 @@ class TestBNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
 
-def assert_btree_structure_self(self):
+def assert_binarytree_structure_self(self):
     nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
 
     # Test parent
@@ -913,7 +913,7 @@ def assert_btree_structure_self(self):
         assert expected == actual, f"Expected right {expected}, received {actual}"
 
 
-def assert_btree_structure_root(root):
+def assert_binarytree_structure_root(root):
     a = root
     b, c = a.children
     d, e = b.children
@@ -932,10 +932,10 @@ def assert_btree_structure_root(root):
     self.f = f
     self.g = g
     self.h = h
-    assert_btree_structure_self(self)
+    assert_binarytree_structure_self(self)
 
 
-def assert_btree_structure_self2(self):
+def assert_binarytree_structure_self2(self):
     nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
 
     # Test parent
@@ -978,7 +978,7 @@ def assert_btree_structure_self2(self):
         assert expected == actual, f"Expected attribute {expected}, received {actual}"
 
 
-def assert_btree_structure_root2(root):
+def assert_binarytree_structure_root2(root):
     a = root
     b, c = a.children
     d, e = b.children
@@ -997,4 +997,4 @@ def assert_btree_structure_root2(root):
     self.f = f
     self.g = g
     self.h = h
-    assert_btree_structure_self2(self)
+    assert_binarytree_structure_self2(self)

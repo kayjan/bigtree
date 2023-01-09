@@ -1,16 +1,16 @@
 from typing import List, Type, Union
 
-from bigtree.node.bnode import BNode
+from bigtree.node.binarynode import BinaryNode
 
 
-def list_to_btree(
-    heapq_list: List[Union[int, float]], node_type: Type[BNode] = BNode
-) -> BNode:
+def list_to_binarytree(
+    heapq_list: List[Union[int, float]], node_type: Type[BinaryNode] = BinaryNode
+) -> BinaryNode:
     """Construct tree from list of numbers (int or float) in heapq format.
 
-    >>> from bigtree import list_to_btree, print_tree, tree_to_dot
+    >>> from bigtree import list_to_binarytree, print_tree, tree_to_dot
     >>> nums_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    >>> root = list_to_btree(nums_list)
+    >>> root = list_to_binarytree(nums_list)
     >>> print_tree(root)
     1
     ├── 2
@@ -23,16 +23,16 @@ def list_to_btree(
         ├── 6
         └── 7
     >>> graph = tree_to_dot(root, node_colour="gold")
-    >>> graph.write_png("assets/btree.png")
+    >>> graph.write_png("assets/binarytree.png")
 
-    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/btree.png
+    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/binarytree.png
 
     Args:
-        heapq_list (List[Union[int, float]]): list containing path strings
-        node_type (Type[BNode]): node type of tree to be created, defaults to BNode
+        heapq_list (List[Union[int, float]]): list containing integer node names, ordered in heapq fashion
+        node_type (Type[BinaryNode]): node type of tree to be created, defaults to BinaryNode
 
     Returns:
-        (BNode)
+        (BinaryNode)
     """
     if not len(heapq_list):
         raise ValueError("Input list does not contain any data, check `heapq_list`")

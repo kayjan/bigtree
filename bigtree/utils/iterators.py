@@ -22,9 +22,9 @@ def inorder_iter(
         2. Visit the current node.
         3. Recursively traverse the current node's right subtree.
 
-    >>> from bigtree import BNode, list_to_btree, inorder_iter, print_tree
+    >>> from bigtree import BinaryNode, list_to_binarytree, inorder_iter, print_tree
     >>> num_list = [1, 2, 3, 4, 5, 6, 7, 8]
-    >>> root = list_to_btree(num_list)
+    >>> root = list_to_binarytree(num_list)
     >>> print_tree(root)
     1
     ├── 2

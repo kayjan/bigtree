@@ -1,6 +1,6 @@
 import unittest
 
-from bigtree.node.bnode import BNode
+from bigtree.node.binarynode import BinaryNode
 from bigtree.tree.search import (
     find,
     find_attr,
@@ -18,7 +18,7 @@ from bigtree.tree.search import (
 class TestSearch(unittest.TestCase):
     def setUp(self):
         """
-        BTree should have structure
+        BinaryTree should have structure
         1
         ├── 2
         │   ├── 4
@@ -28,14 +28,14 @@ class TestSearch(unittest.TestCase):
             ├── 6
             └── 7
         """
-        self.a = BNode(1)
-        self.b = BNode(2, parent=self.a)
-        self.c = BNode(3, parent=self.a)
-        self.d = BNode(4, parent=self.b)
-        self.e = BNode(5)
-        self.f = BNode(6)
-        self.g = BNode(7)
-        self.h = BNode(8)
+        self.a = BinaryNode(1)
+        self.b = BinaryNode(2, parent=self.a)
+        self.c = BinaryNode(3, parent=self.a)
+        self.d = BinaryNode(4, parent=self.b)
+        self.e = BinaryNode(5)
+        self.f = BinaryNode(6)
+        self.g = BinaryNode(7)
+        self.h = BinaryNode(8)
         self.d.children = [None, self.h]
         self.e.parent = self.b
         self.f.parent = self.c

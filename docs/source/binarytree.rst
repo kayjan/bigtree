@@ -1,7 +1,7 @@
-Binary Tree (BTree)
+Binary Tree
 ===================================
 
 .. toctree::
    :maxdepth: 2
 
-   bigtree/btree/construct
+   bigtree/binarytree/construct

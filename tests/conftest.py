@@ -6,7 +6,7 @@ from typing import List, Union
 import pytest
 
 from bigtree.node.basenode import BaseNode
-from bigtree.node.bnode import BNode
+from bigtree.node.binarynode import BinaryNode
 from bigtree.node.dagnode import DAGNode
 from bigtree.node.node import Node
 
@@ -347,9 +347,9 @@ def dag_node_style():
 
 
 @pytest.fixture
-def btree_node():
+def binarytree_node():
     """
-    BTree should have structure
+    BinaryTree should have structure
     1
     ├── 2
     │   ├── 4
@@ -359,14 +359,14 @@ def btree_node():
         ├── 6
         └── 7
     """
-    a = BNode(1)
-    b = BNode(2, parent=a)
-    c = BNode(3, parent=a)
-    d = BNode(4, parent=b)
-    e = BNode(5)
-    f = BNode(6)
-    g = BNode(7)
-    h = BNode(8)
+    a = BinaryNode(1)
+    b = BinaryNode(2, parent=a)
+    c = BinaryNode(3, parent=a)
+    d = BinaryNode(4, parent=b)
+    e = BinaryNode(5)
+    f = BinaryNode(6)
+    g = BinaryNode(7)
+    h = BinaryNode(8)
     d.children = [None, h]
     e.parent = b
     f.parent = c

@@ -3,8 +3,8 @@ import unittest
 import pandas as pd
 import pytest
 
-from bigtree.btree.construct import list_to_btree
-from bigtree.node.bnode import BNode
+from bigtree.binarytree.construct import list_to_binarytree
+from bigtree.node.binarynode import BinaryNode
 from bigtree.tree.construct import (
     dataframe_to_tree,
     dataframe_to_tree_by_relation,
@@ -13,39 +13,39 @@ from bigtree.tree.construct import (
     list_to_tree_by_relation,
     nested_dict_to_tree,
 )
-from tests.node.test_bnode import assert_btree_structure_root2
+from tests.node.test_binarynode import assert_binarytree_structure_root2
 
 
-class BNodeA(BNode):
+class BinaryNodeA(BinaryNode):
     pass
 
 
-class TestListToBTree(unittest.TestCase):
+class TestListToBinaryTree(unittest.TestCase):
     def setUp(self):
         self.nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
 
     def tearDown(self):
         self.nums_list = None
 
-    def test_list_to_btree(self):
-        root = list_to_btree(self.nums_list)
-        assert_btree_structure_root2(root)
+    def test_list_to_binarytree(self):
+        root = list_to_binarytree(self.nums_list)
+        assert_binarytree_structure_root2(root)
 
-    def test_list_to_btree_node_type(self):
-        root = list_to_btree(self.nums_list, node_type=BNodeA)
-        assert isinstance(root, BNodeA), "Node type is not `BNodeA`"
-        assert_btree_structure_root2(root)
+    def test_list_to_binarytree_node_type(self):
+        root = list_to_binarytree(self.nums_list, node_type=BinaryNodeA)
+        assert isinstance(root, BinaryNodeA), "Node type is not `BinaryNodeA`"
+        assert_binarytree_structure_root2(root)
 
-    def test_list_to_btree_error(self):
+    def test_list_to_binarytree_error(self):
         with pytest.raises(ValueError) as exc_info:
-            list_to_btree([])
+            list_to_binarytree([])
         assert str(exc_info.value).startswith("Input list does not contain any data")
 
 
 class TestListToTree(unittest.TestCase):
     def setUp(self):
         """
-        BTree should have structure
+        BinaryTree should have structure
         1
         ├── 2
         │   ├── 4
@@ -61,14 +61,14 @@ class TestListToTree(unittest.TestCase):
         self.path_list = None
 
     def test_list_to_tree(self):
-        root = list_to_tree(self.path_list, node_type=BNode)
-        assert_btree_structure_root2(root)
+        root = list_to_tree(self.path_list, node_type=BinaryNode)
+        assert_binarytree_structure_root2(root)
 
 
 class TestListToTreeByRelation(unittest.TestCase):
     def setUp(self):
         """
-        BTree should have structure
+        BinaryTree should have structure
         1
         ├── 2
         │   ├── 4
@@ -92,14 +92,14 @@ class TestListToTreeByRelation(unittest.TestCase):
         self.relations = None
 
     def test_list_to_tree_by_relation(self):
-        root = list_to_tree_by_relation(self.relations, node_type=BNode)
-        assert_btree_structure_root2(root)
+        root = list_to_tree_by_relation(self.relations, node_type=BinaryNode)
+        assert_binarytree_structure_root2(root)
 
 
 class TestDictToTree(unittest.TestCase):
     def setUp(self):
         """
-        BTree should have structure
+        BinaryTree should have structure
         1
         ├── 2
         │   ├── 4
@@ -124,14 +124,14 @@ class TestDictToTree(unittest.TestCase):
         self.path_dict = None
 
     def test_dict_to_tree(self):
-        root = dict_to_tree(self.path_dict, node_type=BNode)
-        assert_btree_structure_root2(root)
+        root = dict_to_tree(self.path_dict, node_type=BinaryNode)
+        assert_binarytree_structure_root2(root)
 
 
 class TestNestedDictToTree(unittest.TestCase):
     def setUp(self):
         """
-        BTree should have structure
+        BinaryTree should have structure
         1
         ├── 2
         │   ├── 4
@@ -168,14 +168,14 @@ class TestNestedDictToTree(unittest.TestCase):
         self.path_dict = None
 
     def test_nested_dict_to_tree(self):
-        root = nested_dict_to_tree(self.path_dict, node_type=BNode)
-        assert_btree_structure_root2(root)
+        root = nested_dict_to_tree(self.path_dict, node_type=BinaryNode)
+        assert_binarytree_structure_root2(root)
 
 
 class TestDataFrameToTree(unittest.TestCase):
     def setUp(self):
         """
-        BTree should have structure
+        BinaryTree should have structure
         1
         ├── 2
         │   ├── 4
@@ -203,8 +203,8 @@ class TestDataFrameToTree(unittest.TestCase):
         self.path_data = None
 
     def test_dataframe_to_tree(self):
-        root = dataframe_to_tree(self.path_data, node_type=BNode)
-        assert_btree_structure_root2(root)
+        root = dataframe_to_tree(self.path_data, node_type=BinaryNode)
+        assert_binarytree_structure_root2(root)
 
 
 class TestDataFrameToTreeByRelation(unittest.TestCase):
@@ -227,5 +227,5 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         self.relation_data = None
 
     def test_dataframe_to_tree_by_relation(self):
-        root = dataframe_to_tree_by_relation(self.relation_data, node_type=BNode)
-        assert_btree_structure_root2(root)
+        root = dataframe_to_tree_by_relation(self.relation_data, node_type=BinaryNode)
+        assert_binarytree_structure_root2(root)

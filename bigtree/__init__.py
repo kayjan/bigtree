@@ -1,10 +1,10 @@
-__version__ = "0.6.6"
+__version__ = "0.6.7"
 
-from bigtree.btree.construct import list_to_btree
+from bigtree.binarytree.construct import list_to_binarytree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
 from bigtree.dag.export import dag_to_dataframe, dag_to_dict, dag_to_dot, dag_to_list
 from bigtree.node.basenode import BaseNode
-from bigtree.node.bnode import BNode
+from bigtree.node.binarynode import BinaryNode
 from bigtree.node.dagnode import DAGNode
 from bigtree.node.node import Node
 from bigtree.tree.construct import (

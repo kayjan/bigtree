@@ -3,7 +3,7 @@ from typing import Optional, Type
 import numpy as np
 
 from bigtree.node.basenode import BaseNode
-from bigtree.node.bnode import BNode
+from bigtree.node.binarynode import BinaryNode
 from bigtree.node.node import Node
 from bigtree.tree.construct import dataframe_to_tree
 from bigtree.tree.export import tree_to_dataframe
@@ -90,7 +90,7 @@ def prune_tree(tree: Node, prune_path: str, sep: str = "/") -> Node:
             f"Cannot find any node matching path_name ending with {prune_path}"
         )
 
-    if isinstance(child.parent, BNode):
+    if isinstance(child.parent, BinaryNode):
         while child.parent:
             child.parent.children = [child, None]
             child = child.parent

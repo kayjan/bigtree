@@ -6,5 +6,5 @@ Node
 
    bigtree/node/basenode
    bigtree/node/node
-   bigtree/node/bnode
+   bigtree/node/binarynode
    bigtree/node/dagnode

@@ -6,17 +6,17 @@ from tests.conftest import assert_print_statement
 
 class TestCloneTree:
     @staticmethod
-    def test_clone_tree_btree(btree_node):
-        root_clone = clone_tree(btree_node, node_type=Node)
+    def test_clone_tree_btree(binarytree_node):
+        root_clone = clone_tree(binarytree_node, node_type=Node)
         assert isinstance(root_clone, Node), "Wrong type returned"
         expected_str = """1\n├── 2\n│   ├── 4\n│   │   └── 8\n│   └── 5\n└── 3\n    ├── 6\n    └── 7\n"""
-        assert_print_statement(print_tree, expected_str, tree=btree_node)
+        assert_print_statement(print_tree, expected_str, tree=binarytree_node)
 
 
 class TestPruneTree:
     @staticmethod
-    def test_prune_tree(btree_node):
-        tree_prune = prune_tree(btree_node, "1/3/6")
+    def test_prune_tree(binarytree_node):
+        tree_prune = prune_tree(binarytree_node, "1/3/6")
         expected_str = """1\n└── 3\n    └── 6\n"""
         assert_print_statement(print_tree, expected_str, tree=tree_prune)
         assert len(list(tree_prune.children)) == 2
@@ -27,9 +27,9 @@ class TestPruneTree:
 
 class TestTreeDiff:
     @staticmethod
-    def test_tree_diff(btree_node):
-        other_tree_node = prune_tree(btree_node, "1/3")
-        tree_only_diff = get_tree_diff(btree_node, other_tree_node, only_diff=True)
+    def test_tree_diff(binarytree_node):
+        other_tree_node = prune_tree(binarytree_node, "1/3")
+        tree_only_diff = get_tree_diff(binarytree_node, other_tree_node, only_diff=True)
         expected_str = """1\n└── 2\n    ├── 4\n    │   └── 8 (-)\n    └── 5 (-)\n"""
         assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
         assert (

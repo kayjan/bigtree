@@ -31,7 +31,7 @@
    :maxdepth: 2
 
    node
-   btree
+   binarytree
    dag
    tree
    utils
