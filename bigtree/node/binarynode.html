@@ -1,0 +1,379 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>🌿 BinaryNode &mdash; bigtree 0.6.7 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/twemoji.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="🌼 DAGNode" href="dagnode.html" />
+    <link rel="prev" title="🌺 Node" href="node.html" />
+        <meta name="description" content="Tree Implementation for Python, integrated with Python list, dictionary, and pandas DataFrame." lang="en" xml:lang="en">
+        <meta name="keywords" content="Python, Tree, Bigtree">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Big Tree Documentation">
+        <meta property="og:description" content="Tree Implementation for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="og:url" content="https://bigtree.readthedocs.io/">
+        <meta property="og:image" content="https://i.ibb.co/T1G58Bk/favicon-big.png">
+        <meta property="twitter:title" content="Big Tree Documentation">
+        <meta property="twitter:description" content="Tree Implementation for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="twitter:image" content="https://i.ibb.co/T1G58Bk/favicon-big.png">
+    
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../../index.html">
+                bigtree
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a></li>
+        
+          <li><a href="../../node.html">Node</a></li>
+        
+      <li>🌿 BinaryNode</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/bigtree/node/binarynode.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+        
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../node.html">Node</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basenode.html">🌱 BaseNode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node.html">🌺 Node</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">🌿 BinaryNode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dagnode.html">🌼 DAGNode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../binarytree.html">Binary Tree</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../binarytree/construct.html">✨ Construct</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../dag.html">Directed Acyclic Graph (DAG)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dag/construct.html">✨ Construct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dag/export.html">🔨 Export</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tree.html">Tree</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tree/construct.html">✨ Construct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tree/export.html">🔨 Export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tree/helper.html">🔧 Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tree/modify.html">📝 Modify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tree/search.html">🔍 Search</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../utils/iterators.html">➰ Iterators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflows.html">Workflows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/app_todo.html">✔️ To Do App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../others.html">Others</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../others/tips.html">💡 Tips and Tricks</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <section id="module-bigtree.node.binarynode">
+<span id="herb-binarynode"></span><h1>🌿 BinaryNode<a class="headerlink" href="#module-bigtree.node.binarynode" title="Permalink to this heading">¶</a></h1>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.binarynode.BinaryNode" title="bigtree.node.binarynode.BinaryNode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BinaryNode</span></code></a>([name, left, right, parent, children])</p></td>
+<td><p>BinaryNode is an extension of Node, and is able to extend to any Python class for Binary Tree implementation.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="bigtree.node.binarynode.BinaryNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bigtree.node.binarynode.</span></span><span class="sig-name descname"><span class="pre">BinaryNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bigtree.node.binarynode.BinaryNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></a></p>
+<p>BinaryNode is an extension of Node, and is able to extend to any Python class for Binary Tree implementation.
+Nodes can have attributes if they are initialized from <cite>BinaryNode</cite>, <em>dictionary</em>, or <em>pandas DataFrame</em>.</p>
+<p>BinaryNode can be linked to each other with <cite>children</cite>, <cite>left</cite>, or <cite>right</cite> setter methods.
+If initialized with <cite>children</cite>, it must be length 2, denoting left and right child.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">BinaryNode</span><span class="p">,</span> <span class="n">print_tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="go">├── 2</span>
+<span class="go">│   └── 4</span>
+<span class="go">└── 3</span>
+</pre></div>
+</div>
+<p>Directly passing <cite>left</cite>, <cite>right</cite>, or <cite>children</cite> argument.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">BinaryNode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Node Creation</strong></p>
+<p>Node can be created by instantiating a <cite>BinaryNode</cite> class or by using a <em>dictionary</em>.
+If node is created with dictionary, all keys of dictionary will be stored as class attributes.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">BinaryNode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">BinaryNode(name=1, val=1)</span>
+</pre></div>
+</div>
+<p><strong>Node Attributes</strong></p>
+<p>These are node attributes that have getter and/or setter methods.</p>
+<p>Get <cite>Node</cite> configuration</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">left</span></code>: Get left children</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right</span></code>: Get right children</p></li>
+</ol>
+<hr class="docutils" />
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.binarynode.BinaryNode.children" title="bigtree.node.binarynode.BinaryNode.children"><code class="xref py py-obj docutils literal notranslate"><span class="pre">children</span></code></a></p></td>
+<td><p>Get child nodes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.binarynode.BinaryNode.is_leaf" title="bigtree.node.binarynode.BinaryNode.is_leaf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_leaf</span></code></a></p></td>
+<td><p>Get indicator if self is leaf node</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.binarynode.BinaryNode.left" title="bigtree.node.binarynode.BinaryNode.left"><code class="xref py py-obj docutils literal notranslate"><span class="pre">left</span></code></a></p></td>
+<td><p>Get left children</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.binarynode.BinaryNode.parent" title="bigtree.node.binarynode.BinaryNode.parent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parent</span></code></a></p></td>
+<td><p>Get parent node</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.binarynode.BinaryNode.right" title="bigtree.node.binarynode.BinaryNode.right"><code class="xref py py-obj docutils literal notranslate"><span class="pre">right</span></code></a></p></td>
+<td><p>Get right children</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.binarynode.BinaryNode.sort" title="bigtree.node.binarynode.BinaryNode.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>(**kwargs)</p></td>
+<td><p>Sort children, possible keyword arguments include <code class="docutils literal notranslate"><span class="pre">key=lambda</span> <span class="pre">node:</span> <span class="pre">node.name</span></code>, <code class="docutils literal notranslate"><span class="pre">reverse=True</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.binarynode.BinaryNode.children">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">children</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Iterable</span></em><a class="headerlink" href="#bigtree.node.binarynode.BinaryNode.children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get child nodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Iterable[Self])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.binarynode.BinaryNode.is_leaf">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_leaf</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#bigtree.node.binarynode.BinaryNode.is_leaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get indicator if self is leaf node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(bool)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.binarynode.BinaryNode.left">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">left</span></span><a class="headerlink" href="#bigtree.node.binarynode.BinaryNode.left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get left children</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Self)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.binarynode.BinaryNode.parent">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#bigtree.node.binarynode.BinaryNode.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parent node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Self)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.binarynode.BinaryNode.right">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">right</span></span><a class="headerlink" href="#bigtree.node.binarynode.BinaryNode.right" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get right children</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Self)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bigtree.node.binarynode.BinaryNode.sort">
+<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bigtree.node.binarynode.BinaryNode.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort children, possible keyword arguments include <code class="docutils literal notranslate"><span class="pre">key=lambda</span> <span class="pre">node:</span> <span class="pre">node.name</span></code>, <code class="docutils literal notranslate"><span class="pre">reverse=True</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">BinaryNode</span><span class="p">,</span> <span class="n">print_tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">BinaryNode</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="go">├── 3</span>
+<span class="go">└── 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="go">├── 2</span>
+<span class="go">└── 3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+        
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.6.7',
+            LANGUAGE:'Python',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sphinx_highlight.js"></script>
+    <script type="text/javascript" src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
+    <script type="text/javascript" src="../../_static/twemoji.js"></script>
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2022, Kay Jan WONG.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.
+        </div>
+    </div>  
+
+</body>
+</html>

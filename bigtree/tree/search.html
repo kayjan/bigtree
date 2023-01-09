@@ -1,0 +1,589 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>🔍 Search &mdash; bigtree 0.6.7 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/twemoji.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Utils" href="../../utils.html" />
+    <link rel="prev" title="📝 Modify" href="modify.html" />
+        <meta name="description" content="Tree Implementation for Python, integrated with Python list, dictionary, and pandas DataFrame." lang="en" xml:lang="en">
+        <meta name="keywords" content="Python, Tree, Bigtree">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Big Tree Documentation">
+        <meta property="og:description" content="Tree Implementation for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="og:url" content="https://bigtree.readthedocs.io/">
+        <meta property="og:image" content="https://i.ibb.co/T1G58Bk/favicon-big.png">
+        <meta property="twitter:title" content="Big Tree Documentation">
+        <meta property="twitter:description" content="Tree Implementation for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="twitter:image" content="https://i.ibb.co/T1G58Bk/favicon-big.png">
+    
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../../index.html">
+                bigtree
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a></li>
+        
+          <li><a href="../../tree.html">Tree</a></li>
+        
+      <li>🔍 Search</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/bigtree/tree/search.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+        
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../node.html">Node</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../node/basenode.html">🌱 BaseNode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../node/node.html">🌺 Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../node/binarynode.html">🌿 BinaryNode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../node/dagnode.html">🌼 DAGNode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../binarytree.html">Binary Tree</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../binarytree/construct.html">✨ Construct</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../dag.html">Directed Acyclic Graph (DAG)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dag/construct.html">✨ Construct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dag/export.html">🔨 Export</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../tree.html">Tree</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="construct.html">✨ Construct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export.html">🔨 Export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helper.html">🔧 Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modify.html">📝 Modify</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">🔍 Search</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../utils/iterators.html">➰ Iterators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflows.html">Workflows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/app_todo.html">✔️ To Do App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../others.html">Others</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../others/tips.html">💡 Tips and Tricks</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <section id="mag-search">
+<h1>🔍 Search<a class="headerlink" href="#mag-search" title="Permalink to this heading">¶</a></h1>
+<p>Search methods for Trees.</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Tree Search Methods</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 27.3%" />
+<col style="width: 36.4%" />
+<col style="width: 36.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Search by</p></th>
+<th class="head"><p>One node</p></th>
+<th class="head"><p>One or more nodes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>General method</p></td>
+<td><p><cite>find</cite></p></td>
+<td><p><cite>findall</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>Node name</p></td>
+<td><p><cite>find_name</cite>, <cite>find_children</cite></p></td>
+<td><p><cite>find_names</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>Node path</p></td>
+<td><p><cite>find_path</cite>, <cite>find_full_path</cite></p></td>
+<td><p><cite>find_paths</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>Node attributes</p></td>
+<td><p><cite>find_attr</cite></p></td>
+<td><p><cite>find_attrs</cite></p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-bigtree.tree.search"></span><p><strong>Functions:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.search.find" title="bigtree.tree.search.find"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find</span></code></a>(tree, condition[, max_depth])</p></td>
+<td><p>Search tree for <em>single node</em> matching condition (callable function).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.tree.search.find_attr" title="bigtree.tree.search.find_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_attr</span></code></a>(tree, attr_name, attr_value[, ...])</p></td>
+<td><p>Search tree for single node matching custom attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.search.find_attrs" title="bigtree.tree.search.find_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_attrs</span></code></a>(tree, attr_name, attr_value[, ...])</p></td>
+<td><p>Search tree for node(s) matching custom attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.tree.search.find_children" title="bigtree.tree.search.find_children"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_children</span></code></a>(tree, name)</p></td>
+<td><p>Search tree for single node matching name attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.search.find_full_path" title="bigtree.tree.search.find_full_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_full_path</span></code></a>(tree, path_name)</p></td>
+<td><p>Search tree for single node matching path attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.tree.search.find_name" title="bigtree.tree.search.find_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_name</span></code></a>(tree, name[, max_depth])</p></td>
+<td><p>Search tree for single node matching name attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.search.find_names" title="bigtree.tree.search.find_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_names</span></code></a>(tree, name[, max_depth])</p></td>
+<td><p>Search tree for multiple node(s) matching name attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.tree.search.find_path" title="bigtree.tree.search.find_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_path</span></code></a>(tree, path_name)</p></td>
+<td><p>Search tree for single node matching path attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.search.find_paths" title="bigtree.tree.search.find_paths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_paths</span></code></a>(tree, path_name)</p></td>
+<td><p>Search tree for multiple nodes matching path attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.tree.search.findall" title="bigtree.tree.search.findall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">findall</span></code></a>(tree, condition[, max_depth, ...])</p></td>
+<td><p>Search tree for nodes matching condition (callable function).</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.search.find">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.search.</span></span><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../node/basenode.html#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><span class="pre">BaseNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../node/basenode.html#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><span class="pre">BaseNode</span></a></span></span><a class="headerlink" href="#bigtree.tree.search.find" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search tree for <em>single node</em> matching condition (callable function).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">find</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">age</span> <span class="o">==</span> <span class="mi">65</span><span class="p">)</span>
+<span class="go">Node(/a/b, age=65)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">    </span><span class="o">...</span>
+<span class="gr">bigtree.utils.exceptions.SearchError</span>: <span class="n">Expected less than 1 element(s), found 4 elements</span>
+<span class="go">(Node(/a, age=90), Node(/a/b, age=65), Node(/a/c, age=60), Node(/a/c/d, age=40))</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/basenode.html#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><em>BaseNode</em></a>) -- tree to search</p></li>
+<li><p><strong>condition</strong> (<em>Callable</em>) -- function that takes in node as argument, returns node if condition evaluates to <cite>True</cite></p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth to search for, based on <cite>depth</cite> attribute, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(BaseNode)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.search.find_attr">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.search.</span></span><span class="sig-name descname"><span class="pre">find_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../node/basenode.html#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><span class="pre">BaseNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../node/basenode.html#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><span class="pre">BaseNode</span></a></span></span><a class="headerlink" href="#bigtree.tree.search.find_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search tree for single node matching custom attribute.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">find_attr</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_attr</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span>
+<span class="go">Node(/a/b, age=65)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/basenode.html#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><em>BaseNode</em></a>) -- tree to search</p></li>
+<li><p><strong>attr_name</strong> (<em>str</em>) -- attribute name to perform matching</p></li>
+<li><p><strong>attr_value</strong> (<em>Any</em>) -- value to match for attr_name attribute</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth to search for, based on <cite>depth</cite> attribute, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(BaseNode)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.search.find_attrs">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.search.</span></span><span class="sig-name descname"><span class="pre">find_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../node/basenode.html#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><span class="pre">BaseNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#bigtree.tree.search.find_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search tree for node(s) matching custom attribute.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">find_attrs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_attrs</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span>
+<span class="go">(Node(/a/b, age=65), Node(/a/c, age=65))</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/basenode.html#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><em>BaseNode</em></a>) -- tree to search</p></li>
+<li><p><strong>attr_name</strong> (<em>str</em>) -- attribute name to perform matching</p></li>
+<li><p><strong>attr_value</strong> (<em>Any</em>) -- value to match for attr_name attribute</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth to search for, based on <cite>depth</cite> attribute, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(tuple)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.search.find_children">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.search.</span></span><span class="sig-name descname"><span class="pre">find_children</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a></span></span><a class="headerlink" href="#bigtree.tree.search.find_children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search tree for single node matching name attribute.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">find_children</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_children</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="go">Node(/a/c, age=60)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_children</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">)</span>
+<span class="go">Node(/a/c/d, age=40)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to search, parent node</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- value to match for name attribute, child node</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Node)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.search.find_full_path">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.search.</span></span><span class="sig-name descname"><span class="pre">find_full_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a></span></span><a class="headerlink" href="#bigtree.tree.search.find_full_path" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Search tree for single node matching path attribute.</dt><dd><ul class="simple">
+<li><p>Path name can be with or without leading tree path separator symbol.</p></li>
+<li><p>Path name must be full path, works similar to <cite>find_path</cite> but faster.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">find_full_path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_full_path</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;/a/c/d&quot;</span><span class="p">)</span>
+<span class="go">Node(/a/c/d, age=40)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to search</p></li>
+<li><p><strong>path_name</strong> (<em>str</em>) -- value to match (full path) of path_name attribute</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Node)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.search.find_name">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.search.</span></span><span class="sig-name descname"><span class="pre">find_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a></span></span><a class="headerlink" href="#bigtree.tree.search.find_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search tree for single node matching name attribute.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">find_name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_name</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="go">Node(/a/c, age=60)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to search</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- value to match for name attribute</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth to search for, based on <cite>depth</cite> attribute, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Node)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.search.find_names">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.search.</span></span><span class="sig-name descname"><span class="pre">find_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bigtree.tree.search.find_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search tree for multiple node(s) matching name attribute.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">find_names</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_names</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="go">(Node(/a/c, age=60),)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_names</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="go">(Node(/a/b, age=65), Node(/a/c/b, age=40))</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to search</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- value to match for name attribute</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth to search for, based on <cite>depth</cite> attribute, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Iterable[Node])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.search.find_path">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.search.</span></span><span class="sig-name descname"><span class="pre">find_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a></span></span><a class="headerlink" href="#bigtree.tree.search.find_path" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Search tree for single node matching path attribute.</dt><dd><ul class="simple">
+<li><p>Path name can be with or without leading tree path separator symbol.</p></li>
+<li><p>Path name can be full path or partial path (trailing part of path) or node name.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">find_path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_path</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+<span class="go">Node(/a/c, age=60)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_path</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;/c&quot;</span><span class="p">)</span>
+<span class="go">Node(/a/c, age=60)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to search</p></li>
+<li><p><strong>path_name</strong> (<em>str</em>) -- value to match (full path) or trailing part (partial path) of path_name attribute</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Node)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.search.find_paths">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.search.</span></span><span class="sig-name descname"><span class="pre">find_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><span class="pre">Node</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#bigtree.tree.search.find_paths" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Search tree for multiple nodes matching path attribute.</dt><dd><ul class="simple">
+<li><p>Path name can be with or without leading tree path separator symbol.</p></li>
+<li><p>Path name can be partial path (trailing part of path) or node name.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">find_paths</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_paths</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;/a/c&quot;</span><span class="p">)</span>
+<span class="go">(Node(/a/c, age=60),)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_paths</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;/c&quot;</span><span class="p">)</span>
+<span class="go">(Node(/a/c, age=60), Node(/a/c/c, age=40))</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to search</p></li>
+<li><p><strong>path_name</strong> (<em>str</em>) -- value to match (full path) or trailing part (partial path) of path_name attribute</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(tuple)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.search.findall">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.search.</span></span><span class="sig-name descname"><span class="pre">findall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../node/basenode.html#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><span class="pre">BaseNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#bigtree.tree.search.findall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search tree for nodes matching condition (callable function).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">findall</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">findall</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">62</span><span class="p">)</span>
+<span class="go">(Node(/a, age=90), Node(/a/b, age=65))</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/basenode.html#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><em>BaseNode</em></a>) -- tree to search</p></li>
+<li><p><strong>condition</strong> (<em>Callable</em>) -- function that takes in node as argument, returns node if condition evaluates to <cite>True</cite></p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth to search for, based on <cite>depth</cite> attribute, defaults to None</p></li>
+<li><p><strong>min_count</strong> (<em>int</em>) -- checks for minimum number of occurrence,
+raise SearchError if number of results do not meet min_count, defaults to None</p></li>
+<li><p><strong>max_count</strong> (<em>int</em>) -- checks for maximum number of occurrence,
+raise SearchError if number of results do not meet min_count, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(tuple)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+        
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.6.7',
+            LANGUAGE:'Python',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sphinx_highlight.js"></script>
+    <script type="text/javascript" src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
+    <script type="text/javascript" src="../../_static/twemoji.js"></script>
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2022, Kay Jan WONG.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.
+        </div>
+    </div>  
+
+</body>
+</html>

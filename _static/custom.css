@@ -1,0 +1,75 @@
+/* Palette
+ #1D4289 Blue
+ #212322 Black
+ #D7A068 Gold (Replace #CEB47E Sand)
+ #DBE2E9 Light blue
+ #B7926C Dark sand
+*/
+
+/* Content */
+.main-outer {
+    background: #FFFFF4;
+}
+header {
+    background: #212322;
+}
+.document {
+    width: 100%;
+}
+
+/* Font */
+h1, h2, h3, h4, p, a {
+    font-family: Nobile, sans-serif !important;
+}
+a {
+    color: #D7A068 !important;
+}
+blockquote {
+    border-left: 5px solid grey;
+}
+blockquote p {
+    display: inline;
+}
+ol {
+    padding-left: 40px;
+}
+ol p, li p {
+    margin-bottom: 0;
+}
+
+/* Code font */
+span.pre {
+    color: #D7A068;
+    font-size: 1.1em;
+    font-style: italic;
+    letter-spacing: 0.3px;
+}
+.sig span {
+    color: #212322 !important;
+}
+.sig {
+    background-color: #DBE2E9 !important;
+    border-top: 3px solid #1D4289 !important;
+}
+
+/* Code box */
+.highlight pre {
+    background: lightyellow !important;
+}
+.highlight .c1 {
+    font-style: normal;
+}
+
+/* Table */
+table {
+    background: lightyellow;
+}
+.autosummary > colgroup > col:first-child {
+    width: 25% !important;
+}
+.table-headed th, table.docutils:not(.footnote):not(.citation) th {
+    background: #ffffc9;
+}
+.line-block {
+    margin: 0;
+}
