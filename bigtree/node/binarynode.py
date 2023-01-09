@@ -4,19 +4,19 @@ from bigtree.node.node import Node
 from bigtree.utils.exceptions import CorruptedTreeError, LoopError, TreeError
 
 
-class BNode(Node):
+class BinaryNode(Node):
     """
-    BNode is an extension of Node, and is able to extend to any Python class for Binary Tree implementation.
-    Nodes can have attributes if they are initialized from `BNode`, *dictionary*, or *pandas DataFrame*.
+    BinaryNode is an extension of Node, and is able to extend to any Python class for Binary Tree implementation.
+    Nodes can have attributes if they are initialized from `BinaryNode`, *dictionary*, or *pandas DataFrame*.
 
-    BNode can be linked to each other with `children`, `left`, or `right` setter methods.
+    BinaryNode can be linked to each other with `children`, `left`, or `right` setter methods.
     If initialized with `children`, it must be length 2, denoting left and right child.
 
-    >>> from bigtree import BNode, print_tree
-    >>> a = BNode(1)
-    >>> b = BNode(2)
-    >>> c = BNode(3)
-    >>> d = BNode(4)
+    >>> from bigtree import BinaryNode, print_tree
+    >>> a = BinaryNode(1)
+    >>> b = BinaryNode(2)
+    >>> c = BinaryNode(3)
+    >>> d = BinaryNode(4)
     >>> a.children = [b, c]
     >>> b.right = d
     >>> print_tree(a)
@@ -27,21 +27,21 @@ class BNode(Node):
 
     Directly passing `left`, `right`, or `children` argument.
 
-    >>> from bigtree import BNode
-    >>> d = BNode(4)
-    >>> c = BNode(3)
-    >>> b = BNode(2, right=d)
-    >>> a = BNode(1, children=[b, c])
+    >>> from bigtree import BinaryNode
+    >>> d = BinaryNode(4)
+    >>> c = BinaryNode(3)
+    >>> b = BinaryNode(2, right=d)
+    >>> a = BinaryNode(1, children=[b, c])
 
     **Node Creation**
 
-    Node can be created by instantiating a `BNode` class or by using a *dictionary*.
+    Node can be created by instantiating a `BinaryNode` class or by using a *dictionary*.
     If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
-    >>> from bigtree import BNode
-    >>> a = BNode.from_dict({"name": "1"})
+    >>> from bigtree import BinaryNode
+    >>> a = BinaryNode.from_dict({"name": "1"})
     >>> a
-    BNode(name=1, val=1)
+    BinaryNode(name=1, val=1)
 
     **Node Attributes**
 
@@ -147,9 +147,9 @@ class BNode(Node):
         Args:
             new_parent (Self): parent node
         """
-        if not (isinstance(new_parent, BNode) or new_parent is None):
+        if not (isinstance(new_parent, BinaryNode) or new_parent is None):
             raise TypeError(
-                f"Expect input to be BNode type or NoneType, received input type {type(new_parent)}"
+                f"Expect input to be BinaryNode type or NoneType, received input type {type(new_parent)}"
             )
 
     @parent.setter
@@ -206,7 +206,7 @@ class BNode(Node):
 
     def __pre_assign_parent(self, new_parent):
         """Custom method to check before attaching parent
-        Can be overriden with `_BNode__pre_assign_parent()`
+        Can be overriden with `_BinaryNode__pre_assign_parent()`
 
         Args:
             new_parent (Self): new parent to be added
@@ -215,7 +215,7 @@ class BNode(Node):
 
     def __post_assign_parent(self, new_parent):
         """Custom method to check after attaching parent
-        Can be overriden with `_BNode__post_assign_parent()`
+        Can be overriden with `_BinaryNode__post_assign_parent()`
 
         Args:
             new_parent (Self): new parent to be added
@@ -252,9 +252,9 @@ class BNode(Node):
         seen_children = []
         for new_child in new_children:
             # Check type
-            if new_child is not None and not isinstance(new_child, BNode):
+            if new_child is not None and not isinstance(new_child, BinaryNode):
                 raise TypeError(
-                    f"Expect input to be BNode type or NoneType, received input type {type(new_child)}"
+                    f"Expect input to be BinaryNode type or NoneType, received input type {type(new_child)}"
                 )
 
             # Check for loop and tree structure
@@ -341,7 +341,7 @@ class BNode(Node):
 
     def __pre_assign_children(self, new_children: List):
         """Custom method to check before attaching children
-        Can be overriden with `_BNode__pre_assign_children()`
+        Can be overriden with `_BinaryNode__pre_assign_children()`
 
         Args:
             new_children (List[Self]): new children to be added
@@ -350,7 +350,7 @@ class BNode(Node):
 
     def __post_assign_children(self, new_children: List):
         """Custom method to check after attaching children
-        Can be overriden with `_BNode__post_assign_children()`
+        Can be overriden with `_BinaryNode__post_assign_children()`
 
         Args:
             new_children (List[Self]): new children to be added
@@ -369,10 +369,10 @@ class BNode(Node):
     def sort(self, **kwargs):
         """Sort children, possible keyword arguments include ``key=lambda node: node.name``, ``reverse=True``
 
-        >>> from bigtree import BNode, print_tree
-        >>> a = BNode(1)
-        >>> c = BNode(3, parent=a)
-        >>> b = BNode(2, parent=a)
+        >>> from bigtree import BinaryNode, print_tree
+        >>> a = BinaryNode(1)
+        >>> c = BinaryNode(3, parent=a)
+        >>> b = BinaryNode(2, parent=a)
         >>> print_tree(a)
         1
         ├── 3

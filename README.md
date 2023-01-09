@@ -20,7 +20,7 @@ Related Links:
 ----
 
 ## Components
-There are 3 segments to Big Tree consisting of Tree, Binary Tree (BTree), and Directed Acyclic Graph (DAG) implementation.
+There are 3 segments to Big Tree consisting of Tree, Binary Tree, and Directed Acyclic Graph (DAG) implementation.
 
 For Tree implementation, there are 8 main components.
 
@@ -60,14 +60,14 @@ For Tree implementation, there are 8 main components.
 8. **Workflows**
    1. Sample workflows for tree demonstration!
 
-For Binary Tree (BTree) implementation, there are 3 main components.
-Binary Node (BNode) inherits from Node, so the components in Tree implementation are also available in Binary Tree.
+For Binary Tree implementation, there are 3 main components.
+Binary Node inherits from Node, so the components in Tree implementation are also available in Binary Tree.
 
 1. **Node**
-   1. ``BNode``, Node with binary tree rules
-2. **Constructing BTree**
+   1. ``BinaryNode``, Node with binary tree rules
+2. **Constructing Binary Tree**
    1. From *list*, using flattened list structure
-3. **Traversing BTree**
+3. **Traversing Binary Tree**
    1. In-Order Traversal
 
 For Directed Acyclic Graph (DAG) implementation, there are 4 main components.
@@ -331,7 +331,7 @@ print_tree(root)
 # │   └── e
 # └── c
 
-# Print sub-tree
+# Print subtree
 print_tree(root, node_name_or_path="b")
 # b
 # ├── d
@@ -709,45 +709,46 @@ pillow_image.save("assets/demo_pillow.png")
 
 ----
 
-## BTree Demonstration
+## BinaryTree Demonstration
 
-Compared to nodes in tree, nodes in BTree are only allowed maximum of 2 children.
-Since BNode extends from Node, construct, traverse, search, export methods from Node are applicable to BTree as well.
+Compared to nodes in tree, nodes in BinaryTree are only allowed maximum of 2 children.
+Since BinaryNode extends from Node, construct, traverse, search, export methods from Node are applicable to
+BinaryTree as well.
 
-### Construct BTree
+### Construct BinaryTree
 
-1. **From `BNode`**
+1. **From `BinaryNode`**
 
-BNode can be linked to each other with `parent`, `children`, `left`, and `right` setter methods,
+BinaryNode can be linked to each other with `parent`, `children`, `left`, and `right` setter methods,
 or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
 ```python
-from bigtree import BNode, tree_to_dot
+from bigtree import BinaryNode, tree_to_dot
 
-e = BNode(5)
-d = BNode(4)
-c = BNode(3)
-b = BNode(2, left=d, right=e)
-a = BNode(1, children=[b, c])
-f = BNode(6, parent=c)
-g = BNode(7, parent=c)
-h = BNode(8, parent=d)
+e = BinaryNode(5)
+d = BinaryNode(4)
+c = BinaryNode(3)
+b = BinaryNode(2, left=d, right=e)
+a = BinaryNode(1, children=[b, c])
+f = BinaryNode(6, parent=c)
+g = BinaryNode(7, parent=c)
+h = BinaryNode(8, parent=d)
 
 graph = tree_to_dot(a, node_colour="gold")
-graph.write_png("assets/demo_btree.png")
+graph.write_png("assets/demo_binarytree.png")
 ```
 
-![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_btree.png)
+![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_binarytree.png)
 
 2. **From *list***
 
 Construct nodes only, list has similar format as `heapq` list.
 
 ```python
-from bigtree import list_to_btree, print_tree
+from bigtree import list_to_binarytree, print_tree
 
 nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
-root = list_to_btree(nums_list)
+root = list_to_binarytree(nums_list)
 print_tree(root)
 # 1
 # ├── 2

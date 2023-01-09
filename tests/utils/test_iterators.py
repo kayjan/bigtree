@@ -287,83 +287,85 @@ class TestDAGIterator:
         ), f"Expected\n{len_expected}\nReceived\n{len_actual}"
 
 
-class TestBTreeIterator:
+class TestBinaryTreeIterator:
     @staticmethod
-    def test_preorder_iter(btree_node):
+    def test_preorder_iter(binarytree_node):
         expected = ["1", "2", "4", "8", "5", "3", "6", "7"]
-        actual = [node.node_name for node in preorder_iter(btree_node)]
+        actual = [node.node_name for node in preorder_iter(binarytree_node)]
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
-    def test_preorder_iter_filter_condition(btree_node):
+    def test_preorder_iter_filter_condition(binarytree_node):
         expected = ["1", "4", "3", "6"]
         actual = [
             node.node_name
             for node in preorder_iter(
-                btree_node,
+                binarytree_node,
                 filter_condition=lambda x: x.node_name in ["1", "3", "6", "4"],
             )
         ]
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
-    def test_preorder_iter_stop_condition(btree_node):
+    def test_preorder_iter_stop_condition(binarytree_node):
         expected = ["1", "2", "4", "8", "5"]
         actual = [
             node.node_name
             for node in preorder_iter(
-                btree_node, stop_condition=lambda x: x.node_name == "3"
+                binarytree_node, stop_condition=lambda x: x.node_name == "3"
             )
         ]
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
-    def test_preorder_iter_max_depth(btree_node):
+    def test_preorder_iter_max_depth(binarytree_node):
         expected = ["1", "2", "4", "5", "3", "6", "7"]
-        actual = [node.node_name for node in preorder_iter(btree_node, max_depth=3)]
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
-
-    @staticmethod
-    def test_postorder_iter(btree_node):
-        expected = ["8", "4", "5", "2", "6", "7", "3", "1"]
-        actual = [node.node_name for node in postorder_iter(btree_node)]
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
-
-    @staticmethod
-    def test_levelorder_iter(btree_node):
-        expected = ["1", "2", "3", "4", "5", "6", "7", "8"]
-        actual = [node.node_name for node in levelorder_iter(btree_node)]
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
-
-    @staticmethod
-    def test_levelordergroup_iter2(btree_node):
-        expected = [["1"], ["2", "3"], ["4", "5", "6", "7"], ["8"]]
         actual = [
-            [node.node_name for node in group]
-            for group in levelordergroup_iter(btree_node)
+            node.node_name for node in preorder_iter(binarytree_node, max_depth=3)
         ]
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
-    def test_inorder_iter(btree_node):
-        expected = ["4", "8", "2", "5", "1", "6", "3", "7"]
-        actual = [node.node_name for node in inorder_iter(btree_node)]
+    def test_postorder_iter(binarytree_node):
+        expected = ["8", "4", "5", "2", "6", "7", "3", "1"]
+        actual = [node.node_name for node in postorder_iter(binarytree_node)]
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
-    def test_inorder_iter_filter_condition(btree_node):
+    def test_levelorder_iter(binarytree_node):
+        expected = ["1", "2", "3", "4", "5", "6", "7", "8"]
+        actual = [node.node_name for node in levelorder_iter(binarytree_node)]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_levelordergroup_iter2(binarytree_node):
+        expected = [["1"], ["2", "3"], ["4", "5", "6", "7"], ["8"]]
+        actual = [
+            [node.node_name for node in group]
+            for group in levelordergroup_iter(binarytree_node)
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_inorder_iter(binarytree_node):
+        expected = ["4", "8", "2", "5", "1", "6", "3", "7"]
+        actual = [node.node_name for node in inorder_iter(binarytree_node)]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_inorder_iter_filter_condition(binarytree_node):
         expected = ["4", "1", "6", "3", "7"]
         actual = [
             node.node_name
             for node in inorder_iter(
-                btree_node,
+                binarytree_node,
                 filter_condition=lambda x: x.node_name in ["1", "4", "3", "6", "7"],
             )
         ]
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
-    def test_inorder_iter_max_depth(btree_node):
+    def test_inorder_iter_max_depth(binarytree_node):
         expected = ["4", "2", "5", "1", "6", "3", "7"]
-        actual = [node.node_name for node in inorder_iter(btree_node, max_depth=3)]
+        actual = [node.node_name for node in inorder_iter(binarytree_node, max_depth=3)]
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
