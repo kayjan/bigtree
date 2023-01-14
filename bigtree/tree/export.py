@@ -656,9 +656,9 @@ def tree_to_dot(
         bg_colour (str): background color of image, defaults to None
         node_colour (str): fill colour of nodes, defaults to None
         edge_colour (str): colour of edges, defaults to None
-        node_attr (str): `Node` attribute for node style, overrides node_colour, defaults to None
+        node_attr (str): `Node` attribute for node style, overrides node_colour, defaults to None.
             Possible node style (attribute value) include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
-        edge_attr (str): `Node` attribute for edge style, overrides edge_colour, defaults to None
+        edge_attr (str): `Node` attribute for edge style, overrides edge_colour, defaults to None.
             Possible edge style (attribute value) include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
