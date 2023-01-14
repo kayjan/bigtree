@@ -624,12 +624,13 @@ def tree_to_dot(
     Args:
         tree (Node/List[Node]): tree or list of trees to be exported
         directed (bool): indicator whether graph should be directed or undirected, defaults to True
-        rankdir (str): set direction of graph layout, defaults to 'TB', can be 'BT, 'LR', 'RL'
+        rankdir (str): set direction of graph layout, defaults to 'TB' (top to bottom), can be 'BT' (bottom to top),
+            'LR' (left to right), 'RL' (right to left)
         bg_colour (str): background color of image, defaults to None
         node_colour (str): fill colour of nodes, defaults to None
         edge_colour (str): colour of edges, defaults to None
         node_attr (str): node attribute for style, overrides node_colour, defaults to None
-            Possible node attributes include {"style": "filled", "fillcolor": "gold"}
+            Possible node attributes include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
         edge_attr (str): edge attribute for style, overrides edge_colour, defaults to None
             Possible edge attributes include {"style": "bold", "label": "edge label", "color": "black"}
 
@@ -680,6 +681,9 @@ def tree_to_dot(
         name_dict = collections.defaultdict(list)
 
         def recursive_create_node_and_edges(parent_name, child_node):
+            _node_style = node_style.copy()
+            _edge_style = edge_style.copy()
+
             child_label = child_node.node_name
             if child_node.path_name not in name_dict[child_label]:  # pragma: no cover
                 name_dict[child_label].append(child_node.path_name)
@@ -687,13 +691,13 @@ def tree_to_dot(
                 name_dict[child_label].index(child_node.path_name)
             )
             if node_attr and child_node.get_attr(node_attr):
-                node_style.update(child_node.get_attr(node_attr))
+                _node_style.update(child_node.get_attr(node_attr))
             if edge_attr:
-                edge_style.update(child_node.get_attr(edge_attr))
-            node = pydot.Node(name=child_name, label=child_label, **node_style)
+                _edge_style.update(child_node.get_attr(edge_attr))
+            node = pydot.Node(name=child_name, label=child_label, **_node_style)
             _graph.add_node(node)
             if parent_name is not None:
-                edge = pydot.Edge(parent_name, child_name, **edge_style)
+                edge = pydot.Edge(parent_name, child_name, **_edge_style)
                 _graph.add_edge(edge)
             for child in child_node.children:
                 if child:
