@@ -621,6 +621,33 @@ def tree_to_dot(
     >>> graph.to_string()
     'strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\nc0 [label=c];\na0 -> c0;\n}\n'
 
+    Defining node and edge attributes
+
+    >>> class CustomNode(Node):
+    ...     def __init__(self, name, node_shape="", edge_label="", **kwargs):
+    ...         super().__init__(name, **kwargs)
+    ...         self.node_shape = node_shape
+    ...         self.edge_label = edge_label
+    ...
+    ...     @property
+    ...     def edge_attr(self):
+    ...         return {"label": self.edge_label}
+    ...
+    ...     @property
+    ...     def node_attr(self):
+    ...         return {"shape": self.node_shape}
+    >>>
+    >>>
+    >>> root = CustomNode("a", node_shape="circle")
+    >>> b = CustomNode("b", node_shape="diamond", edge_label="child", parent=root)
+    >>> c = CustomNode("c", node_shape="diamond", edge_label="child", parent=root)
+    >>> d = CustomNode("d", node_shape="square", edge_label="child", parent=b)
+    >>> e = CustomNode("e", node_shape="square", edge_label="child", parent=b)
+    >>> graph = tree_to_dot(root, node_colour="gold", node_attr="node_attr", edge_attr="edge_attr")
+    >>> graph.write_png("assets/custom_tree.png")
+
+    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/custom_tree.png
+
     Args:
         tree (Node/List[Node]): tree or list of trees to be exported
         directed (bool): indicator whether graph should be directed or undirected, defaults to True
@@ -629,10 +656,10 @@ def tree_to_dot(
         bg_colour (str): background color of image, defaults to None
         node_colour (str): fill colour of nodes, defaults to None
         edge_colour (str): colour of edges, defaults to None
-        node_attr (str): node attribute for style, overrides node_colour, defaults to None
-            Possible node attributes include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
-        edge_attr (str): edge attribute for style, overrides edge_colour, defaults to None
-            Possible edge attributes include {"style": "bold", "label": "edge label", "color": "black"}
+        node_attr (str): `Node` attribute for node style, overrides node_colour, defaults to None
+            Possible node style (attribute value) include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
+        edge_attr (str): `Node` attribute for edge style, overrides edge_colour, defaults to None
+            Possible edge style (attribute value) include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
         (pydot.Dot)
