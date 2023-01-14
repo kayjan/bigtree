@@ -4,9 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.8] - 2023-01-14
+### Fixed
+- Tree Exporter: `tree_to_dot` to perform dictionary copy to prevent style from being overridden for child nodes.
+
 ## [0.6.7] - 2023-01-09
 ### Changed
-- Binary Tree: Changed `BNode` to `BinaryNode`, and construct method `list_to_btree` to `list_to_binarytree`
+- Binary Tree: Changed `BNode` to `BinaryNode`, and construct method `list_to_btree` to `list_to_binarytree`.
 
 ## [0.6.6] - 2022-12-15
 ### Added
@@ -169,6 +173,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.6.8]: https://github.com/kayjan/bigtree/compare/v0.6.7...v0.6.8
 [0.6.7]: https://github.com/kayjan/bigtree/compare/v0.6.6...v0.6.7
 [0.6.6]: https://github.com/kayjan/bigtree/compare/v0.6.5...v0.6.6
 [0.6.5]: https://github.com/kayjan/bigtree/compare/v0.6.4...v0.6.5
