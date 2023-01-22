@@ -16,6 +16,7 @@ from bigtree.tree.construct import (
     list_to_tree,
     list_to_tree_by_relation,
     nested_dict_to_tree,
+    str_to_tree,
 )
 from bigtree.tree.export import print_tree
 from bigtree.tree.search import find_name, find_names
@@ -842,6 +843,59 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         root = add_dataframe_to_tree_by_name(root, self.data)
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_basenode_root_attr(root, h=("f", 38))
+
+
+class TestStrToTree(unittest.TestCase):
+    def setUp(self):
+        """
+        Tree should have structure
+        a
+        |-- b
+        |   |-- d
+        |   +-- e
+        |       |-- g
+        |       +-- h
+        +-- c
+            +-- f
+        """
+        self.tree_str = "a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f"
+
+    def test_str_to_tree(self):
+        root = str_to_tree(self.tree_str)
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
+    def test_empty_string(self):
+        with pytest.raises(ValueError) as exc_info:
+            str_to_tree("")
+        assert (
+            str(exc_info.value)
+            == "Tree string does not contain any data, check `tree_string`"
+        )
+
+    def test_empty_newline_string(self):
+        with pytest.raises(ValueError) as exc_info:
+            str_to_tree("\n\n")
+        assert (
+            str(exc_info.value)
+            == "Tree string does not contain any data, check `tree_string`"
+        )
+
+    def test_invalid_prefix(self):
+        tree_str = "a\n|-- b\n|   |-- d\n|   +-- e\n|       |-- g\n|       +-- h\n+-- c\n    +-- f"
+        with pytest.raises(ValueError) as exc_info:
+            str_to_tree(tree_str)
+        assert str(exc_info.value).startswith(
+            "Invalid prefix, prefix should be unicode character or whitespace"
+        )
+
+    def test_unequal_prefix_length(self):
+        tree_str = "a\n├── b\n│  ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f"
+        with pytest.raises(ValueError) as exc_info:
+            str_to_tree(tree_str)
+        assert str(exc_info.value).startswith(
+            "Tree string have different prefix length, check branch"
+        )
 
 
 class TestListToTree(unittest.TestCase):

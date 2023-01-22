@@ -15,6 +15,7 @@ __all__ = [
     "add_dict_to_tree_by_name",
     "add_dataframe_to_tree_by_path",
     "add_dataframe_to_tree_by_name",
+    "str_to_tree",
     "list_to_tree",
     "list_to_tree_by_relation",
     "dict_to_tree",
@@ -404,6 +405,67 @@ def add_dataframe_to_tree_by_name(
     return dataframe_to_tree(
         data_tree_attrs, path_col=path_col, sep=sep, node_type=node_type
     )
+
+
+def str_to_tree(
+    tree_string: str,
+    node_type: Type[Node] = Node,
+) -> Node:
+    r"""Construct tree from tree string
+
+    >>> from bigtree import str_to_tree, print_tree
+    >>> tree_str = 'a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f'
+    >>> root = str_to_tree(tree_str)
+    >>> print_tree(root)
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    │       ├── g
+    │       └── h
+    └── c
+        └── f
+
+    Args:
+        tree_string (str): String to construct tree
+        node_type (Type[Node]): node type of tree to be created, defaults to Node
+
+    Returns:
+        (Node)
+    """
+    tree_string = tree_string.strip("\n")
+    if not len(tree_string):
+        raise ValueError("Tree string does not contain any data, check `tree_string`")
+    tree_list = tree_string.split("\n")
+    tree_root = node_type(tree_list[0])
+
+    # Infer prefix length
+    prefix_length = None
+    cur_parent = tree_root
+    for node_str in tree_list[1:]:
+        node_name = node_str.encode("ascii", "ignore").decode("ascii").lstrip()
+
+        # Find node parent
+        if not prefix_length:
+            prefix_length = node_str.index(node_name)
+            if not prefix_length:
+                raise ValueError(
+                    f"Invalid prefix, prefix should be unicode character or whitespace, check: {node_str}"
+                )
+        node_prefix = node_str.index(node_name)
+        if node_prefix % prefix_length:
+            raise ValueError(
+                f"Tree string have different prefix length, check branch: {node_str}"
+            )
+        while cur_parent.depth > node_prefix / prefix_length:
+            cur_parent = cur_parent.parent
+
+        # Link node
+        child_node = node_type(node_name)
+        child_node.parent = cur_parent
+        cur_parent = child_node
+
+    return tree_root
 
 
 def list_to_tree(
