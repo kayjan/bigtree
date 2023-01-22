@@ -13,6 +13,10 @@ To decide which method to use, consider your data type and data values.
      - Using full path
      - Using parent-child relation
      - Add node attributes
+   * - String
+     - `str_to_tree`
+     - NA
+     - No
    * - List
      - `list_to_tree`
      - `list_to_tree_by_relation`

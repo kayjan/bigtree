@@ -8,7 +8,10 @@ description = "Tree Implementation for Python, integrated with Python list, dict
 readme = "README.md"
 requires-python = ">=3.7"
 license = "MIT"
-keywords = []
+keywords = [
+  "tree",
+  "bigtree",
+]
 authors = [
   { name = "Kay Jan", email = "kayjanw@gmail.com" },
 ]
