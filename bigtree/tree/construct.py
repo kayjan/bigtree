@@ -1,3 +1,4 @@
+import re
 from collections import OrderedDict
 from typing import List, Tuple, Type
 
@@ -409,13 +410,14 @@ def add_dataframe_to_tree_by_name(
 
 def str_to_tree(
     tree_string: str,
+    tree_prefix_list: List[str] = [],
     node_type: Type[Node] = Node,
 ) -> Node:
     r"""Construct tree from tree string
 
     >>> from bigtree import str_to_tree, print_tree
     >>> tree_str = 'a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f'
-    >>> root = str_to_tree(tree_str)
+    >>> root = str_to_tree(tree_str, tree_prefix_list=["├──", "└──"])
     >>> print_tree(root)
     a
     ├── b
@@ -428,6 +430,8 @@ def str_to_tree(
 
     Args:
         tree_string (str): String to construct tree
+        tree_prefix_list (list): List of prefix to mark the end of tree branch/stem and start of node name, optional.
+            If not specified, it will infer unicode characters and whitespace as prefix.
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -443,21 +447,25 @@ def str_to_tree(
     prefix_length = None
     cur_parent = tree_root
     for node_str in tree_list[1:]:
-        node_name = node_str.encode("ascii", "ignore").decode("ascii").lstrip()
+        if len(tree_prefix_list):
+            node_name = re.split("|".join(tree_prefix_list), node_str)[-1].lstrip()
+        else:
+            node_name = node_str.encode("ascii", "ignore").decode("ascii").lstrip()
 
         # Find node parent
         if not prefix_length:
             prefix_length = node_str.index(node_name)
             if not prefix_length:
                 raise ValueError(
-                    f"Invalid prefix, prefix should be unicode character or whitespace, check: {node_str}"
+                    f"Invalid prefix, prefix should be unicode character or whitespace, "
+                    f"otherwise specify one or more prefixes in `tree_prefix_list`, check: {node_str}"
                 )
-        node_prefix = node_str.index(node_name)
-        if node_prefix % prefix_length:
+        node_prefix_length = node_str.index(node_name)
+        if node_prefix_length % prefix_length:
             raise ValueError(
                 f"Tree string have different prefix length, check branch: {node_str}"
             )
-        while cur_parent.depth > node_prefix / prefix_length:
+        while cur_parent.depth > node_prefix_length / prefix_length:
             cur_parent = cur_parent.parent
 
         # Link node

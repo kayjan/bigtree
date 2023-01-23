@@ -865,6 +865,30 @@ class TestStrToTree(unittest.TestCase):
         assert_tree_structure_basenode_root_generic(root)
         assert_tree_structure_node_root_generic(root)
 
+    def test_str_to_tree_with_prefix(self):
+        root = str_to_tree(self.tree_str, tree_prefix_list=["─"])
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
+    def test_str_to_tree_with_multiple_prefix(self):
+        root = str_to_tree(self.tree_str, tree_prefix_list=["├──", "└──"])
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
+    def test_ascii_character_error(self):
+        tree_str = "a\n|-- b\n|   |-- d\n|   +-- e\n|       |-- g\n|       +-- h\n+-- c\n    +-- f"
+        with pytest.raises(ValueError) as exc_info:
+            str_to_tree(tree_str)
+        assert str(exc_info.value).startswith(
+            "Invalid prefix, prefix should be unicode character or whitespace, otherwise specify one or more prefixes"
+        )
+
+    def test_ascii_character_with_prefix(self):
+        tree_str = "a\n|-- b\n|   |-- d\n|   +-- e\n|       |-- g\n|       +-- h\n+-- c\n    +-- f"
+        root = str_to_tree(tree_str, tree_prefix_list=["-"])
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_node_root_generic(root)
+
     def test_empty_string(self):
         with pytest.raises(ValueError) as exc_info:
             str_to_tree("")
@@ -879,14 +903,6 @@ class TestStrToTree(unittest.TestCase):
         assert (
             str(exc_info.value)
             == "Tree string does not contain any data, check `tree_string`"
-        )
-
-    def test_invalid_prefix(self):
-        tree_str = "a\n|-- b\n|   |-- d\n|   +-- e\n|       |-- g\n|       +-- h\n+-- c\n    +-- f"
-        with pytest.raises(ValueError) as exc_info:
-            str_to_tree(tree_str)
-        assert str(exc_info.value).startswith(
-            "Invalid prefix, prefix should be unicode character or whitespace"
         )
 
     def test_unequal_prefix_length(self):
