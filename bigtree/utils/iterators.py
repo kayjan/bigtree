@@ -72,6 +72,7 @@ def preorder_iter(
         1. Visit the current node.
         2. Recursively traverse the current node's left subtree.
         3. Recursively traverse the current node's right subtree.
+
     It is topologically sorted because a parent node is processed before its child nodes.
 
     >>> from bigtree import Node, list_to_tree, preorder_iter, print_tree

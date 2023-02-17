@@ -4,9 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2023-02-18
+### Added
+- Tree Modify: Accept `merge_leaves` type of modification, enhance documentation to provide more examples and illustrations.
+
 ## [0.6.10] - 2023-01-23
 ### Fixed
-- Tree Construct: `str_to_tree` to accept prefixes to support unicode characters in node names.
+- Tree Construct: `str_to_tree` accept prefixes to support unicode characters in node names.
 
 ## [0.6.9] - 2023-01-22
 ### Added
@@ -181,6 +185,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.7.0]: https://github.com/kayjan/bigtree/compare/v0.6.10...v0.7.0
 [0.6.10]: https://github.com/kayjan/bigtree/compare/v0.6.9...v0.6.10
 [0.6.9]: https://github.com/kayjan/bigtree/compare/v0.6.8...v0.6.9
 [0.6.8]: https://github.com/kayjan/bigtree/compare/v0.6.7...v0.6.8
