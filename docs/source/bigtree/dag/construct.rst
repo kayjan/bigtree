@@ -24,6 +24,7 @@ These functions are not standalone functions.
 Under the hood, they have the following dependency,
 
 .. image:: https://github.com/kayjan/bigtree/raw/master/assets/dag_construct.png
+   :target: https://github.com/kayjan/bigtree/raw/master/assets/dag_construct.png
    :alt: DAG Constructor Dependency Diagram
 
 .. automodule:: bigtree.dag.construct

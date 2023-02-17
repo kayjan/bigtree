@@ -20,6 +20,7 @@ Tree Modification Illustration
 ----------------------------------
 
 .. image:: https://github.com/kayjan/bigtree/raw/master/assets/modify_shift_and_copy.png
+   :target: https://github.com/kayjan/bigtree/raw/master/assets/modify_shift_and_copy.png
    :width: 80%
    :align: center
    :alt: Shift and Copy Example
@@ -54,6 +55,7 @@ Tree Modification Illustration
      - Shift/copy node `c`, skip if "/a/c" cannot be found
 
 .. image:: https://github.com/kayjan/bigtree/raw/master/assets/modify_advanced.png
+   :target: https://github.com/kayjan/bigtree/raw/master/assets/modify_advanced.png
    :alt: Advanced Shift Example
 
 .. list-table:: Sample Tree Modification (Advanced)
