@@ -596,6 +596,7 @@ def tree_to_dot(
     rankdir: str = "TB",
     bg_colour: str = None,
     node_colour: str = None,
+    node_shape: str = None,
     edge_colour: str = None,
     node_attr: str = None,
     edge_attr: str = None,
@@ -631,19 +632,23 @@ def tree_to_dot(
     ...
     ...     @property
     ...     def edge_attr(self):
-    ...         return {"label": self.edge_label}
+    ...         if self.edge_label:
+    ...             return {"label": self.edge_label}
+    ...         return {}
     ...
     ...     @property
     ...     def node_attr(self):
-    ...         return {"shape": self.node_shape}
+    ...         if self.node_shape:
+    ...             return {"shape": self.node_shape}
+    ...         return {}
     >>>
     >>>
     >>> root = CustomNode("a", node_shape="circle")
-    >>> b = CustomNode("b", node_shape="diamond", edge_label="child", parent=root)
-    >>> c = CustomNode("c", node_shape="diamond", edge_label="child", parent=root)
+    >>> b = CustomNode("b", edge_label="child", parent=root)
+    >>> c = CustomNode("c", edge_label="child", parent=root)
     >>> d = CustomNode("d", node_shape="square", edge_label="child", parent=b)
     >>> e = CustomNode("e", node_shape="square", edge_label="child", parent=b)
-    >>> graph = tree_to_dot(root, node_colour="gold", node_attr="node_attr", edge_attr="edge_attr")
+    >>> graph = tree_to_dot(root, node_colour="gold", node_shape="diamond", node_attr="node_attr", edge_attr="edge_attr")
     >>> graph.write_png("assets/custom_tree.png")
 
     .. image:: https://github.com/kayjan/bigtree/raw/master/assets/custom_tree.png
@@ -655,10 +660,12 @@ def tree_to_dot(
             'LR' (left to right), 'RL' (right to left)
         bg_colour (str): background color of image, defaults to None
         node_colour (str): fill colour of nodes, defaults to None
+        node_shape (str): shape of nodes, defaults to None
+            Possible node_shape include "circle", "square", "diamond", "triangle"
         edge_colour (str): colour of edges, defaults to None
-        node_attr (str): `Node` attribute for node style, overrides node_colour, defaults to None.
+        node_attr (str): `Node` attribute for node style, overrides `node_colour` and `node_shape`, defaults to None.
             Possible node style (attribute value) include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
-        edge_attr (str): `Node` attribute for edge style, overrides edge_colour, defaults to None.
+        edge_attr (str): `Node` attribute for edge style, overrides `edge_colour`, defaults to None.
             Possible edge style (attribute value) include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
@@ -681,6 +688,9 @@ def tree_to_dot(
         node_style = dict(style="filled", fillcolor=node_colour)
     else:
         node_style = dict()
+
+    if node_shape:
+        node_style["shape"] = node_shape
 
     if edge_colour:
         edge_style = dict(color=edge_colour)
