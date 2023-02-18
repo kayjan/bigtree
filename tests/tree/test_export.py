@@ -805,11 +805,22 @@ class TestTreeToDot:
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
-    def test_tree_to_dot_fill_color(tree_node):
+    def test_tree_to_dot_node_colour(tree_node):
         graph = tree_to_dot(tree_node, node_colour="gold")
         expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=gold, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=gold, label=d, style=filled];\nb0 -> d0;\ne0 [fillcolor=gold, label=e, style=filled];\nb0 -> e0;\ng0 [fillcolor=gold, label=g, style=filled];\ne0 -> g0;\nh0 [fillcolor=gold, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=gold, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=gold, label=f, style=filled];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         graph.write_png("tests/tree_fill.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    def test_tree_to_dot_node_shape(tree_node):
+        graph = tree_to_dot(tree_node, node_shape="triangle")
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, shape=triangle];\nb0 [label=b, shape=triangle];\na0 -> b0;\nd0 [label=d, shape=triangle];\nb0 -> d0;\ne0 [label=e, shape=triangle];\nb0 -> e0;\ng0 [label=g, shape=triangle];\ne0 -> g0;\nh0 [label=h, shape=triangle];\ne0 -> h0;\nc0 [label=c, shape=triangle];\na0 -> c0;\nf0 [label=f, shape=triangle];\nc0 -> f0;\n}\n"""
+        actual = graph.to_string()
+        graph.write_png("tests/tree_triangle.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
