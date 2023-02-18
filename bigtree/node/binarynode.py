@@ -33,7 +33,7 @@ class BinaryNode(Node):
     >>> b = BinaryNode(2, right=d)
     >>> a = BinaryNode(1, children=[b, c])
 
-    **Node Creation**
+    **BinaryNode Creation**
 
     Node can be created by instantiating a `BinaryNode` class or by using a *dictionary*.
     If node is created with dictionary, all keys of dictionary will be stored as class attributes.
@@ -43,11 +43,11 @@ class BinaryNode(Node):
     >>> a
     BinaryNode(name=1, val=1)
 
-    **Node Attributes**
+    **BinaryNode Attributes**
 
     These are node attributes that have getter and/or setter methods.
 
-    Get `Node` configuration
+    Get `BinaryNode` configuration
 
     1. ``left``: Get left children
     2. ``right``: Get right children

@@ -1,5 +1,6 @@
 import copy
 import unittest
+from itertools import combinations
 
 import pandas as pd
 import pytest
@@ -55,6 +56,8 @@ class TestDAGNode(unittest.TestCase):
         self.f = DAGNode(name="f", age=38)
         self.g = DAGNode(name="g", age=10)
         self.h = DAGNode(name="h", age=6)
+
+        self.nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g]
 
     def tearDown(self):
         self.a = None
@@ -566,6 +569,95 @@ class TestDAGNode(unittest.TestCase):
                     assert list(child.parents) == [
                         parent
                     ], f"Node {child} parent, expected {parent}, received {child.parents}"
+
+    def test_go_to(self):
+        self.a >> self.b
+        self.b >> self.c
+        self.b >> self.d
+        self.c >> self.e
+        self.c >> self.f
+        self.e >> self.f
+        self.f >> self.g
+        self.d >> self.e
+
+        expected_paths = [
+            [["a", "b"]],
+            [["a", "b", "c"]],
+            [["a", "b", "d"]],
+            [["a", "b", "c", "e"], ["a", "b", "d", "e"]],
+            [
+                ["a", "b", "c", "e", "f"],
+                ["a", "b", "c", "f"],
+                ["a", "b", "d", "e", "f"],
+            ],
+            [
+                ["a", "b", "c", "e", "f", "g"],
+                ["a", "b", "c", "f", "g"],
+                ["a", "b", "d", "e", "f", "g"],
+            ],
+            [["b", "c"]],
+            [["b", "d"]],
+            [["b", "c", "e"], ["b", "d", "e"]],
+            [["b", "c", "e", "f"], ["b", "c", "f"], ["b", "d", "e", "f"]],
+            [
+                ["b", "c", "e", "f", "g"],
+                ["b", "c", "f", "g"],
+                ["b", "d", "e", "f", "g"],
+            ],
+            None,
+            [["c", "e"]],
+            [["c", "e", "f"], ["c", "f"]],
+            [["c", "e", "f", "g"], ["c", "f", "g"]],
+            [["d", "e"]],
+            [["d", "e", "f"]],
+            [["d", "e", "f", "g"]],
+            [["e", "f"]],
+            [["e", "f", "g"]],
+            [["f", "g"]],
+        ]
+        for node_pair, expected_path in zip(
+            combinations(self.nodes, 2), expected_paths
+        ):
+            if not expected_path:
+                with pytest.raises(TreeError) as exc_info:
+                    node_pair[0].go_to(node_pair[1])
+                assert str(exc_info.value).startswith("It is not possible to go to")
+            else:
+                actual_path = [
+                    [_node.name for _node in _path]
+                    for _path in node_pair[0].go_to(node_pair[1])
+                ]
+                assert (
+                    actual_path == expected_path
+                ), f"Wrong path for {node_pair}, expected {expected_path}, received {actual_path}"
+
+    def test_go_to_same_node(self):
+        self.a >> self.b
+        self.b >> self.c
+        self.b >> self.d
+        self.c >> self.e
+        self.c >> self.f
+        self.e >> self.f
+        self.f >> self.g
+        self.d >> self.e
+
+        for node in self.nodes:
+            actual_path = [_node.name for _node in node.go_to(node)]
+            expected_path = [node.name]
+            assert (
+                actual_path == expected_path
+            ), f"Wrong path for {node}, expected {expected_path}, received {actual_path}"
+
+    def test_go_to_type_error(self):
+        with pytest.raises(TypeError) as exc_info:
+            self.a.go_to(2)
+        assert str(exc_info.value).startswith("Expect node to be DAGNode type")
+
+    def test_go_to_different_tree_error(self):
+        a = DAGNode("a")
+        with pytest.raises(TreeError) as exc_info:
+            a.go_to(self.a)
+        assert str(exc_info.value).startswith("It is not possible to go to")
 
 
 def assert_dag_structure_self(self):
