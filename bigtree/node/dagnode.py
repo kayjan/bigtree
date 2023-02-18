@@ -49,36 +49,36 @@ class DAGNode:
     >>> b = DAGNode("b", children=[c])
     >>> a = DAGNode("a", children=[c])
 
-    **Node Creation**
+    **DAGNode Creation**
 
-    Node can be created by instantiating a `Node` class or by using a *dictionary*.
+    Node can be created by instantiating a `DAGNode` class or by using a *dictionary*.
     If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
     >>> from bigtree import DAGNode
     >>> a = DAGNode.from_dict({"name": "a", "age": 90})
 
-    **Node Attributes**
+    **DAGNode Attributes**
 
     These are node attributes that have getter and/or setter methods.
 
-    Get and set other `Node`
+    Get and set other `DAGNode`
 
     1. ``parents``: Get/set parent nodes
     2. ``children``: Get/set child nodes
 
-    Get other `Node`
+    Get other `DAGNode`
 
     1. ``ancestors``: Get ancestors of node excluding self, iterator
     2. ``descendants``: Get descendants of node excluding self, iterator
     3. ``siblings``: Get siblings of self
 
-    Get `Node` configuration
+    Get `DAGNode` configuration
 
     1. ``node_name``: Get node name, without accessing `name` directly
     2. ``is_root``: Get indicator if self is root node
     3. ``is_leaf``: Get indicator if self is leaf node
 
-    **Node Methods**
+    **DAGNode Methods**
 
     These are methods available to be performed on `DAGNode`.
 
@@ -86,12 +86,13 @@ class DAGNode:
 
     1. ``from_dict()``: Create DAGNode from dictionary
 
-    `Node` methods
+    `DAGNode` methods
 
     1. ``describe()``: Get node information sorted by attributes, returns list of tuples
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
-    4. ``copy()``: Deep copy DAGNode
+    4. ``go_to(node: BaseNode)``: Get a path from own node to another node from same DAG
+    5. ``copy()``: Deep copy DAGNode
 
     ----
 
@@ -454,11 +455,68 @@ class DAGNode:
     def set_attrs(self, attrs: Dict[str, Any]):
         """Set node attributes
 
+        >>> from bigtree.node.dagnode import DAGNode
+        >>> a = DAGNode('a')
+        >>> a.set_attrs({"age": 90})
+        >>> a
+        DAGNode(a, age=90)
+
         Args:
             attrs (Dict[str, Any]): attribute dictionary,
                 key: attribute name, value: attribute value
         """
         self.__dict__.update(attrs)
+
+    def go_to(self, node) -> Iterable[Iterable]:
+        """Get list of possible paths from current node to specified node from same tree
+
+        >>> from bigtree import DAGNode
+        >>> a = DAGNode("a")
+        >>> b = DAGNode("b")
+        >>> c = DAGNode("c")
+        >>> d = DAGNode("d")
+        >>> a >> c
+        >>> b >> c
+        >>> c >> d
+        >>> a >> d
+        >>> a.go_to(c)
+        [[DAGNode(a, ), DAGNode(c, )]]
+        >>> a.go_to(d)
+        [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, )], [DAGNode(a, ), DAGNode(d, )]]
+        >>> a.go_to(b)
+        Traceback (most recent call last):
+            ...
+        bigtree.utils.exceptions.TreeError: It is not possible to go to DAGNode(b, )
+
+        Args:
+            node (Self): node to travel to from current node, inclusive of start and end node
+
+        Returns:
+            (Iterable[Iterable])
+        """
+        if not isinstance(node, DAGNode):
+            raise TypeError(
+                f"Expect node to be DAGNode type, received input type {type(node)}"
+            )
+        if self == node:
+            return [self]
+        if node not in self.descendants:
+            raise TreeError(f"It is not possible to go to {node}")
+
+        self.__path = []
+
+        def recursive_path(_node, _path, _ans):
+            if _node:  # pragma: no cover
+                _path.append(_node)
+                if _node == node:
+                    return _path
+                for _child in _node.children:
+                    ans = recursive_path(_child, _path.copy(), _ans)
+                    if ans:
+                        self.__path.append(ans)
+
+        recursive_path(self, [], [])
+        return self.__path
 
     def copy(self):
         """Deep copy self; clone DAGNode

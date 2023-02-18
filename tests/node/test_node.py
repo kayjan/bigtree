@@ -1,4 +1,5 @@
 import unittest
+from itertools import combinations
 
 import pytest
 
@@ -234,6 +235,76 @@ class TestNode(unittest.TestCase):
         # Error: duplicate child
         with pytest.raises(TreeError):
             self.a.children = [self.b, self.b]
+
+    def test_go_to(self):
+        self.a.children = [self.b, self.c]
+        self.b.children = [self.d, self.e]
+        self.c.children = [self.f]
+        self.e.children = [self.g, self.h]
+
+        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+        assert_tree_structure_node_root_generic(self.a)
+        assert_tree_structure_node_self(self)
+
+        expected_paths = [
+            ["a", "b"],
+            ["a", "b", "d"],
+            ["a", "b", "e"],
+            ["a", "b", "e", "g"],
+            ["a", "b", "e", "h"],
+            ["a", "c"],
+            ["a", "c", "f"],
+            ["b", "d"],
+            ["b", "e"],
+            ["b", "e", "g"],
+            ["b", "e", "h"],
+            ["b", "a", "c"],
+            ["b", "a", "c", "f"],
+            ["d", "b", "e"],
+            ["d", "b", "e", "g"],
+            ["d", "b", "e", "h"],
+            ["d", "b", "a", "c"],
+            ["d", "b", "a", "c", "f"],
+            ["e", "g"],
+            ["e", "h"],
+            ["e", "b", "a", "c"],
+            ["e", "b", "a", "c", "f"],
+            ["g", "e", "h"],
+            ["g", "e", "b", "a", "c"],
+            ["g", "e", "b", "a", "c", "f"],
+            ["h", "e", "b", "a", "c"],
+            ["h", "e", "b", "a", "c", "f"],
+            ["c", "f"],
+        ]
+        for node_pair, expected_path in zip(
+            combinations(list(preorder_iter(self.a)), 2), expected_paths
+        ):
+            actual_path = [_node.name for _node in node_pair[0].go_to(node_pair[1])]
+            assert (
+                actual_path == expected_path
+            ), f"Wrong path for {node_pair}, expected {expected_path}, received {actual_path}"
+
+    def test_go_to_same_node(self):
+        for node in preorder_iter(self.a):
+            actual_path = [_node.name for _node in node.go_to(node)]
+            expected_path = [node.name]
+            assert (
+                actual_path == expected_path
+            ), f"Wrong path for {node}, expected {expected_path}, received {actual_path}"
+
+    def test_go_to_type_error(self):
+        a = Node("a")
+        with pytest.raises(TypeError) as exc_info:
+            a.go_to(2)
+        assert str(exc_info.value).startswith("Expect node to be BaseNode type")
+
+    def test_go_to_different_tree_error(self):
+        a = Node("a")
+        with pytest.raises(TreeError) as exc_info:
+            a.go_to(self.a)
+        assert str(exc_info.value).startswith("Nodes are not from the same tree")
 
 
 def assert_tree_structure_node_root_generic(

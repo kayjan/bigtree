@@ -56,24 +56,24 @@ class BaseNode:
     >>> b = Node("b", children=[d])
     >>> a = Node("a", children=[b, c])
 
-    **Node Creation**
+    **BaseNode Creation**
 
-    Node can be created by instantiating a `Node` class or by using a *dictionary*.
+    Node can be created by instantiating a `BaseNode` class or by using a *dictionary*.
     If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
     >>> from bigtree import Node
     >>> root = Node.from_dict({"name": "a", "age": 90})
 
-    **Node Attributes**
+    **BaseNode Attributes**
 
     These are node attributes that have getter and/or setter methods.
 
-    Get and set other `Node`
+    Get and set other `BaseNode`
 
     1. ``parent``: Get/set parent node
     2. ``children``: Get/set child nodes
 
-    Get other `Node`
+    Get other `BaseNode`
 
     1. ``ancestors``: Get ancestors of node excluding self, iterator
     2. ``descendants``: Get descendants of node excluding self, iterator
@@ -82,7 +82,7 @@ class BaseNode:
     5. ``left_sibling``: Get sibling left of self
     6. ``right_sibling``: Get sibling right of self
 
-    Get `Node` configuration
+    Get `BaseNode` configuration
 
     1. ``node_path``: Get tuple of nodes from root
     2. ``is_root``: Get indicator if self is root node
@@ -91,7 +91,7 @@ class BaseNode:
     5. ``depth``: Get depth of self
     6. ``max_depth``: Get maximum depth from root to leaf node
 
-    **Node Methods**
+    **BaseNode Methods**
 
     These are methods available to be performed on `BaseNode`.
 
@@ -99,13 +99,14 @@ class BaseNode:
 
     1. ``from_dict()``: Create BaseNode from dictionary
 
-    `Node` methods
+    `BaseNode` methods
 
     1. ``describe()``: Get node information sorted by attributes, returns list of tuples
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
-    4. ``copy()``: Deep copy BaseNode
-    5. ``sort()``: Sort child nodes
+    4. ``go_to(node: BaseNode)``: Get a path from own node to another node from same tree
+    5. ``copy()``: Deep copy BaseNode
+    6. ``sort()``: Sort child nodes
 
     ----
 
@@ -570,6 +571,59 @@ class BaseNode:
                 key: attribute name, value: attribute value
         """
         self.__dict__.update(attrs)
+
+    def go_to(self, node) -> Iterable:
+        """Get path from current node to specified node from same tree
+
+        >>> from bigtree import Node, print_tree
+        >>> a = Node(name="a")
+        >>> b = Node(name="b", parent=a)
+        >>> c = Node(name="c", parent=a)
+        >>> d = Node(name="d", parent=b)
+        >>> e = Node(name="e", parent=b)
+        >>> f = Node(name="f", parent=c)
+        >>> g = Node(name="g", parent=e)
+        >>> h = Node(name="h", parent=e)
+        >>> print_tree(a)
+        a
+        ├── b
+        │   ├── d
+        │   └── e
+        │       ├── g
+        │       └── h
+        └── c
+            └── f
+        >>> d.go_to(d)
+        [Node(/a/b/d, )]
+        >>> d.go_to(g)
+        [Node(/a/b/d, ), Node(/a/b, ), Node(/a/b/e, ), Node(/a/b/e/g, )]
+        >>> d.go_to(f)
+        [Node(/a/b/d, ), Node(/a/b, ), Node(/a, ), Node(/a/c, ), Node(/a/c/f, )]
+
+        Args:
+            node (Self): node to travel to from current node, inclusive of start and end node
+
+        Returns:
+            (Iterable)
+        """
+        if not isinstance(node, BaseNode):
+            raise TypeError(
+                f"Expect node to be BaseNode type, received input type {type(node)}"
+            )
+        if self.root != node.root:
+            raise TreeError(
+                f"Nodes are not from the same tree. Check {self} and {node}"
+            )
+        if self == node:
+            return [self]
+        self_path = [self] + list(self.ancestors)
+        node_path = ([node] + list(node.ancestors))[::-1]
+        common_nodes = set(self_path).intersection(set(node_path))
+        self_min_index, min_common_node = sorted(
+            [(self_path.index(_node), _node) for _node in common_nodes]
+        )[0]
+        node_min_index = node_path.index(min_common_node)
+        return self_path[:self_min_index] + node_path[node_min_index:]
 
     def copy(self):
         """Deep copy self; clone BaseNode
