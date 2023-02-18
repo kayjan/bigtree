@@ -3,7 +3,7 @@
 Edge weights should be defined in the child node for the parent-child edge since each node can only have one parent.
 
 We can simply add `weight` attribute to the `Node` class.
-However, if we want to plot the weighted tree, we can create a `WeightedNode` class to generate the edge attribute dictionary.
+However, if we want to visualize the weighted tree, we can create a `WeightedNode` class to generate the edge attribute dictionary.
 
 ```python
 from bigtree import Node, tree_to_dot
