@@ -10,7 +10,7 @@ There are several configurations available for more customization
 - `overriding`: Override existing node if it exists, defaults to False (to node must not exist)
 - `merge_children`: Merge children and remove intermediate parent node, defaults to False (children are not merged)
 - `merge_leaves`: Merge leaves and remove all intermediate nodes, defaults to False (leaves are not merged)
-- `delete_children`: Shift/copy node only and delete its children
+- `delete_children`: Shift/copy node only and delete its children, defaults to False (nodes are shifted/copied together with children)
 
 .. note:: `merge_children` and `merge_leaves` cannot be simultaneously set to `True`
 
