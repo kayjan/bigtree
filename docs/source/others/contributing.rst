@@ -40,7 +40,7 @@ Developing
 -----------------------------------
 
 After making your changes, create a new branch, add and commit your changed files.
-In this example, lets assume the changed file is `README.md`.
+In this example, lets assume the changed file is ``README.md``.
 If there are any pre-commit changes, do re-add and re-commit your files.
 
 .. code-block:: bash
@@ -70,17 +70,11 @@ Make sure your add/update the tests and documentations accordingly.
 Convention and Standards
 -----------------------------------
 
-When creating branches, it is recommended to create them in the format,
+When creating branches, it is recommended to create them in the format ``type/action``. For example,
 
 .. code-block:: bash
 
-    type/action
-
-For example,
-
-.. code-block:: bash
-
-    git checkout -b feat/add-this
+    $ git checkout -b feat/add-this
 
 When performing commits, it is also recommended to follow `conventional commits <https://www.conventionalcommits.org/en/v1.0.0/>`_ when writing commit messages.
 
