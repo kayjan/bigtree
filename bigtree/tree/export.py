@@ -33,9 +33,9 @@ def print_tree(
     tree: Node,
     node_name_or_path: str = "",
     max_depth: int = None,
-    attr_list: List[str] = None,
     all_attrs: bool = False,
-    attr_omit_null: bool = True,
+    attr_list: List[str] = None,
+    attr_omit_null: bool = False,
     attr_bracket: List[str] = ["[", "]"],
     style: str = "const",
     custom_style: List[str] = [],
@@ -143,9 +143,9 @@ def print_tree(
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
+        all_attrs (bool): indicator to show all attributes, overrides `attr_list` and `attr_omit_null`
         attr_list (list): list of node attributes to print, optional
-        all_attrs (bool): indicator to show all attributes, overrides `attr_list`
-        attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to True
+        attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to False
         attr_bracket (List[str]): open and close bracket for `all_attrs` or `attr_list`
         style (str): style of print, defaults to abstract style
         custom_style (List[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
@@ -179,6 +179,7 @@ def print_tree(
                     attr_str_list = [
                         f"{attr_name}={_node.get_attr(attr_name)}"
                         for attr_name in attr_list
+                        if hasattr(_node, attr_name)
                     ]
             attr_str = ", ".join(attr_str_list)
             if attr_str:

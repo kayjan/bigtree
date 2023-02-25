@@ -17,44 +17,147 @@ from tests.node.test_basenode import (
 )
 from tests.node.test_node import assert_tree_structure_node_root_generic
 
+tree_node_str = """a [age=90]\n├── b [age=65]\n│   ├── d [age=40]\n│   └── e [age=35]\n│       ├── g [age=10]
+│       └── h [age=6]\n└── c [age=60]\n    └── f [age=38]\n"""
+tree_node_no_attr_str = """a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
+
 
 class TestPrintTree:
     @staticmethod
-    def test_print_tree_ansi(tree_node):
+    def test_print_tree_child_node_name(tree_node):
+        expected_str = """b\n├── d\n└── e\n    ├── g\n    └── h\n"""
+        assert_print_statement(
+            print_tree,
+            expected_str,
+            tree=tree_node,
+            node_name_or_path="b",
+        )
+
+    @staticmethod
+    def test_print_tree_child_node_path(tree_node):
+        expected_str = """b\n├── d\n└── e\n    ├── g\n    └── h\n"""
+        assert_print_statement(
+            print_tree,
+            expected_str,
+            tree=tree_node,
+            node_name_or_path="a/b",
+        )
+
+    # all_attr
+    @staticmethod
+    def test_print_tree_all_attr(tree_node):
+        assert_print_statement(
+            print_tree, tree_node_str, tree=tree_node, all_attrs=True
+        )
+
+    @staticmethod
+    def test_print_tree_all_attr_empty(tree_node_no_attr):
+        assert_print_statement(
+            print_tree,
+            tree_node_no_attr_str,
+            tree=tree_node_no_attr,
+            all_attrs=True,
+        )
+
+    # attr_list
+    @staticmethod
+    def test_print_tree_attr_list(tree_node):
+        assert_print_statement(
+            print_tree, tree_node_str, tree=tree_node, attr_list=["age"]
+        )
+
+    @staticmethod
+    def test_print_tree_invalid_attr(tree_node):
+        assert_print_statement(
+            print_tree, tree_node_no_attr_str, tree=tree_node, attr_list=["random"]
+        )
+
+    # attr_list, attr_omit_null
+    @staticmethod
+    def test_print_tree_attr_omit_null_false(tree_node_negative_null_attr):
+        expected_str = """a\n├── b [age=-1]\n│   ├── d [age=1]\n│   └── e [age=None]\n│       ├── g\n│       └── h\n└── c [age=0]\n    └── f\n"""
+        assert_print_statement(
+            print_tree,
+            expected_str,
+            tree=tree_node_negative_null_attr,
+            attr_list=["age"],
+            attr_omit_null=False,
+        )
+
+    @staticmethod
+    def test_print_tree_attr_omit_null_true(tree_node_negative_null_attr):
+        expected_str = """a\n├── b [age=-1]\n│   ├── d [age=1]\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
+        assert_print_statement(
+            print_tree,
+            expected_str,
+            tree=tree_node_negative_null_attr,
+            attr_list=["age"],
+            attr_omit_null=True,
+        )
+
+    # attr_bracket
+    @staticmethod
+    def test_print_tree_attr_bracket(tree_node):
+        assert_print_statement(
+            print_tree,
+            tree_node_str.replace("[", "(").replace("]", ")"),
+            tree=tree_node,
+            all_attrs=True,
+            attr_bracket=["(", ")"],
+        )
+
+    @staticmethod
+    def test_print_tree_attr_bracket_missing_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            print_tree(tree_node, all_attrs=True, attr_bracket=[""])
+        assert str(exc_info.value).startswith(
+            "Expect open and close brackets in `attr_bracket`"
+        )
+
+    # style
+    @staticmethod
+    def test_print_tree_style_ansi(tree_node):
         expected_str = """a\n|-- b\n|   |-- d\n|   `-- e\n|       |-- g\n|       `-- h\n`-- c\n    `-- f\n"""
         assert_print_statement(print_tree, expected_str, tree=tree_node, style="ansi")
 
     @staticmethod
-    def test_print_tree_ascii(tree_node):
+    def test_print_tree_style_ascii(tree_node):
         expected_str = """a\n|-- b\n|   |-- d\n|   +-- e\n|       |-- g\n|       +-- h\n+-- c\n    +-- f\n"""
         assert_print_statement(print_tree, expected_str, tree=tree_node, style="ascii")
 
     @staticmethod
-    def test_print_tree_const(tree_node):
+    def test_print_tree_style_const(tree_node):
         expected_str = """a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
         assert_print_statement(print_tree, expected_str, tree=tree_node, style="const")
 
     @staticmethod
-    def test_print_tree_const_bold(tree_node):
+    def test_print_tree_style_const_bold(tree_node):
         expected_str = """a\n┣━━ b\n┃   ┣━━ d\n┃   ┗━━ e\n┃       ┣━━ g\n┃       ┗━━ h\n┗━━ c\n    ┗━━ f\n"""
         assert_print_statement(
             print_tree, expected_str, tree=tree_node, style="const_bold"
         )
 
     @staticmethod
-    def test_print_tree_rounded(tree_node):
+    def test_print_tree_style_rounded(tree_node):
         expected_str = """a\n├── b\n│   ├── d\n│   ╰── e\n│       ├── g\n│       ╰── h\n╰── c\n    ╰── f\n"""
         assert_print_statement(
             print_tree, expected_str, tree=tree_node, style="rounded"
         )
 
     @staticmethod
-    def test_print_tree_double(tree_node):
+    def test_print_tree_style_double(tree_node):
         expected_str = """a\n╠══ b\n║   ╠══ d\n║   ╚══ e\n║       ╠══ g\n║       ╚══ h\n╚══ c\n    ╚══ f\n"""
         assert_print_statement(print_tree, expected_str, tree=tree_node, style="double")
 
     @staticmethod
-    def test_print_tree_custom(tree_node):
+    def test_print_tree_style_unknown_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            print_tree(tree_node, style="something")
+        assert str(exc_info.value).startswith("Choose one of")
+
+    # custom_style
+    @staticmethod
+    def test_print_tree_custom_style(tree_node):
         expected_str = """a\nb\nd\ne\ng\nh\nc\nf\n"""
         assert_print_statement(
             print_tree,
@@ -65,90 +168,27 @@ class TestPrintTree:
         )
 
     @staticmethod
-    def test_print_tree_unknown_style(tree_node):
-        with pytest.raises(ValueError):
-            print_tree(tree_node, style="something")
-
-    @staticmethod
-    def test_print_tree_no_attr(tree_node):
-        expected_str = """a\n|-- b\n|   |-- d\n|   `-- e\n|       |-- g\n|       `-- h\n`-- c\n    `-- f\n"""
-        assert_print_statement(
-            print_tree, expected_str, tree=tree_node, attr_list=["random"], style="ansi"
-        )
-
-    @staticmethod
-    def test_print_tree_child_node_name(tree_node):
-        expected_str = """b\n|-- d\n`-- e\n    |-- g\n    `-- h\n"""
-        assert_print_statement(
-            print_tree,
-            expected_str,
-            tree=tree_node,
-            node_name_or_path="b",
-            style="ansi",
-        )
-
-    @staticmethod
-    def test_print_tree_child_node_path(tree_node):
-        expected_str = """b\n|-- d\n`-- e\n    |-- g\n    `-- h\n"""
-        assert_print_statement(
-            print_tree,
-            expected_str,
-            tree=tree_node,
-            node_name_or_path="a/b",
-            style="ansi",
-        )
-
-    @staticmethod
-    def test_print_tree_unequal_char(tree_node):
-        with pytest.raises(ValueError):
+    def test_print_tree_custom_style_unequal_char_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
             print_tree(
                 tree_node,
                 style="custom",
                 custom_style=["", " ", ""],
             )
+        assert str(exc_info.value).startswith(
+            "`style_stem`, `style_branch`, and `style_stem_final` are of different length"
+        )
 
     @staticmethod
-    def test_print_tree_missing_style(tree_node):
-        with pytest.raises(ValueError):
+    def test_print_tree_custom_style_missing_style_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
             print_tree(
                 tree_node,
                 style="custom",
                 custom_style=["", ""],
             )
-
-    @staticmethod
-    def test_print_tree_missing_bracket(tree_node):
-        with pytest.raises(ValueError):
-            print_tree(tree_node, all_attrs=True, attr_bracket=[""])
-
-    @staticmethod
-    def test_print_tree_attr(tree_node):
-        expected_str = """a [age=90]\n|-- b [age=65]\n|   |-- d [age=40]\n|   `-- e [age=35]\n|       |-- g [age=10]\n|       `-- h [age=6]\n`-- c [age=60]\n    `-- f [age=38]\n"""
-        assert_print_statement(
-            print_tree,
-            expected_str,
-            tree=tree_node,
-            attr_list=["age"],
-            attr_omit_null=False,
-            style="ansi",
-        )
-
-    @staticmethod
-    def test_print_tree_all_attr(tree_node):
-        expected_str = """a [age=90]\n|-- b [age=65]\n|   |-- d [age=40]\n|   `-- e [age=35]\n|       |-- g [age=10]\n|       `-- h [age=6]\n`-- c [age=60]\n    `-- f [age=38]\n"""
-        assert_print_statement(
-            print_tree, expected_str, tree=tree_node, all_attrs=True, style="ansi"
-        )
-
-    @staticmethod
-    def test_print_tree_all_attr_empty(tree_node_no_attr):
-        expected_str = """a\n|-- b\n|   |-- d\n|   `-- e\n|       |-- g\n|       `-- h\n`-- c\n    `-- f\n"""
-        assert_print_statement(
-            print_tree,
-            expected_str,
-            tree=tree_node_no_attr,
-            all_attrs=True,
-            style="ansi",
+        assert str(exc_info.value).startswith(
+            "Custom style selected, please specify the style of stem, branch, and final stem in `custom_style`"
         )
 
 

@@ -183,6 +183,38 @@ def tree_node_no_attr():
 
 
 @pytest.fixture
+def tree_node_negative_null_attr():
+    """
+    Tree should have structure
+    a
+    |-- b
+    |   |-- d
+    |   +-- e
+    |       |-- g
+    |       +-- h
+    +-- c
+        +-- f
+    """
+    a = Node("a")
+    b = Node("b", age=-1)
+    c = Node("c", age=0)
+    d = Node("d", age=1)
+    e = Node("e", age=None)
+    f = Node("f")
+    g = Node("g")
+    h = Node("h")
+
+    b.parent = a
+    c.parent = a
+    d.parent = b
+    e.parent = b
+    f.parent = c
+    g.parent = e
+    h.parent = e
+    return a
+
+
+@pytest.fixture
 def tree_node_style():
     """
     Tree should have structure
