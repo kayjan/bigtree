@@ -76,7 +76,7 @@ When creating branches, it is recommended to create them in the format,
 
     type/action
 
-Example
+For example,
 
 .. code-block:: bash
 
