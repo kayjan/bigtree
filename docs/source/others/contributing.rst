@@ -62,8 +62,7 @@ If there are changes related to code, please make sure that the unit tests pass 
 
 .. code-block:: bash
 
-    $ python -m pip install coverage
-    $ python -m pip install pytest
+    $ python -m pip install pytest coverage
     $ coverage run --source=bigtree --module pytest tests/ && coverage report --show-missing
 
 Make sure your add/update the tests and documentations accordingly.

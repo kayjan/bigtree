@@ -11,7 +11,7 @@ Related Links:
 - [GitHub](https://github.com/kayjan/bigtree/)
 - [Changelog](https://github.com/kayjan/bigtree/blob/master/CHANGELOG.md)
 - [Issues](https://github.com/kayjan/bigtree/issues)
-- [Contributing](https://github.com/kayjan/bigtree/blob/master/CONTRIBUTING.md)
+- [Contributing](https://bigtree.readthedocs.io/en/latest/others/contributing.html)
 - [PyPI](https://pypi.org/project/bigtree/)
 - Articles
   - [Python Tree Implementation with BigTree](https://towardsdatascience.com/python-tree-implementation-with-bigtree-13cdabd77adc#245a-94ae81f0b3f1)
