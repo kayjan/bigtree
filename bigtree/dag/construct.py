@@ -130,6 +130,8 @@ def dataframe_to_dag(
     Returns:
         (DAGNode)
     """
+    data = data.copy()
+
     if not len(data.columns):
         raise ValueError("Data does not contain any columns, check `data`")
     if not len(data):

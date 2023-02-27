@@ -129,7 +129,7 @@ def dag_to_dataframe(
         all_attrs (bool): indicator whether to retrieve all `Node` attributes
 
     Returns:
-        (pd.DataFrame)
+        (pandas.DataFrame)
     """
     dag = dag.copy()
     data_list = []

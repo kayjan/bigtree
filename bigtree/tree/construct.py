@@ -274,6 +274,8 @@ def add_dataframe_to_tree_by_path(
     Returns:
         (Node)
     """
+    data = data.copy()
+
     if not len(data.columns):
         raise ValueError("Data does not contain any columns, check `data`")
     if not len(data):
@@ -359,6 +361,8 @@ def add_dataframe_to_tree_by_name(
     Returns:
         (Node)
     """
+    data = data.copy()
+
     if join_type not in ["inner", "left"]:
         raise ValueError("`join_type` must be one of 'inner' or 'left'")
 
@@ -755,6 +759,8 @@ def dataframe_to_tree(
     Returns:
         (Node)
     """
+    data = data.copy()
+
     if not len(data.columns):
         raise ValueError("Data does not contain any columns, check `data`")
     if not len(data):
@@ -848,6 +854,8 @@ def dataframe_to_tree_by_relation(
     Returns:
         (Node)
     """
+    data = data.copy()
+
     if not len(data.columns):
         raise ValueError("Data does not contain any columns, check `data`")
     if not len(data):

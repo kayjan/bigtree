@@ -553,7 +553,7 @@ def tree_to_dataframe(
         leaf_only (bool): indicator to retrieve only information from leaf nodes
 
     Returns:
-        (pd.DataFrame)
+        (pandas.DataFrame)
     """
     tree = tree.copy()
     data_list = []
