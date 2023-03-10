@@ -156,6 +156,7 @@ class TestCopyNodes(unittest.TestCase):
         copy_nodes(self.root, from_paths, to_paths)
         assert self.root.max_depth == 4, "Shift did not create a tree of depth 4"
 
+    # sep
     def test_copy_nodes_sep_undefined(self):
         from_paths = ["\\d", "\\e", "\\g", "\\h", "\\f"]
         to_paths = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
@@ -175,6 +176,25 @@ class TestCopyNodes(unittest.TestCase):
 
         assert_tree_structure_basenode_root_generic(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root_generic(self.root)
+
+    def test_copy_nodes_sep_different(self):
+        # Delete intermediate nodes
+        from_paths = ["\\a\\b", "\\a\\c", "\\a\\e"]
+        to_paths = [None, None, None]
+        shift_nodes(self.root, from_paths, to_paths, sep="\\")
+
+        # Create intermediate nodes
+        from_paths = ["\\d", "\\g", "\\h", "\\f"]
+        to_paths = ["a\\b\\d", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
+        copy_nodes(self.root, from_paths, to_paths, sep="\\")
+
+        # Delete original nodes
+        from_paths = ["\\a\\d", "\\a\\g", "\\a\\h", "\\a\\f"]
+        to_paths = [None, None, None, None]
+        shift_nodes(self.root, from_paths, to_paths, sep="\\")
+
+        assert_tree_structure_basenode_root_generic(self.root)
         assert_tree_structure_node_root_generic(self.root)
 
     # skippable
