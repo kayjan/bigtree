@@ -1,4 +1,4 @@
-from typing import List, Tuple, Type
+from typing import Any, Dict, List, Tuple, Type
 
 import numpy as np
 import pandas as pd
@@ -22,7 +22,7 @@ def list_to_dag(
     [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
-        relations (list): list containing tuple of parent-child names
+        relations (List[Tuple[str, str]]): list containing tuple of parent-child names
         node_type (Type[DAGNode]): node type of DAG to be created, defaults to DAGNode
 
     Returns:
@@ -38,7 +38,7 @@ def list_to_dag(
 
 
 def dict_to_dag(
-    relation_attrs: dict,
+    relation_attrs: Dict[str, Any],
     parent_key: str = "parents",
     node_type: Type[DAGNode] = DAGNode,
 ) -> DAGNode:
@@ -59,9 +59,9 @@ def dict_to_dag(
     [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
-        relation_attrs (dict): dictionary containing node, node parents, and node attribute information,
+        relation_attrs (Dict[str, Any]): dictionary containing node, node parents, and node attribute information,
             key: child name, value: dict of parent names, node attribute and attribute value
-        parent_key (str): key of dictionary to retrieve list of parents name, defaults to "parent"
+        parent_key (str): key of dictionary to retrieve list of parents name, defaults to 'parent'
         node_type (Type[DAGNode]): node type of DAG to be created, defaults to DAGNode
 
     Returns:
@@ -87,9 +87,9 @@ def dict_to_dag(
 
 def dataframe_to_dag(
     data: pd.DataFrame,
-    child_col: str = None,
-    parent_col: str = None,
-    attribute_cols: list = [],
+    child_col: str = "",
+    parent_col: str = "",
+    attribute_cols: List[str] = [],
     node_type: Type[DAGNode] = DAGNode,
 ) -> DAGNode:
     """Construct DAG from pandas DataFrame.
@@ -118,12 +118,12 @@ def dataframe_to_dag(
     [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
-        data (pandas.DataFrame): data containing path and node attribute information
-        child_col (str): column of data containing child name information, defaults to None
+        data (pd.DataFrame): data containing path and node attribute information
+        child_col (str): column of data containing child name information, defaults to ''
             if not set, it will take the first column of data
-        parent_col (str): column of data containing parent name information, defaults to None
+        parent_col (str): column of data containing parent name information, defaults to ''
             if not set, it will take the second column of data
-        attribute_cols (list): columns of data containing child node attribute information,
+        attribute_cols (List[str]): columns of data containing child node attribute information,
             if not set, it will take all columns of data except `child_col` and `parent_col`
         node_type (Type[DAGNode]): node type of DAG to be created, defaults to DAGNode
 
@@ -162,8 +162,8 @@ def dataframe_to_dag(
     if np.any(data[child_col].isnull()):
         raise ValueError(f"Child name cannot be empty, check {child_col}")
 
-    node_dict = dict()
-    parent_node = None
+    node_dict: Dict[str, DAGNode] = dict()
+    parent_node = DAGNode()
 
     for row in data.reset_index(drop=True).to_dict(orient="index").values():
         child_name = row[child_col]
@@ -172,16 +172,12 @@ def dataframe_to_dag(
         del node_attrs[child_col]
         del node_attrs[parent_col]
         node_attrs = {k: v for k, v in node_attrs.items() if not pd.isnull(v)}
-        child_node = node_dict.get(child_name)
-        if not child_node:
-            child_node = node_type(child_name)
-        node_dict[child_name] = child_node
+        child_node = node_dict.get(child_name, node_type(child_name))
         child_node.set_attrs(node_attrs)
+        node_dict[child_name] = child_node
 
         if not pd.isnull(parent_name):
-            parent_node = node_dict.get(parent_name)
-            if not parent_node:
-                parent_node = node_type(parent_name)
+            parent_node = node_dict.get(parent_name, node_type(parent_name))
             node_dict[parent_name] = parent_node
             child_node.parents = [parent_node]
 

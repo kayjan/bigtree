@@ -34,6 +34,12 @@ class TestPrintTree:
         )
 
     @staticmethod
+    def test_print_tree_child_node_name_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            print_tree(tree_node, node_name_or_path="z")
+        assert str(exc_info.value) == "Node name or path z not found"
+
+    @staticmethod
     def test_print_tree_child_node_path(tree_node):
         expected_str = """b\n├── d\n└── e\n    ├── g\n    └── h\n"""
         assert_print_statement(

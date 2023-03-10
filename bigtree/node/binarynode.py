@@ -1,4 +1,6 @@
-from typing import Iterable, List, Union
+from __future__ import annotations
+
+from typing import Any, List, Optional, Tuple, TypeVar, Union
 
 from bigtree.node.node import Node
 from bigtree.utils.exceptions import CorruptedTreeError, LoopError, TreeError
@@ -59,17 +61,17 @@ class BinaryNode(Node):
     def __init__(
         self,
         name: Union[str, int] = "",
-        left=None,
-        right=None,
-        parent=None,
-        children: List = None,
-        **kwargs,
+        left: Optional[T] = None,
+        right: Optional[T] = None,
+        parent: Optional[T] = None,
+        children: Optional[List[Optional[T]]] = None,
+        **kwargs: Any,
     ):
         self.val = int(name)
         self.name = str(name)
         self._sep = "/"
-        self.__parent = None
-        self.__children = []
+        self.__parent: Optional[T] = None
+        self.__children: List[Optional[T]] = [None, None]
         if not children:
             children = []
         if len(children):
@@ -88,7 +90,7 @@ class BinaryNode(Node):
         else:
             children = [left, right]
         self.parent = parent
-        self.children = children
+        self.children = children  # type: ignore
         if "parents" in kwargs:
             raise ValueError(
                 "Attempting to set `parents` attribute, do you mean `parent`?"
@@ -96,71 +98,71 @@ class BinaryNode(Node):
         self.__dict__.update(**kwargs)
 
     @property
-    def left(self):
+    def left(self: T) -> Optional[T]:
         """Get left children
 
         Returns:
-            (Self)
+            (Optional[Self])
         """
         return self.__children[0]
 
     @left.setter
-    def left(self, left_child):
+    def left(self: T, left_child: Optional[T]) -> None:
         """Set left children
 
         Args:
-            left_child (Self): left child
+            left_child (Optional[Self]): left child
         """
-        self.children = [left_child, self.right]
+        self.children = [left_child, self.right]  # type: ignore
 
     @property
-    def right(self):
+    def right(self: T) -> Optional[T]:
         """Get right children
 
         Returns:
-            (Self)
+            (Optional[Self])
         """
         return self.__children[1]
 
     @right.setter
-    def right(self, right_child):
+    def right(self: T, right_child: Optional[T]) -> None:
         """Set right children
 
         Args:
-            right_child (Self): right child
+            right_child (Optional[Self]): right child
         """
-        self.children = [self.left, right_child]
-
-    @property
-    def parent(self):
-        """Get parent node
-
-        Returns:
-            (Self)
-        """
-        return self.__parent
+        self.children = [self.left, right_child]  # type: ignore
 
     @staticmethod
-    def __check_parent_type(new_parent):
+    def __check_parent_type(new_parent: Optional[T]) -> None:
         """Check parent type
 
         Args:
-            new_parent (Self): parent node
+            new_parent (Optional[Self]): parent node
         """
         if not (isinstance(new_parent, BinaryNode) or new_parent is None):
             raise TypeError(
                 f"Expect input to be BinaryNode type or NoneType, received input type {type(new_parent)}"
             )
 
+    @property
+    def parent(self: T) -> Optional[T]:
+        """Get parent node
+
+        Returns:
+            (Optional[Self])
+        """
+        return self.__parent
+
     @parent.setter
-    def parent(self, new_parent):
+    def parent(self: T, new_parent: Optional[T]) -> None:
         """Set parent node
 
         Args:
-            new_parent (Self): parent node
+            new_parent (Optional[Self]): parent node
         """
         self.__check_parent_type(new_parent)
-        self._BaseNode__check_parent_loop(new_parent)
+        self._BaseNode__check_parent_loop(new_parent)  # type: ignore
 
         current_parent = self.parent
         current_child_idx = None
@@ -201,41 +203,37 @@ class BinaryNode(Node):
             # Reassign self to old parent
             self.__parent = current_parent
             if current_child_idx is not None:
-                current_parent.__children[current_child_idx] = self
+                current_parent.__children[current_child_idx] = self  # type: ignore
             raise TreeError(exc_info)
 
-    def __pre_assign_parent(self, new_parent):
+    def __pre_assign_parent(self: T, new_parent: Optional[T]) -> None:
         """Custom method to check before attaching parent
         Can be overriden with `_BinaryNode__pre_assign_parent()`
 
         Args:
-            new_parent (Self): new parent to be added
+            new_parent (Optional[Self]): new parent to be added
         """
         pass
 
-    def __post_assign_parent(self, new_parent):
+    def __post_assign_parent(self: T, new_parent: Optional[T]) -> None:
         """Custom method to check after attaching parent
         Can be overriden with `_BinaryNode__post_assign_parent()`
 
         Args:
-            new_parent (Self): new parent to be added
+            new_parent (Optional[Self]): new parent to be added
         """
         pass
 
-    @property
-    def children(self) -> Iterable:
-        """Get child nodes
-
-        Returns:
-            (Iterable[Self])
-        """
-        return tuple(self.__children)
-
-    def __check_children_type(self, new_children: List) -> List:
+    def __check_children_type(
+        self: T, new_children: List[Optional[T]]
+    ) -> List[Optional[T]]:
         """Check child type
 
         Args:
-            new_children (List[Self]): child node
+            new_children (List[Optional[Self]]): child node
+
+        Returns:
+            (List[Optional[Self]])
         """
         if not len(new_children):
             new_children = [None, None]
@@ -243,11 +241,11 @@ class BinaryNode(Node):
             raise ValueError("Children input must have length 2")
         return new_children
 
-    def __check_children_loop(self, new_children: List):
+    def __check_children_loop(self: T, new_children: List[Optional[T]]) -> None:
         """Check child loop
 
         Args:
-            new_children (List[Self]): child node
+            new_children (List[Optional[Self]]): child node
         """
         seen_children = []
         for new_child in new_children:
@@ -274,15 +272,24 @@ class BinaryNode(Node):
                 else:
                     seen_children.append(id(new_child))
 
+    @property
+    def children(self: T) -> Tuple[T, ...]:
+        """Get child nodes
+
+        Returns:
+            (Tuple[Optional[Self]])
+        """
+        return tuple(self.__children)  # type: ignore
+
     @children.setter
-    def children(self, new_children: List):
+    def children(self: T, _new_children: List[Optional[T]]) -> None:
         """Set child nodes
 
         Args:
-            new_children (List[Self]): child node
+            _new_children (List[Optional[Self]]): child node
         """
-        self._BaseNode__check_children_type(new_children)
-        new_children = self.__check_children_type(new_children)
+        self._BaseNode__check_children_type(_new_children)  # type: ignore
+        new_children = self.__check_children_type(_new_children)
         self.__check_children_loop(new_children)
 
         current_new_children = {
@@ -325,35 +332,35 @@ class BinaryNode(Node):
                 child.__parent = None
 
             # Reassign old children to self
-            self.__children = current_children
+            self.__children = current_children  # type: ignore
             for child in current_children:
                 if child:
                     child.__parent = self
             raise TreeError(exc_info)
 
     @children.deleter
-    def children(self):
+    def children(self) -> None:
         """Delete child node(s)"""
         for child in self.children:
             if child is not None:
-                child.parent.__children.remove(child)
+                child.parent.__children.remove(child)  # type: ignore
                 child.__parent = None
 
-    def __pre_assign_children(self, new_children: List):
+    def __pre_assign_children(self: T, new_children: List[Optional[T]]) -> None:
         """Custom method to check before attaching children
         Can be overriden with `_BinaryNode__pre_assign_children()`
 
         Args:
-            new_children (List[Self]): new children to be added
+            new_children (List[Optional[Self]]): new children to be added
         """
         pass
 
-    def __post_assign_children(self, new_children: List):
+    def __post_assign_children(self: T, new_children: List[Optional[T]]) -> None:
         """Custom method to check after attaching children
         Can be overriden with `_BinaryNode__post_assign_children()`
 
         Args:
-            new_children (List[Self]): new children to be added
+            new_children (List[Optional[Self]]): new children to be added
         """
         pass
 
@@ -366,8 +373,8 @@ class BinaryNode(Node):
         """
         return not len([child for child in self.children if child])
 
-    def sort(self, **kwargs):
-        """Sort children, possible keyword arguments include ``key=lambda node: node.name``, ``reverse=True``
+    def sort(self, **kwargs: Any) -> None:
+        """Sort children, possible keyword arguments include ``key=lambda node: node.val``, ``reverse=True``
 
         >>> from bigtree import BinaryNode, print_tree
         >>> a = BinaryNode(1)
@@ -386,10 +393,18 @@ class BinaryNode(Node):
         children = [child for child in self.children if child]
         if len(children) == 2:
             children.sort(**kwargs)
-            self.__children = children
+            self.__children = children  # type: ignore
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """Print format of BinaryNode
+
+        Returns:
+            (str)
+        """
         class_name = self.__class__.__name__
         node_dict = self.describe(exclude_prefix="_", exclude_attributes=[])
         node_description = ", ".join([f"{k}={v}" for k, v in node_dict])
         return f"{class_name}({node_description})"
+
+
+T = TypeVar("T", bound=BinaryNode)

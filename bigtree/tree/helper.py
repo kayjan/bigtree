@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Optional, Type, Union
 
 import numpy as np
 
@@ -39,7 +39,7 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNode]) -> BaseNode:
     root_info = dict(tree.root.describe(exclude_prefix="_"))
     root_node = node_type(**root_info)
 
-    def recursive_add_child(_new_parent_node, _parent_node):
+    def recursive_add_child(_new_parent_node: BaseNode, _parent_node: BaseNode) -> None:
         for _child in _parent_node.children:
             if _child:
                 child_info = dict(_child.describe(exclude_prefix="_"))
@@ -51,7 +51,9 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNode]) -> BaseNode:
     return root_node
 
 
-def prune_tree(tree: Node, prune_path: str, sep: str = "/") -> Node:
+def prune_tree(
+    tree: Union[BinaryNode, Node], prune_path: str, sep: str = "/"
+) -> Union[BinaryNode, Node]:
     """Prune tree to leave only the prune path, returns the root of a *copy* of the original tree.
 
     All siblings along the prune path will be removed.
@@ -75,12 +77,12 @@ def prune_tree(tree: Node, prune_path: str, sep: str = "/") -> Node:
     └── b
 
     Args:
-        tree (Node): existing tree
+        tree (Union[BinaryNode, Node]): existing tree
         prune_path (str): prune path, all siblings along the prune path will be removed
         sep (str): path separator
 
     Returns:
-        (Node)
+        (Union[BinaryNode, Node])
     """
     prune_path = prune_path.replace(sep, tree.sep)
     tree_copy = tree.copy()
@@ -92,12 +94,12 @@ def prune_tree(tree: Node, prune_path: str, sep: str = "/") -> Node:
 
     if isinstance(child.parent, BinaryNode):
         while child.parent:
-            child.parent.children = [child, None]
+            child.parent.children = [child, None]  # type: ignore
             child = child.parent
         return tree_copy
 
     while child.parent:
-        child.parent.children = [child]
+        child.parent.children = [child]  # type: ignore
         child = child.parent
     return tree_copy
 
@@ -165,7 +167,7 @@ def get_tree_diff(
         only_diff (bool): indicator to show all nodes or only nodes that are different (+/-), defaults to True
 
     Returns:
-        (Node)
+        (Optional[Node])
     """
     tree = tree.copy()
     other_tree = other_tree.copy()
@@ -194,8 +196,6 @@ def get_tree_diff(
     if only_diff:
         data_both = data_both.query(f"{indicator_col} != 'both'")
     data_both = data_both.drop(columns=indicator_col).sort_values(path_col)
-    if len(data_both):
-        return dataframe_to_tree(
-            data_both,
-            node_type=tree.__class__,
-        )
+    if not len(data_both):
+        return None
+    return dataframe_to_tree(data_both, node_type=tree.__class__)

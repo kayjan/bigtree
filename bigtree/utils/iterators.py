@@ -1,4 +1,22 @@
-from typing import Callable, Iterable, List, Tuple
+from __future__ import annotations
+
+from typing import (
+    TYPE_CHECKING,
+    Callable,
+    Iterable,
+    List,
+    Optional,
+    Tuple,
+    TypeVar,
+    Union,
+)
+
+if TYPE_CHECKING:
+    from bigtree.node.basenode import BaseNode
+    from bigtree.node.binarynode import BinaryNode
+    from bigtree.node.dagnode import DAGNode
+
+    T = TypeVar("T", bound=Union[BaseNode, DAGNode])
 
 __all__ = [
     "inorder_iter",
@@ -11,10 +29,10 @@ __all__ = [
 
 
 def inorder_iter(
-    tree,
-    filter_condition: Callable = None,
-    max_depth: int = None,
-) -> Iterable:
+    tree: BinaryNode,
+    filter_condition: Optional[Callable[[BinaryNode], bool]] = None,
+    max_depth: int = 0,
+) -> Iterable[BinaryNode]:
     """Iterate through all children of a tree.
 
     In Iteration Algorithm, LNR
@@ -45,27 +63,33 @@ def inorder_iter(
     ['4', '2', '5', '1', '6', '3', '7']
 
     Args:
-        tree (BaseNode): input tree
-        filter_condition (Callable): function that takes in node as argument, optional
-            Returns node if condition evaluates to `True`
+        tree (BinaryNode): input tree
+        filter_condition (Optional[Callable[[BinaryNode], bool]]): function that takes in node as argument, optional
+            Return node if condition evaluates to `True`
         max_depth (int): maximum depth of iteration, based on `depth` attribute, optional
 
     Returns:
-        (Iterable[BaseNode])
+        (Iterable[BinaryNode])
     """
-    if tree and (not max_depth or not tree.depth > max_depth):
-        yield from inorder_iter(tree.left, filter_condition, max_depth)
-        if not filter_condition or filter_condition(tree):
-            yield tree
-        yield from inorder_iter(tree.right, filter_condition, max_depth)
+
+    def _inorder_iter(
+        _tree: Optional[BinaryNode],
+    ) -> Iterable[BinaryNode]:
+        if _tree and (not max_depth or not _tree.depth > max_depth):
+            yield from _inorder_iter(_tree.left)
+            if not filter_condition or filter_condition(_tree):
+                yield _tree
+            yield from _inorder_iter(_tree.right)
+
+    yield from _inorder_iter(tree)
 
 
 def preorder_iter(
-    tree,
-    filter_condition: Callable = None,
-    stop_condition: Callable = None,
-    max_depth: int = None,
-) -> Iterable:
+    tree: T,
+    filter_condition: Optional[Callable[[T], bool]] = None,
+    stop_condition: Optional[Callable[[T], bool]] = None,
+    max_depth: int = 0,
+) -> Iterable[T]:
     """Iterate through all children of a tree.
 
     Pre-Order Iteration Algorithm, NLR
@@ -101,33 +125,33 @@ def preorder_iter(
     ['a', 'b', 'd', 'e', 'c', 'f']
 
     Args:
-        tree (BaseNode): input tree
-        filter_condition (Callable): function that takes in node as argument, optional
-            Returns node if condition evaluates to `True`
-        stop_condition (Callable): function that takes in node as argument, optional
+        tree (Union[BaseNode, DAGNode]): input tree
+        filter_condition (Optional[Callable[[T], bool]]): function that takes in node as argument, optional
+            Return node if condition evaluates to `True`
+        stop_condition (Optional[Callable[[T], bool]]): function that takes in node as argument, optional
             Stops iteration if condition evaluates to `True`
         max_depth (int): maximum depth of iteration, based on `depth` attribute, optional
 
     Returns:
-        (Iterable[BaseNode])
+        (Union[Iterable[BaseNode], Iterable[DAGNode]])
     """
     if (
         tree
-        and (not max_depth or not tree.depth > max_depth)
+        and (not max_depth or not tree.get_attr("depth") > max_depth)
         and (not stop_condition or not stop_condition(tree))
     ):
         if not filter_condition or filter_condition(tree):
             yield tree
         for child in tree.children:
-            yield from preorder_iter(child, filter_condition, stop_condition, max_depth)
+            yield from preorder_iter(child, filter_condition, stop_condition, max_depth)  # type: ignore
 
 
 def postorder_iter(
-    tree,
-    filter_condition: Callable = None,
-    stop_condition: Callable = None,
-    max_depth: int = None,
-) -> Iterable:
+    tree: BaseNode,
+    filter_condition: Optional[Callable[[BaseNode], bool]] = None,
+    stop_condition: Optional[Callable[[BaseNode], bool]] = None,
+    max_depth: int = 0,
+) -> Iterable[BaseNode]:
     """Iterate through all children of a tree.
 
     Post-Order Iteration Algorithm, LRN
@@ -162,9 +186,9 @@ def postorder_iter(
 
     Args:
         tree (BaseNode): input tree
-        filter_condition (Callable): function that takes in node as argument, optional
-            Returns node if condition evaluates to `True`
-        stop_condition (Callable): function that takes in node as argument, optional
+        filter_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
+            Return node if condition evaluates to `True`
+        stop_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
             Stops iteration if condition evaluates to `True`
         max_depth (int): maximum depth of iteration, based on `depth` attribute, optional
 
@@ -185,11 +209,11 @@ def postorder_iter(
 
 
 def levelorder_iter(
-    tree,
-    filter_condition: Callable = None,
-    stop_condition: Callable = None,
-    max_depth: int = None,
-) -> Iterable:
+    tree: BaseNode,
+    filter_condition: Optional[Callable[[BaseNode], bool]] = None,
+    stop_condition: Optional[Callable[[BaseNode], bool]] = None,
+    max_depth: int = 0,
+) -> Iterable[BaseNode]:
     """Iterate through all children of a tree.
 
     Level Order Algorithm
@@ -222,38 +246,38 @@ def levelorder_iter(
 
     Args:
         tree (BaseNode): input tree
-        filter_condition (Callable): function that takes in node as argument, optional
-            Returns node if condition evaluates to `True`
-        stop_condition (Callable): function that takes in node as argument, optional
+        filter_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
+            Return node if condition evaluates to `True`
+        stop_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
             Stops iteration if condition evaluates to `True`
         max_depth (int): maximum depth of iteration, based on `depth` attribute, defaults to None
 
     Returns:
         (Iterable[BaseNode])
     """
-    if not isinstance(tree, List):
-        tree = [tree]
-    next_level = []
-    for _tree in tree:
-        if _tree:
-            if (not max_depth or not _tree.depth > max_depth) and (
-                not stop_condition or not stop_condition(_tree)
-            ):
-                if not filter_condition or filter_condition(_tree):
-                    yield _tree
-                next_level.extend(list(_tree.children))
-    if len(next_level):
-        yield from levelorder_iter(
-            next_level, filter_condition, stop_condition, max_depth
-        )
+
+    def _levelorder_iter(trees: List[BaseNode]) -> Iterable[BaseNode]:
+        next_level = []
+        for _tree in trees:
+            if _tree:
+                if (not max_depth or not _tree.depth > max_depth) and (
+                    not stop_condition or not stop_condition(_tree)
+                ):
+                    if not filter_condition or filter_condition(_tree):
+                        yield _tree
+                    next_level.extend(list(_tree.children))
+        if len(next_level):
+            yield from _levelorder_iter(next_level)
+
+    yield from _levelorder_iter([tree])
 
 
 def levelordergroup_iter(
-    tree,
-    filter_condition: Callable = None,
-    stop_condition: Callable = None,
-    max_depth: int = None,
-) -> Iterable[Iterable]:
+    tree: BaseNode,
+    filter_condition: Optional[Callable[[BaseNode], bool]] = None,
+    stop_condition: Optional[Callable[[BaseNode], bool]] = None,
+    max_depth: int = 0,
+) -> Iterable[Iterable[BaseNode]]:
     """Iterate through all children of a tree.
 
     Level Order Group Algorithm
@@ -286,35 +310,34 @@ def levelordergroup_iter(
 
     Args:
         tree (BaseNode): input tree
-        filter_condition (Callable): function that takes in node as argument, optional
-            Returns node if condition evaluates to `True`
-        stop_condition (Callable): function that takes in node as argument, optional
+        filter_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
+            Return node if condition evaluates to `True`
+        stop_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
             Stops iteration if condition evaluates to `True`
         max_depth (int): maximum depth of iteration, based on `depth` attribute, defaults to None
 
     Returns:
-        (Iterable[Iterable])
+        (Iterable[Iterable[BaseNode]])
     """
-    if not isinstance(tree, List):
-        tree = [tree]
 
-    current_tree = []
-    next_tree = []
-    for _tree in tree:
-        if (not max_depth or not _tree.depth > max_depth) and (
-            not stop_condition or not stop_condition(_tree)
-        ):
-            if not filter_condition or filter_condition(_tree):
-                current_tree.append(_tree)
-            next_tree.extend([_child for _child in _tree.children if _child])
-    yield tuple(current_tree)
-    if len(next_tree) and (not max_depth or not next_tree[0].depth > max_depth):
-        yield from levelordergroup_iter(
-            next_tree, filter_condition, stop_condition, max_depth
-        )
+    def _levelordergroup_iter(trees: List[BaseNode]) -> Iterable[Iterable[BaseNode]]:
+        current_tree = []
+        next_tree = []
+        for _tree in trees:
+            if (not max_depth or not _tree.depth > max_depth) and (
+                not stop_condition or not stop_condition(_tree)
+            ):
+                if not filter_condition or filter_condition(_tree):
+                    current_tree.append(_tree)
+                next_tree.extend([_child for _child in _tree.children if _child])
+        yield tuple(current_tree)
+        if len(next_tree) and (not max_depth or not next_tree[0].depth > max_depth):
+            yield from _levelordergroup_iter(next_tree)
+
+    yield from _levelordergroup_iter([tree])
 
 
-def dag_iterator(dag) -> Iterable[Tuple]:
+def dag_iterator(dag: DAGNode) -> Iterable[Tuple[DAGNode, DAGNode]]:
     """Iterate through all nodes of a Directed Acyclic Graph (DAG).
     Note that node names must be unique.
     Note that DAG must at least have two nodes to be shown on graph.
@@ -340,7 +363,7 @@ def dag_iterator(dag) -> Iterable[Tuple]:
     """
     visited_nodes = set()
 
-    def recursively_parse_dag(node):
+    def recursively_parse_dag(node: DAGNode) -> Iterable[Tuple[DAGNode, DAGNode]]:
         node_name = node.node_name
         visited_nodes.add(node_name)
 

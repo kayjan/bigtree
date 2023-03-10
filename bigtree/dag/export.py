@@ -37,7 +37,7 @@ def dag_to_list(
 def dag_to_dict(
     dag: DAGNode,
     parent_key: str = "parents",
-    attr_dict: dict = {},
+    attr_dict: Dict[str, str] = {},
     all_attrs: bool = False,
 ) -> Dict[str, Any]:
     """Export tree to dictionary.
@@ -56,19 +56,19 @@ def dag_to_dict(
     Args:
         dag (DAGNode): DAG to be exported
         parent_key (str): dictionary key for `node.parent.node_name`, defaults to `parents`
-        attr_dict (dict): dictionary mapping node attributes to dictionary key,
+        attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes
+        all_attrs (bool): indicator whether to retrieve all `Node` attributes, defaults to False
 
     Returns:
-        (dict)
+        (Dict[str, Any])
     """
     dag = dag.copy()
     data_dict = {}
 
     for parent_node, child_node in dag_iterator(dag):
         if parent_node.is_root:
-            data_parent = {}
+            data_parent: Dict[str, Any] = {}
             if all_attrs:
                 data_parent.update(
                     parent_node.describe(
@@ -99,7 +99,7 @@ def dag_to_dataframe(
     dag: DAGNode,
     name_col: str = "name",
     parent_col: str = "parent",
-    attr_dict: dict = {},
+    attr_dict: Dict[str, str] = {},
     all_attrs: bool = False,
 ) -> pd.DataFrame:
     """Export DAG to pandas DataFrame.
@@ -124,15 +124,15 @@ def dag_to_dataframe(
         dag (DAGNode): DAG to be exported
         name_col (str): column name for `node.node_name`, defaults to 'name'
         parent_col (str): column name for `node.parent.node_name`, defaults to 'parent'
-        attr_dict (dict): dictionary mapping node attributes to column name,
+        attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
             key: node attributes, value: corresponding column in dataframe, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes
+        all_attrs (bool): indicator whether to retrieve all `Node` attributes, defaults to False
 
     Returns:
-        (pandas.DataFrame)
+        (pd.DataFrame)
     """
     dag = dag.copy()
-    data_list = []
+    data_list: List[Dict[str, Any]] = []
 
     for parent_node, child_node in dag_iterator(dag):
         if parent_node.is_root:
@@ -163,11 +163,11 @@ def dag_to_dataframe(
 def dag_to_dot(
     dag: Union[DAGNode, List[DAGNode]],
     rankdir: str = "TB",
-    bg_colour: str = None,
-    node_colour: str = None,
-    edge_colour: str = None,
-    node_attr: str = None,
-    edge_attr: str = None,
+    bg_colour: str = "",
+    node_colour: str = "",
+    edge_colour: str = "",
+    node_attr: str = "",
+    edge_attr: str = "",
 ):
     r"""Export DAG tree or list of DAG trees to image.
     Note that node names must be unique.
@@ -194,12 +194,12 @@ def dag_to_dot(
     Args:
         dag (Union[DAGNode, List[DAGNode]]): DAG or list of DAGs to be exported
         rankdir (str): set direction of graph layout, defaults to 'TB', can be 'BT, 'LR', 'RL'
-        bg_colour (str): background color of image, defaults to None
-        node_colour (str): fill colour of nodes, defaults to None
-        edge_colour (str): colour of edges, defaults to None
-        node_attr (str): node attribute for style, overrides node_colour, defaults to None
+        bg_colour (str): background color of image, defaults to ''
+        node_colour (str): fill colour of nodes, defaults to ''
+        edge_colour (str): colour of edges, defaults to ''
+        node_attr (str): node attribute for style, overrides node_colour, defaults to ''
             Possible node attributes include {"style": "filled", "fillcolor": "gold"}
-        edge_attr (str): edge attribute for style, overrides edge_colour, defaults to None
+        edge_attr (str): edge attribute for style, overrides edge_colour, defaults to ''
             Possible edge attributes include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:

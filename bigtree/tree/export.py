@@ -1,5 +1,5 @@
 import collections
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import pandas as pd
 
@@ -32,14 +32,14 @@ available_styles = {
 def print_tree(
     tree: Node,
     node_name_or_path: str = "",
-    max_depth: int = None,
+    max_depth: int = 0,
     all_attrs: bool = False,
-    attr_list: List[str] = None,
+    attr_list: List[str] = [],
     attr_omit_null: bool = False,
     attr_bracket: List[str] = ["[", "]"],
     style: str = "const",
     custom_style: List[str] = [],
-):
+) -> None:
     """Print tree to console, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
@@ -143,8 +143,8 @@ def print_tree(
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        all_attrs (bool): indicator to show all attributes, overrides `attr_list` and `attr_omit_null`
-        attr_list (list): list of node attributes to print, optional
+        all_attrs (bool): indicator to show all attributes, defaults to False, overrides `attr_list` and `attr_omit_null`
+        attr_list (List[str]): list of node attributes to print, optional
         attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to False
         attr_bracket (List[str]): open and close bracket for `all_attrs` or `attr_list`
         style (str): style of print, defaults to abstract style
@@ -191,7 +191,7 @@ def print_tree(
 def yield_tree(
     tree: Node,
     node_name_or_path: str = "",
-    max_depth: int = None,
+    max_depth: int = 0,
     style: str = "const",
     custom_style: List[str] = [],
 ):
@@ -308,7 +308,9 @@ def yield_tree(
 
     tree = tree.copy()
     if node_name_or_path:
-        tree = find_path(tree, node_name_or_path)
+        tree = find_path(tree, node_name_or_path)  # type: ignore
+        if not tree:
+            raise ValueError(f"Node name or path {node_name_or_path} not found")
     if not tree.is_root:
         tree.parent = None
 
@@ -360,10 +362,10 @@ def tree_to_dict(
     tree: Node,
     name_key: str = "name",
     parent_key: str = "",
-    attr_dict: dict = {},
+    attr_dict: Dict[str, str] = {},
     all_attrs: bool = False,
-    max_depth: int = None,
-    skip_depth: int = None,
+    max_depth: int = 0,
+    skip_depth: int = 0,
     leaf_only: bool = False,
 ) -> Dict[str, Any]:
     """Export tree to dictionary.
@@ -390,27 +392,27 @@ def tree_to_dict(
         tree (Node): tree to be exported
         name_key (str): dictionary key for `node.node_name`, defaults to 'name'
         parent_key (str): dictionary key for `node.parent.node_name`, optional
-        attr_dict (dict): dictionary mapping node attributes to dictionary key,
+        attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes
+        all_attrs (bool): indicator whether to retrieve all `Node` attributes, defaults to False
         max_depth (int): maximum depth to export tree, optional
         skip_depth (int): number of initial depth to skip, optional
         leaf_only (bool): indicator to retrieve only information from leaf nodes
 
     Returns:
-        (dict)
+        (Dict[str, Any])
     """
     tree = tree.copy()
     data_dict = {}
 
-    def recursive_append(node):
+    def recursive_append(node: Node) -> None:
         if node:
             if (
                 (not max_depth or node.depth <= max_depth)
                 and (not skip_depth or node.depth > skip_depth)
                 and (not leaf_only or node.is_leaf)
             ):
-                data_child = {}
+                data_child: Dict[str, Any] = {}
                 if name_key:
                     data_child[name_key] = node.node_name
                 if parent_key:
@@ -441,9 +443,9 @@ def tree_to_nested_dict(
     tree: Node,
     name_key: str = "name",
     child_key: str = "children",
-    attr_dict: dict = {},
+    attr_dict: Dict[str, str] = {},
     all_attrs: bool = False,
-    max_depth: int = None,
+    max_depth: int = 0,
 ) -> Dict[str, Any]:
     """Export tree to nested dictionary.
 
@@ -464,18 +466,18 @@ def tree_to_nested_dict(
         tree (Node): tree to be exported
         name_key (str): dictionary key for `node.node_name`, defaults to 'name'
         child_key (str): dictionary key for list of children, optional
-        attr_dict (dict): dictionary mapping node attributes to dictionary key,
+        attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes
+        all_attrs (bool): indicator whether to retrieve all `Node` attributes, defaults to False
         max_depth (int): maximum depth to export tree, optional
 
     Returns:
-        (dict)
+        (Dict[str, Any])
     """
     tree = tree.copy()
-    data_dict = {}
+    data_dict: Dict[str, List[Dict[str, Any]]] = {}
 
-    def recursive_append(node, parent_dict):
+    def recursive_append(node: Node, parent_dict: Dict[str, Any]) -> None:
         if node:
             if not max_depth or node.depth <= max_depth:
                 data_child = {name_key: node.node_name}
@@ -507,10 +509,10 @@ def tree_to_dataframe(
     path_col: str = "path",
     name_col: str = "name",
     parent_col: str = "",
-    attr_dict: dict = {},
+    attr_dict: Dict[str, str] = {},
     all_attrs: bool = False,
-    max_depth: int = None,
-    skip_depth: int = None,
+    max_depth: int = 0,
+    skip_depth: int = 0,
     leaf_only: bool = False,
 ) -> pd.DataFrame:
     """Export tree to pandas DataFrame.
@@ -545,27 +547,27 @@ def tree_to_dataframe(
         path_col (str): column name for `node.path_name`, optional
         name_col (str): column name for `node.node_name`, defaults to 'name'
         parent_col (str): column name for `node.parent.node_name`, optional
-        attr_dict (dict): dictionary mapping node attributes to column name,
+        attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
             key: node attributes, value: corresponding column in dataframe, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes
+        all_attrs (bool): indicator whether to retrieve all `Node` attributes, defaults to False
         max_depth (int): maximum depth to export tree, optional
         skip_depth (int): number of initial depth to skip, optional
         leaf_only (bool): indicator to retrieve only information from leaf nodes
 
     Returns:
-        (pandas.DataFrame)
+        (pd.DataFrame)
     """
     tree = tree.copy()
     data_list = []
 
-    def recursive_append(node):
+    def recursive_append(node: Node) -> None:
         if node:
             if (
                 (not max_depth or node.depth <= max_depth)
                 and (not skip_depth or node.depth > skip_depth)
                 and (not leaf_only or node.is_leaf)
             ):
-                data_child = {}
+                data_child: Dict[str, Any] = {}
                 if path_col:
                     data_child[path_col] = node.path_name
                 if name_col:
@@ -595,12 +597,12 @@ def tree_to_dot(
     tree: Union[Node, List[Node]],
     directed: bool = True,
     rankdir: str = "TB",
-    bg_colour: str = None,
-    node_colour: str = None,
-    node_shape: str = None,
-    edge_colour: str = None,
-    node_attr: str = None,
-    edge_attr: str = None,
+    bg_colour: str = "",
+    node_colour: str = "",
+    node_shape: str = "",
+    edge_colour: str = "",
+    node_attr: str = "",
+    edge_attr: str = "",
 ):
     r"""Export tree or list of trees to image.
     Posible node attributes include style, fillcolor, shape.
@@ -716,9 +718,11 @@ def tree_to_dot(
         if not isinstance(_tree, Node):
             raise ValueError("Tree should be of type `Node`, or inherit from `Node`")
 
-        name_dict = collections.defaultdict(list)
+        name_dict: Dict[str, List[str]] = collections.defaultdict(list)
 
-        def recursive_create_node_and_edges(parent_name, child_node):
+        def recursive_create_node_and_edges(
+            parent_name: Optional[str], child_node: Node
+        ) -> None:
             _node_style = node_style.copy()
             _edge_style = edge_style.copy()
 
@@ -749,12 +753,12 @@ def tree_to_pillow(
     tree: Node,
     width: int = 0,
     height: int = 0,
-    start_pos: Tuple[float, float] = (10, 10),
+    start_pos: Tuple[int, int] = (10, 10),
     font_family: str = "assets/DejaVuSans.ttf",
     font_size: int = 12,
-    font_colour: Union[Tuple[float, float, float], str] = "black",
-    bg_colour: Union[Tuple[float, float, float], str] = "white",
-    **kwargs,
+    font_colour: Union[Tuple[int, int, int], str] = "black",
+    bg_colour: Union[Tuple[int, int, int], str] = "white",
+    **kwargs: Any,
 ):
     """Export tree to image (JPG, PNG).
     Image will be similar format as `print_tree`, accepts additional keyword arguments as input to `yield_tree`
@@ -776,11 +780,11 @@ def tree_to_pillow(
         tree (Node): tree to be exported
         width (int): width of image, optional as width of image is calculated automatically
         height (int): height of image, optional as height of image is calculated automatically
-        start_pos (Tuple[float, float]): start position of text, (x-offset, y-offset), defaults to (10, 10)
+        start_pos (Tuple[int, int]): start position of text, (x-offset, y-offset), defaults to (10, 10)
         font_family (str): file path of font family, requires .ttf file, defaults to DejaVuSans
         font_size (int): font size, defaults to 12
-        font_colour (Union[List[int], str]): font colour, accepts tuple of RGB values or string, defaults to black
-        bg_colour (Union[List[int], str]): background of image, accepts tuple of RGB values or string, defaults to white
+        font_colour (Union[Tuple[int, int, int], str]): font colour, accepts tuple of RGB values or string, defaults to black
+        bg_colour (Union[Tuple[int, int, int], str]): background of image, accepts tuple of RGB values or string, defaults to white
 
     Returns:
         (PIL.Image.Image)
@@ -801,14 +805,16 @@ def tree_to_pillow(
         image_text.append(f"{branch}{stem}{node.node_name}\n")
 
     # Calculate image dimension from text, otherwise override with argument
-    def get_list_of_text_dimensions(text_list):
+    def get_list_of_text_dimensions(
+        text_list: List[str],
+    ) -> List[Tuple[int, int, int, int]]:
         """Get list dimensions
 
         Args:
             text_list (List[str]): list of texts
 
         Returns:
-            (List[Iterable[int]]): list of (left, top, right, bottom) bounding box
+            (List[Tuple[int, int, int, int]]): list of (left, top, right, bottom) bounding box
         """
         _image = Image.new("RGB", (0, 0))
         _draw = ImageDraw.Draw(_image)
@@ -821,12 +827,12 @@ def tree_to_pillow(
     text_width = max(
         [text_dimension[2] + text_dimension[0] for text_dimension in text_dimensions]
     )
-    image_text = "".join(image_text)
+    image_text_str = "".join(image_text)
     width = max(width, text_width + 2 * start_pos[0])
     height = max(height, text_height + 2 * start_pos[1])
 
     # Initialize and draw image
     image = Image.new("RGB", (width, height), bg_colour)
     image_draw = ImageDraw.Draw(image)
-    image_draw.text(start_pos, image_text, font=font, fill=font_colour)
+    image_draw.text(start_pos, image_text_str, font=font, fill=font_colour)
     return image
