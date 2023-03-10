@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import json
 import logging
-from typing import List, Union
+from typing import Any, List, Union
 
 from bigtree.node.node import Node
 from bigtree.tree.construct import dict_to_tree
@@ -92,7 +94,7 @@ class AppToDo:
         """
         self._root = Node(app_name)
 
-    def add_list(self, list_name: str, **kwargs) -> Node:
+    def add_list(self, list_name: str, **kwargs: Any) -> Node:
         """Add list to app
 
         If list is present, return list node, else a new list will be created
@@ -109,7 +111,7 @@ class AppToDo:
             logging.info(f"Created list {list_name}")
         return list_node
 
-    def prioritize_list(self, list_name: str):
+    def prioritize_list(self, list_name: str) -> None:
         """Prioritize list in app, shift it to be the first list
 
         Args:
@@ -121,9 +123,11 @@ class AppToDo:
         current_children = list(self._root.children)
         current_children.remove(list_node)
         current_children.insert(0, list_node)
-        self._root.children = current_children
+        self._root.children = current_children  # type: ignore
 
-    def add_item(self, item_name: Union[str, List[str]], list_name: str = "", **kwargs):
+    def add_item(
+        self, item_name: Union[str, List[str]], list_name: str = "", **kwargs: Any
+    ) -> None:
         """Add items to list
 
         Args:
@@ -148,7 +152,9 @@ class AppToDo:
                 _ = Node(_item, parent=list_node, **kwargs)
             logging.info(f"Created items {', '.join(item_name)}")
 
-    def remove_item(self, item_name: Union[str, List[str]], list_name: str = ""):
+    def remove_item(
+        self, item_name: Union[str, List[str]], list_name: str = ""
+    ) -> None:
         """Remove items from list
 
         Args:
@@ -160,32 +166,51 @@ class AppToDo:
 
         # Check if items can be found
         items_to_remove = []
-        parent_to_check = set()
+        parent_to_check: set[Node] = set()
         if list_name:
             list_node = find_children(self._root, list_name)
+            if not list_node:
+                raise ValueError(f"List {list_name} does not exist!")
             if isinstance(item_name, str):
                 item_node = find_children(list_node, item_name)
+                if not item_node:
+                    raise ValueError(f"Item {item_name} does not exist!")
+                assert isinstance(item_node.parent, Node)  # for mypy type checking
                 items_to_remove.append(item_node)
                 parent_to_check.add(item_node.parent)
             elif isinstance(item_name, list):
                 for _item in item_name:
                     item_node = find_children(list_node, _item)
+                    if not item_node:
+                        raise ValueError(f"Item {_item} does not exist!")
+                    assert isinstance(item_node.parent, Node)  # for mypy type checking
                     items_to_remove.append(item_node)
                     parent_to_check.add(item_node.parent)
         else:
             if isinstance(item_name, str):
                 item_node = find_name(self._root, item_name)
+
+                if not item_node:
+                    raise ValueError(f"Item {item_name} does not exist!")
+                assert isinstance(item_node.parent, Node)  # for mypy type checking
                 items_to_remove.append(item_node)
                 parent_to_check.add(item_node.parent)
             elif isinstance(item_name, list):
                 for _item in item_name:
                     item_node = find_name(self._root, _item)
+                    if not item_node:
+                        raise ValueError(f"Item {_item} does not exist!")
+                    assert isinstance(item_node.parent, Node)  # for mypy type checking
                     items_to_remove.append(item_node)
                     parent_to_check.add(item_node.parent)
 
         # Remove items
-        for item_node in items_to_remove:
-            item_node.parent = None
+        for item_to_remove in items_to_remove:
+            if item_to_remove.depth != 3:
+                raise ValueError(
+                    f"Check item to remove {item_to_remove} is an item at item-level"
+                )
+            item_to_remove.parent = None
         logging.info(
             f"Removed items {', '.join(item.node_name for item in items_to_remove)}"
         )
@@ -196,7 +221,7 @@ class AppToDo:
                 list_node.parent = None
                 logging.info(f"Removed list {list_node.node_name}")
 
-    def prioritize_item(self, item_name: str):
+    def prioritize_item(self, item_name: str) -> None:
         """Prioritize item in list, shift it to be the first item in list
 
         Args:
@@ -204,19 +229,22 @@ class AppToDo:
         """
         item_node = find_name(self._root, item_name)
         if not item_node:
-            raise ValueError(f"Item {item_node} not found")
+            raise ValueError(f"Item {item_name} not found")
+        if item_node.depth != 3:
+            raise ValueError(f"{item_name} is not an item")
+        assert isinstance(item_node.parent, Node)  # for mypy type checking
         current_parent = item_node.parent
         current_children = list(current_parent.children)
         current_children.remove(item_node)
         current_children.insert(0, item_node)
-        current_parent.children = current_children
+        current_parent.children = current_children  # type: ignore
 
-    def show(self, **kwargs):
+    def show(self, **kwargs: Any) -> None:
         """Print tree to console"""
         print_tree(self._root, all_attrs=True, **kwargs)
 
     @staticmethod
-    def load(json_path: str):
+    def load(json_path: str) -> AppToDo:
         """Load To-Do app from json
 
         Args:
@@ -234,7 +262,7 @@ class AppToDo:
         AppToDo.__setattr__(_app, "_root", dict_to_tree(app_dict["root"]))
         return _app
 
-    def save(self, json_path: str):
+    def save(self, json_path: str) -> None:
         """Save To-Do app as json
 
         Args:

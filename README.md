@@ -133,10 +133,10 @@ print_tree(root, attr_list=["age"])
 # └── c [age=60]
 
 graph = tree_to_dot(root, node_colour="gold")
-graph.write_png("assets/tree.png")
+graph.write_png("assets/demo_tree.png")
 ```
 
-![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/tree.png)
+![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_tree.png)
 
 ```python
 from bigtree import Node, print_tree

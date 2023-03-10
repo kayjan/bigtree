@@ -642,8 +642,10 @@ class TestDAGNode(unittest.TestCase):
         self.d >> self.e
 
         for node in self.nodes:
-            actual_path = [_node.name for _node in node.go_to(node)]
-            expected_path = [node.name]
+            actual_path = [
+                [_node2.name for _node2 in _node] for _node in node.go_to(node)
+            ]
+            expected_path = [[node.name]]
             assert (
                 actual_path == expected_path
             ), f"Wrong path for {node}, expected {expected_path}, received {actual_path}"

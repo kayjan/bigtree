@@ -26,7 +26,7 @@ def shift_nodes(
     merge_children: bool = False,
     merge_leaves: bool = False,
     delete_children: bool = False,
-):
+) -> None:
     """Shift nodes from `from_paths` to `to_paths` *in-place*.
 
     - Creates intermediate nodes if to path is not present
@@ -225,8 +225,8 @@ def shift_nodes(
 
     Args:
         tree (Node): tree to modify
-        from_paths (list): original paths to shift nodes from
-        to_paths (list): new paths to shift nodes to
+        from_paths (List[str]): original paths to shift nodes from
+        to_paths (List[str]): new paths to shift nodes to
         sep (str): path separator for input paths, applies to `from_path` and `to_path`
         skippable (bool): indicator to skip if from path is not found, defaults to False
         overriding (bool): indicator to override existing to path if there is clashes, defaults to False
@@ -259,7 +259,7 @@ def copy_nodes(
     merge_children: bool = False,
     merge_leaves: bool = False,
     delete_children: bool = False,
-):
+) -> None:
     """Copy nodes from `from_paths` to `to_paths` *in-place*.
 
     - Creates intermediate nodes if to path is not present
@@ -452,8 +452,8 @@ def copy_nodes(
 
     Args:
         tree (Node): tree to modify
-        from_paths (list): original paths to shift nodes from
-        to_paths (list): new paths to shift nodes to
+        from_paths (List[str]): original paths to shift nodes from
+        to_paths (List[str]): new paths to shift nodes to
         sep (str): path separator for input paths, applies to `from_path` and `to_path`
         skippable (bool): indicator to skip if from path is not found, defaults to False
         overriding (bool): indicator to override existing to path if there is clashes, defaults to False
@@ -487,7 +487,7 @@ def copy_nodes_from_tree_to_tree(
     merge_children: bool = False,
     merge_leaves: bool = False,
     delete_children: bool = False,
-):
+) -> None:
     """Copy nodes from `from_paths` to `to_paths` *in-place*.
 
     - Creates intermediate nodes if to path is not present
@@ -612,8 +612,8 @@ def copy_nodes_from_tree_to_tree(
     Args:
         from_tree (Node): tree to copy nodes from
         to_tree (Node): tree to copy nodes to
-        from_paths (list): original paths to shift nodes from
-        to_paths (list): new paths to shift nodes to
+        from_paths (List[str]): original paths to shift nodes from
+        to_paths (List[str]): new paths to shift nodes to
         sep (str): path separator for input paths, applies to `from_path` and `to_path`
         skippable (bool): indicator to skip if from path is not found, defaults to False
         overriding (bool): indicator to override existing to path if there is clashes, defaults to False
@@ -648,7 +648,7 @@ def copy_or_shift_logic(
     merge_leaves: bool = False,
     delete_children: bool = False,
     to_tree: Optional[Node] = None,
-):
+) -> None:
     """Shift or copy nodes from `from_paths` to `to_paths` *in-place*.
 
     - Creates intermediate nodes if to path is not present
@@ -681,8 +681,8 @@ def copy_or_shift_logic(
 
     Args:
         tree (Node): tree to modify
-        from_paths (list): original paths to shift nodes from
-        to_paths (list): new paths to shift nodes to
+        from_paths (List[str]): original paths to shift nodes from
+        to_paths (List[str]): new paths to shift nodes to
         sep (str): path separator for input paths, applies to `from_path` and `to_path`
         copy (bool): indicator to copy node, defaults to False
         skippable (bool): indicator to skip if from path is not found, defaults to False
@@ -744,7 +744,7 @@ def copy_or_shift_logic(
             else:
                 to_path = to_path.replace(sep, tree_sep)
                 if transfer_indicator:
-                    to_node = find_path(to_tree, to_path)
+                    to_node = find_path(to_tree, to_path)  # type: ignore
                 else:
                     to_node = find_path(tree, to_path)
 
@@ -809,7 +809,7 @@ def copy_or_shift_logic(
                     idx = 1
                     to_path_parent = tree_sep.join(to_path_list[:-idx])
                     if transfer_indicator:
-                        to_node = find_path(to_tree, to_path_parent)
+                        to_node = find_path(to_tree, to_path_parent)  # type: ignore
                     else:
                         to_node = find_path(tree, to_path_parent)
 
@@ -818,7 +818,7 @@ def copy_or_shift_logic(
                         idx += 1
                         to_path_parent = sep.join(to_path_list[:-idx])
                         if transfer_indicator:
-                            to_node = find_path(to_tree, to_path_parent)
+                            to_node = find_path(to_tree, to_path_parent)  # type: ignore
                         else:
                             to_node = find_path(tree, to_path_parent)
                     if not to_node:
@@ -837,7 +837,7 @@ def copy_or_shift_logic(
                 from_node = from_node.copy()
             if merge_children:
                 logging.debug(
-                    f"Reassigning children from {from_node.node_name} to {to_node.node_name}"
+                    f"Reassigning children from {from_node.node_name} to {to_node.node_name}"  # type: ignore
                 )
                 for children in from_node.children:
                     if delete_children:
@@ -846,7 +846,7 @@ def copy_or_shift_logic(
                 from_node.parent = None
             elif merge_leaves:
                 logging.debug(
-                    f"Reassigning leaf nodes from {from_node.node_name} to {to_node.node_name}"
+                    f"Reassigning leaf nodes from {from_node.node_name} to {to_node.node_name}"  # type: ignore
                 )
                 for children in from_node.leaves:
                     children.parent = to_node

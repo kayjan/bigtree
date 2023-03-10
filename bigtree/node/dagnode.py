@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import copy
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, Iterable, List, Optional, Tuple, TypeVar
 
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
@@ -91,19 +93,23 @@ class DAGNode:
     1. ``describe()``: Get node information sorted by attributes, returns list of tuples
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
-    4. ``go_to(node: BaseNode)``: Get a path from own node to another node from same DAG
-    5. ``copy()``: Deep copy DAGNode
+    4. ``go_to(node: Self)``: Get a path from own node to another node from same DAG
+    5. ``copy()``: Deep copy self
 
     ----
 
     """
 
     def __init__(
-        self, name: str = "", parents: List = None, children: List = None, **kwargs
+        self,
+        name: str = "",
+        parents: Optional[List[T]] = None,
+        children: Optional[List[T]] = None,
+        **kwargs: Any,
     ):
         self.name = name
-        self.__parents = []
-        self.__children = []
+        self.__parents: List[T] = []
+        self.__children: List[T] = []
         if parents is None:
             parents = []
         if children is None:
@@ -124,7 +130,7 @@ class DAGNode:
         )
 
     @parent.setter
-    def parent(self, new_parent):
+    def parent(self, new_parent: T) -> None:
         """Do not allow `parent` attribute to be set
 
         Args:
@@ -132,17 +138,8 @@ class DAGNode:
         """
         raise ValueError("Attempting to set `parent` attribute, do you mean `parents`?")
 
-    @property
-    def parents(self) -> Iterable:
-        """Get parent nodes
-
-        Returns:
-            (Iterable[Self])
-        """
-        return tuple(self.__parents)
-
     @staticmethod
-    def __check_parent_type(new_parents: List):
+    def __check_parent_type(new_parents: List[T]) -> None:
         """Check parent type
 
         Args:
@@ -153,7 +150,7 @@ class DAGNode:
                 f"Parents input should be list type, received input type {type(new_parents)}"
             )
 
-    def __check_parent_loop(self, new_parents: List):
+    def __check_parent_loop(self: T, new_parents: List[T]) -> None:
         """Check parent type
 
         Args:
@@ -184,8 +181,17 @@ class DAGNode:
             else:
                 seen_parent.append(id(new_parent))
 
+    @property
+    def parents(self: T) -> Iterable[T]:
+        """Get parent nodes
+
+        Returns:
+            (Iterable[Self])
+        """
+        return tuple(self.__parents)
+
     @parents.setter
-    def parents(self, new_parents: List):
+    def parents(self: T, new_parents: List[T]) -> None:
         """Set parent node
 
         Args:
@@ -216,34 +222,25 @@ class DAGNode:
                 f"{exc_info}, current parents {current_parents}, new parents {new_parents}"
             )
 
-    def __pre_assign_parents(self, new_parents: List):
+    def __pre_assign_parents(self: T, new_parents: List[T]) -> None:
         """Custom method to check before attaching parent
         Can be overriden with `_DAGNode__pre_assign_parent()`
 
         Args:
-            new_parents (List): new parents to be added
+            new_parents (List[Self]): new parents to be added
         """
         pass
 
-    def __post_assign_parents(self, new_parents: List):
+    def __post_assign_parents(self: T, new_parents: List[T]) -> None:
         """Custom method to check after attaching parent
         Can be overriden with `_DAGNode__post_assign_parent()`
 
         Args:
-            new_parents (List): new parents to be added
+            new_parents (List[Self]): new parents to be added
         """
         pass
 
-    @property
-    def children(self) -> Iterable:
-        """Get child nodes
-
-        Returns:
-            (Iterable[Self])
-        """
-        return tuple(self.__children)
-
-    def __check_children_type(self, new_children: List):
+    def __check_children_type(self: T, new_children: List[T]) -> None:
         """Check child type
 
         Args:
@@ -254,7 +251,7 @@ class DAGNode:
                 f"Children input should be list type, received input type {type(new_children)}"
             )
 
-    def __check_children_loop(self, new_children: List):
+    def __check_children_loop(self: T, new_children: List[T]) -> None:
         """Check child loop
 
         Args:
@@ -284,8 +281,17 @@ class DAGNode:
             else:
                 seen_children.append(id(new_child))
 
+    @property
+    def children(self: T) -> Iterable[T]:
+        """Get child nodes
+
+        Returns:
+            (Iterable[Self])
+        """
+        return tuple(self.__children)
+
     @children.setter
-    def children(self, new_children: List):
+    def children(self: T, new_children: List[T]) -> None:
         """Set child nodes
 
         Args:
@@ -313,7 +319,7 @@ class DAGNode:
                     self.__children.remove(new_child)
             raise TreeError(exc_info)
 
-    def __pre_assign_children(self, new_children: List):
+    def __pre_assign_children(self: T, new_children: List[T]) -> None:
         """Custom method to check before attaching children
         Can be overriden with `_DAGNode__pre_assign_children()`
 
@@ -322,7 +328,7 @@ class DAGNode:
         """
         pass
 
-    def __post_assign_children(self, new_children: List):
+    def __post_assign_children(self: T, new_children: List[T]) -> None:
         """Custom method to check after attaching children
         Can be overriden with `_DAGNode__post_assign_children()`
 
@@ -332,7 +338,7 @@ class DAGNode:
         pass
 
     @property
-    def ancestors(self) -> Iterable:
+    def ancestors(self: T) -> Iterable[T]:
         """Get iterator to yield all ancestors of self, does not include self
 
         Returns:
@@ -341,7 +347,7 @@ class DAGNode:
         if not len(list(self.parents)):
             return ()
 
-        def recursive_parent(node):
+        def recursive_parent(node: T) -> Iterable[T]:
             for _node in node.parents:
                 yield from recursive_parent(_node)
                 yield _node
@@ -350,19 +356,17 @@ class DAGNode:
         return list(dict.fromkeys(ancestors))
 
     @property
-    def descendants(self) -> Iterable:
+    def descendants(self: T) -> Iterable[T]:
         """Get iterator to yield all descendants of self, does not include self
 
         Returns:
             (Iterable[Self])
         """
-        descendants = list(
-            preorder_iter(self, filter_condition=lambda _node: _node != self)
-        )
-        return list(dict.fromkeys(descendants))
+        descendants = preorder_iter(self, filter_condition=lambda _node: _node != self)
+        return list(dict.fromkeys(descendants))  # type: ignore
 
     @property
-    def siblings(self) -> Iterable:
+    def siblings(self: T) -> Iterable[T]:
         """Get siblings of self
 
         Returns:
@@ -405,7 +409,7 @@ class DAGNode:
         return not len(list(self.children))
 
     @classmethod
-    def from_dict(cls, input_dict: Dict[str, Any]):
+    def from_dict(cls, input_dict: Dict[str, Any]) -> DAGNode:
         """Construct node from dictionary, all keys of dictionary will be stored as class attributes
         Input dictionary must have key `name` if not `Node` will not have any name
 
@@ -416,11 +420,13 @@ class DAGNode:
             input_dict (Dict[str, Any]): dictionary with node information, key: attribute name, value: attribute value
 
         Returns:
-            (Self)
+            (DAGNode)
         """
         return cls(**input_dict)
 
-    def describe(self, exclude_attributes: List[str] = [], exclude_prefix: str = ""):
+    def describe(
+        self, exclude_attributes: List[str] = [], exclude_prefix: str = ""
+    ) -> List[Tuple[str, Any]]:
         """Get node information sorted by attribute name, returns list of tuples
 
         Args:
@@ -428,7 +434,7 @@ class DAGNode:
             exclude_prefix (str): prefix of attributes to exclude
 
         Returns:
-            (List[str])
+            (List[Tuple[str, Any]])
         """
         return [
             item
@@ -452,7 +458,7 @@ class DAGNode:
         except AttributeError:
             return None
 
-    def set_attrs(self, attrs: Dict[str, Any]):
+    def set_attrs(self, attrs: Dict[str, Any]) -> None:
         """Set node attributes
 
         >>> from bigtree.node.dagnode import DAGNode
@@ -467,7 +473,7 @@ class DAGNode:
         """
         self.__dict__.update(attrs)
 
-    def go_to(self, node) -> Iterable[Iterable]:
+    def go_to(self: T, node: T) -> List[List[T]]:
         """Get list of possible paths from current node to specified node from same tree
 
         >>> from bigtree import DAGNode
@@ -492,33 +498,34 @@ class DAGNode:
             node (Self): node to travel to from current node, inclusive of start and end node
 
         Returns:
-            (Iterable[Iterable])
+            (List[List[Self]])
         """
         if not isinstance(node, DAGNode):
             raise TypeError(
                 f"Expect node to be DAGNode type, received input type {type(node)}"
             )
         if self == node:
-            return [self]
+            return [[self]]
         if node not in self.descendants:
             raise TreeError(f"It is not possible to go to {node}")
 
-        self.__path = []
+        self.__path: List[List[T]] = []
 
-        def recursive_path(_node, _path, _ans):
+        def recursive_path(_node: T, _path: List[T]) -> Optional[List[T]]:
             if _node:  # pragma: no cover
                 _path.append(_node)
                 if _node == node:
                     return _path
                 for _child in _node.children:
-                    ans = recursive_path(_child, _path.copy(), _ans)
+                    ans = recursive_path(_child, _path.copy())
                     if ans:
                         self.__path.append(ans)
+            return None
 
-        recursive_path(self, [], [])
+        recursive_path(self, [])
         return self.__path
 
-    def copy(self):
+    def copy(self: T) -> T:
         """Deep copy self; clone DAGNode
 
         >>> from bigtree.node.dagnode import DAGNode
@@ -530,7 +537,7 @@ class DAGNode:
         """
         return copy.deepcopy(self)
 
-    def __copy__(self):
+    def __copy__(self: T) -> T:
         """Shallow copy self
 
         >>> import copy
@@ -545,7 +552,20 @@ class DAGNode:
         obj.__dict__.update(self.__dict__)
         return obj
 
-    def __rshift__(self, other):
+    def __repr__(self) -> str:
+        """Print format of DAGNode
+
+        Returns:
+            (str)
+        """
+        class_name = self.__class__.__name__
+        node_dict = self.describe(exclude_attributes=["name"])
+        node_description = ", ".join(
+            [f"{k}={v}" for k, v in node_dict if not k.startswith("_")]
+        )
+        return f"{class_name}({self.node_name}, {node_description})"
+
+    def __rshift__(self: T, other: T) -> None:
         """Set children using >> bitshift operator for self >> other
 
         Args:
@@ -553,7 +573,7 @@ class DAGNode:
         """
         other.parents = [self]
 
-    def __lshift__(self, other):
+    def __lshift__(self: T, other: T) -> None:
         """Set parent using << bitshift operator for self << other
 
         Args:
@@ -561,10 +581,5 @@ class DAGNode:
         """
         self.parents = [other]
 
-    def __repr__(self):
-        class_name = self.__class__.__name__
-        node_dict = self.describe(exclude_attributes=["name"])
-        node_description = ", ".join(
-            [f"{k}={v}" for k, v in node_dict if not k.startswith("_")]
-        )
-        return f"{class_name}({self.node_name}, {node_description})"
+
+T = TypeVar("T", bound=DAGNode)

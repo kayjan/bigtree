@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2023-03-10
+### Added
+- Type Checking: Type checking with `mypy`, added type checks to pre-commit hooks.
+### Changed
+- DAGNode: `go_to` method to be consistent with `List[List[DAGNode]]` type.
+### Fixed
+- Tree Export: Exception handling in `yield_tree` if `node_name_or_path` is not found.
+- Workflow: Exception handling in prioritizing item/list if item/list is not the correct tree depth.
+- Workflow: Exception handling in removing item/list if item/list is not found.
+
 ## [0.7.4] - 2023-02-27
 ### Fixed
 - Tree Construct: Fixed pandas SettingwithCopyWarning when performing dataframe operations.
@@ -203,6 +213,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.8.0]: https://github.com/kayjan/bigtree/compare/v0.7.4...v0.8.0
 [0.7.4]: https://github.com/kayjan/bigtree/compare/v0.7.3...v0.7.4
 [0.7.3]: https://github.com/kayjan/bigtree/compare/v0.7.2...v0.7.3
 [0.7.2]: https://github.com/kayjan/bigtree/compare/v0.7.1...v0.7.2

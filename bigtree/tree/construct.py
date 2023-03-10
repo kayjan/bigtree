@@ -1,6 +1,6 @@
 import re
 from collections import OrderedDict
-from typing import List, Tuple, Type
+from typing import Any, Dict, List, Optional, Tuple, Type
 
 import numpy as np
 import pandas as pd
@@ -31,7 +31,7 @@ def add_path_to_tree(
     path: str,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_attrs: dict = {},
+    node_attrs: Dict[str, Any] = {},
 ) -> Node:
     """Add nodes and attributes to existing tree *in-place*, return node of added path.
     Adds to existing tree from list of path strings.
@@ -60,7 +60,7 @@ def add_path_to_tree(
         path (str): path to be added to tree
         sep (str): path separator for input `path`
         duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
-        node_attrs (dict): attributes to add to node, key: attribute name, value: attribute value, optional
+        node_attrs (Dict[str, Any]): attributes to add to node, key: attribute name, value: attribute value, optional
 
     Returns:
         (Node)
@@ -85,14 +85,14 @@ def add_path_to_tree(
         node_name = branch[idx]
         node_path = tree_sep.join(branch[: idx + 1])
         if not duplicate_name_allowed:
-            node = find_name(tree_root, node_name)
+            node = find_name(tree_root, node_name)  # type: ignore
             if node and not node.path_name.endswith(node_path):
                 raise DuplicatedNodeError(
                     f"Node {node_name} already exists, try setting `duplicate_name_allowed` to True "
                     f"to allow `Node` with same node name"
                 )
         else:
-            node = find_children(parent_node, node_name)
+            node = find_children(parent_node, node_name)  # type: ignore
         if not node:
             node = node_type(branch[idx])
             node.parent = parent_node
@@ -103,7 +103,7 @@ def add_path_to_tree(
 
 def add_dict_to_tree_by_path(
     tree: Node,
-    path_attrs: dict,
+    path_attrs: Dict[str, Dict[str, Any]],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
 ) -> Node:
@@ -145,7 +145,7 @@ def add_dict_to_tree_by_path(
 
     Args:
         tree (Node): existing tree
-        path_attrs (dict): dictionary containing node path and attribute information,
+        path_attrs (Dict[str, Dict[str, Any]]): dictionary containing node path and attribute information,
             key: node path, value: dict of node attribute name and attribute value
         sep (str): path separator for input `path_attrs`
         duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
@@ -170,7 +170,7 @@ def add_dict_to_tree_by_path(
 
 
 def add_dict_to_tree_by_name(
-    tree: Node, path_attrs: dict, join_type: str = "left"
+    tree: Node, path_attrs: Dict[str, Dict[str, Any]], join_type: str = "left"
 ) -> Node:
     """Add attributes to tree, return *new* root of tree.
     Adds to existing tree from nested dictionary, ``key``: name, ``value``: dict of attribute name and attribute value.
@@ -193,7 +193,7 @@ def add_dict_to_tree_by_name(
 
     Args:
         tree (Node): existing tree
-        path_attrs (dict): dictionary containing node name and attribute information,
+        path_attrs (Dict[str, Dict[str, Any]]): dictionary containing node name and attribute information,
             key: node name, value: dict of node attribute name and attribute value
         join_type (str): join type with attribute, default of 'left' takes existing tree nodes,
             if join_type is set to 'inner' it will only take tree nodes that are in `path_attrs` key and drop others
@@ -216,7 +216,7 @@ def add_dataframe_to_tree_by_path(
     tree: Node,
     data: pd.DataFrame,
     path_col: str = "",
-    attribute_cols: list = [],
+    attribute_cols: List[str] = [],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
 ) -> Node:
@@ -263,10 +263,10 @@ def add_dataframe_to_tree_by_path(
 
     Args:
         tree (Node): existing tree
-        data (pandas.DataFrame): data containing node path and attribute information
+        data (pd.DataFrame): data containing node path and attribute information
         path_col (str): column of data containing `path_name` information,
             if not set, it will take the first column of data
-        attribute_cols (list): columns of data containing node attribute information,
+        attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `path_col`
         sep (str): path separator for input `path_col`
         duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
@@ -321,9 +321,9 @@ def add_dataframe_to_tree_by_name(
     tree: Node,
     data: pd.DataFrame,
     name_col: str = "",
-    attribute_cols: list = [],
+    attribute_cols: List[str] = [],
     join_type: str = "left",
-):
+) -> Node:
     """Add attributes to tree, return *new* root of tree.
 
     `name_col` and `attribute_cols` specify columns for node name and attributes to add to existing tree.
@@ -350,10 +350,10 @@ def add_dataframe_to_tree_by_name(
 
     Args:
         tree (Node): existing tree
-        data (pandas.DataFrame): data containing node name and attribute information
+        data (pd.DataFrame): data containing node name and attribute information
         name_col (str): column of data containing `name` information,
             if not set, it will take the first column of data
-        attribute_cols (list): column(s) of data containing node attribute information,
+        attribute_cols (List[str]): column(s) of data containing node attribute information,
             if not set, it will take all columns of data except path_col
         join_type (str): join type with attribute, default of 'left' takes existing tree nodes,
             if join_type is set to 'inner' it will only take tree nodes with attributes and drop the other nodes
@@ -434,7 +434,7 @@ def str_to_tree(
 
     Args:
         tree_string (str): String to construct tree
-        tree_prefix_list (list): List of prefix to mark the end of tree branch/stem and start of node name, optional.
+        tree_prefix_list (List[str]): List of prefix to mark the end of tree branch/stem and start of node name, optional.
             If not specified, it will infer unicode characters and whitespace as prefix.
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
@@ -470,7 +470,7 @@ def str_to_tree(
                 f"Tree string have different prefix length, check branch: {node_str}"
             )
         while cur_parent.depth > node_prefix_length / prefix_length:
-            cur_parent = cur_parent.parent
+            cur_parent = cur_parent.parent  # type: ignore
 
         # Link node
         child_node = node_type(node_name)
@@ -481,7 +481,7 @@ def str_to_tree(
 
 
 def list_to_tree(
-    paths: list,
+    paths: List[str],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_type: Type[Node] = Node,
@@ -511,7 +511,7 @@ def list_to_tree(
         └── f
 
     Args:
-        paths (list): list containing path strings
+        paths (List[str]): list containing path strings
         sep (str): path separator for input `paths` and created tree, defaults to `/`
         duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
         node_type (Type[Node]): node type of tree to be created, defaults to Node
@@ -561,7 +561,7 @@ def list_to_tree_by_relation(
         └── f
 
     Args:
-        relations (list): list containing tuple containing parent-child names
+        relations (List[Tuple[str, str]]): list containing tuple containing parent-child names
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -577,7 +577,7 @@ def list_to_tree_by_relation(
 
 
 def dict_to_tree(
-    path_attrs: dict,
+    path_attrs: Dict[str, Any],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_type: Type[Node] = Node,
@@ -617,7 +617,7 @@ def dict_to_tree(
         └── f [age=38]
 
     Args:
-        path_attrs (dict): dictionary containing path and node attribute information,
+        path_attrs (Dict[str, Any]): dictionary containing path and node attribute information,
             key: path, value: dict of tree attribute and attribute value
         sep (str): path separator of input `path_attrs` and created tree, defaults to `/`
         duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
@@ -640,7 +640,7 @@ def dict_to_tree(
 
 
 def nested_dict_to_tree(
-    node_attrs: dict,
+    node_attrs: Dict[str, Any],
     name_key: str = "name",
     child_key: str = "children",
     node_type: Type[Node] = Node,
@@ -648,7 +648,7 @@ def nested_dict_to_tree(
     """Construct tree from nested recursive dictionary.
       - ``key``: `name_key`, `child_key`, or any attributes key.
       - ``value`` of `name_key` (str): node name.
-      - ``value`` of `child_key` (list): list of dict containing `name_key` and `child_key` (recursive).
+      - ``value`` of `child_key` (List[Dict[str, Any]]): list of dict containing `name_key` and `child_key` (recursive).
 
     >>> from bigtree import nested_dict_to_tree, print_tree
     >>> path_dict = {
@@ -674,10 +674,10 @@ def nested_dict_to_tree(
             └── g [age=10]
 
     Args:
-        node_attrs (dict): dictionary containing node, children, and node attribute information,
+        node_attrs (Dict[str, Any]): dictionary containing node, children, and node attribute information,
             key: `name_key` and `child_key`
             value of `name_key` (str): node name
-            value of `child_key` (list): list of dict containing `name_key` and `child_key` (recursive)
+            value of `child_key` (List[Dict[str, Any]]): list of dict containing `name_key` and `child_key` (recursive)
         name_key (str): key of node name, value is type str
         child_key (str): key of child list, value is type list
         node_type (Type[Node]): node type of tree to be created, defaults to Node
@@ -686,7 +686,9 @@ def nested_dict_to_tree(
         (Node)
     """
 
-    def recursive_add_child(child_dict, parent_node=None):
+    def recursive_add_child(
+        child_dict: Dict[str, Any], parent_node: Optional[Node] = None
+    ) -> Node:
         child_dict = child_dict.copy()
         node_name = child_dict.pop(name_key)
         node_children = child_dict.pop(child_key, [])
@@ -702,7 +704,7 @@ def nested_dict_to_tree(
 def dataframe_to_tree(
     data: pd.DataFrame,
     path_col: str = "",
-    attribute_cols: list = [],
+    attribute_cols: List[str] = [],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_type: Type[Node] = Node,
@@ -747,10 +749,10 @@ def dataframe_to_tree(
         └── f [age=38]
 
     Args:
-        data (pandas.DataFrame): data containing path and node attribute information
+        data (pd.DataFrame): data containing path and node attribute information
         path_col (str): column of data containing `path_name` information,
             if not set, it will take the first column of data
-        attribute_cols (list): columns of data containing node attribute information,
+        attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `path_col`
         sep (str): path separator of input `path_col` and created tree, defaults to `/`
         duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
@@ -803,7 +805,7 @@ def dataframe_to_tree_by_relation(
     data: pd.DataFrame,
     child_col: str = "",
     parent_col: str = "",
-    attribute_cols: list = [],
+    attribute_cols: List[str] = [],
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from pandas DataFrame using parent and child names, return root of tree.
@@ -842,12 +844,12 @@ def dataframe_to_tree_by_relation(
         └── f [age=38]
 
     Args:
-        data (pandas.DataFrame): data containing path and node attribute information
+        data (pd.DataFrame): data containing path and node attribute information
         child_col (str): column of data containing child name information, defaults to None
             if not set, it will take the first column of data
         parent_col (str): column of data containing parent name information, defaults to None
             if not set, it will take the second column of data
-        attribute_cols (list): columns of data containing node attribute information,
+        attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `child_col` and `parent_col`
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
@@ -898,15 +900,15 @@ def dataframe_to_tree_by_relation(
     root_name = root_names[0]
     root_node = node_type(root_name)
 
-    def retrieve_attr(row):
-        node_attrs = row.copy()
+    def retrieve_attr(_row: Dict[str, Any]) -> Dict[str, Any]:
+        node_attrs = _row.copy()
         node_attrs["name"] = node_attrs[child_col]
         del node_attrs[child_col]
         del node_attrs[parent_col]
         _node_attrs = {k: v for k, v in node_attrs.items() if not np.all(pd.isnull(v))}
         return _node_attrs
 
-    def recursive_create_child(parent_node):
+    def recursive_create_child(parent_node: Node) -> None:
         child_rows = data[data[parent_col] == parent_node.node_name]
 
         for row in child_rows.to_dict(orient="index").values():

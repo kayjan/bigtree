@@ -81,6 +81,13 @@ class TestAppToDo(unittest.TestCase):
             "List 1",
         ], "Prioritizing did not work"
 
+    def test_prioritize_list_error_item(self):
+        self.todoapp.add_item("Item 1", "List 1")
+        self.todoapp.add_item("Item 2", "List 1")
+        with pytest.raises(ValueError) as exc_info:
+            self.todoapp.prioritize_list("Item 2")
+        assert str(exc_info.value) == "List Item 2 not found"
+
     def test_prioritize_list_error(self):
         self.todoapp.add_list("List 1")
         self.todoapp.add_list("List 2")
@@ -183,6 +190,22 @@ class TestAppToDo(unittest.TestCase):
             n_descendants == expected_n_descendants
         ), f"Expected number of descendants to be {expected_n_descendants}, received {n_children}"
 
+    def test_remove_item_single_error(self):
+        with pytest.raises(ValueError) as exc_info:
+            self.todoapp.remove_item("Item 1")
+        assert str(exc_info.value) == "Item Item 1 does not exist!"
+
+    def test_remove_item_single_error_list(self):
+        with pytest.raises(ValueError) as exc_info:
+            self.todoapp.remove_item("Item 1", "General")
+        assert str(exc_info.value) == "List General does not exist!"
+
+    def test_remove_item_single_error_in_list(self):
+        self.todoapp.add_item("Item 1")
+        with pytest.raises(ValueError) as exc_info:
+            self.todoapp.remove_item("Item 2", "General")
+        assert str(exc_info.value) == "Item Item 2 does not exist!"
+
     def test_remove_item_single_list(self):
         self.todoapp.add_item("Item 1")
         self.todoapp.remove_item(["Item 1"], "General")
@@ -201,6 +224,17 @@ class TestAppToDo(unittest.TestCase):
         assert (
             n_descendants == expected_n_descendants
         ), f"Expected number of descendants to be {expected_n_descendants}, received {n_children}"
+
+    def test_remove_item_single_list_error(self):
+        with pytest.raises(ValueError) as exc_info:
+            self.todoapp.remove_item(["Item 1"])
+        assert str(exc_info.value) == "Item Item 1 does not exist!"
+
+    def test_remove_item_single_list_error_in_list(self):
+        self.todoapp.add_item("Item 1")
+        with pytest.raises(ValueError) as exc_info:
+            self.todoapp.remove_item(["Item 2"], "General")
+        assert str(exc_info.value) == "Item Item 2 does not exist!"
 
     def test_remove_duplicate_item(self):
         self.todoapp.add_item("Item 1")
@@ -294,11 +328,19 @@ class TestAppToDo(unittest.TestCase):
             "Item 1",
         ], "Prioritizing did not work"
 
+    def test_prioritize_item_error_list(self):
+        self.todoapp.add_item("Item 1", "List 1")
+        self.todoapp.add_item("Item 2", "List 2")
+        with pytest.raises(ValueError) as exc_info:
+            self.todoapp.prioritize_item("List 2")
+        assert str(exc_info.value) == "List 2 is not an item"
+
     def test_prioritize_item_error(self):
         self.todoapp.add_item("Item 1", "List 1")
         self.todoapp.add_item("Item 2", "List 1")
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError) as exc_info:
             self.todoapp.prioritize_item("Item 3")
+        assert str(exc_info.value) == "Item Item 3 not found"
 
 
 @assert_console_output("Created list List 1")

@@ -50,6 +50,7 @@ dependencies = [
   "pytest",
   "pytest-cov",
   "black",
+  "mypy",
   "pydot",
   "Pillow",
 ]
@@ -58,6 +59,7 @@ cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtre
 no-cov = "cov --no-cov {args}"
 lint = "black -l 88 ."
 sort = "isort --profile black ."
+mypy-type = "mypy bigtree --ignore-missing-imports --install-types"
 
 [tool.hatch.envs.docs]
 dependencies = [

@@ -1,4 +1,4 @@
-from typing import Any, Callable, Iterable
+from typing import Any, Callable, Iterable, Optional, Tuple, TypeVar
 
 from bigtree.node.basenode import BaseNode
 from bigtree.node.node import Node
@@ -19,13 +19,16 @@ __all__ = [
 ]
 
 
+T = TypeVar("T", bound=BaseNode)
+
+
 def findall(
-    tree: BaseNode,
+    tree: T,
     condition: Callable,
-    max_depth: int = None,
-    min_count: int = None,
-    max_count: int = None,
-) -> tuple:
+    max_depth: int = 0,
+    min_count: int = 0,
+    max_count: int = 0,
+) -> Tuple[T, ...]:
     """
     Search tree for nodes matching condition (callable function).
 
@@ -47,7 +50,7 @@ def findall(
             raise SearchError if number of results do not meet min_count, defaults to None
 
     Returns:
-        (tuple)
+        (Tuple[BaseNode, ...])
     """
     result = tuple(preorder_iter(tree, filter_condition=condition, max_depth=max_depth))
     if min_count and len(result) < min_count:
@@ -61,7 +64,7 @@ def findall(
     return result
 
 
-def find(tree: BaseNode, condition: Callable, max_depth: int = None) -> BaseNode:
+def find(tree: T, condition: Callable, max_depth: int = 0) -> Optional[T]:
     """
     Search tree for *single node* matching condition (callable function).
 
@@ -84,14 +87,15 @@ def find(tree: BaseNode, condition: Callable, max_depth: int = None) -> BaseNode
         max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
 
     Returns:
-        (BaseNode)
+        (Optional[BaseNode])
     """
     result = findall(tree, condition, max_depth, max_count=1)
-    if result:
-        return result[0]
+    if not result:
+        return None
+    return result[0]
 
 
-def find_name(tree: Node, name: str, max_depth: int = None) -> Node:
+def find_name(tree: Node, name: str, max_depth: int = 0) -> Optional[Node]:
     """
     Search tree for single node matching name attribute.
 
@@ -109,12 +113,12 @@ def find_name(tree: Node, name: str, max_depth: int = None) -> Node:
         max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
 
     Returns:
-        (Node)
+        (Optional[Node])
     """
-    return find(tree, lambda node: node.node_name == name, max_depth)
+    return find(tree, lambda node: node.node_name == name, max_depth)  # type: ignore
 
 
-def find_names(tree: Node, name: str, max_depth: int = None) -> Iterable[Node]:
+def find_names(tree: Node, name: str, max_depth: int = 0) -> Iterable[Node]:
     """
     Search tree for multiple node(s) matching name attribute.
 
@@ -139,7 +143,7 @@ def find_names(tree: Node, name: str, max_depth: int = None) -> Iterable[Node]:
     return findall(tree, lambda node: node.node_name == name, max_depth)
 
 
-def find_full_path(tree: Node, path_name: str) -> Node:
+def find_full_path(tree: Node, path_name: str) -> Optional[Node]:
     """
     Search tree for single node matching path attribute.
       - Path name can be with or without leading tree path separator symbol.
@@ -158,7 +162,7 @@ def find_full_path(tree: Node, path_name: str) -> Node:
         path_name (str): value to match (full path) of path_name attribute
 
     Returns:
-        (Node)
+        (Optional[Node])
     """
     path_name = path_name.rstrip(tree.sep).lstrip(tree.sep)
     path_list = path_name.split(tree.sep)
@@ -169,14 +173,14 @@ def find_full_path(tree: Node, path_name: str) -> Node:
     parent_node = tree.root
     child_node = parent_node
     for child_name in path_list[1:]:
-        child_node = find_children(parent_node, child_name)
+        child_node = find_children(parent_node, child_name)  # type: ignore
         if not child_node:
             break
         parent_node = child_node
     return child_node
 
 
-def find_path(tree: Node, path_name: str) -> Node:
+def find_path(tree: Node, path_name: str) -> Optional[Node]:
     """
     Search tree for single node matching path attribute.
       - Path name can be with or without leading tree path separator symbol.
@@ -197,13 +201,13 @@ def find_path(tree: Node, path_name: str) -> Node:
         path_name (str): value to match (full path) or trailing part (partial path) of path_name attribute
 
     Returns:
-        (Node)
+        (Optional[Node])
     """
     path_name = path_name.rstrip(tree.sep)
-    return find(tree, lambda node: node.path_name.endswith(path_name))
+    return find(tree, lambda node: node.path_name.endswith(path_name))  # type: ignore
 
 
-def find_paths(tree: Node, path_name: str) -> tuple:
+def find_paths(tree: Node, path_name: str) -> Tuple[Node, ...]:
     """
     Search tree for multiple nodes matching path attribute.
       - Path name can be with or without leading tree path separator symbol.
@@ -224,15 +228,15 @@ def find_paths(tree: Node, path_name: str) -> tuple:
         path_name (str): value to match (full path) or trailing part (partial path) of path_name attribute
 
     Returns:
-        (tuple)
+        (Tuple[Node, ...])
     """
     path_name = path_name.rstrip(tree.sep)
     return findall(tree, lambda node: node.path_name.endswith(path_name))
 
 
 def find_attr(
-    tree: BaseNode, attr_name: str, attr_value: Any, max_depth: int = None
-) -> BaseNode:
+    tree: BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
+) -> Optional[BaseNode]:
     """
     Search tree for single node matching custom attribute.
 
@@ -251,7 +255,7 @@ def find_attr(
         max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
 
     Returns:
-        (BaseNode)
+        (Optional[BaseNode])
     """
     return find(
         tree, lambda node: node.__getattribute__(attr_name) == attr_value, max_depth
@@ -259,8 +263,8 @@ def find_attr(
 
 
 def find_attrs(
-    tree: BaseNode, attr_name: str, attr_value: Any, max_depth: int = None
-) -> tuple:
+    tree: BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
+) -> Tuple[BaseNode, ...]:
     """
     Search tree for node(s) matching custom attribute.
 
@@ -279,14 +283,14 @@ def find_attrs(
         max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
 
     Returns:
-        (tuple)
+        (Tuple[BaseNode, ...])
     """
     return findall(
         tree, lambda node: node.__getattribute__(attr_name) == attr_value, max_depth
     )
 
 
-def find_children(tree: Node, name: str) -> Node:
+def find_children(tree: Node, name: str) -> Optional[Node]:
     """
     Search tree for single node matching name attribute.
 
@@ -305,12 +309,13 @@ def find_children(tree: Node, name: str) -> Node:
         name (str): value to match for name attribute, child node
 
     Returns:
-        (Node)
+        (Optional[Node])
     """
     child = [node for node in tree.children if node and node.node_name == name]
     if len(child) > 1:  # pragma: no cover
         raise CorruptedTreeError(
             f"There are more than one path for {child[0].path_name}, check {child}"
         )
-    elif len(child):
-        return child[0]
+    elif not len(child):
+        return None
+    return child[0]

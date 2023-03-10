@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections import Counter
-from typing import List
+from typing import Any, List, TypeVar
 
 from bigtree.node.basenode import BaseNode
 from bigtree.utils.exceptions import TreeError
@@ -61,12 +63,32 @@ class Node(BaseNode):
 
     """
 
-    def __init__(self, name: str = "", **kwargs):
+    def __init__(self, name: str = "", **kwargs: Any):
         self.name = name
         self._sep: str = "/"
         super().__init__(**kwargs)
         if not self.node_name:
             raise TreeError("Node must have a `name` attribute")
+
+    @property
+    def sep(self) -> str:
+        """Get separator, gets from root node
+
+        Returns:
+            (str)
+        """
+        if self.parent is None:
+            return self._sep
+        return self.parent.sep
+
+    @sep.setter
+    def sep(self, value: str) -> None:
+        """Set separator, affects root node
+
+        Args:
+            value (str): separator to replace default separator
+        """
+        self.root._sep = value
 
     @property
     def node_name(self) -> str:
@@ -78,37 +100,17 @@ class Node(BaseNode):
         return self.name
 
     @property
-    def sep(self) -> str:
-        """Get separator, gets from root node
-
-        Returns:
-            (str)
-        """
-        if self.is_root:
-            return self._sep
-        return self.parent.sep
-
-    @sep.setter
-    def sep(self, value: str):
-        """Set separator, affects root node
-
-        Args:
-            value (str): separator to replace default separator
-        """
-        self.root._sep = value
-
-    @property
     def path_name(self) -> str:
         """Get path name, separated by self.sep
 
         Returns:
             (str)
         """
-        if self.is_root:
+        if self.parent is None:
             return f"{self.sep}{self.name}"
         return f"{self.parent.path_name}{self.sep}{self.name}"
 
-    def __pre_assign_children(self, new_children: List):
+    def __pre_assign_children(self: T, new_children: List[T]) -> None:
         """Custom method to check before attaching children
         Can be overriden with `_Node__pre_assign_children()`
 
@@ -117,7 +119,7 @@ class Node(BaseNode):
         """
         pass
 
-    def __post_assign_children(self, new_children: List):
+    def __post_assign_children(self: T, new_children: List[T]) -> None:
         """Custom method to check after attaching children
         Can be overriden with `_Node__post_assign_children()`
 
@@ -126,7 +128,7 @@ class Node(BaseNode):
         """
         pass
 
-    def __pre_assign_parent(self, new_parent):
+    def __pre_assign_parent(self: T, new_parent: T) -> None:
         """Custom method to check before attaching parent
         Can be overriden with `_Node__pre_assign_parent()`
 
@@ -135,7 +137,7 @@ class Node(BaseNode):
         """
         pass
 
-    def __post_assign_parent(self, new_parent):
+    def __post_assign_parent(self: T, new_parent: T) -> None:
         """Custom method to check after attaching parent
         Can be overriden with `_Node__post_assign_parent()`
 
@@ -144,7 +146,7 @@ class Node(BaseNode):
         """
         pass
 
-    def _BaseNode__pre_assign_parent(self, new_parent):
+    def _BaseNode__pre_assign_parent(self: T, new_parent: T) -> None:
         """Do not allow duplicate nodes of same path
 
         Args:
@@ -161,7 +163,7 @@ class Node(BaseNode):
                     f"There exist a node with same path {new_parent.path_name}{self.sep}{self.node_name}"
                 )
 
-    def _BaseNode__post_assign_parent(self, new_parent):
+    def _BaseNode__post_assign_parent(self: T, new_parent: T) -> None:
         """No rules
 
         Args:
@@ -169,7 +171,7 @@ class Node(BaseNode):
         """
         self.__post_assign_parent(new_parent)
 
-    def _BaseNode__pre_assign_children(self, new_children: List):
+    def _BaseNode__pre_assign_children(self: T, new_children: List[T]) -> None:
         """Do not allow duplicate nodes of same path
 
         Args:
@@ -181,15 +183,15 @@ class Node(BaseNode):
             item[0] for item in Counter(children_names).items() if item[1] > 1
         ]
         if len(duplicated_names):
-            duplicated_names = " and ".join(
+            duplicated_names_str = " and ".join(
                 [f"{self.path_name}{self.sep}{name}" for name in duplicated_names]
             )
             raise TreeError(
                 f"Error: Duplicate node with same path\n"
-                f"Attempting to add nodes same path {duplicated_names}"
+                f"Attempting to add nodes same path {duplicated_names_str}"
             )
 
-    def _BaseNode__post_assign_children(self, new_children: List):
+    def _BaseNode__post_assign_children(self: T, new_children: List[T]) -> None:
         """No rules
 
         Args:
@@ -197,8 +199,16 @@ class Node(BaseNode):
         """
         self.__post_assign_children(new_children)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """Print format of Node
+
+        Returns:
+            (str)
+        """
         class_name = self.__class__.__name__
         node_dict = self.describe(exclude_prefix="_", exclude_attributes=["name"])
         node_description = ", ".join([f"{k}={v}" for k, v in node_dict])
         return f"{class_name}({self.path_name}, {node_description})"
+
+
+T = TypeVar("T", bound=Node)
