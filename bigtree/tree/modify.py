@@ -816,7 +816,7 @@ def copy_or_shift_logic(
                     # Create intermediate parent node, if applicable
                     while (not to_node) & (idx + 1 < len(to_path_list)):
                         idx += 1
-                        to_path_parent = sep.join(to_path_list[:-idx])
+                        to_path_parent = tree_sep.join(to_path_list[:-idx])
                         if transfer_indicator:
                             to_node = find_path(to_tree, to_path_parent)  # type: ignore
                         else:
