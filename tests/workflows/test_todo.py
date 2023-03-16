@@ -356,25 +356,25 @@ def test_add_list_duplicate_verbose():
     todoapp.add_list("List 1")
 
 
-@assert_console_output(["Created list General", "Created item Item 1"])
+@assert_console_output(["Created list General", "Created item(s) Item 1"])
 def test_add_item_single_verbose():
     todoapp = AppToDo("To Do Items")
     todoapp.add_item("Item 1")
 
 
-@assert_console_output(["Created list List 1", "Created item Item 1"])
+@assert_console_output(["Created list List 1", "Created item(s) Item 1"])
 def test_add_item_single_list():
     todoapp = AppToDo("To Do Items")
     todoapp.add_item("Item 1", "List 1")
 
 
-@assert_console_output(["Created list General", "Created items Item 1, Item 2"])
+@assert_console_output(["Created list General", "Created item(s) Item 1, Item 2"])
 def test_add_item_multiple():
     todoapp = AppToDo("To Do Items")
     todoapp.add_item(["Item 1", "Item 2"])
 
 
-@assert_console_output(["Created list List 1", "Created items Item 1, Item 2"])
+@assert_console_output(["Created list List 1", "Created item(s) Item 1, Item 2"])
 def test_add_item_multiple_list_verbose():
     todoapp = AppToDo("To Do Items")
     todoapp.add_item(["Item 1", "Item 2"], "List 1")
@@ -383,8 +383,8 @@ def test_add_item_multiple_list_verbose():
 @assert_console_output(
     [
         "Created list General",
-        "Created item Item 1",
-        "Removed items Item 1",
+        "Created item(s) Item 1",
+        "Removed item(s) Item 1",
         "Removed list General",
     ]
 )
@@ -397,8 +397,8 @@ def test_remove_item_single_verbose():
 @assert_console_output(
     [
         "Created list General",
-        "Created item Item 1",
-        "Removed items Item 1",
+        "Created item(s) Item 1",
+        "Removed item(s) Item 1",
         "Removed list General",
     ]
 )
@@ -411,10 +411,10 @@ def test_remove_item_single_list_verbose():
 @assert_console_output(
     [
         "Created list General",
-        "Created item Item 1",
+        "Created item(s) Item 1",
         "Created list List 1",
-        "Created item Item 1",
-        "Removed items Item 1",
+        "Created item(s) Item 1",
+        "Removed item(s) Item 1",
         "Removed list List 1",
     ]
 )
@@ -428,8 +428,8 @@ def test_remove_duplicate_item():
 @assert_console_output(
     [
         "Created list General",
-        "Created items Item 1, Item 2",
-        "Removed items Item 1, Item 2",
+        "Created item(s) Item 1, Item 2",
+        "Removed item(s) Item 1, Item 2",
         "Removed list General",
     ]
 )
@@ -442,8 +442,8 @@ def test_remove_item_multiple():
 @assert_console_output(
     [
         "Created list General",
-        "Created items Item 1, Item 2",
-        "Removed items Item 1, Item 2",
+        "Created item(s) Item 1, Item 2",
+        "Removed item(s) Item 1, Item 2",
         "Removed list General",
     ]
 )
