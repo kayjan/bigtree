@@ -7,7 +7,6 @@ from bigtree.utils.exceptions import NotFoundError, TreeError
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
-
 __all__ = [
     "shift_nodes",
     "copy_nodes",
@@ -744,7 +743,7 @@ def copy_or_shift_logic(
             else:
                 to_path = to_path.replace(sep, tree_sep)
                 if transfer_indicator:
-                    to_node = find_path(to_tree, to_path)  # type: ignore
+                    to_node = find_path(to_tree, to_path)
                 else:
                     to_node = find_path(tree, to_path)
 
@@ -809,7 +808,7 @@ def copy_or_shift_logic(
                     idx = 1
                     to_path_parent = tree_sep.join(to_path_list[:-idx])
                     if transfer_indicator:
-                        to_node = find_path(to_tree, to_path_parent)  # type: ignore
+                        to_node = find_path(to_tree, to_path_parent)
                     else:
                         to_node = find_path(tree, to_path_parent)
 
@@ -818,7 +817,7 @@ def copy_or_shift_logic(
                         idx += 1
                         to_path_parent = tree_sep.join(to_path_list[:-idx])
                         if transfer_indicator:
-                            to_node = find_path(to_tree, to_path_parent)  # type: ignore
+                            to_node = find_path(to_tree, to_path_parent)
                         else:
                             to_node = find_path(tree, to_path_parent)
                     if not to_node:
@@ -837,7 +836,7 @@ def copy_or_shift_logic(
                 from_node = from_node.copy()
             if merge_children:
                 logging.debug(
-                    f"Reassigning children from {from_node.node_name} to {to_node.node_name}"  # type: ignore
+                    f"Reassigning children from {from_node.node_name} to {to_node.node_name}"
                 )
                 for children in from_node.children:
                     if delete_children:
@@ -846,7 +845,7 @@ def copy_or_shift_logic(
                 from_node.parent = None
             elif merge_leaves:
                 logging.debug(
-                    f"Reassigning leaf nodes from {from_node.node_name} to {to_node.node_name}"  # type: ignore
+                    f"Reassigning leaf nodes from {from_node.node_name} to {to_node.node_name}"
                 )
                 for children in from_node.leaves:
                     children.parent = to_node

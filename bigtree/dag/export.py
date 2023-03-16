@@ -160,7 +160,7 @@ def dag_to_dataframe(
     return pd.DataFrame(data_list).drop_duplicates().reset_index(drop=True)
 
 
-def dag_to_dot(
+def dag_to_dot(  # type: ignore[no-untyped-def]
     dag: Union[DAGNode, List[DAGNode]],
     rankdir: str = "TB",
     bg_colour: str = "",

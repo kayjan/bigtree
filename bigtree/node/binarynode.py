@@ -98,11 +98,11 @@ class BinaryNode(Node):
         self.__dict__.update(**kwargs)
 
     @property
-    def left(self: T) -> Optional[T]:
+    def left(self: T) -> T:
         """Get left children
 
         Returns:
-            (Optional[Self])
+            (Self)
         """
         return self.__children[0]
 
@@ -116,11 +116,11 @@ class BinaryNode(Node):
         self.children = [left_child, self.right]  # type: ignore
 
     @property
-    def right(self: T) -> Optional[T]:
+    def right(self: T) -> T:
         """Get right children
 
         Returns:
-            (Optional[Self])
+            (Self)
         """
         return self.__children[1]
 
@@ -203,7 +203,7 @@ class BinaryNode(Node):
             # Reassign self to old parent
             self.__parent = current_parent
             if current_child_idx is not None:
-                current_parent.__children[current_child_idx] = self  # type: ignore
+                current_parent.__children[current_child_idx] = self
             raise TreeError(exc_info)
 
     def __pre_assign_parent(self: T, new_parent: Optional[T]) -> None:
@@ -279,7 +279,7 @@ class BinaryNode(Node):
         Returns:
             (Tuple[Optional[Self]])
         """
-        return tuple(self.__children)  # type: ignore
+        return tuple(self.__children)
 
     @children.setter
     def children(self: T, _new_children: List[Optional[T]]) -> None:
@@ -332,7 +332,7 @@ class BinaryNode(Node):
                 child.__parent = None
 
             # Reassign old children to self
-            self.__children = current_children  # type: ignore
+            self.__children = current_children
             for child in current_children:
                 if child:
                     child.__parent = self
