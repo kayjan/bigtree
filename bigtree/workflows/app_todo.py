@@ -136,6 +136,8 @@ class AppToDo:
         """
         if not isinstance(item_name, str) and not isinstance(item_name, list):
             raise TypeError("Invalid data type for item")
+        if isinstance(item_name, str):
+            item_name = [item_name]
 
         # Get list to add to
         if list_name:
@@ -144,13 +146,9 @@ class AppToDo:
             list_node = self.add_list("General")
 
         # Add items to list
-        if isinstance(item_name, str):
-            _ = Node(item_name, parent=list_node, **kwargs)
-            logging.info(f"Created item {item_name}")
-        elif isinstance(item_name, list):
-            for _item in item_name:
-                _ = Node(_item, parent=list_node, **kwargs)
-            logging.info(f"Created items {', '.join(item_name)}")
+        for _item in item_name:
+            _ = Node(_item, parent=list_node, **kwargs)
+        logging.info(f"Created item(s) {', '.join(item_name)}")
 
     def remove_item(
         self, item_name: Union[str, List[str]], list_name: str = ""
@@ -163,6 +161,8 @@ class AppToDo:
         """
         if not isinstance(item_name, str) and not isinstance(item_name, list):
             raise TypeError("Invalid data type for item")
+        if isinstance(item_name, str):
+            item_name = [item_name]
 
         # Check if items can be found
         items_to_remove = []
@@ -171,38 +171,21 @@ class AppToDo:
             list_node = find_children(self._root, list_name)
             if not list_node:
                 raise ValueError(f"List {list_name} does not exist!")
-            if isinstance(item_name, str):
-                item_node = find_children(list_node, item_name)
+            for _item in item_name:
+                item_node = find_children(list_node, _item)
                 if not item_node:
-                    raise ValueError(f"Item {item_name} does not exist!")
+                    raise ValueError(f"Item {_item} does not exist!")
                 assert isinstance(item_node.parent, Node)  # for mypy type checking
                 items_to_remove.append(item_node)
                 parent_to_check.add(item_node.parent)
-            elif isinstance(item_name, list):
-                for _item in item_name:
-                    item_node = find_children(list_node, _item)
-                    if not item_node:
-                        raise ValueError(f"Item {_item} does not exist!")
-                    assert isinstance(item_node.parent, Node)  # for mypy type checking
-                    items_to_remove.append(item_node)
-                    parent_to_check.add(item_node.parent)
         else:
-            if isinstance(item_name, str):
-                item_node = find_name(self._root, item_name)
-
+            for _item in item_name:
+                item_node = find_name(self._root, _item)
                 if not item_node:
-                    raise ValueError(f"Item {item_name} does not exist!")
+                    raise ValueError(f"Item {_item} does not exist!")
                 assert isinstance(item_node.parent, Node)  # for mypy type checking
                 items_to_remove.append(item_node)
                 parent_to_check.add(item_node.parent)
-            elif isinstance(item_name, list):
-                for _item in item_name:
-                    item_node = find_name(self._root, _item)
-                    if not item_node:
-                        raise ValueError(f"Item {_item} does not exist!")
-                    assert isinstance(item_node.parent, Node)  # for mypy type checking
-                    items_to_remove.append(item_node)
-                    parent_to_check.add(item_node.parent)
 
         # Remove items
         for item_to_remove in items_to_remove:
@@ -212,7 +195,7 @@ class AppToDo:
                 )
             item_to_remove.parent = None
         logging.info(
-            f"Removed items {', '.join(item.node_name for item in items_to_remove)}"
+            f"Removed item(s) {', '.join(item.node_name for item in items_to_remove)}"
         )
 
         # Remove list if empty
