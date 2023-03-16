@@ -363,7 +363,7 @@ class DAGNode:
             (Iterable[Self])
         """
         descendants = preorder_iter(self, filter_condition=lambda _node: _node != self)
-        return list(dict.fromkeys(descendants))  # type: ignore
+        return list(dict.fromkeys(descendants))
 
     @property
     def siblings(self: T) -> Iterable[T]:
@@ -548,7 +548,7 @@ class DAGNode:
         Returns:
             (Self)
         """
-        obj = type(self).__new__(self.__class__)
+        obj: T = type(self).__new__(self.__class__)
         obj.__dict__.update(self.__dict__)
         return obj
 

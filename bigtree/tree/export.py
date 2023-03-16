@@ -1,5 +1,5 @@
 import collections
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import pandas as pd
 
@@ -16,7 +16,6 @@ __all__ = [
     "tree_to_dot",
     "tree_to_pillow",
 ]
-
 
 available_styles = {
     "ansi": ("|   ", "|-- ", "`-- "),
@@ -194,7 +193,7 @@ def yield_tree(
     max_depth: int = 0,
     style: str = "const",
     custom_style: List[str] = [],
-):
+) -> Iterable[Tuple[str, str, Node]]:
     """Generator method for customizing printing of tree, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
@@ -308,7 +307,7 @@ def yield_tree(
 
     tree = tree.copy()
     if node_name_or_path:
-        tree = find_path(tree, node_name_or_path)  # type: ignore
+        tree = find_path(tree, node_name_or_path)
         if not tree:
             raise ValueError(f"Node name or path {node_name_or_path} not found")
     if not tree.is_root:
@@ -593,7 +592,7 @@ def tree_to_dataframe(
     return pd.DataFrame(data_list)
 
 
-def tree_to_dot(
+def tree_to_dot(  # type: ignore[no-untyped-def]
     tree: Union[Node, List[Node]],
     directed: bool = True,
     rankdir: str = "TB",
@@ -749,7 +748,7 @@ def tree_to_dot(
     return _graph
 
 
-def tree_to_pillow(
+def tree_to_pillow(  # type: ignore[no-untyped-def]
     tree: Node,
     width: int = 0,
     height: int = 0,

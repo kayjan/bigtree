@@ -85,14 +85,14 @@ def add_path_to_tree(
         node_name = branch[idx]
         node_path = tree_sep.join(branch[: idx + 1])
         if not duplicate_name_allowed:
-            node = find_name(tree_root, node_name)  # type: ignore
+            node = find_name(tree_root, node_name)
             if node and not node.path_name.endswith(node_path):
                 raise DuplicatedNodeError(
                     f"Node {node_name} already exists, try setting `duplicate_name_allowed` to True "
                     f"to allow `Node` with same node name"
                 )
         else:
-            node = find_children(parent_node, node_name)  # type: ignore
+            node = find_children(parent_node, node_name)
         if not node:
             node = node_type(branch[idx])
             node.parent = parent_node
@@ -470,7 +470,7 @@ def str_to_tree(
                 f"Tree string have different prefix length, check branch: {node_str}"
             )
         while cur_parent.depth > node_prefix_length / prefix_length:
-            cur_parent = cur_parent.parent  # type: ignore
+            cur_parent = cur_parent.parent
 
         # Link node
         child_node = node_type(node_name)

@@ -213,7 +213,7 @@ class BaseNode:
             # Reassign self to old parent
             self.__parent = current_parent
             if current_child_idx is not None:
-                current_parent.__children.insert(current_child_idx, self)  # type: ignore
+                current_parent.__children.insert(current_child_idx, self)
             raise TreeError(exc_info)
 
     def __pre_assign_parent(self, new_parent: T) -> None:
@@ -415,32 +415,30 @@ class BaseNode:
         return tuple(child for child in self.parent.children if child is not self)
 
     @property
-    def left_sibling(self: T) -> Optional[T]:
+    def left_sibling(self: T) -> T:
         """Get sibling left of self
 
         Returns:
-            (Optional[Self])
+            (Self)
         """
         if self.parent:
             children = self.parent.children
             child_idx = children.index(self)
             if child_idx:
                 return self.parent.children[child_idx - 1]
-        return None
 
     @property
-    def right_sibling(self: T) -> Optional[T]:
+    def right_sibling(self: T) -> T:
         """Get sibling right of self
 
         Returns:
-            (Optional[Self])
+            (Self)
         """
         if self.parent:
             children = self.parent.children
             child_idx = children.index(self)
             if child_idx + 1 < len(children):
                 return self.parent.children[child_idx + 1]
-        return None
 
     @property
     def node_path(self: T) -> Iterable[T]:
@@ -680,7 +678,7 @@ class BaseNode:
         Returns:
             (Self)
         """
-        obj = type(self).__new__(self.__class__)
+        obj: T = type(self).__new__(self.__class__)
         obj.__dict__.update(self.__dict__)
         return obj
 

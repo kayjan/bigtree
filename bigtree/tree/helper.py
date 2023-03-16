@@ -1,4 +1,4 @@
-from typing import Optional, Type, Union
+from typing import Type, Union
 
 import numpy as np
 
@@ -104,9 +104,7 @@ def prune_tree(
     return tree_copy
 
 
-def get_tree_diff(
-    tree: Node, other_tree: Node, only_diff: bool = True
-) -> Optional[Node]:
+def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
     """Get difference of `tree` to `other_tree`, changes are relative to `tree`.
 
     (+) and (-) will be added relative to `tree`.
@@ -167,7 +165,7 @@ def get_tree_diff(
         only_diff (bool): indicator to show all nodes or only nodes that are different (+/-), defaults to True
 
     Returns:
-        (Optional[Node])
+        (Node)
     """
     tree = tree.copy()
     other_tree = other_tree.copy()
@@ -196,6 +194,5 @@ def get_tree_diff(
     if only_diff:
         data_both = data_both.query(f"{indicator_col} != 'both'")
     data_both = data_both.drop(columns=indicator_col).sort_values(path_col)
-    if not len(data_both):
-        return None
-    return dataframe_to_tree(data_both, node_type=tree.__class__)
+    if len(data_both):
+        return dataframe_to_tree(data_both, node_type=tree.__class__)

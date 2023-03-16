@@ -48,26 +48,33 @@ path = "bigtree/__init__.py"
 [tool.hatch.envs.default]
 dependencies = [
   "pytest",
-  "pytest-cov",
+  "coverage",
   "black",
   "mypy",
   "pydot",
   "Pillow",
 ]
+
 [tool.hatch.envs.default.scripts]
-cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree --cov=tests {args}"
-no-cov = "cov --no-cov {args}"
+cov = "no-cov && coverage report --show-missing --omit='*/workflows/*' {args}"
+cov2 = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree {args}"
+no-cov = "pytest . {args}"
 lint = "black -l 88 ."
 sort = "isort --profile black ."
-mypy-type = "mypy bigtree --ignore-missing-imports --install-types"
+mypy-type = "mypy bigtree"
 
 [tool.hatch.envs.docs]
 dependencies = [
-  "mkdocs"
+  "autodocsumm==0.2.9",
+  "karma-sphinx-theme==0.0.8",
+  "myst-parser==0.18.1",
+  "pandas==1.5.1",
+  "sphinxemoji==0.2.0"
 ]
+
 [tool.hatch.envs.docs.scripts]
-build = "mkdocs build --clean --strict"
-serve = "mkdocs serve --dev-addr localhost:8000"
+html = "sphinx-build -M html docs/source docs/build"
+clean = "sphinx-build -M clean docs/source docs/build"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["37", "38", "39", "310", "311"]
@@ -76,9 +83,7 @@ python = ["37", "38", "39", "310", "311"]
 branch = true
 parallel = true
 omit = [
-  "bigtree/__init__.py",
-  "*/tests*",
-  "*/workflows*",
+  "*/workflows/*",
 ]
 
 [tool.coverage.report]
@@ -88,8 +93,18 @@ exclude_lines = [
   "if TYPE_CHECKING:",
 ]
 
+[tool.flake8]
+ignore = """E501, W503"""
+per-file-ignores = """
+  docs/source/conf.py: E402
+  bigtree/__init__.py: F401
+"""
+
 [tool.isort]
 profile = "black"
 
 [tool.mypy]
+ignore_missing_imports = true
 strict = true
+strict_optional = false
+warn_no_return = false

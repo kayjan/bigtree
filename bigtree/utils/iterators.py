@@ -71,17 +71,11 @@ def inorder_iter(
     Returns:
         (Iterable[BinaryNode])
     """
-
-    def _inorder_iter(
-        _tree: Optional[BinaryNode],
-    ) -> Iterable[BinaryNode]:
-        if _tree and (not max_depth or not _tree.depth > max_depth):
-            yield from _inorder_iter(_tree.left)
-            if not filter_condition or filter_condition(_tree):
-                yield _tree
-            yield from _inorder_iter(_tree.right)
-
-    yield from _inorder_iter(tree)
+    if tree and (not max_depth or not tree.depth > max_depth):
+        yield from inorder_iter(tree.left, filter_condition, max_depth)
+        if not filter_condition or filter_condition(tree):
+            yield tree
+        yield from inorder_iter(tree.right, filter_condition, max_depth)
 
 
 def preorder_iter(

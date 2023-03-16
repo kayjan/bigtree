@@ -28,7 +28,7 @@ To check if it worked,
     $ which pip
     /<some directory>/envs/bigtree_venv/bin/pip
 
-Install the required python packages locally in editable mode.
+From the project folder, install the required python packages locally in editable mode.
 
 .. code-block:: bash
 
@@ -63,7 +63,7 @@ If there are changes related to code, please make sure that the unit tests pass 
 .. code-block:: bash
 
     $ python -m pip install pytest coverage
-    $ coverage run --source=bigtree --module pytest tests/ && coverage report --show-missing
+    $ pytest . && coverage report --show-missing --omit='*/workflows/*'
 
 Make sure your add/update the tests and documentations accordingly.
 
