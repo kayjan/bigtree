@@ -83,6 +83,7 @@ python = ["37", "38", "39", "310", "311"]
 branch = true
 parallel = true
 omit = [
+  "*/tests/*",
   "*/workflows/*",
 ]
 
