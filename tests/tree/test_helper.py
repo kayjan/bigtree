@@ -1,9 +1,11 @@
 import pytest
 
+from bigtree import print_tree
 from bigtree.node.basenode import BaseNode
 from bigtree.node.node import Node
 from bigtree.tree.helper import clone_tree, get_tree_diff, prune_tree
 from bigtree.utils.exceptions import NotFoundError, SearchError
+from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root_attr,
     assert_tree_structure_basenode_root_generic,
@@ -84,23 +86,29 @@ class TestTreeDiff:
     @staticmethod
     def test_tree_diff(tree_node):
         other_tree_node = prune_tree(tree_node, "a/c")
+        _ = Node("d", parent=other_tree_node)
         tree_only_diff = get_tree_diff(tree_node, other_tree_node, only_diff=True)
+        expected_str = """a\n├── b\n│   ├── d (-)\n│   └── e\n│       ├── g (-)\n│       └── h (-)\n└── d (+)\n"""
+        assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
         assert (
             tree_only_diff.max_depth == 4
         ), f"Expect max_depth to be 4, received {tree_only_diff.max_depth}"
         assert (
-            len(list(tree_only_diff.children)) == 1
-        ), f"Expect root to have 1 children, received {len(list(tree_only_diff.children))}"
+            len(list(tree_only_diff.children)) == 2
+        ), f"Expect root to have 2 children, received {len(list(tree_only_diff.children))}"
 
     @staticmethod
     def test_tree_diff_all_diff(tree_node):
         other_tree_node = prune_tree(tree_node, "a/c")
+        _ = Node("d", parent=other_tree_node)
         tree_diff = get_tree_diff(tree_node, other_tree_node, only_diff=False)
+        expected_str = """a\n├── b\n│   ├── d (-)\n│   └── e\n│       ├── g (-)\n│       └── h (-)\n├── c\n│   └── f\n└── d (+)\n"""
+        assert_print_statement(print_tree, expected_str, tree=tree_diff)
         assert (
             tree_diff.max_depth == 4
         ), f"Expect max_depth to be 4, received {tree_diff.max_depth}"
         assert (
-            len(list(tree_diff.children)) == 2
+            len(list(tree_diff.children)) == 3
         ), f"Expect root to have 2 children, received {len(list(tree_diff.children))}"
 
     @staticmethod

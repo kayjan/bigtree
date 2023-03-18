@@ -1,6 +1,5 @@
 from typing import Any, Dict, List, Tuple, Type
 
-import numpy as np
 import pandas as pd
 
 from bigtree.node.dagnode import DAGNode
@@ -159,7 +158,7 @@ def dataframe_to_dag(
         raise ValueError(
             f"There exists duplicate child name with different attributes\nCheck {_duplicate_check}"
         )
-    if np.any(data[child_col].isnull()):
+    if sum(data[child_col].isnull()):
         raise ValueError(f"Child name cannot be empty, check {child_col}")
 
     node_dict: Dict[str, DAGNode] = dict()

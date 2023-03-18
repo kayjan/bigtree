@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.4] - TBD
+### Changed
+- Tree Helper: Get difference between two trees reduce reliance on `numpy` package, enhance test cases.
+- Tree and DAG Constructor: Reduce reliance on `numpy` package, only reject `None` attributes when creating tree from DataFrame (previously it rejects `[None]`).
+
 ## [0.8.3] - 2023-03-16
 ### Changed
 - Workflow: Misc refactor and update log statements.
@@ -11,35 +16,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.2] - 2023-03-16
 ### Changed
-- Type Checking: Remove Optional requirement for `mypy`.
+- Misc: Type checking to remove optional requirement for `mypy`.
 - Misc: Shift .flake8, .mypy.ini, and pytest.ini files to pyproject.toml.
 
 ## [0.8.1] - 2023-03-10
 ### Fixed
-- Tree Modify: Fix issue of `sep` of tree differing from the `sep` in `from_paths` and `to_paths`.
+- Tree Modifier: Fix issue of `sep` of tree differing from the `sep` in `from_paths` and `to_paths`.
 
 ## [0.8.0] - 2023-03-10
 ### Added
-- Type Checking: Type checking with `mypy`, added type checks to pre-commit hooks.
+- Misc: Type checking with `mypy`, added type checks to pre-commit hooks.
 ### Changed
 - DAGNode: `go_to` method to be consistent with `List[List[DAGNode]]` type.
 ### Fixed
-- Tree Export: Exception handling in `yield_tree` if `node_name_or_path` is not found.
+- Tree Exporter: Exception handling in `yield_tree` if `node_name_or_path` is not found.
 - Workflow: Exception handling in prioritizing item/list if item/list is not the correct tree depth.
 - Workflow: Exception handling in removing item/list if item/list is not found.
 
 ## [0.7.4] - 2023-02-27
 ### Fixed
-- Tree Construct: Fixed pandas SettingwithCopyWarning when performing dataframe operations.
+- Tree Constructor: Fixed pandas SettingwithCopyWarning when performing dataframe operations.
 
 ## [0.7.3] - 2023-02-25
 ### Added
-- Tree Export: Fixed `print_tree` checking attributes with `hasattr` to handle cases of null or 0 value attributes, add more test cases.
-- Contributing: Added more description.
+- Tree Exporter: Fixed `print_tree` checking attributes with `hasattr` to handle cases of null or 0 value attributes, add more test cases.
+- Misc: Added more description to Contributing.
 
 ## [0.7.2] - 2023-02-18
 ### Added
-- Tree Export: Added `node_shape` parameter in `tree_to_dot` export function for easier way to customize node shape.
+- Tree Exporter: Added `node_shape` parameter in `tree_to_dot` export function for easier way to customize node shape.
 
 ## [0.7.1] - 2023-02-18
 ### Added
@@ -48,11 +53,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.7.0] - 2023-02-18
 ### Added
-- Tree Modify: Accept `merge_leaves` type of modification, enhance documentation to provide more examples and illustrations.
+- Tree Modifier: Accept `merge_leaves` type of modification, enhance documentation to provide more examples and illustrations.
 
 ## [0.6.10] - 2023-01-23
 ### Fixed
-- Tree Construct: `str_to_tree` accept prefixes to support unicode characters in node names.
+- Tree Constructor: `str_to_tree` accept prefixes to support unicode characters in node names.
 
 ## [0.6.9] - 2023-01-22
 ### Added
@@ -104,15 +109,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BNode: Node class for Binary Tree.
 - BTree Constructor: From list.
 - BNode Iterator: Level-Order Iterator.
-- Add Tips and Tricks to documentation (List Directory).
+- Misc: Add Tips and Tricks to documentation (List Directory).
 
 ### Fixed
 - DAGNode: Fix issue of duplicated parent constructor creating duplicated children.
 
 ## [0.5.5] - 2022-11-12
 ### Added
-- More docstring examples.
-- More test cases.
+- Misc: More docstring examples.
+- Misc: More test cases.
 
 ### Fixed
 - Tree Modifier: Fix issue with `merge_children` argument not working as expected.
@@ -121,8 +126,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - BaseNode: Add sort() to sort children.
 - Node: Made more extendable with pre-/post-assign checks.
-- Add Tips and Tricks to documentation (Extending Nodes).
-- More test cases.
+- Misc: Add Tips and Tricks to documentation (Extending Nodes).
+- Misc: More test cases.
 
 ### Fixed
 - Tree Search: Type hints
@@ -141,11 +146,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.5.1] - 2022-11-09
 ### Added
-- Clean codes and documentation.
+- Misc: Clean codes and documentation.
 
 ## [0.5.0] - 2022-11-09
 ### Added
-- Clean codes and documentation.
+- Misc: Clean codes and documentation.
 
 ### Changed
 - Tree Exporter: Printing tree to group multiple arguments together.
@@ -200,7 +205,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.1] - 2022-11-07
 ### Added
-- Tree Exporter and DAG Exporter: More customizations for Node to dot and DAGNode to dot.
+- Tree and DAG Exporter: More customizations for Node to dot and DAGNode to dot.
 
 ## [0.3.0] - 2022-11-05
 ### Added
@@ -227,6 +232,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.8.4]: https://github.com/kayjan/bigtree/compare/v0.8.3...v0.8.4
 [0.8.3]: https://github.com/kayjan/bigtree/compare/v0.8.2...v0.8.3
 [0.8.2]: https://github.com/kayjan/bigtree/compare/v0.8.1...v0.8.2
 [0.8.1]: https://github.com/kayjan/bigtree/compare/v0.8.0...v0.8.1
