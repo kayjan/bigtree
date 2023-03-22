@@ -41,6 +41,8 @@ from bigtree.tree.search import (
     find,
     find_attr,
     find_attrs,
+    find_child,
+    find_child_by_name,
     find_children,
     find_full_path,
     find_name,

@@ -6,7 +6,7 @@ import pandas as pd
 
 from bigtree.node.node import Node
 from bigtree.tree.export import tree_to_dataframe
-from bigtree.tree.search import find_children, find_name
+from bigtree.tree.search import find_child_by_name, find_name
 from bigtree.utils.exceptions import DuplicatedNodeError, TreeError
 
 __all__ = [
@@ -91,7 +91,7 @@ def add_path_to_tree(
                     f"to allow `Node` with same node name"
                 )
         else:
-            node = find_children(parent_node, node_name)
+            node = find_child_by_name(parent_node, node_name)
         if not node:
             node = node_type(branch[idx])
             node.parent = parent_node

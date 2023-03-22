@@ -45,9 +45,9 @@ For Tree implementation, there are 8 main components.
    3. Copy nodes from one tree to another
 5. **Tree Search**
    1. Find multiple nodes based on name, partial path, attribute value, user-defined condition
-   2. Find single nodes based on name, path, attribute value, user-defined condition
-   3. Find multiple child nodes based on attribute value, user-defined condition
-   4. Find single child node based on name
+   2. Find single nodes based on name, partial path, full path, attribute value, user-defined condition
+   3. Find multiple child nodes based on user-defined condition
+   4. Find single child node based on name, user-defined condition
 6. **Helper Function**
    1. Cloning tree to another `Node` type
    2. Prune tree
@@ -97,7 +97,8 @@ Run the following lines in command prompt:
 
 ```shell
 $ pip install 'bigtree[image]'
-$ brew install gprof2dot
+$ brew install gprof2dot  # for MacOS
+$ conda install graphviz  # for Windows
 ```
 
 ----

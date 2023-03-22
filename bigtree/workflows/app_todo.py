@@ -7,7 +7,7 @@ from typing import Any, List, Union
 from bigtree.node.node import Node
 from bigtree.tree.construct import dict_to_tree
 from bigtree.tree.export import print_tree, tree_to_dict
-from bigtree.tree.search import find_children, find_name
+from bigtree.tree.search import find_child_by_name, find_name
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
@@ -105,7 +105,7 @@ class AppToDo:
         Returns:
             (Node)
         """
-        list_node = find_children(self._root, list_name)
+        list_node = find_child_by_name(self._root, list_name)
         if not list_node:
             list_node = Node(list_name, parent=self._root, **kwargs)
             logging.info(f"Created list {list_name}")
@@ -117,7 +117,7 @@ class AppToDo:
         Args:
             list_name (str): name of list
         """
-        list_node = find_children(self._root, list_name)
+        list_node = find_child_by_name(self._root, list_name)
         if not list_node:
             raise ValueError(f"List {list_name} not found")
         current_children = list(self._root.children)
@@ -168,11 +168,11 @@ class AppToDo:
         items_to_remove = []
         parent_to_check: set[Node] = set()
         if list_name:
-            list_node = find_children(self._root, list_name)
+            list_node = find_child_by_name(self._root, list_name)
             if not list_node:
                 raise ValueError(f"List {list_name} does not exist!")
             for _item in item_name:
-                item_node = find_children(list_node, _item)
+                item_node = find_child_by_name(list_node, _item)
                 if not item_node:
                     raise ValueError(f"Item {_item} does not exist!")
                 assert isinstance(item_node.parent, Node)  # for mypy type checking

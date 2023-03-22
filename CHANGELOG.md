@@ -4,10 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.8.4] - TBD
+## [0.8.4] - Unreleased
+### Added
+- Tree Search: Implement `find_child` and `find_children` to find single child or multiple children based on user-defined condition.
 ### Changed
-- Tree Helper: Get difference between two trees reduce reliance on `numpy` package, enhance test cases.
 - Tree and DAG Constructor: Reduce reliance on `numpy` package, only reject `None` attributes when creating tree from DataFrame (previously it rejects `[None]`).
+- Tree Helper: Get difference between two trees reduce reliance on `numpy` package, enhance test cases.
+- Tree Search: Renamed `find_children` to `find_child_by_name` for clarity.
+- Misc: Fix README for Windows installation
 
 ## [0.8.3] - 2023-03-16
 ### Changed
