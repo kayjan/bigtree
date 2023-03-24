@@ -7,6 +7,8 @@ from bigtree.tree.search import (
     find,
     find_attr,
     find_attrs,
+    find_child,
+    find_child_by_name,
     find_children,
     find_full_path,
     find_name,
@@ -85,11 +87,11 @@ class TestSearch(unittest.TestCase):
             actual == expected
         ), f"Expected find_all to return {expected}, received {actual}"
 
-    def test_exception_find_all_max_count(self):
+    def test_find_all_max_count_error(self):
         with pytest.raises(SearchError):
             findall(self.a, lambda node: node.age >= 30, max_depth=2, max_count=2)
 
-    def test_exception_find_all_min_count(self):
+    def test_find_all_min_count_error(self):
         with pytest.raises(SearchError):
             findall(self.a, lambda node: node.age >= 30, max_depth=2, min_count=4)
 
@@ -113,7 +115,7 @@ class TestSearch(unittest.TestCase):
             actual == expected
         ), f"Expected find to return {expected}, received {actual}"
 
-    def test_exception_find(self):
+    def test_find_error(self):
         with pytest.raises(SearchError):
             find(self.a, lambda node: node.age > 5)
 
@@ -463,6 +465,85 @@ class TestSearch(unittest.TestCase):
             ), f"Expected find_attrs to return {expected}, received {actual}"
 
     def test_find_children(self):
+        inputs = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        expected_ans = [
+            (self.b, self.c),
+            (self.d, self.e),
+            (self.f,),
+            (),
+            (self.g, self.h),
+            (),
+            (),
+            (),
+        ]
+        for idx, input in enumerate(inputs):
+            actual = find_children(input, lambda node: node.age > 1)
+            expected = expected_ans[idx]
+            assert (
+                actual == expected
+            ), f"Expected find_children to return {expected}, received {actual} for input {input}"
+
+    def test_find_children_condition(self):
+        inputs = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        expected_ans = [
+            (self.b,),
+            (self.e,),
+            (self.f,),
+            (),
+            (self.g,),
+            (),
+            (),
+            (),
+        ]
+        for idx, input_ in enumerate(inputs):
+            actual = find_children(
+                input_,
+                lambda node: any(
+                    node.node_name.startswith(_name) for _name in ["b", "e", "f", "g"]
+                ),
+            )
+            expected = expected_ans[idx]
+            assert (
+                actual == expected
+            ), f"Expected find_children to return {expected}, received {actual} for input {input}"
+
+    def test_find_children_max_count(self):
+        with pytest.raises(SearchError):
+            find_children(self.a, lambda node: node.age >= 30, max_count=1)
+
+    def test_find_children_min_count(self):
+        with pytest.raises(SearchError):
+            find_children(self.a, lambda node: node.age >= 30, min_count=3)
+
+    def test_find_child(self):
+        inputs = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        expected_ans = [
+            self.b,
+            self.e,
+            self.f,
+            None,
+            self.g,
+            None,
+            None,
+            None,
+        ]
+        for idx, input_ in enumerate(inputs):
+            actual = find_child(
+                input_,
+                lambda node: any(
+                    node.node_name.startswith(_name) for _name in ["b", "e", "f", "g"]
+                ),
+            )
+            expected = expected_ans[idx]
+            assert (
+                actual == expected
+            ), f"Expected find_children to return {expected}, received {actual} for input {input}"
+
+    def test_find_child_error(self):
+        with pytest.raises(SearchError):
+            find_child(self.a, lambda node: node.age > 5)
+
+    def test_find_child_by_name(self):
         inputs1 = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         inputs2 = ["a", "b", "c", "d", "e", "f", "g", "h"]
         expected_ans = [
@@ -477,8 +558,8 @@ class TestSearch(unittest.TestCase):
         ]
         for idx1, input_1 in enumerate(inputs1):
             for idx2, input_2 in enumerate(inputs2):
-                actual = find_children(input_1, input_2)
+                actual = find_child_by_name(input_1, input_2)
                 expected = expected_ans[idx1][idx2]
                 assert (
                     actual == expected
-                ), f"Expected find_children to return {expected}, received {actual} for inputs {input_1} and {input_2}"
+                ), f"Expected find_child_by_name to return {expected}, received {actual} for inputs {input_1} and {input_2}"

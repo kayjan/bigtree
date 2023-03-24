@@ -5,7 +5,7 @@ from bigtree.tree.search import (
     find,
     find_attr,
     find_attrs,
-    find_children,
+    find_child_by_name,
     find_full_path,
     find_name,
     find_names,
@@ -214,7 +214,7 @@ class TestSearch(unittest.TestCase):
         ]
         for idx1, input_1 in enumerate(inputs1):
             for idx2, input_2 in enumerate(inputs2):
-                actual = find_children(input_1, str(input_2))
+                actual = find_child_by_name(input_1, str(input_2))
                 expected = expected_ans[idx1][idx2]
                 assert (
                     actual == expected

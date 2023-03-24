@@ -2,7 +2,7 @@ from typing import Any, Callable, Iterable, Tuple, TypeVar
 
 from bigtree.node.basenode import BaseNode
 from bigtree.node.node import Node
-from bigtree.utils.exceptions import CorruptedTreeError, SearchError
+from bigtree.utils.exceptions import SearchError
 from bigtree.utils.iterators import preorder_iter
 
 __all__ = [
@@ -16,6 +16,8 @@ __all__ = [
     "find_attr",
     "find_attrs",
     "find_children",
+    "find_child",
+    "find_child_by_name",
 ]
 
 
@@ -172,7 +174,7 @@ def find_full_path(tree: Node, path_name: str) -> Node:
     parent_node = tree.root
     child_node = parent_node
     for child_name in path_list[1:]:
-        child_node = find_children(parent_node, child_name)
+        child_node = find_child_by_name(parent_node, child_name)
         if not child_node:
             break
         parent_node = child_node
@@ -258,7 +260,7 @@ def find_attr(
     """
     return find(
         tree,
-        lambda node: bool(node.__getattribute__(attr_name) == attr_value),
+        lambda node: bool(node.get_attr(attr_name) == attr_value),
         max_depth,
     )
 
@@ -288,23 +290,90 @@ def find_attrs(
     """
     return findall(
         tree,
-        lambda node: bool(node.__getattribute__(attr_name) == attr_value),
+        lambda node: bool(node.get_attr(attr_name) == attr_value),
         max_depth,
     )
 
 
-def find_children(tree: Node, name: str) -> Node:
+def find_children(
+    tree: T,
+    condition: Callable[[T], bool],
+    min_count: int = 0,
+    max_count: int = 0,
+) -> Tuple[T, ...]:
     """
-    Search tree for single node matching name attribute.
+    Search children for nodes matching condition (callable function).
 
     >>> from bigtree import Node, find_children
     >>> root = Node("a", age=90)
     >>> b = Node("b", age=65, parent=root)
     >>> c = Node("c", age=60, parent=root)
     >>> d = Node("d", age=40, parent=c)
-    >>> find_children(root, "c")
+    >>> find_children(root, lambda node: node.age > 30)
+    (Node(/a/b, age=65), Node(/a/c, age=60))
+
+    Args:
+        tree (BaseNode): tree to search for its children
+        condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
+        min_count (int): checks for minimum number of occurrence,
+            raise SearchError if number of results do not meet min_count, defaults to None
+        max_count (int): checks for maximum number of occurrence,
+            raise SearchError if number of results do not meet min_count, defaults to None
+
+    Returns:
+        (BaseNode)
+    """
+    result = tuple([node for node in tree.children if node and condition(node)])
+    if min_count and len(result) < min_count:
+        raise SearchError(
+            f"Expected more than {min_count} element(s), found {len(result)} elements\n{result}"
+        )
+    if max_count and len(result) > max_count:
+        raise SearchError(
+            f"Expected less than {max_count} element(s), found {len(result)} elements\n{result}"
+        )
+    return result
+
+
+def find_child(
+    tree: T,
+    condition: Callable[[T], bool],
+) -> T:
+    """
+    Search children for *single node* matching condition (callable function).
+
+    >>> from bigtree import Node, find_child
+    >>> root = Node("a", age=90)
+    >>> b = Node("b", age=65, parent=root)
+    >>> c = Node("c", age=60, parent=root)
+    >>> d = Node("d", age=40, parent=c)
+    >>> find_child(root, lambda node: node.age > 62)
+    Node(/a/b, age=65)
+
+    Args:
+        tree (BaseNode): tree to search for its child
+        condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
+
+    Returns:
+        (BaseNode)
+    """
+    result = find_children(tree, condition, max_count=1)
+    if result:
+        return result[0]
+
+
+def find_child_by_name(tree: Node, name: str) -> Node:
+    """
+    Search tree for single node matching name attribute.
+
+    >>> from bigtree import Node, find_child_by_name
+    >>> root = Node("a", age=90)
+    >>> b = Node("b", age=65, parent=root)
+    >>> c = Node("c", age=60, parent=root)
+    >>> d = Node("d", age=40, parent=c)
+    >>> find_child_by_name(root, "c")
     Node(/a/c, age=60)
-    >>> find_children(c, "d")
+    >>> find_child_by_name(c, "d")
     Node(/a/c/d, age=40)
 
     Args:
@@ -314,10 +383,4 @@ def find_children(tree: Node, name: str) -> Node:
     Returns:
         (Node)
     """
-    child = [node for node in tree.children if node and node.node_name == name]
-    if len(child) > 1:  # pragma: no cover
-        raise CorruptedTreeError(
-            f"There are more than one path for {child[0].path_name}, check {child}"
-        )
-    elif len(child):
-        return child[0]
+    return find_child(tree, lambda node: node.node_name == name)

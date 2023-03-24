@@ -379,7 +379,7 @@ class TestAddDictToTreeByName(unittest.TestCase):
         }
         root = add_dict_to_tree_by_name(self.root, name_dict)
         nodes = ["a", "b", "c", "d", "e", "f", "g", "h"]
-        expected_list = [[1], [1, 2], [1, None], None, None, 0, -1, [-1]]
+        expected_list = [[1], [1, 2], [1, None], [None], None, 0, -1, [-1]]
         for node_name, expected in zip(nodes, expected_list):
             actual = find_name(root, node_name).get_attr("random")
             assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"

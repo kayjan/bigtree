@@ -1,4 +1,4 @@
-__version__ = "0.8.3"
+__version__ = "0.8.4"
 
 from bigtree.binarytree.construct import list_to_binarytree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
@@ -41,6 +41,8 @@ from bigtree.tree.search import (
     find,
     find_attr,
     find_attrs,
+    find_child,
+    find_child_by_name,
     find_children,
     find_full_path,
     find_name,

@@ -1,7 +1,5 @@
 from typing import Type, Union
 
-import numpy as np
-
 from bigtree.node.basenode import BaseNode
 from bigtree.node.binarynode import BinaryNode
 from bigtree.node.node import Node
@@ -181,18 +179,15 @@ def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
         data_other[[path_col, name_col]], how="outer", indicator=indicator_col
     )
 
-    data_both[name_col] = np.where(
-        data_both[indicator_col] == "left_only",
-        data_both[name_col] + " (-)",
-        np.where(
-            data_both[indicator_col] == "right_only",
-            data_both[name_col] + " (+)",
-            data_both[name_col],
-        ),
+    data_both.loc[data_both[indicator_col] == "left_only", name_col] = (
+        data_both[name_col] + " (-)"
+    )
+    data_both.loc[data_both[indicator_col] == "right_only", name_col] = (
+        data_both[name_col] + " (+)"
     )
 
     if only_diff:
-        data_both = data_both.query(f"{indicator_col} != 'both'")
+        data_both = data_both[data_both[indicator_col] != "both"]
     data_both = data_both.drop(columns=indicator_col).sort_values(path_col)
     if len(data_both):
         return dataframe_to_tree(data_both, node_type=tree.__class__)

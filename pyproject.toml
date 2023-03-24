@@ -48,6 +48,7 @@ path = "bigtree/__init__.py"
 [tool.hatch.envs.default]
 dependencies = [
   "pytest",
+  "pytest-cov",
   "coverage",
   "black",
   "mypy",
