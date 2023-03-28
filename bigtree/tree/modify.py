@@ -46,6 +46,7 @@ def shift_nodes(
       - Path name must be unique to one node.
 
     For paths in `to_paths`,
+      - Path name must be full path.
       - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False.
 
     If ``merge_children=True``,
@@ -285,6 +286,9 @@ def copy_nodes(
       - If `with_full_path=True`, path name must be full path.
       - Path name must be unique to one node.
 
+    For paths in `to_paths`,
+      - Path name must be full path.
+
     If ``merge_children=True``,
       - If `to_path` is not present, it copies children of `from_path`.
       - If `to_path` is present, and ``overriding=False``, original and new children are merged.
@@ -520,6 +524,9 @@ def copy_nodes_from_tree_to_tree(
       - If `with_full_path=True`, path name must be full path.
       - Path name must be unique to one node.
 
+    For paths in `to_paths`,
+      - Path name must be full path.
+
     If ``merge_children=True``,
       - If `to_path` is not present, it copies children of `from_path`
       - If `to_path` is present, and ``overriding=False``, original and new children are merged
@@ -691,6 +698,7 @@ def copy_or_shift_logic(
       - Path name must be unique to one node.
 
     For paths in `to_paths`,
+      - Path name must be full path.
       - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False.
 
     If ``merge_children=True``,
