@@ -2,7 +2,8 @@ import logging
 from typing import List, Optional
 
 from bigtree.node.node import Node
-from bigtree.tree.search import find_path
+from bigtree.tree.construct import add_path_to_tree
+from bigtree.tree.search import find_full_path, find_path
 from bigtree.utils.exceptions import NotFoundError, TreeError
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -25,6 +26,7 @@ def shift_nodes(
     merge_children: bool = False,
     merge_leaves: bool = False,
     delete_children: bool = False,
+    with_full_path: bool = False,
 ) -> None:
     """Shift nodes from `from_paths` to `to_paths` *in-place*.
 
@@ -37,7 +39,10 @@ def shift_nodes(
 
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
+
+    For paths in `from_paths`,
       - Path name can be partial path (trailing part of path) or node name.
+      - If `with_full_path=True`, path name must be full path.
       - Path name must be unique to one node.
 
     For paths in `to_paths`,
@@ -232,6 +237,8 @@ def shift_nodes(
         merge_children (bool): indicator to merge children and remove intermediate parent node, defaults to False
         merge_leaves (bool): indicator to merge leaf nodes and remove intermediate parent node(s), defaults to False
         delete_children (bool): indicator to shift node only without children, defaults to False
+        with_full_path (bool): indicator to shift/copy node with full path in `from_paths`, results in faster search,
+            defaults to False
     """
     return copy_or_shift_logic(
         tree=tree,
@@ -245,6 +252,7 @@ def shift_nodes(
         merge_leaves=merge_leaves,
         delete_children=delete_children,
         to_tree=None,
+        with_full_path=with_full_path,
     )  # pragma: no cover
 
 
@@ -258,6 +266,7 @@ def copy_nodes(
     merge_children: bool = False,
     merge_leaves: bool = False,
     delete_children: bool = False,
+    with_full_path: bool = False,
 ) -> None:
     """Copy nodes from `from_paths` to `to_paths` *in-place*.
 
@@ -270,7 +279,10 @@ def copy_nodes(
 
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
+
+    For paths in `from_paths`,
       - Path name can be partial path (trailing part of path) or node name.
+      - If `with_full_path=True`, path name must be full path.
       - Path name must be unique to one node.
 
     If ``merge_children=True``,
@@ -459,6 +471,8 @@ def copy_nodes(
         merge_children (bool): indicator to merge children and remove intermediate parent node, defaults to False
         merge_leaves (bool): indicator to merge leaf nodes and remove intermediate parent node(s), defaults to False
         delete_children (bool): indicator to copy node only without children, defaults to False
+        with_full_path (bool): indicator to shift/copy node with full path in `from_paths`, results in faster search,
+            defaults to False
     """
     return copy_or_shift_logic(
         tree=tree,
@@ -472,6 +486,7 @@ def copy_nodes(
         merge_leaves=merge_leaves,
         delete_children=delete_children,
         to_tree=None,
+        with_full_path=with_full_path,
     )  # pragma: no cover
 
 
@@ -486,6 +501,7 @@ def copy_nodes_from_tree_to_tree(
     merge_children: bool = False,
     merge_leaves: bool = False,
     delete_children: bool = False,
+    with_full_path: bool = False,
 ) -> None:
     """Copy nodes from `from_paths` to `to_paths` *in-place*.
 
@@ -498,7 +514,10 @@ def copy_nodes_from_tree_to_tree(
 
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
+
+    For paths in `from_paths`,
       - Path name can be partial path (trailing part of path) or node name.
+      - If `with_full_path=True`, path name must be full path.
       - Path name must be unique to one node.
 
     If ``merge_children=True``,
@@ -619,6 +638,8 @@ def copy_nodes_from_tree_to_tree(
         merge_children (bool): indicator to merge children and remove intermediate parent node, defaults to False
         merge_leaves (bool): indicator to merge leaf nodes and remove intermediate parent node(s), defaults to False
         delete_children (bool): indicator to copy node only without children, defaults to False
+        with_full_path (bool): indicator to shift/copy node with full path in `from_paths`, results in faster search,
+            defaults to False
     """
     return copy_or_shift_logic(
         tree=from_tree,
@@ -632,6 +653,7 @@ def copy_nodes_from_tree_to_tree(
         merge_leaves=merge_leaves,
         delete_children=delete_children,
         to_tree=to_tree,
+        with_full_path=with_full_path,
     )  # pragma: no cover
 
 
@@ -647,6 +669,7 @@ def copy_or_shift_logic(
     merge_leaves: bool = False,
     delete_children: bool = False,
     to_tree: Optional[Node] = None,
+    with_full_path: bool = False,
 ) -> None:
     """Shift or copy nodes from `from_paths` to `to_paths` *in-place*.
 
@@ -661,7 +684,10 @@ def copy_or_shift_logic(
 
     For paths in `from_paths` and `to_paths`,
       - Path name can be with or without leading tree path separator symbol.
+
+    For paths in `from_paths`,
       - Path name can be partial path (trailing part of path) or node name.
+      - If `with_full_path=True`, path name must be full path.
       - Path name must be unique to one node.
 
     For paths in `to_paths`,
@@ -690,6 +716,8 @@ def copy_or_shift_logic(
         merge_leaves (bool): indicator to merge leaf nodes and remove intermediate parent node(s), defaults to False
         delete_children (bool): indicator to shift/copy node only without children, defaults to False
         to_tree (Node): tree to copy to, defaults to None
+        with_full_path (bool): indicator to shift/copy node with full path in `from_paths`, results in faster search,
+            defaults to False
     """
     if merge_children and merge_leaves:
         raise ValueError(
@@ -704,25 +732,72 @@ def copy_or_shift_logic(
             f"Paths are different length, input `from_paths` have {len(from_paths)} entries, "
             f"while output `to_paths` have {len(to_paths)} entries"
         )
-    for from_path, to_path in zip(from_paths, to_paths):
-        if to_path:
-            if from_path.split(sep)[-1] != to_path.split(sep)[-1]:
-                raise ValueError(
-                    f"Unable to assign from_path {from_path} to to_path {to_path}\n"
-                    f"Verify that `sep` is defined correctly for path\n"
-                    f"Alternatively, check that `from_path` and `to_path` is reassigning the same node"
-                )
+    if copy and (None in to_paths or "" in to_paths):
+        raise ValueError(
+            "Deletion of node will not happen if `copy=True`, check your `copy` parameter."
+        )
 
+    # Modify `sep` of from_paths and to_paths
     transfer_indicator = False
-    node_type = tree.__class__
     tree_sep = tree.sep
     if to_tree:
         transfer_indicator = True
-        node_type = to_tree.__class__
         tree_sep = to_tree.sep
+    from_paths = [path.rstrip(sep).replace(sep, tree.sep) for path in from_paths]
+    to_paths = [
+        path.rstrip(sep).replace(sep, tree_sep) if path else None for path in to_paths
+    ]
+
     for from_path, to_path in zip(from_paths, to_paths):
-        from_path = from_path.replace(sep, tree.sep)
-        from_node = find_path(tree, from_path)
+        if to_path:
+            if from_path.split(tree.sep)[-1] != to_path.split(tree_sep)[-1]:
+                raise ValueError(
+                    f"Unable to assign from_path {from_path} to to_path {to_path}\n"
+                    f"Verify that `sep` is defined correctly for path\n"
+                    f"Alternatively, check that `from_path` and `to_path` is reassigning the same node."
+                )
+
+    if with_full_path:
+        if not all(
+            [
+                path.lstrip(tree.sep).split(tree.sep)[0] == tree.root.node_name
+                for path in from_paths
+            ]
+        ):
+            raise ValueError(
+                "Invalid path in `from_paths` not starting with the root node. "
+                "Check your `from_paths` parameter, alternatively set `with_full_path=False` to shift "
+                "partial path instead of full path."
+            )
+    if transfer_indicator:
+        if not all(
+            [
+                path.lstrip(tree_sep).split(tree_sep)[0] == to_tree.root.node_name
+                for path in to_paths
+                if path
+            ]
+        ):
+            raise ValueError(
+                "Invalid path in `to_paths` not starting with the root node. Check your `to_paths` parameter."
+            )
+    else:
+        if not all(
+            [
+                path.lstrip(tree_sep).split(tree_sep)[0] == tree.root.node_name
+                for path in to_paths
+                if path
+            ]
+        ):
+            raise ValueError(
+                "Invalid path in `to_paths` not starting with the root node. Check your `to_paths` parameter."
+            )
+
+    # Perform shifting
+    for from_path, to_path in zip(from_paths, to_paths):
+        if with_full_path:
+            from_node = find_full_path(tree, from_path)
+        else:
+            from_node = find_path(tree, from_path)
 
         # From node not found
         if not from_node:
@@ -741,11 +816,10 @@ def copy_or_shift_logic(
                 to_node = None
             # Node to be copied/shifted
             else:
-                to_path = to_path.replace(sep, tree_sep)
                 if transfer_indicator:
-                    to_node = find_path(to_tree, to_path)
+                    to_node = find_full_path(to_tree, to_path)
                 else:
-                    to_node = find_path(tree, to_path)
+                    to_node = find_full_path(tree, to_path)
 
                 # To node found
                 if to_node:
@@ -803,32 +877,14 @@ def copy_or_shift_logic(
 
                 # To node not found
                 else:
-                    # Find parent node
-                    to_path_list = to_path.split(tree_sep)
-                    idx = 1
-                    to_path_parent = tree_sep.join(to_path_list[:-idx])
+                    # Find parent node, create intermediate parent node if applicable
+                    to_path_parent = tree_sep.join(to_path.split(tree_sep)[:-1])
                     if transfer_indicator:
-                        to_node = find_path(to_tree, to_path_parent)
-                    else:
-                        to_node = find_path(tree, to_path_parent)
-
-                    # Create intermediate parent node, if applicable
-                    while (not to_node) & (idx + 1 < len(to_path_list)):
-                        idx += 1
-                        to_path_parent = tree_sep.join(to_path_list[:-idx])
-                        if transfer_indicator:
-                            to_node = find_path(to_tree, to_path_parent)
-                        else:
-                            to_node = find_path(tree, to_path_parent)
-                    if not to_node:
-                        raise NotFoundError(
-                            f"Unable to find to_path {to_path}\n"
-                            f"Please specify valid path to shift node to"
+                        to_node = add_path_to_tree(
+                            to_tree, to_path_parent, sep=tree_sep
                         )
-                    for depth in range(len(to_path_list) - idx, len(to_path_list) - 1):
-                        intermediate_child_node = node_type(to_path_list[depth])
-                        intermediate_child_node.parent = to_node
-                        to_node = intermediate_child_node
+                    else:
+                        to_node = add_path_to_tree(tree, to_path_parent, sep=tree_sep)
 
             # Reassign from_node to new parent
             if copy:
