@@ -746,11 +746,9 @@ def copy_or_shift_logic(
         )
 
     # Modify `sep` of from_paths and to_paths
-    transfer_indicator = False
-    tree_sep = tree.sep
-    if to_tree:
-        transfer_indicator = True
-        tree_sep = to_tree.sep
+    if not to_tree:
+        to_tree = tree
+    tree_sep = to_tree.sep
     from_paths = [path.rstrip(sep).replace(sep, tree.sep) for path in from_paths]
     to_paths = [
         path.rstrip(sep).replace(sep, tree_sep) if path else None for path in to_paths
@@ -777,28 +775,16 @@ def copy_or_shift_logic(
                 "Check your `from_paths` parameter, alternatively set `with_full_path=False` to shift "
                 "partial path instead of full path."
             )
-    if transfer_indicator:
-        if not all(
-            [
-                path.lstrip(tree_sep).split(tree_sep)[0] == to_tree.root.node_name
-                for path in to_paths
-                if path
-            ]
-        ):
-            raise ValueError(
-                "Invalid path in `to_paths` not starting with the root node. Check your `to_paths` parameter."
-            )
-    else:
-        if not all(
-            [
-                path.lstrip(tree_sep).split(tree_sep)[0] == tree.root.node_name
-                for path in to_paths
-                if path
-            ]
-        ):
-            raise ValueError(
-                "Invalid path in `to_paths` not starting with the root node. Check your `to_paths` parameter."
-            )
+    if not all(
+        [
+            path.lstrip(tree_sep).split(tree_sep)[0] == to_tree.root.node_name
+            for path in to_paths
+            if path
+        ]
+    ):
+        raise ValueError(
+            "Invalid path in `to_paths` not starting with the root node. Check your `to_paths` parameter."
+        )
 
     # Perform shifting
     for from_path, to_path in zip(from_paths, to_paths):
@@ -824,10 +810,7 @@ def copy_or_shift_logic(
                 to_node = None
             # Node to be copied/shifted
             else:
-                if transfer_indicator:
-                    to_node = find_full_path(to_tree, to_path)
-                else:
-                    to_node = find_full_path(tree, to_path)
+                to_node = find_full_path(to_tree, to_path)
 
                 # To node found
                 if to_node:
@@ -887,12 +870,7 @@ def copy_or_shift_logic(
                 else:
                     # Find parent node, create intermediate parent node if applicable
                     to_path_parent = tree_sep.join(to_path.split(tree_sep)[:-1])
-                    if transfer_indicator:
-                        to_node = add_path_to_tree(
-                            to_tree, to_path_parent, sep=tree_sep
-                        )
-                    else:
-                        to_node = add_path_to_tree(tree, to_path_parent, sep=tree_sep)
+                    to_node = add_path_to_tree(to_tree, to_path_parent, sep=tree_sep)
 
             # Reassign from_node to new parent
             if copy:
