@@ -63,9 +63,9 @@ class Node(BaseNode):
 
     """
 
-    def __init__(self, name: str = "", **kwargs: Any):
+    def __init__(self, name: str = "", sep: str = "/", **kwargs: Any):
         self.name = name
-        self._sep: str = "/"
+        self._sep = sep
         super().__init__(**kwargs)
         if not self.node_name:
             raise TreeError("Node must have a `name` attribute")
