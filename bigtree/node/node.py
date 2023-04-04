@@ -59,6 +59,14 @@ class Node(BaseNode):
     1. ``node_name``: Get node name, without accessing `name` directly
     2. ``path_name``: Get path name from root, separated by `sep`
 
+    **Node Methods**
+
+    These are methods available to be performed on `Node`.
+
+    `Node` methods
+
+    1. ``show()``: Print tree to console
+
     ----
 
     """
@@ -198,6 +206,12 @@ class Node(BaseNode):
             new_children (List[Self]): new children to be added
         """
         self.__post_assign_children(new_children)
+
+    def show(self, **kwargs: Any) -> None:
+        """Print tree to console, takes in same keyword arguments as `print_tree` function"""
+        from bigtree.tree.export import print_tree
+
+        print_tree(self, **kwargs)
 
     def __repr__(self) -> str:
         """Print format of Node

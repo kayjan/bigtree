@@ -6,6 +6,7 @@ import pytest
 from bigtree.node.node import Node
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
+from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root_attr,
     assert_tree_structure_basenode_root_generic,
@@ -349,6 +350,20 @@ def assert_tree_structure_node_self(self):
         assert (
             actual == expected
         ), f"Node should have path {expected}, but path is {actual}"
+
+    # Test show
+    expected_str = """a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
+    assert_print_statement(
+        self.a.show,
+        expected_str,
+    )
+
+    expected_str = """a\n|-- b\n|   |-- d\n|   `-- e\n|       |-- g\n|       `-- h\n`-- c\n    `-- f\n"""
+    assert_print_statement(
+        self.a.show,
+        expected_str,
+        style="ansi",
+    )
 
 
 def assert_tree_structure_node_root_sep(root):
