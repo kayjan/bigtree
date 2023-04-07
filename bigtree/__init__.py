@@ -67,4 +67,5 @@ from bigtree.utils.iterators import (
     postorder_iter,
     preorder_iter,
 )
+from bigtree.workflows.app_calendar import Calendar
 from bigtree.workflows.app_todo import AppToDo

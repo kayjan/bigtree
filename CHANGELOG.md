@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.9.2] - TBD
 ### Added
 - Node: Added `show` method to print tree to console.
+- Workflow Calendar: Tree use case with calendar implementation.
 
 ## [0.9.1] - 2023-03-30
 ### Changed
