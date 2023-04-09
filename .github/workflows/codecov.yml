@@ -27,7 +27,7 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
-          conda config --set ssl_verify False
+          conda config --set restore_free_channel true
           conda install pandas
           conda install pydot
           conda install Pillow
