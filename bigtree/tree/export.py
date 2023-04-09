@@ -393,7 +393,7 @@ def tree_to_dict(
         parent_key (str): dictionary key for `node.parent.node_name`, optional
         attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, defaults to False
+        all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
         skip_depth (int): number of initial depth to skip, optional
         leaf_only (bool): indicator to retrieve only information from leaf nodes
@@ -467,7 +467,7 @@ def tree_to_nested_dict(
         child_key (str): dictionary key for list of children, optional
         attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, defaults to False
+        all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
 
     Returns:
@@ -548,7 +548,7 @@ def tree_to_dataframe(
         parent_col (str): column name for `node.parent.node_name`, optional
         attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
             key: node attributes, value: corresponding column in dataframe, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, defaults to False
+        all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
         skip_depth (int): number of initial depth to skip, optional
         leaf_only (bool): indicator to retrieve only information from leaf nodes
