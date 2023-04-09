@@ -27,9 +27,10 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
-          CONDA_RESTORE_FREE_CHANNEL=1 conda install pandas
-          CONDA_RESTORE_FREE_CHANNEL=1 conda install pydot
-          CONDA_RESTORE_FREE_CHANNEL=1 conda install Pillow
+          conda config --set ssl_verify False
+          conda install pandas
+          conda install pydot
+          conda install Pillow
       - name: Generate coverage report
         run: |
           conda install pytest
