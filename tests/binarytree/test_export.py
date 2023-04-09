@@ -9,6 +9,8 @@ from bigtree.tree.export import (
 )
 from tests.conftest import assert_print_statement
 
+LOCAL = False
+
 
 class TestPrintTree:
     @staticmethod
@@ -80,7 +82,8 @@ class TestTreeToDot:
         graph = tree_to_dot(binarytree_node)
         expected = """strict digraph G {\nrankdir=TB;\n10 [label=1];\n20 [label=2];\n10 -> 20;\n40 [label=4];\n20 -> 40;\n80 [label=8];\n40 -> 80;\n50 [label=5];\n20 -> 50;\n30 [label=3];\n10 -> 30;\n60 [label=6];\n30 -> 60;\n70 [label=7];\n30 -> 70;\n}\n"""
         actual = graph.to_string()
-        graph.write_png("tests/binarytree.png")
+        if LOCAL:
+            graph.write_png("tests/binarytree.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
