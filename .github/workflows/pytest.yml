@@ -27,25 +27,25 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
-          conda install pandas
-          conda install pydot
-          conda install Pillow
+          python -m pip install pandas
+          python -m pip install pydot
+          python -m pip install Pillow
       - name: Lint with flake8
         run: |
-          conda install flake8
+          python -m pip install flake8
           # stop the build if there are Python syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Lint with black
         run: |
-          conda install black
+          python -m pip install black
           black . --check
       - name: Lint with isort
         run: |
-          conda install isort
+          python -m pip install isort
           isort --profile black . --check
       - name: Test with pytest
         run: |
-          conda install pytest
+          python -m pip install pytest
           pytest
