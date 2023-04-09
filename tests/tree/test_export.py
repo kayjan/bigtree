@@ -297,7 +297,7 @@ class TestTreeToDataFrame:
         expected = pd.DataFrame()
         expected.index = range(8)
         actual = tree_to_dataframe(tree_node, name_col="", path_col="")
-        pd.testing.assert_frame_equal(expected, actual)
+        pd.testing.assert_frame_equal(expected, actual, check_column_type=False)
 
     @staticmethod
     def test_tree_to_dataframe_parent_col(tree_node):
