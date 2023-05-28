@@ -1,6 +1,6 @@
 import re
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Tuple, Type
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Type
 
 import pandas as pd
 
@@ -480,7 +480,7 @@ def str_to_tree(
 
 
 def list_to_tree(
-    paths: List[str],
+    paths: Iterable[str],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_type: Type[Node] = Node,
@@ -510,7 +510,7 @@ def list_to_tree(
         └── f
 
     Args:
-        paths (List[str]): list containing path strings
+        paths (Iterable[str]): list containing path strings
         sep (str): path separator for input `paths` and created tree, defaults to `/`
         duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
         node_type (Type[Node]): node type of tree to be created, defaults to Node
@@ -518,7 +518,7 @@ def list_to_tree(
     Returns:
         (Node)
     """
-    if not len(paths):
+    if not paths:
         raise ValueError("Path list does not contain any data, check `paths`")
 
     # Remove duplicates
@@ -538,7 +538,7 @@ def list_to_tree(
 
 
 def list_to_tree_by_relation(
-    relations: List[Tuple[str, str]],
+    relations: Iterable[Tuple[str, str]],
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from list of tuple containing parent-child names.
@@ -560,13 +560,13 @@ def list_to_tree_by_relation(
         └── f
 
     Args:
-        relations (List[Tuple[str, str]]): list containing tuple containing parent-child names
+        relations (Iterable[Tuple[str, str]]): list containing tuple containing parent-child names
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
         (Node)
     """
-    if not len(relations):
+    if not relations:
         raise ValueError("Path list does not contain any data, check `relations`")
 
     relation_data = pd.DataFrame(relations, columns=["parent", "child"])

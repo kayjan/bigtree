@@ -96,6 +96,16 @@ class TestNode(unittest.TestCase):
         assert list(self.a.children) == [self.b]
         assert self.b.parent == self.a
 
+    def test_set_parent_sep_different_error_message(self):
+        b = Node("b", sep="\\")
+        self.b.parent = self.a
+        with pytest.raises(TreeError) as exc_info:
+            b.parent = self.a
+        assert (
+            str(exc_info.value)
+            == "Error: Duplicate node with same path\nThere exist a node with same path /a/b"
+        )
+
     def test_set_parent_sep_root(self):
         self.b.parent = self.a
         self.c.parent = self.a
@@ -163,6 +173,15 @@ class TestNode(unittest.TestCase):
         # Set child again
         self.a = Node("a", children=[self.b])
         self.a.children = [self.b]
+
+    def test_children_sep_different_error_message(self):
+        b = Node("b", sep="\\")
+        with pytest.raises(TreeError) as exc_info:
+            self.a.children = [self.b, b]
+        assert (
+            str(exc_info.value)
+            == "Error: Duplicate node with same path\nAttempting to add nodes same path /a/b"
+        )
 
     def test_error_set_parent_same_path(self):
         self.a = Node("a")

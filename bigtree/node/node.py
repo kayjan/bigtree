@@ -168,7 +168,7 @@ class Node(BaseNode):
             ):
                 raise TreeError(
                     f"Error: Duplicate node with same path\n"
-                    f"There exist a node with same path {new_parent.path_name}{self.sep}{self.node_name}"
+                    f"There exist a node with same path {new_parent.path_name}{new_parent.sep}{self.node_name}"
                 )
 
     def _BaseNode__post_assign_parent(self: T, new_parent: T) -> None:

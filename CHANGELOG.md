@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.3] - 2023-05-28
+### Modified
+- Tree Constructor: Relax type hint to `Iterable` instead of `List` for `list_to_tree` and `list_to_tree_by_relation` methods.
+### Fixed
+- Node: Fix error message when trees have different `sep`.
+
 ## [0.9.2] - 2023-04-09
 ### Added
 - Node: Added `show` method to print tree to console.
@@ -256,6 +262,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.9.3]: https://github.com/kayjan/bigtree/compare/v0.9.2...v0.9.3
 [0.9.2]: https://github.com/kayjan/bigtree/compare/v0.9.1...v0.9.2
 [0.9.1]: https://github.com/kayjan/bigtree/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/kayjan/bigtree/compare/v0.8.4...v0.9.0
