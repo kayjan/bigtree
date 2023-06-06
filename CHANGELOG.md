@@ -37,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tree and DAG Constructor: Reduce reliance on `numpy` package, only reject `None` attributes when creating tree from DataFrame (previously it rejects `[None]`).
 - Tree Helper: Get difference between two trees reduce reliance on `numpy` package, enhance test cases.
 - Tree Search: Renamed `find_children` to `find_child_by_name` for clarity.
-- Misc: Fix README for Windows installation
+- Misc: Fix README for Windows installation.
 
 ## [0.8.3] - 2023-03-16
 ### Changed
@@ -160,7 +160,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: More test cases.
 
 ### Fixed
-- Tree Search: Type hints
+- Tree Search: Type hints.
 
 ## [0.5.3] - 2022-11-11
 ### Added
@@ -184,7 +184,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Tree Exporter: Printing tree to group multiple arguments together.
-- DAG and Tree Exporter: Export to dot able to plot multiple disjointed trees/dags, rename `bgcolor` to `bg_colour`
+- DAG and Tree Exporter: Export to dot able to plot multiple disjointed trees/dags, rename `bgcolor` to `bg_colour`.
 
 ## [0.4.6] - 2022-11-09
 ### Added
@@ -192,8 +192,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Tree Exporter: Printing tree to define node name or path, and default to const style.
-- Tree Constructor: Rename `list_to_tree_tuples` to `list_to_tree_by_relation`
-- Tree Constructor: Remove parameter `sep` for `nested_dict_to_tree`
+- Tree Constructor: Rename `list_to_tree_tuples` to `list_to_tree_by_relation`.
+- Tree Constructor: Remove parameter `sep` for `nested_dict_to_tree`.
 
 ## [0.4.5] - 2022-11-08
 ### Changed
@@ -201,7 +201,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.4] - 2022-11-08
 ### Fixed
-- Tree Constructor: Handle adding attributes that are array-like - add array even when one of the items is null
+- Tree Constructor: Handle adding attributes that are array-like - add array even when one of the items is null.
 
 ## [0.4.3] - 2022-11-08
 ### Added
@@ -209,11 +209,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.2] - 2022-11-08
 ### Fixed
-- Tree Constructor: For list of tuples, handle cases where parent name is None
+- Tree Constructor: For list of tuples, handle cases where parent name is None.
 
 ## [0.4.1] - 2022-11-07
 ### Fixed
-- Tree Constructor: Handle adding attributes that are array-like - error in drop_duplicate() and pd.isnull()
+- Tree Constructor: Handle adding attributes that are array-like - error in drop_duplicate() and pd.isnull().
 
 ## [0.4.0] - 2022-11-07
 ### Added
