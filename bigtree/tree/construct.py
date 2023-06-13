@@ -793,6 +793,8 @@ def dataframe_to_tree(
     add_dataframe_to_tree_by_path(
         root_node,
         data,
+        path_col=path_col,
+        attribute_cols=attribute_cols,
         sep=sep,
         duplicate_name_allowed=duplicate_name_allowed,
     )

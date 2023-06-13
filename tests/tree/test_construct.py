@@ -1397,6 +1397,26 @@ class TestDataFrameToTree(unittest.TestCase):
         assert_tree_structure_node_root_generic(root)
 
     @staticmethod
+    def test_dataframe_to_tree_col_name_not_first():
+        path_data = pd.DataFrame(
+            [
+                [90, "a"],
+                [65, "a/b"],
+                [60, "a/c"],
+                [40, "a/b/d"],
+                [35, "a/b/e"],
+                [38, "a/c/f"],
+                [10, "a/b/e/g"],
+                [6, "a/b/e/h"],
+            ],
+            columns=["age", "PATH"],
+        )
+        root = dataframe_to_tree(path_data, path_col="PATH")
+        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root_generic(root)
+
+    @staticmethod
     def test_dataframe_to_tree_no_attribute():
         path_data = pd.DataFrame(
             [
