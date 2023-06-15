@@ -5,15 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.9.4] - TBD
-### Modified
-- Misc: Modified contributing instructions.
-
 ### Added
+- Tree Constructor: `list_to_tree_by_relation` and `dataframe_to_tree_by_relation` method to allow duplicated intermediate nodes (default is false).
 - Misc: Added security instructions on how to raise vulnerabilities.
 - Misc: Added Calendar workflow to documentation.
+### Changed
+- Misc: Modified contributing instructions.
 
 ## [0.9.3] - 2023-05-28
-### Modified
+### Changed
 - Tree Constructor: Relax type hint to `Iterable` instead of `List` for `list_to_tree` and `list_to_tree_by_relation` methods.
 ### Fixed
 - Node: Fix error message when trees have different `sep`.

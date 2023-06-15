@@ -539,6 +539,7 @@ def list_to_tree(
 
 def list_to_tree_by_relation(
     relations: Iterable[Tuple[str, str]],
+    allow_duplicates: bool = False,
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from list of tuple containing parent-child names.
@@ -561,6 +562,8 @@ def list_to_tree_by_relation(
 
     Args:
         relations (Iterable[Tuple[str, str]]): list containing tuple containing parent-child names
+        allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
+            be tagged to multiple parent nodes, defaults to False
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -571,7 +574,11 @@ def list_to_tree_by_relation(
 
     relation_data = pd.DataFrame(relations, columns=["parent", "child"])
     return dataframe_to_tree_by_relation(
-        relation_data, child_col="child", parent_col="parent", node_type=node_type
+        relation_data,
+        child_col="child",
+        parent_col="parent",
+        allow_duplicates=allow_duplicates,
+        node_type=node_type,
     )
 
 
@@ -805,6 +812,7 @@ def dataframe_to_tree_by_relation(
     child_col: str = "",
     parent_col: str = "",
     attribute_cols: List[str] = [],
+    allow_duplicates: bool = False,
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from pandas DataFrame using parent and child names, return root of tree.
@@ -850,6 +858,8 @@ def dataframe_to_tree_by_relation(
             if not set, it will take the second column of data
         attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `child_col` and `parent_col`
+        allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
+            be tagged to multiple parent nodes, defaults to False
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -873,21 +883,22 @@ def dataframe_to_tree_by_relation(
 
     data_check = data.copy()[[child_col, parent_col]].drop_duplicates()
     # Filter for child nodes that are parent of other nodes
-    data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
-    _duplicate_check = (
-        data_check[child_col]
-        .value_counts()
-        .to_frame("counts")
-        .rename_axis(child_col)
-        .reset_index()
-    )
-    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
-    if len(_duplicate_check):
-        raise ValueError(
-            f"There exists duplicate child with different parent where the child is also a parent node.\n"
-            f"Duplicated node names should not happen, but can only exist in leaf nodes to avoid confusion.\n"
-            f"Check {_duplicate_check}"
+    if not allow_duplicates:
+        data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
+        _duplicate_check = (
+            data_check[child_col]
+            .value_counts()
+            .to_frame("counts")
+            .rename_axis(child_col)
+            .reset_index()
         )
+        _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
+        if len(_duplicate_check):
+            raise ValueError(
+                f"There exists duplicate child with different parent where the child is also a parent node.\n"
+                f"Duplicated node names should not happen, but can only exist in leaf nodes to avoid confusion.\n"
+                f"Check {_duplicate_check}"
+            )
 
     # If parent-child contains None -> root
     root_row = data[data[parent_col].isnull()]
