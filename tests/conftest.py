@@ -1,6 +1,7 @@
 import io
 import logging
 import sys
+from dataclasses import dataclass
 from typing import List, Union
 
 import pytest
@@ -437,3 +438,23 @@ def assert_console_output(expected: Union[List[str], str]):
         return wrapper
 
     return _decorator
+
+
+@dataclass
+class Constants:
+    # Tree Construct
+    ERROR_EMPTY_PATH = "Path is empty, check `path`"
+    ERROR_EMPTY_ROW = "Data does not contain any rows, check `data`"
+    ERROR_EMPTY_COL = "Data does not contain any columns, check `data`"
+    ERROR_EMPTY_STRING = "Tree string does not contain any data, check `tree_string`"
+    ERROR_EMPTY_DICT = "Dictionary does not contain any data, check"
+    ERROR_EMPTY_LIST = "Path list does not contain any data, check"
+    ERROR_DIFFERENT_ROOT = "Path does not have same root node"
+    ERROR_MULTIPLE_ROOT = "Unable to determine root node"
+    ERROR_DUPLICATE_PATH = "There exists duplicate path with different attributes"
+    ERROR_DUPLICATE_NAME = "There exists duplicate name with different attributes"
+    ERROR_DUPLICATE_PARENT = "There exists duplicate child with different parent where the child is also a parent node"
+    ERROR_NODE_TYPE = "Node type is not `NodeA`"
+    ERROR_PREFIX = "Invalid prefix, prefix should be unicode character or whitespace, otherwise specify one or more prefixes"
+    ERROR_PREFIX_LENGTH = "Tree string have different prefix length, check branch"
+    ERROR_JOIN_TYPE = "`join_type` must be one of 'inner' or 'left'"
