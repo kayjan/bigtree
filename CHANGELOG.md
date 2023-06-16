@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.9.4] - TBD
 ### Added
 - Tree Constructor: `list_to_tree_by_relation` and `dataframe_to_tree_by_relation` method to allow duplicated intermediate nodes (default is false).
+- Misc: More test cases for tree constructor.
 - Misc: Added security instructions on how to raise vulnerabilities.
 - Misc: Added Calendar workflow to documentation.
 ### Changed
+- Tree Constructor: `add_dict_to_tree_by_name` method rename parameter from `path_attrs` to `name_attrs`.
 - Misc: Modified contributing instructions.
 
 ## [0.9.3] - 2023-05-28
