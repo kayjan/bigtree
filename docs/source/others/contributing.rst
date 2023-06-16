@@ -63,7 +63,7 @@ If there are changes related to code, please make sure that the unit tests pass 
 .. code-block:: bash
 
     $ python -m pip install pytest coverage
-    $ pytest . && coverage report --show-missing --omit='*/workflows/*'
+    $ pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree
 
 Make sure your add/update the tests and documentations accordingly.
 
