@@ -6,8 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.9.4] - TBD
 ### Added
-- Tree Constructor: `list_to_tree_by_relation` and `dataframe_to_tree_by_relation` method to allow duplicated intermediate nodes (default is false).
-- Misc: More test cases for tree constructor.
+- Tree Constructor: `list_to_tree_by_relation` and `dataframe_to_tree_by_relation` method to allow duplicate intermediate nodes (default is false).
+- Misc: More test cases.
 - Misc: Added security instructions on how to raise vulnerabilities.
 - Misc: Added Calendar workflow to documentation.
 ### Changed
@@ -152,7 +152,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: Add Tips and Tricks to documentation (List Directory).
 
 ### Fixed
-- DAGNode: Fix issue of duplicated parent constructor creating duplicated children.
+- DAGNode: Fix issue of duplicate parent constructor creating duplicate children.
 
 ## [0.5.5] - 2022-11-12
 ### Added
