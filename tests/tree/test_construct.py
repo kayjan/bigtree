@@ -822,8 +822,9 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         assert_tree_structure_node_root_generic(root)
 
     def test_add_dataframe_to_tree_by_name_empty_error(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_name(self.root, pd.DataFrame())
+        assert str(exc_info.value) == ERROR_EMPTY_COL
 
     def test_add_dataframe_to_tree_by_name_empty_row_error(self):
         data = pd.DataFrame(columns=["NAME", "age"])
@@ -1325,8 +1326,9 @@ class TestDictToTree(unittest.TestCase):
             "a-b-e-g": {"age": 10},
             "a-b-e-h": {"age": 6},
         }
-        with pytest.raises(TreeError):
+        with pytest.raises(TreeError) as exc_info:
             dict_to_tree(paths)
+        assert str(exc_info.value).startswith(ERROR_DIFFERENT_ROOT)
 
     @staticmethod
     def test_dict_to_tree_sep():
@@ -1703,8 +1705,9 @@ class TestDataFrameToTree(unittest.TestCase):
             ],
             columns=["PATH", "age"],
         )
-        with pytest.raises(DuplicatedNodeError):
+        with pytest.raises(DuplicatedNodeError) as exc_info:
             dataframe_to_tree(path_data, duplicate_name_allowed=False)
+        assert str(exc_info.value).startswith("Node d already exists")
 
     @staticmethod
     def test_dataframe_to_tree_duplicate_node():
