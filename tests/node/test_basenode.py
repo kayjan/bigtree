@@ -7,7 +7,7 @@ from bigtree.node.basenode import BaseNode
 from bigtree.tree.helper import clone_tree
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
-from tests.conftest import assert_print_statement
+from tests.conftest import Constants, assert_print_statement
 
 
 class BaseNode2(BaseNode):
@@ -90,17 +90,15 @@ class TestBaseNode(unittest.TestCase):
     def test_set_parent_error(self):
         with pytest.raises(ValueError) as exc_info:
             self.b.parents = [self.a]
-        assert str(exc_info.value).startswith("Attempting to set `parents` attribute")
+        assert str(exc_info.value) == Constants.ERROR_SET_PARENTS_ATTR
 
         with pytest.raises(ValueError) as exc_info:
             self.b = BaseNode(parents=[self.a])
-        assert str(exc_info.value).startswith("Attempting to set `parents` attribute")
+        assert str(exc_info.value) == Constants.ERROR_SET_PARENTS_ATTR
 
         with pytest.raises(ValueError) as exc_info:
             self.b.parents
-        assert str(exc_info.value).startswith(
-            "Attempting to access `parents` attribute"
-        )
+        assert str(exc_info.value) == Constants.ERROR_GET_PARENTS_ATTR
 
     def test_set_parent_reassign(self):
         self.a.children = [self.b, self.c]
@@ -222,14 +220,12 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_self(self)
 
     def test_set_parent_duplicate(self):
-        # Set parent again
         self.b.parent = self.a
         self.b.parent = self.a
         assert list(self.a.children) == [self.b]
         assert self.b.parent == self.a
 
     def test_set_parent_duplicate_constructor(self):
-        # Set parent again
         self.a = BaseNode(name="a", age=90)
         self.b = BaseNode(name="b", age=65, parent=self.a)
         self.b.parent = self.a
@@ -304,18 +300,17 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_self(self)
 
     def test_set_children_none_parent(self):
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.h.children = None
+        assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
 
     def test_set_children_duplicate(self):
-        # Set child again
         self.a.children = [self.b]
         self.a.children = [self.b]
         assert list(self.a.children) == [self.b]
         assert self.b.parent == self.a
 
     def test_set_children_duplicate_constructor(self):
-        # Set child again
         self.a = BaseNode(children=[self.b])
         self.a.children = [self.b]
         assert list(self.a.children) == [self.b]
@@ -356,41 +351,41 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(a2)
 
     def test_error_set_parent_type_error(self):
-        # Error: wrong type
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.a.parent = 1
+        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_PARENT_TYPE)
 
     def test_error_set_parent_loop_error(self):
-        # Error: set self as parent
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.a.parent = self.a
+        assert str(exc_info.value) == Constants.ERROR_LOOP_PARENT
 
-        # Error: set descendant as parent
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.b.parent = self.a
             self.c.parent = self.b
             self.a.parent = self.c
+        assert str(exc_info.value) == Constants.ERROR_LOOP_ANCESTOR
 
     def test_error_set_children_type_error(self):
-        # Error: wrong type
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.a.children = [self.b, 1]
+        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_CHILDREN_TYPE)
 
     def test_error_set_children_loop_error(self):
-        # Error: set self as child
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.a]
+        assert str(exc_info.value) == Constants.ERROR_LOOP_CHILD
 
-        # Error: set ancestor as child
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e, self.f]
             self.f.children = [self.a]
+        assert str(exc_info.value) == Constants.ERROR_LOOP_DESCENDANT
 
     def test_error_set_children_exception(self):
-        # Error: duplicate child
-        with pytest.raises(TreeError):
+        with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.b]
+        assert str(exc_info.value) == Constants.ERROR_SET_DUPLICATE_CHILD
 
     def test_rollback_set_parent(self):
         a = clone_tree(self.a, BaseNode2)

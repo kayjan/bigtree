@@ -167,7 +167,7 @@ class Node(BaseNode):
                 for child in new_parent.children
             ):
                 raise TreeError(
-                    f"Error: Duplicate node with same path\n"
+                    f"Duplicate node with same path\n"
                     f"There exist a node with same path {new_parent.path_name}{new_parent.sep}{self.node_name}"
                 )
 
@@ -195,7 +195,7 @@ class Node(BaseNode):
                 [f"{self.path_name}{self.sep}{name}" for name in duplicate_names]
             )
             raise TreeError(
-                f"Error: Duplicate node with same path\n"
+                f"Duplicate node with same path\n"
                 f"Attempting to add nodes same path {duplicate_names_str}"
             )
 

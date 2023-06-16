@@ -10,7 +10,7 @@ from bigtree.tree.export import (
     tree_to_nested_dict,
     tree_to_pillow,
 )
-from tests.conftest import assert_print_statement
+from tests.conftest import Constants, assert_print_statement
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root_attr,
     assert_tree_structure_basenode_root_generic,
@@ -119,9 +119,7 @@ class TestPrintTree:
     def test_print_tree_attr_bracket_missing_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
             print_tree(tree_node, all_attrs=True, attr_bracket=[""])
-        assert str(exc_info.value).startswith(
-            "Expect open and close brackets in `attr_bracket`"
-        )
+        assert str(exc_info.value).startswith(Constants.ERROR_ATTR_BRACKET)
 
     # style
     @staticmethod
@@ -184,9 +182,7 @@ class TestPrintTree:
                 style="custom",
                 custom_style=["", " ", ""],
             )
-        assert str(exc_info.value).startswith(
-            "`style_stem`, `style_branch`, and `style_stem_final` are of different length"
-        )
+        assert str(exc_info.value) == Constants.ERROR_CUSTOM_STYLE_DIFFERENT_LENGTH
 
     @staticmethod
     def test_print_tree_custom_style_missing_style_error(tree_node):
@@ -196,9 +192,7 @@ class TestPrintTree:
                 style="custom",
                 custom_style=["", ""],
             )
-        assert str(exc_info.value).startswith(
-            "Custom style selected, please specify the style of stem, branch, and final stem in `custom_style`"
-        )
+        assert str(exc_info.value) == Constants.ERROR_CUSTOM_STYLE_SELECT
 
 
 class TestTreeToDataFrame:
@@ -832,7 +826,7 @@ class TestTreeToDot:
     def test_tree_to_dot_type_error(dag_node):
         with pytest.raises(ValueError) as exc_info:
             tree_to_dot(dag_node)
-        assert str(exc_info.value).startswith("Tree should be of type `Node`")
+        assert str(exc_info.value) == Constants.ERROR_EXPORT_NODE_TYPE
 
     @staticmethod
     def test_tree_to_dot_directed(tree_node):

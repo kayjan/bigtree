@@ -18,6 +18,7 @@ from bigtree.tree.search import (
     findall,
 )
 from bigtree.utils.exceptions import SearchError
+from tests.conftest import Constants
 
 
 class TestSearch(unittest.TestCase):
@@ -88,12 +89,14 @@ class TestSearch(unittest.TestCase):
         ), f"Expected find_all to return {expected}, received {actual}"
 
     def test_find_all_max_count_error(self):
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             findall(self.a, lambda node: node.age >= 30, max_depth=2, max_count=2)
+        assert str(exc_info.value).startswith(Constants.ERROR_TWO_ELEMENT)
 
     def test_find_all_min_count_error(self):
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             findall(self.a, lambda node: node.age >= 30, max_depth=2, min_count=4)
+        assert str(exc_info.value).startswith(Constants.ERROR_MORE_THAN_FOUR_ELEMENT)
 
     def test_find(self):
         actual = find(self.a, lambda node: node.age == 60)
@@ -116,8 +119,9 @@ class TestSearch(unittest.TestCase):
         ), f"Expected find to return {expected}, received {actual}"
 
     def test_find_error(self):
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             find(self.a, lambda node: node.age > 5)
+        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
 
     def test_find_name(self):
         inputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
@@ -231,8 +235,9 @@ class TestSearch(unittest.TestCase):
         ]
         expected_ans = [None, None, None]
         for input_, expected in zip(inputs, expected_ans):
-            with pytest.raises(ValueError):
+            with pytest.raises(ValueError) as exc_info:
                 find_full_path(self.a, input_)
+        assert str(exc_info.value).endswith("does not match the root node name a")
 
     def test_find_path(self):
         inputs = [
@@ -508,12 +513,14 @@ class TestSearch(unittest.TestCase):
             ), f"Expected find_children to return {expected}, received {actual} for input {input}"
 
     def test_find_children_max_count(self):
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             find_children(self.a, lambda node: node.age >= 30, max_count=1)
+        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
 
     def test_find_children_min_count(self):
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             find_children(self.a, lambda node: node.age >= 30, min_count=3)
+        assert str(exc_info.value).startswith(Constants.ERROR_MORE_THAN_THREE_ELEMENT)
 
     def test_find_child(self):
         inputs = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
@@ -540,8 +547,9 @@ class TestSearch(unittest.TestCase):
             ), f"Expected find_children to return {expected}, received {actual} for input {input}"
 
     def test_find_child_error(self):
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             find_child(self.a, lambda node: node.age > 5)
+        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
 
     def test_find_child_by_name(self):
         inputs1 = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]

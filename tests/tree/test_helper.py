@@ -5,7 +5,7 @@ from bigtree.node.basenode import BaseNode
 from bigtree.node.node import Node
 from bigtree.tree.helper import clone_tree, get_tree_diff, prune_tree
 from bigtree.utils.exceptions import NotFoundError, SearchError
-from tests.conftest import assert_print_statement
+from tests.conftest import Constants, assert_print_statement
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root_attr,
     assert_tree_structure_basenode_root_generic,
@@ -15,8 +15,9 @@ from tests.node.test_basenode import (
 class TestCloneTree:
     @staticmethod
     def test_clone_tree_wrong_type():
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError) as exc_info:
             clone_tree({}, Node)
+        assert str(exc_info.value) == Constants.ERROR_HELPER_BASENODE_TYPE
 
     @staticmethod
     def test_clone_tree_basenode_node(tree_basenode):
@@ -58,13 +59,15 @@ class TestPruneTree:
     def test_prune_tree_multiple_path(tree_node):
         dd = Node("d")
         dd.parent = tree_node.children[-1]
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             prune_tree(tree_node, "d")
+        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
 
     @staticmethod
     def test_prune_tree_nonexistant_path(tree_node):
-        with pytest.raises(NotFoundError):
+        with pytest.raises(NotFoundError) as exc_info:
             prune_tree(tree_node, "i")
+        assert str(exc_info.value).startswith(Constants.ERROR_NOT_FOUND)
 
     @staticmethod
     def test_prune_tree_sep(tree_node):
@@ -78,8 +81,9 @@ class TestPruneTree:
 
     @staticmethod
     def test_prune_tree_sep_wrong(tree_node):
-        with pytest.raises(NotFoundError):
+        with pytest.raises(NotFoundError) as exc_info:
             prune_tree(tree_node, "a\\c")
+        assert str(exc_info.value).startswith(Constants.ERROR_NOT_FOUND)
 
 
 class TestTreeDiff:

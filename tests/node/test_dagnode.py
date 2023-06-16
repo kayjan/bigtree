@@ -10,7 +10,7 @@ from bigtree.node.dagnode import DAGNode
 from bigtree.node.node import Node
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import dag_iterator
-from tests.conftest import assert_print_statement
+from tests.conftest import Constants, assert_print_statement
 
 
 class DAGNode2(DAGNode):
@@ -92,15 +92,15 @@ class TestDAGNode(unittest.TestCase):
     def test_set_parent_error(self):
         with pytest.raises(ValueError) as exc_info:
             self.c.parent = self.a
-        assert str(exc_info.value).startswith("Attempting to set `parent` attribute")
+        assert str(exc_info.value) == Constants.ERROR_SET_PARENT_ATTR
 
         with pytest.raises(ValueError) as exc_info:
             self.c = DAGNode("b", parent=self.a)
-        assert str(exc_info.value).startswith("Attempting to set `parent` attribute")
+        assert str(exc_info.value) == Constants.ERROR_SET_PARENT_ATTR
 
         with pytest.raises(ValueError) as exc_info:
             self.c.parent
-        assert str(exc_info.value).startswith("Attempting to access `parent` attribute")
+        assert str(exc_info.value) == Constants.ERROR_GET_PARENT_ATTR
 
     def test_set_parent_reassign(self):
         self.a.children = [self.b, self.c]
@@ -187,18 +187,17 @@ class TestDAGNode(unittest.TestCase):
 
     def test_set_parents_none_parent(self):
         self.c.parents = [self.a]
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.c.parents = None
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
 
     def test_set_parent_duplicate(self):
-        # Set parent again
         self.c.parents = [self.a]
         self.c.parents = [self.a]
         assert list(self.a.children) == [self.c]
         assert list(self.c.parents) == [self.a]
 
     def test_set_parent_duplicate_constructor(self):
-        # Set parent again
         self.a = DAGNode(name="a", age=90)
         self.c = DAGNode(name="c", age=60, parents=[self.a])
         self.c.parents = [self.a]
@@ -232,16 +231,15 @@ class TestDAGNode(unittest.TestCase):
         assert_dag_structure_root(self.a)
 
     def test_set_children_none_children(self):
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.g.children = None
+        assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
 
     def test_set_children_duplicate(self):
-        # Set child again
         self.a.children = [self.c]
         self.a.children = [self.c]
 
     def test_set_children_duplicate_constructor(self):
-        # Set child again
         self.a = DAGNode(children=[self.c])
         self.a.children = [self.c]
 
@@ -274,68 +272,74 @@ class TestDAGNode(unittest.TestCase):
         ), "Shallow copy does not copy child nodes"
 
     def test_error_set_parent_type_error(self):
-        # Error: wrong type
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.a.parents = 1
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
 
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.a.parents = [1]
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
 
         a = BaseNode()
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.a.parents = [a]
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
 
         a = Node("a")
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.a.parents = [a]
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
 
     def test_error_set_parent_loop_error(self):
-        # Error: set self as parent
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.a.parents = [self.a]
+        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_PARENT)
 
-        # Error: set descendant as parent
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.b.parents = [self.a]
             self.c.parents = [self.b]
             self.a.parents = [self.c]
+        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_ANCESTOR)
 
     def test_error_set_parent_exception(self):
-        # Error: duplicate child
-        with pytest.raises(TreeError):
+        with pytest.raises(TreeError) as exc_info:
             self.a.parents = [self.b, self.b]
+        assert str(exc_info.value).startswith(Constants.ERROR_SET_DUPLICATE_PARENT)
 
     def test_error_set_children_type_error(self):
-        # Error: wrong type
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.a.children = 1
+        assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
 
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.a.children = [self.b, 1]
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
 
         a = BaseNode()
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.a.children = [a]
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
 
         a = Node("a")
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.a.children = [a]
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
 
     def test_error_set_children_loop_error(self):
-        # Error: set self as child
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.a]
+        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_CHILD)
 
-        # Error: set ancestor as child
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e, self.f]
             self.f.children = [self.a]
+        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_DESCENDANT)
 
     def test_error_set_children_exception(self):
-        # Error: duplicate child
-        with pytest.raises(TreeError):
+        with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.b]
+        assert str(exc_info.value).startswith(Constants.ERROR_SET_DUPLICATE_CHILD)
 
     @staticmethod
     def test_rollback_set_parents():
