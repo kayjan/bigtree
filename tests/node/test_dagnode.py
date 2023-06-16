@@ -892,3 +892,11 @@ def assert_dag_structure_attr_root(dag):
         assert (
             expected == actual
         ), f"For {child}, expected\n{expected}\nReceived\n{actual}"
+
+
+def assert_dag_child_attr(dag, parent_name, child_name, child_attr, child_value):
+    for parent, child in dag_iterator(dag):
+        if parent.name == parent_name and child.name == child_name:
+            expected = child_value
+            actual = child.get_attr(child_attr)
+            assert expected == actual, f"Expected {expected}, received {actual}"

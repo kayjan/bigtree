@@ -13,6 +13,7 @@ from bigtree.tree.construct import (
     list_to_tree_by_relation,
     nested_dict_to_tree,
 )
+from tests.conftest import Constants
 from tests.node.test_binarynode import assert_binarytree_structure_root2
 
 
@@ -31,15 +32,15 @@ class TestListToBinaryTree(unittest.TestCase):
         root = list_to_binarytree(self.nums_list)
         assert_binarytree_structure_root2(root)
 
-    def test_list_to_binarytree_node_type(self):
-        root = list_to_binarytree(self.nums_list, node_type=BinaryNodeA)
-        assert isinstance(root, BinaryNodeA), "Node type is not `BinaryNodeA`"
-        assert_binarytree_structure_root2(root)
-
-    def test_list_to_binarytree_error(self):
+    def test_list_to_binarytree_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
             list_to_binarytree([])
-        assert str(exc_info.value).startswith("Input list does not contain any data")
+        assert str(exc_info.value).startswith(Constants.ERROR_BINARY_EMPTY_LIST)
+
+    def test_list_to_binarytree_node_type(self):
+        root = list_to_binarytree(self.nums_list, node_type=BinaryNodeA)
+        assert isinstance(root, BinaryNodeA), Constants.ERROR_BINARY_NODE_TYPE
+        assert_binarytree_structure_root2(root)
 
 
 class TestListToTree(unittest.TestCase):

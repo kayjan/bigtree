@@ -58,7 +58,7 @@ def add_path_to_tree(
         tree (Node): existing tree
         path (str): path to be added to tree
         sep (str): path separator for input `path`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
         node_attrs (Dict[str, Any]): attributes to add to node, key: attribute name, value: attribute value, optional
 
     Returns:
@@ -147,7 +147,7 @@ def add_dict_to_tree_by_path(
         path_attrs (Dict[str, Dict[str, Any]]): dictionary containing node path and attribute information,
             key: node path, value: dict of node attribute name and attribute value
         sep (str): path separator for input `path_attrs`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
 
     Returns:
         (Node)
@@ -268,7 +268,7 @@ def add_dataframe_to_tree_by_path(
         attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `path_col`
         sep (str): path separator for input `path_col`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
 
     Returns:
         (Node)
@@ -512,7 +512,7 @@ def list_to_tree(
     Args:
         paths (Iterable[str]): list containing path strings
         sep (str): path separator for input `paths` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -627,7 +627,7 @@ def dict_to_tree(
         path_attrs (Dict[str, Any]): dictionary containing path and node attribute information,
             key: path, value: dict of tree attribute and attribute value
         sep (str): path separator of input `path_attrs` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -764,7 +764,7 @@ def dataframe_to_tree(
         attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `path_col`
         sep (str): path separator of input `path_col` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:

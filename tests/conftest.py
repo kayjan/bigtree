@@ -442,11 +442,36 @@ def assert_console_output(expected: Union[List[str], str]):
 
 @dataclass
 class Constants:
+    # Binary Tree Construct
+    ERROR_BINARY_EMPTY_LIST = "Input list does not contain any data, check"
+    ERROR_BINARY_NODE_TYPE = "Node type is not `BinaryNodeA`"
+
+    # DAG Construct
+    ERROR_DAG_EMPTY_LIST = "Input list does not contain any data, check"
+    ERROR_DAG_EMPTY_DICT = (
+        "Dictionary does not contain any data, check `relation_attrs`"
+    )
+    ERROR_DAG_PARENT_KEY = (
+        "Parent key parent not in dictionary, check `relation_attrs` and `parent_key`"
+    )
+    ERROR_DAG_PARENT_COL = "Parent column not in data, check `parent_col`"
+    ERROR_DAG_CHILD_COL = "Child column not in data, check `child_col`"
+    ERROR_DAG_ATTRIBUTE_COL = (
+        "One or more attribute column(s) not in data, check `attribute_col`"
+    )
+
+    ERROR_DAG_EMPTY_CHILD = "Child name cannot be empty"
+    ERROR_DAG_DUPLICATE_PARENT = (
+        "There exists duplicate child name with different attributes"
+    )
+    ERROR_DAG_NODE_TYPE = "Node type is not `DAGNodeA`"
+
     # Tree Construct
     ERROR_EMPTY_PATH = "Path is empty, check `path`"
     ERROR_EMPTY_ROW = "Data does not contain any rows, check `data`"
     ERROR_EMPTY_COL = "Data does not contain any columns, check `data`"
     ERROR_EMPTY_STRING = "Tree string does not contain any data, check `tree_string`"
+
     ERROR_EMPTY_DICT = "Dictionary does not contain any data, check"
     ERROR_EMPTY_LIST = "Path list does not contain any data, check"
     ERROR_DIFFERENT_ROOT = "Path does not have same root node"

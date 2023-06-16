@@ -187,16 +187,16 @@ class Node(BaseNode):
         """
         self.__pre_assign_children(new_children)
         children_names = [node.node_name for node in new_children]
-        duplicated_names = [
+        duplicate_names = [
             item[0] for item in Counter(children_names).items() if item[1] > 1
         ]
-        if len(duplicated_names):
-            duplicated_names_str = " and ".join(
-                [f"{self.path_name}{self.sep}{name}" for name in duplicated_names]
+        if len(duplicate_names):
+            duplicate_names_str = " and ".join(
+                [f"{self.path_name}{self.sep}{name}" for name in duplicate_names]
             )
             raise TreeError(
                 f"Error: Duplicate node with same path\n"
-                f"Attempting to add nodes same path {duplicated_names_str}"
+                f"Attempting to add nodes same path {duplicate_names_str}"
             )
 
     def _BaseNode__post_assign_children(self: T, new_children: List[T]) -> None:

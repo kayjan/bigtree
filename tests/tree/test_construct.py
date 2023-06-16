@@ -1169,7 +1169,7 @@ class TestListToTreeByRelation(unittest.TestCase):
         assert_print_statement(print_tree, expected, tree=root, style="const")
 
     @staticmethod
-    def test_list_to_tree_by_relation_duplicated_intermediate_node_error():
+    def test_list_to_tree_by_relation_duplicate_intermediate_node_error():
         relations = [
             ("a", "b"),
             ("a", "c"),
@@ -1185,7 +1185,7 @@ class TestListToTreeByRelation(unittest.TestCase):
         assert str(exc_info.value).startswith(Constants.ERROR_DUPLICATE_PARENT)
 
     @staticmethod
-    def test_list_to_tree_by_relation_duplicated_intermediate_node():
+    def test_list_to_tree_by_relation_duplicate_intermediate_node():
         relations = [
             ("a", "b"),
             ("a", "c"),
@@ -1807,7 +1807,7 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         assert_print_statement(print_tree, expected, tree=root, style="const")
 
     @staticmethod
-    def test_dataframe_to_tree_by_relation_duplicated_intermediate_node_error():
+    def test_dataframe_to_tree_by_relation_duplicate_intermediate_node_error():
         data = pd.DataFrame(
             [
                 ["a", None, 90],
@@ -1827,7 +1827,7 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         assert str(exc_info.value).startswith(Constants.ERROR_DUPLICATE_PARENT)
 
     @staticmethod
-    def test_dataframe_to_tree_by_relation_duplicated_intermediate_node():
+    def test_dataframe_to_tree_by_relation_duplicate_intermediate_node():
         data = pd.DataFrame(
             [
                 ["a", None, 90],
