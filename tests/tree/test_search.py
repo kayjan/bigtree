@@ -18,7 +18,7 @@ from bigtree.tree.search import (
     findall,
 )
 from bigtree.utils.exceptions import SearchError
-from tests.conftest import Constants
+from tests.constants import Constants
 
 
 class TestSearch(unittest.TestCase):

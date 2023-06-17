@@ -10,7 +10,7 @@ from bigtree import (
     dict_to_dag,
     list_to_dag,
 )
-from tests.conftest import Constants
+from tests.constants import Constants
 from tests.node.test_dagnode import (
     assert_dag_structure_attr_root,
     assert_dag_structure_root,

@@ -7,7 +7,8 @@ from bigtree.node.binarynode import BinaryNode
 from bigtree.node.node import Node
 from bigtree.tree.helper import clone_tree
 from bigtree.utils.exceptions import LoopError, TreeError
-from tests.conftest import Constants, assert_print_statement
+from tests.conftest import assert_print_statement
+from tests.constants import Constants
 
 
 class BinaryNode2(BinaryNode):

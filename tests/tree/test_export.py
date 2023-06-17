@@ -10,7 +10,8 @@ from bigtree.tree.export import (
     tree_to_nested_dict,
     tree_to_pillow,
 )
-from tests.conftest import Constants, assert_print_statement
+from tests.conftest import assert_print_statement
+from tests.constants import Constants
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root_attr,
     assert_tree_structure_basenode_root_generic,

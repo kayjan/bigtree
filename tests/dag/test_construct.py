@@ -5,7 +5,7 @@ import pytest
 
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
 from bigtree.node.dagnode import DAGNode
-from tests.conftest import Constants
+from tests.constants import Constants
 from tests.node.test_dagnode import (
     assert_dag_structure_attr_root,
     assert_dag_structure_root,
