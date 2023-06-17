@@ -4,15 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.9.4] - TBD
+## [0.9.4] - 2023-06-18
 ### Added
 - Tree Constructor: `list_to_tree_by_relation` and `dataframe_to_tree_by_relation` method to allow duplicate intermediate nodes (default is false).
+- DAG Exporter: Added `node_shape` parameter in `dag_to_dot` export function for easier way to customize node shape.
 - Misc: More test cases.
 - Misc: Added security instructions on how to raise vulnerabilities.
 - Misc: Added Calendar workflow to documentation.
 ### Changed
-- Tree Constructor: `add_dict_to_tree_by_name` method rename parameter from `path_attrs` to `name_attrs`.
+- Tree Constructor: `add_dict_to_tree_by_name` method rename argument from `path_attrs` to `name_attrs`.
 - Misc: Modified contributing instructions.
+### Fixed
+- Tree Exporter: `tree_to_dot` to handle cases when not all nodes have `edge_attr`.
+- DAG Exporter: `dag_to_dot` to perform dictionary copy to prevent style from being overridden for child nodes.
 
 ## [0.9.3] - 2023-05-28
 ### Changed
