@@ -3,6 +3,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Constants:
+    LOCAL = False
+
     # binarytree/construct
     ERROR_BINARY_EMPTY_LIST = "Input list does not contain any data, check"
     ERROR_BINARY_NODE_TYPE = "Node type is not `BinaryNodeA`"

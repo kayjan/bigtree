@@ -103,40 +103,6 @@ class TestDAGNode(unittest.TestCase):
             self.c.parent
         assert str(exc_info.value) == Constants.ERROR_GET_PARENT_ATTR
 
-    def test_set_parent_reassign(self):
-        self.a.children = [self.b, self.c]
-        self.d.children = [self.e]
-        self.b.parents = [self.d]
-        assert list(self.a.children) == [
-            self.b,
-            self.c,
-        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
-        assert list(self.d.children) == [
-            self.e,
-            self.b,
-        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
-        assert list(self.b.parents) == [
-            self.a,
-            self.d,
-        ], f"Node b parents, expected {[self.a, self.d]}, received {self.b.parents}"
-
-    def test_set_children_reassign(self):
-        self.a.children = [self.c]
-        self.b.parents = [self.a]
-        self.d.children = [self.e, self.b]
-        assert list(self.a.children) == [
-            self.c,
-            self.b,
-        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
-        assert list(self.d.children) == [
-            self.e,
-            self.b,
-        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
-        assert list(self.b.parents) == [
-            self.a,
-            self.d,
-        ], f"Node b parents, expected {[self.a, self.d]}, received {self.b.parents}"
-
     def test_set_parents(self):
         self.c.parents = [self.a, self.b]
         self.d.parents = [self.a, self.c]
@@ -186,11 +152,28 @@ class TestDAGNode(unittest.TestCase):
         assert_dag_structure_self(self)
         assert_dag_structure_root(self.a)
 
-    def test_set_parents_none_parent(self):
+    def test_set_parents_none_parent_error(self):
         self.c.parents = [self.a]
         with pytest.raises(TypeError) as exc_info:
             self.c.parents = None
         assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
+
+    def test_set_parent_reassign(self):
+        self.a.children = [self.b, self.c]
+        self.d.children = [self.e]
+        self.b.parents = [self.d]
+        assert list(self.a.children) == [
+            self.b,
+            self.c,
+        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
+        assert list(self.d.children) == [
+            self.e,
+            self.b,
+        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
+        assert list(self.b.parents) == [
+            self.a,
+            self.d,
+        ], f"Node b parents, expected {[self.a, self.d]}, received {self.b.parents}"
 
     def test_set_parent_duplicate(self):
         self.c.parents = [self.a]
@@ -231,10 +214,27 @@ class TestDAGNode(unittest.TestCase):
         assert_dag_structure_self(self)
         assert_dag_structure_root(self.a)
 
-    def test_set_children_none_children(self):
+    def test_set_children_none_children_error(self):
         with pytest.raises(TypeError) as exc_info:
             self.g.children = None
         assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
+
+    def test_set_children_reassign(self):
+        self.a.children = [self.c]
+        self.b.parents = [self.a]
+        self.d.children = [self.e, self.b]
+        assert list(self.a.children) == [
+            self.c,
+            self.b,
+        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
+        assert list(self.d.children) == [
+            self.e,
+            self.b,
+        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
+        assert list(self.b.parents) == [
+            self.a,
+            self.d,
+        ], f"Node b parents, expected {[self.a, self.d]}, received {self.b.parents}"
 
     def test_set_children_duplicate(self):
         self.a.children = [self.c]
@@ -272,7 +272,7 @@ class TestDAGNode(unittest.TestCase):
             a2.children[0] == self.c or a2.children[1] == self.c
         ), "Shallow copy does not copy child nodes"
 
-    def test_error_set_parent_type_error(self):
+    def test_set_parents_type_error(self):
         with pytest.raises(TypeError) as exc_info:
             self.a.parents = 1
         assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
@@ -291,7 +291,7 @@ class TestDAGNode(unittest.TestCase):
             self.a.parents = [a]
         assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
 
-    def test_error_set_parent_loop_error(self):
+    def test_set_parents_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
             self.a.parents = [self.a]
         assert str(exc_info.value).startswith(Constants.ERROR_LOOP_PARENT)
@@ -302,12 +302,12 @@ class TestDAGNode(unittest.TestCase):
             self.a.parents = [self.c]
         assert str(exc_info.value).startswith(Constants.ERROR_LOOP_ANCESTOR)
 
-    def test_error_set_parent_exception(self):
+    def test_set_duplicate_parent_error(self):
         with pytest.raises(TreeError) as exc_info:
             self.a.parents = [self.b, self.b]
         assert str(exc_info.value).startswith(Constants.ERROR_SET_DUPLICATE_PARENT)
 
-    def test_error_set_children_type_error(self):
+    def test_set_children_type_error(self):
         with pytest.raises(TypeError) as exc_info:
             self.a.children = 1
         assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
@@ -326,7 +326,7 @@ class TestDAGNode(unittest.TestCase):
             self.a.children = [a]
         assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
 
-    def test_error_set_children_loop_error(self):
+    def test_set_children_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.a]
         assert str(exc_info.value).startswith(Constants.ERROR_LOOP_CHILD)
@@ -337,7 +337,7 @@ class TestDAGNode(unittest.TestCase):
             self.f.children = [self.a]
         assert str(exc_info.value).startswith(Constants.ERROR_LOOP_DESCENDANT)
 
-    def test_error_set_children_exception(self):
+    def test_set_duplicate_children_error(self):
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.b]
         assert str(exc_info.value).startswith(Constants.ERROR_SET_DUPLICATE_CHILD)
@@ -667,8 +667,63 @@ class TestDAGNode(unittest.TestCase):
         assert str(exc_info.value).startswith("It is not possible to go to")
 
 
+def assert_dag_structure_root(dag):
+    """Test tree structure"""
+    expected = [
+        ("a", "c"),
+        ("a", "d"),
+        ("b", "c"),
+        ("c", "d"),
+        ("c", "f"),
+        ("c", "g"),
+        ("d", "e"),
+        ("d", "f"),
+        ("g", "h"),
+    ]
+    actual = [
+        (parent.node_name, child.node_name) for parent, child in dag_iterator(dag)
+    ]
+    len_expected = 9
+    len_actual = len(actual)
+    for relation in actual:
+        if relation[1] in ["a", "b"]:
+            len_expected = 11
+            assert pd.isnull(relation[0]), f"Expected\n{relation}\nReceived\n{actual}"
+        else:
+            assert relation in expected, f"Expected\n{relation}\nReceived\n{actual}"
+    assert (
+        len_expected == len_actual
+    ), f"Expected\n{len_expected}\nReceived\n{len_actual}"
+
+
+def assert_dag_structure_root_attr(dag):
+    """Test tree structure with age attributes"""
+    expected_dict = {
+        "a": 90,
+        "b": 65,
+        "c": 60,
+        "d": 40,
+        "e": 35,
+        "f": 38,
+        "g": 10,
+        "h": 6,
+    }
+    for parent, child in dag_iterator(dag):
+        expected = expected_dict[parent.node_name]
+        actual = parent.age
+        assert (
+            expected == actual
+        ), f"For {parent}, expected\n{expected}\nReceived\n{actual}"
+
+        expected = expected_dict[child.node_name]
+        actual = child.age
+        assert (
+            expected == actual
+        ), f"For {child}, expected\n{expected}\nReceived\n{actual}"
+
+
 def assert_dag_structure_self(self):
-    """
+    """Test tree structure with self object
     Tree should have structure
     a >> c
     a >> d
@@ -846,60 +901,8 @@ def assert_dag_structure_self(self):
         ), f"Node attribute should be {expected}, but it is {actual}"
 
 
-def assert_dag_structure_root(dag):
-    expected = [
-        ("a", "c"),
-        ("a", "d"),
-        ("b", "c"),
-        ("c", "d"),
-        ("c", "f"),
-        ("c", "g"),
-        ("d", "e"),
-        ("d", "f"),
-        ("g", "h"),
-    ]
-    actual = [
-        (parent.node_name, child.node_name) for parent, child in dag_iterator(dag)
-    ]
-    len_expected = 9
-    len_actual = len(actual)
-    for relation in actual:
-        if relation[1] in ["a", "b"]:
-            len_expected = 11
-            assert pd.isnull(relation[0]), f"Expected\n{relation}\nReceived\n{actual}"
-        else:
-            assert relation in expected, f"Expected\n{relation}\nReceived\n{actual}"
-    assert (
-        len_expected == len_actual
-    ), f"Expected\n{len_expected}\nReceived\n{len_actual}"
-
-
-def assert_dag_structure_attr_root(dag):
-    expected_dict = {
-        "a": 90,
-        "b": 65,
-        "c": 60,
-        "d": 40,
-        "e": 35,
-        "f": 38,
-        "g": 10,
-        "h": 6,
-    }
-    for parent, child in dag_iterator(dag):
-        expected = expected_dict[parent.node_name]
-        actual = parent.age
-        assert (
-            expected == actual
-        ), f"For {parent}, expected\n{expected}\nReceived\n{actual}"
-
-        expected = expected_dict[child.node_name]
-        actual = child.age
-        assert (
-            expected == actual
-        ), f"For {child}, expected\n{expected}\nReceived\n{actual}"
-
-
 def assert_dag_child_attr(dag, parent_name, child_name, child_attr, child_value):
+    """Test tree attributes"""
     for parent, child in dag_iterator(dag):
         if parent.name == parent_name and child.name == child_name:
             expected = child_value

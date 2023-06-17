@@ -227,7 +227,7 @@ class TestSearch(unittest.TestCase):
                 actual == expected
             ), f"Expected find_full_path to return {expected}, received {actual}"
 
-    def test_find_full_wrong_root(self):
+    def test_find_full_wrong_root_error(self):
         inputs = [
             "/",
             "/b/d/",
@@ -512,12 +512,12 @@ class TestSearch(unittest.TestCase):
                 actual == expected
             ), f"Expected find_children to return {expected}, received {actual} for input {input}"
 
-    def test_find_children_max_count(self):
+    def test_find_children_max_count_error(self):
         with pytest.raises(SearchError) as exc_info:
             find_children(self.a, lambda node: node.age >= 30, max_count=1)
         assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
 
-    def test_find_children_min_count(self):
+    def test_find_children_min_count_error(self):
         with pytest.raises(SearchError) as exc_info:
             find_children(self.a, lambda node: node.age >= 30, min_count=3)
         assert str(exc_info.value).startswith(Constants.ERROR_MORE_THAN_THREE_ELEMENT)

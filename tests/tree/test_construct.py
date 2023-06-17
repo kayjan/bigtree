@@ -24,11 +24,11 @@ from bigtree.utils.exceptions import DuplicatedNodeError, TreeError
 from tests.conftest import assert_print_statement
 from tests.constants import Constants
 from tests.node.test_basenode import (
+    assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
-    assert_tree_structure_basenode_root_generic,
 )
 from tests.node.test_node import (
-    assert_tree_structure_node_root_generic,
+    assert_tree_structure_node_root,
     assert_tree_structure_node_root_sep,
 )
 
@@ -70,12 +70,12 @@ class TestAddPathToTree(unittest.TestCase):
         ]
         for path in path_list:
             add_path_to_tree(self.root, path)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
 
     def test_add_path_to_tree_leaves(self):
         for path in self.path_list:
             add_path_to_tree(self.root, path)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
 
     def test_add_path_to_tree_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -86,13 +86,13 @@ class TestAddPathToTree(unittest.TestCase):
         path_list = ["/a/b/d", "/a/b/e", "/a/b/e/g", "/a/b/e/h", "/a/c/f"]
         for path in path_list:
             add_path_to_tree(self.root, path)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
 
     def test_add_path_to_tree_sep_trailing(self):
         path_list = ["a/b/d/", "a/b/e/", "a/b/e/g/", "a/b/e/h/", "a/c/f/"]
         for path in path_list:
             add_path_to_tree(self.root, path)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
 
     def test_add_path_to_tree_sep_error(self):
         path_list = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
@@ -107,8 +107,8 @@ class TestAddPathToTree(unittest.TestCase):
 
         for path in path_list:
             add_path_to_tree(self.root, path, sep="\\")
-        assert_tree_structure_basenode_root_generic(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_path_to_tree_sep_tree(self):
         self.root.sep = "\\"
@@ -148,14 +148,14 @@ class TestAddPathToTree(unittest.TestCase):
 
         for path in path_list:
             add_path_to_tree(self.root, path)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
 
     def test_add_path_to_tree_node_type(self):
         root = NodeA("a")
         for path in self.path_list:
             add_path_to_tree(root, path)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
 
     def test_add_path_to_tree_different_root_error(self):
         path_list = [
@@ -205,9 +205,9 @@ class TestAddDictToTreeByPath(unittest.TestCase):
 
     def test_add_dict_to_tree_by_path(self):
         add_dict_to_tree_by_path(self.root, self.paths)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dict_to_tree_by_path_empty_error(self):
         paths = {}
@@ -227,9 +227,9 @@ class TestAddDictToTreeByPath(unittest.TestCase):
             "/a/b/e/h": {"age": 6},
         }
         add_dict_to_tree_by_path(self.root, paths)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dict_to_tree_by_path_sep_trailing(self):
         paths = {
@@ -243,9 +243,9 @@ class TestAddDictToTreeByPath(unittest.TestCase):
             "a/b/e/h/": {"age": 6},
         }
         add_dict_to_tree_by_path(self.root, paths)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dict_to_tree_by_path_sep_error(self):
         paths = {
@@ -274,9 +274,9 @@ class TestAddDictToTreeByPath(unittest.TestCase):
             "a-b-e-h": {"age": 6},
         }
         add_dict_to_tree_by_path(self.root, paths, sep="-")
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dict_to_tree_by_path_sep_tree(self):
         self.root = Node("a", age=89)
@@ -292,7 +292,7 @@ class TestAddDictToTreeByPath(unittest.TestCase):
             "a\\b\\e\\h": {"age": 6},
         }
         add_dict_to_tree_by_path(self.root, paths, sep="\\")
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
         assert_tree_structure_node_root_sep(self.root)
 
@@ -323,14 +323,14 @@ class TestAddDictToTreeByPath(unittest.TestCase):
             "a/b/e/h": {"age": 6},
         }
         add_dict_to_tree_by_path(self.root, paths)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root, f=("d", 38))
 
     def test_add_dict_to_tree_by_path_node_type(self):
         root = NodeA("a", age=1)
         add_dict_to_tree_by_path(root, self.paths)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
 
     def test_add_dict_to_tree_by_path_different_root_error(self):
@@ -394,9 +394,9 @@ class TestAddDictToTreeByName(unittest.TestCase):
 
     def test_add_dict_to_tree_by_name(self):
         root = add_dict_to_tree_by_name(self.root, self.name_dict)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_add_dict_to_tree_by_name_different_dtype(self):
         name_dict = {
@@ -421,36 +421,26 @@ class TestAddDictToTreeByName(unittest.TestCase):
             add_dict_to_tree_by_name(self.root, {})
         assert str(exc_info.value).startswith(Constants.ERROR_EMPTY_DICT)
 
-    def test_add_dict_to_tree_by_name_duplicate_in_tree(self):
-        hh = Node("h", age=6)
-        hh.parent = self.root
-        root = add_dict_to_tree_by_name(self.root, self.name_dict)
-        assert (
-            len(list(find_names(root, "h"))) == 2
-        ), "There is less node 'h' than expected"
-        for _node in list(find_names(root, "h")):
-            assert _node.get_attr("age") == 6
-
     def test_add_dict_to_tree_by_name_inner_join_tree(self):
         dummy = Node("dummy")
         dummy.parent = self.b
         root = add_dict_to_tree_by_name(self.root, self.name_dict, join_type="inner")
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_add_dict_to_tree_by_name_inner_join_dict(self):
         self.name_dict["dummy"] = {"age": 100}
         root = add_dict_to_tree_by_name(self.root, self.name_dict, join_type="inner")
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_add_dict_to_tree_by_name_left_join(self):
         root = add_dict_to_tree_by_name(self.root, self.name_dict, join_type="left")
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_add_dict_to_tree_by_name_invalid_join_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -461,6 +451,16 @@ class TestAddDictToTreeByName(unittest.TestCase):
         self.root.sep = "\\"
         root = add_dict_to_tree_by_name(self.root, self.name_dict)
         assert_tree_structure_node_root_sep(root)
+
+    def test_add_dict_to_tree_by_name_duplicate_name(self):
+        hh = Node("h", age=6)
+        hh.parent = self.root
+        root = add_dict_to_tree_by_name(self.root, self.name_dict)
+        assert (
+            len(list(find_names(root, "h"))) == 2
+        ), "There is less node 'h' than expected"
+        for _node in list(find_names(root, "h")):
+            assert _node.get_attr("age") == 6
 
     def test_add_dict_to_tree_by_name_node_type(self):
         root = NodeA("a", age=1)
@@ -478,9 +478,9 @@ class TestAddDictToTreeByName(unittest.TestCase):
         h.parent = e
         root = add_dict_to_tree_by_name(root, self.name_dict)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
 
 class TestAddDataFrameToTreeByPath(unittest.TestCase):
@@ -517,17 +517,17 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
 
     def test_add_dataframe_to_tree_by_path(self):
         add_dataframe_to_tree_by_path(self.root, self.data)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_col_name(self):
         add_dataframe_to_tree_by_path(
             self.root, self.data, path_col="PATH", attribute_cols=["age"]
         )
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -561,7 +561,7 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
             columns=["PATH"],
         )
         add_dataframe_to_tree_by_path(self.root, data)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_sep_leading(self):
         data = pd.DataFrame(
@@ -578,9 +578,9 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
             columns=["PATH", "age"],
         )
         add_dataframe_to_tree_by_path(self.root, data)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_sep_trailing(self):
         data = pd.DataFrame(
@@ -597,9 +597,9 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
             columns=["PATH", "age"],
         )
         add_dataframe_to_tree_by_path(self.root, data)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_sep_error(self):
         data = pd.DataFrame(
@@ -634,9 +634,9 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
             columns=["PATH", "age"],
         )
         add_dataframe_to_tree_by_path(self.root, data, sep="\\")
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_sep_tree(self):
         self.root.sep = "\\"
@@ -676,7 +676,7 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
             columns=["PATH", "age"],
         )
         add_dataframe_to_tree_by_path(self.root, data)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_duplicate_data_error(self):
         data = pd.DataFrame(
@@ -713,17 +713,17 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
             columns=["PATH", "age"],
         )
         add_dataframe_to_tree_by_path(self.root, data)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root, f=("d", 38))
-        assert_tree_structure_node_root_generic(self.root, f="/a/c/d")
+        assert_tree_structure_node_root(self.root, f="/a/c/d")
 
     def test_add_dataframe_to_tree_by_path_node_type(self):
         root = NodeA("a", age=1)
         add_dataframe_to_tree_by_path(root, self.data)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_add_dataframe_to_tree_by_path_different_root_error(self):
         data = pd.DataFrame(
@@ -792,17 +792,17 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
 
     def test_add_dataframe_to_tree_by_name(self):
         root = add_dataframe_to_tree_by_name(self.root, self.data)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_add_dataframe_to_tree_by_name_col_name(self):
         root = add_dataframe_to_tree_by_name(
             self.root, self.data, name_col="NAME", attribute_cols=["age"]
         )
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_add_dataframe_to_tree_by_name_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -825,9 +825,9 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         dummy = Node("dummy")
         dummy.parent = self.b
         root = add_dataframe_to_tree_by_name(self.root, self.data, join_type="inner")
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_add_dataframe_to_tree_by_name_inner_join_data(self):
         data = pd.DataFrame(
@@ -845,15 +845,15 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
             columns=["NAME", "age"],
         )
         root = add_dataframe_to_tree_by_name(self.root, data, join_type="inner")
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_add_dataframe_to_tree_by_name_left_join(self):
         root = add_dataframe_to_tree_by_name(self.root, self.data, join_type="left")
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_add_dataframe_to_tree_by_name_invalid_join_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -909,9 +909,9 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         h.parent = e
         root = add_dataframe_to_tree_by_name(root, self.data)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
 
 class TestStrToTree(unittest.TestCase):
@@ -931,18 +931,18 @@ class TestStrToTree(unittest.TestCase):
 
     def test_str_to_tree(self):
         root = str_to_tree(self.tree_str)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_str_to_tree_with_prefix(self):
         root = str_to_tree(self.tree_str, tree_prefix_list=["─"])
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_str_to_tree_with_multiple_prefix(self):
         root = str_to_tree(self.tree_str, tree_prefix_list=["├──", "└──"])
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_ascii_character_error(self):
         tree_str = "a\n|-- b\n|   |-- d\n|   +-- e\n|       |-- g\n|       +-- h\n+-- c\n    +-- f"
@@ -953,8 +953,8 @@ class TestStrToTree(unittest.TestCase):
     def test_ascii_character_with_prefix(self):
         tree_str = "a\n|-- b\n|   |-- d\n|   +-- e\n|       |-- g\n|       +-- h\n+-- c\n    +-- f"
         root = str_to_tree(tree_str, tree_prefix_list=["-"])
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_empty_string_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -1004,13 +1004,13 @@ class TestListToTree(unittest.TestCase):
 
     def test_list_to_tree(self):
         root = list_to_tree(self.path_list_full)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_list_to_tree_leaves(self):
         root = list_to_tree(self.path_list)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_list_to_tree_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -1020,14 +1020,14 @@ class TestListToTree(unittest.TestCase):
     def test_list_to_tree_sep_leading(self):
         path_list = ["/a/b/d", "/a/b/e", "/a/b/e/g", "/a/b/e/h", "/a/c/f"]
         root = list_to_tree(path_list)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_list_to_tree_sep_trailing(self):
         path_list = ["a/b/d/", "a/b/e/", "a/b/e/g/", "a/b/e/h/", "a/c/f/"]
         root = list_to_tree(path_list)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_list_to_tree_sep_error(self):
         path_list = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
@@ -1038,7 +1038,7 @@ class TestListToTree(unittest.TestCase):
     def test_list_to_tree_sep(self):
         path_list = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
         root = list_to_tree(path_list, sep="\\")
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_node_root_sep(root)
 
     def test_list_to_tree_duplicate_node_error(self):
@@ -1068,14 +1068,14 @@ class TestListToTree(unittest.TestCase):
             "a/b/e/h",
         ]
         root = list_to_tree(path_list)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root, f="/a/c/d")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root, f="/a/c/d")
 
     def test_list_to_tree_node_type(self):
         root = list_to_tree(self.path_list, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_list_to_tree_different_root_error(self):
         path_list = [
@@ -1140,13 +1140,13 @@ class TestListToTreeByRelation(unittest.TestCase):
 
     def test_list_to_tree_by_relation(self):
         root = list_to_tree_by_relation(self.relations)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_list_to_tree_by_relation_reverse(self):
         root = list_to_tree_by_relation(self.relations_reverse)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     def test_list_to_tree_by_relation_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -1204,8 +1204,8 @@ class TestListToTreeByRelation(unittest.TestCase):
     def test_list_to_tree_by_relation_empty_parent(self):
         self.relations.append((None, "a"))
         root = list_to_tree_by_relation(self.relations)
-        assert_tree_structure_basenode_root_generic(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_list_to_tree_by_relation_one_tuple():
@@ -1253,9 +1253,9 @@ class TestDictToTree(unittest.TestCase):
 
     def test_dict_to_tree(self):
         root = dict_to_tree(self.path_dict)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_dict_to_tree_empty_error(self):
         paths = {}
@@ -1276,9 +1276,9 @@ class TestDictToTree(unittest.TestCase):
             "/a/b/e/h": {"age": 6},
         }
         root = dict_to_tree(paths)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_dict_to_tree_sep_trailing():
@@ -1293,9 +1293,9 @@ class TestDictToTree(unittest.TestCase):
             "a/b/e/h/": {"age": 6},
         }
         root = dict_to_tree(paths)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_dict_to_tree_sep_error():
@@ -1326,7 +1326,7 @@ class TestDictToTree(unittest.TestCase):
             "a\\b\\e\\h": {"age": 6},
         }
         root = dict_to_tree(paths, sep="\\")
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root_sep(root)
 
@@ -1359,16 +1359,16 @@ class TestDictToTree(unittest.TestCase):
             "a/b/e/h": {"age": 6},
         }
         root = dict_to_tree(path_dict)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root, f=("d", 38))
-        assert_tree_structure_node_root_generic(root, f="/a/c/d")
+        assert_tree_structure_node_root(root, f="/a/c/d")
 
     def test_dict_to_tree_node_type(self):
         root = dict_to_tree(self.path_dict, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_dict_to_tree_different_root_error():
@@ -1428,9 +1428,9 @@ class TestNestedDictToTree(unittest.TestCase):
 
     def test_nested_dict_to_tree(self):
         root = nested_dict_to_tree(self.path_dict)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_nested_dict_to_tree_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -1468,16 +1468,16 @@ class TestNestedDictToTree(unittest.TestCase):
         root = nested_dict_to_tree(
             path_dict, name_key="node_name", child_key="node_children"
         )
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_nested_dict_to_tree_node_type(self):
         root = nested_dict_to_tree(self.path_dict, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
 
 class TestDataFrameToTree(unittest.TestCase):
@@ -1512,17 +1512,17 @@ class TestDataFrameToTree(unittest.TestCase):
 
     def test_dataframe_to_tree(self):
         root = dataframe_to_tree(self.path_data)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_dataframe_to_tree_col_name(self):
         root = dataframe_to_tree(
             self.path_data, path_col="PATH", attribute_cols=["age"]
         )
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_dataframe_to_tree_no_attribute():
@@ -1540,7 +1540,7 @@ class TestDataFrameToTree(unittest.TestCase):
             columns=["PATH"],
         )
         root = dataframe_to_tree(path_data)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
 
     @staticmethod
     def test_dataframe_to_tree_empty_row_error():
@@ -1572,9 +1572,9 @@ class TestDataFrameToTree(unittest.TestCase):
             columns=["PATH", "age"],
         )
         root = dataframe_to_tree(path_data)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_dataframe_to_tree_sep_trailing(self):
         path_data = pd.DataFrame(
@@ -1591,9 +1591,9 @@ class TestDataFrameToTree(unittest.TestCase):
             columns=["PATH", "age"],
         )
         root = dataframe_to_tree(path_data)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_dataframe_to_tree_sep_error(self):
         path_data = pd.DataFrame(
@@ -1628,7 +1628,7 @@ class TestDataFrameToTree(unittest.TestCase):
             columns=["PATH", "age"],
         )
         root = dataframe_to_tree(path_data, sep="\\")
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root_sep(root)
 
@@ -1669,9 +1669,9 @@ class TestDataFrameToTree(unittest.TestCase):
             columns=["PATH", "age"],
         )
         root = dataframe_to_tree(path_data)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_dataframe_to_tree_duplicate_node_error():
@@ -1708,16 +1708,16 @@ class TestDataFrameToTree(unittest.TestCase):
             columns=["PATH", "age"],
         )
         root = dataframe_to_tree(path_data)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root, f=("d", 38))
-        assert_tree_structure_node_root_generic(root, f="/a/c/d")
+        assert_tree_structure_node_root(root, f="/a/c/d")
 
     def test_dataframe_to_tree_node_type(self):
         root = dataframe_to_tree(self.path_data, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_dataframe_to_tree_different_root_error():
@@ -1760,9 +1760,9 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
 
     def test_dataframe_to_tree_by_relation(self):
         root = dataframe_to_tree_by_relation(self.relation_data)
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_dataframe_to_tree_by_relation_col_name(self):
         root = dataframe_to_tree_by_relation(
@@ -1771,9 +1771,9 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
             parent_col="parent",
             attribute_cols=["age"],
         )
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     def test_dataframe_to_tree_by_relation_empty_row_error(self):
         relation_data = pd.DataFrame(columns=["child", "parent"])
@@ -1850,9 +1850,9 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
     def test_dataframe_to_tree_by_relation_node_type(self):
         root = dataframe_to_tree_by_relation(self.relation_data, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
-        assert_tree_structure_basenode_root_generic(root)
+        assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root_generic(root)
+        assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_different_root_error():

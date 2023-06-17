@@ -338,7 +338,7 @@ class TestBinaryTreeIterator:
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
-    def test_levelordergroup_iter2(binarytree_node):
+    def test_levelordergroup_iter(binarytree_node):
         expected = [["1"], ["2", "3"], ["4", "5", "6", "7"], ["8"]]
         actual = [
             [node.node_name for node in group]

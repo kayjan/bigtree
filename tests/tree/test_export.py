@@ -13,17 +13,17 @@ from bigtree.tree.export import (
 from tests.conftest import assert_print_statement
 from tests.constants import Constants
 from tests.node.test_basenode import (
+    assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
-    assert_tree_structure_basenode_root_generic,
 )
-from tests.node.test_node import assert_tree_structure_node_root_generic
+from tests.node.test_node import assert_tree_structure_node_root
 
 tree_node_str = """a [age=90]\n├── b [age=65]\n│   ├── d [age=40]\n│   └── e [age=35]\n│       ├── g [age=10]
 │       └── h [age=6]\n└── c [age=60]\n    └── f [age=38]\n"""
 tree_node_no_attr_str = """a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
 
 
-LOCAL = False
+LOCAL = Constants.LOCAL
 
 
 class TestPrintTree:
@@ -439,9 +439,9 @@ class TestTreeToDataFrame:
     def test_tree_to_dataframe_to_tree(tree_node):
         d = tree_to_dataframe(tree_node, all_attrs=True)
         tree = dataframe_to_tree(d)
-        assert_tree_structure_basenode_root_generic(tree)
+        assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
-        assert_tree_structure_node_root_generic(tree)
+        assert_tree_structure_node_root(tree)
 
 
 class TestTreeToDict:
@@ -606,9 +606,9 @@ class TestTreeToDict:
     def test_tree_to_dict_to_tree(tree_node):
         d = tree_to_dict(tree_node, all_attrs=True)
         tree = dict_to_tree(d)
-        assert_tree_structure_basenode_root_generic(tree)
+        assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
-        assert_tree_structure_node_root_generic(tree)
+        assert_tree_structure_node_root(tree)
 
 
 class TestTreeToNestedDict:
@@ -781,9 +781,9 @@ class TestTreeToNestedDict:
     def test_tree_to_nested_dict_to_tree(tree_node):
         d = tree_to_nested_dict(tree_node, all_attrs=True)
         tree = nested_dict_to_tree(d)
-        assert_tree_structure_basenode_root_generic(tree)
+        assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
-        assert_tree_structure_node_root_generic(tree)
+        assert_tree_structure_node_root(tree)
 
 
 class TestTreeToDot:
@@ -817,7 +817,7 @@ class TestTreeToDot:
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\na1 [label=a];\na0 -> a1;\na2 [label=a];\na1 -> a2;\nb0 [label=b];\na1 -> b0;\na3 [label=a];\nb0 -> a3;\nb1 [label=b];\nb0 -> b1;\nb2 [label=b];\na0 -> b2;\na4 [label=a];\nb2 -> a4;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/tree_duplicate.png")
+            graph.write_png("tests/tree_duplicate_names.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -842,36 +842,24 @@ class TestTreeToDot:
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
-    def test_tree_to_dot_bg_color(tree_node):
+    def test_tree_to_dot_bg_colour(tree_node):
         graph = tree_to_dot(tree_node, bg_colour="blue")
         expected = """strict digraph G {\nbgcolor=blue;\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/tree_bg.png")
+            graph.write_png("tests/tree_bg_colour.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
-    def test_tree_to_dot_node_colour(tree_node):
+    def test_tree_to_dot_fill_colour(tree_node):
         graph = tree_to_dot(tree_node, node_colour="gold")
         expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=gold, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=gold, label=d, style=filled];\nb0 -> d0;\ne0 [fillcolor=gold, label=e, style=filled];\nb0 -> e0;\ng0 [fillcolor=gold, label=g, style=filled];\ne0 -> g0;\nh0 [fillcolor=gold, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=gold, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=gold, label=f, style=filled];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/tree_fill.png")
-        for expected_str in expected.split():
-            assert (
-                expected_str in actual
-            ), f"Expected {expected_str} not in actual string"
-
-    @staticmethod
-    def test_tree_to_dot_node_shape(tree_node):
-        graph = tree_to_dot(tree_node, node_shape="triangle")
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, shape=triangle];\nb0 [label=b, shape=triangle];\na0 -> b0;\nd0 [label=d, shape=triangle];\nb0 -> d0;\ne0 [label=e, shape=triangle];\nb0 -> e0;\ng0 [label=g, shape=triangle];\ne0 -> g0;\nh0 [label=h, shape=triangle];\ne0 -> h0;\nc0 [label=c, shape=triangle];\na0 -> c0;\nf0 [label=f, shape=triangle];\nc0 -> f0;\n}\n"""
-        actual = graph.to_string()
-        if LOCAL:
-            graph.write_png("tests/tree_triangle.png")
+            graph.write_png("tests/tree_fill_colour.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -883,7 +871,19 @@ class TestTreeToDot:
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [color=red];\nd0 [label=d];\nb0 -> d0  [color=red];\ne0 [label=e];\nb0 -> e0  [color=red];\ng0 [label=g];\ne0 -> g0  [color=red];\nh0 [label=h];\ne0 -> h0  [color=red];\nc0 [label=c];\na0 -> c0  [color=red];\nf0 [label=f];\nc0 -> f0  [color=red];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/tree_edge.png")
+            graph.write_png("tests/tree_edge_colour.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    def test_tree_to_dot_node_shape(tree_node):
+        graph = tree_to_dot(tree_node, node_shape="triangle")
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, shape=triangle];\nb0 [label=b, shape=triangle];\na0 -> b0;\nd0 [label=d, shape=triangle];\nb0 -> d0;\ne0 [label=e, shape=triangle];\nb0 -> e0;\ng0 [label=g, shape=triangle];\ne0 -> g0;\nh0 [label=h, shape=triangle];\ne0 -> h0;\nc0 [label=c, shape=triangle];\na0 -> c0;\nf0 [label=f, shape=triangle];\nc0 -> f0;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_node_shape.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -895,7 +895,7 @@ class TestTreeToDot:
         expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=green, label=d, style=filled];\nb0 -> d0;\ng0 [fillcolor=red, label=g, style=filled];\nd0 -> g0;\ne0 [fillcolor=green, label=e, style=filled];\nb0 -> e0;\nh0 [fillcolor=red, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=blue, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=green, label=f, style=filled];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/tree_node_style.png")
+            graph.write_png("tests/tree_node_attr.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -907,7 +907,25 @@ class TestTreeToDot:
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [label=b, style=bold];\nd0 [label=d];\nb0 -> d0  [label=1, style=bold];\ng0 [label=g];\nd0 -> g0  [label=4, style=bold];\ne0 [label=e];\nb0 -> e0  [label=2, style=bold];\nh0 [label=h];\ne0 -> h0  [label=5, style=bold];\nc0 [label=c];\na0 -> c0  [label=c, style=bold];\nf0 [label=f];\nc0 -> f0  [label=3, style=bold];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/tree_edge_style.png")
+            graph.write_png("tests/tree_edge_attr.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    def test_tree_to_dot_attr_override(tree_node):
+        tree_node.children[0].set_attrs(
+            {
+                "node_style": {"style": "filled", "fillcolor": "blue"},
+                "edge_style": {"style": "bold"},
+            }
+        )
+        graph = tree_to_dot(tree_node, node_attr="node_style", edge_attr="edge_style")
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0  [style=bold];\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_attr_override.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
