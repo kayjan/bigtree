@@ -529,6 +529,17 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.root)
         assert_tree_structure_node_root(self.root)
 
+    def test_add_dataframe_to_tree_by_path_col_name_reverse(self):
+        add_dataframe_to_tree_by_path(
+            self.root,
+            self.data[["age", "PATH"]],
+            path_col="PATH",
+            attribute_cols=["age"],
+        )
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
     def test_add_dataframe_to_tree_by_path_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_path(self.root, pd.DataFrame())
@@ -799,6 +810,17 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
     def test_add_dataframe_to_tree_by_name_col_name(self):
         root = add_dataframe_to_tree_by_name(
             self.root, self.data, name_col="NAME", attribute_cols=["age"]
+        )
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_add_dataframe_to_tree_by_name_col_name_reverse(self):
+        root = add_dataframe_to_tree_by_name(
+            self.root,
+            self.data[["age", "NAME"]],
+            name_col="NAME",
+            attribute_cols=["age"],
         )
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
@@ -1524,6 +1546,12 @@ class TestDataFrameToTree(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
 
+    def test_dataframe_to_tree_col_name_reverse(self):
+        root = dataframe_to_tree(self.path_data[["age", "PATH"]], path_col="PATH")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
     @staticmethod
     def test_dataframe_to_tree_no_attribute():
         path_data = pd.DataFrame(
@@ -1767,6 +1795,17 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
     def test_dataframe_to_tree_by_relation_col_name(self):
         root = dataframe_to_tree_by_relation(
             self.relation_data,
+            child_col="child",
+            parent_col="parent",
+            attribute_cols=["age"],
+        )
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_dataframe_to_tree_by_relation_col_name_reverse(self):
+        root = dataframe_to_tree_by_relation(
+            self.relation_data[["age", "parent", "child"]],
             child_col="child",
             parent_col="parent",
             attribute_cols=["age"],

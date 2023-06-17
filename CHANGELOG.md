@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Tree Exporter: `tree_to_dot` to handle cases when not all nodes have `edge_attr`.
 - DAG Exporter: `dag_to_dot` to perform dictionary copy to prevent style from being overridden for child nodes.
+- Tree Constructor: `dataframe_to_tree` to handle case when path column is not the first column.
 
 ## [0.9.3] - 2023-05-28
 ### Changed
