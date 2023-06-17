@@ -733,7 +733,7 @@ def tree_to_dot(  # type: ignore[no-untyped-def]
             )
             if node_attr and child_node.get_attr(node_attr):
                 _node_style.update(child_node.get_attr(node_attr))
-            if edge_attr:
+            if edge_attr and child_node.get_attr(edge_attr):
                 _edge_style.update(child_node.get_attr(edge_attr))
             node = pydot.Node(name=child_name, label=child_label, **_node_style)
             _graph.add_node(node)
