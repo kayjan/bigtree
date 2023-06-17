@@ -7,11 +7,12 @@ from bigtree.tree.export import print_tree
 from bigtree.tree.modify import copy_nodes, copy_nodes_from_tree_to_tree, shift_nodes
 from bigtree.tree.search import find_name, find_path
 from bigtree.utils.exceptions import NotFoundError, TreeError
+from tests.constants import Constants
 from tests.node.test_basenode import (
+    assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
-    assert_tree_structure_basenode_root_generic,
 )
-from tests.node.test_node import assert_tree_structure_node_root_generic
+from tests.node.test_node import assert_tree_structure_node_root
 
 
 class TestCopyNodes(unittest.TestCase):
@@ -117,40 +118,38 @@ class TestCopyNodes(unittest.TestCase):
         assert find_path(self.root, "a/d"), "Original node is not there"
         assert find_path(self.root, "a/b/c/d"), "Copied node is not there"
 
-    def test_copy_nodes_invalid_type(self):
+    def test_copy_nodes_invalid_type_error(self):
         with pytest.raises(ValueError) as exc_info:
             copy_nodes(self.root, {}, [])
-        assert str(exc_info.value).startswith("Invalid type")
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_TYPE
 
-    def test_copy_nodes_unequal_length(self):
+    def test_copy_nodes_unequal_length_error(self):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d"]
         with pytest.raises(ValueError) as exc_info:
             copy_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith("Paths are different length")
+        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_PATH_LENGTH)
 
-    def test_copy_nodes_invalid_paths(self):
+    def test_copy_nodes_invalid_paths_error(self):
         from_paths = ["d"]
         to_paths = ["a/b/e"]
         with pytest.raises(ValueError) as exc_info:
             copy_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith("Unable to assign")
+        assert str(exc_info.value).startswith(Constants.ERROR_PATH_MISMATCH)
 
-    def test_copy_nodes_invalid_from_paths(self):
+    def test_copy_nodes_invalid_from_paths_error(self):
         from_paths = ["i"]
         to_paths = ["a/b/i"]
         with pytest.raises(NotFoundError) as exc_info:
             copy_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith("Unable to find from_path")
+        assert str(exc_info.value).startswith(Constants.ERROR_FROM_PATH_NOT_FOUND)
 
-    def test_copy_nodes_invalid_to_paths(self):
+    def test_copy_nodes_invalid_to_paths_error(self):
         from_paths = ["d"]
         to_paths = ["aa/b/d"]
         with pytest.raises(ValueError) as exc_info:
             copy_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith(
-            "Invalid path in `to_paths` not starting with the root node"
-        )
+        assert str(exc_info.value) == Constants.ERROR_INVALID_TO_PATH
 
     def test_copy_nodes_create_intermediate_path(self):
         from_paths = ["d"]
@@ -163,20 +162,13 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = [None]
         with pytest.raises(ValueError) as exc_info:
             copy_nodes(self.root, from_paths, to_paths)
-        assert (
-            str(exc_info.value)
-            == "Deletion of node will not happen if `copy=True`, check your `copy` parameter."
-        )
+        assert str(exc_info.value) == Constants.ERROR_DELETION_AND_COPY
 
-    def test_copy_nodes_delete_error2(self):
         from_paths = ["d"]
         to_paths = [""]
         with pytest.raises(ValueError) as exc_info:
             copy_nodes(self.root, from_paths, to_paths)
-        assert (
-            str(exc_info.value)
-            == "Deletion of node will not happen if `copy=True`, check your `copy` parameter."
-        )
+        assert str(exc_info.value) == Constants.ERROR_DELETION_AND_COPY
 
     # sep
     def test_copy_nodes_leading_sep(self):
@@ -189,9 +181,9 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = [None, None, None, None, None]
         shift_nodes(self.root, from_paths, to_paths)
 
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_copy_nodes_trailing_sep(self):
         from_paths = ["d", "e/", "g/", "h", "f/"]
@@ -203,16 +195,16 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = [None, None, None, None, None]
         shift_nodes(self.root, from_paths, to_paths)
 
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
-    def test_copy_nodes_sep_undefined(self):
+    def test_copy_nodes_sep_error(self):
         from_paths = ["\\d", "\\e", "\\g", "\\h", "\\f"]
         to_paths = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
         with pytest.raises(ValueError) as exc_info:
             copy_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith("Unable to assign from_path")
+        assert str(exc_info.value).startswith(Constants.ERROR_PATH_MISMATCH)
 
     def test_copy_nodes_sep(self):
         from_paths = ["\\d", "\\e", "\\g", "\\h", "\\f"]
@@ -224,9 +216,9 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = [None, None, None, None, None]
         shift_nodes(self.root, from_paths, to_paths, sep="\\")
 
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_copy_nodes_sep_different(self):
         # Delete intermediate nodes
@@ -244,15 +236,16 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = [None, None, None, None]
         shift_nodes(self.root, from_paths, to_paths, sep="\\")
 
-        assert_tree_structure_basenode_root_generic(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_node_root(self.root)
 
     # skippable
-    def test_copy_nodes_skippable(self):
+    def test_copy_nodes_skippable_error(self):
         from_paths = ["i", "d", "e", "g", "h", "f"]
         to_paths = ["a/c/f/i", "a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        with pytest.raises(NotFoundError):
+        with pytest.raises(NotFoundError) as exc_info:
             copy_nodes(self.root, from_paths, to_paths)
+        assert str(exc_info.value).startswith(Constants.ERROR_FROM_PATH_NOT_FOUND)
 
         copy_nodes(self.root, from_paths, to_paths, skippable=True)
 
@@ -261,9 +254,9 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = [None, None, None, None, None]
         shift_nodes(self.root, from_paths, to_paths)
 
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     # overriding
     def test_copy_nodes_delete_and_overriding_error(self):
@@ -291,9 +284,9 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = [None, None, None, None, None, None]
         shift_nodes(self.root, from_paths, to_paths)
 
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root, d=("d", 1))
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_copy_nodes_overriding(self):
         from_paths = ["a/aa/bb"]
@@ -358,14 +351,14 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = ["/a/bb"]
         with pytest.raises(TreeError) as exc_info:
             copy_nodes(self.root_overriding, from_paths, to_paths, merge_children=True)
-        assert str(exc_info.value).startswith("Error: Duplicate node with same path")
+        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
 
     def test_copy_nodes_same_node_error(self):
         from_paths = ["d"]
         to_paths = ["a/d"]
         with pytest.raises(TreeError) as exc_info:
             copy_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith("Attempting to shift the same node")
+        assert str(exc_info.value).startswith(Constants.ERROR_SHIFT_SAME_NODE)
 
     def test_copy_nodes_same_node_merge_children(self):
         from_paths = ["d", "e", "g", "h", "f"]
@@ -422,7 +415,7 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = ["/a/bb/aa"]
         with pytest.raises(TreeError) as exc_info:
             copy_nodes(self.root_overriding, from_paths, to_paths, merge_leaves=True)
-        assert str(exc_info.value).startswith("Error: Duplicate node with same path")
+        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
 
     def test_copy_nodes_same_node_merge_leaves(self):
         a = Node("a", age=90)
@@ -463,9 +456,9 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = [None, None, None, None, None]
         shift_nodes(self.root, from_paths, to_paths)
 
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     # merge_children, overriding
     def test_copy_nodes_merge_children_overriding(self):
@@ -546,9 +539,7 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = ["a/bb/aa"]
         with pytest.raises(ValueError) as exc_info:
             copy_nodes(a, from_paths, to_paths, merge_children=True, merge_leaves=True)
-        assert str(exc_info.value).startswith(
-            "Invalid shifting, can only specify one type of merging"
-        )
+        assert str(exc_info.value) == Constants.ERROR_MERGE_CHILDREN_OR_LEAVES
 
     # merge_children, delete_children
     def test_copy_nodes_merge_children_and_delete_children(self):
@@ -571,9 +562,9 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = [None]
         shift_nodes(self.root, from_paths, to_paths)
 
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     # merge_leaves, delete_children
     def test_copy_nodes_merge_leaves_and_delete_children(self):
@@ -588,9 +579,9 @@ class TestCopyNodes(unittest.TestCase):
         )
         i = find_path(self.root, "a/i")
         i.parent = None
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     # with_full_path
     def test_copy_nodes_with_full_path(self):
@@ -603,18 +594,16 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = [None, None, None, None, None]
         shift_nodes(self.root, from_paths, to_paths, with_full_path=True)
 
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_copy_nodes_with_full_path_error(self):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
         with pytest.raises(ValueError) as exc_info:
             copy_nodes(self.root, from_paths, to_paths, with_full_path=True)
-        assert str(exc_info.value).startswith(
-            "Invalid path in `from_paths` not starting with the root node"
-        )
+        assert str(exc_info.value).startswith(Constants.ERROR_INVALID_FULL_PATH)
 
 
 class TestShiftNodes(unittest.TestCase):
@@ -716,44 +705,42 @@ class TestShiftNodes(unittest.TestCase):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
         shift_nodes(self.root, from_paths, to_paths)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
-    def test_shift_nodes_invalid_type(self):
+    def test_shift_nodes_invalid_type_error(self):
         with pytest.raises(ValueError) as exc_info:
             shift_nodes(self.root, {}, [])
-        assert str(exc_info.value).startswith("Invalid type")
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_TYPE
 
-    def test_shift_nodes_unequal_length(self):
+    def test_shift_nodes_unequal_length_error(self):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d"]
         with pytest.raises(ValueError) as exc_info:
             shift_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith("Paths are different length")
+        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_PATH_LENGTH)
 
-    def test_shift_nodes_invalid_paths(self):
+    def test_shift_nodes_invalid_paths_error(self):
         from_paths = ["d"]
         to_paths = ["a/b/e"]
         with pytest.raises(ValueError) as exc_info:
             shift_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith("Unable to assign")
+        assert str(exc_info.value).startswith(Constants.ERROR_PATH_MISMATCH)
 
-    def test_shift_nodes_invalid_from_paths(self):
+    def test_shift_nodes_invalid_from_paths_error(self):
         from_paths = ["i"]
         to_paths = ["a/b/i"]
         with pytest.raises(NotFoundError) as exc_info:
             shift_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith("Unable to find from_path")
+        assert str(exc_info.value).startswith(Constants.ERROR_FROM_PATH_NOT_FOUND)
 
-    def test_shift_nodes_invalid_to_paths(self):
+    def test_shift_nodes_invalid_to_paths_error(self):
         from_paths = ["d"]
         to_paths = ["aa/b/d"]
         with pytest.raises(ValueError) as exc_info:
             shift_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith(
-            "Invalid path in `to_paths` not starting with the root node"
-        )
+        assert str(exc_info.value) == Constants.ERROR_INVALID_TO_PATH
 
     def test_shift_nodes_create_intermediate_path(self):
         from_paths = ["d"]
@@ -766,44 +753,45 @@ class TestShiftNodes(unittest.TestCase):
         from_paths = ["/d", "e", "g", "/h", "/f"]
         to_paths = ["/a/b/d", "a/b/e", "/a/b/e/g", "a/b/e/h", "/a/c/f"]
         shift_nodes(self.root, from_paths, to_paths)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_shift_nodes_trailing_sep(self):
         from_paths = ["d/", "e", "g/", "h", "f/"]
         to_paths = ["a/b/d/", "a/b/e", "a/b/e/g", "a/b/e/h/", "a/c/f/"]
         shift_nodes(self.root, from_paths, to_paths)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
-    def test_shift_nodes_sep_undefined(self):
+    def test_shift_nodes_sep_error(self):
         from_paths = ["\\d", "\\e", "\\g", "\\h", "\\f"]
         to_paths = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
         with pytest.raises(ValueError) as exc_info:
             shift_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith("Unable to assign from_path")
+        assert str(exc_info.value).startswith(Constants.ERROR_PATH_MISMATCH)
 
     def test_shift_nodes_sep(self):
         from_paths = ["\\d", "\\e", "\\g", "\\h", "\\f"]
         to_paths = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
         shift_nodes(self.root, from_paths, to_paths, sep="\\")
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     # skippable
-    def test_shift_nodes_skippable(self):
+    def test_shift_nodes_skippable_error(self):
         from_paths = ["i", "d", "e", "g", "h", "f"]
         to_paths = ["a/c/f/i", "a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        with pytest.raises(NotFoundError):
+        with pytest.raises(NotFoundError) as exc_info:
             shift_nodes(self.root, from_paths, to_paths)
+        assert str(exc_info.value).startswith(Constants.ERROR_FROM_PATH_NOT_FOUND)
 
         shift_nodes(self.root, from_paths, to_paths, skippable=True)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     # overriding
     def test_shift_nodes_delete_and_overriding_error(self):
@@ -825,9 +813,9 @@ class TestShiftNodes(unittest.TestCase):
         from_paths = ["/a/d", "aa/d", "e", "g", "h", "f", "a/aa"]
         to_paths = ["a/b/d", "a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f", None]
         shift_nodes(self.root, from_paths, to_paths, overriding=True)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root, d=("d", 1))
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_shift_nodes_overriding(self):
         from_paths = ["a/aa/bb"]
@@ -890,14 +878,14 @@ class TestShiftNodes(unittest.TestCase):
         to_paths = ["/a/bb"]
         with pytest.raises(TreeError) as exc_info:
             shift_nodes(self.root_overriding, from_paths, to_paths, merge_children=True)
-        assert str(exc_info.value).startswith("Error: Duplicate node with same path")
+        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
 
     def test_shift_nodes_same_node_error(self):
         from_paths = ["d"]
         to_paths = ["a/d"]
         with pytest.raises(TreeError) as exc_info:
             shift_nodes(self.root, from_paths, to_paths)
-        assert str(exc_info.value).startswith("Attempting to shift the same node")
+        assert str(exc_info.value).startswith(Constants.ERROR_SHIFT_SAME_NODE)
 
     def test_shift_nodes_same_node_merge_children(self):
         from_paths = ["d", "e", "g", "h", "f"]
@@ -954,7 +942,7 @@ class TestShiftNodes(unittest.TestCase):
         to_paths = ["/a/bb/aa"]
         with pytest.raises(TreeError) as exc_info:
             shift_nodes(self.root_overriding, from_paths, to_paths, merge_leaves=True)
-        assert str(exc_info.value).startswith("Error: Duplicate node with same path")
+        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
 
     def test_shift_nodes_same_node_merge_leaves(self):
         a = Node("a", age=90)
@@ -992,9 +980,9 @@ class TestShiftNodes(unittest.TestCase):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
         shift_nodes(self.root, from_paths, to_paths, delete_children=True)
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     # merge_children, overriding
     def test_shift_nodes_merge_children_overriding(self):
@@ -1077,9 +1065,7 @@ class TestShiftNodes(unittest.TestCase):
         to_paths = ["a/bb/aa"]
         with pytest.raises(ValueError) as exc_info:
             shift_nodes(a, from_paths, to_paths, merge_children=True, merge_leaves=True)
-        assert str(exc_info.value).startswith(
-            "Invalid shifting, can only specify one type of merging"
-        )
+        assert str(exc_info.value) == Constants.ERROR_MERGE_CHILDREN_OR_LEAVES
 
     # merge_children, delete_children
     def test_shift_nodes_merge_children_and_delete_children(self):
@@ -1096,9 +1082,9 @@ class TestShiftNodes(unittest.TestCase):
         shift_nodes(
             self.root, from_paths, to_paths, merge_children=True, delete_children=True
         )
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     # merge_leaves, delete_children
     def test_shift_nodes_merge_leaves_and_delete_children(self):
@@ -1113,9 +1099,9 @@ class TestShiftNodes(unittest.TestCase):
         )
         i = find_path(self.root, "a/i")
         i.parent = None
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     # with_full_path
     def test_shift_nodes_with_full_path(self):
@@ -1123,18 +1109,16 @@ class TestShiftNodes(unittest.TestCase):
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
         shift_nodes(self.root, from_paths, to_paths, with_full_path=True)
 
-        assert_tree_structure_basenode_root_generic(self.root)
+        assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
-        assert_tree_structure_node_root_generic(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_shift_nodes_with_full_path_error(self):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
         with pytest.raises(ValueError) as exc_info:
             shift_nodes(self.root, from_paths, to_paths, with_full_path=True)
-        assert str(exc_info.value).startswith(
-            "Invalid path in `from_paths` not starting with the root node"
-        )
+        assert str(exc_info.value).startswith(Constants.ERROR_INVALID_FULL_PATH)
 
 
 class TestCopyNodesTwoTrees(unittest.TestCase):
@@ -1227,12 +1211,12 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             from_paths=from_paths,
             to_paths=to_paths,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other)
+        assert_tree_structure_basenode_root(self.root_other)
         assert_tree_structure_basenode_root_attr(self.root_other)
-        assert_tree_structure_node_root_generic(self.root_other)
+        assert_tree_structure_node_root(self.root_other)
         assert self.root.max_depth == 2, "Copying changes original tree"
 
-    def test_copy_nodes_from_tree_to_tree_reversed_error(self):
+    def test_copy_nodes_from_tree_to_tree_reverse_error(self):
         from_paths = ["b", "c", "d", "e", "f", "g", "h"][::-1]
         to_paths = ["a/b", "a/c", "a/b/d", "a/b/e", "a/c/f", "a/b/e/g", "a/b/e/h"][::-1]
         with pytest.raises(TreeError) as exc_info:
@@ -1244,7 +1228,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             )
         assert "already exists and unable to override" in str(exc_info.value)
 
-    def test_copy_nodes_from_tree_to_tree_invalid_type(self):
+    def test_copy_nodes_from_tree_to_tree_invalid_type_error(self):
         with pytest.raises(ValueError) as exc_info:
             copy_nodes_from_tree_to_tree(
                 from_tree=self.root,
@@ -1252,9 +1236,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 from_paths={},
                 to_paths=[],
             )
-        assert str(exc_info.value).startswith("Invalid type")
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_TYPE
 
-    def test_copy_nodes_from_tree_to_tree_unequal_length(self):
+    def test_copy_nodes_from_tree_to_tree_unequal_length_error(self):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d"]
         with pytest.raises(ValueError) as exc_info:
@@ -1264,9 +1248,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 from_paths=from_paths,
                 to_paths=to_paths,
             )
-        assert str(exc_info.value).startswith("Paths are different length")
+        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_PATH_LENGTH)
 
-    def test_copy_nodes_from_tree_to_tree_invalid_paths(self):
+    def test_copy_nodes_from_tree_to_tree_invalid_paths_error(self):
         from_paths = ["d"]
         to_paths = ["a/b/e"]
         with pytest.raises(ValueError) as exc_info:
@@ -1276,9 +1260,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 from_paths=from_paths,
                 to_paths=to_paths,
             )
-        assert str(exc_info.value).startswith("Unable to assign")
+        assert str(exc_info.value).startswith(Constants.ERROR_PATH_MISMATCH)
 
-    def test_copy_nodes_from_tree_to_tree_invalid_from_paths(self):
+    def test_copy_nodes_from_tree_to_tree_invalid_from_paths_error(self):
         from_paths = ["i"]
         to_paths = ["a/b/i"]
         with pytest.raises(NotFoundError) as exc_info:
@@ -1288,9 +1272,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 from_paths=from_paths,
                 to_paths=to_paths,
             )
-        assert str(exc_info.value).startswith("Unable to find from_path")
+        assert str(exc_info.value).startswith(Constants.ERROR_FROM_PATH_NOT_FOUND)
 
-    def test_copy_nodes_from_tree_to_tree_invalid_to_paths(self):
+    def test_copy_nodes_from_tree_to_tree_invalid_to_paths_error(self):
         from_paths = ["d"]
         to_paths = ["aa/b/d"]
         with pytest.raises(ValueError) as exc_info:
@@ -1300,9 +1284,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 from_paths=from_paths,
                 to_paths=to_paths,
             )
-        assert str(exc_info.value).startswith(
-            "Invalid path in `to_paths` not starting with the root node"
-        )
+        assert str(exc_info.value) == Constants.ERROR_INVALID_TO_PATH
 
     def test_copy_nodes_create_intermediate_path(self):
         from_paths = ["d"]
@@ -1325,12 +1307,8 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 from_paths=from_paths,
                 to_paths=to_paths,
             )
-        assert (
-            str(exc_info.value)
-            == "Deletion of node will not happen if `copy=True`, check your `copy` parameter."
-        )
+        assert str(exc_info.value) == Constants.ERROR_DELETION_AND_COPY
 
-    def test_copy_nodes_from_tree_to_tree_delete_error2(self):
         from_paths = ["d"]
         to_paths = [""]
         with pytest.raises(ValueError) as exc_info:
@@ -1340,10 +1318,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 from_paths=from_paths,
                 to_paths=to_paths,
             )
-        assert (
-            str(exc_info.value)
-            == "Deletion of node will not happen if `copy=True`, check your `copy` parameter."
-        )
+        assert str(exc_info.value) == Constants.ERROR_DELETION_AND_COPY
 
     # sep
     def test_copy_nodes_from_tree_to_tree_leading_sep(self):
@@ -1364,9 +1339,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             to_paths=to_paths,
         )
 
-        assert_tree_structure_basenode_root_generic(self.root_other)
+        assert_tree_structure_basenode_root(self.root_other)
         assert_tree_structure_basenode_root_attr(self.root_other)
-        assert_tree_structure_node_root_generic(self.root_other)
+        assert_tree_structure_node_root(self.root_other)
 
     def test_copy_nodes_from_tree_to_tree_different_sep(self):
         from_paths = ["b/", "c", "d/", "e", "g", "h", "f"]
@@ -1388,9 +1363,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
         )
         self.root_other.sep = "/"
 
-        assert_tree_structure_basenode_root_generic(self.root_other)
+        assert_tree_structure_basenode_root(self.root_other)
         assert_tree_structure_basenode_root_attr(self.root_other)
-        assert_tree_structure_node_root_generic(self.root_other)
+        assert_tree_structure_node_root(self.root_other)
 
     def test_copy_nodes_from_tree_to_tree_trailing_sep(self):
         from_paths = ["b/", "c", "d/", "e", "g", "h", "f"]
@@ -1410,11 +1385,11 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             to_paths=to_paths,
         )
 
-        assert_tree_structure_basenode_root_generic(self.root_other)
+        assert_tree_structure_basenode_root(self.root_other)
         assert_tree_structure_basenode_root_attr(self.root_other)
-        assert_tree_structure_node_root_generic(self.root_other)
+        assert_tree_structure_node_root(self.root_other)
 
-    def test_copy_nodes_from_tree_to_tree_sep_undefined(self):
+    def test_copy_nodes_from_tree_to_tree_sep_error(self):
         from_paths = ["\\d", "\\e", "\\g", "\\h", "\\f"]
         to_paths = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
         with pytest.raises(ValueError) as exc_info:
@@ -1424,7 +1399,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 from_paths=from_paths,
                 to_paths=to_paths,
             )
-        assert str(exc_info.value).startswith("Unable to assign from_path")
+        assert str(exc_info.value).startswith(Constants.ERROR_PATH_MISMATCH)
 
     def test_copy_nodes_from_tree_to_tree_sep(self):
         from_paths = ["\\b", "\\c", "\\d", "\\e", "\\g", "\\h", "\\f"]
@@ -1445,12 +1420,12 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             sep="\\",
         )
 
-        assert_tree_structure_basenode_root_generic(self.root_other)
+        assert_tree_structure_basenode_root(self.root_other)
         assert_tree_structure_basenode_root_attr(self.root_other)
-        assert_tree_structure_node_root_generic(self.root_other)
+        assert_tree_structure_node_root(self.root_other)
 
     # skippable
-    def test_copy_nodes_skippable(self):
+    def test_copy_nodes_skippable_error(self):
         from_paths = ["i", "b", "c", "d", "e", "g", "h", "f"]
         to_paths = [
             "a/c/f/i",
@@ -1462,13 +1437,14 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             "a/b/e/h",
             "a/c/f",
         ]
-        with pytest.raises(NotFoundError):
+        with pytest.raises(NotFoundError) as exc_info:
             copy_nodes_from_tree_to_tree(
                 from_tree=self.root,
                 to_tree=self.root_other,
                 from_paths=from_paths,
                 to_paths=to_paths,
             )
+        assert str(exc_info.value).startswith(Constants.ERROR_FROM_PATH_NOT_FOUND)
 
         copy_nodes_from_tree_to_tree(
             from_tree=self.root,
@@ -1478,9 +1454,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             skippable=True,
         )
 
-        assert_tree_structure_basenode_root_generic(self.root_other)
+        assert_tree_structure_basenode_root(self.root_other)
         assert_tree_structure_basenode_root_attr(self.root_other)
-        assert_tree_structure_node_root_generic(self.root_other)
+        assert_tree_structure_node_root(self.root_other)
 
     # overriding
     def test_copy_nodes_from_tree_to_tree_delete_and_overriding_error(self):
@@ -1522,9 +1498,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             to_paths=to_paths,
             overriding=True,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other)
+        assert_tree_structure_basenode_root(self.root_other)
         assert_tree_structure_basenode_root_attr(self.root_other, d=("d", 1))
-        assert_tree_structure_node_root_generic(self.root_other)
+        assert_tree_structure_node_root(self.root_other)
 
     def test_copy_nodes_from_tree_to_tree_overriding(self):
         from_paths = ["d", "e", "g", "h", "f"]
@@ -1540,9 +1516,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             to_paths=to_paths,
             overriding=True,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other_full_wrong)
+        assert_tree_structure_basenode_root(self.root_other_full_wrong)
         assert_tree_structure_basenode_root_attr(self.root_other_full_wrong)
-        assert_tree_structure_node_root_generic(self.root_other_full_wrong)
+        assert_tree_structure_node_root(self.root_other_full_wrong)
 
     # merge_children
     def test_copy_nodes_from_tree_to_tree_merge_children(self):
@@ -1559,9 +1535,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             to_paths=to_paths,
             merge_children=True,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other_full)
+        assert_tree_structure_basenode_root(self.root_other_full)
         assert_tree_structure_basenode_root_attr(self.root_other_full)
-        assert_tree_structure_node_root_generic(self.root_other_full)
+        assert_tree_structure_node_root(self.root_other_full)
 
     def test_copy_nodes_from_tree_to_tree_merge_children_non_overriding(self):
         from_paths = ["e", "g", "h"]
@@ -1577,9 +1553,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             to_paths=to_paths,
             merge_children=True,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other_full)
+        assert_tree_structure_basenode_root(self.root_other_full)
         assert_tree_structure_basenode_root_attr(self.root_other_full)
-        assert_tree_structure_node_root_generic(self.root_other_full)
+        assert_tree_structure_node_root(self.root_other_full)
 
     def test_copy_nodes_from_tree_to_tree_merge_children_non_overriding_error(self):
         from_paths = ["d", "e", "g", "h", "f"]
@@ -1596,7 +1572,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 to_paths=to_paths,
                 merge_children=True,
             )
-        assert str(exc_info.value).startswith("Error: Duplicate node with same path")
+        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
 
     # merge_leaves
     def test_copy_nodes_from_tree_to_tree_merge_leaves(self):
@@ -1636,9 +1612,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             to_paths=to_paths,
             merge_leaves=True,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other_full)
+        assert_tree_structure_basenode_root(self.root_other_full)
         assert_tree_structure_basenode_root_attr(self.root_other_full)
-        assert_tree_structure_node_root_generic(self.root_other_full)
+        assert_tree_structure_node_root(self.root_other_full)
 
     def test_copy_nodes_from_tree_to_tree_merge_leaves_non_overriding_error(self):
         from_paths = ["a/d", "a/e", "a/g", "a/h"]
@@ -1656,7 +1632,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 to_paths=to_paths,
                 merge_leaves=True,
             )
-        assert str(exc_info.value).startswith("Error: Duplicate node with same path")
+        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
 
     # delete_children
     def test_copy_nodes_from_tree_to_tree_delete_children(self):
@@ -1673,9 +1649,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             to_paths=to_paths,
             delete_children=True,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other_full)
+        assert_tree_structure_basenode_root(self.root_other_full)
         assert_tree_structure_basenode_root_attr(self.root_other_full)
-        assert_tree_structure_node_root_generic(self.root_other_full)
+        assert_tree_structure_node_root(self.root_other_full)
 
     # merge_children, overriding
     def test_copy_nodes_from_tree_to_tree_merge_children_overriding(self):
@@ -1693,9 +1669,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             merge_children=True,
             overriding=True,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other_full_wrong)
+        assert_tree_structure_basenode_root(self.root_other_full_wrong)
         assert_tree_structure_basenode_root_attr(self.root_other_full_wrong)
-        assert_tree_structure_node_root_generic(self.root_other_full_wrong)
+        assert_tree_structure_node_root(self.root_other_full_wrong)
 
     # merge_leaves, overriding
     def test_copy_nodes_from_tree_to_tree_merge_leaves_overriding(self):
@@ -1713,9 +1689,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             merge_leaves=True,
             overriding=True,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other_full_wrong)
+        assert_tree_structure_basenode_root(self.root_other_full_wrong)
         assert_tree_structure_basenode_root_attr(self.root_other_full_wrong, c=("c", 1))
-        assert_tree_structure_node_root_generic(self.root_other_full_wrong)
+        assert_tree_structure_node_root(self.root_other_full_wrong)
 
     # merge_children, merge_leaves
     def test_copy_nodes_from_tree_to_tree_merge_children_and_leaf_error(self):
@@ -1730,9 +1706,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 merge_children=True,
                 merge_leaves=True,
             )
-        assert str(exc_info.value).startswith(
-            "Invalid shifting, can only specify one type of merging"
-        )
+        assert str(exc_info.value) == Constants.ERROR_MERGE_CHILDREN_OR_LEAVES
 
     # merge_children, delete_children
     def test_copy_nodes_from_tree_to_tree_merge_children_and_delete_children(self):
@@ -1758,9 +1732,29 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             merge_children=True,
             delete_children=True,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other_full)
+        assert_tree_structure_basenode_root(self.root_other_full)
         assert_tree_structure_basenode_root_attr(self.root_other_full)
-        assert_tree_structure_node_root_generic(self.root_other_full)
+        assert_tree_structure_node_root(self.root_other_full)
+
+    # merge_leaves, delete_children
+    def test_copy_nodes_from_tree_to_tree_merge_leaves_and_delete_children(self):
+        from_paths = ["a/e", "a/g", "a/h"]
+        to_paths = ["/a/b/e", "a/c/g", "a/c/h"]
+        shift_nodes(self.root, from_paths, to_paths)
+
+        from_paths = ["a/b", "a/c"]
+        to_paths = ["/a/b", "a/b/e/c"]
+        copy_nodes_from_tree_to_tree(
+            from_tree=self.root,
+            to_tree=self.root_other_full,
+            from_paths=from_paths,
+            to_paths=to_paths,
+            merge_leaves=True,
+            delete_children=True,
+        )
+        assert_tree_structure_basenode_root(self.root_other_full)
+        assert_tree_structure_basenode_root_attr(self.root_other_full)
+        assert_tree_structure_node_root(self.root_other_full)
 
     # with_full_path
     def test_copy_nodes_from_tree_to_tree_with_full_path(self):
@@ -1773,9 +1767,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             to_paths=to_paths,
             with_full_path=True,
         )
-        assert_tree_structure_basenode_root_generic(self.root_other)
+        assert_tree_structure_basenode_root(self.root_other)
         assert_tree_structure_basenode_root_attr(self.root_other)
-        assert_tree_structure_node_root_generic(self.root_other)
+        assert_tree_structure_node_root(self.root_other)
 
     def test_copy_nodes_from_tree_to_tree_with_full_path_error(self):
         from_paths = ["d", "e", "g", "h", "f"]
@@ -1788,6 +1782,4 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 to_paths=to_paths,
                 with_full_path=True,
             )
-        assert str(exc_info.value).startswith(
-            "Invalid path in `from_paths` not starting with the root node"
-        )
+        assert str(exc_info.value).startswith(Constants.ERROR_INVALID_FULL_PATH)

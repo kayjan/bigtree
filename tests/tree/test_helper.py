@@ -6,30 +6,32 @@ from bigtree.node.node import Node
 from bigtree.tree.helper import clone_tree, get_tree_diff, prune_tree
 from bigtree.utils.exceptions import NotFoundError, SearchError
 from tests.conftest import assert_print_statement
+from tests.constants import Constants
 from tests.node.test_basenode import (
+    assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
-    assert_tree_structure_basenode_root_generic,
 )
 
 
 class TestCloneTree:
     @staticmethod
-    def test_clone_tree_wrong_type():
-        with pytest.raises(ValueError):
+    def test_clone_tree_wrong_type_error():
+        with pytest.raises(ValueError) as exc_info:
             clone_tree({}, Node)
+        assert str(exc_info.value) == Constants.ERROR_HELPER_BASENODE_TYPE
 
     @staticmethod
     def test_clone_tree_basenode_node(tree_basenode):
         root_clone = clone_tree(tree_basenode, node_type=Node)
         assert isinstance(root_clone, Node), "Wrong type returned"
-        assert_tree_structure_basenode_root_generic(root_clone)
+        assert_tree_structure_basenode_root(root_clone)
         assert_tree_structure_basenode_root_attr(root_clone)
 
     @staticmethod
     def test_clone_tree_node_basenode(tree_node):
         root_clone = clone_tree(tree_node, node_type=BaseNode)
         assert isinstance(root_clone, BaseNode), "Wrong type returned"
-        assert_tree_structure_basenode_root_generic(root_clone)
+        assert_tree_structure_basenode_root(root_clone)
         assert_tree_structure_basenode_root_attr(root_clone)
 
     @staticmethod
@@ -39,7 +41,7 @@ class TestCloneTree:
 
         root_clone = clone_tree(tree_basenode, node_type=NodeA)
         assert isinstance(root_clone, NodeA), "Node type is not `NodeA`"
-        assert_tree_structure_basenode_root_generic(root_clone)
+        assert_tree_structure_basenode_root(root_clone)
         assert_tree_structure_basenode_root_attr(root_clone)
 
 
@@ -49,37 +51,40 @@ class TestPruneTree:
         # Pruned tree is a/c/f
         tree_prune = prune_tree(tree_node, "a/c")
 
-        assert_tree_structure_basenode_root_generic(tree_node)
+        assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
         assert len(list(tree_prune.children)) == 1
         assert len(tree_prune.children[0].children) == 1
 
     @staticmethod
-    def test_prune_tree_multiple_path(tree_node):
+    def test_prune_tree_multiple_path_error(tree_node):
         dd = Node("d")
         dd.parent = tree_node.children[-1]
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             prune_tree(tree_node, "d")
+        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
 
     @staticmethod
-    def test_prune_tree_nonexistant_path(tree_node):
-        with pytest.raises(NotFoundError):
+    def test_prune_tree_nonexistant_path_error(tree_node):
+        with pytest.raises(NotFoundError) as exc_info:
             prune_tree(tree_node, "i")
+        assert str(exc_info.value).startswith(Constants.ERROR_NOT_FOUND)
 
     @staticmethod
     def test_prune_tree_sep(tree_node):
         # Pruned tree is a/c/f
         tree_prune = prune_tree(tree_node, "a\\c", sep="\\")
 
-        assert_tree_structure_basenode_root_generic(tree_node)
+        assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
         assert len(list(tree_prune.children)) == 1
         assert len(tree_prune.children[0].children) == 1
 
     @staticmethod
-    def test_prune_tree_sep_wrong(tree_node):
-        with pytest.raises(NotFoundError):
+    def test_prune_tree_sep_error(tree_node):
+        with pytest.raises(NotFoundError) as exc_info:
             prune_tree(tree_node, "a\\c")
+        assert str(exc_info.value).startswith(Constants.ERROR_NOT_FOUND)
 
 
 class TestTreeDiff:

@@ -10,12 +10,13 @@ from bigtree import (
     dict_to_dag,
     list_to_dag,
 )
+from tests.constants import Constants
 from tests.node.test_dagnode import (
-    assert_dag_structure_attr_root,
     assert_dag_structure_root,
+    assert_dag_structure_root_attr,
 )
 
-LOCAL = False
+LOCAL = Constants.LOCAL
 
 
 class TestDAGToList:
@@ -57,7 +58,7 @@ class TestDAGToDict:
 
         dag = dict_to_dag(actual)
         assert_dag_structure_root(dag)
-        assert_dag_structure_attr_root(dag)
+        assert_dag_structure_root_attr(dag)
 
     @staticmethod
     def test_dag_to_dict_attr_dict(dag_node):
@@ -99,7 +100,7 @@ class TestDAGToDataFrame:
 
         dag = dataframe_to_dag(actual)
         assert_dag_structure_root(dag)
-        assert_dag_structure_attr_root(dag)
+        assert_dag_structure_root_attr(dag)
 
     @staticmethod
     def test_dag_to_dataframe_attr_dict(dag_node):
@@ -166,27 +167,27 @@ class TestDAGToDot:
     def test_dag_to_dot_type_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
             dag_to_dot(tree_node)
-        assert str(exc_info.value).startswith("Tree should be of type `DAGNode`")
+        assert str(exc_info.value) == Constants.ERROR_DAG_TYPE
 
     @staticmethod
-    def test_dag_to_dot_bg_color(dag_node):
+    def test_dag_to_dot_bg_colour(dag_node):
         graph = dag_to_dot(dag_node, bg_colour="blue")
         expected = """strict digraph G {\nbgcolor=blue;\na [label=a];\nc [label=c];\na -> c;\nd [label=d];\na -> d;\nc [label=c];\na [label=a];\na -> c;\nb [label=b];\nb -> c;\nd [label=d];\nc -> d;\nf [label=f];\nc -> f;\ng [label=g];\nc -> g;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nc -> d;\ne [label=e];\nd -> e;\nf [label=f];\nd -> f;\ne [label=e];\nd [label=d];\nd -> e;\nf [label=f];\nc [label=c];\nc -> f;\nd [label=d];\nd -> f;\ng [label=g];\nc [label=c];\nc -> g;\nh [label=h];\ng -> h;\nh [label=h];\ng [label=g];\ng -> h;\nb [label=b];\nc [label=c];\nb -> c;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/dag_bg.png")
+            graph.write_png("tests/dag_bg_colour.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
-    def test_dag_to_dot_fill_color(dag_node):
+    def test_dag_to_dot_fill_colour(dag_node):
         graph = dag_to_dot(dag_node, node_colour="gold")
         expected = """strict digraph G {\na [fillcolor=gold, label=a, style=filled];\nc [fillcolor=gold, label=c, style=filled];\na -> c;\nd [fillcolor=gold, label=d, style=filled];\na -> d;\nc [fillcolor=gold, label=c, style=filled];\na [fillcolor=gold, label=a, style=filled];\na -> c;\nb [fillcolor=gold, label=b, style=filled];\nb -> c;\nd [fillcolor=gold, label=d, style=filled];\nc -> d;\nf [fillcolor=gold, label=f, style=filled];\nc -> f;\ng [fillcolor=gold, label=g, style=filled];\nc -> g;\nd [fillcolor=gold, label=d, style=filled];\na [fillcolor=gold, label=a, style=filled];\na -> d;\nc [fillcolor=gold, label=c, style=filled];\nc -> d;\ne [fillcolor=gold, label=e, style=filled];\nd -> e;\nf [fillcolor=gold, label=f, style=filled];\nd -> f;\ne [fillcolor=gold, label=e, style=filled];\nd [fillcolor=gold, label=d, style=filled];\nd -> e;\nf [fillcolor=gold, label=f, style=filled];\nc [fillcolor=gold, label=c, style=filled];\nc -> f;\nd [fillcolor=gold, label=d, style=filled];\nd -> f;\ng [fillcolor=gold, label=g, style=filled];\nc [fillcolor=gold, label=c, style=filled];\nc -> g;\nh [fillcolor=gold, label=h, style=filled];\ng -> h;\nh [fillcolor=gold, label=h, style=filled];\ng [fillcolor=gold, label=g, style=filled];\ng -> h;\nb [fillcolor=gold, label=b, style=filled];\nc [fillcolor=gold, label=c, style=filled];\nb -> c;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/dag_fill.png")
+            graph.write_png("tests/dag_fill_colour.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -198,7 +199,19 @@ class TestDAGToDot:
         expected = """strict digraph G {\na [label=a];\nc [label=c];\na -> c  [color=red];\nd [label=d];\na -> d  [color=red];\nc [label=c];\na [label=a];\na -> c  [color=red];\nb [label=b];\nb -> c  [color=red];\nd [label=d];\nc -> d  [color=red];\nf [label=f];\nc -> f  [color=red];\ng [label=g];\nc -> g  [color=red];\nd [label=d];\na [label=a];\na -> d  [color=red];\nc [label=c];\nc -> d  [color=red];\ne [label=e];\nd -> e  [color=red];\nf [label=f];\nd -> f  [color=red];\ne [label=e];\nd [label=d];\nd -> e  [color=red];\nf [label=f];\nc [label=c];\nc -> f  [color=red];\nd [label=d];\nd -> f  [color=red];\ng [label=g];\nc [label=c];\nc -> g  [color=red];\nh [label=h];\ng -> h  [color=red];\nh [label=h];\ng [label=g];\ng -> h  [color=red];\nb [label=b];\nc [label=c];\nb -> c  [color=red];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/dag_edge.png")
+            graph.write_png("tests/dag_edge_colour.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    def test_dag_to_dot_node_shape(dag_node):
+        graph = dag_to_dot(dag_node, node_shape="triangle")
+        expected = """strict digraph G {\nrankdir=TB;\nc [label=c, shape=triangle];\na [label=a, shape=triangle];\na -> c;\nd [label=d, shape=triangle];\na [label=a, shape=triangle];\na -> d;\nc [label=c, shape=triangle];\nb [label=b, shape=triangle];\nb -> c;\nd [label=d, shape=triangle];\nc [label=c, shape=triangle];\nc -> d;\nf [label=f, shape=triangle];\nc [label=c, shape=triangle];\nc -> f;\ng [label=g, shape=triangle];\nc [label=c, shape=triangle];\nc -> g;\ne [label=e, shape=triangle];\nd [label=d, shape=triangle];\nd -> e;\nf [label=f, shape=triangle];\nd [label=d, shape=triangle];\nd -> f;\nh [label=h, shape=triangle];\ng [label=g, shape=triangle];\ng -> h;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/dag_node_shape.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -210,19 +223,37 @@ class TestDAGToDot:
         expected = """strict digraph G {\na [fillcolor=gold, label=a, style=filled];\nc [fillcolor=gold, label=c, style=filled];\na -> c;\nd [fillcolor=gold, label=d, style=filled];\na -> d;\nc [fillcolor=blue, label=c, style=filled];\na [fillcolor=blue, label=a, style=filled];\na -> c;\nb [fillcolor=blue, label=b, style=filled];\nb -> c;\nd [fillcolor=blue, label=d, style=filled];\nc -> d;\nf [fillcolor=blue, label=f, style=filled];\nc -> f;\ng [fillcolor=blue, label=g, style=filled];\nc -> g;\nd [fillcolor=green, label=d, style=filled];\na [fillcolor=green, label=a, style=filled];\na -> d;\nc [fillcolor=green, label=c, style=filled];\nc -> d;\ne [fillcolor=green, label=e, style=filled];\nd -> e;\nf [fillcolor=green, label=f, style=filled];\nd -> f;\ne [fillcolor=green, label=e, style=filled];\nd [fillcolor=green, label=d, style=filled];\nd -> e;\nf [fillcolor=green, label=f, style=filled];\nc [fillcolor=green, label=c, style=filled];\nc -> f;\nd [fillcolor=green, label=d, style=filled];\nd -> f;\ng [fillcolor=red, label=g, style=filled];\nc [fillcolor=red, label=c, style=filled];\nc -> g;\nh [fillcolor=red, label=h, style=filled];\ng -> h;\nh [fillcolor=red, label=h, style=filled];\ng [fillcolor=red, label=g, style=filled];\ng -> h;\nb [fillcolor=blue, label=b, style=filled];\nc [fillcolor=blue, label=c, style=filled];\nb -> c;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/dag_node_style.png")
+            graph.write_png("tests/dag_node_attr.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
-    def test_tree_to_dot_edge_attr(dag_node_style):
+    def test_dag_to_dot_edge_attr(dag_node_style):
         graph = dag_to_dot(dag_node_style, edge_attr="edge_style")
         expected = """strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c  [label=c, style=bold];\nd [label=d];\na [label=a];\na -> d  [label=1, style=bold];\nc [label=c];\nb [label=b];\nb -> c  [label=c, style=bold];\nd [label=d];\nc [label=c];\nc -> d  [label=1, style=bold];\nf [label=f];\nc [label=c];\nc -> f  [label=3, style=bold];\ng [label=g];\nc [label=c];\nc -> g  [label=4, style=bold];\ne [label=e];\nd [label=d];\nd -> e  [label=2, style=bold];\nf [label=f];\nd [label=d];\nd -> f  [label=3, style=bold];\nh [label=h];\ng [label=g];\ng -> h  [label=5, style=bold];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
-            graph.write_png("tests/dag_edge_style.png")
+            graph.write_png("tests/dag_edge_attr.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    def test_dag_to_dot_attr_override(dag_node):
+        dag_node.children[0].set_attrs(
+            {
+                "node_style": {"style": "filled", "fillcolor": "blue"},
+                "edge_style": {"style": "bold"},
+            }
+        )
+        graph = dag_to_dot(dag_node, node_attr="node_style", edge_attr="edge_style")
+        expected = """strict digraph G {\nrankdir=TB;\nc [fillcolor=blue, label=c, style=filled];\na [label=a];\na -> c  [style=bold];\nd [label=d];\na [label=a];\na -> d;\nc [fillcolor=blue, label=c, style=filled];\nb [label=b];\nb -> c  [style=bold];\nd [label=d];\nc [fillcolor=blue, label=c, style=filled];\nc -> d;\nf [label=f];\nc [fillcolor=blue, label=c, style=filled];\nc -> f;\ng [label=g];\nc [fillcolor=blue, label=c, style=filled];\nc -> g;\ne [label=e];\nd [label=d];\nd -> e;\nf [label=f];\nd [label=d];\nd -> f;\nh [label=h];\ng [label=g];\ng -> h;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/dag_attr_override.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual

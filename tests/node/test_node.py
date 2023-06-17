@@ -7,9 +7,10 @@ from bigtree.node.node import Node
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
 from tests.conftest import assert_print_statement
+from tests.constants import Constants
 from tests.node.test_basenode import (
+    assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
-    assert_tree_structure_basenode_root_generic,
     assert_tree_structure_basenode_self,
 )
 
@@ -46,9 +47,10 @@ class TestNode(unittest.TestCase):
         self.g = None
         self.h = None
 
-    def test_empty_node_name(self):
-        with pytest.raises(TreeError):
+    def test_empty_node_name_error(self):
+        with pytest.raises(TreeError) as exc_info:
             Node()
+        assert str(exc_info.value) == Constants.ERROR_NODE_NAME
 
     def test_set_parent(self):
         self.b.parent = self.a
@@ -59,10 +61,10 @@ class TestNode(unittest.TestCase):
         self.g.parent = self.e
         self.h.parent = self.e
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
-        assert_tree_structure_node_root_generic(self.a)
+        assert_tree_structure_node_root(self.a)
         assert_tree_structure_node_self(self)
 
     def test_set_parent_constructor(self):
@@ -75,10 +77,10 @@ class TestNode(unittest.TestCase):
         self.g = Node(name="g", age=10, parent=self.e)
         self.h = Node(name="h", age=6, parent=self.e)
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
-        assert_tree_structure_node_root_generic(self.a)
+        assert_tree_structure_node_root(self.a)
         assert_tree_structure_node_self(self)
 
     def test_set_parent_duplicate(self):
@@ -96,14 +98,14 @@ class TestNode(unittest.TestCase):
         assert list(self.a.children) == [self.b]
         assert self.b.parent == self.a
 
-    def test_set_parent_sep_different_error_message(self):
+    def test_set_parent_sep_different_error(self):
         b = Node("b", sep="\\")
         self.b.parent = self.a
         with pytest.raises(TreeError) as exc_info:
             b.parent = self.a
         assert (
             str(exc_info.value)
-            == "Error: Duplicate node with same path\nThere exist a node with same path /a/b"
+            == f"{Constants.ERROR_SAME_PATH}\nThere exist a node with same path /a/b"
         )
 
     def test_set_parent_sep_root(self):
@@ -116,7 +118,7 @@ class TestNode(unittest.TestCase):
         self.h.parent = self.e
         self.a.sep = "\\"
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
         assert_tree_structure_node_self_sep(self)
@@ -131,7 +133,7 @@ class TestNode(unittest.TestCase):
         self.h.parent = self.e
         self.h.sep = "\\"
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
         assert_tree_structure_node_self_sep(self)
@@ -142,10 +144,10 @@ class TestNode(unittest.TestCase):
         self.c.children = [self.f]
         self.e.children = [self.g, self.h]
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
-        assert_tree_structure_node_root_generic(self.a)
+        assert_tree_structure_node_root(self.a)
         assert_tree_structure_node_self(self)
 
     def test_set_children_constructor(self):
@@ -158,58 +160,60 @@ class TestNode(unittest.TestCase):
         self.b = Node(name="b", age=65, children=[self.d, self.e])
         self.a = Node(name="a", age=90, children=[self.b, self.c])
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
-        assert_tree_structure_node_root_generic(self.a)
+        assert_tree_structure_node_root(self.a)
         assert_tree_structure_node_self(self)
 
     def test_set_children_duplicate(self):
-        # Set child again
         self.a.children = [self.b]
         self.a.children = [self.b]
 
     def test_set_children_duplicate_constructor(self):
-        # Set child again
         self.a = Node("a", children=[self.b])
         self.a.children = [self.b]
 
-    def test_children_sep_different_error_message(self):
+    def test_set_children_sep_different_error(self):
         b = Node("b", sep="\\")
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, b]
         assert (
             str(exc_info.value)
-            == "Error: Duplicate node with same path\nAttempting to add nodes same path /a/b"
+            == f"{Constants.ERROR_SAME_PATH}\nAttempting to add nodes same path /a/b"
         )
 
-    def test_error_set_parent_same_path(self):
+    def test_set_parent_same_path_error(self):
         self.a = Node("a")
         self.b = Node("b", parent=self.a)
         self.c = Node("b")
-        with pytest.raises(TreeError):
+        with pytest.raises(TreeError) as exc_info:
             self.c.parent = self.a
+        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
 
-    def test_error_set_parent_constructor_same_path(self):
+    def test_set_parent_constructor_same_path_error(self):
         self.a = Node("a")
         self.b = Node("b", parent=self.a)
-        with pytest.raises(TreeError):
+        with pytest.raises(TreeError) as exc_info:
             self.c = Node("b", parent=self.a)
+        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
 
-    def test_error_set_children_same_path(self):
+    def test_set_children_same_path_error(self):
         self.a = Node("a")
         self.b = Node("b")
         self.c = Node("b")
-        with pytest.raises(TreeError):
+        with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.c]
+        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
 
-    def test_error_set_children_constructor_same_path(self):
+    def test_set_children_constructor_same_path_error(self):
         self.c = Node("b")
         self.b = Node("b")
-        with pytest.raises(TreeError):
+        with pytest.raises(TreeError) as exc_info:
             self.a = Node("a", children=[self.b, self.c])
+        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
 
-    def test_error_set_children_multiple_same_path(self):
+    def test_set_children_multiple_same_path_error(self):
         self.a = Node("a")
         self.b = Node("b")
         self.c = Node("b")
@@ -219,42 +223,42 @@ class TestNode(unittest.TestCase):
             self.a.children = [self.b, self.c, self.d, self.e]
         assert (
             str(exc_info.value)
-            == "Error: Duplicate node with same path\nAttempting to add nodes same path /a/b and /a/c"
+            == f"{Constants.ERROR_SAME_PATH}\nAttempting to add nodes same path /a/b and /a/c"
         )
 
-    def test_error_set_parent(self):
-        # Error: wrong type
-        with pytest.raises(TypeError):
+    def test_set_parent_error(self):
+        with pytest.raises(TypeError) as exc_info:
             self.a.parent = 1
+        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_PARENT_TYPE)
 
-        # Error: set self as parent
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.a.parent = self.a
+        assert str(exc_info.value) == Constants.ERROR_LOOP_PARENT
 
-        # Error: set descendant as parent
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.b.parent = self.a
             self.c.parent = self.b
             self.a.parent = self.c
+        assert str(exc_info.value) == Constants.ERROR_LOOP_ANCESTOR
 
-    def test_error_set_children(self):
-        # Error: wrong type
-        with pytest.raises(TypeError):
+    def test_set_children_error(self):
+        with pytest.raises(TypeError) as exc_info:
             self.a.children = [self.b, 1]
+        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_CHILDREN_TYPE)
 
-        # Error: set self as child
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.a]
+        assert str(exc_info.value) == Constants.ERROR_LOOP_CHILD
 
-        # Error: set ancestor as child
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e, self.f]
             self.f.children = [self.a]
+        assert str(exc_info.value) == Constants.ERROR_LOOP_DESCENDANT
 
-        # Error: duplicate child
-        with pytest.raises(TreeError):
+        with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.b]
+        assert str(exc_info.value) == Constants.ERROR_SET_DUPLICATE_CHILD
 
     def test_go_to(self):
         self.a.children = [self.b, self.c]
@@ -262,10 +266,10 @@ class TestNode(unittest.TestCase):
         self.c.children = [self.f]
         self.e.children = [self.g, self.h]
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
-        assert_tree_structure_node_root_generic(self.a)
+        assert_tree_structure_node_root(self.a)
         assert_tree_structure_node_self(self)
 
         expected_paths = [
@@ -327,7 +331,7 @@ class TestNode(unittest.TestCase):
         assert str(exc_info.value).startswith("Nodes are not from the same tree")
 
 
-def assert_tree_structure_node_root_generic(
+def assert_tree_structure_node_root(
     root,
     a="/a",
     b="/a/b",

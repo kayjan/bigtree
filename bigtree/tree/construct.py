@@ -58,7 +58,7 @@ def add_path_to_tree(
         tree (Node): existing tree
         path (str): path to be added to tree
         sep (str): path separator for input `path`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
         node_attrs (Dict[str, Any]): attributes to add to node, key: attribute name, value: attribute value, optional
 
     Returns:
@@ -73,7 +73,7 @@ def add_path_to_tree(
     branch = path.lstrip(sep).rstrip(sep).split(sep)
     if branch[0] != tree_root.node_name:
         raise TreeError(
-            f"Error: Path does not have same root node, expected {tree_root.node_name}, received {branch[0]}\n"
+            f"Path does not have same root node, expected {tree_root.node_name}, received {branch[0]}\n"
             f"Check your input paths or verify that path separator `sep` is set correctly"
         )
 
@@ -147,7 +147,7 @@ def add_dict_to_tree_by_path(
         path_attrs (Dict[str, Dict[str, Any]]): dictionary containing node path and attribute information,
             key: node path, value: dict of node attribute name and attribute value
         sep (str): path separator for input `path_attrs`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
 
     Returns:
         (Node)
@@ -169,7 +169,7 @@ def add_dict_to_tree_by_path(
 
 
 def add_dict_to_tree_by_name(
-    tree: Node, path_attrs: Dict[str, Dict[str, Any]], join_type: str = "left"
+    tree: Node, name_attrs: Dict[str, Dict[str, Any]], join_type: str = "left"
 ) -> Node:
     """Add attributes to tree, return *new* root of tree.
     Adds to existing tree from nested dictionary, ``key``: name, ``value``: dict of attribute name and attribute value.
@@ -192,7 +192,7 @@ def add_dict_to_tree_by_name(
 
     Args:
         tree (Node): existing tree
-        path_attrs (Dict[str, Dict[str, Any]]): dictionary containing node name and attribute information,
+        name_attrs (Dict[str, Dict[str, Any]]): dictionary containing node name and attribute information,
             key: node name, value: dict of node attribute name and attribute value
         join_type (str): join type with attribute, default of 'left' takes existing tree nodes,
             if join_type is set to 'inner' it will only take tree nodes that are in `path_attrs` key and drop others
@@ -203,11 +203,11 @@ def add_dict_to_tree_by_name(
     if join_type not in ["inner", "left"]:
         raise ValueError("`join_type` must be one of 'inner' or 'left'")
 
-    if not len(path_attrs):
-        raise ValueError("Dictionary does not contain any data, check `path_attrs`")
+    if not len(name_attrs):
+        raise ValueError("Dictionary does not contain any data, check `name_attrs`")
 
     # Convert dictionary to dataframe
-    data = pd.DataFrame(path_attrs).T.rename_axis("NAME").reset_index()
+    data = pd.DataFrame(name_attrs).T.rename_axis("NAME").reset_index()
     return add_dataframe_to_tree_by_name(tree, data=data, join_type=join_type)
 
 
@@ -268,7 +268,7 @@ def add_dataframe_to_tree_by_path(
         attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `path_col`
         sep (str): path separator for input `path_col`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
 
     Returns:
         (Node)
@@ -512,7 +512,7 @@ def list_to_tree(
     Args:
         paths (Iterable[str]): list containing path strings
         sep (str): path separator for input `paths` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -539,12 +539,14 @@ def list_to_tree(
 
 def list_to_tree_by_relation(
     relations: Iterable[Tuple[str, str]],
+    allow_duplicates: bool = False,
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from list of tuple containing parent-child names.
 
-    Note that node names must be unique since tree is created from parent-child names,
-    except for leaf nodes - names of leaf nodes may be repeated as there is no confusion.
+    Since tree is created from parent-child names, only names of leaf nodes may be repeated.
+    Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
+    This error can be ignored by setting `allow_duplicates` to be True.
 
     >>> from bigtree import list_to_tree_by_relation, print_tree
     >>> relations_list = [("a", "b"), ("a", "c"), ("b", "d"), ("b", "e"), ("c", "f"), ("e", "g"), ("e", "h")]
@@ -561,6 +563,8 @@ def list_to_tree_by_relation(
 
     Args:
         relations (Iterable[Tuple[str, str]]): list containing tuple containing parent-child names
+        allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
+            be tagged to multiple parent nodes, defaults to False
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -571,7 +575,11 @@ def list_to_tree_by_relation(
 
     relation_data = pd.DataFrame(relations, columns=["parent", "child"])
     return dataframe_to_tree_by_relation(
-        relation_data, child_col="child", parent_col="parent", node_type=node_type
+        relation_data,
+        child_col="child",
+        parent_col="parent",
+        allow_duplicates=allow_duplicates,
+        node_type=node_type,
     )
 
 
@@ -619,7 +627,7 @@ def dict_to_tree(
         path_attrs (Dict[str, Any]): dictionary containing path and node attribute information,
             key: path, value: dict of tree attribute and attribute value
         sep (str): path separator of input `path_attrs` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -684,6 +692,8 @@ def nested_dict_to_tree(
     Returns:
         (Node)
     """
+    if not node_attrs:
+        raise ValueError("Dictionary does not contain any data, check `node_attrs`")
 
     def recursive_add_child(
         child_dict: Dict[str, Any], parent_node: Optional[Node] = None
@@ -754,7 +764,7 @@ def dataframe_to_tree(
         attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `path_col`
         sep (str): path separator of input `path_col` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicated `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -793,6 +803,8 @@ def dataframe_to_tree(
     add_dataframe_to_tree_by_path(
         root_node,
         data,
+        path_col=path_col,
+        attribute_cols=attribute_cols,
         sep=sep,
         duplicate_name_allowed=duplicate_name_allowed,
     )
@@ -805,12 +817,14 @@ def dataframe_to_tree_by_relation(
     child_col: str = "",
     parent_col: str = "",
     attribute_cols: List[str] = [],
+    allow_duplicates: bool = False,
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from pandas DataFrame using parent and child names, return root of tree.
 
-    Note that node names must be unique since tree is created from parent-child names,
-    except for leaf nodes - names of leaf nodes may be repeated as there is no confusion.
+    Since tree is created from parent-child names, only names of leaf nodes may be repeated.
+    Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
+    This error can be ignored by setting `allow_duplicates` to be True.
 
     `child_col` and `parent_col` specify columns for child name and parent name to construct tree.
     `attribute_cols` specify columns for node attribute for child name
@@ -850,6 +864,8 @@ def dataframe_to_tree_by_relation(
             if not set, it will take the second column of data
         attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `child_col` and `parent_col`
+        allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
+            be tagged to multiple parent nodes, defaults to False
         node_type (Type[Node]): node type of tree to be created, defaults to Node
 
     Returns:
@@ -873,21 +889,22 @@ def dataframe_to_tree_by_relation(
 
     data_check = data.copy()[[child_col, parent_col]].drop_duplicates()
     # Filter for child nodes that are parent of other nodes
-    data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
-    _duplicate_check = (
-        data_check[child_col]
-        .value_counts()
-        .to_frame("counts")
-        .rename_axis(child_col)
-        .reset_index()
-    )
-    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
-    if len(_duplicate_check):
-        raise ValueError(
-            f"There exists duplicate child with different parent where the child is also a parent node.\n"
-            f"Duplicated node names should not happen, but can only exist in leaf nodes to avoid confusion.\n"
-            f"Check {_duplicate_check}"
+    if not allow_duplicates:
+        data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
+        _duplicate_check = (
+            data_check[child_col]
+            .value_counts()
+            .to_frame("counts")
+            .rename_axis(child_col)
+            .reset_index()
         )
+        _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
+        if len(_duplicate_check):
+            raise ValueError(
+                f"There exists duplicate child with different parent where the child is also a parent node.\n"
+                f"Duplicated node names should not happen, but can only exist in leaf nodes to avoid confusion.\n"
+                f"Check {_duplicate_check}"
+            )
 
     # If parent-child contains None -> root
     root_row = data[data[parent_col].isnull()]
@@ -895,7 +912,9 @@ def dataframe_to_tree_by_relation(
     if not len(root_names):
         root_names = list(set(data[parent_col]) - set(data[child_col]))
     if len(root_names) != 1:
-        raise ValueError(f"Unable to determine root node\nCheck {root_names}")
+        raise ValueError(
+            f"Unable to determine root node\nPossible root nodes: {root_names}"
+        )
     root_name = root_names[0]
     root_node = node_type(root_name)
 

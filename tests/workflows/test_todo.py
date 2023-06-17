@@ -5,6 +5,7 @@ import pytest
 from bigtree import AppToDo
 from bigtree.utils.exceptions import SearchError
 from tests.conftest import assert_console_output
+from tests.constants import Constants
 
 
 class TestAppToDo(unittest.TestCase):
@@ -168,8 +169,9 @@ class TestAppToDo(unittest.TestCase):
         ), f"Expected number of descendants to be {expected_n_descendants}, received {n_children}"
 
     def test_add_item_type_error(self):
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.todoapp.add_item(1)
+        assert str(exc_info.value) == Constants.ERROR_TODO_TYPE
 
     def test_remove_item_single(self):
         self.todoapp.add_item("Item 1")
@@ -259,8 +261,9 @@ class TestAppToDo(unittest.TestCase):
     def test_remove_duplicate_item_error(self):
         self.todoapp.add_item("Item 1")
         self.todoapp.add_item("Item 1", "List 1")
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             self.todoapp.remove_item("Item 1")
+        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
 
     def test_remove_item_multiple(self):
         self.todoapp.add_item(["Item 1", "Item 2"])
@@ -301,8 +304,9 @@ class TestAppToDo(unittest.TestCase):
         ), f"Expected number of descendants to be {expected_n_descendants}, received {n_children}"
 
     def test_remove_item_error(self):
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError) as exc_info:
             self.todoapp.remove_item(1)
+        assert str(exc_info.value) == Constants.ERROR_TODO_TYPE
 
     def test_prioritize_item(self):
         self.todoapp.add_item("Item 1", "List 1")

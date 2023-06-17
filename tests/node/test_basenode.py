@@ -8,6 +8,7 @@ from bigtree.tree.helper import clone_tree
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
 from tests.conftest import assert_print_statement
+from tests.constants import Constants
 
 
 class BaseNode2(BaseNode):
@@ -82,55 +83,23 @@ class TestBaseNode(unittest.TestCase):
         self.g.parent = self.e
         self.h.parent = self.e
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
         assert_print_statement(print, "BaseNode(age=90, name=a)\n", self.a)
 
-    def test_set_parent_error(self):
+    def test_set_parents_error(self):
         with pytest.raises(ValueError) as exc_info:
             self.b.parents = [self.a]
-        assert str(exc_info.value).startswith("Attempting to set `parents` attribute")
+        assert str(exc_info.value) == Constants.ERROR_SET_PARENTS_ATTR
 
         with pytest.raises(ValueError) as exc_info:
             self.b = BaseNode(parents=[self.a])
-        assert str(exc_info.value).startswith("Attempting to set `parents` attribute")
+        assert str(exc_info.value) == Constants.ERROR_SET_PARENTS_ATTR
 
         with pytest.raises(ValueError) as exc_info:
             self.b.parents
-        assert str(exc_info.value).startswith(
-            "Attempting to access `parents` attribute"
-        )
-
-    def test_set_parent_reassign(self):
-        self.a.children = [self.b, self.c]
-        self.d.children = [self.e]
-        self.b.parent = self.d
-        assert list(self.a.children) == [
-            self.c
-        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
-        assert list(self.d.children) == [
-            self.e,
-            self.b,
-        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
-        assert (
-            self.b.parent == self.d
-        ), f"Node b parent, expected {self.d}, received {self.b.parent}"
-
-    def test_set_children_reassign(self):
-        self.a.children = [self.c]
-        self.b.parent = self.a
-        self.d.children = [self.e, self.b]
-        assert list(self.a.children) == [
-            self.c
-        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
-        assert list(self.d.children) == [
-            self.e,
-            self.b,
-        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
-        assert (
-            self.b.parent == self.d
-        ), f"Node b parent, expected {self.d}, received {self.b.parent}"
+        assert str(exc_info.value) == Constants.ERROR_GET_PARENTS_ATTR
 
     def test_set_parent(self):
         self.b.parent = self.a
@@ -141,7 +110,7 @@ class TestBaseNode(unittest.TestCase):
         self.g.parent = self.e
         self.h.parent = self.e
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
@@ -157,7 +126,7 @@ class TestBaseNode(unittest.TestCase):
         self.a.sort(key=lambda x: x.name)
         self.b.sort(key=lambda x: x.name)
         self.e.sort(key=lambda x: x.name)
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
@@ -170,7 +139,7 @@ class TestBaseNode(unittest.TestCase):
         self.e >> self.g
         self.e >> self.h
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
@@ -183,7 +152,7 @@ class TestBaseNode(unittest.TestCase):
         self.g << self.e
         self.h << self.e
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
@@ -197,7 +166,7 @@ class TestBaseNode(unittest.TestCase):
         self.g = BaseNode(name="g", age=10, parent=self.e)
         self.h = BaseNode(name="h", age=6, parent=self.e)
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
@@ -217,19 +186,32 @@ class TestBaseNode(unittest.TestCase):
         dummy.parent = None
         assert not len(list(self.h.children))
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
+    def test_set_parent_reassign(self):
+        self.a.children = [self.b, self.c]
+        self.d.children = [self.e]
+        self.b.parent = self.d
+        assert list(self.a.children) == [
+            self.c
+        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
+        assert list(self.d.children) == [
+            self.e,
+            self.b,
+        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
+        assert (
+            self.b.parent == self.d
+        ), f"Node b parent, expected {self.d}, received {self.b.parent}"
+
     def test_set_parent_duplicate(self):
-        # Set parent again
         self.b.parent = self.a
         self.b.parent = self.a
         assert list(self.a.children) == [self.b]
         assert self.b.parent == self.a
 
     def test_set_parent_duplicate_constructor(self):
-        # Set parent again
         self.a = BaseNode(name="a", age=90)
         self.b = BaseNode(name="b", age=65, parent=self.a)
         self.b.parent = self.a
@@ -242,7 +224,7 @@ class TestBaseNode(unittest.TestCase):
         self.c.children = [self.f]
         self.e.children = [self.g, self.h]
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
@@ -255,7 +237,7 @@ class TestBaseNode(unittest.TestCase):
         self.a.sort(key=lambda x: x.name)
         self.b.sort(key=lambda x: x.name)
         self.e.sort(key=lambda x: x.name)
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
@@ -269,7 +251,7 @@ class TestBaseNode(unittest.TestCase):
         self.b = BaseNode(name="b", age=65, children=[self.d, self.e])
         self.a = BaseNode(name="a", age=90, children=[self.b, self.c])
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
@@ -284,7 +266,7 @@ class TestBaseNode(unittest.TestCase):
         assert dummy.parent == self.h
         self.h.children = []
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
@@ -299,23 +281,37 @@ class TestBaseNode(unittest.TestCase):
         assert dummy.parent == self.h
         dummy.parent.children = []
 
-        assert_tree_structure_basenode_root_generic(self.a)
+        assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
-    def test_set_children_none_parent(self):
-        with pytest.raises(TypeError):
+    def test_set_children_none_parent_error(self):
+        with pytest.raises(TypeError) as exc_info:
             self.h.children = None
+        assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
+
+    def test_set_children_reassign(self):
+        self.a.children = [self.c]
+        self.b.parent = self.a
+        self.d.children = [self.e, self.b]
+        assert list(self.a.children) == [
+            self.c
+        ], f"Node a children, expected {[self.c]}, received {self.a.children}"
+        assert list(self.d.children) == [
+            self.e,
+            self.b,
+        ], f"Node d children, expected {[self.e, self.b]}, received {self.d.children}"
+        assert (
+            self.b.parent == self.d
+        ), f"Node b parent, expected {self.d}, received {self.b.parent}"
 
     def test_set_children_duplicate(self):
-        # Set child again
         self.a.children = [self.b]
         self.a.children = [self.b]
         assert list(self.a.children) == [self.b]
         assert self.b.parent == self.a
 
     def test_set_children_duplicate_constructor(self):
-        # Set child again
         self.a = BaseNode(children=[self.b])
         self.a.children = [self.b]
         assert list(self.a.children) == [self.b]
@@ -335,7 +331,7 @@ class TestBaseNode(unittest.TestCase):
             not a2.children[0] == self.b and not a2.children[1] == self.b
         ), "Copy does not copy child nodes"
         assert not a2.children == [self.b, self.c], "Copy does not copy child nodes"
-        assert_tree_structure_basenode_root_generic(a2)
+        assert_tree_structure_basenode_root(a2)
         assert_tree_structure_basenode_root_attr(a2)
 
     def test_shallow_copy_set_children(self):
@@ -352,45 +348,49 @@ class TestBaseNode(unittest.TestCase):
             a2.children[0] == self.b or a2.children[1] == self.b
         ), "Shallow copy does not copy child nodes"
         assert a2.children == (self.b, self.c), "Shallow copy does not copy child nodes"
-        assert_tree_structure_basenode_root_generic(a2)
+        assert_tree_structure_basenode_root(a2)
         assert_tree_structure_basenode_root_attr(a2)
 
-    def test_error_set_parent_type_error(self):
-        # Error: wrong type
-        with pytest.raises(TypeError):
+    def test_set_parent_type_error(self):
+        with pytest.raises(TypeError) as exc_info:
             self.a.parent = 1
+        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_PARENT_TYPE)
 
-    def test_error_set_parent_loop_error(self):
-        # Error: set self as parent
-        with pytest.raises(LoopError):
+    def test_set_parent_loop_error(self):
+        with pytest.raises(LoopError) as exc_info:
             self.a.parent = self.a
+        assert str(exc_info.value) == Constants.ERROR_LOOP_PARENT
 
-        # Error: set descendant as parent
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.b.parent = self.a
             self.c.parent = self.b
             self.a.parent = self.c
+        assert str(exc_info.value) == Constants.ERROR_LOOP_ANCESTOR
 
-    def test_error_set_children_type_error(self):
-        # Error: wrong type
-        with pytest.raises(TypeError):
+    def test_set_children_type_error(self):
+        with pytest.raises(TypeError) as exc_info:
             self.a.children = [self.b, 1]
+        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_CHILDREN_TYPE)
 
-    def test_error_set_children_loop_error(self):
-        # Error: set self as child
-        with pytest.raises(LoopError):
+        with pytest.raises(TypeError) as exc_info:
+            self.a.children = [self.b, None]
+        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_CHILDREN_TYPE)
+
+    def test_set_children_loop_error(self):
+        with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.a]
+        assert str(exc_info.value) == Constants.ERROR_LOOP_CHILD
 
-        # Error: set ancestor as child
-        with pytest.raises(LoopError):
+        with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e, self.f]
             self.f.children = [self.a]
+        assert str(exc_info.value) == Constants.ERROR_LOOP_DESCENDANT
 
-    def test_error_set_children_exception(self):
-        # Error: duplicate child
-        with pytest.raises(TreeError):
+    def test_set_duplicate_children_error(self):
+        with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.b]
+        assert str(exc_info.value) == Constants.ERROR_SET_DUPLICATE_CHILD
 
     def test_rollback_set_parent(self):
         a = clone_tree(self.a, BaseNode2)
@@ -612,7 +612,8 @@ class TestBaseNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
 
-def assert_tree_structure_basenode_root_generic(root):
+def assert_tree_structure_basenode_root(root):
+    """Test tree structure (i.e., ancestors, descendants, leaves, siblings, etc.)"""
     # Test ancestors
     expected = 0
     actual = len(list(root.ancestors))
@@ -722,6 +723,7 @@ def assert_tree_structure_basenode_root_attr(
     g=("g", 10),
     h=("h", 6),
 ):
+    """Test tree structure with age attributes"""
     # Test describe()
     expected = [("age", 90), ("name", "a")]
     actual = root.describe(exclude_prefix="_")
@@ -739,6 +741,7 @@ def assert_tree_structure_basenode_root_attr(
 
 
 def assert_tree_structure_basenode_self(self):
+    """Test tree structure with self object"""
     nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
 
     # Test ancestors

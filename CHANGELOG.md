@@ -4,8 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.4] - 2023-06-18
+### Added
+- Tree Constructor: `list_to_tree_by_relation` and `dataframe_to_tree_by_relation` method to allow duplicate intermediate nodes (default is false).
+- DAG Exporter: Added `node_shape` parameter in `dag_to_dot` export function for easier way to customize node shape.
+- Misc: More test cases.
+- Misc: Added security instructions on how to raise vulnerabilities.
+- Misc: Added Calendar workflow to documentation.
+### Changed
+- Tree Constructor: `add_dict_to_tree_by_name` method rename argument from `path_attrs` to `name_attrs`.
+- Misc: Modified contributing instructions.
+### Fixed
+- Tree Exporter: `tree_to_dot` to handle cases when not all nodes have `edge_attr`.
+- DAG Exporter: `dag_to_dot` to perform dictionary copy to prevent style from being overridden for child nodes.
+- Tree Constructor: `dataframe_to_tree` to handle case when path column is not the first column.
+
 ## [0.9.3] - 2023-05-28
-### Modified
+### Changed
 - Tree Constructor: Relax type hint to `Iterable` instead of `List` for `list_to_tree` and `list_to_tree_by_relation` methods.
 ### Fixed
 - Node: Fix error message when trees have different `sep`.
@@ -142,7 +157,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: Add Tips and Tricks to documentation (List Directory).
 
 ### Fixed
-- DAGNode: Fix issue of duplicated parent constructor creating duplicated children.
+- DAGNode: Fix issue of duplicate parent constructor creating duplicate children.
 
 ## [0.5.5] - 2022-11-12
 ### Added
@@ -262,6 +277,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.9.4]: https://github.com/kayjan/bigtree/compare/0.9.3...0.9.4
 [0.9.3]: https://github.com/kayjan/bigtree/compare/0.9.2...0.9.3
 [0.9.2]: https://github.com/kayjan/bigtree/compare/0.9.1...0.9.2
 [0.9.1]: https://github.com/kayjan/bigtree/compare/0.9.0...0.9.1

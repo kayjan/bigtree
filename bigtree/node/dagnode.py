@@ -270,7 +270,7 @@ class DAGNode:
                 raise LoopError("Error setting child: Node cannot be child of itself")
             if any(child is new_child for child in self.ancestors):
                 raise LoopError(
-                    "Error setting child: Node cannot be ancestors of itself"
+                    "Error setting child: Node cannot be ancestor of itself"
                 )
 
             # Check for duplicate children
