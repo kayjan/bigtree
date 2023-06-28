@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.9.5] - TBD
 ### Added
-- Misc: Added init files.
+- Misc: Added init files, add link to discussions to README and pyproject, add sphinx coverage shortcuts.
 
 ## [0.9.4] - 2023-06-18
 ### Added
