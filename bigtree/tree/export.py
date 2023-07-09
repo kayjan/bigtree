@@ -1,3 +1,4 @@
+import sys
 import collections
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
@@ -38,6 +39,7 @@ def print_tree(
     attr_bracket: List[str] = ["[", "]"],
     style: str = "const",
     custom_style: List[str] = [],
+    file: str = "",
 ) -> None:
     """Print tree to console, starting from `tree`.
 
@@ -149,42 +151,87 @@ def print_tree(
         style (str): style of print, defaults to abstract style
         custom_style (List[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
     """
-    for pre_str, fill_str, _node in yield_tree(
-        tree=tree,
-        node_name_or_path=node_name_or_path,
-        max_depth=max_depth,
-        style=style,
-        custom_style=custom_style,
-    ):
-        # Get node_str (node name and attributes)
-        attr_str = ""
-        if all_attrs or attr_list:
-            if len(attr_bracket) != 2:
-                raise ValueError(
-                    f"Expect open and close brackets in `attr_bracket`, received {attr_bracket}"
-                )
-            attr_bracket_open, attr_bracket_close = attr_bracket
-            if all_attrs:
-                attrs = _node.describe(exclude_attributes=["name"], exclude_prefix="_")
-                attr_str_list = [f"{k}={v}" for k, v in attrs]
-            else:
-                if attr_omit_null:
-                    attr_str_list = [
-                        f"{attr_name}={_node.get_attr(attr_name)}"
-                        for attr_name in attr_list
-                        if _node.get_attr(attr_name)
-                    ]
+    if file != "":
+        orig_stdout = sys.stdout
+        with open(f'{file}', 'w') as f:
+            sys.stdout = f # change standard output to the file
+
+            for pre_str, fill_str, _node in yield_tree(
+                tree=tree,
+                node_name_or_path=node_name_or_path,
+                max_depth=max_depth,
+                style=style,
+                custom_style=custom_style,
+            ):
+                # Get node_str (node name and attributes)
+                attr_str = ""
+                if all_attrs or attr_list:
+                    if len(attr_bracket) != 2:
+                        raise ValueError(
+                            f"Expect open and close brackets in `attr_bracket`, received {attr_bracket}"
+                        )
+                    attr_bracket_open, attr_bracket_close = attr_bracket
+                    if all_attrs:
+                        attrs = _node.describe(exclude_attributes=["name"], exclude_prefix="_")
+                        attr_str_list = [f"{k}={v}" for k, v in attrs]
+                    else:
+                        if attr_omit_null:
+                            attr_str_list = [
+                                f"{attr_name}={_node.get_attr(attr_name)}"
+                                for attr_name in attr_list
+                                if _node.get_attr(attr_name)
+                            ]
+                        else:
+                            attr_str_list = [
+                                f"{attr_name}={_node.get_attr(attr_name)}"
+                                for attr_name in attr_list
+                                if hasattr(_node, attr_name)
+                            ]
+                    attr_str = ", ".join(attr_str_list)
+                    if attr_str:
+                        attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
+                node_str = f"{_node.node_name}{attr_str}"
+                print(f"{pre_str}{fill_str}{node_str}")
+
+            sys.stdout = orig_stdout # reset the standard output
+
+    else:
+        for pre_str, fill_str, _node in yield_tree(
+            tree=tree,
+            node_name_or_path=node_name_or_path,
+            max_depth=max_depth,
+            style=style,
+            custom_style=custom_style,
+        ):
+            # Get node_str (node name and attributes)
+            attr_str = ""
+            if all_attrs or attr_list:
+                if len(attr_bracket) != 2:
+                    raise ValueError(
+                        f"Expect open and close brackets in `attr_bracket`, received {attr_bracket}"
+                    )
+                attr_bracket_open, attr_bracket_close = attr_bracket
+                if all_attrs:
+                    attrs = _node.describe(exclude_attributes=["name"], exclude_prefix="_")
+                    attr_str_list = [f"{k}={v}" for k, v in attrs]
                 else:
-                    attr_str_list = [
-                        f"{attr_name}={_node.get_attr(attr_name)}"
-                        for attr_name in attr_list
-                        if hasattr(_node, attr_name)
-                    ]
-            attr_str = ", ".join(attr_str_list)
-            if attr_str:
-                attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
-        node_str = f"{_node.node_name}{attr_str}"
-        print(f"{pre_str}{fill_str}{node_str}")
+                    if attr_omit_null:
+                        attr_str_list = [
+                            f"{attr_name}={_node.get_attr(attr_name)}"
+                            for attr_name in attr_list
+                            if _node.get_attr(attr_name)
+                        ]
+                    else:
+                        attr_str_list = [
+                            f"{attr_name}={_node.get_attr(attr_name)}"
+                            for attr_name in attr_list
+                            if hasattr(_node, attr_name)
+                        ]
+                attr_str = ", ".join(attr_str_list)
+                if attr_str:
+                    attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
+            node_str = f"{_node.node_name}{attr_str}"
+            print(f"{pre_str}{fill_str}{node_str}")
 
 
 def yield_tree(
