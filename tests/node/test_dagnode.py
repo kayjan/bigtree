@@ -307,6 +307,26 @@ class TestDAGNode(unittest.TestCase):
             self.a.parents = [self.b, self.b]
         assert str(exc_info.value).startswith(Constants.ERROR_SET_DUPLICATE_PARENT)
 
+    def test_set_children_mutable_list(self):
+        children_list = [self.c, self.d]
+        self.a.children = children_list
+        children_list.pop()
+        actual_children = self.a.children
+        expected_children = (self.c, self.d)
+        assert (
+            actual_children == expected_children
+        ), f"Expected {expected_children}, Received {actual_children}"
+
+    def test_set_children_iterable(self):
+        self.a.children = (self.c, self.d)
+        self.b.children = {self.c}
+        self.c.children = (self.d, self.f, self.g)
+        self.d.children = {self.e: 0, self.f: 0}
+        self.g.children = {self.h}
+
+        assert_dag_structure_self(self)
+        assert_dag_structure_root(self.a)
+
     def test_set_children_type_error(self):
         with pytest.raises(TypeError) as exc_info:
             self.a.children = 1

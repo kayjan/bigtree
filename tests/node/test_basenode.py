@@ -367,6 +367,26 @@ class TestBaseNode(unittest.TestCase):
             self.a.parent = self.c
         assert str(exc_info.value) == Constants.ERROR_LOOP_ANCESTOR
 
+    def test_set_children_mutable_list(self):
+        children_list = [self.b, self.c, self.d]
+        self.a.children = children_list
+        children_list.pop()
+        actual_children = self.a.children
+        expected_children = (self.b, self.c, self.d)
+        assert (
+            actual_children == expected_children
+        ), f"Expected {expected_children}, Received {actual_children}"
+
+    def test_set_children_iterable(self):
+        self.a.children = (self.b, self.c)
+        self.b.children = {self.d: 0, self.e: 0}
+        self.c.children = {self.f}
+        self.e.children = (self.g, self.h)
+
+        assert_tree_structure_basenode_root(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
     def test_set_children_type_error(self):
         with pytest.raises(TypeError) as exc_info:
             self.a.children = [self.b, 1]

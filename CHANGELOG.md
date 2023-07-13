@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Misc: Added init files, add link to discussions to README and pyproject, add sphinx coverage shortcuts.
 ### Fixed
+- [#66] DAGNode/Node: Children constructor to allow Iterable types, fixed issue of lists being mutable.
 - [#67] Node: `path_name` to reduce number of recursive calls to root node for `sep`.
 
 ## [0.9.4] - 2023-06-18
