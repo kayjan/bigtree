@@ -11,6 +11,7 @@ Related Links:
 - [GitHub](https://github.com/kayjan/bigtree/)
 - [Changelog](https://github.com/kayjan/bigtree/blob/master/CHANGELOG.md)
 - [Issues](https://github.com/kayjan/bigtree/issues)
+- [Discussions](https://github.com/kayjan/bigtree/discussions)
 - [Contributing](https://bigtree.readthedocs.io/en/latest/others/contributing.html)
 - [PyPI](https://pypi.org/project/bigtree/)
 - Articles

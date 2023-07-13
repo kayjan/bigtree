@@ -114,9 +114,9 @@ class Node(BaseNode):
         Returns:
             (str)
         """
-        if self.parent is None:
-            return f"{self.sep}{self.name}"
-        return f"{self.parent.path_name}{self.sep}{self.name}"
+        ancestors = [self] + list(self.ancestors)
+        sep = ancestors[-1].sep
+        return sep + sep.join([node.name for node in reversed(ancestors)])
 
     def __pre_assign_children(self: T, new_children: List[T]) -> None:
         """Custom method to check before attaching children

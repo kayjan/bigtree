@@ -50,7 +50,7 @@ class Constants:
         "Error setting parent: Node cannot be added multiple times as a parent"
     )
 
-    ERROR_CHILDREN_TYPE = "Children input should be list type, received input type"
+    ERROR_CHILDREN_TYPE = "Children input should be Iterable type, received input type"
     ERROR_BASENODE_CHILDREN_TYPE = (
         "Expect input to be BaseNode type, received input type"
     )
