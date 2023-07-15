@@ -30,24 +30,27 @@ For **Tree** implementation, there are 8 main components.
    1. ``BaseNode``, extendable class
    2. ``Node``, BaseNode with node name attribute
 2. [**Constructing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/construct.html)
-   1. From *list*, using paths or parent-child tuples
-   2. From *nested dictionary*, using path or recursive structure
-   3. From *pandas DataFrame*, using paths or parent-child columns
-   4. Add nodes to existing tree using string
-   5. Add nodes and attributes to existing tree using dictionary or pandas DataFrame, using path
-   6. Add only attributes to existing tree using dictionary or pandas DataFrame, using node name
+   1. From *str*, using tree in string display format
+   2. From *list*, using paths or parent-child tuples
+   3. From *nested dictionary*, using path or recursive structure
+   4. From *pandas DataFrame*, using paths or parent-child columns
+   5. Add nodes to existing tree using path string
+   6. Add nodes and attributes to existing tree using dictionary or pandas DataFrame, using path
+   7. Add only attributes to existing tree using dictionary or pandas DataFrame, using node name
 3. [**Traversing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
    1. Pre-Order Traversal
    2. Post-Order Traversal
    3. Level-Order Traversal
    4. Level-Order-Group Traversal
+   5. ZigZag Traversal
+   6. ZigZag-Group Traversal
 4. [**Modifying Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/modify.html)
    1. Shift nodes from location to destination
    2. Copy nodes from location to destination
    3. Copy nodes from one tree to another
 5. [**Tree Search**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/search.html)
-   1. Find multiple nodes based on name, partial path, attribute value, user-defined condition
-   2. Find single nodes based on name, partial path, full path, attribute value, user-defined condition
+   1. Find multiple nodes based on name, partial path, relative path, attribute value, user-defined condition
+   2. Find single nodes based on name, partial path, relative path, full path, attribute value, user-defined condition
    3. Find multiple child nodes based on user-defined condition
    4. Find single child node based on name, user-defined condition
 6. [**Helper Function**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/helper.html)
@@ -414,7 +417,7 @@ print_tree(
 Tree can be traversed using pre-order, post-order, level-order, or level-order-group traversal methods.
 
 ```python
-from bigtree import Node, preorder_iter, postorder_iter, levelorder_iter, levelordergroup_iter
+from bigtree import Node, preorder_iter, postorder_iter, levelorder_iter, levelordergroup_iter, zigzag_iter, zigzaggroup_iter
 
 root = Node("a")
 b = Node("b", parent=root)
@@ -439,6 +442,12 @@ root.show()
 
 [[node.name for node in node_group] for node_group in levelordergroup_iter(root)]
 # [['a'], ['b', 'c'], ['d', 'e']]
+
+[node.name for node in zigzag_iter(root)]
+# ['a', 'c', 'b', 'd', 'e']
+
+[[node.name for node in node_group] for node_group in zigzaggroup_iter(root)]
+# [['a'], ['c', 'b'], ['d', 'e']]
 ```
 
 ### Modify Tree
@@ -534,7 +543,7 @@ One or multiple nodes can be search based on name, path, attribute value, or use
 
 To find a single node,
 ```python
-from bigtree import Node, find, find_name, find_path, find_full_path, find_attr
+from bigtree import Node, find, find_name, find_path, find_relative_path, find_full_path, find_attr
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
 c = Node("c", age=60, parent=root)
@@ -554,6 +563,9 @@ find_name(root, "d")
 find_path(root, "/c/d")  # partial path
 # Node(/a/c/d, age=40)
 
+find_relative_path(c, "../b")  # relative path
+# (Node(/a/b, age=65),)
+
 find_full_path(root, "a/c/d")  # full path
 # Node(/a/c/d, age=40)
 
@@ -563,7 +575,7 @@ find_attr(root, "age", 40)
 
 To find multiple nodes,
 ```python
-from bigtree import Node, findall, find_names, find_paths, find_attrs
+from bigtree import Node, findall, find_names, find_relative_path, find_paths, find_attrs
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
 c = Node("c", age=60, parent=root)
@@ -579,6 +591,9 @@ findall(root, lambda node: node.age >= 65)
 
 find_names(root, "c")
 # (Node(/a/c, age=60), Node(/a/c/c, age=40))
+
+find_relative_path(c, "../*")  # relative path
+# (Node(/a/b, age=65), Node(/a/c, age=60))
 
 find_paths(root, "/c")  # partial path
 # (Node(/a/c, age=60), Node(/a/c/c, age=40))
@@ -822,7 +837,7 @@ root.show()
 In addition to the traversal methods in the usual tree, binary tree includes in-order traversal method.
 
 ```python
-from bigtree import list_to_binarytree, inorder_iter, preorder_iter, postorder_iter, levelorder_iter, levelordergroup_iter
+from bigtree import list_to_binarytree, inorder_iter, preorder_iter, postorder_iter, levelorder_iter, levelordergroup_iter, zigzag_iter, zigzaggroup_iter
 
 nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
 root = list_to_binarytree(nums_list)
@@ -850,6 +865,12 @@ root.show()
 
 [[node.name for node in node_group] for node_group in levelordergroup_iter(root)]
 # [['1'], ['2', '3'], ['4', '5', '6', '7'], ['8']]
+
+[node.name for node in zigzag_iter(root)]
+# ['1', '3', '2', '4', '5', '6', '7', '8']
+
+[[node.name for node in node_group] for node_group in zigzaggroup_iter(root)]
+# [['1'], ['3', '2'], ['4', '5', '6', '7'], ['8']]
 ```
 
 ----
