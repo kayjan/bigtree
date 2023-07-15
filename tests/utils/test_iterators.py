@@ -5,6 +5,8 @@ from bigtree.utils.iterators import (
     levelordergroup_iter,
     postorder_iter,
     preorder_iter,
+    zigzag_iter,
+    zigzaggroup_iter,
 )
 
 
@@ -237,6 +239,123 @@ class TestLevelOrderGroupIter:
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
 
+class TestZigZagIter:
+    @staticmethod
+    def test_zigzag_iter(tree_node):
+        expected = ["a", "c", "b", "d", "e", "f", "h", "g"]
+        actual = [node.node_name for node in zigzag_iter(tree_node)]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzag_iter2(tree_node2):
+        expected = ["a", "c", "b", "d", "e", "f", "i", "h", "g"]
+        actual = [node.node_name for node in zigzag_iter(tree_node2)]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzag_iter_filter_condition(tree_node):
+        expected = ["a", "d", "e", "f", "g"]
+        actual = [
+            node.node_name
+            for node in zigzag_iter(
+                tree_node,
+                filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"],
+            )
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzag_iter_filter_condition_skip_level(tree_node):
+        expected = ["h", "g"]
+        actual = [
+            node.node_name
+            for node in zigzag_iter(
+                tree_node,
+                filter_condition=lambda x: x.node_name in ["g", "h"],
+            )
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzag_iter_stop_condition(tree_node):
+        expected = ["a", "c", "b", "d", "f"]
+        actual = [
+            node.node_name
+            for node in zigzag_iter(
+                tree_node, stop_condition=lambda x: x.node_name == "e"
+            )
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzag_iter_max_depth(tree_node):
+        expected = ["a", "c", "b", "d", "e", "f"]
+        actual = [node.node_name for node in zigzag_iter(tree_node, max_depth=3)]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+
+class TestZigZagGroupIter:
+    @staticmethod
+    def test_zigzaggroup_iter(tree_node):
+        expected = [["a"], ["c", "b"], ["d", "e", "f"], ["h", "g"]]
+        actual = [
+            [node.node_name for node in group] for group in zigzaggroup_iter(tree_node)
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzaggroup_iter2(tree_node2):
+        expected = [["a"], ["c", "b"], ["d", "e", "f"], ["i", "h", "g"]]
+        actual = [
+            [node.node_name for node in group] for group in zigzaggroup_iter(tree_node2)
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzaggroup_iter_filter_condition(tree_node):
+        expected = [["a"], [], ["d", "e", "f"], ["g"]]
+        actual = [
+            [node.node_name for node in group]
+            for group in zigzaggroup_iter(
+                tree_node,
+                filter_condition=lambda x: x.name in ["a", "d", "e", "f", "g"],
+            )
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzaggroup_iter_filter_condition_skip_level(tree_node):
+        expected = [[], [], [], ["h", "g"]]
+        actual = [
+            [node.node_name for node in group]
+            for group in zigzaggroup_iter(
+                tree_node,
+                filter_condition=lambda x: x.name in ["g", "h"],
+            )
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzaggroup_iter_stop_condition(tree_node):
+        expected = [["a"], ["c", "b"], ["d", "f"]]
+        actual = [
+            [node.node_name for node in group]
+            for group in zigzaggroup_iter(
+                tree_node, stop_condition=lambda x: x.name == "e"
+            )
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzaggroup_iter_max_depth(tree_node):
+        expected = [["a"], ["c", "b"], ["d", "e", "f"]]
+        actual = [
+            [node.node_name for node in group]
+            for group in zigzaggroup_iter(tree_node, max_depth=3)
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+
 class TestDAGIterator:
     @staticmethod
     def test_dag_iterator(dag_node):
@@ -338,11 +457,55 @@ class TestBinaryTreeIterator:
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
+    def test_levelorder_iter_filter_condition(binarytree_node):
+        expected = ["1", "3", "4", "6", "7"]
+        actual = [
+            node.node_name
+            for node in levelorder_iter(
+                binarytree_node,
+                filter_condition=lambda x: x.node_name in ["1", "4", "3", "6", "7"],
+            )
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_levelorder_iter_max_depth(binarytree_node):
+        expected = ["1", "2", "3", "4", "5", "6", "7"]
+        actual = [
+            node.node_name for node in levelorder_iter(binarytree_node, max_depth=3)
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
     def test_levelordergroup_iter(binarytree_node):
         expected = [["1"], ["2", "3"], ["4", "5", "6", "7"], ["8"]]
         actual = [
             [node.node_name for node in group]
             for group in levelordergroup_iter(binarytree_node)
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_levelordergroup_iter_filter_condition(binarytree_node):
+        expected = [["1"], ["3"], ["4", "6", "7"], []]
+        actual = [
+            [node.node_name for node in group]
+            for group in levelordergroup_iter(
+                binarytree_node,
+                filter_condition=lambda x: x.node_name in ["1", "4", "3", "6", "7"],
+            )
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_levelordergroup_iter_max_depth(binarytree_node):
+        expected = [["1"], ["2", "3"], ["4", "5", "6", "7"]]
+        actual = [
+            [node.node_name for node in group]
+            for group in levelordergroup_iter(
+                binarytree_node,
+                max_depth=3,
+            )
         ]
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
 
@@ -368,4 +531,61 @@ class TestBinaryTreeIterator:
     def test_inorder_iter_max_depth(binarytree_node):
         expected = ["4", "2", "5", "1", "6", "3", "7"]
         actual = [node.node_name for node in inorder_iter(binarytree_node, max_depth=3)]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzag_iter(binarytree_node):
+        expected = ["1", "3", "2", "4", "5", "6", "7", "8"]
+        actual = [node.node_name for node in zigzag_iter(binarytree_node)]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzag_iter_filter_condition(binarytree_node):
+        expected = ["1", "3", "4", "6", "7"]
+        actual = [
+            node.node_name
+            for node in zigzag_iter(
+                binarytree_node,
+                filter_condition=lambda x: x.node_name in ["1", "4", "3", "6", "7"],
+            )
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzag_iter_max_depth(binarytree_node):
+        expected = ["1", "3", "2", "4", "5", "6", "7"]
+        actual = [node.node_name for node in zigzag_iter(binarytree_node, max_depth=3)]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzaggroup_iter(binarytree_node):
+        expected = [["1"], ["3", "2"], ["4", "5", "6", "7"], ["8"]]
+        actual = [
+            [node.node_name for node in group]
+            for group in zigzaggroup_iter(binarytree_node)
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzaggroup_iter_filter_condition(binarytree_node):
+        expected = [["1"], ["3"], ["4", "6", "7"], []]
+        actual = [
+            [node.node_name for node in group]
+            for group in zigzaggroup_iter(
+                binarytree_node,
+                filter_condition=lambda x: x.node_name in ["1", "4", "3", "6", "7"],
+            )
+        ]
+        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzaggroup_iter_max_depth(binarytree_node):
+        expected = [["1"], ["3", "2"], ["4", "5", "6", "7"]]
+        actual = [
+            [node.node_name for node in group]
+            for group in zigzaggroup_iter(
+                binarytree_node,
+                max_depth=3,
+            )
+        ]
         assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"

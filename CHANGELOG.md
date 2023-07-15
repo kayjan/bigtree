@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.10.0] - TBD
 ### Added
 - [#65] Tree Search: Implement `find_relative_path` to find relative path from node.
+- [#65] Utility Iterator: Implement `zigzag_iter` and `zigzaggroup_iter` Tree traversal methods.
 
 ## [0.9.5] - 2023-07-13
 ### Added
