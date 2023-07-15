@@ -4,6 +4,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0] - 2023-07-15
+### Added
+- [#65] Tree Search: Implement `find_relative_path` to find relative path from node.
+- [#65] Utility Iterator: Implement `zigzag_iter` and `zigzaggroup_iter` Tree traversal methods.
+
+## [0.9.5] - 2023-07-13
+### Added
+- Misc: Added init files, add link to discussions to README and pyproject, add sphinx coverage shortcuts.
+### Fixed
+- [#66] DAGNode/Node: Children constructor to allow Iterable types, fixed issue of lists being mutable.
+- [#67] Node: `path_name` to reduce number of recursive calls to root node for `sep`.
+
+## [0.9.4] - 2023-06-18
+### Added
+- Tree Constructor: `list_to_tree_by_relation` and `dataframe_to_tree_by_relation` method to allow duplicate intermediate nodes (default is false).
+- DAG Exporter: Added `node_shape` parameter in `dag_to_dot` export function for easier way to customize node shape.
+- Misc: More test cases.
+- Misc: Added security instructions on how to raise vulnerabilities.
+- Misc: Added Calendar workflow to documentation.
+### Changed
+- Tree Constructor: `add_dict_to_tree_by_name` method rename argument from `path_attrs` to `name_attrs`.
+- Misc: Modified contributing instructions.
+### Fixed
+- Tree Exporter: `tree_to_dot` to handle cases when not all nodes have `edge_attr`.
+- DAG Exporter: `dag_to_dot` to perform dictionary copy to prevent style from being overridden for child nodes.
+- Tree Constructor: `dataframe_to_tree` to handle case when path column is not the first column.
+
+## [0.9.3] - 2023-05-28
+### Changed
+- Tree Constructor: Relax type hint to `Iterable` instead of `List` for `list_to_tree` and `list_to_tree_by_relation` methods.
+### Fixed
+- Node: Fix error message when trees have different `sep`.
+
+## [0.9.2] - 2023-04-09
+### Added
+- Node: Added `show` method to print tree to console.
+- Workflow Calendar: Tree use case with calendar implementation.
+
+## [0.9.1] - 2023-03-30
+### Changed
+- Node: Added `sep` parameter to constructor instead of using getter and setter methods to set `sep`.
+
 ## [0.9.0] - 2023-03-29
 ### Added
 - Tree Modifier: Ability to copy/shift nodes with full path in `from_paths` for faster search performance, added `with_full_path` parameter.
@@ -22,7 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tree and DAG Constructor: Reduce reliance on `numpy` package, only reject `None` attributes when creating tree from DataFrame (previously it rejects `[None]`).
 - Tree Helper: Get difference between two trees reduce reliance on `numpy` package, enhance test cases.
 - Tree Search: Renamed `find_children` to `find_child_by_name` for clarity.
-- Misc: Fix README for Windows installation
+- Misc: Fix README for Windows installation.
 
 ## [0.8.3] - 2023-03-16
 ### Changed
@@ -127,7 +169,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: Add Tips and Tricks to documentation (List Directory).
 
 ### Fixed
-- DAGNode: Fix issue of duplicated parent constructor creating duplicated children.
+- DAGNode: Fix issue of duplicate parent constructor creating duplicate children.
 
 ## [0.5.5] - 2022-11-12
 ### Added
@@ -145,7 +187,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: More test cases.
 
 ### Fixed
-- Tree Search: Type hints
+- Tree Search: Type hints.
 
 ## [0.5.3] - 2022-11-11
 ### Added
@@ -169,7 +211,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Tree Exporter: Printing tree to group multiple arguments together.
-- DAG and Tree Exporter: Export to dot able to plot multiple disjointed trees/dags, rename `bgcolor` to `bg_colour`
+- DAG and Tree Exporter: Export to dot able to plot multiple disjointed trees/dags, rename `bgcolor` to `bg_colour`.
 
 ## [0.4.6] - 2022-11-09
 ### Added
@@ -177,8 +219,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Tree Exporter: Printing tree to define node name or path, and default to const style.
-- Tree Constructor: Rename `list_to_tree_tuples` to `list_to_tree_by_relation`
-- Tree Constructor: Remove parameter `sep` for `nested_dict_to_tree`
+- Tree Constructor: Rename `list_to_tree_tuples` to `list_to_tree_by_relation`.
+- Tree Constructor: Remove parameter `sep` for `nested_dict_to_tree`.
 
 ## [0.4.5] - 2022-11-08
 ### Changed
@@ -186,7 +228,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.4] - 2022-11-08
 ### Fixed
-- Tree Constructor: Handle adding attributes that are array-like - add array even when one of the items is null
+- Tree Constructor: Handle adding attributes that are array-like - add array even when one of the items is null.
 
 ## [0.4.3] - 2022-11-08
 ### Added
@@ -194,11 +236,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.2] - 2022-11-08
 ### Fixed
-- Tree Constructor: For list of tuples, handle cases where parent name is None
+- Tree Constructor: For list of tuples, handle cases where parent name is None.
 
 ## [0.4.1] - 2022-11-07
 ### Fixed
-- Tree Constructor: Handle adding attributes that are array-like - error in drop_duplicate() and pd.isnull()
+- Tree Constructor: Handle adding attributes that are array-like - error in drop_duplicate() and pd.isnull().
 
 ## [0.4.0] - 2022-11-07
 ### Added
@@ -247,44 +289,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[0.9.0]: https://github.com/kayjan/bigtree/compare/v0.8.4...v0.9.0
-[0.8.4]: https://github.com/kayjan/bigtree/compare/v0.8.3...v0.8.4
-[0.8.3]: https://github.com/kayjan/bigtree/compare/v0.8.2...v0.8.3
-[0.8.2]: https://github.com/kayjan/bigtree/compare/v0.8.1...v0.8.2
-[0.8.1]: https://github.com/kayjan/bigtree/compare/v0.8.0...v0.8.1
-[0.8.0]: https://github.com/kayjan/bigtree/compare/v0.7.4...v0.8.0
-[0.7.4]: https://github.com/kayjan/bigtree/compare/v0.7.3...v0.7.4
-[0.7.3]: https://github.com/kayjan/bigtree/compare/v0.7.2...v0.7.3
-[0.7.2]: https://github.com/kayjan/bigtree/compare/v0.7.1...v0.7.2
-[0.7.1]: https://github.com/kayjan/bigtree/compare/v0.7.0...v0.7.1
-[0.7.0]: https://github.com/kayjan/bigtree/compare/v0.6.10...v0.7.0
-[0.6.10]: https://github.com/kayjan/bigtree/compare/v0.6.9...v0.6.10
-[0.6.9]: https://github.com/kayjan/bigtree/compare/v0.6.8...v0.6.9
-[0.6.8]: https://github.com/kayjan/bigtree/compare/v0.6.7...v0.6.8
-[0.6.7]: https://github.com/kayjan/bigtree/compare/v0.6.6...v0.6.7
-[0.6.6]: https://github.com/kayjan/bigtree/compare/v0.6.5...v0.6.6
-[0.6.5]: https://github.com/kayjan/bigtree/compare/v0.6.4...v0.6.5
-[0.6.4]: https://github.com/kayjan/bigtree/compare/v0.6.3...v0.6.4
-[0.6.3]: https://github.com/kayjan/bigtree/compare/v0.6.2...v0.6.3
-[0.6.2]: https://github.com/kayjan/bigtree/compare/v0.6.1...v0.6.2
-[0.6.1]: https://github.com/kayjan/bigtree/compare/v0.6.0...v0.6.1
-[0.6.0]: https://github.com/kayjan/bigtree/compare/v0.5.5...v0.6.0
-[0.5.5]: https://github.com/kayjan/bigtree/compare/v0.5.4...v0.5.5
-[0.5.4]: https://github.com/kayjan/bigtree/compare/v0.5.3...v0.5.4
-[0.5.3]: https://github.com/kayjan/bigtree/compare/v0.5.2...v0.5.3
-[0.5.2]: https://github.com/kayjan/bigtree/compare/v0.5.1...v0.5.2
-[0.5.1]: https://github.com/kayjan/bigtree/compare/v0.5.0...v0.5.1
-[0.5.0]: https://github.com/kayjan/bigtree/compare/v0.4.6...v0.5.0
-[0.4.6]: https://github.com/kayjan/bigtree/compare/v0.4.5...v0.4.6
-[0.4.5]: https://github.com/kayjan/bigtree/compare/v0.4.4...v0.4.5
-[0.4.4]: https://github.com/kayjan/bigtree/compare/v0.4.3...v0.4.4
-[0.4.3]: https://github.com/kayjan/bigtree/compare/v0.4.2...v0.4.3
-[0.4.2]: https://github.com/kayjan/bigtree/compare/v0.4.1...v0.4.2
-[0.4.1]: https://github.com/kayjan/bigtree/compare/v0.4.0...v0.4.1
-[0.4.0]: https://github.com/kayjan/bigtree/compare/v0.3.3...v0.4.0
-[0.3.3]: https://github.com/kayjan/bigtree/compare/v0.3.2...v0.3.3
-[0.3.2]: https://github.com/kayjan/bigtree/compare/v0.3.1...v0.3.2
-[0.3.1]: https://github.com/kayjan/bigtree/compare/v0.3.0...v0.3.1
-[0.3.0]: https://github.com/kayjan/bigtree/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/kayjan/bigtree/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/kayjan/bigtree/releases/tag/v0.1.0
+[0.10.0]: https://github.com/kayjan/bigtree/compare/0.9.5...0.10.0
+[0.9.5]: https://github.com/kayjan/bigtree/compare/0.9.4...0.9.5
+[0.9.4]: https://github.com/kayjan/bigtree/compare/0.9.3...0.9.4
+[0.9.3]: https://github.com/kayjan/bigtree/compare/0.9.2...0.9.3
+[0.9.2]: https://github.com/kayjan/bigtree/compare/0.9.1...0.9.2
+[0.9.1]: https://github.com/kayjan/bigtree/compare/0.9.0...0.9.1
+[0.9.0]: https://github.com/kayjan/bigtree/compare/0.8.4...0.9.0
+[0.8.4]: https://github.com/kayjan/bigtree/compare/0.8.3...0.8.4
+[0.8.3]: https://github.com/kayjan/bigtree/compare/0.8.2...0.8.3
+[0.8.2]: https://github.com/kayjan/bigtree/compare/0.8.1...0.8.2
+[0.8.1]: https://github.com/kayjan/bigtree/compare/0.8.0...0.8.1
+[0.8.0]: https://github.com/kayjan/bigtree/compare/0.7.4...0.8.0
+[0.7.4]: https://github.com/kayjan/bigtree/compare/0.7.3...0.7.4
+[0.7.3]: https://github.com/kayjan/bigtree/compare/0.7.2...0.7.3
+[0.7.2]: https://github.com/kayjan/bigtree/compare/0.7.1...0.7.2
+[0.7.1]: https://github.com/kayjan/bigtree/compare/0.7.0...0.7.1
+[0.7.0]: https://github.com/kayjan/bigtree/compare/0.6.10...0.7.0
+[0.6.10]: https://github.com/kayjan/bigtree/compare/0.6.9...0.6.10
+[0.6.9]: https://github.com/kayjan/bigtree/compare/0.6.8...0.6.9
+[0.6.8]: https://github.com/kayjan/bigtree/compare/0.6.7...0.6.8
+[0.6.7]: https://github.com/kayjan/bigtree/compare/0.6.6...0.6.7
+[0.6.6]: https://github.com/kayjan/bigtree/compare/0.6.5...0.6.6
+[0.6.5]: https://github.com/kayjan/bigtree/compare/0.6.4...0.6.5
+[0.6.4]: https://github.com/kayjan/bigtree/compare/0.6.3...0.6.4
+[0.6.3]: https://github.com/kayjan/bigtree/compare/0.6.2...0.6.3
+[0.6.2]: https://github.com/kayjan/bigtree/compare/0.6.1...0.6.2
+[0.6.1]: https://github.com/kayjan/bigtree/compare/0.6.0...0.6.1
+[0.6.0]: https://github.com/kayjan/bigtree/compare/0.5.5...0.6.0
+[0.5.5]: https://github.com/kayjan/bigtree/compare/0.5.4...0.5.5
+[0.5.4]: https://github.com/kayjan/bigtree/compare/0.5.3...0.5.4
+[0.5.3]: https://github.com/kayjan/bigtree/compare/0.5.2...0.5.3
+[0.5.2]: https://github.com/kayjan/bigtree/compare/0.5.1...0.5.2
+[0.5.1]: https://github.com/kayjan/bigtree/compare/0.5.0...0.5.1
+[0.5.0]: https://github.com/kayjan/bigtree/compare/0.4.6...0.5.0
+[0.4.6]: https://github.com/kayjan/bigtree/compare/0.4.5...0.4.6
+[0.4.5]: https://github.com/kayjan/bigtree/compare/0.4.4...0.4.5
+[0.4.4]: https://github.com/kayjan/bigtree/compare/0.4.3...0.4.4
+[0.4.3]: https://github.com/kayjan/bigtree/compare/0.4.2...0.4.3
+[0.4.2]: https://github.com/kayjan/bigtree/compare/0.4.1...0.4.2
+[0.4.1]: https://github.com/kayjan/bigtree/compare/0.4.0...0.4.1
+[0.4.0]: https://github.com/kayjan/bigtree/compare/0.3.3...0.4.0
+[0.3.3]: https://github.com/kayjan/bigtree/compare/0.3.2...0.3.3
+[0.3.2]: https://github.com/kayjan/bigtree/compare/0.3.1...0.3.2
+[0.3.1]: https://github.com/kayjan/bigtree/compare/0.3.0...0.3.1
+[0.3.0]: https://github.com/kayjan/bigtree/compare/0.2.0...0.3.0
+[0.2.0]: https://github.com/kayjan/bigtree/compare/0.1.0...0.2.0
+[0.1.0]: https://github.com/kayjan/bigtree/releases/tag/0.1.0

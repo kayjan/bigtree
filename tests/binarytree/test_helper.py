@@ -6,7 +6,7 @@ from tests.conftest import assert_print_statement
 
 class TestCloneTree:
     @staticmethod
-    def test_clone_tree_btree(binarytree_node):
+    def test_clone_tree(binarytree_node):
         root_clone = clone_tree(binarytree_node, node_type=Node)
         assert isinstance(root_clone, Node), "Wrong type returned"
         expected_str = """1\n├── 2\n│   ├── 4\n│   │   └── 8\n│   └── 5\n└── 3\n    ├── 6\n    └── 7\n"""

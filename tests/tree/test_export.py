@@ -11,15 +11,19 @@ from bigtree.tree.export import (
     tree_to_pillow,
 )
 from tests.conftest import assert_print_statement
+from tests.constants import Constants
 from tests.node.test_basenode import (
+    assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
-    assert_tree_structure_basenode_root_generic,
 )
-from tests.node.test_node import assert_tree_structure_node_root_generic
+from tests.node.test_node import assert_tree_structure_node_root
 
 tree_node_str = """a [age=90]\n├── b [age=65]\n│   ├── d [age=40]\n│   └── e [age=35]\n│       ├── g [age=10]
 │       └── h [age=6]\n└── c [age=60]\n    └── f [age=38]\n"""
 tree_node_no_attr_str = """a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
+
+
+LOCAL = Constants.LOCAL
 
 
 class TestPrintTree:
@@ -116,9 +120,7 @@ class TestPrintTree:
     def test_print_tree_attr_bracket_missing_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
             print_tree(tree_node, all_attrs=True, attr_bracket=[""])
-        assert str(exc_info.value).startswith(
-            "Expect open and close brackets in `attr_bracket`"
-        )
+        assert str(exc_info.value).startswith(Constants.ERROR_ATTR_BRACKET)
 
     # style
     @staticmethod
@@ -181,9 +183,7 @@ class TestPrintTree:
                 style="custom",
                 custom_style=["", " ", ""],
             )
-        assert str(exc_info.value).startswith(
-            "`style_stem`, `style_branch`, and `style_stem_final` are of different length"
-        )
+        assert str(exc_info.value) == Constants.ERROR_CUSTOM_STYLE_DIFFERENT_LENGTH
 
     @staticmethod
     def test_print_tree_custom_style_missing_style_error(tree_node):
@@ -193,9 +193,7 @@ class TestPrintTree:
                 style="custom",
                 custom_style=["", ""],
             )
-        assert str(exc_info.value).startswith(
-            "Custom style selected, please specify the style of stem, branch, and final stem in `custom_style`"
-        )
+        assert str(exc_info.value) == Constants.ERROR_CUSTOM_STYLE_SELECT
 
 
 class TestTreeToDataFrame:
@@ -294,7 +292,7 @@ class TestTreeToDataFrame:
         expected = pd.DataFrame()
         expected.index = range(8)
         actual = tree_to_dataframe(tree_node, name_col="", path_col="")
-        pd.testing.assert_frame_equal(expected, actual)
+        pd.testing.assert_frame_equal(expected, actual, check_column_type=False)
 
     @staticmethod
     def test_tree_to_dataframe_parent_col(tree_node):
@@ -441,9 +439,9 @@ class TestTreeToDataFrame:
     def test_tree_to_dataframe_to_tree(tree_node):
         d = tree_to_dataframe(tree_node, all_attrs=True)
         tree = dataframe_to_tree(d)
-        assert_tree_structure_basenode_root_generic(tree)
+        assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
-        assert_tree_structure_node_root_generic(tree)
+        assert_tree_structure_node_root(tree)
 
 
 class TestTreeToDict:
@@ -608,9 +606,9 @@ class TestTreeToDict:
     def test_tree_to_dict_to_tree(tree_node):
         d = tree_to_dict(tree_node, all_attrs=True)
         tree = dict_to_tree(d)
-        assert_tree_structure_basenode_root_generic(tree)
+        assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
-        assert_tree_structure_node_root_generic(tree)
+        assert_tree_structure_node_root(tree)
 
 
 class TestTreeToNestedDict:
@@ -783,9 +781,9 @@ class TestTreeToNestedDict:
     def test_tree_to_nested_dict_to_tree(tree_node):
         d = tree_to_nested_dict(tree_node, all_attrs=True)
         tree = nested_dict_to_tree(d)
-        assert_tree_structure_basenode_root_generic(tree)
+        assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
-        assert_tree_structure_node_root_generic(tree)
+        assert_tree_structure_node_root(tree)
 
 
 class TestTreeToDot:
@@ -794,7 +792,8 @@ class TestTreeToDot:
         graph = tree_to_dot(tree_node)
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
-        graph.write_png("tests/tree.png")
+        if LOCAL:
+            graph.write_png("tests/tree.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -805,7 +804,8 @@ class TestTreeToDot:
         graph = tree_to_dot([tree_node, tree_node_plot])
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\nz0 [label=z];\ny0 [label=y];\nz0 -> y0;\n}\n"""
         actual = graph.to_string()
-        graph.write_png("tests/tree_multiple.png")
+        if LOCAL:
+            graph.write_png("tests/tree_multiple.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -816,7 +816,8 @@ class TestTreeToDot:
         graph = tree_to_dot(tree_node_duplicate_names)
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\na1 [label=a];\na0 -> a1;\na2 [label=a];\na1 -> a2;\nb0 [label=b];\na1 -> b0;\na3 [label=a];\nb0 -> a3;\nb1 [label=b];\nb0 -> b1;\nb2 [label=b];\na0 -> b2;\na4 [label=a];\nb2 -> a4;\n}\n"""
         actual = graph.to_string()
-        graph.write_png("tests/tree_duplicate.png")
+        if LOCAL:
+            graph.write_png("tests/tree_duplicate_names.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -826,47 +827,39 @@ class TestTreeToDot:
     def test_tree_to_dot_type_error(dag_node):
         with pytest.raises(ValueError) as exc_info:
             tree_to_dot(dag_node)
-        assert str(exc_info.value).startswith("Tree should be of type `Node`")
+        assert str(exc_info.value) == Constants.ERROR_EXPORT_NODE_TYPE
 
     @staticmethod
     def test_tree_to_dot_directed(tree_node):
         graph = tree_to_dot(tree_node, directed=False)
         expected = """strict graph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -- b0;\nd0 [label=d];\nb0 -- d0;\ne0 [label=e];\nb0 -- e0;\ng0 [label=g];\ne0 -- g0;\nh0 [label=h];\ne0 -- h0;\nc0 [label=c];\na0 -- c0;\nf0 [label=f];\nc0 -- f0;\n}\n"""
         actual = graph.to_string()
-        graph.write_png("tests/tree_undirected.png")
+        if LOCAL:
+            graph.write_png("tests/tree_undirected.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
-    def test_tree_to_dot_bg_color(tree_node):
+    def test_tree_to_dot_bg_colour(tree_node):
         graph = tree_to_dot(tree_node, bg_colour="blue")
         expected = """strict digraph G {\nbgcolor=blue;\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
-        graph.write_png("tests/tree_bg.png")
+        if LOCAL:
+            graph.write_png("tests/tree_bg_colour.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
-    def test_tree_to_dot_node_colour(tree_node):
+    def test_tree_to_dot_fill_colour(tree_node):
         graph = tree_to_dot(tree_node, node_colour="gold")
         expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=gold, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=gold, label=d, style=filled];\nb0 -> d0;\ne0 [fillcolor=gold, label=e, style=filled];\nb0 -> e0;\ng0 [fillcolor=gold, label=g, style=filled];\ne0 -> g0;\nh0 [fillcolor=gold, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=gold, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=gold, label=f, style=filled];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
-        graph.write_png("tests/tree_fill.png")
-        for expected_str in expected.split():
-            assert (
-                expected_str in actual
-            ), f"Expected {expected_str} not in actual string"
-
-    @staticmethod
-    def test_tree_to_dot_node_shape(tree_node):
-        graph = tree_to_dot(tree_node, node_shape="triangle")
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, shape=triangle];\nb0 [label=b, shape=triangle];\na0 -> b0;\nd0 [label=d, shape=triangle];\nb0 -> d0;\ne0 [label=e, shape=triangle];\nb0 -> e0;\ng0 [label=g, shape=triangle];\ne0 -> g0;\nh0 [label=h, shape=triangle];\ne0 -> h0;\nc0 [label=c, shape=triangle];\na0 -> c0;\nf0 [label=f, shape=triangle];\nc0 -> f0;\n}\n"""
-        actual = graph.to_string()
-        graph.write_png("tests/tree_triangle.png")
+        if LOCAL:
+            graph.write_png("tests/tree_fill_colour.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -877,7 +870,20 @@ class TestTreeToDot:
         graph = tree_to_dot(tree_node, edge_colour="red")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [color=red];\nd0 [label=d];\nb0 -> d0  [color=red];\ne0 [label=e];\nb0 -> e0  [color=red];\ng0 [label=g];\ne0 -> g0  [color=red];\nh0 [label=h];\ne0 -> h0  [color=red];\nc0 [label=c];\na0 -> c0  [color=red];\nf0 [label=f];\nc0 -> f0  [color=red];\n}\n"""
         actual = graph.to_string()
-        graph.write_png("tests/tree_edge.png")
+        if LOCAL:
+            graph.write_png("tests/tree_edge_colour.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    def test_tree_to_dot_node_shape(tree_node):
+        graph = tree_to_dot(tree_node, node_shape="triangle")
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, shape=triangle];\nb0 [label=b, shape=triangle];\na0 -> b0;\nd0 [label=d, shape=triangle];\nb0 -> d0;\ne0 [label=e, shape=triangle];\nb0 -> e0;\ng0 [label=g, shape=triangle];\ne0 -> g0;\nh0 [label=h, shape=triangle];\ne0 -> h0;\nc0 [label=c, shape=triangle];\na0 -> c0;\nf0 [label=f, shape=triangle];\nc0 -> f0;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_node_shape.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -888,7 +894,8 @@ class TestTreeToDot:
         graph = tree_to_dot(tree_node_style, node_attr="node_style")
         expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=green, label=d, style=filled];\nb0 -> d0;\ng0 [fillcolor=red, label=g, style=filled];\nd0 -> g0;\ne0 [fillcolor=green, label=e, style=filled];\nb0 -> e0;\nh0 [fillcolor=red, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=blue, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=green, label=f, style=filled];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
-        graph.write_png("tests/tree_node_style.png")
+        if LOCAL:
+            graph.write_png("tests/tree_node_attr.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -899,7 +906,26 @@ class TestTreeToDot:
         graph = tree_to_dot(tree_node_style, edge_attr="edge_style")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [label=b, style=bold];\nd0 [label=d];\nb0 -> d0  [label=1, style=bold];\ng0 [label=g];\nd0 -> g0  [label=4, style=bold];\ne0 [label=e];\nb0 -> e0  [label=2, style=bold];\nh0 [label=h];\ne0 -> h0  [label=5, style=bold];\nc0 [label=c];\na0 -> c0  [label=c, style=bold];\nf0 [label=f];\nc0 -> f0  [label=3, style=bold];\n}\n"""
         actual = graph.to_string()
-        graph.write_png("tests/tree_edge_style.png")
+        if LOCAL:
+            graph.write_png("tests/tree_edge_attr.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    def test_tree_to_dot_attr_override(tree_node):
+        tree_node.children[0].set_attrs(
+            {
+                "node_style": {"style": "filled", "fillcolor": "blue"},
+                "edge_style": {"style": "bold"},
+            }
+        )
+        graph = tree_to_dot(tree_node, node_attr="node_style", edge_attr="edge_style")
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0  [style=bold];\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_attr_override.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual
@@ -910,26 +936,31 @@ class TestTreeToPillow:
     @staticmethod
     def test_tree_to_pillow(tree_node):
         pillow_image = tree_to_pillow(tree_node)
-        pillow_image.save("tests/tree_pillow.png")
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow.png")
 
     @staticmethod
     def test_tree_to_pillow_start_pos(tree_node):
         pillow_image = tree_to_pillow(tree_node, start_pos=(100, 50))
-        pillow_image.save("tests/tree_pillow_start_pos.png")
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_start_pos.png")
 
     @staticmethod
     def test_tree_to_pillow_start_pos_small(tree_node):
         pillow_image = tree_to_pillow(tree_node, start_pos=(0, 0))
-        pillow_image.save("tests/tree_pillow_start_pos_small.png")
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_start_pos_small.png")
 
     @staticmethod
     def test_tree_to_pillow_font(tree_node):
         pillow_image = tree_to_pillow(
             tree_node, font_size=20, font_colour="red", bg_colour="lightblue"
         )
-        pillow_image.save("tests/tree_pillow_font.png")
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_font.png")
 
     @staticmethod
     def test_tree_to_pillow_kwargs(tree_node):
         pillow_image = tree_to_pillow(tree_node, max_depth=2, style="const_bold")
-        pillow_image.save("tests/tree_pillow_style.png")
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_style.png")

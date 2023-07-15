@@ -28,7 +28,7 @@ To check if it worked,
     $ which pip
     /<some directory>/envs/bigtree_venv/bin/pip
 
-From the project folder, install the required python packages locally in editable mode.
+From the project folder, install the required python packages locally in editable mode and set up pre-commit checks.
 
 .. code-block:: bash
 
@@ -41,7 +41,7 @@ Developing
 
 After making your changes, create a new branch, add and commit your changed files.
 In this example, lets assume the changed file is ``README.md``.
-If there are any pre-commit changes, do re-add and re-commit your files.
+If there are any pre-commit changes and/or comments, do modify, re-add and re-commit your files.
 
 .. code-block:: bash
 
@@ -63,7 +63,7 @@ If there are changes related to code, please make sure that the unit tests pass 
 .. code-block:: bash
 
     $ python -m pip install pytest coverage
-    $ pytest . && coverage report --show-missing --omit='*/workflows/*'
+    $ pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree
 
 Make sure your add/update the tests and documentations accordingly.
 
@@ -78,9 +78,9 @@ When creating branches, it is recommended to create them in the format ``type/ac
 
 When performing commits, it is also recommended to follow `conventional commits <https://www.conventionalcommits.org/en/v1.0.0/>`_ when writing commit messages.
 
-During pre-commit checks, this project formats code using black and isort.
+During pre-commit checks, this project checks and formats code using ``black``, ``flake8``, ``isort``, and ``mypy``.
 
-For testing, this project uses pytest and coverage package for testing.
+For testing, this project uses ``pytest`` and ``coverage`` package for testing.
 
 Consequent Changes
 -----------------------------------

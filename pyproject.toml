@@ -34,6 +34,7 @@ dynamic = ["version"]
 [project.urls]
 Documentation = "https://bigtree.readthedocs.io"
 Issues = "https://github.com/kayjan/bigtree/issues"
+Discussions = "https://github.com/kayjan/bigtree/discussions"
 Source = "https://github.com/kayjan/bigtree"
 
 [project.optional-dependencies]
@@ -75,7 +76,9 @@ dependencies = [
 
 [tool.hatch.envs.docs.scripts]
 html = "sphinx-build -M html docs/source docs/build"
+coverage = "sphinx-build -v -b coverage docs/source docs/build/coverage"
 clean = "sphinx-build -M clean docs/source docs/build"
+clean-html = "sphinx-build -M html docs/source docs/build & sphinx-build -M clean docs/source docs/build"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["37", "38", "39", "310", "311"]

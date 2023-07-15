@@ -59,13 +59,21 @@ class Node(BaseNode):
     1. ``node_name``: Get node name, without accessing `name` directly
     2. ``path_name``: Get path name from root, separated by `sep`
 
+    **Node Methods**
+
+    These are methods available to be performed on `Node`.
+
+    `Node` methods
+
+    1. ``show()``: Print tree to console
+
     ----
 
     """
 
-    def __init__(self, name: str = "", **kwargs: Any):
+    def __init__(self, name: str = "", sep: str = "/", **kwargs: Any):
         self.name = name
-        self._sep: str = "/"
+        self._sep = sep
         super().__init__(**kwargs)
         if not self.node_name:
             raise TreeError("Node must have a `name` attribute")
@@ -106,9 +114,9 @@ class Node(BaseNode):
         Returns:
             (str)
         """
-        if self.parent is None:
-            return f"{self.sep}{self.name}"
-        return f"{self.parent.path_name}{self.sep}{self.name}"
+        ancestors = [self] + list(self.ancestors)
+        sep = ancestors[-1].sep
+        return sep + sep.join([node.name for node in reversed(ancestors)])
 
     def __pre_assign_children(self: T, new_children: List[T]) -> None:
         """Custom method to check before attaching children
@@ -159,8 +167,8 @@ class Node(BaseNode):
                 for child in new_parent.children
             ):
                 raise TreeError(
-                    f"Error: Duplicate node with same path\n"
-                    f"There exist a node with same path {new_parent.path_name}{self.sep}{self.node_name}"
+                    f"Duplicate node with same path\n"
+                    f"There exist a node with same path {new_parent.path_name}{new_parent.sep}{self.node_name}"
                 )
 
     def _BaseNode__post_assign_parent(self: T, new_parent: T) -> None:
@@ -179,16 +187,16 @@ class Node(BaseNode):
         """
         self.__pre_assign_children(new_children)
         children_names = [node.node_name for node in new_children]
-        duplicated_names = [
+        duplicate_names = [
             item[0] for item in Counter(children_names).items() if item[1] > 1
         ]
-        if len(duplicated_names):
-            duplicated_names_str = " and ".join(
-                [f"{self.path_name}{self.sep}{name}" for name in duplicated_names]
+        if len(duplicate_names):
+            duplicate_names_str = " and ".join(
+                [f"{self.path_name}{self.sep}{name}" for name in duplicate_names]
             )
             raise TreeError(
-                f"Error: Duplicate node with same path\n"
-                f"Attempting to add nodes same path {duplicated_names_str}"
+                f"Duplicate node with same path\n"
+                f"Attempting to add nodes same path {duplicate_names_str}"
             )
 
     def _BaseNode__post_assign_children(self: T, new_children: List[T]) -> None:
@@ -198,6 +206,12 @@ class Node(BaseNode):
             new_children (List[Self]): new children to be added
         """
         self.__post_assign_children(new_children)
+
+    def show(self, **kwargs: Any) -> None:
+        """Print tree to console, takes in same keyword arguments as `print_tree` function"""
+        from bigtree.tree.export import print_tree
+
+        print_tree(self, **kwargs)
 
     def __repr__(self) -> str:
         """Print format of Node

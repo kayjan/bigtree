@@ -11,6 +11,7 @@ Related Links:
 - [GitHub](https://github.com/kayjan/bigtree/)
 - [Changelog](https://github.com/kayjan/bigtree/blob/master/CHANGELOG.md)
 - [Issues](https://github.com/kayjan/bigtree/issues)
+- [Discussions](https://github.com/kayjan/bigtree/discussions)
 - [Contributing](https://bigtree.readthedocs.io/en/latest/others/contributing.html)
 - [PyPI](https://pypi.org/project/bigtree/)
 - Articles
@@ -120,21 +121,21 @@ Nodes can be linked to each other with `parent` and `children` setter methods,
 or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
 ```python
-from bigtree import Node, print_tree, tree_to_dot
+from bigtree import Node, tree_to_dot
 
-root = Node("a", age=90)
-b = Node("b", age=65)
-c = Node("c", age=60)
-d = Node("d", age=40)
+root = Node("a")
+b = Node("b")
+c = Node("c")
+d = Node("d")
 
 root.children = [b, c]
 d.parent = b
 
-print_tree(root, attr_list=["age"])
-# a [age=90]
-# ├── b [age=65]
-# │   └── d [age=40]
-# └── c [age=60]
+root.show()
+# a
+# ├── b
+# │   └── d
+# └── c
 
 graph = tree_to_dot(root, node_colour="gold")
 graph.write_png("assets/demo_tree.png")
@@ -143,50 +144,35 @@ graph.write_png("assets/demo_tree.png")
 ![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_tree.png)
 
 ```python
-from bigtree import Node, print_tree
+from bigtree import Node
 
-root = Node("a", age=90)
-b = Node("b", age=65)
-c = Node("c", age=60)
-d = Node("d", age=40)
+root = Node("a")
+b = Node("b")
+c = Node("c")
+d = Node("d")
 
 root >> b
 root >> c
 d << b
 
-print_tree(root, attr_list=["age"])
-# a [age=90]
-# ├── b [age=65]
-# │   └── d [age=40]
-# └── c [age=60]
+root.show()
+# a
+# ├── b
+# │   └── d
+# └── c
 ```
 
 Alternatively, we can directly pass `parent` or `children` argument.
 
 ```python
-from bigtree import Node, print_tree
+from bigtree import Node
 
-root = Node("a")
-b = Node("b", parent=root)
-c = Node("c", parent=root)
-d = Node("d", parent=b)
-
-print_tree(root, style="ascii")
-# a
-# |-- b
-# |   +-- d
-# +-- c
-```
-
-```python
-from bigtree import Node, print_tree
-
-d = Node("d")
+b = Node("b")
 c = Node("c")
-b = Node("b", children=[d])
+d = Node("d", parent=b)
 root = Node("a", children=[b, c])
 
-print_tree(root, style="ascii")
+root.show(style="ascii")
 # a
 # |-- b
 # |   +-- d
@@ -198,18 +184,17 @@ print_tree(root, style="ascii")
 Construct nodes only, list can contain either full paths or tuples of parent-child names.
 
 ```python
-from bigtree import list_to_tree, list_to_tree_by_relation, print_tree
+from bigtree import list_to_tree, list_to_tree_by_relation
 
 root = list_to_tree(["a/b/d", "a/c"])
-
-print_tree(root)
+root.show()
 # a
 # ├── b
 # │   └── d
 # └── c
 
 root = list_to_tree_by_relation([("a", "b"), ("a", "c"), ("b", "d")])
-print_tree(root)
+root.show()
 # a
 # ├── b
 # │   └── d
@@ -221,7 +206,7 @@ print_tree(root)
 Construct nodes with attributes, `key`: path, `value`: dict of node attribute names and attribute values.
 
 ```python
-from bigtree import dict_to_tree, print_tree
+from bigtree import dict_to_tree
 
 path_dict = {
    "a": {"age": 90},
@@ -229,9 +214,9 @@ path_dict = {
    "a/c": {"age": 60},
    "a/b/d": {"age": 40},
 }
-root = dict_to_tree(path_dict)
 
-print_tree(root, attr_list=["age"])
+root = dict_to_tree(path_dict)
+root.show(attr_list=["age"])
 # a [age=90]
 # ├── b [age=65]
 # │   └── d [age=40]
@@ -244,7 +229,7 @@ Construct nodes with attributes, `key`: node attribute names, `value`: node attr
 children (recursive).
 
 ```python
-from bigtree import nested_dict_to_tree, print_tree
+from bigtree import nested_dict_to_tree
 
 path_dict = {
    "name": "a",
@@ -260,9 +245,9 @@ path_dict = {
       {"name": "c", "age": 60},
    ],
 }
-root = nested_dict_to_tree(path_dict)
 
-print_tree(root, attr_list=["age"])
+root = nested_dict_to_tree(path_dict)
+root.show(attr_list=["age"])
 # a [age=90]
 # ├── b [age=65]
 # │   └── d [age=40]
@@ -277,7 +262,7 @@ and attribute columns.
 ```python
 import pandas as pd
 
-from bigtree import dataframe_to_tree, dataframe_to_tree_by_relation, print_tree
+from bigtree import dataframe_to_tree, dataframe_to_tree_by_relation
 
 data = pd.DataFrame(
    [
@@ -288,9 +273,9 @@ data = pd.DataFrame(
    ],
    columns=["path", "age"],
 )
-root = dataframe_to_tree(data)
 
-print_tree(root, attr_list=["age"])
+root = dataframe_to_tree(data)
+root.show(attr_list=["age"])
 # a [age=90]
 # ├── b [age=65]
 # │   └── d [age=40]
@@ -305,9 +290,9 @@ data = pd.DataFrame(
    ],
    columns=["child", "parent", "age"],
 )
-root = dataframe_to_tree_by_relation(data)
 
-print_tree(root, attr_list=["age"])
+root = dataframe_to_tree_by_relation(data)
+root.show(attr_list=["age"])
 # a [age=90]
 # ├── b [age=65]
 # │   └── d [age=40]
@@ -318,16 +303,17 @@ print_tree(root, attr_list=["age"])
 
 ### Print Tree
 
-After tree is constructed, it can be viewed by printing to console using `print_tree` method.
+After tree is constructed, it can be viewed by printing to console using `show` method directly.
+Alternatively, the `print_tree` method can be used.
 
 ```python
 from bigtree import Node, print_tree
 
-root = Node("a", age=90)
-b = Node("b", age=65, parent=root)
-c = Node("c", age=60, parent=root)
-d = Node("d", age=40, parent=b)
-e = Node("e", age=35, parent=b)
+root = Node("a", age=90, gender="F")
+b = Node("b", age=65, gender="M", parent=root)
+c = Node("c", age=60, gender="M", parent=root)
+d = Node("d", age=40, gender="F", parent=b)
+e = Node("e", age=35, gender="M", parent=b)
 print_tree(root)
 # a
 # ├── b
@@ -360,6 +346,13 @@ print_tree(root, attr_list=["age"], attr_bracket=["*(", ")"])
 # │   ├── d *(age=40)
 # │   └── e *(age=35)
 # └── c *(age=60)
+
+print_tree(root, all_attrs=True)
+# a [age=90, gender=F]
+# ├── b [age=65, gender=M]
+# │   ├── d [age=40, gender=F]
+# │   └── e [age=35, gender=M]
+# └── c [age=60, gender=M]
 
 # Available styles
 print_tree(root, style="ansi")
@@ -416,18 +409,50 @@ print_tree(
 # +-- c
 ```
 
+### Traverse Tree
+
+Tree can be traversed using pre-order, post-order, level-order, or level-order-group traversal methods.
+
+```python
+from bigtree import Node, preorder_iter, postorder_iter, levelorder_iter, levelordergroup_iter
+
+root = Node("a")
+b = Node("b", parent=root)
+c = Node("c", parent=root)
+d = Node("d", parent=b)
+e = Node("e", parent=b)
+root.show()
+# a
+# ├── b
+# │   ├── d
+# │   └── e
+# └── c
+
+[node.name for node in preorder_iter(root)]
+# ['a', 'b', 'd', 'e', 'c']
+
+[node.name for node in postorder_iter(root)]
+# ['d', 'e', 'b', 'c', 'a']
+
+[node.name for node in levelorder_iter(root)]
+# ['a', 'b', 'c', 'd', 'e']
+
+[[node.name for node in node_group] for node_group in levelordergroup_iter(root)]
+# [['a'], ['b', 'c'], ['d', 'e']]
+```
+
 ### Modify Tree
 
 Nodes can be shifted or copied from one path to another.
 
 ```python
-from bigtree import Node, shift_nodes, print_tree
+from bigtree import Node, shift_nodes
 
 root = Node("a")
 b = Node("b", parent=root)
 c = Node("c", parent=root)
 d = Node("d", parent=root)
-print_tree(root)
+root.show()
 # a
 # ├── b
 # ├── c
@@ -438,7 +463,7 @@ shift_nodes(
    from_paths=["a/c", "a/d"],
    to_paths=["a/b/c", "a/dummy/d"],
 )
-print_tree(root)
+root.show()
 # a
 # ├── b
 # │   └── c
@@ -447,13 +472,13 @@ print_tree(root)
 ```
 
 ```python
-from bigtree import Node, copy_nodes, print_tree
+from bigtree import Node, copy_nodes
 
 root = Node("a")
 b = Node("b", parent=root)
 c = Node("c", parent=root)
 d = Node("d", parent=root)
-print_tree(root)
+root.show()
 # a
 # ├── b
 # ├── c
@@ -464,7 +489,7 @@ copy_nodes(
    from_paths=["a/c", "a/d"],
    to_paths=["a/b/c", "a/dummy/d"],
 )
-print_tree(root)
+root.show()
 # a
 # ├── b
 # │   └── c
@@ -477,12 +502,12 @@ print_tree(root)
 Nodes can also be copied between two different trees.
 
 ```python
-from bigtree import Node, copy_nodes_from_tree_to_tree, print_tree
+from bigtree import Node, copy_nodes_from_tree_to_tree
 root = Node("a")
 b = Node("b", parent=root)
 c = Node("c", parent=root)
 d = Node("d", parent=root)
-print_tree(root)
+root.show()
 # a
 # ├── b
 # ├── c
@@ -495,7 +520,7 @@ copy_nodes_from_tree_to_tree(
    from_paths=["a/b", "a/c", "a/d"],
    to_paths=["aa/b", "aa/b/c", "aa/dummy/d"],
 )
-print_tree(root_other)
+root_other.show()
 # aa
 # ├── b
 # │   └── c
@@ -509,12 +534,12 @@ One or multiple nodes can be search based on name, path, attribute value, or use
 
 To find a single node,
 ```python
-from bigtree import Node, print_tree, find, find_name, find_path, find_full_path, find_attr
+from bigtree import Node, find, find_name, find_path, find_full_path, find_attr
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
 c = Node("c", age=60, parent=root)
 d = Node("d", age=40, parent=c)
-print_tree(root, attr_list=["age"])
+root.show(attr_list=["age"])
 # a [age=90]
 # ├── b [age=65]
 # └── c [age=60]
@@ -538,15 +563,15 @@ find_attr(root, "age", 40)
 
 To find multiple nodes,
 ```python
-from bigtree import Node, print_tree, findall, find_names, find_paths, find_attrs
+from bigtree import Node, findall, find_names, find_paths, find_attrs
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
 c = Node("c", age=60, parent=root)
 d = Node("c", age=40, parent=c)
-print_tree(root, attr_list=["age"])
+root.show(attr_list=["age"])
 # a [age=90]
 # ├── b [age=65]
-# └── c [age=65]
+# └── c [age=60]
 #     └── c [age=40]
 
 findall(root, lambda node: node.age >= 65)
@@ -562,13 +587,41 @@ find_attrs(root, "age", 40)
 # (Node(/a/c/c, age=40),)
 ```
 
+It is also possible to search for one or more child node(s) based on attributes, and the search will be faster as
+this does not require traversing the whole tree to find the node(s).
+
+```python
+from bigtree import Node, find_children, find_child, find_child_by_name
+root = Node("a", age=90)
+b = Node("b", age=65, parent=root)
+c = Node("c", age=60, parent=root)
+d = Node("c", age=40, parent=c)
+root.show(attr_list=["age"])
+# a [age=90]
+# ├── b [age=65]
+# └── c [age=60]
+#     └── c [age=40]
+
+find_children(root, lambda node: node.age >= 60)
+# (Node(/a/b, age=65), Node(/a/c, age=60))
+
+find_child(root, lambda node: node.name == "c")
+# Node(/a/c, age=60)
+
+find_child_by_name(root, "c")
+# Node(/a/c, age=60)
+
+find_child_by_name(c, "c")
+# Node(/a/c/c, age=40)
+```
+
 ### Helper Utility
 
 There following are helper functions for cloning tree to another `Node` type, pruning tree, and getting difference
 between two trees.
 
 ```python
-from bigtree import BaseNode, Node, print_tree, clone_tree, prune_tree, get_tree_diff
+from bigtree import BaseNode, Node, clone_tree, prune_tree, get_tree_diff
 
 # Cloning tree from `BaseNode` to `Node` type
 root = BaseNode(name="a")
@@ -580,13 +633,13 @@ clone_tree(root, Node)
 root = Node("a")
 b = Node("b", parent=root)
 c = Node("c", parent=root)
-print_tree(root)
+root.show()
 # a
 # ├── b
 # └── c
 
 root_pruned = prune_tree(root, "a/b")
-print_tree(root_pruned)
+root_pruned.show()
 # a
 # └── b
 
@@ -594,24 +647,24 @@ print_tree(root_pruned)
 root = Node("a")
 b = Node("b", parent=root)
 c = Node("c", parent=root)
-print_tree(root)
+root.show()
 # a
 # ├── b
 # └── c
 
 root_other = Node("a")
 b_other = Node("b", parent=root_other)
-print_tree(root_other)
+root_other.show()
 # a
 # └── b
 
 tree_diff = get_tree_diff(root, root_other)
-print_tree(tree_diff)
+tree_diff.show()
 # a
 # └── c (-)
 
 tree_diff = get_tree_diff(root, root_other, only_diff=False)
-print_tree(tree_diff)
+tree_diff.show()
 # a
 # ├── b
 # └── c (-)
@@ -628,14 +681,14 @@ Tree can be exported to another data type.
 5. *Export to **Pillow** (and png)*
 
 ```python
-from bigtree import Node, print_tree, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot, tree_to_pillow
+from bigtree import Node, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot, tree_to_pillow
 
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
 c = Node("c", age=60, parent=root)
 d = Node("d", age=40, parent=b)
 e = Node("e", age=35, parent=b)
-print_tree(root)
+root.show()
 # a
 # ├── b
 # │   ├── d
@@ -749,11 +802,11 @@ graph.write_png("assets/demo_binarytree.png")
 Construct nodes only, list has similar format as `heapq` list.
 
 ```python
-from bigtree import list_to_binarytree, print_tree
+from bigtree import list_to_binarytree
 
 nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
 root = list_to_binarytree(nums_list)
-print_tree(root)
+root.show()
 # 1
 # ├── 2
 # │   ├── 4
@@ -764,6 +817,40 @@ print_tree(root)
 #     └── 7
 ```
 
+### Traverse Binary Tree
+
+In addition to the traversal methods in the usual tree, binary tree includes in-order traversal method.
+
+```python
+from bigtree import list_to_binarytree, inorder_iter, preorder_iter, postorder_iter, levelorder_iter, levelordergroup_iter
+
+nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
+root = list_to_binarytree(nums_list)
+root.show()
+# 1
+# ├── 2
+# │   ├── 4
+# │   │   └── 8
+# │   └── 5
+# └── 3
+#     ├── 6
+#     └── 7
+
+[node.name for node in inorder_iter(root)]
+# ['8', '4', '2', '5', '1', '6', '3', '7']
+
+[node.name for node in preorder_iter(root)]
+# ['1', '2', '4', '8', '5', '3', '6', '7']
+
+[node.name for node in postorder_iter(root)]
+# ['8', '4', '5', '2', '6', '7', '3', '1']
+
+[node.name for node in levelorder_iter(root)]
+# ['1', '2', '3', '4', '5', '6', '7', '8']
+
+[[node.name for node in node_group] for node_group in levelordergroup_iter(root)]
+# [['1'], ['2', '3'], ['4', '5', '6', '7'], ['8']]
+```
 
 ----
 
@@ -862,9 +949,10 @@ print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag
 
 ## Demo Usage
 
-### To Do Application
+There are existing implementations of workflows to showcase how `bigtree` can be used!
 
-There is existing implementation of a To-Do app to showcase how `bigtree` can be used. There are functions to:
+### To Do Application
+There are functions to:
 - Add or remove list to To-Do application
 - Add or remove item to list, default list is the 'General' list
 - Prioritize a list/item by reordering them as first list/item
@@ -889,4 +977,42 @@ app.show()
 
 app.save("list.json")
 app2 = AppToDo.load("list.json")
+```
+
+### Calendar Application
+
+There are functions to:
+- Add or remove event from Calendar
+- Find event by name, or name and date
+- Display calendar, which prints events to console
+- Export calendar to pandas DataFrame
+
+```python
+import datetime as dt
+from bigtree import Calendar
+calendar = Calendar("My Calendar")
+calendar.add_event("Gym", "2023-01-01 18:00")
+calendar.add_event("Dinner", "2023-01-01", date_format="%Y-%m-%d", budget=20)
+calendar.add_event("Gym", "2023-01-02 18:00")
+calendar.show()
+# My Calendar
+# 2023-01-01 00:00:00 - Dinner (budget: 20)
+# 2023-01-01 18:00:00 - Gym
+# 2023-01-02 18:00:00 - Gym
+
+calendar.find_event("Gym")
+# 2023-01-01 18:00:00 - Gym
+# 2023-01-02 18:00:00 - Gym
+
+calendar.delete_event("Gym", dt.date(2023, 1, 1))
+calendar.show()
+# My Calendar
+# 2023-01-01 00:00:00 - Dinner (budget: 20)
+# 2023-01-02 18:00:00 - Gym
+
+data_calendar = calendar.to_dataframe()
+data_calendar
+#                              path    name        date      time  budget
+# 0  /My Calendar/2023/01/01/Dinner  Dinner  2023-01-01  00:00:00    20.0
+# 1     /My Calendar/2023/01/02/Gym     Gym  2023-01-02  18:00:00     NaN
 ```

@@ -1,4 +1,4 @@
-__version__ = "0.9.0"
+__version__ = "0.10.0"
 
 from bigtree.binarytree.construct import list_to_binarytree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
@@ -49,6 +49,7 @@ from bigtree.tree.search import (
     find_names,
     find_path,
     find_paths,
+    find_relative_path,
     findall,
 )
 from bigtree.utils.exceptions import (
@@ -66,5 +67,8 @@ from bigtree.utils.iterators import (
     levelordergroup_iter,
     postorder_iter,
     preorder_iter,
+    zigzag_iter,
+    zigzaggroup_iter,
 )
+from bigtree.workflows.app_calendar import Calendar
 from bigtree.workflows.app_todo import AppToDo

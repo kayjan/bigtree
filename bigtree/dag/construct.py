@@ -71,9 +71,10 @@ def dict_to_dag(
 
     # Convert dictionary to dataframe
     data = pd.DataFrame(relation_attrs).T.rename_axis("_tmp_child").reset_index()
-    assert (
-        parent_key in data
-    ), f"Parent key {parent_key} not in dictionary, check `relation_attrs` and `parent_key`"
+    if parent_key not in data:
+        raise ValueError(
+            f"Parent key {parent_key} not in dictionary, check `relation_attrs` and `parent_key`"
+        )
 
     data = data.explode(parent_key)
     return dataframe_to_dag(
@@ -138,14 +139,24 @@ def dataframe_to_dag(
 
     if not child_col:
         child_col = data.columns[0]
+    elif child_col not in data.columns:
+        raise ValueError("Child column not in data, check `child_col`")
     if not parent_col:
         parent_col = data.columns[1]
+    elif parent_col not in data.columns:
+        raise ValueError("Parent column not in data, check `parent_col`")
     if not len(attribute_cols):
         attribute_cols = list(data.columns)
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
+    elif any([col not in data.columns for col in attribute_cols]):
+        raise ValueError(
+            "One or more attribute column(s) not in data, check `attribute_col`"
+        )
 
-    data_check = data.copy()[[child_col] + attribute_cols].drop_duplicates()
+    data_check = data.copy()[[child_col, parent_col] + attribute_cols].drop_duplicates(
+        subset=[child_col] + attribute_cols
+    )
     _duplicate_check = (
         data_check[child_col]
         .value_counts()
@@ -156,10 +167,11 @@ def dataframe_to_dag(
     _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
     if len(_duplicate_check):
         raise ValueError(
-            f"There exists duplicate child name with different attributes\nCheck {_duplicate_check}"
+            f"There exists duplicate child name with different attributes\n"
+            f"Check {_duplicate_check}"
         )
     if sum(data[child_col].isnull()):
-        raise ValueError(f"Child name cannot be empty, check {child_col}")
+        raise ValueError(f"Child name cannot be empty, check column: {child_col}")
 
     node_dict: Dict[str, DAGNode] = dict()
     parent_node = DAGNode()

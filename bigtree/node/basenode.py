@@ -250,22 +250,22 @@ class BaseNode:
         """
         raise ValueError("Attempting to set `parents` attribute, do you mean `parent`?")
 
-    def __check_children_type(self: T, new_children: List[T]) -> None:
+    def __check_children_type(self: T, new_children: Iterable[T]) -> None:
         """Check child type
 
         Args:
-            new_children (List[Self]): child node
+            new_children (Iterable[Self]): child node
         """
-        if not isinstance(new_children, list):
+        if not isinstance(new_children, Iterable):
             raise TypeError(
-                f"Children input should be list type, received input type {type(new_children)}"
+                f"Children input should be Iterable type, received input type {type(new_children)}"
             )
 
-    def __check_children_loop(self: T, new_children: List[T]) -> None:
+    def __check_children_loop(self: T, new_children: Iterable[T]) -> None:
         """Check child loop
 
         Args:
-            new_children (List[Self]): child node
+            new_children (Iterable[Self]): child node
         """
         seen_children = []
         for new_child in new_children:
@@ -280,7 +280,7 @@ class BaseNode:
                 raise LoopError("Error setting child: Node cannot be child of itself")
             if any(child is new_child for child in self.ancestors):
                 raise LoopError(
-                    "Error setting child: Node cannot be ancestors of itself"
+                    "Error setting child: Node cannot be ancestor of itself"
                 )
 
             # Check for duplicate children
@@ -301,7 +301,7 @@ class BaseNode:
         return tuple(self.__children)
 
     @children.setter
-    def children(self: T, new_children: List[T]) -> None:
+    def children(self: T, new_children: Iterable[T]) -> None:
         """Set child nodes
 
         Args:
@@ -309,6 +309,7 @@ class BaseNode:
         """
         self.__check_children_type(new_children)
         self.__check_children_loop(new_children)
+        new_children = list(new_children)
 
         current_new_children = {
             new_child: (new_child.parent.__children.index(new_child), new_child.parent)
@@ -355,21 +356,21 @@ class BaseNode:
             child.parent.__children.remove(child)  # type: ignore
             child.__parent = None
 
-    def __pre_assign_children(self: T, new_children: List[T]) -> None:
+    def __pre_assign_children(self: T, new_children: Iterable[T]) -> None:
         """Custom method to check before attaching children
         Can be overriden with `_BaseNode__pre_assign_children()`
 
         Args:
-            new_children (List[Self]): new children to be added
+            new_children (Iterable[Self]): new children to be added
         """
         pass
 
-    def __post_assign_children(self: T, new_children: List[T]) -> None:
+    def __post_assign_children(self: T, new_children: Iterable[T]) -> None:
         """Custom method to check after attaching children
         Can be overriden with `_BaseNode__post_assign_children()`
 
         Args:
-            new_children (List[Self]): new children to be added
+            new_children (Iterable[Self]): new children to be added
         """
         pass
 

@@ -15,9 +15,11 @@ from bigtree.tree.search import (
     find_names,
     find_path,
     find_paths,
+    find_relative_path,
     findall,
 )
 from bigtree.utils.exceptions import SearchError
+from tests.constants import Constants
 
 
 class TestSearch(unittest.TestCase):
@@ -88,12 +90,14 @@ class TestSearch(unittest.TestCase):
         ), f"Expected find_all to return {expected}, received {actual}"
 
     def test_find_all_max_count_error(self):
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             findall(self.a, lambda node: node.age >= 30, max_depth=2, max_count=2)
+        assert str(exc_info.value).startswith(Constants.ERROR_TWO_ELEMENT)
 
     def test_find_all_min_count_error(self):
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             findall(self.a, lambda node: node.age >= 30, max_depth=2, min_count=4)
+        assert str(exc_info.value).startswith(Constants.ERROR_MORE_THAN_FOUR_ELEMENT)
 
     def test_find(self):
         actual = find(self.a, lambda node: node.age == 60)
@@ -116,8 +120,9 @@ class TestSearch(unittest.TestCase):
         ), f"Expected find to return {expected}, received {actual}"
 
     def test_find_error(self):
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             find(self.a, lambda node: node.age > 5)
+        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
 
     def test_find_name(self):
         inputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
@@ -157,7 +162,67 @@ class TestSearch(unittest.TestCase):
                 actual == expected
             ), f"Expected find_names to return {expected}, received {actual}"
 
-    def test_find_full_path(self):
+    def test_find_relative_path_current_position(self):
+        nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        for node in nodes:
+            expected = node
+            actual = find_relative_path(node, ".")
+            assert actual == (
+                expected,
+            ), f"Expected find_relative_path to return {expected}, received {actual}"
+
+    def test_find_relative_path_current_position_multiple(self):
+        nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        for node in nodes:
+            expected = node
+            actual = find_relative_path(node, "./././././.")
+            assert actual == (
+                expected,
+            ), f"Expected find_relative_path to return {expected}, received {actual}"
+
+    def test_find_relative_path_parent_position(self):
+        inputs = [self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        expected_ans = [self.a, self.a, self.b, self.b, self.c, self.e, self.e]
+        for input_, expected in zip(inputs, expected_ans):
+            actual = find_relative_path(input_, "..")
+            assert actual == (
+                expected,
+            ), f"Expected find_relative_path to return {expected}, received {actual}"
+
+    def test_find_relative_path_wildcard(self):
+        inputs = ["*", "b/*", "c/*", "b/e/*"]
+        expected_ans = [
+            (self.b, self.c),
+            (self.d, self.e),
+            (self.f,),
+            (self.g, self.h),
+        ]
+        for input_, expected in zip(inputs, expected_ans):
+            actual = find_relative_path(self.a, input_)
+            assert (
+                actual == expected
+            ), f"Expected find_relative_path to return {expected}, received {actual}"
+
+    def test_find_relative_path_wildcard_parent_path(self):
+        h2 = self.h.copy()
+        h2.parent = self.f
+        inputs_list = [
+            (self.a, ["b/*/g", "*/f", "*/*/h"]),
+            (self.b, ["*/g", "../*/f", "../*/*/h"]),
+        ]
+        expected_ans = [
+            (self.g,),
+            (self.f,),
+            (self.h, h2),
+        ]
+        for inputs in inputs_list:
+            for input_, expected in zip(inputs[1], expected_ans):
+                actual = find_relative_path(inputs[0], input_)
+                assert (
+                    actual == expected
+                ), f"Expected find_relative_path to return {expected}, received {actual}"
+
+    def test_find_relative_path_sep_leading(self):
         inputs = [
             "/a",
             "/a/b",
@@ -170,12 +235,40 @@ class TestSearch(unittest.TestCase):
         ]
         expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_full_path(self.a, input_)
-            assert (
-                actual == expected
-            ), f"Expected find_full_path to return {expected}, received {actual}"
+            actual = find_relative_path(self.b, input_)
+            assert actual == (
+                expected,
+            ), f"Expected find_relative_path to return {expected}, received {actual}"
 
-    def test_find_full_path_sep_leading(self):
+    def test_find_relative_path_sep_trailing(self):
+        inputs = [self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        expected_ans = [self.a, self.a, self.b, self.b, self.c, self.e, self.e]
+        for input_, expected in zip(inputs, expected_ans):
+            actual = find_relative_path(input_, "../")
+            assert actual == (
+                expected,
+            ), f"Expected find_relative_path to return {expected}, received {actual}"
+
+    def test_find_relative_path_wrong_node_error(self):
+        inputs = [
+            "a/e",
+            "b/f",
+            "b/e/i",
+        ]
+        for input_ in inputs:
+            with pytest.raises(ValueError) as exc_info:
+                find_relative_path(self.a, input_)
+        assert str(exc_info.value).startswith(Constants.ERROR_PATH_NAME_INVALID_NODE)
+
+    def test_find_relative_path_wrong_path_error(self):
+        inputs_list = [(self.a, ["../"]), (self.b, ["../../"])]
+        for inputs in inputs_list:
+            for input_ in inputs[1]:
+                with pytest.raises(ValueError) as exc_info:
+                    find_relative_path(inputs[0], input_)
+        assert str(exc_info.value) == Constants.ERROR_PATH_NAME_INVALID_PATH
+
+    def test_find_full_path(self):
         inputs = [
             "a",
             "a/b",
@@ -193,16 +286,34 @@ class TestSearch(unittest.TestCase):
                 actual == expected
             ), f"Expected find_full_path to return {expected}, received {actual}"
 
+    def test_find_full_path_sep_leading(self):
+        inputs = [
+            "/a",
+            "/a/b",
+            "/a/c",
+            "/a/b/d",
+            "/a/b/e",
+            "/a/c/f",
+            "/a/b/e/g",
+            "/a/b/e/h",
+        ]
+        expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        for input_, expected in zip(inputs, expected_ans):
+            actual = find_full_path(self.a, input_)
+            assert (
+                actual == expected
+            ), f"Expected find_full_path to return {expected}, received {actual}"
+
     def test_find_full_pathsep_trailing(self):
         inputs = [
-            "/a/",
-            "/a/b/",
-            "/a/c/",
-            "/a/b/d/",
-            "/a/b/e/",
-            "/a/c/f/",
-            "/a/b/e/g/",
-            "/a/b/e/h/",
+            "a/",
+            "a/b/",
+            "a/c/",
+            "a/b/d/",
+            "a/b/e/",
+            "a/c/f/",
+            "a/b/e/g/",
+            "a/b/e/h/",
         ]
         expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         for input_, expected in zip(inputs, expected_ans):
@@ -213,8 +324,8 @@ class TestSearch(unittest.TestCase):
 
     def test_find_full_wrong_path(self):
         inputs = [
-            "/a/d/",
-            "/a/e/",
+            "a/d/",
+            "a/e/",
         ]
         expected_ans = [None, None]
         for input_, expected in zip(inputs, expected_ans):
@@ -223,28 +334,29 @@ class TestSearch(unittest.TestCase):
                 actual == expected
             ), f"Expected find_full_path to return {expected}, received {actual}"
 
-    def test_find_full_wrong_root(self):
+    def test_find_full_wrong_root_error(self):
         inputs = [
-            "/",
-            "/b/d/",
-            "/b/",
+            "",
+            "b/d/",
+            "b/",
         ]
         expected_ans = [None, None, None]
         for input_, expected in zip(inputs, expected_ans):
-            with pytest.raises(ValueError):
+            with pytest.raises(ValueError) as exc_info:
                 find_full_path(self.a, input_)
+        assert str(exc_info.value).endswith("does not match the root node name a")
 
     def test_find_path(self):
         inputs = [
-            "/a",
-            "/a/b",
-            "/a/c",
-            "/a/b/d",
-            "/a/b/e",
-            "/a/c/f",
-            "/a/b/e/g",
-            "/a/b/e/h",
-            "/a/j",
+            "a",
+            "a/b",
+            "a/c",
+            "a/b/d",
+            "a/b/e",
+            "a/c/f",
+            "a/b/e/g",
+            "a/b/e/h",
+            "a/j",
         ]
         expected_ans = [
             self.a,
@@ -264,7 +376,7 @@ class TestSearch(unittest.TestCase):
             ), f"Expected find_path to return {expected}, received {actual}"
 
     def test_find_path_partial(self):
-        inputs = ["/a", "/b", "/c", "/d", "/e", "/f", "/g", "/e/h", "/i"]
+        inputs = ["a", "b", "c", "d", "e", "f", "g", "e/h", "i"]
         expected_ans = [
             self.a,
             self.b,
@@ -284,6 +396,42 @@ class TestSearch(unittest.TestCase):
 
     def test_find_path_sep_leading(self):
         inputs = [
+            "/a",
+            "/a/b",
+            "/a/c",
+            "/a/b/d",
+            "/a/b/e",
+            "/a/c/f",
+            "/a/b/e/g",
+            "/a/b/e/h",
+        ]
+        expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        for input_, expected in zip(inputs, expected_ans):
+            actual = find_path(self.a, input_)
+            assert (
+                actual == expected
+            ), f"Expected find_path to return {expected}, received {actual}"
+
+    def test_find_path_sep_trailing(self):
+        inputs = [
+            "a/",
+            "a/b/",
+            "a/c/",
+            "a/b/d/",
+            "a/b/e/",
+            "a/c/f/",
+            "a/b/e/g/",
+            "a/b/e/h/",
+        ]
+        expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        for input_, expected in zip(inputs, expected_ans):
+            actual = find_path(self.a, input_)
+            assert (
+                actual == expected
+            ), f"Expected find_name to return {expected}, received {actual}"
+
+    def test_find_paths(self):
+        inputs = [
             "a",
             "a/b",
             "a/c",
@@ -295,30 +443,30 @@ class TestSearch(unittest.TestCase):
         ]
         expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_path(self.a, input_)
-            assert (
-                actual == expected
-            ), f"Expected find_path to return {expected}, received {actual}"
+            actual = find_paths(self.a, input_)
+            assert actual == (
+                expected,
+            ), f"Expected find_paths to return {expected}, received {actual}"
 
-    def test_find_path_sep_trailing(self):
+    def test_find_paths_partial(self):
         inputs = [
-            "/a/",
-            "/a/b/",
-            "/a/c/",
-            "/a/b/d/",
-            "/a/b/e/",
-            "/a/c/f/",
-            "/a/b/e/g/",
-            "/a/b/e/h/",
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g",
+            "e/h",
         ]
         expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_path(self.a, input_)
-            assert (
-                actual == expected
-            ), f"Expected find_name to return {expected}, received {actual}"
+            actual = find_paths(self.a, input_)
+            assert actual == (
+                expected,
+            ), f"Expected find_paths to return {expected}, received {actual}"
 
-    def test_find_paths(self):
+    def test_find_paths_sep_leading(self):
         inputs = [
             "/a",
             "/a/b",
@@ -336,52 +484,16 @@ class TestSearch(unittest.TestCase):
                 expected,
             ), f"Expected find_paths to return {expected}, received {actual}"
 
-    def test_find_paths_partial(self):
-        inputs = [
-            "/a",
-            "/b",
-            "/c",
-            "/d",
-            "/e",
-            "/f",
-            "/g",
-            "/e/h",
-        ]
-        expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
-        for input_, expected in zip(inputs, expected_ans):
-            actual = find_paths(self.a, input_)
-            assert actual == (
-                expected,
-            ), f"Expected find_paths to return {expected}, received {actual}"
-
-    def test_find_paths_sep_leading(self):
-        inputs = [
-            "a",
-            "a/b",
-            "a/c",
-            "a/b/d",
-            "a/b/e",
-            "a/c/f",
-            "a/b/e/g",
-            "a/b/e/h",
-        ]
-        expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
-        for input_, expected in zip(inputs, expected_ans):
-            actual = find_paths(self.a, input_)
-            assert actual == (
-                expected,
-            ), f"Expected find_paths to return {expected}, received {actual}"
-
     def test_find_paths_sep_trailing(self):
         inputs = [
-            "/a/",
-            "/a/b/",
-            "/a/c/",
-            "/a/b/d/",
-            "/a/b/e/",
-            "/a/c/f/",
-            "/a/b/e/g/",
-            "/a/b/e/h/",
+            "a/",
+            "a/b/",
+            "a/c/",
+            "a/b/d/",
+            "a/b/e/",
+            "a/c/f/",
+            "a/b/e/g/",
+            "a/b/e/h/",
         ]
         expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         for input_, expected in zip(inputs, expected_ans):
@@ -507,13 +619,15 @@ class TestSearch(unittest.TestCase):
                 actual == expected
             ), f"Expected find_children to return {expected}, received {actual} for input {input}"
 
-    def test_find_children_max_count(self):
-        with pytest.raises(SearchError):
+    def test_find_children_max_count_error(self):
+        with pytest.raises(SearchError) as exc_info:
             find_children(self.a, lambda node: node.age >= 30, max_count=1)
+        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
 
-    def test_find_children_min_count(self):
-        with pytest.raises(SearchError):
+    def test_find_children_min_count_error(self):
+        with pytest.raises(SearchError) as exc_info:
             find_children(self.a, lambda node: node.age >= 30, min_count=3)
+        assert str(exc_info.value).startswith(Constants.ERROR_MORE_THAN_THREE_ELEMENT)
 
     def test_find_child(self):
         inputs = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
@@ -540,8 +654,9 @@ class TestSearch(unittest.TestCase):
             ), f"Expected find_children to return {expected}, received {actual} for input {input}"
 
     def test_find_child_error(self):
-        with pytest.raises(SearchError):
+        with pytest.raises(SearchError) as exc_info:
             find_child(self.a, lambda node: node.age > 5)
+        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
 
     def test_find_child_by_name(self):
         inputs1 = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]

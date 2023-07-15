@@ -165,6 +165,7 @@ def dag_to_dot(  # type: ignore[no-untyped-def]
     rankdir: str = "TB",
     bg_colour: str = "",
     node_colour: str = "",
+    node_shape: str = "",
     edge_colour: str = "",
     node_attr: str = "",
     edge_attr: str = "",
@@ -196,6 +197,8 @@ def dag_to_dot(  # type: ignore[no-untyped-def]
         rankdir (str): set direction of graph layout, defaults to 'TB', can be 'BT, 'LR', 'RL'
         bg_colour (str): background color of image, defaults to ''
         node_colour (str): fill colour of nodes, defaults to ''
+        node_shape (str): shape of nodes, defaults to None
+            Possible node_shape include "circle", "square", "diamond", "triangle"
         edge_colour (str): colour of edges, defaults to ''
         node_attr (str): node attribute for style, overrides node_colour, defaults to ''
             Possible node attributes include {"style": "filled", "fillcolor": "gold"}
@@ -223,6 +226,9 @@ def dag_to_dot(  # type: ignore[no-untyped-def]
     else:
         node_style = dict()
 
+    if node_shape:
+        node_style["shape"] = node_shape
+
     if edge_colour:
         edge_style = dict(color=edge_colour)
     else:
@@ -243,15 +249,15 @@ def dag_to_dot(  # type: ignore[no-untyped-def]
         _dag = _dag.copy()
 
         for parent_node, child_node in dag_iterator(_dag):
+            _node_style = node_style.copy()
+            _edge_style = edge_style.copy()
+
             child_name = child_node.name
-            child_node_style = node_style.copy()
             if node_attr and child_node.get_attr(node_attr):
-                child_node_style.update(child_node.get_attr(node_attr))
-            if edge_attr:
-                edge_style.update(child_node.get_attr(edge_attr))
-            pydot_child = pydot.Node(
-                name=child_name, label=child_name, **child_node_style
-            )
+                _node_style.update(child_node.get_attr(node_attr))
+            if edge_attr and child_node.get_attr(edge_attr):
+                _edge_style.update(child_node.get_attr(edge_attr))
+            pydot_child = pydot.Node(name=child_name, label=child_name, **_node_style)
             _graph.add_node(pydot_child)
 
             parent_name = parent_node.name
@@ -263,7 +269,7 @@ def dag_to_dot(  # type: ignore[no-untyped-def]
             )
             _graph.add_node(pydot_parent)
 
-            edge = pydot.Edge(parent_name, child_name, **edge_style)
+            edge = pydot.Edge(parent_name, child_name, **_edge_style)
             _graph.add_edge(edge)
 
     return _graph
