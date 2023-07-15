@@ -25,6 +25,12 @@ Iterator methods for Trees and DAGs.
    * - Tree
      - Level-Order Group Traversal
      - Breadth-First Search
+   * - Tree
+     - ZigZag Traversal
+     - Breadth-First Search
+   * - Tree
+     - ZigZag Group Traversal
+     - Breadth-First Search
    * - DAG
      - General
      - Depth-First Search
