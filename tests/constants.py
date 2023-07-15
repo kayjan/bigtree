@@ -137,6 +137,9 @@ class Constants:
     ERROR_SHIFT_SAME_NODE = "Attempting to shift the same node"
 
     # tree/search
+    ERROR_PATH_NAME_INVALID_PATH = "Invalid path name. Path goes beyond root node."
+
+    ERROR_PATH_NAME_INVALID_NODE = "Invalid path name. Node"
     ERROR_ONE_ELEMENT = "Expected less than 1 element(s), found"
     ERROR_TWO_ELEMENT = "Expected less than 2 element(s), found"
     ERROR_MORE_THAN_THREE_ELEMENT = "Expected more than 3 element(s), found"

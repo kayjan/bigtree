@@ -45,11 +45,11 @@ def add_path_to_tree(
     All paths should start from the same root node.
       - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
-    >>> from bigtree import add_path_to_tree, print_tree
+    >>> from bigtree import add_path_to_tree
     >>> root = Node("a")
     >>> add_path_to_tree(root, "a/b/c")
     Node(/a/b/c, )
-    >>> print_tree(root)
+    >>> root.show()
     a
     └── b
         └── c
@@ -119,7 +119,7 @@ def add_dict_to_tree_by_path(
     All paths should start from the same root node.
       - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
-    >>> from bigtree import Node, add_dict_to_tree_by_path, print_tree
+    >>> from bigtree import Node, add_dict_to_tree_by_path
     >>> root = Node("a")
     >>> path_dict = {
     ...     "a": {"age": 90},
@@ -132,7 +132,7 @@ def add_dict_to_tree_by_path(
     ...     "a/b/e/h": {"age": 6},
     ... }
     >>> root = add_dict_to_tree_by_path(root, path_dict)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── d
@@ -178,7 +178,7 @@ def add_dict_to_tree_by_name(
     Input dictionary keys that are not existing node names will be ignored.
     Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.
 
-    >>> from bigtree import Node, add_dict_to_tree_by_name, print_tree
+    >>> from bigtree import Node, add_dict_to_tree_by_name
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> name_dict = {
@@ -186,7 +186,7 @@ def add_dict_to_tree_by_name(
     ...     "b": {"age": 65},
     ... }
     >>> root = add_dict_to_tree_by_name(root, name_dict)
-    >>> print_tree(root, attr_list=["age"])
+    >>> root.show(attr_list=["age"])
     a [age=90]
     └── b [age=65]
 
@@ -235,7 +235,7 @@ def add_dataframe_to_tree_by_path(
       - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
     >>> import pandas as pd
-    >>> from bigtree import add_dataframe_to_tree_by_path, print_tree
+    >>> from bigtree import add_dataframe_to_tree_by_path
     >>> root = Node("a")
     >>> path_data = pd.DataFrame([
     ...     ["a", 90],
@@ -250,7 +250,7 @@ def add_dataframe_to_tree_by_path(
     ...     columns=["PATH", "age"]
     ... )
     >>> root = add_dataframe_to_tree_by_path(root, path_data)
-    >>> print_tree(root, attr_list=["age"])
+    >>> root.show(attr_list=["age"])
     a [age=90]
     ├── b [age=65]
     │   ├── d [age=40]
@@ -333,7 +333,7 @@ def add_dataframe_to_tree_by_name(
     Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.
 
     >>> import pandas as pd
-    >>> from bigtree import add_dataframe_to_tree_by_name, print_tree
+    >>> from bigtree import add_dataframe_to_tree_by_name
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> name_data = pd.DataFrame([
@@ -343,7 +343,7 @@ def add_dataframe_to_tree_by_name(
     ...     columns=["NAME", "age"]
     ... )
     >>> root = add_dataframe_to_tree_by_name(root, name_data)
-    >>> print_tree(root, attr_list=["age"])
+    >>> root.show(attr_list=["age"])
     a [age=90]
     └── b [age=65]
 
@@ -418,10 +418,10 @@ def str_to_tree(
 ) -> Node:
     r"""Construct tree from tree string
 
-    >>> from bigtree import str_to_tree, print_tree
+    >>> from bigtree import str_to_tree
     >>> tree_str = 'a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f'
     >>> root = str_to_tree(tree_str, tree_prefix_list=["├──", "└──"])
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── d
@@ -496,10 +496,10 @@ def list_to_tree(
     All paths should start from the same root node.
       - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
-    >>> from bigtree import list_to_tree, print_tree
+    >>> from bigtree import list_to_tree
     >>> path_list = ["a/b", "a/c", "a/b/d", "a/b/e", "a/c/f", "a/b/e/g", "a/b/e/h"]
     >>> root = list_to_tree(path_list)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── d
@@ -548,10 +548,10 @@ def list_to_tree_by_relation(
     Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
     This error can be ignored by setting `allow_duplicates` to be True.
 
-    >>> from bigtree import list_to_tree_by_relation, print_tree
+    >>> from bigtree import list_to_tree_by_relation
     >>> relations_list = [("a", "b"), ("a", "c"), ("b", "d"), ("b", "e"), ("c", "f"), ("e", "g"), ("e", "h")]
     >>> root = list_to_tree_by_relation(relations_list)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── d
@@ -601,7 +601,7 @@ def dict_to_tree(
     All paths should start from the same root node.
       - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
-    >>> from bigtree import dict_to_tree, print_tree
+    >>> from bigtree import dict_to_tree
     >>> path_dict = {
     ...     "a": {"age": 90},
     ...     "a/b": {"age": 65},
@@ -613,7 +613,7 @@ def dict_to_tree(
     ...     "a/b/e/h": {"age": 6},
     ... }
     >>> root = dict_to_tree(path_dict)
-    >>> print_tree(root, attr_list=["age"])
+    >>> root.show(attr_list=["age"])
     a [age=90]
     ├── b [age=65]
     │   ├── d [age=40]
@@ -657,7 +657,7 @@ def nested_dict_to_tree(
       - ``value`` of `name_key` (str): node name.
       - ``value`` of `child_key` (List[Dict[str, Any]]): list of dict containing `name_key` and `child_key` (recursive).
 
-    >>> from bigtree import nested_dict_to_tree, print_tree
+    >>> from bigtree import nested_dict_to_tree
     >>> path_dict = {
     ...     "name": "a",
     ...     "age": 90,
@@ -673,7 +673,7 @@ def nested_dict_to_tree(
     ...     ],
     ... }
     >>> root = nested_dict_to_tree(path_dict)
-    >>> print_tree(root, attr_list=["age"])
+    >>> root.show(attr_list=["age"])
     a [age=90]
     └── b [age=65]
         ├── d [age=40]
@@ -733,7 +733,7 @@ def dataframe_to_tree(
       - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
     >>> import pandas as pd
-    >>> from bigtree import dataframe_to_tree, print_tree
+    >>> from bigtree import dataframe_to_tree
     >>> path_data = pd.DataFrame([
     ...     ["a", 90],
     ...     ["a/b", 65],
@@ -747,7 +747,7 @@ def dataframe_to_tree(
     ...     columns=["PATH", "age"]
     ... )
     >>> root = dataframe_to_tree(path_data)
-    >>> print_tree(root, attr_list=["age"])
+    >>> root.show(attr_list=["age"])
     a [age=90]
     ├── b [age=65]
     │   ├── d [age=40]
@@ -832,7 +832,7 @@ def dataframe_to_tree_by_relation(
     columns are `attribute_cols`.
 
     >>> import pandas as pd
-    >>> from bigtree import dataframe_to_tree_by_relation, print_tree
+    >>> from bigtree import dataframe_to_tree_by_relation
     >>> relation_data = pd.DataFrame([
     ...     ["a", None, 90],
     ...     ["b", "a", 65],
@@ -846,7 +846,7 @@ def dataframe_to_tree_by_relation(
     ...     columns=["child", "parent", "age"]
     ... )
     >>> root = dataframe_to_tree_by_relation(relation_data)
-    >>> print_tree(root, attr_list=["age"])
+    >>> root.show(attr_list=["age"])
     a [age=90]
     ├── b [age=65]
     │   ├── d [age=40]

@@ -60,17 +60,17 @@ def prune_tree(
     Path should contain `Node` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
-    >>> from bigtree import Node, prune_tree, print_tree
+    >>> from bigtree import Node, prune_tree
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> c = Node("c", parent=root)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     └── c
 
     >>> root_pruned = prune_tree(root, "a/b")
-    >>> print_tree(root_pruned)
+    >>> root_pruned.show()
     a
     └── b
 
@@ -113,13 +113,13 @@ def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
 
     Function can return all original tree nodes and differences, or only the differences.
 
-    >>> from bigtree import Node, get_tree_diff, print_tree
+    >>> from bigtree import Node, get_tree_diff
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> c = Node("c", parent=root)
     >>> d = Node("d", parent=b)
     >>> e = Node("e", parent=root)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   └── d
@@ -131,7 +131,7 @@ def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
     >>> c_other = Node("c", parent=b_other)
     >>> d_other = Node("d", parent=root_other)
     >>> e_other = Node("e", parent=root_other)
-    >>> print_tree(root_other)
+    >>> root_other.show()
     a
     ├── b
     │   └── c
@@ -139,7 +139,7 @@ def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
     └── e
 
     >>> tree_diff = get_tree_diff(root, root_other)
-    >>> print_tree(tree_diff)
+    >>> tree_diff.show()
     a
     ├── b
     │   ├── c (+)
@@ -148,7 +148,7 @@ def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
     └── d (+)
 
     >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
-    >>> print_tree(tree_diff)
+    >>> tree_diff.show()
     a
     ├── b
     │   ├── c (+)
