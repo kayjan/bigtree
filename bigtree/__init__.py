@@ -49,6 +49,7 @@ from bigtree.tree.search import (
     find_names,
     find_path,
     find_paths,
+    find_relative_path,
     findall,
 )
 from bigtree.utils.exceptions import (

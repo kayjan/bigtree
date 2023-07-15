@@ -10,6 +10,7 @@ __all__ = [
     "find",
     "find_name",
     "find_names",
+    "find_relative_path",
     "find_full_path",
     "find_path",
     "find_paths",
@@ -151,7 +152,7 @@ def find_relative_path(tree: Node, path_name: str) -> Iterable[Node]:
       - Supports wildcards, i.e., '*/node_name'
       - If path name starts with leading separator symbol, it will start at root node.
 
-    >>> from bigtree import Node, find_full_path
+    >>> from bigtree import Node, find_relative_path
     >>> root = Node("a", age=90)
     >>> b = Node("b", age=65, parent=root)
     >>> c = Node("c", age=60, parent=root)
