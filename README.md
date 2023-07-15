@@ -182,7 +182,36 @@ root.show(style="ascii")
 # +-- c
 ```
 
-2. **From *list***
+2. **From *str***
+
+Construct nodes only.
+
+```python
+from bigtree import str_to_tree
+
+tree_str = """
+a
+├── b
+│   ├── d
+│   └── e
+│       ├── g
+│       └── h
+└── c
+    └── f
+"""
+root = str_to_tree(tree_str, tree_prefix_list=["├──", "└──"])
+root.show()
+# a
+# ├── b
+# │   ├── d
+# │   └── e
+# │       ├── g
+# │       └── h
+# └── c
+#     └── f
+```
+
+3. **From *list***
 
 Construct nodes only, list can contain either full paths or tuples of parent-child names.
 
@@ -204,7 +233,7 @@ root.show()
 # └── c
 ```
 
-3. **From *nested dictionary***
+4. **From *nested dictionary***
 
 Construct nodes with attributes, `key`: path, `value`: dict of node attribute names and attribute values.
 
@@ -226,7 +255,7 @@ root.show(attr_list=["age"])
 # └── c [age=60]
 ```
 
-4. **From *nested recursive dictionary***
+5. **From *nested recursive dictionary***
 
 Construct nodes with attributes, `key`: node attribute names, `value`: node attribute values, and list of
 children (recursive).
@@ -257,7 +286,7 @@ root.show(attr_list=["age"])
 # └── c [age=60]
 ```
 
-5. **From *pandas DataFrame***
+6. **From *pandas DataFrame***
 
 Construct nodes with attributes, *pandas DataFrame* can contain either path column or parent-child columns,
 and attribute columns.
@@ -414,7 +443,7 @@ print_tree(
 
 ### Traverse Tree
 
-Tree can be traversed using pre-order, post-order, level-order, or level-order-group traversal methods.
+Tree can be traversed using pre-order, post-order, level-order, level-order-group, zigzag, zigzag-group traversal methods.
 
 ```python
 from bigtree import Node, preorder_iter, postorder_iter, levelorder_iter, levelordergroup_iter, zigzag_iter, zigzaggroup_iter
