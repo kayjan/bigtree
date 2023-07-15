@@ -10,10 +10,10 @@ def list_to_binarytree(
 ) -> BinaryNode:
     """Construct tree from list of numbers (int or float) in heapq format.
 
-    >>> from bigtree import list_to_binarytree, print_tree, tree_to_dot
+    >>> from bigtree import list_to_binarytree, tree_to_dot
     >>> nums_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     >>> root = list_to_binarytree(nums_list)
-    >>> print_tree(root)
+    >>> root.show()
     1
     ├── 2
     │   ├── 4

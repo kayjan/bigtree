@@ -60,19 +60,19 @@ def shift_nodes(
       - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
         original node in `from_path` is retained.
 
-    >>> from bigtree import Node, shift_nodes, print_tree
+    >>> from bigtree import Node, shift_nodes
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> c = Node("c", parent=root)
     >>> d = Node("d", parent=root)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     ├── c
     └── d
 
     >>> shift_nodes(root, ["a/c", "a/d"], ["a/b/c", "a/dummy/d"])
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   └── c
@@ -84,13 +84,13 @@ def shift_nodes(
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> c = Node("c", parent=root)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     └── c
 
     >>> shift_nodes(root, ["a/b"], [None])
-    >>> print_tree(root)
+    >>> root.show()
     a
     └── c
 
@@ -102,7 +102,7 @@ def shift_nodes(
     >>> d = Node("d", parent=c)
     >>> c2 = Node("c", parent=b)
     >>> e = Node("e", parent=c2)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   └── c
@@ -111,7 +111,7 @@ def shift_nodes(
         └── d
 
     >>> shift_nodes(root, ["a/b/c"], ["a/c"], overriding=True)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     └── c
@@ -132,7 +132,7 @@ def shift_nodes(
     >>> f = Node("f", parent=root)
     >>> g = Node("g", parent=f)
     >>> h = Node("h", parent=g)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── c
@@ -146,7 +146,7 @@ def shift_nodes(
             └── h
 
     >>> shift_nodes(root, ["a/b/c", "z", "a/f"], ["a/c", "a/z", "a/f"], merge_children=True)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     ├── c
@@ -171,7 +171,7 @@ def shift_nodes(
     >>> f = Node("f", parent=root)
     >>> g = Node("g", parent=f)
     >>> h = Node("h", parent=g)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── c
@@ -185,7 +185,7 @@ def shift_nodes(
             └── h
 
     >>> shift_nodes(root, ["a/b/c", "z", "a/f"], ["a/c", "a/z", "a/f"], merge_leaves=True)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── c
@@ -208,7 +208,7 @@ def shift_nodes(
     >>> e = Node("e", parent=c2)
     >>> z = Node("z", parent=b)
     >>> y = Node("y", parent=z)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── c
@@ -219,7 +219,7 @@ def shift_nodes(
         └── d
 
     >>> shift_nodes(root, ["a/b/z"], ["a/z"], delete_children=True)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   └── c
@@ -299,19 +299,19 @@ def copy_nodes(
       - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
       - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
 
-    >>> from bigtree import Node, copy_nodes, print_tree
+    >>> from bigtree import Node, copy_nodes
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> c = Node("c", parent=root)
     >>> d = Node("d", parent=root)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     ├── c
     └── d
 
     >>> copy_nodes(root, ["a/c", "a/d"], ["a/b/c", "a/dummy/d"])
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   └── c
@@ -328,7 +328,7 @@ def copy_nodes(
     >>> d = Node("d", parent=c)
     >>> c2 = Node("c", parent=b)
     >>> e = Node("e", parent=c2)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   └── c
@@ -337,7 +337,7 @@ def copy_nodes(
         └── d
 
     >>> copy_nodes(root, ["a/b/c"], ["a/c"], overriding=True)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   └── c
@@ -360,7 +360,7 @@ def copy_nodes(
     >>> f = Node("f", parent=root)
     >>> g = Node("g", parent=f)
     >>> h = Node("h", parent=g)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── c
@@ -374,7 +374,7 @@ def copy_nodes(
             └── h
 
     >>> copy_nodes(root, ["a/b/c", "z", "a/f"], ["a/c", "a/z", "a/f"], merge_children=True)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── c
@@ -403,7 +403,7 @@ def copy_nodes(
     >>> f = Node("f", parent=root)
     >>> g = Node("g", parent=f)
     >>> h = Node("h", parent=g)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── c
@@ -417,7 +417,7 @@ def copy_nodes(
             └── h
 
     >>> copy_nodes(root, ["a/b/c", "z", "a/f"], ["a/c", "a/z", "a/f"], merge_leaves=True)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── c
@@ -443,7 +443,7 @@ def copy_nodes(
     >>> e = Node("e", parent=c2)
     >>> z = Node("z", parent=b)
     >>> y = Node("y", parent=z)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── c
@@ -454,7 +454,7 @@ def copy_nodes(
         └── d
 
     >>> copy_nodes(root, ["a/b/z"], ["a/z"], delete_children=True)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── c
@@ -537,7 +537,7 @@ def copy_nodes_from_tree_to_tree(
       - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
       - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
 
-    >>> from bigtree import Node, copy_nodes_from_tree_to_tree, print_tree
+    >>> from bigtree import Node, copy_nodes_from_tree_to_tree
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> c = Node("c", parent=root)
@@ -545,7 +545,7 @@ def copy_nodes_from_tree_to_tree(
     >>> e = Node("e", parent=root)
     >>> f = Node("f", parent=e)
     >>> g = Node("g", parent=f)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     ├── c
@@ -556,7 +556,7 @@ def copy_nodes_from_tree_to_tree(
 
     >>> root_other = Node("aa")
     >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/b", "a/c", "a/e"], ["aa/b", "aa/b/c", "aa/dummy/e"])
-    >>> print_tree(root_other)
+    >>> root_other.show()
     aa
     ├── b
     │   └── c
@@ -571,13 +571,13 @@ def copy_nodes_from_tree_to_tree(
     >>> root_other = Node("aa")
     >>> c = Node("c", parent=root_other)
     >>> e = Node("e", parent=c)
-    >>> print_tree(root_other)
+    >>> root_other.show()
     aa
     └── c
         └── e
 
     >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/b", "a/c"], ["aa/b", "aa/c"], overriding=True)
-    >>> print_tree(root_other)
+    >>> root_other.show()
     aa
     ├── b
     └── c
@@ -589,13 +589,13 @@ def copy_nodes_from_tree_to_tree(
     >>> root_other = Node("aa")
     >>> c = Node("c", parent=root_other)
     >>> e = Node("e", parent=c)
-    >>> print_tree(root_other)
+    >>> root_other.show()
     aa
     └── c
         └── e
 
-    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/c", "e"], ["a/c", "a/e"], merge_children=True)
-    >>> print_tree(root_other)
+    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/c", "e"], ["aa/c", "aa/e"], merge_children=True)
+    >>> root_other.show()
     aa
     ├── c
     │   ├── e
@@ -609,13 +609,13 @@ def copy_nodes_from_tree_to_tree(
     >>> root_other = Node("aa")
     >>> c = Node("c", parent=root_other)
     >>> e = Node("e", parent=c)
-    >>> print_tree(root_other)
+    >>> root_other.show()
     aa
     └── c
         └── e
 
-    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/c", "e"], ["a/c", "a/e"], merge_leaves=True)
-    >>> print_tree(root_other)
+    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/c", "e"], ["aa/c", "aa/e"], merge_leaves=True)
+    >>> root_other.show()
     aa
     ├── c
     │   ├── e
@@ -625,11 +625,11 @@ def copy_nodes_from_tree_to_tree(
     In ``delete_children`` case, only the node is copied without its accompanying children/descendants.
 
     >>> root_other = Node("aa")
-    >>> print_tree(root_other)
+    >>> root_other.show()
     aa
 
-    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/c", "e"], ["a/c", "a/e"], delete_children=True)
-    >>> print_tree(root_other)
+    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/c", "e"], ["aa/c", "aa/e"], delete_children=True)
+    >>> root_other.show()
     aa
     ├── c
     └── e

@@ -40,10 +40,10 @@ def inorder_iter(
         2. Visit the current node.
         3. Recursively traverse the current node's right subtree.
 
-    >>> from bigtree import BinaryNode, list_to_binarytree, inorder_iter, print_tree
+    >>> from bigtree import BinaryNode, list_to_binarytree, inorder_iter
     >>> num_list = [1, 2, 3, 4, 5, 6, 7, 8]
     >>> root = list_to_binarytree(num_list)
-    >>> print_tree(root)
+    >>> root.show()
     1
     ├── 2
     │   ├── 4
@@ -93,10 +93,10 @@ def preorder_iter(
 
     It is topologically sorted because a parent node is processed before its child nodes.
 
-    >>> from bigtree import Node, list_to_tree, preorder_iter, print_tree
+    >>> from bigtree import Node, list_to_tree, preorder_iter
     >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
     >>> root = list_to_tree(path_list)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── d
@@ -153,10 +153,10 @@ def postorder_iter(
         2. Recursively traverse the current node's right subtree.
         3. Visit the current node.
 
-    >>> from bigtree import Node, list_to_tree, postorder_iter, print_tree
+    >>> from bigtree import Node, list_to_tree, postorder_iter
     >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
     >>> root = list_to_tree(path_list)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── d
@@ -213,10 +213,10 @@ def levelorder_iter(
     Level Order Algorithm
         1. Recursively traverse the nodes on same level.
 
-    >>> from bigtree import Node, list_to_tree, levelorder_iter, print_tree
+    >>> from bigtree import Node, list_to_tree, levelorder_iter
     >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
     >>> root = list_to_tree(path_list)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── d
@@ -277,10 +277,10 @@ def levelordergroup_iter(
     Level Order Group Algorithm
         1. Recursively traverse the nodes on same level, returns nodes level by level in a nested list.
 
-    >>> from bigtree import Node, list_to_tree, levelordergroup_iter, print_tree
+    >>> from bigtree import Node, list_to_tree, levelordergroup_iter
     >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
     >>> root = list_to_tree(path_list)
-    >>> print_tree(root)
+    >>> root.show()
     a
     ├── b
     │   ├── d
