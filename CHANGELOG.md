@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0] - TBD
+### Added
+- [#65] Tree Search: Implement `find_relative_path` to find relative path from node.
+
 ## [0.9.5] - 2023-07-13
 ### Added
 - Misc: Added init files, add link to discussions to README and pyproject, add sphinx coverage shortcuts.
@@ -284,6 +288,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.10.0]: https://github.com/kayjan/bigtree/compare/0.9.5...0.10.0
 [0.9.5]: https://github.com/kayjan/bigtree/compare/0.9.4...0.9.5
 [0.9.4]: https://github.com/kayjan/bigtree/compare/0.9.3...0.9.4
 [0.9.3]: https://github.com/kayjan/bigtree/compare/0.9.2...0.9.3

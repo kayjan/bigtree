@@ -1,4 +1,4 @@
-from typing import Any, Callable, Iterable, Tuple, TypeVar
+from typing import Any, Callable, Iterable, List, Tuple, TypeVar
 
 from bigtree.node.basenode import BaseNode
 from bigtree.node.node import Node
@@ -144,6 +144,76 @@ def find_names(tree: Node, name: str, max_depth: int = 0) -> Iterable[Node]:
     return findall(tree, lambda node: node.node_name == name, max_depth)
 
 
+def find_relative_path(tree: Node, path_name: str) -> Iterable[Node]:
+    """
+    Search tree for single node matching relative path attribute.
+      - Supports unix folder expression for relative path, i.e., '../../node_name'
+      - Supports wildcards, i.e., '*/node_name'
+      - If path name starts with leading separator symbol, it will start at root node.
+
+    >>> from bigtree import Node, find_full_path
+    >>> root = Node("a", age=90)
+    >>> b = Node("b", age=65, parent=root)
+    >>> c = Node("c", age=60, parent=root)
+    >>> d = Node("d", age=40, parent=c)
+    >>> find_relative_path(d, "..")
+    (Node(/a/c, age=60),)
+    >>> find_relative_path(d, "../../b")
+    (Node(/a/b, age=65),)
+    >>> find_relative_path(d, "../../*")
+    (Node(/a/b, age=65), Node(/a/c, age=60))
+
+    Args:
+        tree (Node): tree to search
+        path_name (str): value to match (relative path) of path_name attribute
+
+    Returns:
+        (Iterable[Node])
+    """
+    sep = tree.sep
+    if path_name.startswith(sep):
+        resolved_node = find_full_path(tree, path_name)
+        return (resolved_node,)
+    path_name = path_name.rstrip(sep).lstrip(sep)
+    path_list = path_name.split(sep)
+    wildcard_indicator = "*" in path_name
+    resolved_nodes: List[Node] = []
+
+    def resolve(node: Node, path_idx: int) -> None:
+        """Resolve node based on path name
+
+        Args:
+            node (Node): current node
+            path_idx (int): current index in path_list
+        """
+        if path_idx == len(path_list):
+            resolved_nodes.append(node)
+        else:
+            path_component = path_list[path_idx]
+            if path_component == ".":
+                resolve(node, path_idx + 1)
+            elif path_component == "..":
+                if node.is_root:
+                    raise ValueError("Invalid path name. Path goes beyond root node.")
+                resolve(node.parent, path_idx + 1)
+            elif path_component == "*":
+                for child in node.children:
+                    resolve(child, path_idx + 1)
+            else:
+                node = find_child_by_name(node, path_component)
+                if not node:
+                    if not wildcard_indicator:
+                        raise ValueError(
+                            f"Invalid path name. Node {path_component} cannot be found."
+                        )
+                else:
+                    resolve(node, path_idx + 1)
+
+    resolve(tree, 0)
+
+    return tuple(resolved_nodes)
+
+
 def find_full_path(tree: Node, path_name: str) -> Node:
     """
     Search tree for single node matching path attribute.
@@ -165,8 +235,9 @@ def find_full_path(tree: Node, path_name: str) -> Node:
     Returns:
         (Node)
     """
-    path_name = path_name.rstrip(tree.sep).lstrip(tree.sep)
-    path_list = path_name.split(tree.sep)
+    sep = tree.sep
+    path_name = path_name.rstrip(sep).lstrip(sep)
+    path_list = path_name.split(sep)
     if path_list[0] != tree.root.node_name:
         raise ValueError(
             f"Path {path_name} does not match the root node name {tree.root.node_name}"
