@@ -7,7 +7,7 @@ name = "bigtree"
 description = "Tree Implementation for Python, integrated with Python list, dictionary, and pandas DataFrame."
 readme = "README.md"
 requires-python = ">=3.7"
-license = "MIT"
+license = {text = "MIT"}
 keywords = [
   "tree",
   "bigtree",
