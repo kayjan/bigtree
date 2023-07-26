@@ -116,7 +116,7 @@ class Node(BaseNode):
         """
         ancestors = [self] + list(self.ancestors)
         sep = ancestors[-1].sep
-        return sep + sep.join([node.name for node in reversed(ancestors)])
+        return sep + sep.join([str(node.name) for node in reversed(ancestors)])
 
     def __pre_assign_children(self: T, new_children: List[T]) -> None:
         """Custom method to check before attaching children
