@@ -260,6 +260,10 @@ class TestNode(unittest.TestCase):
             self.a.children = [self.b, self.b]
         assert str(exc_info.value) == Constants.ERROR_SET_DUPLICATE_CHILD
 
+    def test_path_name_int(self):
+        b = Node(1, parent=self.a)
+        assert b.path_name == "/a/1"
+
     def test_go_to(self):
         self.a.children = [self.b, self.c]
         self.b.children = [self.d, self.e]
