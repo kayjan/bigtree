@@ -701,6 +701,10 @@ def nested_dict_to_tree(
         child_dict = child_dict.copy()
         node_name = child_dict.pop(name_key)
         node_children = child_dict.pop(child_key, [])
+        if not isinstance(node_children, List):
+            raise TypeError(
+                f"child_key {child_key} should be List type, received {node_children}"
+            )
         node = node_type(node_name, parent=parent_node, **child_dict)
         for _child in node_children:
             recursive_add_child(_child, parent_node=node)
