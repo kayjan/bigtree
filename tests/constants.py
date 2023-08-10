@@ -93,6 +93,7 @@ class Constants:
     ERROR_EMPTY_COL = "Data does not contain any columns, check `data`"
     ERROR_EMPTY_STRING = "Tree string does not contain any data, check `tree_string`"
 
+    ERROR_EMPTY_CHILD = "child_key children should be List type, received "
     ERROR_EMPTY_DICT = "Dictionary does not contain any data, check"
     ERROR_EMPTY_LIST = "Path list does not contain any data, check"
     ERROR_DIFFERENT_ROOT = "Path does not have same root node"

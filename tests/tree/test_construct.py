@@ -1459,6 +1459,56 @@ class TestNestedDictToTree(unittest.TestCase):
             nested_dict_to_tree({})
         assert str(exc_info.value).startswith(Constants.ERROR_EMPTY_DICT)
 
+    def test_nested_dict_to_tree_null_children_error(self):
+        path_dict = {
+            "name": "a",
+            "age": 90,
+            "children": [
+                {
+                    "name": "b",
+                    "age": 65,
+                    "children": [
+                        {"name": "d", "age": 40},
+                        {
+                            "name": "e",
+                            "age": 35,
+                            "children": [
+                                {"name": "g", "age": 10, "children": None},
+                            ],
+                        },
+                    ],
+                },
+            ],
+        }
+        with pytest.raises(TypeError) as exc_info:
+            nested_dict_to_tree(path_dict)
+        assert str(exc_info.value) == Constants.ERROR_EMPTY_CHILD + "None"
+
+    def test_nested_dict_to_tree_int_children_error(self):
+        path_dict = {
+            "name": "a",
+            "age": 90,
+            "children": [
+                {
+                    "name": "b",
+                    "age": 65,
+                    "children": [
+                        {"name": "d", "age": 40},
+                        {
+                            "name": "e",
+                            "age": 35,
+                            "children": [
+                                {"name": "g", "age": 10, "children": 1},
+                            ],
+                        },
+                    ],
+                },
+            ],
+        }
+        with pytest.raises(TypeError) as exc_info:
+            nested_dict_to_tree(path_dict)
+        assert str(exc_info.value) == Constants.ERROR_EMPTY_CHILD + "1"
+
     @staticmethod
     def test_nested_dict_to_tree_key_name():
         path_dict = {
