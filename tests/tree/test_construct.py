@@ -26,6 +26,7 @@ from tests.constants import Constants
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
+    assert_tree_structure_customnode_root_attr,
 )
 from tests.node.test_node import (
     assert_tree_structure_node_root,
@@ -35,6 +36,13 @@ from tests.node.test_node import (
 
 class NodeA(Node):
     pass
+
+
+class CustomNode(Node):
+    def __init__(self, name: str, custom_field: int, custom_field_str: str, **kwargs):
+        super().__init__(name, **kwargs)
+        self.custom_field = custom_field
+        self.custom_field_str = custom_field_str
 
 
 class TestAddPathToTree(unittest.TestCase):
@@ -339,6 +347,27 @@ class TestAddDictToTreeByPath(unittest.TestCase):
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
 
+    def test_add_dict_to_tree_by_path_custom_node_type(self):
+        paths = {
+            "a": {"custom_field": 90, "custom_field_str": "a"},
+            "a/b": {"custom_field": 65, "custom_field_str": "b"},
+            "a/c": {"custom_field": 60, "custom_field_str": "c"},
+            "a/b/d": {"custom_field": 40, "custom_field_str": "d"},
+            "a/b/e": {"custom_field": 35, "custom_field_str": "e"},
+            "a/c/f": {"custom_field": 38, "custom_field_str": "f"},
+            "a/b/e/g": {"custom_field": 10, "custom_field_str": "g"},
+            "a/b/e/h": {"custom_field": 6, "custom_field_str": "h"},
+        }
+        root = CustomNode("a", custom_field=1, custom_field_str="abc")
+        add_dict_to_tree_by_path(root, paths)
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert all(
+            isinstance(node, CustomNode) for node in root.children
+        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_customnode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
     def test_add_dict_to_tree_by_path_different_root_error(self):
         paths = {
             "a": {"age": 90},
@@ -489,6 +518,34 @@ class TestAddDictToTreeByName(unittest.TestCase):
         ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_add_dict_to_tree_by_name_custom_node_type(self):
+        root = CustomNode("a", custom_field=1, custom_field_str="abc")
+        b = CustomNode("b", parent=root, custom_field=1, custom_field_str="abc")
+        c = CustomNode("c", parent=root, custom_field=1, custom_field_str="abc")
+        _ = CustomNode("d", parent=b, custom_field=1, custom_field_str="abc")
+        e = CustomNode("e", parent=b, custom_field=1, custom_field_str="abc")
+        _ = CustomNode("f", parent=c, custom_field=1, custom_field_str="abc")
+        _ = CustomNode("g", parent=e, custom_field=1, custom_field_str="abc")
+        _ = CustomNode("h", parent=e, custom_field=1, custom_field_str="abc")
+        name_dict = {
+            "a": {"custom_field": 90, "custom_field_str": "a"},
+            "b": {"custom_field": 65, "custom_field_str": "b"},
+            "c": {"custom_field": 60, "custom_field_str": "c"},
+            "d": {"custom_field": 40, "custom_field_str": "d"},
+            "e": {"custom_field": 35, "custom_field_str": "e"},
+            "f": {"custom_field": 38, "custom_field_str": "f"},
+            "g": {"custom_field": 10, "custom_field_str": "g"},
+            "h": {"custom_field": 6, "custom_field_str": "h"},
+        }
+        root = add_dict_to_tree_by_name(root, name_dict)
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert all(
+            isinstance(node, CustomNode) for node in root.children
+        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
 
 
@@ -748,6 +805,30 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
 
+    def test_add_dataframe_to_tree_by_path_custom_node_type(self):
+        root = CustomNode("a", custom_field=1, custom_field_str="abc")
+        data = pd.DataFrame(
+            [
+                ["a", 90, "a"],
+                ["a/b", 65, "b"],
+                ["a/c", 60, "c"],
+                ["a/b/d", 40, "d"],
+                ["a/b/e", 35, "e"],
+                ["a/c/f", 38, "f"],
+                ["a/b/e/g", 10, "g"],
+                ["a/b/e/h", 6, "h"],
+            ],
+            columns=["PATH", "custom_field", "custom_field_str"],
+        )
+        add_dataframe_to_tree_by_path(root, data)
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert all(
+            isinstance(node, CustomNode) for node in root.children
+        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_customnode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
     def test_add_dataframe_to_tree_by_path_different_root_error(self):
         data = pd.DataFrame(
             [
@@ -943,8 +1024,42 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         h.parent = e
         root = add_dataframe_to_tree_by_name(root, self.data)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_add_dataframe_to_tree_by_name_custom_node_type(self):
+        root = CustomNode("a", custom_field=1, custom_field_str="abc")
+        b = CustomNode("b", parent=root, custom_field=1, custom_field_str="abc")
+        c = CustomNode("c", parent=root, custom_field=1, custom_field_str="abc")
+        _ = CustomNode("d", parent=b, custom_field=1, custom_field_str="abc")
+        e = CustomNode("e", parent=b, custom_field=1, custom_field_str="abc")
+        _ = CustomNode("f", parent=c, custom_field=1, custom_field_str="abc")
+        _ = CustomNode("g", parent=e, custom_field=1, custom_field_str="abc")
+        _ = CustomNode("h", parent=e, custom_field=1, custom_field_str="abc")
+        data = pd.DataFrame(
+            [
+                ["a", 90, "a"],
+                ["b", 65, "b"],
+                ["c", 60, "c"],
+                ["d", 40, "d"],
+                ["e", 35, "e"],
+                ["f", 38, "f"],
+                ["g", 10, "g"],
+                ["h", 6, "h"],
+            ],
+            columns=["NAME", "custom_field", "custom_field_str"],
+        )
+        root = add_dataframe_to_tree_by_name(root, data)
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert all(
+            isinstance(node, CustomNode) for node in root.children
+        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
 
 
@@ -1410,6 +1525,26 @@ class TestDictToTree(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
 
+    def test_dict_to_tree_custom_node_type(self):
+        path_dict = {
+            "a": {"custom_field": 90, "custom_field_str": "a"},
+            "a/b": {"custom_field": 65, "custom_field_str": "b"},
+            "a/c": {"custom_field": 60, "custom_field_str": "c"},
+            "a/b/d": {"custom_field": 40, "custom_field_str": "d"},
+            "a/b/e": {"custom_field": 35, "custom_field_str": "e"},
+            "a/c/f": {"custom_field": 38, "custom_field_str": "f"},
+            "a/b/e/g": {"custom_field": 10, "custom_field_str": "g"},
+            "a/b/e/h": {"custom_field": 6, "custom_field_str": "h"},
+        }
+        root = dict_to_tree(path_dict, node_type=CustomNode)
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert all(
+            isinstance(node, CustomNode) for node in root.children
+        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_customnode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
     @staticmethod
     def test_dict_to_tree_different_root_error():
         path_dict = {
@@ -1570,6 +1705,60 @@ class TestNestedDictToTree(unittest.TestCase):
         ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_nested_dict_to_tree_custom_node_type(self):
+        path_dict = {
+            "name": "a",
+            "custom_field": 90,
+            "custom_field_str": "a",
+            "children": [
+                {
+                    "name": "b",
+                    "custom_field": 65,
+                    "custom_field_str": "b",
+                    "children": [
+                        {"name": "d", "custom_field": 40, "custom_field_str": "d"},
+                        {
+                            "name": "e",
+                            "custom_field": 35,
+                            "custom_field_str": "e",
+                            "children": [
+                                {
+                                    "name": "g",
+                                    "custom_field": 10,
+                                    "custom_field_str": "g",
+                                },
+                                {
+                                    "name": "h",
+                                    "custom_field": 6,
+                                    "custom_field_str": "h",
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    "name": "c",
+                    "custom_field": 60,
+                    "custom_field_str": "c",
+                    "children": [
+                        {
+                            "name": "f",
+                            "custom_field": 38,
+                            "custom_field_str": "f",
+                        }
+                    ],
+                },
+            ],
+        }
+        root = nested_dict_to_tree(path_dict, node_type=CustomNode)
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert all(
+            isinstance(node, CustomNode) for node in root.children
+        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
 
 
@@ -1821,6 +2010,29 @@ class TestDataFrameToTree(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
 
+    def test_dataframe_to_tree_custom_node_type(self):
+        path_data = pd.DataFrame(
+            [
+                ["a", 90, "a"],
+                ["a/b", 65, "b"],
+                ["a/c", 60, "c"],
+                ["a/b/d", 40, "d"],
+                ["a/b/e", 35, "e"],
+                ["a/c/f", 38, "f"],
+                ["a/b/e/g", 10, "g"],
+                ["a/b/e/h", 6, "h"],
+            ],
+            columns=["PATH", "custom_field", "custom_field_str"],
+        )
+        root = dataframe_to_tree(path_data, node_type=CustomNode)
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert all(
+            isinstance(node, CustomNode) for node in root.children
+        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_customnode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
     @staticmethod
     def test_dataframe_to_tree_different_root_error():
         path_data = pd.DataFrame(
@@ -1968,6 +2180,29 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_dataframe_to_tree_by_relation_custom_node_type(self):
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, 90, "a"],
+                ["b", "a", 65, "b"],
+                ["c", "a", 60, "c"],
+                ["d", "b", 40, "d"],
+                ["e", "b", 35, "e"],
+                ["f", "c", 38, "f"],
+                ["g", "e", 10, "g"],
+                ["h", "e", 6, "h"],
+            ],
+            columns=["child", "parent", "custom_field", "custom_field_str"],
+        )
+        root = dataframe_to_tree_by_relation(relation_data, node_type=CustomNode)
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert all(
+            isinstance(node, CustomNode) for node in root.children
+        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
 
     @staticmethod
