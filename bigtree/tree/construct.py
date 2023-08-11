@@ -93,7 +93,11 @@ def add_path_to_tree(
         else:
             node = find_child_by_name(parent_node, node_name)
         if not node:
-            node = node_type(branch[idx])
+            if idx == len(branch) - 1:
+                node_name = node_attrs.pop("name", branch[idx])
+                node = node_type(node_name, **node_attrs)
+            else:
+                node = node_type(branch[idx])
             node.parent = parent_node
         parent_node = node
     node.set_attrs(node_attrs)
@@ -803,7 +807,15 @@ def dataframe_to_tree(
         )
 
     root_name = data[path_col].values[0].split(sep)[0]
-    root_node = node_type(root_name)
+    root_node_data = data[data[path_col] == root_name]
+    if len(root_node_data):
+        root_node_kwargs = list(
+            root_node_data[attribute_cols].to_dict(orient="index").values()
+        )[0]
+        root_name = root_node_kwargs.pop("name", root_name)
+        root_node = node_type(root_name, **root_node_kwargs)
+    else:
+        root_node = node_type(root_name)
     add_dataframe_to_tree_by_path(
         root_node,
         data,
@@ -920,7 +932,15 @@ def dataframe_to_tree_by_relation(
             f"Unable to determine root node\nPossible root nodes: {root_names}"
         )
     root_name = root_names[0]
-    root_node = node_type(root_name)
+    root_node_data = data[data[child_col] == root_name]
+    if len(root_node_data):
+        root_node_kwargs = list(
+            root_node_data[attribute_cols].to_dict(orient="index").values()
+        )[0]
+        root_name = root_node_kwargs.pop("name", root_name)
+        root_node = node_type(root_name, **root_node_kwargs)
+    else:
+        root_node = node_type(root_name)
 
     def retrieve_attr(_row: Dict[str, Any]) -> Dict[str, Any]:
         node_attrs = _row.copy()

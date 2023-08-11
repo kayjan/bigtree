@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.3] - 2023-08-12
+### Added
+- Tree Constructor: `add_path_to_tree`, `dataframe_to_tree`, `dataframe_to_tree_by_relation` to allow custom node types that takes in constructor arguments.
+### Changed
+- Binary Tree: Able to accept node val of `str` type besides `int` type.
+
 ## [0.10.2] - 2023-08-11
 ### Fixed
 - Tree Constructor: `nested_dict_to_tree` to throw TypeError if child_key is not list type.
@@ -297,6 +303,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.10.3]: https://github.com/kayjan/bigtree/compare/0.10.2...0.10.3
 [0.10.2]: https://github.com/kayjan/bigtree/compare/0.10.1...0.10.2
 [0.10.1]: https://github.com/kayjan/bigtree/compare/0.10.0...0.10.1
 [0.10.0]: https://github.com/kayjan/bigtree/compare/0.9.5...0.10.0

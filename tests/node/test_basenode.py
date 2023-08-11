@@ -745,8 +745,8 @@ def assert_tree_structure_basenode_root_attr(
 ):
     """Test tree structure with age attributes"""
     # Test describe()
-    expected = [("age", 90), ("name", "a")]
-    actual = root.describe(exclude_prefix="_")
+    expected = {("age", 90), ("name", "a")}
+    actual = set(root.describe(exclude_prefix="_"))
     assert (
         actual == expected
     ), f"Node description should be {expected}, but it is {actual}"
@@ -758,6 +758,34 @@ def assert_tree_structure_basenode_root_attr(
         assert (
             actual == expected
         ), f"Node name and age should be {expected}, but it is {actual}"
+
+
+def assert_tree_structure_customnode_root_attr(
+    root,
+    a=("a", 90),
+    b=("b", 65),
+    c=("c", 60),
+    d=("d", 40),
+    e=("e", 35),
+    f=("f", 38),
+    g=("g", 10),
+    h=("h", 6),
+):
+    """Test tree structure with age attributes"""
+    # Test describe()
+    expected = {("custom_field", 90), ("custom_field_str", "a"), ("name", "a")}
+    actual = set(root.describe(exclude_prefix="_"))
+    assert (
+        actual == expected
+    ), f"Node description should be {expected}, but it is {actual}"
+
+    # Test age attribute
+    expected_attrs = [a, b, d, e, g, h, c, f]
+    for node, expected in zip(preorder_iter(root), expected_attrs):
+        actual = node.get_attr("custom_field_str"), node.get_attr("custom_field")
+        assert (
+            actual == expected
+        ), f"Node custom_field_str and custom_field should be {expected}, but it is {actual}"
 
 
 def assert_tree_structure_basenode_self(self):

@@ -102,6 +102,7 @@ class Constants:
     ERROR_DUPLICATE_NAME = "There exists duplicate name with different attributes"
     ERROR_DUPLICATE_PARENT = "There exists duplicate child with different parent where the child is also a parent node"
     ERROR_NODE_TYPE = "Node type is not `NodeA`"
+    ERROR_CUSTOM_NODE_TYPE = "Node type is not `CustomNode`"
     ERROR_PREFIX = "Invalid prefix, prefix should be unicode character or whitespace, otherwise specify one or more prefixes"
     ERROR_PREFIX_LENGTH = "Tree string have different prefix length, check branch"
     ERROR_JOIN_TYPE = "`join_type` must be one of 'inner' or 'left'"
