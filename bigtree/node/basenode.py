@@ -563,7 +563,7 @@ class BaseNode:
             (Any)
         """
         try:
-            return self.__getattribute__(attr_name)
+            return getattr(self, attr_name)
         except AttributeError:
             return None
 
