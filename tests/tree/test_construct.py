@@ -155,6 +155,9 @@ class TestAddPathToTree(unittest.TestCase):
         for path in self.path_list:
             add_path_to_tree(root, path)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
 
     def test_add_path_to_tree_different_root_error(self):
@@ -330,6 +333,9 @@ class TestAddDictToTreeByPath(unittest.TestCase):
         root = NodeA("a", age=1)
         add_dict_to_tree_by_path(root, self.paths)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
 
@@ -478,6 +484,9 @@ class TestAddDictToTreeByName(unittest.TestCase):
         h.parent = e
         root = add_dict_to_tree_by_name(root, self.name_dict)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -732,6 +741,9 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         root = NodeA("a", age=1)
         add_dataframe_to_tree_by_path(root, self.data)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -1096,6 +1108,9 @@ class TestListToTree(unittest.TestCase):
     def test_list_to_tree_node_type(self):
         root = list_to_tree(self.path_list, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_node_root(root)
 
@@ -1388,6 +1403,9 @@ class TestDictToTree(unittest.TestCase):
     def test_dict_to_tree_node_type(self):
         root = dict_to_tree(self.path_dict, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -1547,6 +1565,9 @@ class TestNestedDictToTree(unittest.TestCase):
     def test_nested_dict_to_tree_node_type(self):
         root = nested_dict_to_tree(self.path_dict, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -1793,6 +1814,9 @@ class TestDataFrameToTree(unittest.TestCase):
     def test_dataframe_to_tree_node_type(self):
         root = dataframe_to_tree(self.path_data, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -1939,6 +1963,9 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
     def test_dataframe_to_tree_by_relation_node_type(self):
         root = dataframe_to_tree_by_relation(self.relation_data, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_NODE_TYPE
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
