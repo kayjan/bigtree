@@ -67,7 +67,10 @@ class BinaryNode(Node):
         children: Optional[List[Optional[T]]] = None,
         **kwargs: Any,
     ):
-        self.val = int(name)
+        try:
+            self.val: Union[str, int] = int(name)
+        except ValueError:
+            self.val = str(name)
         self.name = str(name)
         self._sep = "/"
         self.__parent: Optional[T] = None
