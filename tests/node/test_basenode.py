@@ -745,8 +745,8 @@ def assert_tree_structure_basenode_root_attr(
 ):
     """Test tree structure with age attributes"""
     # Test describe()
-    expected = [("age", 90), ("name", "a")]
-    actual = root.describe(exclude_prefix="_")
+    expected = {("age", 90), ("name", "a")}
+    actual = set(root.describe(exclude_prefix="_"))
     assert (
         actual == expected
     ), f"Node description should be {expected}, but it is {actual}"
