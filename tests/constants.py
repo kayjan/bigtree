@@ -117,6 +117,8 @@ class Constants:
     ERROR_ATTR_BRACKET = "Expect open and close brackets in `attr_bracket`, received"
 
     # tree/helper
+    ERROR_NO_ARGUMENT = "Please specify either `prune_path` or `max_depth` or both."
+
     ERROR_NOT_FOUND = "Cannot find any node matching path_name ending with"
     ERROR_HELPER_BASENODE_TYPE = (
         "Tree should be of type `BaseNode`, or inherit from `BaseNode`"

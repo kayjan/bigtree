@@ -7,6 +7,7 @@ from bigtree.tree.construct import dataframe_to_tree
 from bigtree.tree.export import tree_to_dataframe
 from bigtree.tree.search import find_path
 from bigtree.utils.exceptions import NotFoundError
+from bigtree.utils.iterators import levelordergroup_iter
 
 __all__ = ["clone_tree", "prune_tree", "get_tree_diff"]
 
@@ -50,12 +51,19 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNode]) -> BaseNode:
 
 
 def prune_tree(
-    tree: Union[BinaryNode, Node], prune_path: str, sep: str = "/"
+    tree: Union[BinaryNode, Node],
+    prune_path: str = "",
+    sep: str = "/",
+    max_depth: int = 0,
 ) -> Union[BinaryNode, Node]:
-    """Prune tree to leave only the prune path, returns the root of a *copy* of the original tree.
+    """Prune tree by path or depth, returns the root of a *copy* of the original tree.
 
-    All siblings along the prune path will be removed.
-    Prune path name should be unique, can be full path or partial path (trailing part of path) or node name.
+    For pruning by `prune_path`,
+      All siblings along the prune path will be removed.
+      Prune path name should be unique, can be full path or partial path (trailing part of path) or node name.
+
+    For pruning by `max_depth`,
+      All nodes that are beyond `max_depth` will be removed.
 
     Path should contain `Node` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
@@ -63,42 +71,63 @@ def prune_tree(
     >>> from bigtree import Node, prune_tree
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
+    >>> c = Node("c", parent=b)
+    >>> d = Node("d", parent=b)
+    >>> e = Node("e", parent=root)
     >>> root.show()
     a
     ├── b
-    └── c
+    │   ├── c
+    │   └── d
+    └── e
 
     >>> root_pruned = prune_tree(root, "a/b")
     >>> root_pruned.show()
     a
     └── b
+        ├── c
+        └── d
+
+    >>> root_pruned = prune_tree(root, max_depth=2)
+    >>> root_pruned.show()
+    a
+    ├── b
+    └── e
 
     Args:
         tree (Union[BinaryNode, Node]): existing tree
         prune_path (str): prune path, all siblings along the prune path will be removed
-        sep (str): path separator
+        sep (str): path separator of `prune_path`
+        max_depth (int): maximum depth of pruned tree, based on `depth` attribute, defaults to None
 
     Returns:
         (Union[BinaryNode, Node])
     """
-    prune_path = prune_path.replace(sep, tree.sep)
+    if not prune_path and not max_depth:
+        raise ValueError("Please specify either `prune_path` or `max_depth` or both.")
+
     tree_copy = tree.copy()
-    child = find_path(tree_copy, prune_path)
-    if not child:
-        raise NotFoundError(
-            f"Cannot find any node matching path_name ending with {prune_path}"
-        )
 
-    if isinstance(child.parent, BinaryNode):
+    # Prune by path (prune bottom-up)
+    if prune_path:
+        prune_path = prune_path.replace(sep, tree.sep)
+        child = find_path(tree_copy, prune_path)
+        if not child:
+            raise NotFoundError(
+                f"Cannot find any node matching path_name ending with {prune_path}"
+            )
         while child.parent:
-            child.parent.children = [child, None]  # type: ignore
+            for other_children in child.parent.children:
+                if other_children != child:
+                    other_children.parent = None
             child = child.parent
-        return tree_copy
 
-    while child.parent:
-        child.parent.children = [child]  # type: ignore
-        child = child.parent
+    # Prune by depth (prune top-down)
+    if max_depth:
+        for depth, level_nodes in enumerate(levelordergroup_iter(tree_copy), 1):
+            if depth == max_depth:
+                for level_node in level_nodes:
+                    del level_node.children
     return tree_copy
 
 

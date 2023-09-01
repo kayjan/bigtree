@@ -16,13 +16,37 @@ class TestCloneTree:
 class TestPruneTree:
     @staticmethod
     def test_prune_tree(binarytree_node):
-        tree_prune = prune_tree(binarytree_node, "1/3/6")
-        expected_str = """1\n└── 3\n    └── 6\n"""
-        assert_print_statement(print_tree, expected_str, tree=tree_prune)
-        assert len(list(tree_prune.children)) == 2
-        assert not list(tree_prune.children)[1]
-        assert len(tree_prune.children[0].children) == 2
-        assert not tree_prune.children[0].children[1]
+        # Pruned tree is 1/2/4/8
+        tree_prune = prune_tree(binarytree_node, "1/2/4")
+
+        assert tree_prune.left.val == 2, "Check left child of tree_prune (depth 2)"
+        assert not tree_prune.right, "Check right child of tree_prune (depth 2)"
+        assert tree_prune.left.left.val == 4, "Check left child (depth 3)"
+        assert not tree_prune.left.right, "Check right child (depth 3)"
+        assert not tree_prune.left.left.left, "Check left child (depth 4)"
+        assert tree_prune.left.left.right.val == 8, "Check right child (depth 4)"
+        assert tree_prune.left.left.right.children == (
+            None,
+            None,
+        ), "Check children (depth 5)"
+
+    @staticmethod
+    def test_prune_tree_second_child(binarytree_node):
+        # Pruned tree is 1/3/6, 1/3/7
+        tree_prune = prune_tree(binarytree_node, "1/3")
+
+        assert not tree_prune.left, "Check left child of tree_prune (depth 2)"
+        assert tree_prune.right.val == 3, "Check right child of tree_prune (depth 2)"
+        assert tree_prune.right.left.val == 6, "Check left child (depth 3)"
+        assert tree_prune.right.right.val == 7, "Check right child (depth 3)"
+        assert tree_prune.right.left.children == (
+            None,
+            None,
+        ), "Check children (depth 4)"
+        assert tree_prune.right.right.children == (
+            None,
+            None,
+        ), "Check children (depth 4)"
 
 
 class TestTreeDiff:
