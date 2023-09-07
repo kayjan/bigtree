@@ -6,8 +6,6 @@ T = TypeVar("T", bound=BaseNode)
 
 __all__ = [
     "reingold_tilford",
-    "first_pass",
-    "second_pass",
 ]
 
 
@@ -21,7 +19,7 @@ def reingold_tilford(
 ) -> None:
     """
     Algorithm for drawing tree structure, retrieves `(x, y)` coordinates for a tree structure.
-    Modifies tree in-place.
+    Adds `x` and `y` attributes to every node in the tree. Modifies tree in-place.
 
     This algorithm[1] is an improvement over Reingold Tilford algorithm[2].
 
@@ -31,6 +29,30 @@ def reingold_tilford(
     2. A left child should be positioned to the left of its parent node and a right child to the right.
     3. A parent should be centered over its children.
     4. A tree and its mirror image should produce drawings that are reflection of one another; a subtree should be drawn the same way regardless of where it occurs in the tree.
+
+    >>> from bigtree import reingold_tilford, list_to_tree
+    >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
+    >>> root = list_to_tree(path_list)
+    >>> root.show()
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    │       ├── g
+    │       └── h
+    └── c
+        └── f
+
+    >>> reingold_tilford(root)
+    >>> root.show(attr_list=["x", "y"])
+    a [x=1.25, y=3.0]
+    ├── b [x=0.5, y=2.0]
+    │   ├── d [x=0.0, y=1.0]
+    │   └── e [x=1.0, y=1.0]
+    │       ├── g [x=0.5, y=0.0]
+    │       └── h [x=1.5, y=0.0]
+    └── c [x=2.0, y=2.0]
+        └── f [x=2.0, y=1.0]
 
     References
       [1] Walker, J. (1991). Positioning Nodes for General Trees. https://www.drdobbs.com/positioning-nodes-for-general-trees/184402320?pgno=4
@@ -248,12 +270,16 @@ def _get_subtree_shift(
             left_idx=left_idx,
             right_idx=right_idx,
             subtree_separation=subtree_separation,
-            left_cum_shift=left_cum_shift
-            + left_subtree.get_attr("mod")
-            + left_subtree.get_attr("shift"),
-            right_cum_shift=right_cum_shift
-            + right_subtree.get_attr("mod")
-            + right_subtree.get_attr("shift"),
+            left_cum_shift=(
+                left_cum_shift
+                + left_subtree.get_attr("mod")
+                + left_subtree.get_attr("shift")
+            ),
+            right_cum_shift=(
+                right_cum_shift
+                + right_subtree.get_attr("mod")
+                + right_subtree.get_attr("shift")
+            ),
             cum_shift=cum_shift + new_shift,
             initial_run=False,
         )
@@ -284,7 +310,7 @@ def second_pass(
       - :math:`y = (depth - node.depth) * distance + y'`
 
     Args:
-        tree_node (BaseNode): tree to assign x and mod value
+        tree_node (BaseNode): tree to compute (x, y) coordinate
         level_separation (float): fixed distance between adjacent levels of the tree (constant across iteration)
         x_offset (float): graph offset of x-coordinates (constant across iteration)
         y_offset (float): graph offset of y-coordinates (constant across iteration)
