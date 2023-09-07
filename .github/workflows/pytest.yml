@@ -40,7 +40,7 @@ jobs:
       - name: Lint with black
         run: |
           python -m pip install black
-          black . --check
+          black . -l 88 --check
       - name: Lint with isort
         run: |
           python -m pip install isort
