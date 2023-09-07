@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.11.0] - TBD
+## [0.11.0] - 2023-09-08
 ### Added
 - Tree Helper: Pruning tree to allow pruning by `prune_path` and `max_depth`.
 - Tree Plot: Implement Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure.
