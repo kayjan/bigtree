@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Tree Helper: Pruning tree to allow pruning by `prune_path` and `max_depth`.
 - Tree Plot: Implement Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure.
+### Changed
+- BaseNode/DAGNode: `get_attr` method to allow default return value.
 ### Fixed
 - Utility Iterator: Relax type hinting using TypeVar.
 
