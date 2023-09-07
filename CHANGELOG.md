@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.0] - 2023-09-08
+### Added
+- Tree Helper: Pruning tree to allow pruning by `prune_path` and `max_depth`.
+- Tree Plot: Implement Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure.
+### Changed
+- BaseNode/DAGNode: `get_attr` method to allow default return value.
+### Fixed
+- Utility Iterator: Relax type hinting using TypeVar.
+
 ## [0.10.3] - 2023-08-12
 ### Added
 - Tree Constructor: `add_path_to_tree`, `dataframe_to_tree`, `dataframe_to_tree_by_relation` to allow custom node types that takes in constructor arguments.
@@ -157,10 +166,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.6.3] - 2022-11-15
 ### Added
 - DAGNode: Rollback functionality to original state when there is error setting parent and children (backwards-compatible).
-
 ### Changed
 - BaseNode, BNode, DAGNode: Refactor by abstracting checks.
-
 ### Fixed
 - BaseNode: Fix rollback logic to handle failure in pre-assign checks and reassigning same child / parent.
 - BNode: Fix issue of reassigning children shifting existing child from right to left.
@@ -181,7 +188,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BTree Constructor: From list.
 - BNode Iterator: Level-Order Iterator.
 - Misc: Add Tips and Tricks to documentation (List Directory).
-
 ### Fixed
 - DAGNode: Fix issue of duplicate parent constructor creating duplicate children.
 
@@ -189,7 +195,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Misc: More docstring examples.
 - Misc: More test cases.
-
 ### Fixed
 - Tree Modifier: Fix issue with `merge_children` argument not working as expected.
 
@@ -199,7 +204,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Node: Made more extendable with pre-/post-assign checks.
 - Misc: Add Tips and Tricks to documentation (Extending Nodes).
 - Misc: More test cases.
-
 ### Fixed
 - Tree Search: Type hints.
 
@@ -207,7 +211,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - DAG and Tree Exporter: More customizations allowed on edges.
 - Add Tips and Tricks to documentation (Weighted Trees, Merging Trees).
-
 ### Fixed
 - Tree Modifier: Fix issue with `merge_children` argument not working as expected.
 
@@ -222,7 +225,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.5.0] - 2022-11-09
 ### Added
 - Misc: Clean codes and documentation.
-
 ### Changed
 - Tree Exporter: Printing tree to group multiple arguments together.
 - DAG and Tree Exporter: Export to dot able to plot multiple disjointed trees/dags, rename `bgcolor` to `bg_colour`.
@@ -230,7 +232,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.4.6] - 2022-11-09
 ### Added
 - Tree Constructor: From DataFrame of parent-child columns.
-
 ### Changed
 - Tree Exporter: Printing tree to define node name or path, and default to const style.
 - Tree Constructor: Rename `list_to_tree_tuples` to `list_to_tree_by_relation`.
@@ -263,7 +264,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.3.3] - 2022-11-07
 ### Added
 - DAG Exporter: To list, nested dictionary, pandas DataFrame.
-
 ### Changed
 - BaseNode and DAGNode: Modify docstring.
 - Tree Exporter: Support Nodes with same name.
@@ -303,6 +303,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.11.0]: https://github.com/kayjan/bigtree/compare/0.10.3...0.11.0
 [0.10.3]: https://github.com/kayjan/bigtree/compare/0.10.2...0.10.3
 [0.10.2]: https://github.com/kayjan/bigtree/compare/0.10.1...0.10.2
 [0.10.1]: https://github.com/kayjan/bigtree/compare/0.10.0...0.10.1

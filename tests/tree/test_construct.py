@@ -449,7 +449,7 @@ class TestAddDictToTreeByName(unittest.TestCase):
         expected_list = [[1], [1, 2], [1, None], [None], None, 0, -1, [-1]]
         for node_name, expected in zip(nodes, expected_list):
             actual = find_name(root, node_name).get_attr("random")
-            assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+            assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     def test_add_dict_to_tree_by_name_empty_error(self):
         with pytest.raises(ValueError) as exc_info:

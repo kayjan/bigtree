@@ -732,13 +732,13 @@ def assert_dag_structure_root_attr(dag):
         expected = expected_dict[parent.node_name]
         actual = parent.age
         assert (
-            expected == actual
+            actual == expected
         ), f"For {parent}, expected\n{expected}\nReceived\n{actual}"
 
         expected = expected_dict[child.node_name]
         actual = child.age
         assert (
-            expected == actual
+            actual == expected
         ), f"For {child}, expected\n{expected}\nReceived\n{actual}"
 
 
@@ -927,4 +927,4 @@ def assert_dag_child_attr(dag, parent_name, child_name, child_attr, child_value)
         if parent.name == parent_name and child.name == child_name:
             expected = child_value
             actual = child.get_attr(child_attr)
-            assert expected == actual, f"Expected {expected}, received {actual}"
+            assert actual == expected, f"Expected {expected}, received {actual}"

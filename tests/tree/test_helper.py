@@ -48,6 +48,47 @@ class TestCloneTree:
 class TestPruneTree:
     @staticmethod
     def test_prune_tree(tree_node):
+        # Pruned tree is a/b/d, a/b/e/g, a/b/e/h
+        tree_prune = prune_tree(tree_node, "a/b")
+
+        assert_tree_structure_basenode_root(tree_node)
+        assert_tree_structure_basenode_root_attr(tree_node)
+        assert len(list(tree_prune.children)) == 1
+        assert len(tree_prune.children[0].children) == 2
+        assert len(tree_prune.children[0].children[0].children) == 0
+        assert len(tree_prune.children[0].children[1].children) == 2
+
+    @staticmethod
+    def test_prune_tree_path_and_depth(tree_node):
+        # Pruned tree is a/b/d, a/b/e (a/b/e/g, a/b/e/h pruned away)
+        tree_prune = prune_tree(tree_node, "a/b", max_depth=3)
+
+        assert_tree_structure_basenode_root(tree_node)
+        assert_tree_structure_basenode_root_attr(tree_node)
+        assert len(list(tree_prune.children)) == 1
+        assert len(tree_prune.children[0].children) == 2
+        assert len(tree_prune.children[0].children[0].children) == 0
+        assert (
+            len(tree_prune.children[0].children[1].children) == 0
+        ), "Depth at 4 is not pruned away"
+
+    @staticmethod
+    def test_prune_tree_only_depth(tree_node):
+        # Pruned tree is a/b, a/c (a/b/e/g, a/b/e/h, a/c/f pruned away)
+        tree_prune = prune_tree(tree_node, max_depth=2)
+
+        assert_tree_structure_basenode_root(tree_node)
+        assert_tree_structure_basenode_root_attr(tree_node)
+        assert len(list(tree_prune.children)) == 2
+        assert (
+            len(tree_prune.children[0].children) == 0
+        ), "Depth at 3 is not pruned away"
+        assert (
+            len(tree_prune.children[1].children) == 0
+        ), "Depth at 3 is not pruned away"
+
+    @staticmethod
+    def test_prune_tree_second_child(tree_node):
         # Pruned tree is a/c/f
         tree_prune = prune_tree(tree_node, "a/c")
 
@@ -86,6 +127,12 @@ class TestPruneTree:
             prune_tree(tree_node, "a\\c")
         assert str(exc_info.value).startswith(Constants.ERROR_NOT_FOUND)
 
+    @staticmethod
+    def test_prune_tree_no_arg_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            prune_tree(tree_node)
+        assert str(exc_info.value) == Constants.ERROR_NO_ARGUMENT
+
 
 class TestTreeDiff:
     @staticmethod
@@ -120,4 +167,4 @@ class TestTreeDiff:
     def test_tree_diff_same_tree(tree_node):
         expected = None
         actual = get_tree_diff(tree_node, tree_node, only_diff=True)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"

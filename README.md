@@ -24,7 +24,7 @@ Related Links:
 There are 3 segments to Big Tree consisting of Tree, Binary Tree, and Directed Acyclic Graph (DAG) implementation.
 
 
-For **Tree** implementation, there are 8 main components.
+For **Tree** implementation, there are 9 main components.
 
 1. [**Node**](https://bigtree.readthedocs.io/en/latest/node.html)
    1. ``BaseNode``, extendable class
@@ -57,12 +57,14 @@ For **Tree** implementation, there are 8 main components.
    1. Cloning tree to another `Node` type
    2. Prune tree
    3. Get difference between two trees
-7. [**Exporting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/export.html)
+7. [**Plotting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/plot.html)
+   1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
+8. [**Exporting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/export.html)
    1. Print to console
    2. Export to *dictionary*, *nested dictionary*, or *pandas DataFrame*
    3. Export tree to dot (can save to .dot, .png, .svg, .jpeg files)
    4. Export tree to Pillow (can save to .png, .jpg)
-8. [**Workflows**](https://bigtree.readthedocs.io/en/latest/workflows.html)
+9. [**Workflows**](https://bigtree.readthedocs.io/en/latest/workflows.html)
    1. Sample workflows for tree demonstration!
 
 For **Binary Tree** implementation, there are 3 main components.

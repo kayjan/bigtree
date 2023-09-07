@@ -34,7 +34,7 @@ class TestDAGToList:
             ("g", "h"),
         ]
         actual = dag_to_list(dag_node)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
         dag = list_to_dag(actual)
         assert_dag_structure_root(dag)
@@ -54,7 +54,7 @@ class TestDAGToDict:
             "h": {"parents": ["g"], "age": 6},
         }
         actual = dag_to_dict(dag_node, all_attrs=True)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
         dag = dict_to_dag(actual)
         assert_dag_structure_root(dag)
@@ -73,7 +73,7 @@ class TestDAGToDict:
             "h": {"PARENTS": ["g"], "AGE": 6},
         }
         actual = dag_to_dict(dag_node, parent_key="PARENTS", attr_dict={"age": "AGE"})
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
 
 class TestDAGToDataFrame:

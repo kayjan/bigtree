@@ -458,7 +458,7 @@ class TestTreeToDict:
             "/a/c/f": {"name": "f"},
         }
         actual = tree_to_dict(tree_node)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_name_key_empty(tree_node):
@@ -473,7 +473,7 @@ class TestTreeToDict:
             "/a/c/f": {},
         }
         actual = tree_to_dict(tree_node, name_key="")
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_name_key(tree_node):
@@ -488,7 +488,7 @@ class TestTreeToDict:
             "/a/c/f": {"NAME": "f"},
         }
         actual = tree_to_dict(tree_node, name_key="NAME")
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_parent_key(tree_node):
@@ -503,7 +503,7 @@ class TestTreeToDict:
             "/a/c/f": {"name": "f", "PARENT": "c"},
         }
         actual = tree_to_dict(tree_node, parent_key="PARENT")
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_attr_dict(tree_node):
@@ -518,7 +518,7 @@ class TestTreeToDict:
             "/a/c/f": {"name": "f", "AGE": 38},
         }
         actual = tree_to_dict(tree_node, attr_dict={"age": "AGE"})
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_all_attr(tree_node):
@@ -533,7 +533,7 @@ class TestTreeToDict:
             "/a/c/f": {"name": "f", "age": 38},
         }
         actual = tree_to_dict(tree_node, all_attrs=True)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_max_depth(tree_node):
@@ -543,7 +543,7 @@ class TestTreeToDict:
             "/a/c": {"name": "c"},
         }
         actual = tree_to_dict(tree_node, max_depth=2)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_skip_depth(tree_node):
@@ -555,7 +555,7 @@ class TestTreeToDict:
             "/a/c/f": {"name": "f"},
         }
         actual = tree_to_dict(tree_node, skip_depth=2)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_leaf_only(tree_node):
@@ -566,7 +566,7 @@ class TestTreeToDict:
             "/a/c/f": {"name": "f"},
         }
         actual = tree_to_dict(tree_node, leaf_only=True)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_multiple_keys(tree_node):
@@ -583,7 +583,7 @@ class TestTreeToDict:
         actual = tree_to_dict(
             tree_node, name_key="NAME", parent_key="PARENT", attr_dict={"age": "AGE"}
         )
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_multiple_keys_subset_tree(tree_node):
@@ -600,7 +600,7 @@ class TestTreeToDict:
             parent_key="PARENT",
             attr_dict={"age": "AGE"},
         )
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_dict_to_tree(tree_node):
@@ -628,7 +628,7 @@ class TestTreeToNestedDict:
             ],
         }
         actual = tree_to_nested_dict(tree_node)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_nested_dict_name_key(tree_node):
@@ -646,7 +646,7 @@ class TestTreeToNestedDict:
             ],
         }
         actual = tree_to_nested_dict(tree_node, name_key="NAME")
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_nested_dict_child_key(tree_node):
@@ -664,7 +664,7 @@ class TestTreeToNestedDict:
             ],
         }
         actual = tree_to_nested_dict(tree_node, child_key="CHILDREN")
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_nested_dict_attr_dict(tree_node):
@@ -691,7 +691,7 @@ class TestTreeToNestedDict:
             ],
         }
         actual = tree_to_nested_dict(tree_node, attr_dict={"age": "AGE"})
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_nested_dict_all_attr(tree_node):
@@ -718,13 +718,13 @@ class TestTreeToNestedDict:
             ],
         }
         actual = tree_to_nested_dict(tree_node, all_attrs=True)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_nested_dict_max_depth(tree_node):
         expected = {"name": "a", "children": [{"name": "b"}, {"name": "c"}]}
         actual = tree_to_nested_dict(tree_node, max_depth=2)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_nested_dict_multiple_keys(tree_node):
@@ -753,7 +753,7 @@ class TestTreeToNestedDict:
         actual = tree_to_nested_dict(
             tree_node, name_key="NAME", child_key="CHILDREN", attr_dict={"age": "AGE"}
         )
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_nested_dict_multiple_keys_subset_tree(tree_node):
@@ -775,7 +775,7 @@ class TestTreeToNestedDict:
             child_key="CHILDREN",
             attr_dict={"age": "AGE"},
         )
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_nested_dict_to_tree(tree_node):

@@ -54,7 +54,7 @@ class TestTreeToDict:
             "/1/3/7": {"name": "7"},
         }
         actual = tree_to_dict(binarytree_node)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
 
 class TestTreeToNestedDict:
@@ -74,7 +74,7 @@ class TestTreeToNestedDict:
             ],
         }
         actual = tree_to_nested_dict(binarytree_node)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
 
 class TestTreeToDot:

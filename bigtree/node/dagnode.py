@@ -443,12 +443,13 @@ class DAGNode:
             and (not len(exclude_prefix) or not item[0].startswith(exclude_prefix))
         ]
 
-    def get_attr(self, attr_name: str) -> Any:
+    def get_attr(self, attr_name: str, default_value: Any = None) -> Any:
         """Get value of node attribute
         Returns None if attribute name does not exist
 
         Args:
             attr_name (str): attribute name
+            default_value (Any): default value if attribute does not exist, defaults to None
 
         Returns:
             (Any)
@@ -456,7 +457,7 @@ class DAGNode:
         try:
             return getattr(self, attr_name)
         except AttributeError:
-            return None
+            return default_value
 
     def set_attrs(self, attrs: Dict[str, Any]) -> None:
         """Set node attributes

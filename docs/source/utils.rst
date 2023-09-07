@@ -5,3 +5,4 @@ Utils
    :maxdepth: 2
 
    bigtree/utils/iterators
+   bigtree/utils/plot

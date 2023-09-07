@@ -27,6 +27,7 @@ extensions = [
     "autodocsumm",
     "myst_parser",
     "sphinxemoji.sphinxemoji",
+    "sphinx.ext.mathjax",
 ]
 autodoc_default_options = {"autosummary": True}
 sphinxemoji_style = "twemoji"
