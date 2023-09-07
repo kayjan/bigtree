@@ -1,14 +1,18 @@
 import unittest
 
+import pytest
+
 from bigtree.node.node import Node
 from bigtree.tree.construct import list_to_tree
 from bigtree.utils.iterators import postorder_iter
 from bigtree.utils.plot import first_pass, reingold_tilford
 
 
-class TestPlotSmall(unittest.TestCase):
+class TestPlotNoChildren(unittest.TestCase):
     def setUp(self):
         """
+        This tests the edge case when the tree does not have children
+
         Tree should have structure
         a
         """
@@ -17,7 +21,7 @@ class TestPlotSmall(unittest.TestCase):
     def tearDown(self):
         self.root = None
 
-    def test_reingold_tilford_error(self):
+    def test_reingold_tilford(self):
         expected = [
             ("a", 0, 0, 0),
         ]
@@ -34,11 +38,12 @@ class TestPlotSmall(unittest.TestCase):
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
 
-class TestPlot(unittest.TestCase):
+class TestPlotShiftLeftSibling(unittest.TestCase):
     def setUp(self):
         """
+        This tests the shifting of the third subtree, which should trigger the shifting of left sibling
+
         Tree should have structure
-        This tests the traversal of the left/right contour of a tree/subtree
         o
         ├── e
         │   ├── a
@@ -296,11 +301,12 @@ class TestPlot(unittest.TestCase):
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
 
-class TestPlotBig(unittest.TestCase):
+class TestPlotShiftRightSibling(unittest.TestCase):
     def setUp(self):
         """
-        Tree should have structure
         This tests the shifting of the second subtree, which should trigger the shifting of right siblings
+
+        Tree should have structure
         z
         ├── h
         │   ├── c
@@ -390,8 +396,6 @@ class TestPlotBig(unittest.TestCase):
             sibling_separation=sibling_separation,
             subtree_separation=subtree_separation,
         )
-        # from bigtree import find_name
-        # print(find_name(tree_node.root, "p"))
         actual = [
             (
                 node.node_name,
@@ -455,3 +459,152 @@ class TestPlotBig(unittest.TestCase):
             for node in postorder_iter(self.root)
         ]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+
+class TestPlotRelativeShift(unittest.TestCase):
+    def setUp(self):
+        """
+        This tests the shifting of the third and fourth subtree, which should take into account relative shifting.
+        This also tests for nodes that will shift multiple times
+
+        Tree should have structure
+        z
+        ├── g
+        │   ├── c
+        │   │   ├── a
+        │   │   └── b
+        │   └── f
+        │       ├── d
+        │       └── e
+        ├── h
+        ├── q
+        │   ├── i
+        │   ├── j
+        │   └── p
+        │       ├── k
+        │       ├── l
+        │       ├── m
+        │       ├── n
+        │       └── o
+        ├── x
+        │   ├── r
+        │   ├── s
+        │   ├── t
+        │   ├── v
+        │   │   └── u
+        │   └── w
+        └── y
+        """
+        path_list = [
+            "z/g/c/a",
+            "z/g/c/b",
+            "z/g/f/d",
+            "z/g/f/e",
+            "z/h",
+            "z/q/i",
+            "z/q/j",
+            "z/q/p/k",
+            "z/q/p/l",
+            "z/q/p/m",
+            "z/q/p/n",
+            "z/q/p/o",
+            "z/x/r",
+            "z/x/s",
+            "z/x/t",
+            "z/x/v/u",
+            "z/x/w",
+            "z/y",
+        ]
+        root = list_to_tree(path_list)
+        self.root = root
+
+    def tearDown(self):
+        self.root = None
+
+    def test_first_pass(self):
+        expected = [
+            ("a", 0, 0, 0),
+            ("b", 1, 0, 0),
+            ("c", 0.5, 0, 0),
+            ("d", 0, 0, 0),
+            ("e", 1, 0, 0),
+            ("f", 1.5, 1, 1),
+            ("g", 1.5, 0, 0),
+            ("h", 2.5, 0, (1.5 / 2) + (6.75 / 3)),  # 2.25 shift
+            ("i", 0, 0, 0),
+            ("j", 1, 0, 0),
+            ("k", 0, 0, 0),
+            ("l", 1, 0, 0),
+            ("m", 2, 0, 0),
+            ("n", 3, 0, 0),
+            ("o", 4, 0, 0),
+            ("p", 2, 0, 0),
+            ("q", 3.5, 2.5, 1.5 + (6.75 / 3 * 2)),  # 4.5 shift
+            ("r", 0, 0, 0),
+            ("s", 1, 0, 0),
+            ("t", 2, 0, 0),
+            ("u", 0, 0, 0),
+            ("v", 3, 3, 0),
+            ("w", 4, 0, 0),
+            ("x", 4.5, 2.5, (1.5 + 1.5 / 2) + 6.75),  # 6.75 shift
+            ("y", 5.5, 0, (1.5 + 1.5) + (4.5 + 4.5)),  # 9 shift
+            ("z", 9.5, 0, 0),  # 8 x
+        ]
+        first_pass(self.root, sibling_separation=1, subtree_separation=1)
+        actual = [
+            (
+                node.node_name,
+                node.get_attr("x"),
+                node.get_attr("mod"),
+                node.get_attr("shift"),
+            )
+            for node in postorder_iter(self.root)
+        ]
+        for _actual, _expected in zip(actual, expected):
+            assert _actual == pytest.approx(
+                _expected, abs=0.1
+            ), f"Expected\n{_expected}\nReceived\n{_actual}"
+
+    def test_reingold_tilford(self):
+
+        expected = [
+            ("a", 0, 0),
+            ("b", 1, 0),
+            ("c", 0.5, 1),
+            ("d", 2, 0),
+            ("e", 3, 0),
+            ("f", 2.5, 1),
+            ("g", 1.5, 2),
+            ("h", 5.5, 2),
+            ("i", 8.5, 1),
+            ("j", 9.5, 1),
+            ("k", 8.5, 0),
+            ("l", 9.5, 0),
+            ("m", 10.5, 0),
+            ("n", 11.5, 0),
+            ("o", 12.5, 0),
+            ("p", 10.5, 1),
+            ("q", 9.5, 2),
+            ("r", 11.5, 1),
+            ("s", 12.5, 1),
+            ("t", 13.5, 1),
+            ("u", 14.5, 0),
+            ("v", 14.5, 1),
+            ("w", 15.5, 1),
+            ("x", 13.5, 2),
+            ("y", 17.5, 2),
+            ("z", 9.5, 3),
+        ]
+        reingold_tilford(self.root)
+        actual = [
+            (
+                node.node_name,
+                node.get_attr("x"),
+                node.get_attr("y"),
+            )
+            for node in postorder_iter(self.root)
+        ]
+        for _actual, _expected in zip(actual, expected):
+            assert _actual == pytest.approx(
+                _expected, abs=0.1
+            ), f"Expected\n{_expected}\nReceived\n{_actual}"

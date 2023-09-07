@@ -140,8 +140,6 @@ def first_pass(
                         left_idx=idx_node,
                         right_idx=tree_node_idx,
                         subtree_separation=subtree_separation,
-                        left_cum_shift=left_subtree.get_attr("shift"),
-                        right_cum_shift=tree_node.get_attr("shift"),
                     ),
                 )
 
@@ -195,8 +193,8 @@ def _get_subtree_shift(
     left_idx: int,
     right_idx: int,
     subtree_separation: float,
-    left_cum_shift: float,
-    right_cum_shift: float,
+    left_cum_shift: float = 0,
+    right_cum_shift: float = 0,
     cum_shift: float = 0,
     initial_run: bool = True,
 ) -> float:
@@ -208,8 +206,8 @@ def _get_subtree_shift(
         left_idx (int): index of left subtree, to compute overlap for relative shift (constant across iteration)
         right_idx (int): index of right subtree, to compute overlap for relative shift (constant across iteration)
         subtree_separation (float): minimum distance between adjacent subtrees of the tree (constant across iteration)
-        left_cum_shift (float): cumulative `mod + shift` for left subtree from the ancestors
-        right_cum_shift (float): cumulative `mod + shift` for right subtree from the ancestors
+        left_cum_shift (float): cumulative `mod + shift` for left subtree from the ancestors, defaults to 0
+        right_cum_shift (float): cumulative `mod + shift` for right subtree from the ancestors, defaults to 0
         cum_shift (float): cumulative shift amount for right subtree, defaults to 0
         initial_run (bool): indicates whether left_subtree and right_subtree are the main subtrees, defaults to True
 
