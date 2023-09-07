@@ -530,7 +530,7 @@ class TestPlotRelativeShift(unittest.TestCase):
             ("e", 1, 0, 0),
             ("f", 1.5, 1, 1),
             ("g", 1.5, 0, 0),
-            ("h", 2.5, 0, (1.5 / 2) + (6.75 / 3)),  # 2.25 shift
+            ("h", 2.5, 0, (1.5 / 2) + (6.75 / 3)),
             ("i", 0, 0, 0),
             ("j", 1, 0, 0),
             ("k", 0, 0, 0),
@@ -539,7 +539,7 @@ class TestPlotRelativeShift(unittest.TestCase):
             ("n", 3, 0, 0),
             ("o", 4, 0, 0),
             ("p", 2, 0, 0),
-            ("q", 3.5, 2.5, 1.5 + (6.75 / 3 * 2)),  # 4.5 shift
+            ("q", 3.5, 2.5, 1.5 + (6.75 / 3 * 2)),
             ("r", 0, 0, 0),
             ("s", 1, 0, 0),
             ("t", 2, 0, 0),
@@ -594,6 +594,124 @@ class TestPlotRelativeShift(unittest.TestCase):
             ("x", 13.5, 2),
             ("y", 17.5, 2),
             ("z", 9.5, 3),
+        ]
+        reingold_tilford(self.root)
+        actual = [
+            (
+                node.node_name,
+                node.get_attr("x"),
+                node.get_attr("y"),
+            )
+            for node in postorder_iter(self.root)
+        ]
+        for _actual, _expected in zip(actual, expected):
+            assert _actual == pytest.approx(
+                _expected, abs=0.1
+            ), f"Expected\n{_expected}\nReceived\n{_actual}"
+
+
+class TestPlotShiftLeftRightSibling(unittest.TestCase):
+    def setUp(self):
+        """
+        This tests the shifting of the third subtree which should trigger shifting of second and fourth subtree.
+
+        Tree should have structure
+        r
+        ├── g
+        │   ├── a
+        │   ├── b
+        │   ├── e
+        │   │   ├── c
+        │   │   └── d
+        │   └── f
+        ├── h
+        ├── n
+        │   ├── k
+        │   │   ├── i
+        │   │   └── j
+        │   ├── l
+        │   └── m
+        └── q
+            ├── o
+            └── p
+        """
+        path_list = [
+            "r/g/a",
+            "r/g/b",
+            "r/g/e/c",
+            "r/g/e/d",
+            "r/g/f",
+            "r/h",
+            "r/n/k/i",
+            "r/n/k/j",
+            "r/n/l",
+            "r/n/m",
+            "r/q/o",
+            "r/q/p",
+        ]
+        root = list_to_tree(path_list)
+        self.root = root
+
+    def tearDown(self):
+        self.root = None
+
+    def test_first_pass(self):
+        expected = [
+            ("a", 0, 0, 0),
+            ("b", 1, 0, 0),
+            ("c", 0, 0, 0),
+            ("d", 1, 0, 0),
+            ("e", 2, 1.5, 0),
+            ("f", 3, 0, 0),
+            ("g", 1.5, 0, 0),
+            ("h", 2.5, 0, (1.5 / 2) + (2.25 / 3)),
+            ("i", 0, 0, 0),
+            ("j", 1, 0, 0),
+            ("k", 0.5, 0, 0),
+            ("l", 1.5, 0, 0),
+            ("m", 2.5, 0, 0),
+            ("n", 3.5, 2, 1.5 + (2.25 / 3 * 2)),
+            ("o", 0, 0, 0),
+            ("p", 1, 0, 0),
+            ("q", 4.5, 4, (1.5 + 1.5 / 2) + 2.25),
+            ("r", 5.25, 0, 0),
+        ]
+        first_pass(self.root, sibling_separation=1, subtree_separation=1)
+        actual = [
+            (
+                node.node_name,
+                node.get_attr("x"),
+                node.get_attr("mod"),
+                node.get_attr("shift"),
+            )
+            for node in postorder_iter(self.root)
+        ]
+        for _actual, _expected in zip(actual, expected):
+            assert _actual == pytest.approx(
+                _expected, abs=0.1
+            ), f"Expected\n{_expected}\nReceived\n{_actual}"
+
+    def test_reingold_tilford(self):
+
+        expected = [
+            ("a", 0, 1),
+            ("b", 1, 1),
+            ("c", 1.5, 0),
+            ("d", 2.5, 0),
+            ("e", 2, 1),
+            ("f", 3, 1),
+            ("g", 1.5, 2),
+            ("h", 4, 2),
+            ("i", 5, 0),
+            ("j", 6, 0),
+            ("k", 5.5, 1),
+            ("l", 6.5, 1),
+            ("m", 7.5, 1),
+            ("n", 6.5, 2),
+            ("o", 8.5, 1),
+            ("p", 9.5, 1),
+            ("q", 9, 2),
+            ("r", 5.25, 3),
         ]
         reingold_tilford(self.root)
         actual = [
