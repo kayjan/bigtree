@@ -566,7 +566,6 @@ class TestPlotRelativeShift(unittest.TestCase):
             ), f"Expected\n{_expected}\nReceived\n{_actual}"
 
     def test_reingold_tilford(self):
-
         expected = [
             ("a", 0, 0),
             ("b", 1, 0),
@@ -692,7 +691,6 @@ class TestPlotShiftLeftRightSibling(unittest.TestCase):
             ), f"Expected\n{_expected}\nReceived\n{_actual}"
 
     def test_reingold_tilford(self):
-
         expected = [
             ("a", 0, 1),
             ("b", 1, 1),
