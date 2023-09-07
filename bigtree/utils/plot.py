@@ -6,6 +6,8 @@ T = TypeVar("T", bound=BaseNode)
 
 __all__ = [
     "reingold_tilford",
+    "first_pass",
+    "second_pass",
 ]
 
 
@@ -43,14 +45,15 @@ def reingold_tilford(
         x_offset (float): graph offset of x-coordinates
         y_offset (float): graph offset of y-coordinates
     """
-    first_pass(tree_node, sibling_separation)
-    second_pass(tree_node, subtree_separation)
-    third_pass(tree_node, level_separation, x_offset, y_offset)
+    first_pass(tree_node, sibling_separation, subtree_separation)
+    second_pass(tree_node, level_separation, x_offset, y_offset)
 
 
-def first_pass(tree_node: T, sibling_separation: float) -> None:
+def first_pass(
+    tree_node: T, sibling_separation: float, subtree_separation: float
+) -> None:
     """
-    Performs post-order traversal of tree and assigns `x` and `mod` value to each node.
+    Performs post-order traversal of tree and assigns `x`, `mod` and `shift` value to each node.
     Modifies tree in-place.
 
     Notation:
@@ -58,34 +61,55 @@ def first_pass(tree_node: T, sibling_separation: float) -> None:
       - `lchild`: last child of node
       - `fchild`: first child of node
       - `midpoint`: midpoint of node wrt children, :math:`midpoint = (lchild.x + fchild.x) / 2`
-      - `distance`: sibling separation
+      - `sibling distance`: sibling separation
+      - `subtree distance`: subtree separation
 
-    `x` value is the initial x-position of each node purely based on the node's position
-      - :math:`x = 0` for leftmost node and :math:`x = lsibling.x + distance` for other nodes
-      - Special case when leftmost node has children, then it will try to center itself, :math:`x = midpoint`
+    There are two parts in the first pass,
 
-    `mod` value is the amount to shift the subtree (all descendant nodes excluding itself) to make the children centered with itself
-      - :math:`mod = 0` for node does not have children (no need to shift subtree) or it is a leftmost node (parent is already centered, from above point)
-      - Special case when non-leftmost nodes have children, :math:`mod = x - midpoint`
+    1. In the first part, we assign `x` and `mod` value to each node
+
+      `x` value is the initial x-position of each node purely based on the node's position
+        - :math:`x = 0` for leftmost node and :math:`x = lsibling.x + sibling distance` for other nodes
+        - Special case when leftmost node has children, then it will try to center itself, :math:`x = midpoint`
+
+      `mod` value is the amount to shift the subtree (all descendant nodes excluding itself) to make the children centered with itself
+        - :math:`mod = 0` for node does not have children (no need to shift subtree) or it is a leftmost node (parent is already centered, from above point)
+        - Special case when non-leftmost nodes have children, :math:`mod = x - midpoint`
+
+    2. In the second part, we assign `shift` value of nodes due to overlapping subtrees.
+
+      For each node on the same level, ensure that the leftmost descendant does not intersect with the rightmost
+      descendant of any left sibling at every subsequent level. Intersection happens when the subtrees are not
+      at least `subtree distance` apart.
+
+      If there are any intersection, shift the whole subtree by a new `shift` value, shift any left sibling by a
+      fraction of `shift` value, and shift any right sibling by `shift` + a multiple of the fraction of
+      `shift` value to keep nodes centralized at the level.
 
     Args:
         tree_node (BaseNode): tree to compute (x, y) coordinate
         sibling_separation (float): minimum distance between adjacent siblings of the tree
+        subtree_separation (float): minimum distance between adjacent subtrees of the tree
     """
     # Post-order iteration (LRN)
     for child in tree_node.children:
-        first_pass(child, sibling_separation)
+        first_pass(child, sibling_separation, subtree_separation)
 
     _x = 0.0
     _mod = 0.0
+    _shift = 0.0
     _midpoint = 0.0
 
-    if not tree_node.is_root:
+    if tree_node.is_root:
+        tree_node.set_attrs({"x": _get_midpoint_of_children(tree_node)})
+        tree_node.set_attrs({"mod": _mod})
+        tree_node.set_attrs({"shift": _shift})
+
+    else:
+        # First part - assign x and mod values
+
         if tree_node.children:
-            _midpoint = (
-                tree_node.children[-1].get_attr("x")
-                + tree_node.children[0].get_attr("x")
-            ) / 2
+            _midpoint = _get_midpoint_of_children(tree_node)
 
         # Non-leftmost node
         if tree_node.left_sibling:
@@ -96,124 +120,150 @@ def first_pass(tree_node: T, sibling_separation: float) -> None:
         else:
             if tree_node.children:
                 _x = _midpoint
-    tree_node.set_attrs({"x": _x})
-    tree_node.set_attrs({"mod": _mod})
+
+        tree_node.set_attrs({"x": _x})
+        tree_node.set_attrs({"mod": _mod})
+        tree_node.set_attrs({"shift": tree_node.get_attr("shift", _shift)})
+
+        # Second part - assign shift values due to overlapping subtrees
+
+        parent_node = tree_node.parent
+        tree_node_idx = parent_node.children.index(tree_node)
+        if tree_node_idx:
+            for idx_node in range(tree_node_idx):
+                left_subtree = parent_node.children[idx_node]
+                _shift = max(
+                    _shift,
+                    _get_subtree_shift(
+                        left_subtree=left_subtree,
+                        right_subtree=tree_node,
+                        left_idx=idx_node,
+                        right_idx=tree_node_idx,
+                        subtree_separation=subtree_separation,
+                        left_cum_shift=left_subtree.get_attr("shift"),
+                        right_cum_shift=tree_node.get_attr("shift"),
+                    ),
+                )
+
+            # Shift the nodes between leftmost subtree and right_node
+            for multiple, left_sibling in enumerate(
+                parent_node.children[:tree_node_idx]
+            ):
+                left_sibling.set_attrs(
+                    {
+                        "shift": left_sibling.get_attr("shift")
+                        + (_shift * multiple / tree_node_idx)
+                    }
+                )
+
+            # Shift right_node itself and the nodes to the right of right_node
+            for multiple, right_sibling in enumerate(
+                parent_node.children[tree_node_idx:]
+            ):
+                right_sibling.set_attrs(
+                    {
+                        "shift": right_sibling.get_attr("shift", 0)
+                        + _shift
+                        + (_shift * multiple / tree_node_idx)
+                    }
+                )
+
+
+def _get_midpoint_of_children(tree_node: BaseNode) -> float:
+    """Get midpoint of children of a node
+
+    Args:
+        tree_node (BaseNode): tree node to obtain midpoint of their child/children
+
+    Returns:
+        (float)
+    """
+    if tree_node.children:
+        first_child_x: float = tree_node.children[0].get_attr("x") + tree_node.children[
+            0
+        ].get_attr("shift")
+        last_child_x: float = tree_node.children[-1].get_attr("x") + tree_node.children[
+            -1
+        ].get_attr("shift")
+        return (last_child_x + first_child_x) / 2
+    return 0.0
+
+
+def _get_subtree_shift(
+    left_subtree: T,
+    right_subtree: T,
+    left_idx: int,
+    right_idx: int,
+    subtree_separation: float,
+    left_cum_shift: float,
+    right_cum_shift: float,
+    cum_shift: float = 0,
+    initial_run: bool = True,
+) -> float:
+    """Get shift amount to shift the right subtree towards the right such that it does not overlap with the left subtree
+
+    Args:
+        left_subtree (BaseNode): left subtree, with right contour to be traversed
+        right_subtree (BaseNode): right subtree, with left contour to be traversed
+        left_idx (int): index of left subtree, to compute overlap for relative shift (constant across iteration)
+        right_idx (int): index of right subtree, to compute overlap for relative shift (constant across iteration)
+        subtree_separation (float): minimum distance between adjacent subtrees of the tree (constant across iteration)
+        left_cum_shift (float): cumulative `mod + shift` for left subtree from the ancestors
+        right_cum_shift (float): cumulative `mod + shift` for right subtree from the ancestors
+        cum_shift (float): cumulative shift amount for right subtree, defaults to 0
+        initial_run (bool): indicates whether left_subtree and right_subtree are the main subtrees, defaults to True
+
+    Returns:
+        (float)
+    """
+    new_shift = 0.0
+
+    if not initial_run:
+        x_left = (
+            left_subtree.get_attr("x") + left_subtree.get_attr("shift") + left_cum_shift
+        )
+        x_right = (
+            right_subtree.get_attr("x")
+            + right_subtree.get_attr("shift")
+            + right_cum_shift
+            + cum_shift
+        )
+        new_shift = max(
+            (x_left + subtree_separation - x_right) / (1 - left_idx / right_idx), 0
+        )
+
+        # Search for a left sibling of left_subtree that has children
+        while left_subtree and not left_subtree.children and left_subtree.left_sibling:
+            left_subtree = left_subtree.left_sibling
+
+        # Search for a right sibling of right_subtree that has children
+        while (
+            right_subtree and not right_subtree.children and right_subtree.right_sibling
+        ):
+            right_subtree = right_subtree.right_sibling
+
+    if left_subtree.children and right_subtree.children:
+        # Iterate down the level, for the rightmost child of left_subtree and the leftmost child of right_subtree
+        return _get_subtree_shift(
+            left_subtree=left_subtree.children[-1],
+            right_subtree=right_subtree.children[0],
+            left_idx=left_idx,
+            right_idx=right_idx,
+            subtree_separation=subtree_separation,
+            left_cum_shift=left_cum_shift
+            + left_subtree.get_attr("mod")
+            + left_subtree.get_attr("shift"),
+            right_cum_shift=right_cum_shift
+            + right_subtree.get_attr("mod")
+            + right_subtree.get_attr("shift"),
+            cum_shift=cum_shift + new_shift,
+            initial_run=False,
+        )
+
+    return cum_shift + new_shift
 
 
 def second_pass(
-    tree_node: T, subtree_separation: float, cum_mod: Optional[float] = 0.0
-) -> None:
-    """
-    Performs level-order traversal of tree and updates `mod` value of nodes due to overlapping subtrees.
-    Modifies tree in-place.
-
-    Notation:
-      - `distance`: subtree separation
-
-    For each node on the same level, ensure that the leftmost descendant does not intersect with the rightmost
-    descendant of any left sibling at every subsequent level. Intersection happens when the subtrees are not
-    at least `distance` apart.
-
-    If there are any intersection, shift the whole subtree by a new `_mod` value, shift any left sibling by a
-    fraction of `_mod` value, and shift any right sibling by a multiple of the fraction of `_mod` value
-    to keep nodes centralized at the level.
-
-    Args:
-        tree_node (BaseNode): tree to compute (x, y) coordinate
-        subtree_separation (float): minimum distance between adjacent subtrees of the tree
-        cum_mod (Optional[float]): cumulative mod for tree/subtree, used during iteration
-    """
-
-    def get_subtree_shift(
-        left_subtree: T,
-        right_subtree: T,
-        cum_mod_left: float,
-        cum_mod_right: float,
-        cum_shift: float,
-        initial_run: bool = False,
-    ) -> float:
-        """Get _mod to shift the right subtree towards the right
-
-        Args:
-            left_subtree (BaseNode): left subtree, with right contour to be traversed
-            right_subtree (BaseNode): right subtree, with left contour to be traversed
-            cum_mod_left (float): cumulative mod for left subtree
-            cum_mod_right (float): cumulative mod for right subtree
-            cum_shift (float): cumulative shift for right subtree
-            initial_run (bool): indicates whether left_subtree and right_subtree are top-level subtree
-
-        Returns:
-            (float)
-        """
-        x_left = left_subtree.get_attr("x") + cum_mod_left
-        x_right = right_subtree.get_attr("x") + cum_mod_right
-        shift_amount: float = max(x_left + subtree_separation - x_right, 0)
-
-        if not initial_run:
-            # Search for a left sibling of left_subtree that has children
-            while (
-                left_subtree and not left_subtree.children and left_subtree.left_sibling
-            ):
-                left_subtree = left_subtree.left_sibling
-            # Search for a right sibling of right_subtree that has children
-            while (
-                right_subtree
-                and not right_subtree.children
-                and right_subtree.right_sibling
-            ):
-                right_subtree = right_subtree.right_sibling
-        if left_subtree.children and right_subtree.children:
-            # Iterate down the level, for the rightmost child of left_subtree and the leftmost child of right_subtree
-            return get_subtree_shift(
-                left_subtree=left_subtree.children[-1],
-                right_subtree=right_subtree.children[0],
-                cum_mod_left=cum_mod_left + left_subtree.get_attr("mod"),
-                cum_mod_right=cum_mod_right + right_subtree.get_attr("mod"),
-                cum_shift=cum_shift + shift_amount,
-            )
-        return cum_shift + shift_amount
-
-    for idx_node, right_node in enumerate(tree_node.children[1:], 1):
-        _mod = get_subtree_shift(
-            left_subtree=tree_node.children[0],
-            right_subtree=right_node,
-            cum_mod_left=tree_node.get_attr("mod"),
-            cum_mod_right=tree_node.get_attr("mod"),
-            cum_shift=cum_mod,
-            initial_run=True,
-        )
-        _shift = _mod - cum_mod
-        attrs = ["x", "mod"]
-
-        # Shift the node itself
-        right_node.set_attrs(
-            {attr: right_node.get_attr(attr) + _shift for attr in attrs}
-        )
-
-        # Shift the nodes between leftmost subtree and right_node
-        for left_sibling in tree_node.children[1:idx_node]:
-            left_sibling.set_attrs(
-                {
-                    attr: left_sibling.get_attr(attr) + (_shift / idx_node)
-                    for attr in attrs
-                }
-            )
-
-        # Shift the nodes to the right of right_node
-        for multiple, right_sibling in enumerate(tree_node.children[idx_node:]):
-            right_sibling.set_attrs(
-                {
-                    attr: right_sibling.get_attr(attr) + (multiple * _shift)
-                    for attr in attrs
-                }
-            )
-
-    # Level-order iteration
-    for child in tree_node.children:
-        second_pass(child, subtree_separation, cum_mod + child.get_attr("mod"))
-
-
-def third_pass(
     tree_node: T,
     level_separation: float,
     x_offset: float,
@@ -232,35 +282,31 @@ def third_pass(
       - `y'`: y offset
 
     Final position of each node
-      - :math:`x = node.x + sum(ancestor.x) + x'`
+      - :math:`x = node.x + node.shift + sum(ancestor.mod) + x'`
       - :math:`y = (depth - node.depth) * distance + y'`
 
     Args:
         tree_node (BaseNode): tree to assign x and mod value
-        level_separation (float): fixed distance between adjacent levels of the tree
-        x_offset (float): graph offset of x-coordinates
-        y_offset (float): graph offset of y-coordinates
-        cum_mod (Optional[float]): cumulative mod for tree/subtree, used during iteration
-        max_depth (Optional[int]): maximum depth of tree
+        level_separation (float): fixed distance between adjacent levels of the tree (constant across iteration)
+        x_offset (float): graph offset of x-coordinates (constant across iteration)
+        y_offset (float): graph offset of y-coordinates (constant across iteration)
+        cum_mod (Optional[float]): cumulative `mod + shift` for tree/subtree from the ancestors
+        max_depth (Optional[int]): maximum depth of tree (constant across iteration)
     """
     if not max_depth:
         max_depth = tree_node.max_depth
 
-    final_x = tree_node.get_attr("x") + cum_mod + x_offset
-    if tree_node.is_root:
-        final_x = (
-            tree_node.children[-1].get_attr("x") + tree_node.children[0].get_attr("x")
-        ) / 2 + x_offset
+    final_x = tree_node.get_attr("x") + tree_node.get_attr("shift") + cum_mod + x_offset
     final_y = (max_depth - tree_node.depth) * level_separation + y_offset
     tree_node.set_attrs({"x": final_x, "y": final_y})
 
     # Pre-order iteration (NLR)
     for child in tree_node.children:
-        third_pass(
+        second_pass(
             child,
             level_separation,
             x_offset,
             y_offset,
-            cum_mod + tree_node.get_attr("mod"),
+            cum_mod + tree_node.get_attr("mod") + tree_node.get_attr("shift"),
             max_depth,
         )
