@@ -167,4 +167,4 @@ class TestTreeDiff:
     def test_tree_diff_same_tree(tree_node):
         expected = None
         actual = get_tree_diff(tree_node, tree_node, only_diff=True)
-        assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"

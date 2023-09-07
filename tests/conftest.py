@@ -412,7 +412,7 @@ def assert_print_statement(func, expected, *args, **kwargs):
     func(*args, **kwargs)
     sys.stdout = sys.__stdout__
     actual = captured_output.getvalue()
-    assert expected == actual, f"Expected\n{expected}\nReceived\n{actual}"
+    assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
 
 def assert_console_output(expected: Union[List[str], str]):

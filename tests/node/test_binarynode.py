@@ -775,7 +775,7 @@ def assert_binarytree_structure_self(self):
     expected_ans = [None, self.a, self.a, self.b, self.b, self.c, self.c, self.d]
     for node, expected in zip(nodes, expected_ans):
         actual = node.parent
-        assert expected == actual, f"Expected parent {expected}, received {actual}"
+        assert actual == expected, f"Expected parent {expected}, received {actual}"
 
     # Test children
     expected_ans = [
@@ -790,19 +790,19 @@ def assert_binarytree_structure_self(self):
     ]
     for node, expected in zip(nodes, expected_ans):
         actual = list(node.children)
-        assert expected == actual, f"Expected children {expected}, received {actual}"
+        assert actual == expected, f"Expected children {expected}, received {actual}"
 
     # Test left
     expected_ans = [self.b, self.d, self.f, None, None, None, None, None]
     for node, expected in zip(nodes, expected_ans):
         actual = node.left
-        assert expected == actual, f"Expected left {expected}, received {actual}"
+        assert actual == expected, f"Expected left {expected}, received {actual}"
 
     # Test right
     expected_ans = [self.c, self.e, self.g, self.h, None, None, None, None]
     for node, expected in zip(nodes, expected_ans):
         actual = node.right
-        assert expected == actual, f"Expected right {expected}, received {actual}"
+        assert actual == expected, f"Expected right {expected}, received {actual}"
 
     # Test ancestors
     expected_ans = [0, 1, 1, 2, 2, 2, 2, 3]
@@ -929,7 +929,7 @@ def assert_binarytree_structure_self(self):
     expected_ans = [1, 2, 3, 4, 5, 6, 7, 8]
     for node, expected in zip(nodes, expected_ans):
         actual = node.get_attr("val")
-        assert expected == actual, f"Expected right {expected}, received {actual}"
+        assert actual == expected, f"Expected right {expected}, received {actual}"
 
 
 def assert_binarytree_structure_root2(root):
@@ -963,7 +963,7 @@ def assert_binarytree_structure_self2(self):
     expected_parent = [None, self.a, self.a, self.b, self.b, self.c, self.c, self.d]
     for node, expected in zip(nodes, expected_parent):
         actual = node.parent
-        assert expected == actual, f"Expected parent {expected}, received {actual}"
+        assert actual == expected, f"Expected parent {expected}, received {actual}"
 
     # Test children
     expected_children = [
@@ -978,22 +978,22 @@ def assert_binarytree_structure_self2(self):
     ]
     for node, expected in zip(nodes, expected_children):
         actual = list(node.children)
-        assert expected == actual, f"Expected children {expected}, received {actual}"
+        assert actual == expected, f"Expected children {expected}, received {actual}"
 
     # Test left
     expected_left = [self.b, self.d, self.f, self.h, None, None, None, None]
     for node, expected in zip(nodes, expected_left):
         actual = node.left
-        assert expected == actual, f"Expected left {expected}, received {actual}"
+        assert actual == expected, f"Expected left {expected}, received {actual}"
 
     # Test right
     expected_right = [self.c, self.e, self.g, None, None, None, None, None]
     for node, expected in zip(nodes, expected_right):
         actual = node.right
-        assert expected == actual, f"Expected right {expected}, received {actual}"
+        assert actual == expected, f"Expected right {expected}, received {actual}"
 
     # Test get_attr()
     expected_val = [1, 2, 3, 4, 5, 6, 7, 8]
     for node, expected in zip(nodes, expected_val):
         actual = node.get_attr("val")
-        assert expected == actual, f"Expected attribute {expected}, received {actual}"
+        assert actual == expected, f"Expected attribute {expected}, received {actual}"
