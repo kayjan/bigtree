@@ -101,6 +101,13 @@ To install `bigtree`, run the following line in command prompt:
 $ pip install bigtree
 ```
 
+If tree needs to use pandas methods, it requires additional dependencies.
+Run the following line in command prompt:
+
+```shell
+$ pip install 'bigtree[pandas]'
+```
+
 If tree needs to be exported to image, it requires additional dependencies.
 Run the following lines in command prompt:
 
@@ -108,6 +115,12 @@ Run the following lines in command prompt:
 $ pip install 'bigtree[image]'
 $ brew install gprof2dot  # for MacOS
 $ conda install graphviz  # for Windows
+```
+
+Alternatively, install all optional dependencies with the following line in command prompt:
+
+```shell
+$ pip install 'bigtree[all]'
 ```
 
 ----

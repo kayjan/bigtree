@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.0] - 2023-09-08
+### Changed
+- Tree/DAG Constructor, Tree/DAG Exporter: Make `pandas` optional dependency.
+### Fixed
+- Misc: Fixed Calendar workflow to throw error when `to_dataframe` method is called on empty calendar.
+- Tree/DAGNode Exporter, Tree Helper, Tree Search: Relax type hinting using TypeVar.
+
 ## [0.11.0] - 2023-09-08
 ### Added
 - Tree Helper: Pruning tree to allow pruning by `prune_path` and `max_depth`.
@@ -303,6 +310,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.12.0]: https://github.com/kayjan/bigtree/compare/0.11.0...0.12.0
 [0.11.0]: https://github.com/kayjan/bigtree/compare/0.10.3...0.11.0
 [0.10.3]: https://github.com/kayjan/bigtree/compare/0.10.2...0.10.3
 [0.10.2]: https://github.com/kayjan/bigtree/compare/0.10.1...0.10.2
