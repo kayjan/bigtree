@@ -1,12 +1,19 @@
+from __future__ import annotations
+
 from typing import Any, Dict, List, Tuple, Type
 
-import pandas as pd
-
 from bigtree.node.dagnode import DAGNode
+from bigtree.utils.exceptions import optional_dependencies_pandas
+
+try:
+    import pandas as pd
+except ImportError:  # pragma: no cover
+    pd = None
 
 __all__ = ["list_to_dag", "dict_to_dag", "dataframe_to_dag"]
 
 
+@optional_dependencies_pandas
 def list_to_dag(
     relations: List[Tuple[str, str]],
     node_type: Type[DAGNode] = DAGNode,
@@ -85,6 +92,7 @@ def dict_to_dag(
     )
 
 
+@optional_dependencies_pandas
 def dataframe_to_dag(
     data: pd.DataFrame,
     child_col: str = "",

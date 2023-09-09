@@ -1,12 +1,17 @@
+from __future__ import annotations
+
 import datetime as dt
 from typing import Any, Optional, Union
-
-import pandas as pd
 
 from bigtree.node.node import Node
 from bigtree.tree.construct import add_path_to_tree
 from bigtree.tree.export import tree_to_dataframe
 from bigtree.tree.search import find_full_path, findall
+
+try:
+    import pandas as pd
+except ImportError:  # pragma: no cover
+    pd = None
 
 
 class Calendar:
@@ -145,6 +150,8 @@ class Calendar:
         Returns:
             (pd.DataFrame)
         """
+        if not len(self.calendar.children):
+            raise Exception("Calendar is empty!")
         data = tree_to_dataframe(self.calendar, all_attrs=True, leaf_only=True)
         compulsory_cols = ["path", "name", "date", "time"]
         other_cols = list(set(data.columns) - set(compulsory_cols))
