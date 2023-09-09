@@ -84,7 +84,7 @@ def optional_dependencies_pandas(
             raise ImportError(
                 "pandas not available. Please perform a\n\n"
                 "pip install 'bigtree[pandas]'\n\nto install required dependencies"
-            )
+            ) from None
         return func(*args, **kwargs)
 
     return wrapper
@@ -108,7 +108,7 @@ def optional_dependencies_image(
                     raise ImportError(
                         "pydot not available. Please perform a\n\n"
                         "pip install 'bigtree[image]'\n\nto install required dependencies"
-                    )
+                    ) from None
             if not package_name or package_name == "Pillow":
                 try:
                     from PIL import Image, ImageDraw, ImageFont  # noqa: F401
@@ -116,7 +116,7 @@ def optional_dependencies_image(
                     raise ImportError(
                         "Pillow not available. Please perform a\n\n"
                         "pip install 'bigtree[image]'\n\nto install required dependencies"
-                    )
+                    ) from None
             return func(*args, **kwargs)
 
         return wrapper
