@@ -1,13 +1,22 @@
+from __future__ import annotations
+
 import re
 from collections import OrderedDict
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Type
 
-import pandas as pd
-
 from bigtree.node.node import Node
 from bigtree.tree.export import tree_to_dataframe
 from bigtree.tree.search import find_child_by_name, find_name
-from bigtree.utils.exceptions import DuplicatedNodeError, TreeError
+from bigtree.utils.exceptions import (
+    DuplicatedNodeError,
+    TreeError,
+    optional_dependencies_pandas,
+)
+
+try:
+    import pandas as pd
+except ImportError:  # pragma: no cover
+    pd = None
 
 __all__ = [
     "add_path_to_tree",
@@ -172,6 +181,7 @@ def add_dict_to_tree_by_path(
     return tree_root
 
 
+@optional_dependencies_pandas
 def add_dict_to_tree_by_name(
     tree: Node, name_attrs: Dict[str, Dict[str, Any]], join_type: str = "left"
 ) -> Node:
@@ -320,6 +330,7 @@ def add_dataframe_to_tree_by_path(
     return tree_root
 
 
+@optional_dependencies_pandas
 def add_dataframe_to_tree_by_name(
     tree: Node,
     data: pd.DataFrame,
@@ -541,6 +552,7 @@ def list_to_tree(
     return root_node
 
 
+@optional_dependencies_pandas
 def list_to_tree_by_relation(
     relations: Iterable[Tuple[str, str]],
     allow_duplicates: bool = False,
@@ -587,6 +599,7 @@ def list_to_tree_by_relation(
     )
 
 
+@optional_dependencies_pandas
 def dict_to_tree(
     path_attrs: Dict[str, Any],
     sep: str = "/",

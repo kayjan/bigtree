@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "bigtree"
-description = "Tree Implementation for Python, integrated with Python list, dictionary, and pandas DataFrame."
+description = "Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame."
 readme = "README.md"
 requires-python = ">=3.7"
 license = {text = "MIT"}
@@ -26,9 +26,7 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = [
-  "pandas",
-]
+dependencies = []
 dynamic = ["version"]
 
 [project.urls]
@@ -38,23 +36,30 @@ Discussions = "https://github.com/kayjan/bigtree/discussions"
 Source = "https://github.com/kayjan/bigtree"
 
 [project.optional-dependencies]
+all = [
+  "pandas",
+  "pydot",
+  "Pillow",
+]
 image = [
   "pydot",
   "Pillow",
 ]
+pandas = ["pandas"]
 
 [tool.hatch.version]
 path = "bigtree/__init__.py"
 
 [tool.hatch.envs.default]
 dependencies = [
+  "black",
+  "coverage",
+  "mypy",
+  "pandas",
+  "Pillow",
+  "pydot",
   "pytest",
   "pytest-cov",
-  "coverage",
-  "black",
-  "mypy",
-  "pydot",
-  "Pillow",
 ]
 
 [tool.hatch.envs.default.scripts]
@@ -67,11 +72,11 @@ mypy-type = "mypy bigtree"
 
 [tool.hatch.envs.docs]
 dependencies = [
-  "autodocsumm==0.2.9",
-  "karma-sphinx-theme==0.0.8",
-  "myst-parser==0.18.1",
-  "pandas==1.5.1",
-  "sphinxemoji==0.2.0"
+  "autodocsumm",
+  "karma-sphinx-theme",
+  "myst-parser",
+  "pandas",
+  "sphinxemoji"
 ]
 
 [tool.hatch.envs.docs.scripts]

@@ -23,6 +23,7 @@ __all__ = [
 
 
 T = TypeVar("T", bound=BaseNode)
+NodeT = TypeVar("NodeT", bound=Node)
 
 
 def findall(
@@ -97,7 +98,7 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
         return result[0]
 
 
-def find_name(tree: Node, name: str, max_depth: int = 0) -> Node:
+def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT:
     """
     Search tree for single node matching name attribute.
 
@@ -120,7 +121,7 @@ def find_name(tree: Node, name: str, max_depth: int = 0) -> Node:
     return find(tree, lambda node: node.node_name == name, max_depth)
 
 
-def find_names(tree: Node, name: str, max_depth: int = 0) -> Iterable[Node]:
+def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
     """
     Search tree for multiple node(s) matching name attribute.
 
@@ -145,7 +146,7 @@ def find_names(tree: Node, name: str, max_depth: int = 0) -> Iterable[Node]:
     return findall(tree, lambda node: node.node_name == name, max_depth)
 
 
-def find_relative_path(tree: Node, path_name: str) -> Iterable[Node]:
+def find_relative_path(tree: NodeT, path_name: str) -> Iterable[NodeT]:
     """
     Search tree for single node matching relative path attribute.
       - Supports unix folder expression for relative path, i.e., '../../node_name'
@@ -178,9 +179,9 @@ def find_relative_path(tree: Node, path_name: str) -> Iterable[Node]:
     path_name = path_name.rstrip(sep).lstrip(sep)
     path_list = path_name.split(sep)
     wildcard_indicator = "*" in path_name
-    resolved_nodes: List[Node] = []
+    resolved_nodes: List[NodeT] = []
 
-    def resolve(node: Node, path_idx: int) -> None:
+    def resolve(node: NodeT, path_idx: int) -> None:
         """Resolve node based on path name
 
         Args:
@@ -215,7 +216,7 @@ def find_relative_path(tree: Node, path_name: str) -> Iterable[Node]:
     return tuple(resolved_nodes)
 
 
-def find_full_path(tree: Node, path_name: str) -> Node:
+def find_full_path(tree: NodeT, path_name: str) -> NodeT:
     """
     Search tree for single node matching path attribute.
       - Path name can be with or without leading tree path separator symbol.
@@ -253,7 +254,7 @@ def find_full_path(tree: Node, path_name: str) -> Node:
     return child_node
 
 
-def find_path(tree: Node, path_name: str) -> Node:
+def find_path(tree: NodeT, path_name: str) -> NodeT:
     """
     Search tree for single node matching path attribute.
       - Path name can be with or without leading tree path separator symbol.
@@ -280,7 +281,7 @@ def find_path(tree: Node, path_name: str) -> Node:
     return find(tree, lambda node: node.path_name.endswith(path_name))
 
 
-def find_paths(tree: Node, path_name: str) -> Tuple[Node, ...]:
+def find_paths(tree: NodeT, path_name: str) -> Tuple[NodeT, ...]:
     """
     Search tree for multiple nodes matching path attribute.
       - Path name can be with or without leading tree path separator symbol.
@@ -434,7 +435,7 @@ def find_child(
         return result[0]
 
 
-def find_child_by_name(tree: Node, name: str) -> Node:
+def find_child_by_name(tree: NodeT, name: str) -> NodeT:
     """
     Search tree for single node matching name attribute.
 
