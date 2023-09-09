@@ -1,11 +1,31 @@
-import collections
-from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
+from __future__ import annotations
 
-import pandas as pd
+import collections
+from typing import Any, Dict, Iterable, List, Optional, Tuple, TypeVar, Union
 
 from bigtree.node.node import Node
 from bigtree.tree.search import find_path
+from bigtree.utils.exceptions import (
+    optional_dependencies_image,
+    optional_dependencies_pandas,
+)
 from bigtree.utils.iterators import preorder_iter
+
+try:
+    import pandas as pd
+except ImportError:  # pragma: no cover
+    pd = None
+
+try:
+    import pydot
+except ImportError:  # pragma: no cover
+    pydot = None
+
+try:
+    from PIL import Image, ImageDraw, ImageFont
+except ImportError:  # pragma: no cover
+    Image = ImageDraw = ImageFont = None
+
 
 __all__ = [
     "print_tree",
@@ -16,6 +36,9 @@ __all__ = [
     "tree_to_dot",
     "tree_to_pillow",
 ]
+
+T = TypeVar("T", bound=Node)
+
 
 available_styles = {
     "ansi": ("|   ", "|-- ", "`-- "),
@@ -29,7 +52,7 @@ available_styles = {
 
 
 def print_tree(
-    tree: Node,
+    tree: T,
     node_name_or_path: str = "",
     max_depth: int = 0,
     all_attrs: bool = False,
@@ -188,12 +211,12 @@ def print_tree(
 
 
 def yield_tree(
-    tree: Node,
+    tree: T,
     node_name_or_path: str = "",
     max_depth: int = 0,
     style: str = "const",
     custom_style: List[str] = [],
-) -> Iterable[Tuple[str, str, Node]]:
+) -> Iterable[Tuple[str, str, T]]:
     """Generator method for customizing printing of tree, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
@@ -358,7 +381,7 @@ def yield_tree(
 
 
 def tree_to_dict(
-    tree: Node,
+    tree: T,
     name_key: str = "name",
     parent_key: str = "",
     attr_dict: Dict[str, str] = {},
@@ -404,7 +427,7 @@ def tree_to_dict(
     tree = tree.copy()
     data_dict = {}
 
-    def recursive_append(node: Node) -> None:
+    def recursive_append(node: T) -> None:
         if node:
             if (
                 (not max_depth or node.depth <= max_depth)
@@ -439,7 +462,7 @@ def tree_to_dict(
 
 
 def tree_to_nested_dict(
-    tree: Node,
+    tree: T,
     name_key: str = "name",
     child_key: str = "children",
     attr_dict: Dict[str, str] = {},
@@ -476,7 +499,7 @@ def tree_to_nested_dict(
     tree = tree.copy()
     data_dict: Dict[str, List[Dict[str, Any]]] = {}
 
-    def recursive_append(node: Node, parent_dict: Dict[str, Any]) -> None:
+    def recursive_append(node: T, parent_dict: Dict[str, Any]) -> None:
         if node:
             if not max_depth or node.depth <= max_depth:
                 data_child = {name_key: node.node_name}
@@ -503,8 +526,9 @@ def tree_to_nested_dict(
     return data_dict[child_key][0]
 
 
+@optional_dependencies_pandas
 def tree_to_dataframe(
-    tree: Node,
+    tree: T,
     path_col: str = "path",
     name_col: str = "name",
     parent_col: str = "",
@@ -559,7 +583,7 @@ def tree_to_dataframe(
     tree = tree.copy()
     data_list = []
 
-    def recursive_append(node: Node) -> None:
+    def recursive_append(node: T) -> None:
         if node:
             if (
                 (not max_depth or node.depth <= max_depth)
@@ -592,8 +616,9 @@ def tree_to_dataframe(
     return pd.DataFrame(data_list)
 
 
-def tree_to_dot(  # type: ignore[no-untyped-def]
-    tree: Union[Node, List[Node]],
+@optional_dependencies_image("pydot")
+def tree_to_dot(
+    tree: Union[T, List[T]],
     directed: bool = True,
     rankdir: str = "TB",
     bg_colour: str = "",
@@ -602,7 +627,7 @@ def tree_to_dot(  # type: ignore[no-untyped-def]
     edge_colour: str = "",
     node_attr: str = "",
     edge_attr: str = "",
-):
+) -> pydot.Dot:
     r"""Export tree or list of trees to image.
     Posible node attributes include style, fillcolor, shape.
 
@@ -673,13 +698,6 @@ def tree_to_dot(  # type: ignore[no-untyped-def]
     Returns:
         (pydot.Dot)
     """
-    try:
-        import pydot
-    except ImportError:  # pragma: no cover
-        raise ImportError(
-            "pydot not available. Please perform a\n\npip install 'bigtree[image]'\n\nto install required dependencies"
-        )
-
     # Get style
     if bg_colour:
         graph_style = dict(bgcolor=bg_colour)
@@ -720,7 +738,7 @@ def tree_to_dot(  # type: ignore[no-untyped-def]
         name_dict: Dict[str, List[str]] = collections.defaultdict(list)
 
         def recursive_create_node_and_edges(
-            parent_name: Optional[str], child_node: Node
+            parent_name: Optional[str], child_node: T
         ) -> None:
             _node_style = node_style.copy()
             _edge_style = edge_style.copy()
@@ -748,8 +766,9 @@ def tree_to_dot(  # type: ignore[no-untyped-def]
     return _graph
 
 
-def tree_to_pillow(  # type: ignore[no-untyped-def]
-    tree: Node,
+@optional_dependencies_image("Pillow")
+def tree_to_pillow(
+    tree: T,
     width: int = 0,
     height: int = 0,
     start_pos: Tuple[int, int] = (10, 10),
@@ -758,7 +777,7 @@ def tree_to_pillow(  # type: ignore[no-untyped-def]
     font_colour: Union[Tuple[int, int, int], str] = "black",
     bg_colour: Union[Tuple[int, int, int], str] = "white",
     **kwargs: Any,
-):
+) -> Image.Image:
     """Export tree to image (JPG, PNG).
     Image will be similar format as `print_tree`, accepts additional keyword arguments as input to `yield_tree`
 
@@ -788,13 +807,6 @@ def tree_to_pillow(  # type: ignore[no-untyped-def]
     Returns:
         (PIL.Image.Image)
     """
-    try:
-        from PIL import Image, ImageDraw, ImageFont
-    except ImportError:  # pragma: no cover
-        raise ImportError(
-            "Pillow not available. Please perform a\n\npip install 'bigtree[image]'\n\nto install required dependencies"
-        )
-
     # Initialize font
     font = ImageFont.truetype(font_family, font_size)
 

@@ -1,15 +1,32 @@
-from typing import Any, Dict, List, Tuple, Union
+from __future__ import annotations
 
-import pandas as pd
+from typing import Any, Dict, List, Tuple, TypeVar, Union
 
 from bigtree.node.dagnode import DAGNode
+from bigtree.utils.exceptions import (
+    optional_dependencies_image,
+    optional_dependencies_pandas,
+)
 from bigtree.utils.iterators import dag_iterator
+
+try:
+    import pandas as pd
+except ImportError:  # pragma: no cover
+    pd = None
+
+try:
+    import pydot
+except ImportError:  # pragma: no cover
+    pydot = None
 
 __all__ = ["dag_to_list", "dag_to_dict", "dag_to_dataframe", "dag_to_dot"]
 
 
+T = TypeVar("T", bound=DAGNode)
+
+
 def dag_to_list(
-    dag: DAGNode,
+    dag: T,
 ) -> List[Tuple[str, str]]:
     """Export DAG to list of tuple containing parent-child names
 
@@ -35,7 +52,7 @@ def dag_to_list(
 
 
 def dag_to_dict(
-    dag: DAGNode,
+    dag: T,
     parent_key: str = "parents",
     attr_dict: Dict[str, str] = {},
     all_attrs: bool = False,
@@ -95,8 +112,9 @@ def dag_to_dict(
     return data_dict
 
 
+@optional_dependencies_pandas
 def dag_to_dataframe(
-    dag: DAGNode,
+    dag: T,
     name_col: str = "name",
     parent_col: str = "parent",
     attr_dict: Dict[str, str] = {},
@@ -160,8 +178,9 @@ def dag_to_dataframe(
     return pd.DataFrame(data_list).drop_duplicates().reset_index(drop=True)
 
 
-def dag_to_dot(  # type: ignore[no-untyped-def]
-    dag: Union[DAGNode, List[DAGNode]],
+@optional_dependencies_image("pydot")
+def dag_to_dot(
+    dag: Union[T, List[T]],
     rankdir: str = "TB",
     bg_colour: str = "",
     node_colour: str = "",
@@ -169,7 +188,7 @@ def dag_to_dot(  # type: ignore[no-untyped-def]
     edge_colour: str = "",
     node_attr: str = "",
     edge_attr: str = "",
-):
+) -> pydot.Dot:
     r"""Export DAG tree or list of DAG trees to image.
     Note that node names must be unique.
     Posible node attributes include style, fillcolor, shape.
@@ -208,13 +227,6 @@ def dag_to_dot(  # type: ignore[no-untyped-def]
     Returns:
         (pydot.Dot)
     """
-    try:
-        import pydot
-    except ImportError:  # pragma: no cover
-        raise ImportError(
-            "pydot not available. Please perform a\n\npip install 'bigtree[image]'\n\nto install required dependencies"
-        )
-
     # Get style
     if bg_colour:
         graph_style = dict(bgcolor=bg_colour)

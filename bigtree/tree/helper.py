@@ -1,4 +1,4 @@
-from typing import Type, Union
+from typing import Type, TypeVar, Union
 
 from bigtree.node.basenode import BaseNode
 from bigtree.node.binarynode import BinaryNode
@@ -10,6 +10,9 @@ from bigtree.utils.exceptions import NotFoundError
 from bigtree.utils.iterators import levelordergroup_iter
 
 __all__ = ["clone_tree", "prune_tree", "get_tree_diff"]
+BaseNodeT = TypeVar("BaseNodeT", bound=BaseNode)
+BinaryNodeT = TypeVar("BinaryNodeT", bound=BinaryNode)
+NodeT = TypeVar("NodeT", bound=Node)
 
 
 def clone_tree(tree: BaseNode, node_type: Type[BaseNode]) -> BaseNode:
@@ -51,11 +54,11 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNode]) -> BaseNode:
 
 
 def prune_tree(
-    tree: Union[BinaryNode, Node],
+    tree: Union[BinaryNodeT, NodeT],
     prune_path: str = "",
     sep: str = "/",
     max_depth: int = 0,
-) -> Union[BinaryNode, Node]:
+) -> Union[BinaryNodeT, NodeT]:
     """Prune tree by path or depth, returns the root of a *copy* of the original tree.
 
     For pruning by `prune_path`,
