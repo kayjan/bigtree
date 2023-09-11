@@ -729,7 +729,7 @@ class TestPlotShiftLeftRightSibling(unittest.TestCase):
 class TestPlotNonNegative(unittest.TestCase):
     def setUp(self):
         """
-        This tests the leftmost node having 0 x-coordinate and no other nodes goes negative.
+        This tests the leftmost node having negative x-coordinates and the third pass will have to adjust the tree accordingly.
 
         Tree should have structure
         m
