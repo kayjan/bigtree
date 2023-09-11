@@ -105,7 +105,7 @@ def first_pass(
       descendant of any left sibling at every subsequent level. Intersection happens when the subtrees are not
       at least `subtree distance` apart.
 
-      If there are any intersection, shift the whole subtree by a new `shift` value, shift any left sibling by a
+      If there are any intersections, shift the whole subtree by a new `shift` value, shift any left sibling by a
       fraction of `shift` value, and shift any right sibling by `shift` + a multiple of the fraction of
       `shift` value to keep nodes centralized at the level.
 
@@ -284,7 +284,7 @@ def second_pass(
     x_adjustment: Optional[float] = 0.0,
 ) -> float:
     """
-    Performs pre-order traversal of tree and determine the final `x` and `y` values for each node.
+    Performs pre-order traversal of tree and determines the final `x` and `y` values for each node.
     Modifies tree in-place.
 
     Notation:
