@@ -68,7 +68,8 @@ def reingold_tilford(
         y_offset (float): graph offset of y-coordinates
     """
     first_pass(tree_node, sibling_separation, subtree_separation)
-    second_pass(tree_node, level_separation, x_offset, y_offset)
+    x_adjustment = second_pass(tree_node, level_separation, x_offset, y_offset)
+    third_pass(tree_node, x_adjustment)
 
 
 def first_pass(
@@ -294,7 +295,8 @@ def second_pass(
     y_offset: float,
     cum_mod: Optional[float] = 0.0,
     max_depth: Optional[int] = None,
-) -> None:
+    x_adjustment: Optional[float] = 0.0,
+) -> float:
     """
     Performs pre-order traversal of tree and determine the final `x` and `y` values for each node.
     Modifies tree in-place.
@@ -316,21 +318,50 @@ def second_pass(
         y_offset (float): graph offset of y-coordinates (constant across iteration)
         cum_mod (Optional[float]): cumulative `mod + shift` for tree/subtree from the ancestors
         max_depth (Optional[int]): maximum depth of tree (constant across iteration)
+        x_adjustment (Optional[float]): amount of x-adjustment for third pass, in case any x-coordinates goes below 0
+
+    Returns
+        (float)
     """
     if not max_depth:
         max_depth = tree_node.max_depth
 
-    final_x = tree_node.get_attr("x") + tree_node.get_attr("shift") + cum_mod + x_offset
-    final_y = (max_depth - tree_node.depth) * level_separation + y_offset
+    final_x: float = (
+        tree_node.get_attr("x") + tree_node.get_attr("shift") + cum_mod + x_offset
+    )
+    final_y: float = (max_depth - tree_node.depth) * level_separation + y_offset
     tree_node.set_attrs({"x": final_x, "y": final_y})
 
     # Pre-order iteration (NLR)
-    for child in tree_node.children:
-        second_pass(
-            child,
-            level_separation,
-            x_offset,
-            y_offset,
-            cum_mod + tree_node.get_attr("mod") + tree_node.get_attr("shift"),
-            max_depth,
+    if tree_node.children:
+        return max(
+            [
+                second_pass(
+                    child,
+                    level_separation,
+                    x_offset,
+                    y_offset,
+                    cum_mod + tree_node.get_attr("mod") + tree_node.get_attr("shift"),
+                    max_depth,
+                    x_adjustment,
+                )
+                for child in tree_node.children
+            ]
         )
+    return max(x_adjustment, -final_x)
+
+
+def third_pass(tree_node: BaseNode, x_adjustment: float) -> None:
+    """Adjust all x-coordinates by an adjustment value so that every x-coordinate is greater than 0.
+    Modifies tree in-place.
+
+    Args:
+        tree_node (BaseNode): tree to compute (x, y) coordinate
+        x_adjustment (float): amount of adjustment for x-coordinates (constant across iteration)
+    """
+    if x_adjustment:
+        tree_node.set_attrs({"x": tree_node.get_attr("x") + x_adjustment})
+
+        # Pre-order iteration (NLR)
+        for child in tree_node.children:
+            third_pass(child, x_adjustment)

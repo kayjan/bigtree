@@ -724,3 +724,103 @@ class TestPlotShiftLeftRightSibling(unittest.TestCase):
             assert _actual == pytest.approx(
                 _expected, abs=0.1
             ), f"Expected\n{_expected}\nReceived\n{_actual}"
+
+
+class TestPlotNonNegative(unittest.TestCase):
+    def setUp(self):
+        """
+        This tests the leftmost node having negative x-coordinates and the third pass will have to adjust the tree accordingly.
+
+        Tree should have structure
+        m
+        ├── a
+        ├── b
+        ├── k
+        │   ├── c
+        │   ├── d
+        │   ├── g
+        │   │   ├── e
+        │   │   └── f
+        │   ├── h
+        │   ├── i
+        │   └── j
+        └── l
+        """
+        path_list = [
+            "m/a",
+            "m/b",
+            "m/k/c",
+            "m/k/d",
+            "m/k/g/e",
+            "m/k/g/f",
+            "m/k/h",
+            "m/k/i",
+            "m/k/j",
+            "m/l",
+        ]
+        root = list_to_tree(path_list)
+        self.root = root
+
+    def tearDown(self):
+        self.root = None
+
+    def test_first_pass(self):
+        expected = [
+            ("a", 0, 0, 0),
+            ("b", 1, 0, 0),
+            ("c", 0, 0, 0),
+            ("d", 1, 0, 0),
+            ("e", 0, 0, 0),
+            ("f", 1, 0, 0),
+            ("g", 2, 1.5, 0),
+            ("h", 3, 0, 0),
+            ("i", 4, 0, 0),
+            ("j", 5, 0, 0),
+            ("k", 2, -0.5, 0),
+            ("l", 3, 0, 0),
+            ("m", 1.5, 0, 0),
+        ]
+        first_pass(self.root, sibling_separation=1, subtree_separation=1)
+        actual = [
+            (
+                node.node_name,
+                node.get_attr("x"),
+                node.get_attr("mod"),
+                node.get_attr("shift"),
+            )
+            for node in postorder_iter(self.root)
+        ]
+        for _actual, _expected in zip(actual, expected):
+            assert _actual == pytest.approx(
+                _expected, abs=0.1
+            ), f"Expected\n{_expected}\nReceived\n{_actual}"
+
+    def test_reingold_tilford(self):
+        expected = [
+            ("a", 0 + 0.5, 2),
+            ("b", 1 + 0.5, 2),
+            ("c", -0.5 + 0.5, 1),
+            ("d", 0.5 + 0.5, 1),
+            ("e", 1 + 0.5, 0),
+            ("f", 2 + 0.5, 0),
+            ("g", 1.5 + 0.5, 1),
+            ("h", 2.5 + 0.5, 1),
+            ("i", 3.5 + 0.5, 1),
+            ("j", 4.5 + 0.5, 1),
+            ("k", 2 + 0.5, 2),
+            ("l", 3 + 0.5, 2),
+            ("m", 1.5 + 0.5, 3),
+        ]
+        reingold_tilford(self.root)
+        actual = [
+            (
+                node.node_name,
+                node.get_attr("x"),
+                node.get_attr("y"),
+            )
+            for node in postorder_iter(self.root)
+        ]
+        for _actual, _expected in zip(actual, expected):
+            assert _actual == pytest.approx(
+                _expected, abs=0.1
+            ), f"Expected\n{_expected}\nReceived\n{_actual}"
