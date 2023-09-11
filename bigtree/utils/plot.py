@@ -105,7 +105,7 @@ def first_pass(
       descendant of any left sibling at every subsequent level. Intersection happens when the subtrees are not
       at least `subtree distance` apart.
 
-      If there are any intersection, shift the whole subtree by a new `shift` value, shift any left sibling by a
+      If there are any intersections, shift the whole subtree by a new `shift` value, shift any left sibling by a
       fraction of `shift` value, and shift any right sibling by `shift` + a multiple of the fraction of
       `shift` value to keep nodes centralized at the level.
 
@@ -166,25 +166,11 @@ def first_pass(
                     ),
                 )
 
-            # Shift the nodes between leftmost subtree and right_node
-            for multiple, left_sibling in enumerate(
-                parent_node.children[:tree_node_idx]
-            ):
-                left_sibling.set_attrs(
+            # Shift siblings (left siblings, itself, right siblings) accordingly
+            for multiple, sibling in enumerate(parent_node.children):
+                sibling.set_attrs(
                     {
-                        "shift": left_sibling.get_attr("shift")
-                        + (_shift * multiple / tree_node_idx)
-                    }
-                )
-
-            # Shift right_node itself and the nodes to the right of right_node
-            for multiple, right_sibling in enumerate(
-                parent_node.children[tree_node_idx:]
-            ):
-                right_sibling.set_attrs(
-                    {
-                        "shift": right_sibling.get_attr("shift", 0)
-                        + _shift
+                        "shift": sibling.get_attr("shift", 0)
                         + (_shift * multiple / tree_node_idx)
                     }
                 )
@@ -298,7 +284,7 @@ def second_pass(
     x_adjustment: Optional[float] = 0.0,
 ) -> float:
     """
-    Performs pre-order traversal of tree and determine the final `x` and `y` values for each node.
+    Performs pre-order traversal of tree and determines the final `x` and `y` values for each node.
     Modifies tree in-place.
 
     Notation:
@@ -352,7 +338,7 @@ def second_pass(
 
 
 def third_pass(tree_node: BaseNode, x_adjustment: float) -> None:
-    """Adjust all x-coordinates by an adjustment value so that every x-coordinate is greater than 0.
+    """Adjust all x-coordinates by an adjustment value so that every x-coordinate is greater than or equal to 0.
     Modifies tree in-place.
 
     Args:
