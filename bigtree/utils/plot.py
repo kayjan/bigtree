@@ -338,7 +338,7 @@ def second_pass(
 
 
 def third_pass(tree_node: BaseNode, x_adjustment: float) -> None:
-    """Adjust all x-coordinates by an adjustment value so that every x-coordinate is greater than 0.
+    """Adjust all x-coordinates by an adjustment value so that every x-coordinate is greater than or equal to 0.
     Modifies tree in-place.
 
     Args:
