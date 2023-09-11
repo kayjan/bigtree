@@ -166,25 +166,11 @@ def first_pass(
                     ),
                 )
 
-            # Shift the nodes between leftmost subtree and right_node
-            for multiple, left_sibling in enumerate(
-                parent_node.children[:tree_node_idx]
-            ):
-                left_sibling.set_attrs(
+            # Shift siblings (left siblings, itself, right siblings) accordingly
+            for multiple, sibling in enumerate(parent_node.children):
+                sibling.set_attrs(
                     {
-                        "shift": left_sibling.get_attr("shift")
-                        + (_shift * multiple / tree_node_idx)
-                    }
-                )
-
-            # Shift right_node itself and the nodes to the right of right_node
-            for multiple, right_sibling in enumerate(
-                parent_node.children[tree_node_idx:]
-            ):
-                right_sibling.set_attrs(
-                    {
-                        "shift": right_sibling.get_attr("shift", 0)
-                        + _shift
+                        "shift": sibling.get_attr("shift", 0)
                         + (_shift * multiple / tree_node_idx)
                     }
                 )
