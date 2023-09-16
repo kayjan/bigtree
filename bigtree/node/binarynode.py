@@ -145,7 +145,7 @@ class BinaryNode(Node):
         """
         if not (isinstance(new_parent, BinaryNode) or new_parent is None):
             raise TypeError(
-                f"Expect input to be BinaryNode type or NoneType, received input type {type(new_parent)}"
+                f"Expect parent to be BinaryNode type or NoneType, received input type {type(new_parent)}"
             )
 
     @property
@@ -255,7 +255,7 @@ class BinaryNode(Node):
             # Check type
             if new_child is not None and not isinstance(new_child, BinaryNode):
                 raise TypeError(
-                    f"Expect input to be BinaryNode type or NoneType, received input type {type(new_child)}"
+                    f"Expect child to be BinaryNode type or NoneType, received input type {type(new_child)}"
                 )
 
             # Check for loop and tree structure

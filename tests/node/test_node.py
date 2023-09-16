@@ -103,10 +103,7 @@ class TestNode(unittest.TestCase):
         self.b.parent = self.a
         with pytest.raises(TreeError) as exc_info:
             b.parent = self.a
-        assert (
-            str(exc_info.value)
-            == f"{Constants.ERROR_SAME_PATH}\nThere exist a node with same path /a/b"
-        )
+        assert str(exc_info.value) == f"{Constants.ERROR_SAME_PARENT_PATH}/a/b"
 
     def test_set_parent_sep_root(self):
         self.b.parent = self.a
@@ -178,10 +175,7 @@ class TestNode(unittest.TestCase):
         b = Node("b", sep="\\")
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, b]
-        assert (
-            str(exc_info.value)
-            == f"{Constants.ERROR_SAME_PATH}\nAttempting to add nodes same path /a/b"
-        )
+        assert str(exc_info.value) == f"{Constants.ERROR_SAME_CHILDREN_PATH}/a/b"
 
     def test_set_parent_same_path_error(self):
         self.a = Node("a")
@@ -189,14 +183,14 @@ class TestNode(unittest.TestCase):
         self.c = Node("b")
         with pytest.raises(TreeError) as exc_info:
             self.c.parent = self.a
-        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
+        assert str(exc_info.value) == f"{Constants.ERROR_SAME_PARENT_PATH}/a/b"
 
     def test_set_parent_constructor_same_path_error(self):
         self.a = Node("a")
         self.b = Node("b", parent=self.a)
         with pytest.raises(TreeError) as exc_info:
             self.c = Node("b", parent=self.a)
-        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
+        assert str(exc_info.value) == f"{Constants.ERROR_SAME_PARENT_PATH}/a/b"
 
     def test_set_children_same_path_error(self):
         self.a = Node("a")
@@ -204,14 +198,14 @@ class TestNode(unittest.TestCase):
         self.c = Node("b")
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.c]
-        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
+        assert str(exc_info.value) == f"{Constants.ERROR_SAME_CHILDREN_PATH}/a/b"
 
     def test_set_children_constructor_same_path_error(self):
         self.c = Node("b")
         self.b = Node("b")
         with pytest.raises(TreeError) as exc_info:
             self.a = Node("a", children=[self.b, self.c])
-        assert str(exc_info.value).startswith(Constants.ERROR_SAME_PATH)
+        assert str(exc_info.value) == f"{Constants.ERROR_SAME_CHILDREN_PATH}/a/b"
 
     def test_set_children_multiple_same_path_error(self):
         self.a = Node("a")
@@ -222,8 +216,7 @@ class TestNode(unittest.TestCase):
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.c, self.d, self.e]
         assert (
-            str(exc_info.value)
-            == f"{Constants.ERROR_SAME_PATH}\nAttempting to add nodes same path /a/b and /a/c"
+            str(exc_info.value) == f"{Constants.ERROR_SAME_CHILDREN_PATH}/a/b and /a/c"
         )
 
     def test_set_parent_error(self):

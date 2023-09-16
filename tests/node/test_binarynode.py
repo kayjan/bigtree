@@ -428,17 +428,17 @@ class TestBinaryNode(unittest.TestCase):
     def test_set_parent_type_error(self):
         with pytest.raises(TypeError) as exc_info:
             self.a.parent = 1
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_PARENT_TYPE)
 
         a = BaseNode()
         with pytest.raises(TypeError) as exc_info:
             self.a.parent = a
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_PARENT_TYPE)
 
         a = Node("a")
         with pytest.raises(TypeError) as exc_info:
             self.a.parent = a
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_PARENT_TYPE)
 
     def test_set_parent_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
@@ -458,17 +458,17 @@ class TestBinaryNode(unittest.TestCase):
 
         with pytest.raises(TypeError) as exc_info:
             self.a.children = [self.b, 1]
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_CHILDREN_TYPE)
 
         a = BaseNode()
         with pytest.raises(TypeError) as exc_info:
             self.a.children = [a, None]
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_CHILDREN_TYPE)
 
         a = Node("a")
         with pytest.raises(TypeError) as exc_info:
             self.a.children = [a, None]
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_CHILDREN_TYPE)
 
     def test_set_children_length_error(self):
         with pytest.raises(ValueError) as exc_info:

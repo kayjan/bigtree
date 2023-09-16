@@ -35,7 +35,7 @@ def list_to_dag(
         (DAGNode)
     """
     if not len(relations):
-        raise ValueError("Input list does not contain any data, check `relations`")
+        raise ValueError(f"Input list does not contain any data, check {relations}")
 
     relation_data = pd.DataFrame(relations, columns=["parent", "child"])
     return dataframe_to_dag(
@@ -74,7 +74,9 @@ def dict_to_dag(
         (DAGNode)
     """
     if not len(relation_attrs):
-        raise ValueError("Dictionary does not contain any data, check `relation_attrs`")
+        raise ValueError(
+            f"Dictionary does not contain any data, check {relation_attrs}"
+        )
 
     # Convert dictionary to dataframe
     data = pd.DataFrame(relation_attrs).T.rename_axis("_tmp_child").reset_index()

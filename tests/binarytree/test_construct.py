@@ -39,7 +39,7 @@ class TestListToBinaryTree(unittest.TestCase):
 
     def test_list_to_binarytree_node_type(self):
         root = list_to_binarytree(self.nums_list, node_type=BinaryNodeA)
-        assert isinstance(root, BinaryNodeA), Constants.ERROR_BINARY_NODE_TYPE
+        assert isinstance(root, BinaryNodeA), "Node type is not `BinaryNodeA`"
         assert_binarytree_structure_root2(root)
 
 

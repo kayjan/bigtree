@@ -196,7 +196,7 @@ class Node(BaseNode):
             )
             raise TreeError(
                 f"Duplicate node with same path\n"
-                f"Attempting to add nodes same path {duplicate_names_str}"
+                f"Attempting to add nodes with same path {duplicate_names_str}"
             )
 
     def _BaseNode__post_assign_children(self: T, new_children: List[T]) -> None:

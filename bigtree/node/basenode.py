@@ -141,7 +141,7 @@ class BaseNode:
         """
         if not (isinstance(new_parent, BaseNode) or new_parent is None):
             raise TypeError(
-                f"Expect input to be BaseNode type or NoneType, received input type {type(new_parent)}"
+                f"Expect parent to be BaseNode type or NoneType, received input type {type(new_parent)}"
             )
 
     def __check_parent_loop(self, new_parent: T) -> None:
@@ -272,7 +272,7 @@ class BaseNode:
             # Check type
             if not isinstance(new_child, BaseNode):
                 raise TypeError(
-                    f"Expect input to be BaseNode type, received input type {type(new_child)}"
+                    f"Expect child to be BaseNode type, received input type {type(new_child)}"
                 )
 
             # Check for loop and tree structure

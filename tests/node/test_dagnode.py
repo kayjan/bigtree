@@ -156,7 +156,7 @@ class TestDAGNode(unittest.TestCase):
         self.c.parents = [self.a]
         with pytest.raises(TypeError) as exc_info:
             self.c.parents = None
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENTS_TYPE)
 
     def test_set_parent_reassign(self):
         self.a.children = [self.b, self.c]
@@ -275,37 +275,37 @@ class TestDAGNode(unittest.TestCase):
     def test_set_parents_type_error(self):
         with pytest.raises(TypeError) as exc_info:
             self.a.parents = 1
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENTS_TYPE)
 
         with pytest.raises(TypeError) as exc_info:
             self.a.parents = [1]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
 
         a = BaseNode()
         with pytest.raises(TypeError) as exc_info:
             self.a.parents = [a]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
 
         a = Node("a")
         with pytest.raises(TypeError) as exc_info:
             self.a.parents = [a]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
 
     def test_set_parents_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
             self.a.parents = [self.a]
-        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_PARENT)
+        assert str(exc_info.value) == Constants.ERROR_LOOP_PARENT
 
         with pytest.raises(LoopError) as exc_info:
             self.b.parents = [self.a]
             self.c.parents = [self.b]
             self.a.parents = [self.c]
-        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_ANCESTOR)
+        assert str(exc_info.value) == Constants.ERROR_LOOP_ANCESTOR
 
     def test_set_duplicate_parent_error(self):
         with pytest.raises(TreeError) as exc_info:
             self.a.parents = [self.b, self.b]
-        assert str(exc_info.value).startswith(Constants.ERROR_SET_DUPLICATE_PARENT)
+        assert str(exc_info.value) == Constants.ERROR_SET_DUPLICATE_PARENT
 
     def test_set_children_mutable_list(self):
         children_list = [self.c, self.d]
@@ -334,33 +334,33 @@ class TestDAGNode(unittest.TestCase):
 
         with pytest.raises(TypeError) as exc_info:
             self.a.children = [self.b, 1]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_CHILDREN_TYPE)
 
         a = BaseNode()
         with pytest.raises(TypeError) as exc_info:
             self.a.children = [a]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_CHILDREN_TYPE)
 
         a = Node("a")
         with pytest.raises(TypeError) as exc_info:
             self.a.children = [a]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_CHILDREN_TYPE)
 
     def test_set_children_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.a]
-        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_CHILD)
+        assert str(exc_info.value) == Constants.ERROR_LOOP_CHILD
 
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e, self.f]
             self.f.children = [self.a]
-        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_DESCENDANT)
+        assert str(exc_info.value) == Constants.ERROR_LOOP_DESCENDANT
 
     def test_set_duplicate_children_error(self):
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.b]
-        assert str(exc_info.value).startswith(Constants.ERROR_SET_DUPLICATE_CHILD)
+        assert str(exc_info.value) == Constants.ERROR_SET_DUPLICATE_CHILD
 
     @staticmethod
     def test_rollback_set_parents():

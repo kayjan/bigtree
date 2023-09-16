@@ -6,6 +6,8 @@ T = TypeVar("T")
 
 
 class TreeError(Exception):
+    """Generic tree exception"""
+
     pass
 
 

@@ -161,7 +161,7 @@ class DAGNode:
             # Check type
             if not isinstance(new_parent, DAGNode):
                 raise TypeError(
-                    f"Expect input to be DAGNode type, received input type {type(new_parent)}"
+                    f"Expect parent to be DAGNode type, received input type {type(new_parent)}"
                 )
 
             # Check for loop and tree structure
@@ -262,7 +262,7 @@ class DAGNode:
             # Check type
             if not isinstance(new_child, DAGNode):
                 raise TypeError(
-                    f"Expect input to be DAGNode type, received input type {type(new_child)}"
+                    f"Expect child to be DAGNode type, received input type {type(new_child)}"
                 )
 
             # Check for loop and tree structure

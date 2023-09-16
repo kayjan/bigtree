@@ -57,7 +57,7 @@ def dag_to_dict(
     attr_dict: Dict[str, str] = {},
     all_attrs: bool = False,
 ) -> Dict[str, Any]:
-    """Export tree to dictionary.
+    """Export DAG to dictionary.
 
     Exported dictionary will have key as child name, and parent names and node attributes as a nested dictionary.
 
@@ -189,7 +189,7 @@ def dag_to_dot(
     node_attr: str = "",
     edge_attr: str = "",
 ) -> pydot.Dot:
-    r"""Export DAG tree or list of DAG trees to image.
+    r"""Export DAG or list of DAGs to image.
     Note that node names must be unique.
     Possible node attributes include style, fillcolor, shape.
 

@@ -6,14 +6,9 @@ class Constants:
     LOCAL = False
 
     # binarytree/construct
-    ERROR_BINARY_EMPTY_LIST = "Input list does not contain any data, check"
-    ERROR_BINARY_NODE_TYPE = "Node type is not `BinaryNodeA`"
+    ERROR_BINARY_EMPTY_LIST = "Input list does not contain any data, check "
 
     # dag/construct
-    ERROR_DAG_EMPTY_LIST = "Input list does not contain any data, check"
-    ERROR_DAG_EMPTY_DICT = (
-        "Dictionary does not contain any data, check `relation_attrs`"
-    )
     ERROR_DAG_PARENT_KEY = (
         "Parent key parent not in dictionary, check `relation_attrs` and `parent_key`"
     )
@@ -23,11 +18,12 @@ class Constants:
         "One or more attribute column(s) not in data, check `attribute_col`"
     )
 
-    ERROR_DAG_EMPTY_CHILD = "Child name cannot be empty"
+    ERROR_DAG_EMPTY_LIST = "Input list does not contain any data, check "
+    ERROR_DAG_EMPTY_DICT = "Dictionary does not contain any data, check "
     ERROR_DAG_DUPLICATE_PARENT = (
-        "There exists duplicate child name with different attributes"
+        "There exists duplicate child name with different attributes\nCheck "
     )
-    ERROR_DAG_NODE_TYPE = "Node type is not `DAGNodeA`"
+    ERROR_DAG_EMPTY_CHILD = "Child name cannot be empty, check column: "
 
     # dag/export
     ERROR_DAG_TYPE = "Tree should be of type `DAGNode`, or inherit from `DAGNode`"
@@ -43,32 +39,35 @@ class Constants:
     ERROR_LOOP_ANCESTOR = "Error setting parent: Node cannot be ancestor of itself"
     ERROR_LOOP_CHILD = "Error setting child: Node cannot be child of itself"
     ERROR_LOOP_DESCENDANT = "Error setting child: Node cannot be ancestor of itself"
-    ERROR_SET_DUPLICATE_CHILD = (
-        "Error setting child: Node cannot be added multiple times as a child"
-    )
     ERROR_SET_DUPLICATE_PARENT = (
         "Error setting parent: Node cannot be added multiple times as a parent"
     )
-
-    ERROR_CHILDREN_TYPE = "Children input should be Iterable type, received input type"
-    ERROR_BASENODE_CHILDREN_TYPE = (
-        "Expect input to be BaseNode type, received input type"
+    ERROR_SET_DUPLICATE_CHILD = (
+        "Error setting child: Node cannot be added multiple times as a child"
     )
+
+    ERROR_CHILDREN_TYPE = "Children input should be Iterable type, received input type "
     ERROR_BASENODE_PARENT_TYPE = (
-        "Expect input to be BaseNode type or NoneType, received input type"
+        "Expect parent to be BaseNode type or NoneType, received input type "
+    )
+    ERROR_BASENODE_CHILDREN_TYPE = (
+        "Expect child to be BaseNode type, received input type "
     )
 
     # node/binarynode
     ERROR_BINARYNODE_CHILDREN_LENGTH = "Children input must have length 2"
 
     ERROR_SET_LEFT_CHILDREN = (
-        "Attempting to set both left and children with mismatched values"
+        "Attempting to set both left and children with mismatched values\nCheck left "
     )
     ERROR_SET_RIGHT_CHILDREN = (
-        "Attempting to set both right and children with mismatched values"
+        "Attempting to set both right and children with mismatched values\nCheck right "
     )
-    ERROR_BINARYNODE_TYPE = (
-        "Expect input to be BinaryNode type or NoneType, received input type"
+    ERROR_BINARYNODE_PARENT_TYPE = (
+        "Expect parent to be BinaryNode type or NoneType, received input type "
+    )
+    ERROR_BINARYNODE_CHILDREN_TYPE = (
+        "Expect child to be BinaryNode type or NoneType, received input type "
     )
 
     # node/dagnode
@@ -79,13 +78,22 @@ class Constants:
         "Attempting to access `parent` attribute, do you mean `parents`?"
     )
 
-    ERROR_DAGNODE_PARENT_TYPE = "Parents input should be list type, received input type"
-    ERROR_DAGNODE_TYPE = "Expect input to be DAGNode type, received input type"
+    ERROR_DAGNODE_PARENTS_TYPE = (
+        "Parents input should be list type, received input type "
+    )
+    ERROR_DAGNODE_PARENT_TYPE = "Expect parent to be DAGNode type, received input type "
+    ERROR_DAGNODE_CHILDREN_TYPE = (
+        "Expect child to be DAGNode type, received input type "
+    )
 
     # node/node
     ERROR_NODE_NAME = "Node must have a `name` attribute"
-
-    ERROR_SAME_PATH = "Duplicate node with same path"
+    ERROR_SAME_PARENT_PATH = (
+        "Duplicate node with same path\nThere exist a node with same path "
+    )
+    ERROR_SAME_CHILDREN_PATH = (
+        "Duplicate node with same path\nAttempting to add nodes with same path "
+    )
 
     # tree/construct
     ERROR_EMPTY_PATH = "Path is empty, check `path`"
