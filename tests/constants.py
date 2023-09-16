@@ -100,20 +100,24 @@ class Constants:
     ERROR_EMPTY_ROW = "Data does not contain any rows, check `data`"
     ERROR_EMPTY_COL = "Data does not contain any columns, check `data`"
     ERROR_EMPTY_STRING = "Tree string does not contain any data, check `tree_string`"
+    ERROR_JOIN_TYPE = "`join_type` must be one of 'inner' or 'left'"
 
     ERROR_EMPTY_CHILD = "child_key children should be List type, received "
-    ERROR_EMPTY_DICT = "Dictionary does not contain any data, check"
-    ERROR_EMPTY_LIST = "Path list does not contain any data, check"
-    ERROR_DIFFERENT_ROOT = "Path does not have same root node"
-    ERROR_MULTIPLE_ROOT = "Unable to determine root node"
-    ERROR_DUPLICATE_PATH = "There exists duplicate path with different attributes"
-    ERROR_DUPLICATE_NAME = "There exists duplicate name with different attributes"
-    ERROR_DUPLICATE_PARENT = "There exists duplicate child with different parent where the child is also a parent node"
+    ERROR_EMPTY_DICT = "Dictionary does not contain any data, check "
+    ERROR_EMPTY_LIST = "Path list does not contain any data, check "
+    ERROR_DIFFERENT_ROOT = "Path does not have same root node, expected "
+    ERROR_MULTIPLE_ROOT = "Unable to determine root node\nPossible root nodes: "
+    ERROR_DUPLICATE_NAME = (
+        "There exists duplicate name with different attributes\nCheck "
+    )
+    ERROR_DUPLICATE_PATH = (
+        "There exists duplicate path with different attributes\nCheck "
+    )
+    ERROR_DUPLICATE_PARENT = "There exists duplicate child with different parent where the child is also a parent node.\nDuplicated node names should not happen, but can only exist in leaf nodes to avoid confusion.\nCheck "
     ERROR_NODE_TYPE = "Node type is not `NodeA`"
     ERROR_CUSTOM_NODE_TYPE = "Node type is not `CustomNode`"
     ERROR_PREFIX = "Invalid prefix, prefix should be unicode character or whitespace, otherwise specify one or more prefixes"
     ERROR_PREFIX_LENGTH = "Tree string have different prefix length, check branch"
-    ERROR_JOIN_TYPE = "`join_type` must be one of 'inner' or 'left'"
 
     # tree/export
     ERROR_EXPORT_NODE_TYPE = "Tree should be of type `Node`, or inherit from `Node`"

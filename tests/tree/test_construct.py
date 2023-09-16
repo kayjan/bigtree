@@ -480,7 +480,7 @@ class TestAddDictToTreeByName(unittest.TestCase):
     def test_add_dict_to_tree_by_name_invalid_join_error(self):
         with pytest.raises(ValueError) as exc_info:
             add_dict_to_tree_by_name(self.root, self.name_dict, join_type="something")
-        assert str(exc_info.value).startswith(Constants.ERROR_JOIN_TYPE)
+        assert str(exc_info.value) == Constants.ERROR_JOIN_TYPE
 
     def test_add_dict_to_tree_by_name_sep_tree(self):
         self.root.sep = "\\"
@@ -973,7 +973,7 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
     def test_add_dataframe_to_tree_by_name_invalid_join_error(self):
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_name(self.root, self.data, join_type="something")
-        assert str(exc_info.value).startswith(Constants.ERROR_JOIN_TYPE)
+        assert str(exc_info.value) == Constants.ERROR_JOIN_TYPE
 
     def test_add_dataframe_to_tree_by_name_sep_tree(self):
         self.root.sep = "\\"
