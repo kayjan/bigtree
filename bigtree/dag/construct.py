@@ -18,7 +18,7 @@ def list_to_dag(
     relations: List[Tuple[str, str]],
     node_type: Type[DAGNode] = DAGNode,
 ) -> DAGNode:
-    """Construct DAG from list of tuple containing parent-child names.
+    """Construct DAG from list of tuples containing parent-child names.
     Note that node names must be unique.
 
     >>> from bigtree import list_to_dag, dag_iterator
@@ -48,8 +48,8 @@ def dict_to_dag(
     parent_key: str = "parents",
     node_type: Type[DAGNode] = DAGNode,
 ) -> DAGNode:
-    """Construct DAG from nested dictionary, ``key``: child name, ``value``: dict of parent names, attribute name and
-    attribute value.
+    """Construct DAG from nested dictionary, ``key``: child name, ``value``: dictionary of parent names, attribute
+    name, and attribute value.
     Note that node names must be unique.
 
     >>> from bigtree import dict_to_dag, dag_iterator
@@ -66,7 +66,7 @@ def dict_to_dag(
 
     Args:
         relation_attrs (Dict[str, Any]): dictionary containing node, node parents, and node attribute information,
-            key: child name, value: dict of parent names, node attribute and attribute value
+            key: child name, value: dictionary of parent names, node attribute, and attribute value
         parent_key (str): key of dictionary to retrieve list of parents name, defaults to 'parent'
         node_type (Type[DAGNode]): node type of DAG to be created, defaults to DAGNode
 

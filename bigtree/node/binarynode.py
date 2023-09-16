@@ -211,7 +211,7 @@ class BinaryNode(Node):
 
     def __pre_assign_parent(self: T, new_parent: Optional[T]) -> None:
         """Custom method to check before attaching parent
-        Can be overriden with `_BinaryNode__pre_assign_parent()`
+        Can be overridden with `_BinaryNode__pre_assign_parent()`
 
         Args:
             new_parent (Optional[Self]): new parent to be added
@@ -220,7 +220,7 @@ class BinaryNode(Node):
 
     def __post_assign_parent(self: T, new_parent: Optional[T]) -> None:
         """Custom method to check after attaching parent
-        Can be overriden with `_BinaryNode__post_assign_parent()`
+        Can be overridden with `_BinaryNode__post_assign_parent()`
 
         Args:
             new_parent (Optional[Self]): new parent to be added
@@ -351,7 +351,7 @@ class BinaryNode(Node):
 
     def __pre_assign_children(self: T, new_children: List[Optional[T]]) -> None:
         """Custom method to check before attaching children
-        Can be overriden with `_BinaryNode__pre_assign_children()`
+        Can be overridden with `_BinaryNode__pre_assign_children()`
 
         Args:
             new_children (List[Optional[Self]]): new children to be added
@@ -360,7 +360,7 @@ class BinaryNode(Node):
 
     def __post_assign_children(self: T, new_children: List[Optional[T]]) -> None:
         """Custom method to check after attaching children
-        Can be overriden with `_BinaryNode__post_assign_children()`
+        Can be overridden with `_BinaryNode__post_assign_children()`
 
         Args:
             new_children (List[Optional[Self]]): new children to be added

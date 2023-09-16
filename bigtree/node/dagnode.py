@@ -90,7 +90,7 @@ class DAGNode:
 
     `DAGNode` methods
 
-    1. ``describe()``: Get node information sorted by attributes, returns list of tuples
+    1. ``describe()``: Get node information sorted by attributes, return list of tuples
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
     4. ``go_to(node: Self)``: Get a path from own node to another node from same DAG
@@ -224,7 +224,7 @@ class DAGNode:
 
     def __pre_assign_parents(self: T, new_parents: List[T]) -> None:
         """Custom method to check before attaching parent
-        Can be overriden with `_DAGNode__pre_assign_parent()`
+        Can be overridden with `_DAGNode__pre_assign_parent()`
 
         Args:
             new_parents (List[Self]): new parents to be added
@@ -233,7 +233,7 @@ class DAGNode:
 
     def __post_assign_parents(self: T, new_parents: List[T]) -> None:
         """Custom method to check after attaching parent
-        Can be overriden with `_DAGNode__post_assign_parent()`
+        Can be overridden with `_DAGNode__post_assign_parent()`
 
         Args:
             new_parents (List[Self]): new parents to be added
@@ -321,7 +321,7 @@ class DAGNode:
 
     def __pre_assign_children(self: T, new_children: Iterable[T]) -> None:
         """Custom method to check before attaching children
-        Can be overriden with `_DAGNode__pre_assign_children()`
+        Can be overridden with `_DAGNode__pre_assign_children()`
 
         Args:
             new_children (List[Self]): new children to be added
@@ -330,7 +330,7 @@ class DAGNode:
 
     def __post_assign_children(self: T, new_children: Iterable[T]) -> None:
         """Custom method to check after attaching children
-        Can be overriden with `_DAGNode__post_assign_children()`
+        Can be overridden with `_DAGNode__post_assign_children()`
 
         Args:
             new_children (List[Self]): new children to be added
@@ -445,7 +445,7 @@ class DAGNode:
 
     def get_attr(self, attr_name: str, default_value: Any = None) -> Any:
         """Get value of node attribute
-        Returns None if attribute name does not exist
+        Returns default value if attribute name does not exist
 
         Args:
             attr_name (str): attribute name

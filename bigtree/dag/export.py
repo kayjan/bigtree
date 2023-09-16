@@ -28,7 +28,7 @@ T = TypeVar("T", bound=DAGNode)
 def dag_to_list(
     dag: T,
 ) -> List[Tuple[str, str]]:
-    """Export DAG to list of tuple containing parent-child names
+    """Export DAG to list of tuples containing parent-child names
 
     >>> from bigtree import DAGNode, dag_to_list
     >>> a = DAGNode("a", step=1)
@@ -191,7 +191,7 @@ def dag_to_dot(
 ) -> pydot.Dot:
     r"""Export DAG tree or list of DAG trees to image.
     Note that node names must be unique.
-    Posible node attributes include style, fillcolor, shape.
+    Possible node attributes include style, fillcolor, shape.
 
     >>> from bigtree import DAGNode, dag_to_dot
     >>> a = DAGNode("a", step=1)
