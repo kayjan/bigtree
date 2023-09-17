@@ -32,7 +32,7 @@ From the project folder, install the required python packages locally in editabl
 
 .. code-block:: bash
 
-    $ python -m pip install -e ".[image]"
+    $ python -m pip install -e ".[all]"
     $ python -m pip install pre-commit
     $ pre-commit install
 
