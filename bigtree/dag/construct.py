@@ -35,7 +35,7 @@ def list_to_dag(
         (DAGNode)
     """
     if not len(relations):
-        raise ValueError(f"Input list does not contain any data, check {relations}")
+        raise ValueError("Input list does not contain any data, check `relations`")
 
     relation_data = pd.DataFrame(relations, columns=["parent", "child"])
     return dataframe_to_dag(
@@ -74,9 +74,7 @@ def dict_to_dag(
         (DAGNode)
     """
     if not len(relation_attrs):
-        raise ValueError(
-            f"Dictionary does not contain any data, check {relation_attrs}"
-        )
+        raise ValueError("Dictionary does not contain any data, check `relation_attrs`")
 
     # Convert dictionary to dataframe
     data = pd.DataFrame(relation_attrs).T.rename_axis("_tmp_child").reset_index()
@@ -150,18 +148,18 @@ def dataframe_to_dag(
     if not child_col:
         child_col = data.columns[0]
     elif child_col not in data.columns:
-        raise ValueError("Child column not in data, check `child_col`")
+        raise ValueError(f"Child column not in data, check `child_col`: {child_col}")
     if not parent_col:
         parent_col = data.columns[1]
     elif parent_col not in data.columns:
-        raise ValueError("Parent column not in data, check `parent_col`")
+        raise ValueError(f"Parent column not in data, check `parent_col`: {parent_col}")
     if not len(attribute_cols):
         attribute_cols = list(data.columns)
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
     elif any([col not in data.columns for col in attribute_cols]):
         raise ValueError(
-            "One or more attribute column(s) not in data, check `attribute_col`"
+            f"One or more attribute column(s) not in data, check `attribute_cols`: {attribute_cols}"
         )
 
     data_check = data.copy()[[child_col, parent_col] + attribute_cols].drop_duplicates(

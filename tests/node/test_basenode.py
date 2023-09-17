@@ -89,17 +89,17 @@ class TestBaseNode(unittest.TestCase):
         assert_print_statement(print, "BaseNode(age=90, name=a)\n", self.a)
 
     def test_set_parents_error(self):
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(AttributeError) as exc_info:
             self.b.parents = [self.a]
-        assert str(exc_info.value) == Constants.ERROR_SET_PARENTS_ATTR
+        assert str(exc_info.value) == Constants.ERROR_NODE_SET_PARENTS_ATTR
 
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(AttributeError) as exc_info:
             self.b = BaseNode(parents=[self.a])
-        assert str(exc_info.value) == Constants.ERROR_SET_PARENTS_ATTR
+        assert str(exc_info.value) == Constants.ERROR_NODE_SET_PARENTS_ATTR
 
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(AttributeError) as exc_info:
             self.b.parents
-        assert str(exc_info.value) == Constants.ERROR_GET_PARENTS_ATTR
+        assert str(exc_info.value) == Constants.ERROR_NODE_GET_PARENTS_ATTR
 
     def test_set_parent(self):
         self.b.parent = self.a
@@ -286,9 +286,12 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_self(self)
 
     def test_set_children_none_parent_error(self):
+        children = None
         with pytest.raises(TypeError) as exc_info:
-            self.h.children = None
-        assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
+            self.h.children = children
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="Iterable", input_type=type(children)
+        )
 
     def test_set_children_reassign(self):
         self.a.children = [self.c]
@@ -352,20 +355,23 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(a2)
 
     def test_set_parent_type_error(self):
+        parent = 1
         with pytest.raises(TypeError) as exc_info:
-            self.a.parent = 1
-        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_PARENT_TYPE)
+            self.a.parent = parent
+        assert str(exc_info.value) == Constants.ERROR_NODE_PARENT_TYPE_NONE.format(
+            type="BaseNode", input_type=type(parent)
+        )
 
     def test_set_parent_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
             self.a.parent = self.a
-        assert str(exc_info.value) == Constants.ERROR_LOOP_PARENT
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_PARENT
 
         with pytest.raises(LoopError) as exc_info:
             self.b.parent = self.a
             self.c.parent = self.b
             self.a.parent = self.c
-        assert str(exc_info.value) == Constants.ERROR_LOOP_ANCESTOR
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_ANCESTOR
 
     def test_set_children_mutable_list(self):
         children_list = [self.b, self.c, self.d]
@@ -388,29 +394,35 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_self(self)
 
     def test_set_children_type_error(self):
+        children = 1
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = [self.b, 1]
-        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_CHILDREN_TYPE)
+            self.a.children = [self.b, children]
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="BaseNode", input_type=type(children)
+        )
 
+        children = None
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = [self.b, None]
-        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_CHILDREN_TYPE)
+            self.a.children = [self.b, children]
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="BaseNode", input_type=type(children)
+        )
 
     def test_set_children_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.a]
-        assert str(exc_info.value) == Constants.ERROR_LOOP_CHILD
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_CHILD
 
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e, self.f]
             self.f.children = [self.a]
-        assert str(exc_info.value) == Constants.ERROR_LOOP_DESCENDANT
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_DESCENDANT
 
     def test_set_duplicate_children_error(self):
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.b]
-        assert str(exc_info.value) == Constants.ERROR_SET_DUPLICATE_CHILD
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_CHILD
 
     def test_rollback_set_parent(self):
         a = clone_tree(self.a, BaseNode2)
@@ -428,7 +440,7 @@ class TestBaseNode(unittest.TestCase):
         a.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             f.parent = a
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value).startswith("Custom error assigning parent, ")
 
         expected_a_children = [b, c]
         expected_h_children = [e, f, g]
@@ -459,7 +471,7 @@ class TestBaseNode(unittest.TestCase):
         a.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             d.parent = a
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value).startswith("Custom error assigning parent, ")
 
         expected_a_children = [b, c]
         expected_h_children = [e, f, g]
@@ -490,7 +502,7 @@ class TestBaseNode(unittest.TestCase):
         d.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             d.parent = None
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value) == "Custom error assigning parent"
 
         expected_a_children = [b, c]
         expected_h_children = [e, f, g]
@@ -521,7 +533,7 @@ class TestBaseNode(unittest.TestCase):
         a.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             b.parent = a
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value).startswith("Custom error assigning parent, ")
 
         expected_a_children = [b, c, d]
         expected_h_children = [e, f, g]
@@ -552,7 +564,7 @@ class TestBaseNode(unittest.TestCase):
         g.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             a.children = [b, c, d, g, i, f]
-        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert str(exc_info.value).startswith("Custom error assigning children, ")
         assert not i.parent, f"Node i parent, expected {None}, received {i.parent}"
 
         expected_a_children = [b, c, d]
@@ -584,7 +596,7 @@ class TestBaseNode(unittest.TestCase):
         a.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             a.children = []
-        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert str(exc_info.value) == "Custom error assigning children"
         assert not i.parent, f"Node i parent, expected {None}, received {i.parent}"
 
         expected_a_children = [b, c, d]
@@ -616,7 +628,7 @@ class TestBaseNode(unittest.TestCase):
         b.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             a.children = [b, c, d]
-        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert str(exc_info.value).startswith("Custom error assigning children, ")
         assert not i.parent, f"Node i parent, expected {None}, received {i.parent}"
 
         expected_a_children = [b, c, d]

@@ -117,7 +117,7 @@ class DAGNode:
         self.parents = parents
         self.children = children
         if "parent" in kwargs:
-            raise ValueError(
+            raise AttributeError(
                 "Attempting to set `parent` attribute, do you mean `parents`?"
             )
         self.__dict__.update(**kwargs)
@@ -125,7 +125,7 @@ class DAGNode:
     @property
     def parent(self) -> None:
         """Do not allow `parent` attribute to be accessed"""
-        raise ValueError(
+        raise AttributeError(
             "Attempting to access `parent` attribute, do you mean `parents`?"
         )
 
@@ -136,7 +136,9 @@ class DAGNode:
         Args:
             new_parent (Self): parent node
         """
-        raise ValueError("Attempting to set `parent` attribute, do you mean `parents`?")
+        raise AttributeError(
+            "Attempting to set `parent` attribute, do you mean `parents`?"
+        )
 
     @staticmethod
     def __check_parent_type(new_parents: List[T]) -> None:
@@ -218,9 +220,7 @@ class DAGNode:
                 if new_parent not in current_parents:
                     self.__parents.remove(new_parent)
                     new_parent.__children.remove(self)
-            raise TreeError(
-                f"{exc_info}, current parents {current_parents}, new parents {new_parents}"
-            )
+            raise TreeError(exc_info)
 
     def __pre_assign_parents(self: T, new_parents: List[T]) -> None:
         """Custom method to check before attaching parent
@@ -248,7 +248,7 @@ class DAGNode:
         """
         if not isinstance(new_children, Iterable):
             raise TypeError(
-                f"Children input should be Iterable type, received input type {type(new_children)}"
+                f"Expect children to be Iterable type, received input type {type(new_children)}"
             )
 
     def __check_children_loop(self: T, new_children: Iterable[T]) -> None:
@@ -262,7 +262,7 @@ class DAGNode:
             # Check type
             if not isinstance(new_child, DAGNode):
                 raise TypeError(
-                    f"Expect child to be DAGNode type, received input type {type(new_child)}"
+                    f"Expect children to be DAGNode type, received input type {type(new_child)}"
                 )
 
             # Check for loop and tree structure

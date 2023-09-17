@@ -103,7 +103,7 @@ class TestNode(unittest.TestCase):
         self.b.parent = self.a
         with pytest.raises(TreeError) as exc_info:
             b.parent = self.a
-        assert str(exc_info.value) == f"{Constants.ERROR_SAME_PARENT_PATH}/a/b"
+        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/b"
 
     def test_set_parent_sep_root(self):
         self.b.parent = self.a
@@ -175,7 +175,7 @@ class TestNode(unittest.TestCase):
         b = Node("b", sep="\\")
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, b]
-        assert str(exc_info.value) == f"{Constants.ERROR_SAME_CHILDREN_PATH}/a/b"
+        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_CHILDREN_PATH}/a/b"
 
     def test_set_parent_same_path_error(self):
         self.a = Node("a")
@@ -183,14 +183,14 @@ class TestNode(unittest.TestCase):
         self.c = Node("b")
         with pytest.raises(TreeError) as exc_info:
             self.c.parent = self.a
-        assert str(exc_info.value) == f"{Constants.ERROR_SAME_PARENT_PATH}/a/b"
+        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/b"
 
     def test_set_parent_constructor_same_path_error(self):
         self.a = Node("a")
         self.b = Node("b", parent=self.a)
         with pytest.raises(TreeError) as exc_info:
             self.c = Node("b", parent=self.a)
-        assert str(exc_info.value) == f"{Constants.ERROR_SAME_PARENT_PATH}/a/b"
+        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/b"
 
     def test_set_children_same_path_error(self):
         self.a = Node("a")
@@ -198,14 +198,14 @@ class TestNode(unittest.TestCase):
         self.c = Node("b")
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.c]
-        assert str(exc_info.value) == f"{Constants.ERROR_SAME_CHILDREN_PATH}/a/b"
+        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_CHILDREN_PATH}/a/b"
 
     def test_set_children_constructor_same_path_error(self):
         self.c = Node("b")
         self.b = Node("b")
         with pytest.raises(TreeError) as exc_info:
             self.a = Node("a", children=[self.b, self.c])
-        assert str(exc_info.value) == f"{Constants.ERROR_SAME_CHILDREN_PATH}/a/b"
+        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_CHILDREN_PATH}/a/b"
 
     def test_set_children_multiple_same_path_error(self):
         self.a = Node("a")
@@ -216,42 +216,49 @@ class TestNode(unittest.TestCase):
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.c, self.d, self.e]
         assert (
-            str(exc_info.value) == f"{Constants.ERROR_SAME_CHILDREN_PATH}/a/b and /a/c"
+            str(exc_info.value)
+            == f"{Constants.ERROR_NODE_SAME_CHILDREN_PATH}/a/b and /a/c"
         )
 
     def test_set_parent_error(self):
+        parent = 1
         with pytest.raises(TypeError) as exc_info:
-            self.a.parent = 1
-        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_PARENT_TYPE)
+            self.a.parent = parent
+        assert str(exc_info.value) == Constants.ERROR_NODE_PARENT_TYPE_NONE.format(
+            type="BaseNode", input_type=type(parent)
+        )
 
         with pytest.raises(LoopError) as exc_info:
             self.a.parent = self.a
-        assert str(exc_info.value) == Constants.ERROR_LOOP_PARENT
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_PARENT
 
         with pytest.raises(LoopError) as exc_info:
             self.b.parent = self.a
             self.c.parent = self.b
             self.a.parent = self.c
-        assert str(exc_info.value) == Constants.ERROR_LOOP_ANCESTOR
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_ANCESTOR
 
     def test_set_children_error(self):
+        children = 1
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = [self.b, 1]
-        assert str(exc_info.value).startswith(Constants.ERROR_BASENODE_CHILDREN_TYPE)
+            self.a.children = [self.b, children]
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="BaseNode", input_type=type(children)
+        )
 
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.a]
-        assert str(exc_info.value) == Constants.ERROR_LOOP_CHILD
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_CHILD
 
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e, self.f]
             self.f.children = [self.a]
-        assert str(exc_info.value) == Constants.ERROR_LOOP_DESCENDANT
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_DESCENDANT
 
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.b]
-        assert str(exc_info.value) == Constants.ERROR_SET_DUPLICATE_CHILD
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_CHILD
 
     def test_path_name_int(self):
         b = Node(1, parent=self.a)
@@ -317,15 +324,21 @@ class TestNode(unittest.TestCase):
 
     def test_go_to_type_error(self):
         a = Node("a")
+        destination = 2
         with pytest.raises(TypeError) as exc_info:
-            a.go_to(2)
-        assert str(exc_info.value).startswith("Expect node to be BaseNode type")
+            a.go_to(destination)
+        assert str(exc_info.value) == Constants.ERROR_NODE_GOTO_TYPE.format(
+            type="BaseNode", input_type=type(destination)
+        )
 
     def test_go_to_different_tree_error(self):
-        a = Node("a")
+        source = Node("a")
+        destination = self.a
         with pytest.raises(TreeError) as exc_info:
-            a.go_to(self.a)
-        assert str(exc_info.value).startswith("Nodes are not from the same tree")
+            source.go_to(destination)
+        assert str(exc_info.value) == Constants.ERROR_NODE_GOTO_SAME_TREE.format(
+            a=source, b=destination
+        )
 
 
 def assert_tree_structure_node_root(

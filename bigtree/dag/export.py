@@ -255,7 +255,7 @@ def dag_to_dot(
 
     for _dag in dag:
         if not isinstance(_dag, DAGNode):
-            raise ValueError(
+            raise TypeError(
                 "Tree should be of type `DAGNode`, or inherit from `DAGNode`"
             )
         _dag = _dag.copy()

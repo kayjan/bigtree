@@ -92,12 +92,16 @@ class TestSearch(unittest.TestCase):
     def test_find_all_max_count_error(self):
         with pytest.raises(SearchError) as exc_info:
             findall(self.a, lambda node: node.age >= 30, max_depth=2, max_count=2)
-        assert str(exc_info.value).startswith(Constants.ERROR_TWO_ELEMENT)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_SEARCH_LESS_THAN_N_ELEMENT.format(count=2)
+        )
 
     def test_find_all_min_count_error(self):
         with pytest.raises(SearchError) as exc_info:
             findall(self.a, lambda node: node.age >= 30, max_depth=2, min_count=4)
-        assert str(exc_info.value).startswith(Constants.ERROR_MORE_THAN_FOUR_ELEMENT)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_SEARCH_MORE_THAN_N_ELEMENT.format(count=4)
+        )
 
     def test_find(self):
         actual = find(self.a, lambda node: node.age == 60)
@@ -122,7 +126,9 @@ class TestSearch(unittest.TestCase):
     def test_find_error(self):
         with pytest.raises(SearchError) as exc_info:
             find(self.a, lambda node: node.age > 5)
-        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_SEARCH_LESS_THAN_N_ELEMENT.format(count=1)
+        )
 
     def test_find_name(self):
         inputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
@@ -251,22 +257,26 @@ class TestSearch(unittest.TestCase):
 
     def test_find_relative_path_wrong_node_error(self):
         inputs = [
-            "a/e",
-            "b/f",
-            "b/e/i",
+            ("a/e", "a"),
+            ("b/f", "f"),
+            ("b/e/i", "i"),
         ]
-        for input_ in inputs:
-            with pytest.raises(ValueError) as exc_info:
+        for input_, component_ in inputs:
+            with pytest.raises(SearchError) as exc_info:
                 find_relative_path(self.a, input_)
-        assert str(exc_info.value).startswith(Constants.ERROR_PATH_NAME_INVALID_NODE)
+            assert str(
+                exc_info.value
+            ) == Constants.ERROR_SEARCH_RELATIVE_INVALID_NODE.format(
+                component=component_
+            )
 
     def test_find_relative_path_wrong_path_error(self):
         inputs_list = [(self.a, ["../"]), (self.b, ["../../"])]
         for inputs in inputs_list:
             for input_ in inputs[1]:
-                with pytest.raises(ValueError) as exc_info:
+                with pytest.raises(SearchError) as exc_info:
                     find_relative_path(inputs[0], input_)
-        assert str(exc_info.value) == Constants.ERROR_PATH_NAME_INVALID_PATH
+        assert str(exc_info.value) == Constants.ERROR_SEARCH_RELATIVE_INVALID_PATH
 
     def test_find_full_path(self):
         inputs = [
@@ -335,6 +345,7 @@ class TestSearch(unittest.TestCase):
             ), f"Expected find_full_path to return {expected}, received {actual}"
 
     def test_find_full_wrong_root_error(self):
+        root_name = "a"
         inputs = [
             "",
             "b/d/",
@@ -344,7 +355,11 @@ class TestSearch(unittest.TestCase):
         for input_, expected in zip(inputs, expected_ans):
             with pytest.raises(ValueError) as exc_info:
                 find_full_path(self.a, input_)
-        assert str(exc_info.value).endswith("does not match the root node name a")
+            assert str(
+                exc_info.value
+            ) == Constants.ERROR_SEARCH_FULL_PATH_INVALID_ROOT.format(
+                path_name=input_, root_name=root_name
+            )
 
     def test_find_path(self):
         inputs = [
@@ -622,12 +637,16 @@ class TestSearch(unittest.TestCase):
     def test_find_children_max_count_error(self):
         with pytest.raises(SearchError) as exc_info:
             find_children(self.a, lambda node: node.age >= 30, max_count=1)
-        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_SEARCH_LESS_THAN_N_ELEMENT.format(count=1)
+        )
 
     def test_find_children_min_count_error(self):
         with pytest.raises(SearchError) as exc_info:
             find_children(self.a, lambda node: node.age >= 30, min_count=3)
-        assert str(exc_info.value).startswith(Constants.ERROR_MORE_THAN_THREE_ELEMENT)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_SEARCH_MORE_THAN_N_ELEMENT.format(count=3)
+        )
 
     def test_find_child(self):
         inputs = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
@@ -656,7 +675,9 @@ class TestSearch(unittest.TestCase):
     def test_find_child_error(self):
         with pytest.raises(SearchError) as exc_info:
             find_child(self.a, lambda node: node.age > 5)
-        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_SEARCH_LESS_THAN_N_ELEMENT.format(count=1)
+        )
 
     def test_find_child_by_name(self):
         inputs1 = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]

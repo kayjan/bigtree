@@ -418,7 +418,7 @@ def tree_to_dict(
             key: node attributes, value: corresponding dictionary key, optional
         all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
-        skip_depth (int): number of initial depth to skip, optional
+        skip_depth (int): number of initial depths to skip, optional
         leaf_only (bool): indicator to retrieve only information from leaf nodes
 
     Returns:
@@ -574,7 +574,7 @@ def tree_to_dataframe(
             key: node attributes, value: corresponding column in dataframe, optional
         all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
-        skip_depth (int): number of initial depth to skip, optional
+        skip_depth (int): number of initial depths to skip, optional
         leaf_only (bool): indicator to retrieve only information from leaf nodes
 
     Returns:
@@ -629,7 +629,7 @@ def tree_to_dot(
     edge_attr: str = "",
 ) -> pydot.Dot:
     r"""Export tree or list of trees to image.
-    Posible node attributes include style, fillcolor, shape.
+    Possible node attributes include style, fillcolor, shape.
 
     >>> from bigtree import Node, tree_to_dot
     >>> root = Node("a", age=90)
@@ -733,7 +733,7 @@ def tree_to_dot(
 
     for _tree in tree:
         if not isinstance(_tree, Node):
-            raise ValueError("Tree should be of type `Node`, or inherit from `Node`")
+            raise TypeError("Tree should be of type `Node`, or inherit from `Node`")
 
         name_dict: Dict[str, List[str]] = collections.defaultdict(list)
 

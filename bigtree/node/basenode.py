@@ -127,7 +127,7 @@ class BaseNode:
         self.parent = parent
         self.children = children  # type: ignore
         if "parents" in kwargs:
-            raise ValueError(
+            raise AttributeError(
                 "Attempting to set `parents` attribute, do you mean `parent`?"
             )
         self.__dict__.update(**kwargs)
@@ -237,7 +237,7 @@ class BaseNode:
     @property
     def parents(self) -> None:
         """Do not allow `parents` attribute to be accessed"""
-        raise ValueError(
+        raise AttributeError(
             "Attempting to access `parents` attribute, do you mean `parent`?"
         )
 
@@ -248,7 +248,9 @@ class BaseNode:
         Args:
             new_parent (Self): parent node
         """
-        raise ValueError("Attempting to set `parents` attribute, do you mean `parent`?")
+        raise AttributeError(
+            "Attempting to set `parents` attribute, do you mean `parent`?"
+        )
 
     def __check_children_type(self: T, new_children: Iterable[T]) -> None:
         """Check child type
@@ -258,7 +260,7 @@ class BaseNode:
         """
         if not isinstance(new_children, Iterable):
             raise TypeError(
-                f"Children input should be Iterable type, received input type {type(new_children)}"
+                f"Expect children to be Iterable type, received input type {type(new_children)}"
             )
 
     def __check_children_loop(self: T, new_children: Iterable[T]) -> None:
@@ -272,7 +274,7 @@ class BaseNode:
             # Check type
             if not isinstance(new_child, BaseNode):
                 raise TypeError(
-                    f"Expect child to be BaseNode type, received input type {type(new_child)}"
+                    f"Expect children to be BaseNode type, received input type {type(new_child)}"
                 )
 
             # Check for loop and tree structure

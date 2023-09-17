@@ -91,17 +91,17 @@ class TestBinaryNode(unittest.TestCase):
         ), f"Expected \\1\\2, received {self.b.path_name}"
 
     def test_set_parents_error(self):
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(AttributeError) as exc_info:
             self.b.parents = [self.a]
-        assert str(exc_info.value) == Constants.ERROR_SET_PARENTS_ATTR
+        assert str(exc_info.value) == Constants.ERROR_NODE_SET_PARENTS_ATTR
 
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(AttributeError) as exc_info:
             self.b = BinaryNode(1, parents=[self.a])
-        assert str(exc_info.value) == Constants.ERROR_SET_PARENTS_ATTR
+        assert str(exc_info.value) == Constants.ERROR_NODE_SET_PARENTS_ATTR
 
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(AttributeError) as exc_info:
             self.b.parents
-        assert str(exc_info.value) == Constants.ERROR_GET_PARENTS_ATTR
+        assert str(exc_info.value) == Constants.ERROR_NODE_GET_PARENTS_ATTR
 
     def test_set_parent(self):
         self.b.parent = self.a
@@ -283,13 +283,23 @@ class TestBinaryNode(unittest.TestCase):
             self.a = BinaryNode(1, left=self.b, right=self.c, children=[self.c])
         assert str(exc_info.value) == Constants.ERROR_BINARYNODE_CHILDREN_LENGTH
 
+        left = self.b
+        right = self.c
+        children = [self.d, self.c]
         with pytest.raises(ValueError) as exc_info:
-            self.a = BinaryNode(1, left=self.b, right=self.c, children=[self.d, self.c])
-        assert str(exc_info.value).startswith(Constants.ERROR_SET_LEFT_CHILDREN)
+            self.a = BinaryNode(1, left=left, right=right, children=children)
+        assert str(exc_info.value) == Constants.ERROR_BINARYNODE_LEFT_CHILDREN.format(
+            left=left, children=children
+        )
 
+        left = self.b
+        right = self.c
+        children = [self.b, self.d]
         with pytest.raises(ValueError) as exc_info:
-            self.a = BinaryNode(1, left=self.b, right=self.c, children=[self.b, self.d])
-        assert str(exc_info.value).startswith(Constants.ERROR_SET_RIGHT_CHILDREN)
+            self.a = BinaryNode(1, left=left, right=right, children=children)
+        assert str(exc_info.value) == Constants.ERROR_BINARYNODE_RIGHT_CHILDREN.format(
+            right=right, children=children
+        )
 
     def test_set_left_and_right_duplicate(self):
         self.a = BinaryNode(1, left=self.b, right=self.c)
@@ -367,9 +377,12 @@ class TestBinaryNode(unittest.TestCase):
         assert_binarytree_structure_self(self)
 
     def test_set_children_none_parent_error(self):
+        children = None
         with pytest.raises(TypeError) as exc_info:
-            self.h.children = None
-        assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
+            self.h.children = children
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="Iterable", input_type=type(children)
+        )
 
     def test_set_children_reassign(self):
         self.a.children = [self.b, self.c]
@@ -426,49 +439,66 @@ class TestBinaryNode(unittest.TestCase):
         assert_binarytree_structure_root(a2)
 
     def test_set_parent_type_error(self):
+        parent = 1
         with pytest.raises(TypeError) as exc_info:
-            self.a.parent = 1
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_PARENT_TYPE)
+            self.a.parent = parent
+        assert str(exc_info.value) == Constants.ERROR_NODE_PARENT_TYPE_NONE.format(
+            type="BinaryNode", input_type=type(parent)
+        )
 
-        a = BaseNode()
+        parent = BaseNode()
         with pytest.raises(TypeError) as exc_info:
-            self.a.parent = a
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_PARENT_TYPE)
+            self.a.parent = parent
+        assert str(exc_info.value) == Constants.ERROR_NODE_PARENT_TYPE_NONE.format(
+            type="BinaryNode", input_type=type(parent)
+        )
 
-        a = Node("a")
+        parent = Node("a")
         with pytest.raises(TypeError) as exc_info:
-            self.a.parent = a
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_PARENT_TYPE)
+            self.a.parent = parent
+        assert str(exc_info.value) == Constants.ERROR_NODE_PARENT_TYPE_NONE.format(
+            type="BinaryNode", input_type=type(parent)
+        )
 
     def test_set_parent_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
             self.a.parent = self.a
-        assert str(exc_info.value) == Constants.ERROR_LOOP_PARENT
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_PARENT
 
         with pytest.raises(LoopError) as exc_info:
             self.b.parent = self.a
             self.c.parent = self.b
             self.a.parent = self.c
-        assert str(exc_info.value) == Constants.ERROR_LOOP_ANCESTOR
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_ANCESTOR
 
     def test_set_children_type_error(self):
+        children = self.b
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = self.b
-        assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
+            self.a.children = children
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="Iterable", input_type=type(children)
+        )
 
+        children = 1
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = [self.b, 1]
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_CHILDREN_TYPE)
+            self.a.children = [self.b, children]
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE_NONE.format(
+            type="BinaryNode", input_type=type(children)
+        )
 
-        a = BaseNode()
+        children = BaseNode()
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = [a, None]
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_CHILDREN_TYPE)
+            self.a.children = [children, None]
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE_NONE.format(
+            type="BinaryNode", input_type=type(children)
+        )
 
-        a = Node("a")
+        children = Node("a")
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = [a, None]
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARYNODE_CHILDREN_TYPE)
+            self.a.children = [children, None]
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE_NONE.format(
+            type="BinaryNode", input_type=type(children)
+        )
 
     def test_set_children_length_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -478,18 +508,18 @@ class TestBinaryNode(unittest.TestCase):
     def test_set_children_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.a]
-        assert str(exc_info.value) == Constants.ERROR_LOOP_CHILD
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_CHILD
 
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e]
             self.e.children = [self.a, self.f]
-        assert str(exc_info.value) == Constants.ERROR_LOOP_DESCENDANT
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_DESCENDANT
 
     def test_set_duplicate_children_error(self):
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.b]
-        assert str(exc_info.value) == Constants.ERROR_SET_DUPLICATE_CHILD
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_CHILD
 
     def test_rollback_set_parent(self):
         a = clone_tree(self.a, BinaryNode2)
@@ -507,7 +537,7 @@ class TestBinaryNode(unittest.TestCase):
         a.val = 100
         with pytest.raises(TreeError) as exc_info:
             b.parent = a
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value).startswith("Custom error assigning parent, ")
 
         expected_a_children = [None, c]
         expected_b_children = [d, e]
@@ -541,7 +571,7 @@ class TestBinaryNode(unittest.TestCase):
         a.val = 100
         with pytest.raises(TreeError) as exc_info:
             g.parent = a
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value).startswith("Custom error assigning parent, ")
 
         expected_a_children = [None, c]
         expected_b_children = [d, e]
@@ -576,7 +606,7 @@ class TestBinaryNode(unittest.TestCase):
         g.val = 100
         with pytest.raises(TreeError) as exc_info:
             g.parent = None
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value) == "Custom error assigning parent"
 
         expected_a_children = [None, c]
         expected_b_children = [d, e]
@@ -610,7 +640,7 @@ class TestBinaryNode(unittest.TestCase):
         a.val = 100
         with pytest.raises(TreeError) as exc_info:
             c.parent = a
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value).startswith("Custom error assigning parent, ")
 
         expected_a_children = [None, c]
         expected_b_children = [d, e]
@@ -641,7 +671,7 @@ class TestBinaryNode(unittest.TestCase):
         f.val = 100
         with pytest.raises(TreeError) as exc_info:
             a.children = [d, f]
-        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert str(exc_info.value).startswith("Custom error assigning children, ")
 
         expected_a_children = [b, c]
         expected_b_children = [d, e]
@@ -671,7 +701,7 @@ class TestBinaryNode(unittest.TestCase):
         a.val = 100
         with pytest.raises(TreeError) as exc_info:
             a.children = []
-        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert str(exc_info.value) == "Custom error assigning children"
 
         expected_a_children = [b, c]
         expected_b_children = [d, e]
@@ -699,7 +729,7 @@ class TestBinaryNode(unittest.TestCase):
         f.val = 100
         with pytest.raises(TreeError) as exc_info:
             a.children = [e, f]
-        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert str(exc_info.value).startswith("Custom error assigning children, ")
 
         expected_a_children = [b, None]
         expected_b_children = [None, e]
@@ -728,7 +758,7 @@ class TestBinaryNode(unittest.TestCase):
         b.val = 100
         with pytest.raises(TreeError) as exc_info:
             a.children = [b, c]
-        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert str(exc_info.value).startswith("Custom error assigning children, ")
 
         expected_a_children = [b, c]
         expected_b_children = [d, e]

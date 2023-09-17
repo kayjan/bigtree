@@ -82,12 +82,12 @@ class BinaryNode(Node):
                 raise ValueError("Children input must have length 2")
             if left and left != children[0]:
                 raise ValueError(
-                    f"Attempting to set both left and children with mismatched values\n"
+                    f"Error setting child: Attempting to set both left and children with mismatched values\n"
                     f"Check left {left} and children {children}"
                 )
             if right and right != children[1]:
                 raise ValueError(
-                    f"Attempting to set both right and children with mismatched values\n"
+                    f"Error setting child: Attempting to set both right and children with mismatched values\n"
                     f"Check right {right} and children {children}"
                 )
         else:
@@ -95,7 +95,7 @@ class BinaryNode(Node):
         self.parent = parent
         self.children = children  # type: ignore
         if "parents" in kwargs:
-            raise ValueError(
+            raise AttributeError(
                 "Attempting to set `parents` attribute, do you mean `parent`?"
             )
         self.__dict__.update(**kwargs)
@@ -255,7 +255,7 @@ class BinaryNode(Node):
             # Check type
             if new_child is not None and not isinstance(new_child, BinaryNode):
                 raise TypeError(
-                    f"Expect child to be BinaryNode type or NoneType, received input type {type(new_child)}"
+                    f"Expect children to be BinaryNode type or NoneType, received input type {type(new_child)}"
                 )
 
             # Check for loop and tree structure

@@ -165,9 +165,9 @@ class TestDAGToDot:
 
     @staticmethod
     def test_dag_to_dot_type_error(tree_node):
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(TypeError) as exc_info:
             dag_to_dot(tree_node)
-        assert str(exc_info.value) == Constants.ERROR_DAG_TYPE
+        assert str(exc_info.value) == Constants.ERROR_NODE_TYPE.format(type="DAGNode")
 
     @staticmethod
     def test_dag_to_dot_bg_colour(dag_node):

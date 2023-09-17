@@ -37,7 +37,7 @@ def list_to_binarytree(
         (BinaryNode)
     """
     if not len(heapq_list):
-        raise ValueError(f"Input list does not contain any data, check {heapq_list}")
+        raise ValueError("Input list does not contain any data, check `heapq_list`")
 
     root_node = node_type(heapq_list[0])
     node_list = [root_node]
