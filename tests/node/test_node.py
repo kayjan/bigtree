@@ -101,9 +101,12 @@ class TestNode(unittest.TestCase):
     def test_set_parent_sep_different_error(self):
         b = Node("b", sep="\\")
         self.b.parent = self.a
+        path = "/a/b"
         with pytest.raises(TreeError) as exc_info:
             b.parent = self.a
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/b"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_PARENT_PATH.format(
+            path=path
+        )
 
     def test_set_parent_sep_root(self):
         self.b.parent = self.a
@@ -173,39 +176,54 @@ class TestNode(unittest.TestCase):
 
     def test_set_children_sep_different_error(self):
         b = Node("b", sep="\\")
+        path = "/a/b"
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, b]
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_CHILDREN_PATH}/a/b"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_CHILDREN_PATH.format(
+            path=path
+        )
 
     def test_set_parent_same_path_error(self):
         self.a = Node("a")
         self.b = Node("b", parent=self.a)
         self.c = Node("b")
+        path = "/a/b"
         with pytest.raises(TreeError) as exc_info:
             self.c.parent = self.a
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/b"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_PARENT_PATH.format(
+            path=path
+        )
 
     def test_set_parent_constructor_same_path_error(self):
         self.a = Node("a")
         self.b = Node("b", parent=self.a)
+        path = "/a/b"
         with pytest.raises(TreeError) as exc_info:
             self.c = Node("b", parent=self.a)
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/b"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_PARENT_PATH.format(
+            path=path
+        )
 
     def test_set_children_same_path_error(self):
         self.a = Node("a")
         self.b = Node("b")
         self.c = Node("b")
+        path = "/a/b"
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.c]
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_CHILDREN_PATH}/a/b"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_CHILDREN_PATH.format(
+            path=path
+        )
 
     def test_set_children_constructor_same_path_error(self):
         self.c = Node("b")
         self.b = Node("b")
+        path = "/a/b"
         with pytest.raises(TreeError) as exc_info:
             self.a = Node("a", children=[self.b, self.c])
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_CHILDREN_PATH}/a/b"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_CHILDREN_PATH.format(
+            path=path
+        )
 
     def test_set_children_multiple_same_path_error(self):
         self.a = Node("a")
@@ -213,11 +231,11 @@ class TestNode(unittest.TestCase):
         self.c = Node("b")
         self.d = Node("c")
         self.e = Node("c")
+        path = "/a/b and /a/c"
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.c, self.d, self.e]
-        assert (
-            str(exc_info.value)
-            == f"{Constants.ERROR_NODE_SAME_CHILDREN_PATH}/a/b and /a/c"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_CHILDREN_PATH.format(
+            path=path
         )
 
     def test_set_parent_error(self):

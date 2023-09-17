@@ -360,9 +360,12 @@ class TestCopyNodes(unittest.TestCase):
 
         from_paths = ["aa/bb"]
         to_paths = ["/a/bb"]
+        path = "/a/bb/cc"
         with pytest.raises(TreeError) as exc_info:
             copy_nodes(self.root_overriding, from_paths, to_paths, merge_children=True)
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/bb/cc"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_PARENT_PATH.format(
+            path=path
+        )
 
     def test_copy_nodes_same_node_error(self):
         from_paths = ["d"]
@@ -424,9 +427,12 @@ class TestCopyNodes(unittest.TestCase):
 
         from_paths = ["a/aa"]
         to_paths = ["/a/bb/aa"]
+        path = "/a/bb/dd"
         with pytest.raises(TreeError) as exc_info:
             copy_nodes(self.root_overriding, from_paths, to_paths, merge_leaves=True)
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/bb/dd"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_PARENT_PATH.format(
+            path=path
+        )
 
     def test_copy_nodes_same_node_merge_leaves(self):
         a = Node("a", age=90)
@@ -900,9 +906,12 @@ class TestShiftNodes(unittest.TestCase):
 
         from_paths = ["aa/bb"]
         to_paths = ["/a/bb"]
+        path = "/a/bb/cc"
         with pytest.raises(TreeError) as exc_info:
             shift_nodes(self.root_overriding, from_paths, to_paths, merge_children=True)
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/bb/cc"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_PARENT_PATH.format(
+            path=path
+        )
 
     def test_shift_nodes_same_node_error(self):
         from_paths = ["d"]
@@ -964,9 +973,12 @@ class TestShiftNodes(unittest.TestCase):
 
         from_paths = ["a/aa"]
         to_paths = ["/a/bb/aa"]
+        path = "/a/bb/dd"
         with pytest.raises(TreeError) as exc_info:
             shift_nodes(self.root_overriding, from_paths, to_paths, merge_leaves=True)
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/bb/dd"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_PARENT_PATH.format(
+            path=path
+        )
 
     def test_shift_nodes_same_node_merge_leaves(self):
         a = Node("a", age=90)
@@ -1604,6 +1616,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
 
         from_paths = ["a/c"]
         to_paths = ["a/c"]
+        path = "/a/c/f"
         with pytest.raises(TreeError) as exc_info:
             copy_nodes_from_tree_to_tree(
                 from_tree=self.root,
@@ -1612,7 +1625,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 to_paths=to_paths,
                 merge_children=True,
             )
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/c/f"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_PARENT_PATH.format(
+            path=path
+        )
 
     # merge_leaves
     def test_copy_nodes_from_tree_to_tree_merge_leaves(self):
@@ -1663,7 +1678,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
 
         from_paths = ["a/b", "a/c"]
         to_paths = ["/a/b", "a/b/e/c"]
-
+        path = "/a/b/d"
         with pytest.raises(TreeError) as exc_info:
             copy_nodes_from_tree_to_tree(
                 from_tree=self.root,
@@ -1672,7 +1687,9 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
                 to_paths=to_paths,
                 merge_leaves=True,
             )
-        assert str(exc_info.value) == f"{Constants.ERROR_NODE_SAME_PARENT_PATH}/a/b/d"
+        assert str(exc_info.value) == Constants.ERROR_NODE_SAME_PARENT_PATH.format(
+            path=path
+        )
 
     # delete_children
     def test_copy_nodes_from_tree_to_tree_delete_children(self):

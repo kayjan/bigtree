@@ -92,10 +92,10 @@ class Constants:
     # node/node
     ERROR_NODE_NAME = "Node must have a `name` attribute"
     ERROR_NODE_SAME_PARENT_PATH = (
-        "Duplicate node with same path\nThere exist a node with same path "
+        "Duplicate node with same path\nThere exist a node with same path {path}"
     )
     ERROR_NODE_SAME_CHILDREN_PATH = (
-        "Duplicate node with same path\nAttempting to add nodes with same path "
+        "Duplicate node with same path\nAttempting to add nodes with same path {path}"
     )
 
     # tree/construct
