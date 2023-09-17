@@ -8,7 +8,7 @@ __all__ = ["list_to_binarytree"]
 def list_to_binarytree(
     heapq_list: List[int], node_type: Type[BinaryNode] = BinaryNode
 ) -> BinaryNode:
-    """Construct tree from list of numbers (int or float) in heapq format.
+    """Construct tree from a list of numbers (int or float) in heapq format.
 
     >>> from bigtree import list_to_binarytree, tree_to_dot
     >>> nums_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]

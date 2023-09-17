@@ -23,12 +23,12 @@ def reingold_tilford(
 
     This algorithm[1] is an improvement over Reingold Tilford algorithm[2].
 
-    According to Reingold Tilford paper, a tree diagram should satisfy the following aesthetic rules,
+    According to Reingold Tilford's paper, a tree diagram should satisfy the following aesthetic rules,
 
     1. Nodes at the same depth should lie along a straight line, and the straight lines defining the depths should be parallel.
     2. A left child should be positioned to the left of its parent node and a right child to the right.
-    3. A parent should be centered over its children.
-    4. A tree and its mirror image should produce drawings that are reflection of one another; a subtree should be drawn the same way regardless of where it occurs in the tree.
+    3. A parent should be centered over their children.
+    4. A tree and its mirror image should produce drawings that are reflections of one another; a subtree should be drawn the same way regardless of where it occurs in the tree.
 
     >>> from bigtree import reingold_tilford, list_to_tree
     >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
@@ -76,7 +76,7 @@ def first_pass(
     tree_node: T, sibling_separation: float, subtree_separation: float
 ) -> None:
     """
-    Performs post-order traversal of tree and assigns `x`, `mod` and `shift` value to each node.
+    Performs post-order traversal of tree and assigns `x`, `mod` and `shift` values to each node.
     Modifies tree in-place.
 
     Notation:
@@ -89,7 +89,7 @@ def first_pass(
 
     There are two parts in the first pass,
 
-    1. In the first part, we assign `x` and `mod` value to each node
+    1. In the first part, we assign `x` and `mod` values to each node
 
       `x` value is the initial x-position of each node purely based on the node's position
         - :math:`x = 0` for leftmost node and :math:`x = lsibling.x + sibling distance` for other nodes

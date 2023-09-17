@@ -171,7 +171,7 @@ class TestAppToDo(unittest.TestCase):
     def test_add_item_type_error(self):
         with pytest.raises(TypeError) as exc_info:
             self.todoapp.add_item(1)
-        assert str(exc_info.value) == Constants.ERROR_TODO_TYPE
+        assert str(exc_info.value) == Constants.ERROR_WORKFLOW_TODO_TYPE
 
     def test_remove_item_single(self):
         self.todoapp.add_item("Item 1")
@@ -263,7 +263,9 @@ class TestAppToDo(unittest.TestCase):
         self.todoapp.add_item("Item 1", "List 1")
         with pytest.raises(SearchError) as exc_info:
             self.todoapp.remove_item("Item 1")
-        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_SEARCH_LESS_THAN_N_ELEMENT.format(count=1)
+        )
 
     def test_remove_item_multiple(self):
         self.todoapp.add_item(["Item 1", "Item 2"])
@@ -306,7 +308,7 @@ class TestAppToDo(unittest.TestCase):
     def test_remove_item_error(self):
         with pytest.raises(TypeError) as exc_info:
             self.todoapp.remove_item(1)
-        assert str(exc_info.value) == Constants.ERROR_TODO_TYPE
+        assert str(exc_info.value) == Constants.ERROR_WORKFLOW_TODO_TYPE
 
     def test_prioritize_item(self):
         self.todoapp.add_item("Item 1", "List 1")

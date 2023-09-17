@@ -46,13 +46,13 @@ def add_path_to_tree(
 
     Path should contain `Node` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
-      - Path separator `sep` is for the input `path` and can be different from that of existing tree.
+      - Path separator `sep` is for the input `path` and can differ from existing tree.
 
     Path can start from root node `name`, or start with `sep`.
       - For example: Path string can be "/a/b" or "a/b", if sep is "/".
 
     All paths should start from the same root node.
-      - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+      - For example: Path strings should be "a/b", "a/c", "a/b/d" etc., and should not start with another root node.
 
     >>> from bigtree import add_path_to_tree
     >>> root = Node("a")
@@ -124,7 +124,7 @@ def add_dict_to_tree_by_path(
 
     Path should contain `Node` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
-      - Path separator `sep` is for the input `path` and can be different from that of existing tree.
+      - Path separator `sep` is for the input `path` and can differ from existing tree.
 
     Path can start from root node `name`, or start with `sep`.
       - For example: Path string can be "/a/b" or "a/b", if sep is "/".
@@ -188,9 +188,9 @@ def add_dict_to_tree_by_name(
     """Add attributes to tree, return *new* root of tree.
     Adds to existing tree from nested dictionary, ``key``: name, ``value``: dict of attribute name and attribute value.
 
-    Function can return all existing tree nodes or only tree nodes that are in the input dictionary keys.
+    Function can return all existing tree nodes or only tree nodes that are in the input dictionary keys depending on join type.
     Input dictionary keys that are not existing node names will be ignored.
-    Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.
+    Note that if multiple nodes have the same name, attributes will be added to all nodes sharing the same name.
 
     >>> from bigtree import Node, add_dict_to_tree_by_name
     >>> root = Node("a")
@@ -240,7 +240,7 @@ def add_dataframe_to_tree_by_path(
 
     Path in path column should contain `Node` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
-      - Path separator `sep` is for the input `path_col` and can be different from that of existing tree.
+      - Path separator `sep` is for the input `path` and can differ from existing tree.
 
     Path in path column can start from root node `name`, or start with `sep`.
       - For example: Path string can be "/a/b" or "a/b", if sep is "/".

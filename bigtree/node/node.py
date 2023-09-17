@@ -120,7 +120,7 @@ class Node(BaseNode):
 
     def __pre_assign_children(self: T, new_children: List[T]) -> None:
         """Custom method to check before attaching children
-        Can be overriden with `_Node__pre_assign_children()`
+        Can be overridden with `_Node__pre_assign_children()`
 
         Args:
             new_children (List[Self]): new children to be added
@@ -129,7 +129,7 @@ class Node(BaseNode):
 
     def __post_assign_children(self: T, new_children: List[T]) -> None:
         """Custom method to check after attaching children
-        Can be overriden with `_Node__post_assign_children()`
+        Can be overridden with `_Node__post_assign_children()`
 
         Args:
             new_children (List[Self]): new children to be added
@@ -138,7 +138,7 @@ class Node(BaseNode):
 
     def __pre_assign_parent(self: T, new_parent: T) -> None:
         """Custom method to check before attaching parent
-        Can be overriden with `_Node__pre_assign_parent()`
+        Can be overridden with `_Node__pre_assign_parent()`
 
         Args:
             new_parent (Self): new parent to be added
@@ -147,7 +147,7 @@ class Node(BaseNode):
 
     def __post_assign_parent(self: T, new_parent: T) -> None:
         """Custom method to check after attaching parent
-        Can be overriden with `_Node__post_assign_parent()`
+        Can be overridden with `_Node__post_assign_parent()`
 
         Args:
             new_parent (Self): new parent to be added
@@ -196,7 +196,7 @@ class Node(BaseNode):
             )
             raise TreeError(
                 f"Duplicate node with same path\n"
-                f"Attempting to add nodes same path {duplicate_names_str}"
+                f"Attempting to add nodes with same path {duplicate_names_str}"
             )
 
     def _BaseNode__post_assign_children(self: T, new_children: List[T]) -> None:

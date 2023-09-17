@@ -6,6 +6,8 @@ T = TypeVar("T")
 
 
 class TreeError(Exception):
+    """Generic tree exception"""
+
     pass
 
 
@@ -16,7 +18,7 @@ class LoopError(TreeError):
 
 
 class CorruptedTreeError(TreeError):
-    """Error during node creation or tree creation"""
+    """Error during node creation"""
 
     pass
 
@@ -28,7 +30,7 @@ class DuplicatedNodeError(TreeError):
 
 
 class NotFoundError(TreeError):
-    """Error during tree creation or tree search"""
+    """Error during tree pruning or modification"""
 
     pass
 

@@ -88,7 +88,7 @@ class TestAddPathToTree(unittest.TestCase):
     def test_add_path_to_tree_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
             add_path_to_tree(self.root, "")
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_PATH
+        assert str(exc_info.value) == Constants.ERROR_NODE_PATH_EMPTY
 
     def test_add_path_to_tree_sep_leading(self):
         path_list = ["/a/b/d", "/a/b/e", "/a/b/e/g", "/a/b/e/h", "/a/c/f"]
@@ -103,12 +103,16 @@ class TestAddPathToTree(unittest.TestCase):
         assert_tree_structure_basenode_root(self.root)
 
     def test_add_path_to_tree_sep_error(self):
+        root1 = self.root.name
+        root2 = "a\\b\\d"
         path_list = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
 
         with pytest.raises(TreeError) as exc_info:
             for path in path_list:
                 add_path_to_tree(self.root, path)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
     def test_add_path_to_tree_sep(self):
         path_list = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
@@ -140,7 +144,9 @@ class TestAddPathToTree(unittest.TestCase):
         with pytest.raises(DuplicatedNodeError) as exc_info:
             for path in path_list:
                 add_path_to_tree(self.root, path, duplicate_name_allowed=False)
-        assert str(exc_info.value).startswith("Node d already exists")
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_NAME.format(
+            name="d"
+        )
 
     def test_add_path_to_tree_duplicate_node(self):
         path_list = [
@@ -162,13 +168,15 @@ class TestAddPathToTree(unittest.TestCase):
         root = NodeA("a")
         for path in self.path_list:
             add_path_to_tree(root, path)
-        assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
-        ), Constants.ERROR_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
 
     def test_add_path_to_tree_different_root_error(self):
+        root1 = self.root.name
+        root2 = "a/b"
         path_list = [
             "a",
             "a/b",
@@ -177,12 +185,14 @@ class TestAddPathToTree(unittest.TestCase):
             "a/b/e",
             "a/c/f",
             "a/b/e/g",
-            "b/b/e/h",  # different root
+            "a/b/e/h",
         ]
         with pytest.raises(TreeError) as exc_info:
             for path in path_list:
                 add_path_to_tree(self.root, path, sep="-")
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
 
 class TestAddDictToTreeByPath(unittest.TestCase):
@@ -221,10 +231,11 @@ class TestAddDictToTreeByPath(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     def test_add_dict_to_tree_by_path_empty_error(self):
-        paths = {}
         with pytest.raises(ValueError) as exc_info:
-            add_dict_to_tree_by_path(self.root, paths)
-        assert str(exc_info.value).startswith(Constants.ERROR_EMPTY_DICT)
+            add_dict_to_tree_by_path(self.root, {})
+        assert str(exc_info.value) == Constants.ERROR_NODE_DICT_EMPTY.format(
+            parameter="path_attrs"
+        )
 
     def test_add_dict_to_tree_by_path_sep_leading(self):
         paths = {
@@ -259,6 +270,8 @@ class TestAddDictToTreeByPath(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     def test_add_dict_to_tree_by_path_sep_error(self):
+        root1 = self.root.name
+        root2 = "a-b"
         paths = {
             "a": {"age": 90},
             "a-b": {"age": 65},
@@ -271,7 +284,9 @@ class TestAddDictToTreeByPath(unittest.TestCase):
         }
         with pytest.raises(TreeError) as exc_info:
             add_dict_to_tree_by_path(self.root, paths)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
     def test_add_dict_to_tree_by_path_sep(self):
         paths = {
@@ -320,7 +335,9 @@ class TestAddDictToTreeByPath(unittest.TestCase):
         }
         with pytest.raises(DuplicatedNodeError) as exc_info:
             add_dict_to_tree_by_path(self.root, paths, duplicate_name_allowed=False)
-        assert str(exc_info.value).startswith("Node d already exists")
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_NAME.format(
+            name="d"
+        )
 
     def test_add_dict_to_tree_by_path_duplicate_node(self):
         paths = {
@@ -340,10 +357,10 @@ class TestAddDictToTreeByPath(unittest.TestCase):
     def test_add_dict_to_tree_by_path_node_type(self):
         root = NodeA("a", age=1)
         add_dict_to_tree_by_path(root, self.paths)
-        assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
-        ), Constants.ERROR_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
 
@@ -360,15 +377,19 @@ class TestAddDictToTreeByPath(unittest.TestCase):
         }
         root = CustomNode("a", custom_field=1, custom_field_str="abc")
         add_dict_to_tree_by_path(root, paths)
-        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
+            type="CustomNode"
+        )
         assert all(
             isinstance(node, CustomNode) for node in root.children
-        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="CustomNode")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
 
     def test_add_dict_to_tree_by_path_different_root_error(self):
+        root1 = self.root.name
+        root2 = "b"
         paths = {
             "a": {"age": 90},
             "a/b": {"age": 65},
@@ -381,7 +402,9 @@ class TestAddDictToTreeByPath(unittest.TestCase):
         }
         with pytest.raises(TreeError) as exc_info:
             add_dict_to_tree_by_path(self.root, paths)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
 
 class TestAddDictToTreeByName(unittest.TestCase):
@@ -454,7 +477,9 @@ class TestAddDictToTreeByName(unittest.TestCase):
     def test_add_dict_to_tree_by_name_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
             add_dict_to_tree_by_name(self.root, {})
-        assert str(exc_info.value).startswith(Constants.ERROR_EMPTY_DICT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DICT_EMPTY.format(
+            parameter="name_attrs"
+        )
 
     def test_add_dict_to_tree_by_name_inner_join_tree(self):
         dummy = Node("dummy")
@@ -480,7 +505,7 @@ class TestAddDictToTreeByName(unittest.TestCase):
     def test_add_dict_to_tree_by_name_invalid_join_error(self):
         with pytest.raises(ValueError) as exc_info:
             add_dict_to_tree_by_name(self.root, self.name_dict, join_type="something")
-        assert str(exc_info.value).startswith(Constants.ERROR_JOIN_TYPE)
+        assert str(exc_info.value) == Constants.ERROR_NODE_JOIN_TYPE
 
     def test_add_dict_to_tree_by_name_sep_tree(self):
         self.root.sep = "\\"
@@ -512,10 +537,10 @@ class TestAddDictToTreeByName(unittest.TestCase):
         g.parent = e
         h.parent = e
         root = add_dict_to_tree_by_name(root, self.name_dict)
-        assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
-        ), Constants.ERROR_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -540,10 +565,12 @@ class TestAddDictToTreeByName(unittest.TestCase):
             "h": {"custom_field": 6, "custom_field_str": "h"},
         }
         root = add_dict_to_tree_by_name(root, name_dict)
-        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
+            type="CustomNode"
+        )
         assert all(
             isinstance(node, CustomNode) for node in root.children
-        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="CustomNode")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -609,19 +636,19 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
     def test_add_dataframe_to_tree_by_path_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_path(self.root, pd.DataFrame())
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_COL
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     def test_add_dataframe_to_tree_by_path_empty_row_error(self):
         data = pd.DataFrame(columns=["PATH", "age"])
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_path(self.root, data)
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_ROW
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
 
     def test_add_dataframe_to_tree_by_path_empty_col_error(self):
         data = pd.DataFrame()
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_path(self.root, data)
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_COL
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     def test_add_dataframe_to_tree_by_path_no_attribute(self):
         data = pd.DataFrame(
@@ -679,6 +706,8 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_sep_error(self):
+        root1 = self.root.name
+        root2 = "a\\b"
         data = pd.DataFrame(
             [
                 ["a", 90],
@@ -694,7 +723,9 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         )
         with pytest.raises(TreeError) as exc_info:
             add_dataframe_to_tree_by_path(self.root, data)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
     def test_add_dataframe_to_tree_by_path_sep(self):
         data = pd.DataFrame(
@@ -736,7 +767,9 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         )
         with pytest.raises(DuplicatedNodeError) as exc_info:
             add_dataframe_to_tree_by_path(self.root, data, duplicate_name_allowed=False)
-        assert str(exc_info.value).startswith("Node d already exists")
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_NAME.format(
+            name="d"
+        )
 
     def test_add_dataframe_to_tree_by_path_duplicate_name(self):
         data = pd.DataFrame(
@@ -772,7 +805,9 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         )
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_path(self.root, data)
-        assert str(exc_info.value).startswith(Constants.ERROR_DUPLICATE_PATH)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_DATAFRAME_DUPLICATE_PATH
+        )
 
     def test_add_dataframe_to_tree_by_path_duplicate_data(self):
         data = pd.DataFrame(
@@ -797,10 +832,10 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
     def test_add_dataframe_to_tree_by_path_node_type(self):
         root = NodeA("a", age=1)
         add_dataframe_to_tree_by_path(root, self.data)
-        assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
-        ), Constants.ERROR_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -821,15 +856,19 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
             columns=["PATH", "custom_field", "custom_field_str"],
         )
         add_dataframe_to_tree_by_path(root, data)
-        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
+            type="CustomNode"
+        )
         assert all(
             isinstance(node, CustomNode) for node in root.children
-        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="CustomNode")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
 
     def test_add_dataframe_to_tree_by_path_different_root_error(self):
+        root1 = self.root.name
+        root2 = "b"
         data = pd.DataFrame(
             [
                 ["a", 90],
@@ -845,7 +884,9 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         )
         with pytest.raises(TreeError) as exc_info:
             add_dataframe_to_tree_by_path(self.root, data)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
 
 class TestAddDataFrameToTreeByName(unittest.TestCase):
@@ -922,19 +963,19 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
     def test_add_dataframe_to_tree_by_name_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_name(self.root, pd.DataFrame())
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_COL
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     def test_add_dataframe_to_tree_by_name_empty_row_error(self):
         data = pd.DataFrame(columns=["NAME", "age"])
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_name(self.root, data)
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_ROW
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
 
     def test_add_dataframe_to_tree_by_name_empty_col_error(self):
         data = pd.DataFrame()
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_name(self.root, data)
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_COL
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     def test_add_dataframe_to_tree_by_name_inner_join_tree(self):
         dummy = Node("dummy")
@@ -973,7 +1014,7 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
     def test_add_dataframe_to_tree_by_name_invalid_join_error(self):
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_name(self.root, self.data, join_type="something")
-        assert str(exc_info.value).startswith(Constants.ERROR_JOIN_TYPE)
+        assert str(exc_info.value) == Constants.ERROR_NODE_JOIN_TYPE
 
     def test_add_dataframe_to_tree_by_name_sep_tree(self):
         self.root.sep = "\\"
@@ -1006,7 +1047,9 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         )
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_name(self.root, data)
-        assert str(exc_info.value).startswith(Constants.ERROR_DUPLICATE_NAME)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_DATAFRAME_DUPLICATE_NAME
+        )
 
     def test_add_dataframe_to_tree_by_name_node_type(self):
         root = NodeA("a", age=1)
@@ -1023,10 +1066,10 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         g.parent = e
         h.parent = e
         root = add_dataframe_to_tree_by_name(root, self.data)
-        assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
-        ), Constants.ERROR_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -1054,10 +1097,12 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
             columns=["NAME", "custom_field", "custom_field_str"],
         )
         root = add_dataframe_to_tree_by_name(root, data)
-        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
+            type="CustomNode"
+        )
         assert all(
             isinstance(node, CustomNode) for node in root.children
-        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="CustomNode")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -1094,10 +1139,13 @@ class TestStrToTree(unittest.TestCase):
         assert_tree_structure_node_root(root)
 
     def test_ascii_character_error(self):
+        node_str = "|-- b"
         tree_str = "a\n|-- b\n|   |-- d\n|   +-- e\n|       |-- g\n|       +-- h\n+-- c\n    +-- f"
         with pytest.raises(ValueError) as exc_info:
             str_to_tree(tree_str)
-        assert str(exc_info.value).startswith(Constants.ERROR_PREFIX)
+        assert str(exc_info.value) == Constants.ERROR_NODE_STRING_PREFIX.format(
+            node_str=node_str
+        )
 
     def test_ascii_character_with_prefix(self):
         tree_str = "a\n|-- b\n|   |-- d\n|   +-- e\n|       |-- g\n|       +-- h\n+-- c\n    +-- f"
@@ -1108,18 +1156,21 @@ class TestStrToTree(unittest.TestCase):
     def test_empty_string_error(self):
         with pytest.raises(ValueError) as exc_info:
             str_to_tree("")
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_STRING
+        assert str(exc_info.value) == Constants.ERROR_NODE_STRING_EMPTY
 
     def test_empty_newline_string_error(self):
         with pytest.raises(ValueError) as exc_info:
             str_to_tree("\n\n")
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_STRING
+        assert str(exc_info.value) == Constants.ERROR_NODE_STRING_EMPTY
 
     def test_unequal_prefix_length_error(self):
+        branch = "│  ├── d"
         tree_str = "a\n├── b\n│  ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f"
         with pytest.raises(ValueError) as exc_info:
             str_to_tree(tree_str)
-        assert str(exc_info.value).startswith(Constants.ERROR_PREFIX_LENGTH)
+        assert str(exc_info.value) == Constants.ERROR_NODE_STRING_PREFIX_LENGTH.format(
+            branch=branch
+        )
 
 
 class TestListToTree(unittest.TestCase):
@@ -1163,8 +1214,10 @@ class TestListToTree(unittest.TestCase):
 
     def test_list_to_tree_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
-            list_to_tree("")
-        assert str(exc_info.value).startswith(Constants.ERROR_EMPTY_LIST)
+            list_to_tree([])
+        assert str(exc_info.value) == Constants.ERROR_NODE_LIST_EMPTY.format(
+            parameter="paths"
+        )
 
     def test_list_to_tree_sep_leading(self):
         path_list = ["/a/b/d", "/a/b/e", "/a/b/e/g", "/a/b/e/h", "/a/c/f"]
@@ -1179,10 +1232,14 @@ class TestListToTree(unittest.TestCase):
         assert_tree_structure_node_root(root)
 
     def test_list_to_tree_sep_error(self):
+        root1 = "a\\b\\d"
+        root2 = "a\\b\\e"
         path_list = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
         with pytest.raises(TreeError) as exc_info:
             list_to_tree(path_list)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
     def test_list_to_tree_sep(self):
         path_list = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
@@ -1203,7 +1260,9 @@ class TestListToTree(unittest.TestCase):
         ]
         with pytest.raises(DuplicatedNodeError) as exc_info:
             list_to_tree(path_list, duplicate_name_allowed=False)
-        assert str(exc_info.value).startswith("Node d already exists")
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_NAME.format(
+            name="d"
+        )
 
     def test_list_to_tree_duplicate_node(self):
         path_list = [
@@ -1222,14 +1281,16 @@ class TestListToTree(unittest.TestCase):
 
     def test_list_to_tree_node_type(self):
         root = list_to_tree(self.path_list, node_type=NodeA)
-        assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
-        ), Constants.ERROR_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_node_root(root)
 
     def test_list_to_tree_different_root_error(self):
+        root1 = "a"
+        root2 = "b"
         path_list = [
             "a",
             "a/b",
@@ -1242,7 +1303,9 @@ class TestListToTree(unittest.TestCase):
         ]
         with pytest.raises(TreeError) as exc_info:
             list_to_tree(path_list)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
 
 class TestListToTreeByRelation(unittest.TestCase):
@@ -1303,7 +1366,9 @@ class TestListToTreeByRelation(unittest.TestCase):
     def test_list_to_tree_by_relation_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
             list_to_tree_by_relation([])
-        assert str(exc_info.value).startswith(Constants.ERROR_EMPTY_LIST)
+        assert str(exc_info.value) == Constants.ERROR_NODE_LIST_EMPTY.format(
+            parameter="relations"
+        )
 
     @staticmethod
     def test_list_to_tree_by_relation_duplicate_leaf_node():
@@ -1335,7 +1400,9 @@ class TestListToTreeByRelation(unittest.TestCase):
         ]
         with pytest.raises(ValueError) as exc_info:
             list_to_tree_by_relation(relations)
-        assert str(exc_info.value).startswith(Constants.ERROR_DUPLICATE_PARENT)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_DUPLICATED_INTERMEDIATE_NODE
+        )
 
     @staticmethod
     def test_list_to_tree_by_relation_duplicate_intermediate_node():
@@ -1410,10 +1477,11 @@ class TestDictToTree(unittest.TestCase):
         assert_tree_structure_node_root(root)
 
     def test_dict_to_tree_empty_error(self):
-        paths = {}
         with pytest.raises(ValueError) as exc_info:
-            dict_to_tree(paths)
-        assert str(exc_info.value).startswith(Constants.ERROR_EMPTY_DICT)
+            dict_to_tree({})
+        assert str(exc_info.value) == Constants.ERROR_NODE_DICT_EMPTY.format(
+            parameter="path_attrs"
+        )
 
     @staticmethod
     def test_dict_to_tree_sep_leading():
@@ -1451,6 +1519,8 @@ class TestDictToTree(unittest.TestCase):
 
     @staticmethod
     def test_dict_to_tree_sep_error():
+        root1 = "a"
+        root2 = "a-b"
         paths = {
             "a": {"age": 90},
             "a-b": {"age": 65},
@@ -1463,7 +1533,9 @@ class TestDictToTree(unittest.TestCase):
         }
         with pytest.raises(TreeError) as exc_info:
             dict_to_tree(paths)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
     @staticmethod
     def test_dict_to_tree_sep():
@@ -1496,7 +1568,9 @@ class TestDictToTree(unittest.TestCase):
         }
         with pytest.raises(DuplicatedNodeError) as exc_info:
             dict_to_tree(path_dict, duplicate_name_allowed=False)
-        assert str(exc_info.value).startswith("Node d already exists")
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_NAME.format(
+            name="d"
+        )
 
     @staticmethod
     def test_dict_to_tree_duplicate_node():
@@ -1517,10 +1591,10 @@ class TestDictToTree(unittest.TestCase):
 
     def test_dict_to_tree_node_type(self):
         root = dict_to_tree(self.path_dict, node_type=NodeA)
-        assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
-        ), Constants.ERROR_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -1537,16 +1611,20 @@ class TestDictToTree(unittest.TestCase):
             "a/b/e/h": {"custom_field": 6, "custom_field_str": "h"},
         }
         root = dict_to_tree(path_dict, node_type=CustomNode)
-        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
+            type="CustomNode"
+        )
         assert all(
             isinstance(node, CustomNode) for node in root.children
-        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="CustomNode")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_dict_to_tree_different_root_error():
+        root1 = "a"
+        root2 = "b"
         path_dict = {
             "a": {"age": 90},
             "a/b": {"age": 65},
@@ -1559,7 +1637,9 @@ class TestDictToTree(unittest.TestCase):
         }
         with pytest.raises(TreeError) as exc_info:
             dict_to_tree(path_dict)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
 
 class TestNestedDictToTree(unittest.TestCase):
@@ -1610,9 +1690,13 @@ class TestNestedDictToTree(unittest.TestCase):
     def test_nested_dict_to_tree_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
             nested_dict_to_tree({})
-        assert str(exc_info.value).startswith(Constants.ERROR_EMPTY_DICT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DICT_EMPTY.format(
+            parameter="node_attrs"
+        )
 
     def test_nested_dict_to_tree_null_children_error(self):
+        child_key = "children"
+        child = None
         path_dict = {
             "name": "a",
             "age": 90,
@@ -1626,7 +1710,7 @@ class TestNestedDictToTree(unittest.TestCase):
                             "name": "e",
                             "age": 35,
                             "children": [
-                                {"name": "g", "age": 10, "children": None},
+                                {"name": "g", "age": 10, "children": child},
                             ],
                         },
                     ],
@@ -1635,9 +1719,13 @@ class TestNestedDictToTree(unittest.TestCase):
         }
         with pytest.raises(TypeError) as exc_info:
             nested_dict_to_tree(path_dict)
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_CHILD + "None"
+        assert str(exc_info.value) == Constants.ERROR_NODE_DICT_CHILD_TYPE.format(
+            child_key=child_key, child=child
+        )
 
     def test_nested_dict_to_tree_int_children_error(self):
+        child_key = "children"
+        child = 1
         path_dict = {
             "name": "a",
             "age": 90,
@@ -1651,7 +1739,7 @@ class TestNestedDictToTree(unittest.TestCase):
                             "name": "e",
                             "age": 35,
                             "children": [
-                                {"name": "g", "age": 10, "children": 1},
+                                {"name": "g", "age": 10, "children": child},
                             ],
                         },
                     ],
@@ -1660,7 +1748,9 @@ class TestNestedDictToTree(unittest.TestCase):
         }
         with pytest.raises(TypeError) as exc_info:
             nested_dict_to_tree(path_dict)
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_CHILD + "1"
+        assert str(exc_info.value) == Constants.ERROR_NODE_DICT_CHILD_TYPE.format(
+            child_key=child_key, child=child
+        )
 
     @staticmethod
     def test_nested_dict_to_tree_key_name():
@@ -1699,10 +1789,10 @@ class TestNestedDictToTree(unittest.TestCase):
 
     def test_nested_dict_to_tree_node_type(self):
         root = nested_dict_to_tree(self.path_dict, node_type=NodeA)
-        assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
-        ), Constants.ERROR_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -1753,10 +1843,12 @@ class TestNestedDictToTree(unittest.TestCase):
             ],
         }
         root = nested_dict_to_tree(path_dict, node_type=CustomNode)
-        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
+            type="CustomNode"
+        )
         assert all(
             isinstance(node, CustomNode) for node in root.children
-        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="CustomNode")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -1835,14 +1927,14 @@ class TestDataFrameToTree(unittest.TestCase):
         path_data = pd.DataFrame(columns=["PATH", "age"])
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree(path_data)
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_ROW
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
 
     @staticmethod
     def test_dataframe_to_tree_empty_col_error():
         path_data = pd.DataFrame()
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree(path_data)
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_COL
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     @staticmethod
     def test_dataframe_to_tree_sep_leading():
@@ -1884,6 +1976,8 @@ class TestDataFrameToTree(unittest.TestCase):
         assert_tree_structure_node_root(root)
 
     def test_dataframe_to_tree_sep_error(self):
+        root1 = "a"
+        root2 = "a\\b"
         path_data = pd.DataFrame(
             [
                 ["a", 90],
@@ -1899,7 +1993,9 @@ class TestDataFrameToTree(unittest.TestCase):
         )
         with pytest.raises(TreeError) as exc_info:
             dataframe_to_tree(path_data)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
     def test_dataframe_to_tree_sep(self):
         path_data = pd.DataFrame(
@@ -1938,7 +2034,9 @@ class TestDataFrameToTree(unittest.TestCase):
         )
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree(path_data)
-        assert str(exc_info.value).startswith(Constants.ERROR_DUPLICATE_PATH)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_DATAFRAME_DUPLICATE_PATH
+        )
 
     @staticmethod
     def test_dataframe_to_tree_duplicate_data():
@@ -1978,7 +2076,9 @@ class TestDataFrameToTree(unittest.TestCase):
         )
         with pytest.raises(DuplicatedNodeError) as exc_info:
             dataframe_to_tree(path_data, duplicate_name_allowed=False)
-        assert str(exc_info.value).startswith("Node d already exists")
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_NAME.format(
+            name="d"
+        )
 
     @staticmethod
     def test_dataframe_to_tree_duplicate_node():
@@ -2002,10 +2102,10 @@ class TestDataFrameToTree(unittest.TestCase):
 
     def test_dataframe_to_tree_node_type(self):
         root = dataframe_to_tree(self.path_data, node_type=NodeA)
-        assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
-        ), Constants.ERROR_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -2025,16 +2125,20 @@ class TestDataFrameToTree(unittest.TestCase):
             columns=["PATH", "custom_field", "custom_field_str"],
         )
         root = dataframe_to_tree(path_data, node_type=CustomNode)
-        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
+            type="CustomNode"
+        )
         assert all(
             isinstance(node, CustomNode) for node in root.children
-        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="CustomNode")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_dataframe_to_tree_different_root_error():
+        root1 = "a"
+        root2 = "b"
         path_data = pd.DataFrame(
             [
                 ["a", 90],
@@ -2050,7 +2154,9 @@ class TestDataFrameToTree(unittest.TestCase):
         )
         with pytest.raises(TreeError) as exc_info:
             dataframe_to_tree(path_data)
-        assert str(exc_info.value).startswith(Constants.ERROR_DIFFERENT_ROOT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
 
 class TestDataFrameToTreeByRelation(unittest.TestCase):
@@ -2104,13 +2210,13 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         relation_data = pd.DataFrame(columns=["child", "parent"])
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree_by_relation(relation_data)
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_ROW
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
 
     def test_dataframe_to_tree_by_relation_empty_col_error(self):
         relation_data = pd.DataFrame()
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree_by_relation(relation_data)
-        assert str(exc_info.value) == Constants.ERROR_EMPTY_COL
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_duplicate_leaf_node():
@@ -2150,7 +2256,9 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         )
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree_by_relation(data)
-        assert str(exc_info.value).startswith(Constants.ERROR_DUPLICATE_PARENT)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_DUPLICATED_INTERMEDIATE_NODE
+        )
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_duplicate_intermediate_node():
@@ -2174,10 +2282,10 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
 
     def test_dataframe_to_tree_by_relation_node_type(self):
         root = dataframe_to_tree_by_relation(self.relation_data, node_type=NodeA)
-        assert isinstance(root, NodeA), Constants.ERROR_NODE_TYPE
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
-        ), Constants.ERROR_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -2197,10 +2305,12 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
             columns=["child", "parent", "custom_field", "custom_field_str"],
         )
         root = dataframe_to_tree_by_relation(relation_data, node_type=CustomNode)
-        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_NODE_TYPE
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
+            type="CustomNode"
+        )
         assert all(
             isinstance(node, CustomNode) for node in root.children
-        ), Constants.ERROR_CUSTOM_NODE_TYPE
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="CustomNode")
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -2223,7 +2333,9 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         )
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree_by_relation(data)
-        assert str(exc_info.value).startswith(Constants.ERROR_MULTIPLE_ROOT)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=["a", "b"])
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_no_root_error():
@@ -2243,4 +2355,6 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         )
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree_by_relation(data)
-        assert str(exc_info.value).startswith(Constants.ERROR_MULTIPLE_ROOT)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=[])

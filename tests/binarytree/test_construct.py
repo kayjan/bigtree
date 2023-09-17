@@ -35,11 +35,15 @@ class TestListToBinaryTree(unittest.TestCase):
     def test_list_to_binarytree_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
             list_to_binarytree([])
-        assert str(exc_info.value).startswith(Constants.ERROR_BINARY_EMPTY_LIST)
+        assert str(exc_info.value) == Constants.ERROR_BINARY_DAG_LIST_EMPTY.format(
+            parameter="heapq_list"
+        )
 
     def test_list_to_binarytree_node_type(self):
         root = list_to_binarytree(self.nums_list, node_type=BinaryNodeA)
-        assert isinstance(root, BinaryNodeA), Constants.ERROR_BINARY_NODE_TYPE
+        assert isinstance(root, BinaryNodeA), Constants.ERROR_CUSTOM_TYPE.format(
+            type="BinaryNodeA"
+        )
         assert_binarytree_structure_root2(root)
 
 

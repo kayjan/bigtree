@@ -39,9 +39,14 @@ class TestPrintTree:
 
     @staticmethod
     def test_print_tree_child_node_name_error(tree_node):
+        node_name_or_path = "z"
         with pytest.raises(ValueError) as exc_info:
-            print_tree(tree_node, node_name_or_path="z")
-        assert str(exc_info.value) == "Node name or path z not found"
+            print_tree(tree_node, node_name_or_path=node_name_or_path)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_EXPORT_PRINT_INVALID_PATH.format(
+            node_name_or_path=node_name_or_path
+        )
 
     @staticmethod
     def test_print_tree_child_node_path(tree_node):
@@ -118,9 +123,14 @@ class TestPrintTree:
 
     @staticmethod
     def test_print_tree_attr_bracket_missing_error(tree_node):
+        attr_bracket = [""]
         with pytest.raises(ValueError) as exc_info:
-            print_tree(tree_node, all_attrs=True, attr_bracket=[""])
-        assert str(exc_info.value).startswith(Constants.ERROR_ATTR_BRACKET)
+            print_tree(tree_node, all_attrs=True, attr_bracket=attr_bracket)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_EXPORT_PRINT_ATTR_BRACKET.format(
+            attr_bracket=attr_bracket
+        )
 
     # style
     @staticmethod
@@ -161,7 +171,9 @@ class TestPrintTree:
     def test_print_tree_style_unknown_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
             print_tree(tree_node, style="something")
-        assert str(exc_info.value).startswith("Choose one of")
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_EXPORT_PRINT_INVALID_STYLE
+        )
 
     # custom_style
     @staticmethod
@@ -183,7 +195,10 @@ class TestPrintTree:
                 style="custom",
                 custom_style=["", " ", ""],
             )
-        assert str(exc_info.value) == Constants.ERROR_CUSTOM_STYLE_DIFFERENT_LENGTH
+        assert (
+            str(exc_info.value)
+            == Constants.ERROR_NODE_EXPORT_PRINT_CUSTOM_STYLE_DIFFERENT_LENGTH
+        )
 
     @staticmethod
     def test_print_tree_custom_style_missing_style_error(tree_node):
@@ -193,7 +208,7 @@ class TestPrintTree:
                 style="custom",
                 custom_style=["", ""],
             )
-        assert str(exc_info.value) == Constants.ERROR_CUSTOM_STYLE_SELECT
+        assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_PRINT_STYLE_SELECT
 
 
 class TestTreeToDataFrame:
@@ -825,9 +840,9 @@ class TestTreeToDot:
 
     @staticmethod
     def test_tree_to_dot_type_error(dag_node):
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(TypeError) as exc_info:
             tree_to_dot(dag_node)
-        assert str(exc_info.value) == Constants.ERROR_EXPORT_NODE_TYPE
+        assert str(exc_info.value) == Constants.ERROR_NODE_TYPE.format(type="Node")
 
     @staticmethod
     def test_tree_to_dot_directed(tree_node):

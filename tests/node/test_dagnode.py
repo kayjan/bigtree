@@ -91,17 +91,17 @@ class TestDAGNode(unittest.TestCase):
         assert_dag_structure_root(self.a)
 
     def test_set_parent_error(self):
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(AttributeError) as exc_info:
             self.c.parent = self.a
-        assert str(exc_info.value) == Constants.ERROR_SET_PARENT_ATTR
+        assert str(exc_info.value) == Constants.ERROR_NODE_SET_PARENT_ATTR
 
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(AttributeError) as exc_info:
             self.c = DAGNode("b", parent=self.a)
-        assert str(exc_info.value) == Constants.ERROR_SET_PARENT_ATTR
+        assert str(exc_info.value) == Constants.ERROR_NODE_SET_PARENT_ATTR
 
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(AttributeError) as exc_info:
             self.c.parent
-        assert str(exc_info.value) == Constants.ERROR_GET_PARENT_ATTR
+        assert str(exc_info.value) == Constants.ERROR_NODE_GET_PARENT_ATTR
 
     def test_set_parents(self):
         self.c.parents = [self.a, self.b]
@@ -154,9 +154,12 @@ class TestDAGNode(unittest.TestCase):
 
     def test_set_parents_none_parent_error(self):
         self.c.parents = [self.a]
+        parents = None
         with pytest.raises(TypeError) as exc_info:
-            self.c.parents = None
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
+            self.c.parents = parents
+        assert str(exc_info.value) == Constants.ERROR_DAGNODE_PARENTS_TYPE.format(
+            input_type=type(parents)
+        )
 
     def test_set_parent_reassign(self):
         self.a.children = [self.b, self.c]
@@ -215,9 +218,12 @@ class TestDAGNode(unittest.TestCase):
         assert_dag_structure_root(self.a)
 
     def test_set_children_none_children_error(self):
+        children = None
         with pytest.raises(TypeError) as exc_info:
-            self.g.children = None
-        assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
+            self.g.children = children
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="Iterable", input_type=type(children)
+        )
 
     def test_set_children_reassign(self):
         self.a.children = [self.c]
@@ -273,39 +279,49 @@ class TestDAGNode(unittest.TestCase):
         ), "Shallow copy does not copy child nodes"
 
     def test_set_parents_type_error(self):
+        parents = 1
         with pytest.raises(TypeError) as exc_info:
-            self.a.parents = 1
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_PARENT_TYPE)
+            self.a.parents = parents
+        assert str(exc_info.value) == Constants.ERROR_DAGNODE_PARENTS_TYPE.format(
+            input_type=type(parents)
+        )
 
+        parent = 1
         with pytest.raises(TypeError) as exc_info:
-            self.a.parents = [1]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+            self.a.parents = [parent]
+        assert str(exc_info.value) == Constants.ERROR_NODE_PARENT_TYPE.format(
+            type="DAGNode", input_type=type(parent)
+        )
 
-        a = BaseNode()
+        parent = BaseNode()
         with pytest.raises(TypeError) as exc_info:
-            self.a.parents = [a]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+            self.a.parents = [parent]
+        assert str(exc_info.value) == Constants.ERROR_NODE_PARENT_TYPE.format(
+            type="DAGNode", input_type=type(parent)
+        )
 
-        a = Node("a")
+        parent = Node("a")
         with pytest.raises(TypeError) as exc_info:
-            self.a.parents = [a]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+            self.a.parents = [parent]
+        assert str(exc_info.value) == Constants.ERROR_NODE_PARENT_TYPE.format(
+            type="DAGNode", input_type=type(parent)
+        )
 
     def test_set_parents_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
             self.a.parents = [self.a]
-        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_PARENT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_PARENT
 
         with pytest.raises(LoopError) as exc_info:
             self.b.parents = [self.a]
             self.c.parents = [self.b]
             self.a.parents = [self.c]
-        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_ANCESTOR)
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_ANCESTOR
 
     def test_set_duplicate_parent_error(self):
         with pytest.raises(TreeError) as exc_info:
             self.a.parents = [self.b, self.b]
-        assert str(exc_info.value).startswith(Constants.ERROR_SET_DUPLICATE_PARENT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_PARENT
 
     def test_set_children_mutable_list(self):
         children_list = [self.c, self.d]
@@ -328,39 +344,49 @@ class TestDAGNode(unittest.TestCase):
         assert_dag_structure_root(self.a)
 
     def test_set_children_type_error(self):
+        children = 1
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = 1
-        assert str(exc_info.value).startswith(Constants.ERROR_CHILDREN_TYPE)
+            self.a.children = children
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="Iterable", input_type=type(children)
+        )
 
+        children = 1
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = [self.b, 1]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+            self.a.children = [self.b, children]
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="DAGNode", input_type=type(children)
+        )
 
-        a = BaseNode()
+        children = BaseNode()
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = [a]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+            self.a.children = [children]
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="DAGNode", input_type=type(children)
+        )
 
-        a = Node("a")
+        children = Node("a")
         with pytest.raises(TypeError) as exc_info:
-            self.a.children = [a]
-        assert str(exc_info.value).startswith(Constants.ERROR_DAGNODE_TYPE)
+            self.a.children = [children]
+        assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
+            type="DAGNode", input_type=type(children)
+        )
 
     def test_set_children_loop_error(self):
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.a]
-        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_CHILD)
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_CHILD
 
         with pytest.raises(LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e, self.f]
             self.f.children = [self.a]
-        assert str(exc_info.value).startswith(Constants.ERROR_LOOP_DESCENDANT)
+        assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_DESCENDANT
 
     def test_set_duplicate_children_error(self):
         with pytest.raises(TreeError) as exc_info:
             self.a.children = [self.b, self.b]
-        assert str(exc_info.value).startswith(Constants.ERROR_SET_DUPLICATE_CHILD)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_CHILD
 
     @staticmethod
     def test_rollback_set_parents():
@@ -379,7 +405,7 @@ class TestDAGNode(unittest.TestCase):
         f.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             f.parents = [a, h]
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value) == "Custom error assigning parent"
 
         expected_a_children = [b, c]
         expected_h_children = [e, f, g]
@@ -411,7 +437,7 @@ class TestDAGNode(unittest.TestCase):
         d.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             d.parents = [a, h]
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value) == "Custom error assigning parent"
 
         expected_a_children = [b, c]
         expected_h_children = [e, f, g]
@@ -443,7 +469,7 @@ class TestDAGNode(unittest.TestCase):
         f.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             f.parents = []
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value) == "Custom error assigning parent"
 
         expected_a_children = [b, c]
         expected_h_children = [e, f, g]
@@ -475,7 +501,7 @@ class TestDAGNode(unittest.TestCase):
         f.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             f.parents = [h]
-        assert str(exc_info.value).startswith("Custom error assigning parent")
+        assert str(exc_info.value) == "Custom error assigning parent"
 
         expected_a_children = [b, c]
         expected_h_children = [e, f, g]
@@ -508,7 +534,7 @@ class TestDAGNode(unittest.TestCase):
         b.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             a.children = [b, c, d, g, i, f]
-        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert str(exc_info.value).startswith("Custom error assigning children, ")
         assert not len(
             list(i.parents)
         ), f"Node i parent, expected None, received {i.parents}"
@@ -543,7 +569,7 @@ class TestDAGNode(unittest.TestCase):
         a.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             a.children = []
-        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert str(exc_info.value) == "Custom error assigning children"
         assert not len(
             list(i.parents)
         ), f"Node i parent, expected None, received {i.parents}"
@@ -578,7 +604,7 @@ class TestDAGNode(unittest.TestCase):
         b.set_attrs({"val": 1})
         with pytest.raises(TreeError) as exc_info:
             a.children = [b, c, d]
-        assert str(exc_info.value).startswith("Custom error assigning children")
+        assert str(exc_info.value).startswith("Custom error assigning children, ")
         assert not len(
             list(i.parents)
         ), f"Node i parent, expected None, received {i.parents}"
@@ -646,7 +672,9 @@ class TestDAGNode(unittest.TestCase):
             if not expected_path:
                 with pytest.raises(TreeError) as exc_info:
                     node_pair[0].go_to(node_pair[1])
-                assert str(exc_info.value).startswith("It is not possible to go to")
+                assert str(exc_info.value) == Constants.ERROR_NODE_GOTO.format(
+                    node=node_pair[1]
+                )
             else:
                 actual_path = [
                     [_node.name for _node in _path]
@@ -676,15 +704,18 @@ class TestDAGNode(unittest.TestCase):
             ), f"Wrong path for {node}, expected {expected_path}, received {actual_path}"
 
     def test_go_to_type_error(self):
+        destination = 2
         with pytest.raises(TypeError) as exc_info:
-            self.a.go_to(2)
-        assert str(exc_info.value).startswith("Expect node to be DAGNode type")
+            self.a.go_to(destination)
+        assert str(exc_info.value) == Constants.ERROR_NODE_GOTO_TYPE.format(
+            type="DAGNode", input_type=type(destination)
+        )
 
     def test_go_to_different_tree_error(self):
         a = DAGNode("a")
         with pytest.raises(TreeError) as exc_info:
             a.go_to(self.a)
-        assert str(exc_info.value).startswith("It is not possible to go to")
+        assert str(exc_info.value) == Constants.ERROR_NODE_GOTO.format(node=self.a)
 
 
 def assert_dag_structure_root(dag):

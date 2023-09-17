@@ -33,9 +33,7 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNode]) -> BaseNode:
         (BaseNode)
     """
     if not isinstance(tree, BaseNode):
-        raise ValueError(
-            "Tree should be of type `BaseNode`, or inherit from `BaseNode`"
-        )
+        raise TypeError("Tree should be of type `BaseNode`, or inherit from `BaseNode`")
 
     # Start from root
     root_info = dict(tree.root.describe(exclude_prefix="_"))
@@ -63,7 +61,7 @@ def prune_tree(
 
     For pruning by `prune_path`,
       All siblings along the prune path will be removed.
-      Prune path name should be unique, can be full path or partial path (trailing part of path) or node name.
+      Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.
 
     For pruning by `max_depth`,
       All nodes that are beyond `max_depth` will be removed.
@@ -141,7 +139,7 @@ def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
       - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
       - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
 
-    Note that only leaf nodes are compared and have (+) or (-) indicator. Intermediate parent nodes are not compared.
+    Note that only leaf nodes are compared and have (+) or (-) indicators. Intermediate parent nodes are not compared.
 
     Function can return all original tree nodes and differences, or only the differences.
 

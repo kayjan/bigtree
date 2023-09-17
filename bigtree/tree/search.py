@@ -47,11 +47,11 @@ def findall(
     Args:
         tree (BaseNode): tree to search
         condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
-        max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
-        min_count (int): checks for minimum number of occurrence,
-            raise SearchError if number of results do not meet min_count, defaults to None
-        max_count (int): checks for maximum number of occurrence,
-            raise SearchError if number of results do not meet min_count, defaults to None
+        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
+        min_count (int): checks for minimum number of occurrences,
+            raise SearchError if the number of results do not meet min_count, defaults to None
+        max_count (int): checks for maximum number of occurrences,
+            raise SearchError if the number of results do not meet min_count, defaults to None
 
     Returns:
         (Tuple[BaseNode, ...])
@@ -88,7 +88,7 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
     Args:
         tree (BaseNode): tree to search
         condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
-        max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
+        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
 
     Returns:
         (BaseNode)
@@ -113,7 +113,7 @@ def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT:
     Args:
         tree (Node): tree to search
         name (str): value to match for name attribute
-        max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
+        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
 
     Returns:
         (Node)
@@ -138,7 +138,7 @@ def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
     Args:
         tree (Node): tree to search
         name (str): value to match for name attribute
-        max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
+        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
 
     Returns:
         (Iterable[Node])
@@ -196,7 +196,7 @@ def find_relative_path(tree: NodeT, path_name: str) -> Iterable[NodeT]:
                 resolve(node, path_idx + 1)
             elif path_component == "..":
                 if node.is_root:
-                    raise ValueError("Invalid path name. Path goes beyond root node.")
+                    raise SearchError("Invalid path name. Path goes beyond root node.")
                 resolve(node.parent, path_idx + 1)
             elif path_component == "*":
                 for child in node.children:
@@ -205,7 +205,7 @@ def find_relative_path(tree: NodeT, path_name: str) -> Iterable[NodeT]:
                 node = find_child_by_name(node, path_component)
                 if not node:
                     if not wildcard_indicator:
-                        raise ValueError(
+                        raise SearchError(
                             f"Invalid path name. Node {path_component} cannot be found."
                         )
                 else:
@@ -238,8 +238,7 @@ def find_full_path(tree: NodeT, path_name: str) -> NodeT:
         (Node)
     """
     sep = tree.sep
-    path_name = path_name.rstrip(sep).lstrip(sep)
-    path_list = path_name.split(sep)
+    path_list = path_name.rstrip(sep).lstrip(sep).split(sep)
     if path_list[0] != tree.root.node_name:
         raise ValueError(
             f"Path {path_name} does not match the root node name {tree.root.node_name}"
@@ -326,7 +325,7 @@ def find_attr(
         tree (BaseNode): tree to search
         attr_name (str): attribute name to perform matching
         attr_value (Any): value to match for attr_name attribute
-        max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
+        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
 
     Returns:
         (BaseNode)
@@ -356,7 +355,7 @@ def find_attrs(
         tree (BaseNode): tree to search
         attr_name (str): attribute name to perform matching
         attr_value (Any): value to match for attr_name attribute
-        max_depth (int): maximum depth to search for, based on `depth` attribute, defaults to None
+        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
 
     Returns:
         (Tuple[BaseNode, ...])
@@ -388,10 +387,10 @@ def find_children(
     Args:
         tree (BaseNode): tree to search for its children
         condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
-        min_count (int): checks for minimum number of occurrence,
-            raise SearchError if number of results do not meet min_count, defaults to None
-        max_count (int): checks for maximum number of occurrence,
-            raise SearchError if number of results do not meet min_count, defaults to None
+        min_count (int): checks for minimum number of occurrences,
+            raise SearchError if the number of results do not meet min_count, defaults to None
+        max_count (int): checks for maximum number of occurrences,
+            raise SearchError if the number of results do not meet min_count, defaults to None
 
     Returns:
         (BaseNode)

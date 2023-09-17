@@ -28,7 +28,7 @@ T = TypeVar("T", bound=DAGNode)
 def dag_to_list(
     dag: T,
 ) -> List[Tuple[str, str]]:
-    """Export DAG to list of tuple containing parent-child names
+    """Export DAG to list of tuples containing parent-child names
 
     >>> from bigtree import DAGNode, dag_to_list
     >>> a = DAGNode("a", step=1)
@@ -57,7 +57,7 @@ def dag_to_dict(
     attr_dict: Dict[str, str] = {},
     all_attrs: bool = False,
 ) -> Dict[str, Any]:
-    """Export tree to dictionary.
+    """Export DAG to dictionary.
 
     Exported dictionary will have key as child name, and parent names and node attributes as a nested dictionary.
 
@@ -189,9 +189,9 @@ def dag_to_dot(
     node_attr: str = "",
     edge_attr: str = "",
 ) -> pydot.Dot:
-    r"""Export DAG tree or list of DAG trees to image.
+    r"""Export DAG or list of DAGs to image.
     Note that node names must be unique.
-    Posible node attributes include style, fillcolor, shape.
+    Possible node attributes include style, fillcolor, shape.
 
     >>> from bigtree import DAGNode, dag_to_dot
     >>> a = DAGNode("a", step=1)
@@ -255,7 +255,7 @@ def dag_to_dot(
 
     for _dag in dag:
         if not isinstance(_dag, DAGNode):
-            raise ValueError(
+            raise TypeError(
                 "Tree should be of type `DAGNode`, or inherit from `DAGNode`"
             )
         _dag = _dag.copy()

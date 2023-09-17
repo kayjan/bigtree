@@ -16,9 +16,9 @@ from tests.node.test_basenode import (
 class TestCloneTree:
     @staticmethod
     def test_clone_tree_wrong_type_error():
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(TypeError) as exc_info:
             clone_tree({}, Node)
-        assert str(exc_info.value) == Constants.ERROR_HELPER_BASENODE_TYPE
+        assert str(exc_info.value) == Constants.ERROR_NODE_TYPE.format(type="BaseNode")
 
     @staticmethod
     def test_clone_tree_basenode_node(tree_basenode):
@@ -40,7 +40,9 @@ class TestCloneTree:
             pass
 
         root_clone = clone_tree(tree_basenode, node_type=NodeA)
-        assert isinstance(root_clone, NodeA), "Node type is not `NodeA`"
+        assert isinstance(root_clone, NodeA), Constants.ERROR_CUSTOM_TYPE.format(
+            type="NodeA"
+        )
         assert_tree_structure_basenode_root(root_clone)
         assert_tree_structure_basenode_root_attr(root_clone)
 
@@ -103,13 +105,18 @@ class TestPruneTree:
         dd.parent = tree_node.children[-1]
         with pytest.raises(SearchError) as exc_info:
             prune_tree(tree_node, "d")
-        assert str(exc_info.value).startswith(Constants.ERROR_ONE_ELEMENT)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_SEARCH_LESS_THAN_N_ELEMENT.format(count=1)
+        )
 
     @staticmethod
     def test_prune_tree_nonexistant_path_error(tree_node):
+        prune_path = "i"
         with pytest.raises(NotFoundError) as exc_info:
-            prune_tree(tree_node, "i")
-        assert str(exc_info.value).startswith(Constants.ERROR_NOT_FOUND)
+            prune_tree(tree_node, prune_path)
+        assert str(exc_info.value) == Constants.ERROR_NODE_PRUNE_NOT_FOUND.format(
+            prune_path=prune_path
+        )
 
     @staticmethod
     def test_prune_tree_sep(tree_node):
@@ -123,15 +130,18 @@ class TestPruneTree:
 
     @staticmethod
     def test_prune_tree_sep_error(tree_node):
+        prune_path = "a\\c"
         with pytest.raises(NotFoundError) as exc_info:
-            prune_tree(tree_node, "a\\c")
-        assert str(exc_info.value).startswith(Constants.ERROR_NOT_FOUND)
+            prune_tree(tree_node, prune_path)
+        assert str(exc_info.value) == Constants.ERROR_NODE_PRUNE_NOT_FOUND.format(
+            prune_path=prune_path
+        )
 
     @staticmethod
     def test_prune_tree_no_arg_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
             prune_tree(tree_node)
-        assert str(exc_info.value) == Constants.ERROR_NO_ARGUMENT
+        assert str(exc_info.value) == Constants.ERROR_NODE_PRUNE_ARGUMENT
 
 
 class TestTreeDiff:

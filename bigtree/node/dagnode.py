@@ -90,7 +90,7 @@ class DAGNode:
 
     `DAGNode` methods
 
-    1. ``describe()``: Get node information sorted by attributes, returns list of tuples
+    1. ``describe()``: Get node information sorted by attributes, return list of tuples
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
     4. ``go_to(node: Self)``: Get a path from own node to another node from same DAG
@@ -117,7 +117,7 @@ class DAGNode:
         self.parents = parents
         self.children = children
         if "parent" in kwargs:
-            raise ValueError(
+            raise AttributeError(
                 "Attempting to set `parent` attribute, do you mean `parents`?"
             )
         self.__dict__.update(**kwargs)
@@ -125,7 +125,7 @@ class DAGNode:
     @property
     def parent(self) -> None:
         """Do not allow `parent` attribute to be accessed"""
-        raise ValueError(
+        raise AttributeError(
             "Attempting to access `parent` attribute, do you mean `parents`?"
         )
 
@@ -136,7 +136,9 @@ class DAGNode:
         Args:
             new_parent (Self): parent node
         """
-        raise ValueError("Attempting to set `parent` attribute, do you mean `parents`?")
+        raise AttributeError(
+            "Attempting to set `parent` attribute, do you mean `parents`?"
+        )
 
     @staticmethod
     def __check_parent_type(new_parents: List[T]) -> None:
@@ -161,7 +163,7 @@ class DAGNode:
             # Check type
             if not isinstance(new_parent, DAGNode):
                 raise TypeError(
-                    f"Expect input to be DAGNode type, received input type {type(new_parent)}"
+                    f"Expect parent to be DAGNode type, received input type {type(new_parent)}"
                 )
 
             # Check for loop and tree structure
@@ -218,13 +220,11 @@ class DAGNode:
                 if new_parent not in current_parents:
                     self.__parents.remove(new_parent)
                     new_parent.__children.remove(self)
-            raise TreeError(
-                f"{exc_info}, current parents {current_parents}, new parents {new_parents}"
-            )
+            raise TreeError(exc_info)
 
     def __pre_assign_parents(self: T, new_parents: List[T]) -> None:
         """Custom method to check before attaching parent
-        Can be overriden with `_DAGNode__pre_assign_parent()`
+        Can be overridden with `_DAGNode__pre_assign_parent()`
 
         Args:
             new_parents (List[Self]): new parents to be added
@@ -233,7 +233,7 @@ class DAGNode:
 
     def __post_assign_parents(self: T, new_parents: List[T]) -> None:
         """Custom method to check after attaching parent
-        Can be overriden with `_DAGNode__post_assign_parent()`
+        Can be overridden with `_DAGNode__post_assign_parent()`
 
         Args:
             new_parents (List[Self]): new parents to be added
@@ -248,7 +248,7 @@ class DAGNode:
         """
         if not isinstance(new_children, Iterable):
             raise TypeError(
-                f"Children input should be Iterable type, received input type {type(new_children)}"
+                f"Expect children to be Iterable type, received input type {type(new_children)}"
             )
 
     def __check_children_loop(self: T, new_children: Iterable[T]) -> None:
@@ -262,7 +262,7 @@ class DAGNode:
             # Check type
             if not isinstance(new_child, DAGNode):
                 raise TypeError(
-                    f"Expect input to be DAGNode type, received input type {type(new_child)}"
+                    f"Expect children to be DAGNode type, received input type {type(new_child)}"
                 )
 
             # Check for loop and tree structure
@@ -321,7 +321,7 @@ class DAGNode:
 
     def __pre_assign_children(self: T, new_children: Iterable[T]) -> None:
         """Custom method to check before attaching children
-        Can be overriden with `_DAGNode__pre_assign_children()`
+        Can be overridden with `_DAGNode__pre_assign_children()`
 
         Args:
             new_children (List[Self]): new children to be added
@@ -330,7 +330,7 @@ class DAGNode:
 
     def __post_assign_children(self: T, new_children: Iterable[T]) -> None:
         """Custom method to check after attaching children
-        Can be overriden with `_DAGNode__post_assign_children()`
+        Can be overridden with `_DAGNode__post_assign_children()`
 
         Args:
             new_children (List[Self]): new children to be added
@@ -445,7 +445,7 @@ class DAGNode:
 
     def get_attr(self, attr_name: str, default_value: Any = None) -> Any:
         """Get value of node attribute
-        Returns None if attribute name does not exist
+        Returns default value if attribute name does not exist
 
         Args:
             attr_name (str): attribute name

@@ -103,7 +103,7 @@ class BaseNode:
 
     `BaseNode` methods
 
-    1. ``describe()``: Get node information sorted by attributes, returns list of tuples
+    1. ``describe()``: Get node information sorted by attributes, return list of tuples
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
     4. ``go_to(node: Self)``: Get a path from own node to another node from same tree
@@ -127,7 +127,7 @@ class BaseNode:
         self.parent = parent
         self.children = children  # type: ignore
         if "parents" in kwargs:
-            raise ValueError(
+            raise AttributeError(
                 "Attempting to set `parents` attribute, do you mean `parent`?"
             )
         self.__dict__.update(**kwargs)
@@ -141,7 +141,7 @@ class BaseNode:
         """
         if not (isinstance(new_parent, BaseNode) or new_parent is None):
             raise TypeError(
-                f"Expect input to be BaseNode type or NoneType, received input type {type(new_parent)}"
+                f"Expect parent to be BaseNode type or NoneType, received input type {type(new_parent)}"
             )
 
     def __check_parent_loop(self, new_parent: T) -> None:
@@ -218,7 +218,7 @@ class BaseNode:
 
     def __pre_assign_parent(self, new_parent: T) -> None:
         """Custom method to check before attaching parent
-        Can be overriden with `_BaseNode__pre_assign_parent()`
+        Can be overridden with `_BaseNode__pre_assign_parent()`
 
         Args:
             new_parent (Self): new parent to be added
@@ -227,7 +227,7 @@ class BaseNode:
 
     def __post_assign_parent(self, new_parent: T) -> None:
         """Custom method to check after attaching parent
-        Can be overriden with `_BaseNode__post_assign_parent()`
+        Can be overridden with `_BaseNode__post_assign_parent()`
 
         Args:
             new_parent (Self): new parent to be added
@@ -237,7 +237,7 @@ class BaseNode:
     @property
     def parents(self) -> None:
         """Do not allow `parents` attribute to be accessed"""
-        raise ValueError(
+        raise AttributeError(
             "Attempting to access `parents` attribute, do you mean `parent`?"
         )
 
@@ -248,7 +248,9 @@ class BaseNode:
         Args:
             new_parent (Self): parent node
         """
-        raise ValueError("Attempting to set `parents` attribute, do you mean `parent`?")
+        raise AttributeError(
+            "Attempting to set `parents` attribute, do you mean `parent`?"
+        )
 
     def __check_children_type(self: T, new_children: Iterable[T]) -> None:
         """Check child type
@@ -258,7 +260,7 @@ class BaseNode:
         """
         if not isinstance(new_children, Iterable):
             raise TypeError(
-                f"Children input should be Iterable type, received input type {type(new_children)}"
+                f"Expect children to be Iterable type, received input type {type(new_children)}"
             )
 
     def __check_children_loop(self: T, new_children: Iterable[T]) -> None:
@@ -272,7 +274,7 @@ class BaseNode:
             # Check type
             if not isinstance(new_child, BaseNode):
                 raise TypeError(
-                    f"Expect input to be BaseNode type, received input type {type(new_child)}"
+                    f"Expect children to be BaseNode type, received input type {type(new_child)}"
                 )
 
             # Check for loop and tree structure
@@ -358,7 +360,7 @@ class BaseNode:
 
     def __pre_assign_children(self: T, new_children: Iterable[T]) -> None:
         """Custom method to check before attaching children
-        Can be overriden with `_BaseNode__pre_assign_children()`
+        Can be overridden with `_BaseNode__pre_assign_children()`
 
         Args:
             new_children (Iterable[Self]): new children to be added
@@ -367,7 +369,7 @@ class BaseNode:
 
     def __post_assign_children(self: T, new_children: Iterable[T]) -> None:
         """Custom method to check after attaching children
-        Can be overriden with `_BaseNode__post_assign_children()`
+        Can be overridden with `_BaseNode__post_assign_children()`
 
         Args:
             new_children (Iterable[Self]): new children to be added
@@ -549,7 +551,7 @@ class BaseNode:
 
     def get_attr(self, attr_name: str, default_value: Any = None) -> Any:
         """Get value of node attribute
-        Returns None if attribute name does not exist
+        Returns default value if attribute name does not exist
 
         >>> from bigtree.node.node import Node
         >>> a = Node('a', age=90)
