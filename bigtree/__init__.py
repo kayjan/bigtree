@@ -1,4 +1,4 @@
-__version__ = "0.12.3"
+__version__ = "0.12.4"
 
 from bigtree.binarytree.construct import list_to_binarytree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
@@ -60,6 +60,7 @@ from bigtree.utils.exceptions import (
     SearchError,
     TreeError,
 )
+from bigtree.utils.groot import speak_like_groot, whoami
 from bigtree.utils.iterators import (
     dag_iterator,
     inorder_iter,
