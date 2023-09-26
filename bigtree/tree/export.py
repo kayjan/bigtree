@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import collections
 from typing import Any, Dict, Iterable, List, Optional, Tuple, TypeVar, Union
+from urllib.request import urlopen
 
 from bigtree.node.node import Node
 from bigtree.tree.search import find_path
@@ -772,7 +773,7 @@ def tree_to_pillow(
     width: int = 0,
     height: int = 0,
     start_pos: Tuple[int, int] = (10, 10),
-    font_family: str = "assets/DejaVuSans.ttf",
+    font_family: str = "",
     font_size: int = 12,
     font_colour: Union[Tuple[int, int, int], str] = "black",
     bg_colour: Union[Tuple[int, int, int], str] = "white",
@@ -808,7 +809,15 @@ def tree_to_pillow(
         (PIL.Image.Image)
     """
     # Initialize font
-    font = ImageFont.truetype(font_family, font_size)
+    if not font_family:
+        dejavusans_url = "https://github.com/kayjan/bigtree/raw/master/assets/DejaVuSans.ttf?raw=true"
+        font_family = urlopen(dejavusans_url)
+    try:
+        font = ImageFont.truetype(font_family, font_size)
+    except OSError:
+        raise ValueError(
+            f"Font file {font_family} is not found, set `font_family` parameter to point to a valid .ttf file."
+        )
 
     # Initialize text
     image_text = []
