@@ -979,3 +979,14 @@ class TestTreeToPillow:
         pillow_image = tree_to_pillow(tree_node, max_depth=2, style="const_bold")
         if LOCAL:
             pillow_image.save("tests/tree_pillow_style.png")
+
+    @staticmethod
+    def test_tree_to_pillow_font_family(tree_node):
+        font_family = "invalid.ttf"
+        with pytest.raises(ValueError) as exc_info:
+            tree_to_pillow(tree_node, font_family=font_family)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_EXPORT_PILLOW_FONT_FAMILY.format(
+            font_family=font_family
+        )

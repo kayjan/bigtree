@@ -1,4 +1,4 @@
-__version__ = "0.12.4"
+__version__ = "0.12.5"
 
 from bigtree.binarytree.construct import list_to_binarytree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
