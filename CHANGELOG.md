@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.5] - 2023-09-26
+### Added
+- Utility Groot: Add test cases.
+### Fixed
+- Tree Exporter: `tree_to_pillow` function to reference online font file instead of relative path.
+
 ## [0.12.4] - 2023-09-25
 ### Added
 - Utility Groot: Add groot utility functions.
@@ -327,6 +333,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.12.5]: https://github.com/kayjan/bigtree/compare/0.12.4...0.12.5
 [0.12.4]: https://github.com/kayjan/bigtree/compare/0.12.3...0.12.4
 [0.12.3]: https://github.com/kayjan/bigtree/compare/0.12.2...0.12.3
 [0.12.2]: https://github.com/kayjan/bigtree/compare/0.12.1...0.12.2
