@@ -144,6 +144,7 @@ class Constants:
     ERROR_NODE_EXPORT_PRINT_INVALID_PATH = (
         "Node name or path {node_name_or_path} not found"
     )
+    ERROR_NODE_EXPORT_PILLOW_FONT_FAMILY = "Font file {font_family} is not found, set `font_family` parameter to point to a valid .ttf file."
 
     ERROR_NODE_EXPORT_PRINT_INVALID_STYLE = "Choose one of "
 
