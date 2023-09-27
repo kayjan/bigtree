@@ -1,5 +1,5 @@
 ---
-name: Custom issue template
+name: Issue template
 about: Describe this issue template's purpose here.
 title: ''
 labels: ''
@@ -17,8 +17,6 @@ Describe your environment:
 * bigtree version:
 
 ### To reproduce
-Steps to reproduce the behaviour:
-1. 
-2. 
+Steps or code to reproduce the behaviour:
 
 ### Expected behaviour
