@@ -31,7 +31,7 @@ def list_to_binarytree(
 
     Args:
         heapq_list (List[int]): list containing integer node names, ordered in heapq fashion
-        node_type (Type[BinaryNode]): node type of tree to be created, defaults to BinaryNode
+        node_type (Type[BinaryNode]): node type of tree to be created, defaults to ``BinaryNode``
 
     Returns:
         (BinaryNode)

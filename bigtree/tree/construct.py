@@ -44,7 +44,7 @@ def add_path_to_tree(
     """Add nodes and attributes to existing tree *in-place*, return node of added path.
     Adds to existing tree from list of path strings.
 
-    Path should contain `Node` name, separated by `sep`.
+    Path should contain ``Node`` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
       - Path separator `sep` is for the input `path` and can differ from existing tree.
 
@@ -67,7 +67,7 @@ def add_path_to_tree(
         tree (Node): existing tree
         path (str): path to be added to tree
         sep (str): path separator for input `path`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
         node_attrs (Dict[str, Any]): attributes to add to node, key: attribute name, value: attribute value, optional
 
     Returns:
@@ -122,7 +122,7 @@ def add_dict_to_tree_by_path(
     """Add nodes and attributes to tree *in-place*, return root of tree.
     Adds to existing tree from nested dictionary, ``key``: path, ``value``: dict of attribute name and attribute value.
 
-    Path should contain `Node` name, separated by `sep`.
+    Path should contain ``Node`` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
       - Path separator `sep` is for the input `path` and can differ from existing tree.
 
@@ -160,7 +160,7 @@ def add_dict_to_tree_by_path(
         path_attrs (Dict[str, Dict[str, Any]]): dictionary containing node path and attribute information,
             key: node path, value: dict of node attribute name and attribute value
         sep (str): path separator for input `path_attrs`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
 
     Returns:
         (Node)
@@ -209,7 +209,7 @@ def add_dict_to_tree_by_name(
         name_attrs (Dict[str, Dict[str, Any]]): dictionary containing node name and attribute information,
             key: node name, value: dict of node attribute name and attribute value
         join_type (str): join type with attribute, default of 'left' takes existing tree nodes,
-            if join_type is set to 'inner' it will only take tree nodes that are in `path_attrs` key and drop others
+            if join_type is set to 'inner' it will only take tree nodes that are in `name_attrs` key and drop others
 
     Returns:
         (Node)
@@ -238,7 +238,7 @@ def add_dataframe_to_tree_by_path(
     `path_col` and `attribute_cols` specify columns for node path and attributes to add to existing tree.
     If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`
 
-    Path in path column should contain `Node` name, separated by `sep`.
+    Path in path column should contain ``Node`` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
       - Path separator `sep` is for the input `path` and can differ from existing tree.
 
@@ -282,7 +282,7 @@ def add_dataframe_to_tree_by_path(
         attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `path_col`
         sep (str): path separator for input `path_col`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
+        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
 
     Returns:
         (Node)
@@ -368,7 +368,7 @@ def add_dataframe_to_tree_by_name(
         name_col (str): column of data containing `name` information,
             if not set, it will take the first column of data
         attribute_cols (List[str]): column(s) of data containing node attribute information,
-            if not set, it will take all columns of data except path_col
+            if not set, it will take all columns of data except `path_col`
         join_type (str): join type with attribute, default of 'left' takes existing tree nodes,
             if join_type is set to 'inner' it will only take tree nodes with attributes and drop the other nodes
 
@@ -450,7 +450,7 @@ def str_to_tree(
         tree_string (str): String to construct tree
         tree_prefix_list (List[str]): List of prefix to mark the end of tree branch/stem and start of node name, optional.
             If not specified, it will infer unicode characters and whitespace as prefix.
-        node_type (Type[Node]): node type of tree to be created, defaults to Node
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
 
     Returns:
         (Node)
@@ -502,7 +502,7 @@ def list_to_tree(
 ) -> Node:
     """Construct tree from list of path strings.
 
-    Path should contain `Node` name, separated by `sep`.
+    Path should contain ``Node`` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
     Path can start from root node `name`, or start with `sep`.
@@ -527,8 +527,8 @@ def list_to_tree(
     Args:
         paths (Iterable[str]): list containing path strings
         sep (str): path separator for input `paths` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
-        node_type (Type[Node]): node type of tree to be created, defaults to Node
+        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
 
     Returns:
         (Node)
@@ -581,7 +581,7 @@ def list_to_tree_by_relation(
         relations (Iterable[Tuple[str, str]]): list containing tuple containing parent-child names
         allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
             be tagged to multiple parent nodes, defaults to False
-        node_type (Type[Node]): node type of tree to be created, defaults to Node
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
 
     Returns:
         (Node)
@@ -609,7 +609,7 @@ def dict_to_tree(
     """Construct tree from nested dictionary using path,
     ``key``: path, ``value``: dict of attribute name and attribute value.
 
-    Path should contain `Node` name, separated by `sep`.
+    Path should contain ``Node`` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
     Path can start from root node `name`, or start with `sep`.
@@ -644,8 +644,8 @@ def dict_to_tree(
         path_attrs (Dict[str, Any]): dictionary containing path and node attribute information,
             key: path, value: dict of tree attribute and attribute value
         sep (str): path separator of input `path_attrs` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
-        node_type (Type[Node]): node type of tree to be created, defaults to Node
+        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
 
     Returns:
         (Node)
@@ -704,7 +704,7 @@ def nested_dict_to_tree(
             value of `child_key` (List[Dict[str, Any]]): list of dict containing `name_key` and `child_key` (recursive)
         name_key (str): key of node name, value is type str
         child_key (str): key of child list, value is type list
-        node_type (Type[Node]): node type of tree to be created, defaults to Node
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
 
     Returns:
         (Node)
@@ -747,7 +747,7 @@ def dataframe_to_tree(
     Path in path column can start from root node `name`, or start with `sep`.
       - For example: Path string can be "/a/b" or "a/b", if sep is "/".
 
-    Path in path column should contain `Node` name, separated by `sep`.
+    Path in path column should contain ``Node`` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
     All paths should start from the same root node.
@@ -785,8 +785,8 @@ def dataframe_to_tree(
         attribute_cols (List[str]): columns of data containing node attribute information,
             if not set, it will take all columns of data except `path_col`
         sep (str): path separator of input `path_col` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate `Node` name is allowed, defaults to True
-        node_type (Type[Node]): node type of tree to be created, defaults to Node
+        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
 
     Returns:
         (Node)
@@ -856,7 +856,7 @@ def dataframe_to_tree_by_relation(
     This error can be ignored by setting `allow_duplicates` to be True.
 
     `child_col` and `parent_col` specify columns for child name and parent name to construct tree.
-    `attribute_cols` specify columns for node attribute for child name
+    `attribute_cols` specify columns for node attribute for child name.
     If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
     columns are `attribute_cols`.
 
@@ -895,7 +895,7 @@ def dataframe_to_tree_by_relation(
             if not set, it will take all columns of data except `child_col` and `parent_col`
         allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
             be tagged to multiple parent nodes, defaults to False
-        node_type (Type[Node]): node type of tree to be created, defaults to Node
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
 
     Returns:
         (Node)

@@ -40,7 +40,7 @@ def inorder_iter(
 ) -> Iterable[BinaryNodeT]:
     """Iterate through all children of a tree.
 
-    In Iteration Algorithm, LNR
+    In-Order Iteration Algorithm, LNR
         1. Recursively traverse the current node's left subtree.
         2. Visit the current node.
         3. Recursively traverse the current node's right subtree.
@@ -215,7 +215,7 @@ def levelorder_iter(
 ) -> Iterable[BaseNodeT]:
     """Iterate through all children of a tree.
 
-    Level Order Algorithm
+    Level-Order Iteration Algorithm
         1. Recursively traverse the nodes on same level.
 
     >>> from bigtree import Node, list_to_tree, levelorder_iter
@@ -279,7 +279,7 @@ def levelordergroup_iter(
 ) -> Iterable[Iterable[BaseNodeT]]:
     """Iterate through all children of a tree.
 
-    Level Order Group Algorithm
+    Level-Order Group Iteration Algorithm
         1. Recursively traverse the nodes on same level, returns nodes level by level in a nested list.
 
     >>> from bigtree import Node, list_to_tree, levelordergroup_iter
@@ -344,7 +344,7 @@ def zigzag_iter(
 ) -> Iterable[BaseNodeT]:
     """Iterate through all children of a tree.
 
-    ZigZag Algorithm
+    ZigZag Iteration Algorithm
         1. Recursively traverse the nodes on same level, in a zigzag manner across different levels.
 
     >>> from bigtree import Node, list_to_tree, zigzag_iter
@@ -415,7 +415,7 @@ def zigzaggroup_iter(
 ) -> Iterable[Iterable[BaseNodeT]]:
     """Iterate through all children of a tree.
 
-    ZigZag Group Algorithm
+    ZigZag Group Iteration Algorithm
         1. Recursively traverse the nodes on same level, in a zigzag manner across different levels,
             returns nodes level by level in a nested list.
 

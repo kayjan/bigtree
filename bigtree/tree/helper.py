@@ -3,7 +3,6 @@ from typing import Type, TypeVar, Union
 from bigtree.node.basenode import BaseNode
 from bigtree.node.binarynode import BinaryNode
 from bigtree.node.node import Node
-from bigtree.tree.construct import dataframe_to_tree
 from bigtree.tree.export import tree_to_dataframe
 from bigtree.tree.search import find_path
 from bigtree.utils.exceptions import NotFoundError
@@ -15,8 +14,8 @@ BinaryNodeT = TypeVar("BinaryNodeT", bound=BinaryNode)
 NodeT = TypeVar("NodeT", bound=Node)
 
 
-def clone_tree(tree: BaseNode, node_type: Type[BaseNode]) -> BaseNode:
-    """Clone tree to another `Node` type.
+def clone_tree(tree: BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
+    """Clone tree to another ``Node`` type.
     If the same type is needed, simply do a tree.copy().
 
     >>> from bigtree import BaseNode, Node, clone_tree
@@ -39,7 +38,9 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNode]) -> BaseNode:
     root_info = dict(tree.root.describe(exclude_prefix="_"))
     root_node = node_type(**root_info)
 
-    def recursive_add_child(_new_parent_node: BaseNode, _parent_node: BaseNode) -> None:
+    def recursive_add_child(
+        _new_parent_node: BaseNodeT, _parent_node: BaseNode
+    ) -> None:
         for _child in _parent_node.children:
             if _child:
                 child_info = dict(_child.describe(exclude_prefix="_"))
@@ -66,7 +67,7 @@ def prune_tree(
     For pruning by `max_depth`,
       All nodes that are beyond `max_depth` will be removed.
 
-    Path should contain `Node` name, separated by `sep`.
+    Path should contain ``Node`` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
     >>> from bigtree import Node, prune_tree
@@ -195,6 +196,8 @@ def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
     Returns:
         (Node)
     """
+    from bigtree.tree.construct import dataframe_to_tree
+
     tree = tree.copy()
     other_tree = other_tree.copy()
     name_col = "name"

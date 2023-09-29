@@ -19,6 +19,8 @@ Export Tree to list, dictionary, and pandas DataFrame.
      - `tree_to_dot`
    * - Pillow (for .png, .jpg, .jpeg, etc.)
      - `tree_to_pillow`
+   * - Mermaid Markdown (for .md)
+     - `tree_to_mermaid`
 
 While exporting to another data type, methods can take in arguments to determine what information to extract.
 
@@ -74,6 +76,12 @@ While exporting to another data type, methods can take in arguments to determine
      - No
      - No
      - Font (family, size, colour), background colour, etc.
+   * - `tree_to_mermaid`
+     - No
+     - Yes, using keyword arguments similar to `yield_tree`
+     - No
+     - No
+     - Node shape, node fill, edge arrow, edge label etc.
 
 .. automodule:: bigtree.tree.export
    :members:

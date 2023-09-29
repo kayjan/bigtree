@@ -145,8 +145,12 @@ class Constants:
         "Node name or path {node_name_or_path} not found"
     )
     ERROR_NODE_EXPORT_PILLOW_FONT_FAMILY = "Font file {font_family} is not found, set `font_family` parameter to point to a valid .ttf file."
+    ERROR_NODE_MERMAID_INVALID_STYLE = "Unable to construct style!"
 
     ERROR_NODE_EXPORT_PRINT_INVALID_STYLE = "Choose one of "
+    ERROR_NODE_MERMAID_INVALID_ARGUMENT = (
+        "Invalid input, check `{parameter}` should be one of "
+    )
 
     # tree/helper
     ERROR_NODE_PRUNE_ARGUMENT = (

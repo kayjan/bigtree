@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.0] - 2023-09-29
+### Added
+- Tree Exporter: Export tree to flowchart diagram in mermaid markdown format using `tree_to_mermaid`.
+### Changed
+- Tree Exporter: Relax type hinting using TypeVar for `clone_tree`.
+- Tree Helper: Accept Iterable instead of List for custom_style attribute of `yield_tree` and `print_tree`.
+- Misc: Fix docstring for better presentation of code vs variable vs normal text.
+
 ## [0.12.5] - 2023-09-26
 ### Added
 - Utility Groot: Add test cases.
@@ -333,6 +341,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.13.0]: https://github.com/kayjan/bigtree/compare/0.12.5...0.13.0
 [0.12.5]: https://github.com/kayjan/bigtree/compare/0.12.4...0.12.5
 [0.12.4]: https://github.com/kayjan/bigtree/compare/0.12.3...0.12.4
 [0.12.3]: https://github.com/kayjan/bigtree/compare/0.12.2...0.12.3

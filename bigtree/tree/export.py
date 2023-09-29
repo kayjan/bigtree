@@ -36,10 +36,10 @@ __all__ = [
     "tree_to_dataframe",
     "tree_to_dot",
     "tree_to_pillow",
+    "tree_to_mermaid",
 ]
 
 T = TypeVar("T", bound=Node)
-
 
 available_styles = {
     "ansi": ("|   ", "|-- ", "`-- "),
@@ -57,11 +57,11 @@ def print_tree(
     node_name_or_path: str = "",
     max_depth: int = 0,
     all_attrs: bool = False,
-    attr_list: List[str] = [],
+    attr_list: Iterable[str] = [],
     attr_omit_null: bool = False,
     attr_bracket: List[str] = ["[", "]"],
     style: str = "const",
-    custom_style: List[str] = [],
+    custom_style: Iterable[str] = [],
 ) -> None:
     """Print tree to console, starting from `tree`.
 
@@ -167,11 +167,11 @@ def print_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         all_attrs (bool): indicator to show all attributes, defaults to False, overrides `attr_list` and `attr_omit_null`
-        attr_list (List[str]): list of node attributes to print, optional
+        attr_list (Iterable[str]): list of node attributes to print, optional
         attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to False
         attr_bracket (List[str]): open and close bracket for `all_attrs` or `attr_list`
         style (str): style of print, defaults to abstract style
-        custom_style (List[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
+        custom_style (Iterable[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
     """
     for pre_str, fill_str, _node in yield_tree(
         tree=tree,
@@ -216,7 +216,7 @@ def yield_tree(
     node_name_or_path: str = "",
     max_depth: int = 0,
     style: str = "const",
-    custom_style: List[str] = [],
+    custom_style: Iterable[str] = [],
 ) -> Iterable[Tuple[str, str, T]]:
     """Generator method for customizing printing of tree, starting from `tree`.
 
@@ -322,7 +322,7 @@ def yield_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing, optional
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         style (str): style of print, defaults to abstract style
-        custom_style (List[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
+        custom_style (Iterable[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
     """
     if style not in available_styles.keys():
         raise ValueError(
@@ -339,7 +339,7 @@ def yield_tree(
 
     # Set style
     if style == "custom":
-        if len(custom_style) != 3:
+        if len(list(custom_style)) != 3:
             raise ValueError(
                 "Custom style selected, please specify the style of stem, branch, and final stem in `custom_style`"
             )
@@ -417,7 +417,7 @@ def tree_to_dict(
         parent_key (str): dictionary key for `node.parent.node_name`, optional
         attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
+        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
         skip_depth (int): number of initial depths to skip, optional
         leaf_only (bool): indicator to retrieve only information from leaf nodes
@@ -491,7 +491,7 @@ def tree_to_nested_dict(
         child_key (str): dictionary key for list of children, optional
         attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
+        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
 
     Returns:
@@ -573,7 +573,7 @@ def tree_to_dataframe(
         parent_col (str): column name for `node.parent.node_name`, optional
         attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
             key: node attributes, value: corresponding column in dataframe, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
+        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
         skip_depth (int): number of initial depths to skip, optional
         leaf_only (bool): indicator to retrieve only information from leaf nodes
@@ -684,50 +684,34 @@ def tree_to_dot(
     Args:
         tree (Node/List[Node]): tree or list of trees to be exported
         directed (bool): indicator whether graph should be directed or undirected, defaults to True
-        rankdir (str): set direction of graph layout, defaults to 'TB' (top to bottom), can be 'BT' (bottom to top),
+        rankdir (str): layout direction, defaults to 'TB' (top to bottom), can be 'BT' (bottom to top),
             'LR' (left to right), 'RL' (right to left)
         bg_colour (str): background color of image, defaults to None
         node_colour (str): fill colour of nodes, defaults to None
         node_shape (str): shape of nodes, defaults to None
             Possible node_shape include "circle", "square", "diamond", "triangle"
         edge_colour (str): colour of edges, defaults to None
-        node_attr (str): `Node` attribute for node style, overrides `node_colour` and `node_shape`, defaults to None.
+        node_attr (str): ``Node`` attribute for node style, overrides `node_colour` and `node_shape`, defaults to None.
             Possible node style (attribute value) include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
-        edge_attr (str): `Node` attribute for edge style, overrides `edge_colour`, defaults to None.
+        edge_attr (str): ``Node`` attribute for edge style, overrides `edge_colour`, defaults to None.
             Possible edge style (attribute value) include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
         (pydot.Dot)
     """
     # Get style
-    if bg_colour:
-        graph_style = dict(bgcolor=bg_colour)
-    else:
-        graph_style = dict()
-
-    if node_colour:
-        node_style = dict(style="filled", fillcolor=node_colour)
-    else:
-        node_style = dict()
-
+    graph_style = dict(bgcolor=bg_colour) if bg_colour else dict()
+    node_style = dict(style="filled", fillcolor=node_colour) if node_colour else dict()
     if node_shape:
         node_style["shape"] = node_shape
-
-    if edge_colour:
-        edge_style = dict(color=edge_colour)
-    else:
-        edge_style = dict()
+    edge_style = dict(color=edge_colour) if edge_colour else dict()
 
     tree = tree.copy()
-
-    if directed:
-        _graph = pydot.Dot(
-            graph_type="digraph", strict=True, rankdir=rankdir, **graph_style
-        )
-    else:
-        _graph = pydot.Dot(
-            graph_type="graph", strict=True, rankdir=rankdir, **graph_style
-        )
+    _graph = (
+        pydot.Dot(graph_type="digraph", strict=True, rankdir=rankdir, **graph_style)
+        if directed
+        else pydot.Dot(graph_type="graph", strict=True, rankdir=rankdir, **graph_style)
+    )
 
     if not isinstance(tree, list):
         tree = [tree]
@@ -856,3 +840,324 @@ def tree_to_pillow(
     image_draw = ImageDraw.Draw(image)
     image_draw.text(start_pos, image_text_str, font=font, fill=font_colour)
     return image
+
+
+def tree_to_mermaid(
+    tree: T,
+    title: str = "",
+    rankdir: str = "TB",
+    line_shape: str = "basis",
+    node_colour: str = "",
+    node_border_colour: str = "",
+    node_border_width: float = 1,
+    node_shape: str = "rounded_edge",
+    node_shape_attr: str = "",
+    edge_arrow: str = "normal",
+    edge_arrow_attr: str = "",
+    edge_label: str = "",
+    node_attr: str = "",
+    **kwargs: Any,
+) -> str:
+    r"""Export tree to mermaid Markdown text. Accepts additional keyword arguments as input to `yield_tree`
+
+    Parameters for customizations that applies to entire flowchart include
+        - Title, `title`
+        - Layout direction, `rankdir`
+        - Line shape or curvature, `line_shape`
+        - Fill colour of nodes, `node_colour`
+        - Border colour of nodes, `node_border_colour`
+        - Border width of nodes, `node_border_width`
+        - Node shape, `node_shape`
+        - Edge arrow style, `edge_arrow`
+
+    Parameters for customizations that apply to customized nodes
+        - Fill colour of nodes, fill under `node_attr`
+        - Border colour of nodes, stroke under `node_attr`
+        - Border width of nodes, stroke-width under `node_attr`
+        - Node shape, `node_shape_attr`
+        - Edge arrow style, `edge_arrow_attr`
+        - Edge label, `edge_label`
+
+    **Accepted Parameter Values**
+
+    Possible `rankdir`
+        - `TB`: top-to-bottom
+        - `BT`: bottom-to-top
+        - `LR`: left-to-right
+        - `RL`: right-to-left
+
+    Possible `line_shape`
+        - `basis`
+        - `bumpX`: used in LR or RL direction
+        - `bumpY`
+        - `cardinal`: undirected
+        - `catmullRom`: undirected
+        - `linear`:
+        - `monotoneX`: used in LR or RL direction
+        - `monotoneY`
+        - `natural`
+        - `step`: used in LR or RL direction
+        - `stepAfter`
+        - `stepBefore`: used in LR or RL direction
+
+    Possible `node_shape`
+        - `rounded_edge`: rectangular with rounded edges
+        - `stadium`: (_) shape, rectangular with rounded ends
+        - `subroutine`: ||_|| shape, rectangular with additional line at the ends
+        - `cylindrical`: database node
+        - `circle`: circular
+        - `asymmetric`: >_| shape
+        - `rhombus`: decision node
+        - `hexagon`: <_> shape
+        - `parallelogram`: /_/ shape
+        - `parallelogram_alt`: \\_\\ shape, inverted parallelogram
+        - `trapezoid`: /_\\ shape
+        - `trapezoid_alt`: \\_/ shape, inverted trapezoid
+        - `double_circle`
+
+    Possible `edge_arrow`
+        - `normal`: directed arrow, shaded arrowhead
+        - `bold`: bold directed arrow
+        - `dotted`: dotted directed arrow
+        - `open`: line, undirected arrow
+        - `bold_open`: bold line
+        - `dotted_open`: dotted line
+        - `invisible`: no line
+        - `circle`: directed arrow with filled circle arrowhead
+        - `cross`: directed arrow with cross arrowhead
+        - `double_normal`: bidirectional directed arrow
+        - `double_circle`: bidirectional directed arrow with filled circle arrowhead
+        - `double_cross`: bidirectional directed arrow with cross arrowhead
+
+    Refer to mermaid `documentation`_ for more information.
+    Paste the output into any markdown file renderer to view the flowchart, alternatively visit the
+    mermaid playground `here`_.
+
+    .. note:: Advanced mermaid flowchart functionalities such as subgraphs and interactions (script, click) are not supported.
+
+    .. _documentation: http://mermaid.js.org/syntax/flowchart.html
+    .. _here: https://mermaid.live/
+
+    >>> from bigtree import tree_to_mermaid
+    >>> root = Node("a", node_shape="rhombus")
+    >>> b = Node("b", edge_arrow="bold", edge_label="Child 1", parent=root)
+    >>> c = Node("c", edge_arrow="dotted", edge_label="Child 2", parent=root)
+    >>> d = Node("d", node_style="fill:yellow, stroke:black", parent=b)
+    >>> e = Node("e", parent=b)
+    >>> graph = tree_to_mermaid(root)
+    >>> print(graph)
+    ```mermaid
+    %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
+    flowchart TB
+    0("a") --> 00("b")
+    00 --> 000("d")
+    00 --> 001("e")
+    0("a") --> 01("c")
+    classDef default stroke-width:1
+    ```
+
+    **Customize node shape, edge label, edge arrow, and custom node attributes**
+
+    >>> graph = tree_to_mermaid(root, node_shape_attr="node_shape", edge_label="edge_label", edge_arrow_attr="edge_arrow", node_attr="node_style")
+    >>> print(graph)
+    ```mermaid
+    %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
+    flowchart TB
+    0{"a"} ==>|Child 1| 00("b")
+    00:::class000 --> 000("d")
+    00 --> 001("e")
+    0{"a"} -.->|Child 2| 01("c")
+    classDef default stroke-width:1
+    classDef class000 fill:yellow, stroke:black
+    ```
+
+    Args:
+        tree (Node): tree to be exported
+        title (str): title, defaults to None
+        rankdir (str): layout direction, defaults to 'TB' (top to bottom), can be 'BT' (bottom to top),
+            'LR' (left to right), 'RL' (right to left)
+        line_shape (str): line shape or curvature, defaults to 'basis'
+        node_colour (str): fill colour of nodes, can be colour name or hexcode, defaults to None
+        node_border_colour (str): border colour of nodes, can be colour name or hexcode, defaults to None
+        node_border_width (float): width of node border, defaults to 1
+        node_shape (str): node shape, sets the shape of every node, defaults to 'rounded_edge'
+        node_shape_attr (str): ``Node`` attribute for node shape, sets shape of custom nodes,
+            overrides default `node_shape`, defaults to None
+        edge_arrow (str): edge arrow style from parent to itself, sets the arrow style of every edge, defaults to 'normal'
+        edge_arrow_attr (str): ``Node`` attribute for edge arrow style, sets edge arrow style of custom nodes from
+            parent to itself, overrides default `edge_arrow`, defaults to None
+        edge_label (str): ``Node`` attribute for edge label from parent to itself, defaults to None
+        node_attr (str): ``Node`` attribute for node style, overrides `node_colour`, `node_border_colour`,
+            and `node_border_width`, defaults to None
+
+    Returns:
+        (str)
+    """
+    from bigtree.tree.helper import clone_tree
+
+    rankdirs = ["TB", "BT", "LR", "RL"]
+    line_shapes = [
+        "basis",
+        "bumpX",
+        "bumpY",
+        "cardinal",
+        "catmullRom",
+        "linear",
+        "monotoneX",
+        "monotoneY",
+        "natural",
+        "step",
+        "stepAfter",
+        "stepBefore",
+    ]
+    node_shapes = {
+        "rounded_edge": """("{label}")""",
+        "stadium": """(["{label}"])""",
+        "subroutine": """[["{label}"]]""",
+        "cylindrical": """[("{label}")]""",
+        "circle": """(("{label}"))""",
+        "asymmetric": """>"{label}"]""",
+        "rhombus": """{{"{label}"}}""",
+        "hexagon": """{{{{"{label}"}}}}""",
+        "parallelogram": """[/"{label}"/]""",
+        "parallelogram_alt": """[\\"{label}"\\]""",
+        "trapezoid": """[/"{label}"\\]""",
+        "trapezoid_alt": """[\\"{label}"/]""",
+        "double_circle": """((("{label}")))""",
+    }
+    edge_arrows = {
+        "normal": "-->",
+        "bold": "==>",
+        "dotted": "-.->",
+        "open": "---",
+        "bold_open": "===",
+        "dotted_open": "-.-",
+        "invisible": "~~~",
+        "circle": "--o",
+        "cross": "--x",
+        "double_normal": "<-->",
+        "double_circle": "o--o",
+        "double_cross": "x--x",
+    }
+
+    # Assertions
+    if rankdir not in rankdirs:
+        raise ValueError(f"Invalid input, check `rankdir` should be one of {rankdirs}")
+    if node_shape not in node_shapes:
+        raise ValueError(
+            f"Invalid input, check `node_shape` should be one of {node_shapes.keys()}"
+        )
+    if line_shape not in line_shapes:
+        raise ValueError(
+            f"Invalid input, check `line_shape` should be one of {line_shapes}"
+        )
+    if edge_arrow not in edge_arrows:
+        raise ValueError(
+            f"Invalid input, check `edge_arrow` should be one of {edge_arrows.keys()}"
+        )
+
+    mermaid_template = """```mermaid\n{title}{line_style}\nflowchart {rankdir}\n{flows}\n{styles}\n```"""
+    flowchart_template = "{from_node_ref}{from_node_name}{flow_style} {arrow}{arrow_label} {to_node_ref}{to_node_name}"
+    style_template = "classDef {style_name} {style}"
+
+    # Content
+    title = f"---\ntitle: {title}\n---" if title else ""
+    line_style = f"%%{{ init: {{ 'flowchart': {{ 'curve': '{line_shape}' }} }} }}%%"
+    styles = []
+    flows = []
+
+    def _construct_style(
+        _style_name: str,
+        _node_colour: str,
+        _node_border_colour: str,
+        _node_border_width: float,
+    ) -> str:
+        style = []
+        if _node_colour:
+            style.append(f"fill:{_node_colour}")
+        if _node_border_colour:
+            style.append(f"stroke:{_node_border_colour}")
+        if _node_border_width:
+            style.append(f"stroke-width:{_node_border_width}")
+        if not style:
+            raise ValueError("Unable to construct style!")
+        return style_template.format(style_name=_style_name, style=",".join(style))
+
+    default_style = _construct_style(
+        "default", node_colour, node_border_colour, node_border_width
+    )
+    styles.append(default_style)
+
+    class MermaidNode(Node):
+        @property
+        def mermaid_name(self) -> str:
+            """Reference name for MermaidNode, must be unique for each node
+
+            Returns:
+                (str)
+            """
+            if self.is_root:
+                return "0"
+            return f"{self.parent.mermaid_name}{self.parent.children.index(self)}"
+
+    tree_mermaid = clone_tree(tree, MermaidNode)
+    default_edge_arrow = edge_arrows[edge_arrow]
+    default_node_shape = node_shapes[node_shape]
+    for _, _, node in yield_tree(tree_mermaid, **kwargs):
+        if not node.is_root:
+            # Get custom style (node_shape_attr)
+            _parent_node_name = ""
+            if node.parent.is_root:
+                _parent_node_shape = (
+                    node_shapes[node.parent.get_attr(node_shape_attr, node_shape)]
+                    if node_shape_attr
+                    else default_node_shape
+                )
+                _parent_node_name = _parent_node_shape.format(label=node.parent.name)
+            _node_shape = (
+                node_shapes[node.get_attr(node_shape_attr, node_shape)]
+                if node_shape_attr
+                else default_node_shape
+            )
+            _node_name = _node_shape.format(label=node.name)
+
+            # Get custom style (edge_arrow_attr, edge_label)
+            _arrow = (
+                edge_arrows[node.get_attr(edge_arrow_attr, edge_arrow)]
+                if edge_arrow_attr
+                else default_edge_arrow
+            )
+            _arrow_label = (
+                f"|{node.get_attr(edge_label)}|" if node.get_attr(edge_label) else ""
+            )
+
+            # Get custom style (node_attr)
+            _flow_style = node.get_attr(node_attr, "") if node_attr else ""
+            if _flow_style:
+                _flow_style_class = f"""class{node.get_attr("mermaid_name")}"""
+                styles.append(
+                    style_template.format(
+                        style_name=_flow_style_class, style=_flow_style
+                    )
+                )
+                _flow_style = f":::{_flow_style_class}"
+
+            flows.append(
+                flowchart_template.format(
+                    from_node_ref=node.parent.get_attr("mermaid_name"),
+                    from_node_name=_parent_node_name,
+                    flow_style=_flow_style,
+                    arrow=_arrow,
+                    arrow_label=_arrow_label,
+                    to_node_ref=node.get_attr("mermaid_name"),
+                    to_node_name=_node_name,
+                )
+            )
+
+    return mermaid_template.format(
+        title=title,
+        line_style=line_style,
+        rankdir=rankdir,
+        flows="\n".join(flows),
+        styles="\n".join(styles),
+    )
