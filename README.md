@@ -65,6 +65,7 @@ For **Tree** implementation, there are 9 main components.
    2. Export to *dictionary*, *nested dictionary*, or *pandas DataFrame*
    3. Export tree to dot (can save to .dot, .png, .svg, .jpeg files)
    4. Export tree to Pillow (can save to .png, .jpg)
+   5. Export tree to Mermaid Flowchart (can display on .md)
 9. [**Workflows**](https://bigtree.readthedocs.io/en/latest/workflows.html)
    1. Sample workflows for tree demonstration!
 
@@ -741,7 +742,7 @@ Tree can be exported to another data type.
 5. *Export to **Pillow** (and png)*
 
 ```python
-from bigtree import Node, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot, tree_to_pillow
+from bigtree import Node, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot, tree_to_pillow, tree_to_mermaid
 
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
@@ -814,6 +815,9 @@ graph.write_png("assets/demo.png")
 
 pillow_image = tree_to_pillow(root)
 pillow_image.save("assets/demo_pillow.png")
+
+mermaid_md = tree_to_mermaid(root)
+print(mermaid_md)
 ```
 
 - demo.png
@@ -823,6 +827,17 @@ pillow_image.save("assets/demo_pillow.png")
 - demo_pillow.png
 
 ![Sample Pillow Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_pillow.png)
+
+- Mermaid flowchart
+```mermaid
+%%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
+flowchart TB
+0("a") --> 00("b")
+00 --> 000("d")
+00 --> 001("e")
+0("a") --> 01("c")
+classDef default stroke-width:1
+```
 
 ----
 
