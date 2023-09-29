@@ -6,10 +6,8 @@ The latest version of bigtree is supported with security updates.
 
 | Version | Supported          |
 |---------| ------------------ |
-| 0.9.x   | :white_check_mark: |
-| 0.10.x  | :white_check_mark: |
-| 0.11.x  | :white_check_mark: |
 | 0.12.x  | :white_check_mark: |
+| 0.13.x  | :white_check_mark: |
 
 
 ## Reporting a Vulnerability
