@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Tree Exporter: Relax type hinting using TypeVar for `clone_tree`.
 - Tree Helper: Accept Iterable instead of List for custom_style attribute of `yield_tree` and `print_tree`.
+- Misc: Fix docstring for better presentation of code vs variable vs normal text.
 
 ## [0.12.5] - 2023-09-26
 ### Added

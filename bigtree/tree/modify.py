@@ -117,7 +117,7 @@ def shift_nodes(
     └── c
         └── e
 
-    In ``merge_children`` case, child nodes are shifted instead of the parent node.
+    In ``merge_children=True`` case, child nodes are shifted instead of the parent node.
      - If the path already exists, child nodes are merged with existing children.
      - If same node is shifted, the child nodes of the node are merged with the node's parent.
 
@@ -156,7 +156,7 @@ def shift_nodes(
     └── g
         └── h
 
-    In ``merge_leaves`` case, leaf nodes are copied instead of the parent node.
+    In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
      - If the path already exists, leaf nodes are merged with existing children.
      - If same node is copied, the leaf nodes of the node are merged with the node's parent.
 
@@ -198,7 +198,7 @@ def shift_nodes(
     ├── y
     └── h
 
-    In ``delete_children`` case, only the node is shifted without its accompanying children/descendants.
+    In ``delete_children=True`` case, only the node is shifted without its accompanying children/descendants.
 
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
@@ -345,7 +345,7 @@ def copy_nodes(
     └── c
         └── e
 
-    In ``merge_children`` case, child nodes are copied instead of the parent node.
+    In ``merge_children=True`` case, child nodes are copied instead of the parent node.
      - If the path already exists, child nodes are merged with existing children.
      - If same node is copied, the child nodes of the node are merged with the node's parent.
 
@@ -388,7 +388,7 @@ def copy_nodes(
     └── g
         └── h
 
-    In ``merge_leaves`` case, leaf nodes are copied instead of the parent node.
+    In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
      - If the path already exists, leaf nodes are merged with existing children.
      - If same node is copied, the leaf nodes of the node are merged with the node's parent.
 
@@ -433,7 +433,7 @@ def copy_nodes(
     ├── y
     └── h
 
-    In ``delete_children`` case, only the node is copied without its accompanying children/descendants.
+    In ``delete_children=True`` case, only the node is copied without its accompanying children/descendants.
 
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
@@ -583,7 +583,7 @@ def copy_nodes_from_tree_to_tree(
     └── c
         └── d
 
-    In ``merge_children`` case, child nodes are copied instead of the parent node.
+    In ``merge_children=True`` case, child nodes are copied instead of the parent node.
      - If the path already exists, child nodes are merged with existing children.
 
     >>> root_other = Node("aa")
@@ -603,7 +603,7 @@ def copy_nodes_from_tree_to_tree(
     └── f
         └── g
 
-    In ``merge_leaves`` case, leaf nodes are copied instead of the parent node.
+    In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
      - If the path already exists, leaf nodes are merged with existing children.
 
     >>> root_other = Node("aa")
@@ -622,7 +622,7 @@ def copy_nodes_from_tree_to_tree(
     │   └── d
     └── g
 
-    In ``delete_children`` case, only the node is copied without its accompanying children/descendants.
+    In ``delete_children=True`` case, only the node is copied without its accompanying children/descendants.
 
     >>> root_other = Node("aa")
     >>> root_other.show()

@@ -15,7 +15,7 @@ NodeT = TypeVar("NodeT", bound=Node)
 
 
 def clone_tree(tree: BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
-    """Clone tree to another `Node` type.
+    """Clone tree to another ``Node`` type.
     If the same type is needed, simply do a tree.copy().
 
     >>> from bigtree import BaseNode, Node, clone_tree
@@ -67,7 +67,7 @@ def prune_tree(
     For pruning by `max_depth`,
       All nodes that are beyond `max_depth` will be removed.
 
-    Path should contain `Node` name, separated by `sep`.
+    Path should contain ``Node`` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
     >>> from bigtree import Node, prune_tree

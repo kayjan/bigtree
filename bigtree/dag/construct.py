@@ -29,7 +29,7 @@ def list_to_dag(
 
     Args:
         relations (List[Tuple[str, str]]): list containing tuple of parent-child names
-        node_type (Type[DAGNode]): node type of DAG to be created, defaults to DAGNode
+        node_type (Type[DAGNode]): node type of DAG to be created, defaults to ``DAGNode``
 
     Returns:
         (DAGNode)
@@ -68,7 +68,7 @@ def dict_to_dag(
         relation_attrs (Dict[str, Any]): dictionary containing node, node parents, and node attribute information,
             key: child name, value: dictionary of parent names, node attribute, and attribute value
         parent_key (str): key of dictionary to retrieve list of parents name, defaults to 'parent'
-        node_type (Type[DAGNode]): node type of DAG to be created, defaults to DAGNode
+        node_type (Type[DAGNode]): node type of DAG to be created, defaults to ``DAGNode``
 
     Returns:
         (DAGNode)
@@ -133,7 +133,7 @@ def dataframe_to_dag(
             if not set, it will take the second column of data
         attribute_cols (List[str]): columns of data containing child node attribute information,
             if not set, it will take all columns of data except `child_col` and `parent_col`
-        node_type (Type[DAGNode]): node type of DAG to be created, defaults to DAGNode
+        node_type (Type[DAGNode]): node type of DAG to be created, defaults to ``DAGNode``
 
     Returns:
         (DAGNode)

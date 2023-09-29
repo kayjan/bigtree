@@ -417,7 +417,7 @@ def tree_to_dict(
         parent_key (str): dictionary key for `node.parent.node_name`, optional
         attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
+        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
         skip_depth (int): number of initial depths to skip, optional
         leaf_only (bool): indicator to retrieve only information from leaf nodes
@@ -491,7 +491,7 @@ def tree_to_nested_dict(
         child_key (str): dictionary key for list of children, optional
         attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
             key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
+        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
 
     Returns:
@@ -573,7 +573,7 @@ def tree_to_dataframe(
         parent_col (str): column name for `node.parent.node_name`, optional
         attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
             key: node attributes, value: corresponding column in dataframe, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, overrides `attr_dict`, defaults to False
+        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
         max_depth (int): maximum depth to export tree, optional
         skip_depth (int): number of initial depths to skip, optional
         leaf_only (bool): indicator to retrieve only information from leaf nodes
@@ -691,9 +691,9 @@ def tree_to_dot(
         node_shape (str): shape of nodes, defaults to None
             Possible node_shape include "circle", "square", "diamond", "triangle"
         edge_colour (str): colour of edges, defaults to None
-        node_attr (str): `Node` attribute for node style, overrides `node_colour` and `node_shape`, defaults to None
+        node_attr (str): ``Node`` attribute for node style, overrides `node_colour` and `node_shape`, defaults to None.
             Possible node style (attribute value) include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
-        edge_attr (str): `Node` attribute for edge style, overrides `edge_colour`, defaults to None
+        edge_attr (str): ``Node`` attribute for edge style, overrides `edge_colour`, defaults to None.
             Possible edge style (attribute value) include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
@@ -881,57 +881,59 @@ def tree_to_mermaid(
     **Accepted Parameter Values**
 
     Possible `rankdir`
-        - TB: top-to-bottom
-        - BT: bottom-to-top
-        - LR: left-to-right
-        - RL: right-to-left
+        - `TB`: top-to-bottom
+        - `BT`: bottom-to-top
+        - `LR`: left-to-right
+        - `RL`: right-to-left
 
     Possible `line_shape`
-        - basis
-        - bumpX: used in LR or RL direction
-        - bumpY
-        - cardinal: undirected
-        - catmullRom: undirected
-        - linear:
-        - monotoneX: used in LR or RL direction
-        - monotoneY
-        - natural
-        - step: used in LR or RL direction
-        - stepAfter
-        - stepBefore: used in LR or RL direction
+        - `basis`
+        - `bumpX`: used in LR or RL direction
+        - `bumpY`
+        - `cardinal`: undirected
+        - `catmullRom`: undirected
+        - `linear`:
+        - `monotoneX`: used in LR or RL direction
+        - `monotoneY`
+        - `natural`
+        - `step`: used in LR or RL direction
+        - `stepAfter`
+        - `stepBefore`: used in LR or RL direction
 
-    Possible node_shape
-        - rounded_edge: rectangular with rounded edges
-        - stadium: (_) shape, rectangular with rounded ends
-        - subroutine: ||_|| shape, rectangular with additional line at the ends
-        - cylindrical: database node
-        - circle: circular
-        - asymmetric: >_| shape
-        - rhombus: decision node
-        - hexagon: <_> shape
-        - parallelogram: /_/ shape
-        - parallelogram_alt: \\_\\ shape, inverted parallelogram
-        - trapezoid: /_\\ shape
-        - trapezoid_alt: \\_/ shape, inverted trapezoid
-        - double_circle
+    Possible `node_shape`
+        - `rounded_edge`: rectangular with rounded edges
+        - `stadium`: (_) shape, rectangular with rounded ends
+        - `subroutine`: ||_|| shape, rectangular with additional line at the ends
+        - `cylindrical`: database node
+        - `circle`: circular
+        - `asymmetric`: >_| shape
+        - `rhombus`: decision node
+        - `hexagon`: <_> shape
+        - `parallelogram`: /_/ shape
+        - `parallelogram_alt`: \\_\\ shape, inverted parallelogram
+        - `trapezoid`: /_\\ shape
+        - `trapezoid_alt`: \\_/ shape, inverted trapezoid
+        - `double_circle`
 
-    Possible edge_arrow
-        - normal: directed arrow, shaded arrowhead
-        - bold: bold directed arrow
-        - dotted: dotted directed arrow
-        - open: line, undirected arrow
-        - bold_open: bold line
-        - dotted_open: dotted line
-        - invisible: no line
-        - circle: directed arrow with filled circle arrowhead
-        - cross: directed arrow with cross arrowhead
-        - double_normal: bidirectional directed arrow
-        - double_circle: bidirectional directed arrow with filled circle arrowhead
-        - double_cross: bidirectional directed arrow with cross arrowhead
+    Possible `edge_arrow`
+        - `normal`: directed arrow, shaded arrowhead
+        - `bold`: bold directed arrow
+        - `dotted`: dotted directed arrow
+        - `open`: line, undirected arrow
+        - `bold_open`: bold line
+        - `dotted_open`: dotted line
+        - `invisible`: no line
+        - `circle`: directed arrow with filled circle arrowhead
+        - `cross`: directed arrow with cross arrowhead
+        - `double_normal`: bidirectional directed arrow
+        - `double_circle`: bidirectional directed arrow with filled circle arrowhead
+        - `double_cross`: bidirectional directed arrow with cross arrowhead
 
     Refer to mermaid `documentation`_ for more information.
     Paste the output into any markdown file renderer to view the flowchart, alternatively visit the
     mermaid playground `here`_.
+
+    .. note:: Advanced mermaid flowchart functionalities such as subgraphs and interactions (script, click) are not supported.
 
     .. _documentation: http://mermaid.js.org/syntax/flowchart.html
     .. _here: https://mermaid.live/
@@ -979,13 +981,13 @@ def tree_to_mermaid(
         node_border_colour (str): border colour of nodes, can be colour name or hexcode, defaults to None
         node_border_width (float): width of node border, defaults to 1
         node_shape (str): node shape, sets the shape of every node, defaults to 'rounded_edge'
-        node_shape_attr (str): `Node` attribute for node shape, sets shape of custom nodes,
+        node_shape_attr (str): ``Node`` attribute for node shape, sets shape of custom nodes,
             overrides default `node_shape`, defaults to None
         edge_arrow (str): edge arrow style from parent to itself, sets the arrow style of every edge, defaults to 'normal'
-        edge_arrow_attr (str): `Node` attribute for edge arrow style, sets edge arrow style of custom nodes from
+        edge_arrow_attr (str): ``Node`` attribute for edge arrow style, sets edge arrow style of custom nodes from
             parent to itself, overrides default `edge_arrow`, defaults to None
-        edge_label (str): `Node` attribute for edge label from parent to itself, defaults to None
-        node_attr (str): `Node` attribute for node style, overrides `node_colour`, `node_border_colour`,
+        edge_label (str): ``Node`` attribute for edge label from parent to itself, defaults to None
+        node_attr (str): ``Node`` attribute for node style, overrides `node_colour`, `node_border_colour`,
             and `node_border_width`, defaults to None
 
     Returns:
