@@ -740,6 +740,7 @@ Tree can be exported to another data type.
 3. *Export to **pandas DataFrame***
 4. *Export to **dot** (and png)*
 5. *Export to **Pillow** (and png)*
+6. *Export to **Mermaid Flowchart** (and md)*
 
 ```python
 from bigtree import Node, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot, tree_to_pillow, tree_to_mermaid
