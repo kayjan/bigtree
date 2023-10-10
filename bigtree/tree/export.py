@@ -568,7 +568,7 @@ def tree_to_dataframe(
 
     Args:
         tree (Node): tree to be exported
-        path_col (str): column name for `node.path_name`, optional
+        path_col (str): column name for `node.path_name`, defaults to 'path'
         name_col (str): column name for `node.node_name`, defaults to 'name'
         parent_col (str): column name for `node.parent.node_name`, optional
         attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
