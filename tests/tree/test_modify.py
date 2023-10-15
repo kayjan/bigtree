@@ -7,12 +7,12 @@ from bigtree.tree.export import print_tree
 from bigtree.tree.modify import copy_nodes, copy_nodes_from_tree_to_tree, shift_nodes
 from bigtree.tree.search import find_name, find_path
 from bigtree.utils.exceptions import NotFoundError, TreeError
-from tests.constants import Constants
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
 )
 from tests.node.test_node import assert_tree_structure_node_root
+from tests.test_constants import Constants
 
 
 class TestCopyNodes(unittest.TestCase):

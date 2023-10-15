@@ -22,7 +22,6 @@ from bigtree.tree.export import print_tree
 from bigtree.tree.search import find_name, find_names
 from bigtree.utils.exceptions import DuplicatedNodeError, TreeError
 from tests.conftest import assert_print_statement
-from tests.constants import Constants
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
@@ -32,6 +31,7 @@ from tests.node.test_node import (
     assert_tree_structure_node_root,
     assert_tree_structure_node_root_sep,
 )
+from tests.test_constants import Constants
 
 
 class NodeA(Node):

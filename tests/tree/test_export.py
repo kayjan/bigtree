@@ -12,12 +12,12 @@ from bigtree.tree.export import (
     tree_to_pillow,
 )
 from tests.conftest import assert_print_statement
-from tests.constants import Constants
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
 )
 from tests.node.test_node import assert_tree_structure_node_root
+from tests.test_constants import Constants
 
 tree_node_str = """a [age=90]\n├── b [age=65]\n│   ├── d [age=40]\n│   └── e [age=35]\n│       ├── g [age=10]
 │       └── h [age=6]\n└── c [age=60]\n    └── f [age=38]\n"""

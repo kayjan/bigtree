@@ -7,12 +7,12 @@ from bigtree.node.node import Node
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
 from tests.conftest import assert_print_statement
-from tests.constants import Constants
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
     assert_tree_structure_basenode_self,
 )
+from tests.test_constants import Constants
 
 
 class TestNode(unittest.TestCase):
