@@ -37,12 +37,21 @@ jobs:
           python -m pip install pytest
           python -m pip install pytest-cov
           pytest --cov=./ --cov-report=xml
+      - name: Converage coverage report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage.xml
+          badge: true
+          format: markdown
+          indicators: true
+          output: both
       - name: Upload coverage to PR comment
         if: ${{ github.event_name == 'pull_request' }}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           recreate: true
-          path: .coverage
+          delete: true
+          path: code-coverage-results.md
       - name: Upload coverage to Codecov
         if: ${{ github.event_name == 'push' }}
         uses: codecov/codecov-action@v3
