@@ -8,7 +8,7 @@ from bigtree.tree.export import (
     tree_to_nested_dict,
 )
 from tests.conftest import assert_print_statement
-from tests.constants import Constants
+from tests.test_constants import Constants
 
 LOCAL = Constants.LOCAL
 

@@ -13,8 +13,8 @@ from bigtree.tree.construct import (
     list_to_tree_by_relation,
     nested_dict_to_tree,
 )
-from tests.constants import Constants
 from tests.node.test_binarynode import assert_binarytree_structure_root2
+from tests.test_constants import Constants
 
 
 class BinaryNodeA(BinaryNode):

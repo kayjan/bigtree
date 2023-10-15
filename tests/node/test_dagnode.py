@@ -11,7 +11,7 @@ from bigtree.node.node import Node
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import dag_iterator
 from tests.conftest import assert_print_statement
-from tests.constants import Constants
+from tests.test_constants import Constants
 
 
 class DAGNode2(DAGNode):

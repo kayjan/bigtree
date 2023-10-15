@@ -10,11 +10,11 @@ from bigtree import (
     dict_to_dag,
     list_to_dag,
 )
-from tests.constants import Constants
 from tests.node.test_dagnode import (
     assert_dag_structure_root,
     assert_dag_structure_root_attr,
 )
+from tests.test_constants import Constants
 
 LOCAL = Constants.LOCAL
 

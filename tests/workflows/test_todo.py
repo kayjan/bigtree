@@ -5,7 +5,7 @@ import pytest
 from bigtree import AppToDo
 from bigtree.utils.exceptions import SearchError
 from tests.conftest import assert_console_output
-from tests.constants import Constants
+from tests.test_constants import Constants
 
 
 class TestAppToDo(unittest.TestCase):
