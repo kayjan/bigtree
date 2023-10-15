@@ -42,7 +42,7 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           recreate: true
-          path: coverage.xml
+          path: .coverage
       - name: Upload coverage to Codecov
         if: ${{ github.event_name == 'push' }}
         uses: codecov/codecov-action@v3
