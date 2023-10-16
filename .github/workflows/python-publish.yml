@@ -28,3 +28,50 @@ jobs:
         HATCH_USER:  ${{ secrets.HATCH_USER }}
         HATCH_AUTH:  ${{ secrets.HATCH_AUTH }}
       run: hatch publish -u $HATCH_USER -a $HATCH_AUTH
+    - name: Set env var
+      id: set-variable
+      run: |
+        VERSION_NUMBER=$(python -c "import bigtree; print(bigtree.__version__)")
+        echo "VERSION_NUMBER=${VERSION_NUMBER}" >> $GITHUB_OUTPUT
+    - name: Use your variable
+      run: |
+        echo "Your variable value is ${{ steps.set-variable.outputs.YOUR_VARIABLE }}"
+    - name: Relese notes format
+      uses: Beakyn/gha-format-release-notes@v1
+      id: format
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        # required
+        repository: ${{ github.repository }}
+        milestone: ${{ github.event.inputs.milestone }}
+
+        # optional
+        custom-row: "${issue.number} <--> ${issue.title}"
+        custom-group-by-label: |
+          [
+            {
+              "title": "### Feature 🎉",
+              "labels": ["added"]
+            },
+            {
+              "title": "### Bug Fixes 🐛",
+              "labels": ["fix"]
+            },
+            {
+              "title": "### Refactor & Improvements ✨",
+              "labels": ["changed"]
+            }
+          ]
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        VERSION_NUMBER: ${{ steps.set-variable.outputs.VERSION_NUMBER }}
+      with:
+        tag_name: ${{ VERSION_NUMBER }}
+        release_name: v${{ VERSION_NUMBER }}
+        body: ${{steps.format.outputs.release-notes}}
+        draft: false
+        prerelease: false
