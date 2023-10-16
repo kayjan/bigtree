@@ -72,8 +72,8 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
         VERSION_NUMBER: ${{ steps.set-variable.outputs.VERSION_NUMBER }}
       with:
-        tag_name: ${{ VERSION_NUMBER }}
-        release_name: v${{ VERSION_NUMBER }}
+        tag_name: ${{ env.VERSION_NUMBER }}
+        release_name: v${{ env.VERSION_NUMBER }}
         body: ${{steps.format.outputs.release-notes}}
         draft: false
         prerelease: false
