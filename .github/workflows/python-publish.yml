@@ -35,18 +35,43 @@ jobs:
       run: |
         VERSION_NUMBER=$(python -c "import bigtree; print(bigtree.__version__)")
         echo "VERSION_NUMBER=${VERSION_NUMBER}" >> $GITHUB_OUTPUT
+    - name: Release notes format
+      id: release-format
+      uses: Beakyn/gha-format-release-notes@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VERSION_NUMBER: ${{ steps.set-env-var.outputs.VERSION_NUMBER }}
+      with:
+        # required
+        repository: ${{ github.repository }}
+        milestone: ${{ env.VERSION_NUMBER }}
+
+        # optional
+        custom-row: "${issue.number} <--> ${issue.title}"
+        custom-group-by-label: |
+          [
+            {
+              "title": "### Feature 🎉",
+              "labels": ["added"]
+            },
+            {
+              "title": "### Bug Fixes 🐛",
+              "labels": ["fixed"]
+            },
+            {
+              "title": "### Refactor & Improvements ✨",
+              "labels": ["changed"]
+            }
+          ]
     - name: Create release
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VERSION_NUMBER: ${{ steps.set-env-var.outputs.VERSION_NUMBER }}
       with:
         tag_name: ${{ env.VERSION_NUMBER }}
         release_name: v${{ env.VERSION_NUMBER }}
-        body: |
-          Changes in this Release
-          - First Change
-          - Second Change
+        body: ${{steps.release-format.outputs.release-notes}}
         draft: false
         prerelease: false
