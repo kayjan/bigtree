@@ -6,7 +6,7 @@ on:
       - master
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   deploy:
@@ -28,3 +28,17 @@ jobs:
         HATCH_USER:  ${{ secrets.HATCH_USER }}
         HATCH_AUTH:  ${{ secrets.HATCH_AUTH }}
       run: hatch publish -u $HATCH_USER -a $HATCH_AUTH
+    - name: Set env var
+      id: set-env-var
+      run: |
+        VERSION_NUMBER=$(python -c "import bigtree; print(bigtree.__version__)")
+        echo "VERSION_NUMBER=${VERSION_NUMBER}" >> $GITHUB_OUTPUT
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      env:
+        VERSION_NUMBER: ${{ steps.set-env-var.outputs.VERSION_NUMBER }}
+      with:
+        name: v${{ env.VERSION_NUMBER }}
+        tag: ${{ env.VERSION_NUMBER }}
+        artifacts: "*.zip,*.tar.gz"
+        makeLatest: true
