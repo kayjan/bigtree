@@ -8,12 +8,6 @@ on:
       - completed
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check if upstream workflow failed
-        if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-        run: echo hello
   docs:
     runs-on: ubuntu-latest
     steps:
