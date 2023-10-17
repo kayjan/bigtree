@@ -31,8 +31,8 @@ jobs:
     - name: Set env var
       id: set-env-var
       run: |
-        VERSION_NUMBER=$(python -c "import bigtree; print(bigtree.__version__)")
-        echo "VERSION_NUMBER=${VERSION_NUMBER}" >> $GITHUB_OUTPUT
+        VERSION_NUMBER=
+        echo "VERSION_NUMBER=$(python -c 'import bigtree; print(bigtree.__version__)')" >> $GITHUB_OUTPUT
     - name: Create release
       uses: ncipollo/release-action@v1
       env:
@@ -41,4 +41,5 @@ jobs:
         name: v${{ env.VERSION_NUMBER }}
         tag: ${{ env.VERSION_NUMBER }}
         artifacts: "*.zip,*.tar.gz"
+        generateReleaseNotes: true
         makeLatest: true
