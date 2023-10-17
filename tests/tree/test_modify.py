@@ -4,7 +4,13 @@ import pytest
 
 from bigtree.node.node import Node
 from bigtree.tree.export import print_tree
-from bigtree.tree.modify import copy_nodes, copy_nodes_from_tree_to_tree, shift_nodes
+from bigtree.tree.modify import (
+    copy_and_replace_nodes_from_tree_to_tree,
+    copy_nodes,
+    copy_nodes_from_tree_to_tree,
+    shift_and_replace_nodes,
+    shift_nodes,
+)
 from bigtree.tree.search import find_name, find_path
 from bigtree.utils.exceptions import NotFoundError, TreeError
 from tests.node.test_basenode import (
@@ -1159,6 +1165,202 @@ class TestShiftNodes(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_MODIFY_INVALID_FULL_PATH
 
 
+class TestShiftAndReplaceNodes(unittest.TestCase):
+    def setUp(self):
+        """
+        Tree should have structure
+        a
+        |-- b
+        |   |-- d
+        |   +-- e
+        |       |-- g
+        |       +-- h
+        +-- c
+            +-- f
+
+        Tree root should have structure
+        a
+        ├── b
+        │   ├── c
+        │   │   └── f
+        │   ├── d
+        │   └── ee
+        ├── cc
+        └── e
+            ├── g
+            └── h
+        """
+        a = Node(name="a", age=90)
+        b = Node(name="b", age=65)
+        cc = Node(name="cc", age=60)
+        c = Node(name="c", age=60)
+        d = Node(name="d", age=40)
+        ee = Node(name="ee", age=35)
+        e = Node(name="e", age=35)
+        f = Node(name="f", age=38)
+        g = Node(name="g", age=10)
+        h = Node(name="h", age=6)
+
+        b.parent = a
+        cc.parent = a
+        c.parent = b
+        d.parent = b
+        ee.parent = b
+        e.parent = a
+        f.parent = c
+        g.parent = e
+        h.parent = e
+
+        self.root = a
+
+    def tearDown(self):
+        self.root = None
+
+    def test_shift_and_replace_nodes(self):
+        from_paths = ["/e", "/c"]
+        to_paths = ["a/b/ee", "a/cc"]
+        shift_and_replace_nodes(self.root, from_paths, to_paths)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_shift_and_replace_nodes_invalid_type_error(self):
+        with pytest.raises(ValueError) as exc_info:
+            shift_and_replace_nodes(self.root, {}, [])
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_PARAM_TYPE
+
+    def test_shift_and_replace_nodes_unequal_length_error(self):
+        from_paths = ["/e", "/c"]
+        to_paths = ["a/b/ee"]
+        with pytest.raises(ValueError) as exc_info:
+            shift_and_replace_nodes(self.root, from_paths, to_paths)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_MODIFY_PARAM_DIFFERENT_PATH_LENGTH.format(
+            n1=len(from_paths), n2=len(to_paths)
+        )
+
+    def test_shift_and_replace_nodes_invalid_from_paths_error(self):
+        from_path = "i"
+        from_paths = [from_path]
+        to_paths = ["a/b/ee"]
+        with pytest.raises(NotFoundError) as exc_info:
+            shift_and_replace_nodes(self.root, from_paths, to_paths)
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_FROM_PATH_NOT_FOUND.format(
+            from_path=from_path
+        )
+
+    def test_shift_and_replace_nodes_invalid_to_paths_error(self):
+        from_paths = ["/e"]
+        to_paths = ["aa/b/ee"]
+        with pytest.raises(ValueError) as exc_info:
+            shift_and_replace_nodes(self.root, from_paths, to_paths)
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_INVALID_TO_PATH
+
+    # sep
+    def test_shift_and_replace_nodes_leading_sep(self):
+        from_paths = ["/e", "/c"]
+        to_paths = ["/a/b/ee", "/a/cc"]
+        shift_and_replace_nodes(self.root, from_paths, to_paths)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_shift_and_replace_nodes_trailing_sep(self):
+        from_paths = ["/e/", "/c"]
+        to_paths = ["a/b/ee", "a/cc/"]
+        shift_and_replace_nodes(self.root, from_paths, to_paths)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_shift_and_replace_nodes_sep_error(self):
+        from_paths = ["\\e", "\\c"]
+        to_paths = ["a\\b\\ee", "a\\cc"]
+        with pytest.raises(ValueError) as exc_info:
+            shift_and_replace_nodes(self.root, from_paths, to_paths)
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_INVALID_TO_PATH
+
+    def test_shift_and_replace_nodes_sep(self):
+        from_paths = ["\\e", "\\c"]
+        to_paths = ["a\\b\\ee", "a\\cc"]
+        shift_and_replace_nodes(self.root, from_paths, to_paths, sep="\\")
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    # skippable
+    def test_shift_and_replace_nodes_skippable_error(self):
+        from_path = "i"
+        from_paths = [from_path, "/e/", "/c"]
+        to_paths = ["a/b", "a/b/ee", "a/cc/"]
+        with pytest.raises(NotFoundError) as exc_info:
+            shift_and_replace_nodes(self.root, from_paths, to_paths)
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_FROM_PATH_NOT_FOUND.format(
+            from_path=from_path
+        )
+
+        shift_and_replace_nodes(self.root, from_paths, to_paths, skippable=True)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    # same node
+    def test_shift_and_replace_nodes_same_node_error(self):
+        from_paths = ["/e/"]
+        to_paths = ["a/e"]
+        with pytest.raises(TreeError) as exc_info:
+            shift_and_replace_nodes(self.root, from_paths, to_paths)
+        assert str(exc_info.value).startswith(Constants.ERROR_MODIFY_REPLACE_SAME_NODE)
+
+    # invalid to path
+    def test_shift_and_replace_nodes_to_path_error(self):
+        to_path = "a/ee"
+        from_paths = ["/e/"]
+        to_paths = [to_path]
+        with pytest.raises(NotFoundError) as exc_info:
+            shift_and_replace_nodes(self.root, from_paths, to_paths)
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_TO_PATH_NOT_FOUND.format(
+            to_path=to_path
+        )
+
+    # delete_children
+    def test_shift_and_replace_nodes_delete_children(self):
+        d = find_name(self.root, "d")
+        h = find_name(self.root, "h")
+        d.children = [Node("i"), Node("j")]
+        h.children = [Node("d", age=40, children=[Node("k")])]
+        from_paths = ["/e/", "/c"]
+        to_paths = ["a/b/ee", "a/cc/"]
+        shift_and_replace_nodes(self.root, from_paths, to_paths)
+
+        from_paths = ["h/d"]
+        to_paths = ["a/b/d"]
+        shift_and_replace_nodes(self.root, from_paths, to_paths, delete_children=True)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    # with_full_path
+    def test_shift_and_replace_nodes_with_full_path(self):
+        from_paths = ["a/e/", "a/b/c"]
+        to_paths = ["a/b/ee", "a/cc"]
+        shift_and_replace_nodes(self.root, from_paths, to_paths, with_full_path=True)
+
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_shift_and_replace_nodes_with_full_path_error(self):
+        from_paths = ["/e/", "a/b/c"]
+        to_paths = ["a/b/ee", "a/cc"]
+        with pytest.raises(ValueError) as exc_info:
+            shift_and_replace_nodes(
+                self.root, from_paths, to_paths, with_full_path=True
+            )
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_INVALID_FULL_PATH
+
+
 class TestCopyNodesTwoTrees(unittest.TestCase):
     def setUp(self):
         """
@@ -1837,6 +2039,287 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             copy_nodes_from_tree_to_tree(
                 from_tree=self.root,
                 to_tree=self.root_other,
+                from_paths=from_paths,
+                to_paths=to_paths,
+                with_full_path=True,
+            )
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_INVALID_FULL_PATH
+
+
+class TestCopyAndReplaceNodesTwoTrees(unittest.TestCase):
+    def setUp(self):
+        """
+        Tree should have structure
+        a
+        |-- b
+        |   |-- d
+        |   +-- e
+        |       |-- g
+        |       +-- h
+        +-- c
+            +-- f
+
+        Tree root should have structure
+        a
+        ├── b
+        │   ├── d
+        │   └── ee
+        └── cc
+
+        Tree root_other should have structure
+        aa
+        ├── c
+        │   └── f
+        └── e
+            ├── g
+            └── h
+        """
+        a = Node(name="a", age=90)
+        b = Node(name="b", age=65)
+        cc = Node(name="cc", age=60)
+        d = Node(name="d", age=40)
+        ee = Node(name="ee", age=35)
+
+        b.parent = a
+        cc.parent = a
+        d.parent = b
+        ee.parent = b
+
+        self.root = a
+
+        aa = Node(name="aa", age=90)
+        cc = Node(name="c", age=60)
+        ee = Node(name="e", age=35)
+        ff = Node(name="f", age=38)
+        gg = Node(name="g", age=10)
+        hh = Node(name="h", age=6)
+
+        cc.parent = aa
+        ee.parent = aa
+        ff.parent = cc
+        gg.parent = ee
+        hh.parent = ee
+
+        self.root_other = aa
+
+    def tearDown(self):
+        self.root = None
+
+    def test_copy_and_replace_nodes_from_tree_to_tree(self):
+        from_paths = ["c", "e"]
+        to_paths = ["a/cc", "a/b/ee"]
+        copy_and_replace_nodes_from_tree_to_tree(
+            from_tree=self.root_other,
+            to_tree=self.root,
+            from_paths=from_paths,
+            to_paths=to_paths,
+        )
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+        assert len(self.root_other.children) == 2, "Copying changes original tree"
+
+    def test_copy_and_replace_nodes_from_tree_to_tree_invalid_type_error(self):
+        with pytest.raises(ValueError) as exc_info:
+            copy_and_replace_nodes_from_tree_to_tree(
+                from_tree=self.root_other,
+                to_tree=self.root,
+                from_paths={},
+                to_paths=[],
+            )
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_PARAM_TYPE
+
+    def test_copy_and_replace_nodes_from_tree_to_tree_unequal_length_error(self):
+        from_paths = ["e"]
+        to_paths = ["a/cc", "a/b/ee"]
+        with pytest.raises(ValueError) as exc_info:
+            copy_and_replace_nodes_from_tree_to_tree(
+                from_tree=self.root_other,
+                to_tree=self.root,
+                from_paths=from_paths,
+                to_paths=to_paths,
+            )
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_MODIFY_PARAM_DIFFERENT_PATH_LENGTH.format(
+            n1=len(from_paths), n2=len(to_paths)
+        )
+
+    def test_copy_and_replace_nodes_from_tree_to_tree_invalid_from_paths_error(self):
+        from_path = "i"
+        from_paths = [from_path]
+        to_paths = ["a/cc"]
+        with pytest.raises(NotFoundError) as exc_info:
+            copy_and_replace_nodes_from_tree_to_tree(
+                from_tree=self.root_other,
+                to_tree=self.root,
+                from_paths=from_paths,
+                to_paths=to_paths,
+            )
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_FROM_PATH_NOT_FOUND.format(
+            from_path=from_path
+        )
+
+    def test_copy_and_replace_nodes_from_tree_to_tree_invalid_to_paths_error(self):
+        from_paths = ["c"]
+        to_paths = ["aa/cc"]
+        with pytest.raises(ValueError) as exc_info:
+            copy_and_replace_nodes_from_tree_to_tree(
+                from_tree=self.root_other,
+                to_tree=self.root,
+                from_paths=from_paths,
+                to_paths=to_paths,
+            )
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_INVALID_TO_PATH
+
+    # sep
+    def test_copy_and_replace_nodes_from_tree_to_tree_leading_sep(self):
+        from_paths = ["/c", "/e"]
+        to_paths = ["/a/cc", "/a/b/ee"]
+        copy_and_replace_nodes_from_tree_to_tree(
+            from_tree=self.root_other,
+            to_tree=self.root,
+            from_paths=from_paths,
+            to_paths=to_paths,
+        )
+
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_copy_and_replace_nodes_from_tree_to_tree_different_sep(self):
+        from_paths = ["c", "e"]
+        to_paths = ["a/cc", "a/b/ee"]
+        self.root_other.sep = "\\"
+        copy_and_replace_nodes_from_tree_to_tree(
+            from_tree=self.root_other,
+            to_tree=self.root,
+            from_paths=from_paths,
+            to_paths=to_paths,
+        )
+        self.root_other.sep = "/"
+
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_copy_and_replace_nodes_from_tree_to_tree_trailing_sep(self):
+        from_paths = ["c", "e/"]
+        to_paths = ["a/cc/", "a/b/ee"]
+        copy_and_replace_nodes_from_tree_to_tree(
+            from_tree=self.root_other,
+            to_tree=self.root,
+            from_paths=from_paths,
+            to_paths=to_paths,
+        )
+
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_copy_and_replace_nodes_from_tree_to_tree_sep_error(self):
+        from_paths = ["\\c", "\\e"]
+        to_paths = ["a\\cc", "a\\b\\ee"]
+        with pytest.raises(ValueError) as exc_info:
+            copy_and_replace_nodes_from_tree_to_tree(
+                from_tree=self.root_other,
+                to_tree=self.root,
+                from_paths=from_paths,
+                to_paths=to_paths,
+            )
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_INVALID_TO_PATH
+
+    def test_copy_and_replace_nodes_from_tree_to_tree_sep(self):
+        from_paths = ["\\c", "\\e"]
+        to_paths = ["a\\cc", "a\\b\\ee"]
+        copy_and_replace_nodes_from_tree_to_tree(
+            from_tree=self.root_other,
+            to_tree=self.root,
+            from_paths=from_paths,
+            to_paths=to_paths,
+            sep="\\",
+        )
+
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    # skippable
+    def test_copy_and_replace_nodes_skippable_error(self):
+        from_path = "i"
+        from_paths = [from_path, "c", "e"]
+        to_paths = ["a/cc", "a/cc", "a/b/ee"]
+        with pytest.raises(NotFoundError) as exc_info:
+            copy_and_replace_nodes_from_tree_to_tree(
+                from_tree=self.root_other,
+                to_tree=self.root,
+                from_paths=from_paths,
+                to_paths=to_paths,
+            )
+        assert str(exc_info.value) == Constants.ERROR_MODIFY_FROM_PATH_NOT_FOUND.format(
+            from_path=from_path
+        )
+
+        copy_and_replace_nodes_from_tree_to_tree(
+            from_tree=self.root_other,
+            to_tree=self.root,
+            from_paths=from_paths,
+            to_paths=to_paths,
+            skippable=True,
+        )
+
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    # delete_children
+    def test_copy_and_replace_nodes_from_tree_to_tree_delete_children(self):
+        d = find_name(self.root, "d")
+        d.children = [Node("i"), Node("j")]
+        d = Node("d", age=40, children=[Node("k")])
+        d.parent = self.root_other
+
+        from_paths = ["c", "e"]
+        to_paths = ["a/cc", "a/b/ee"]
+        copy_and_replace_nodes_from_tree_to_tree(
+            self.root_other, self.root, from_paths, to_paths
+        )
+
+        from_paths = ["d"]
+        to_paths = ["a/b/d"]
+        copy_and_replace_nodes_from_tree_to_tree(
+            from_tree=self.root_other,
+            to_tree=self.root,
+            from_paths=from_paths,
+            to_paths=to_paths,
+            delete_children=True,
+        )
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    # with_full_path
+    def test_copy_and_replace_nodes_from_tree_to_tree_with_full_path(self):
+        from_paths = ["aa/c", "aa/e"]
+        to_paths = ["a/cc", "a/b/ee"]
+        copy_and_replace_nodes_from_tree_to_tree(
+            from_tree=self.root_other,
+            to_tree=self.root,
+            from_paths=from_paths,
+            to_paths=to_paths,
+            with_full_path=True,
+        )
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_copy_and_replace_nodes_from_tree_to_tree_with_full_path_error(self):
+        from_paths = ["a/c", "aa/e"]
+        to_paths = ["aa/cc/", "aa/b/ee"]
+        with pytest.raises(ValueError) as exc_info:
+            copy_and_replace_nodes_from_tree_to_tree(
+                from_tree=self.root_other,
+                to_tree=self.root,
                 from_paths=from_paths,
                 to_paths=to_paths,
                 with_full_path=True,
