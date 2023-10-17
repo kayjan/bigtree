@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: docs-${{ github.sha }}
-          path: docs/build/html
+          path: docs/build/
       - name: Trigger RTDs build
         uses: dfm/rtds-action@v1
         with:
