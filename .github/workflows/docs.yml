@@ -8,6 +8,12 @@ on:
       - completed
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if upstream workflow failed
+        if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+        run: echo hello
   docs:
     runs-on: ubuntu-latest
     steps:
@@ -28,7 +34,7 @@ jobs:
           publish_dir: docs/build/
           force_orphan: true
       - name: Deploy to RTD
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: docs-${{ github.sha }}
           path: docs/build/html
