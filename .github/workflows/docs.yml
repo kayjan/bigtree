@@ -8,12 +8,15 @@ on:
       - completed
 
 jobs:
-  docs:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: Check if upstream workflow failed
         if: ${{ github.event.workflow_run.conclusion == 'failure' }}
         run: exit 1
+  docs:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - name: Install dependencies
@@ -22,7 +25,7 @@ jobs:
       - name: Sphinx build
         run: |
           sphinx-build docs/source docs/build
-      - name: Deploy
+      - name: Deploy to GH Pages
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         with:
@@ -30,3 +33,14 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/build/
           force_orphan: true
+      - name: Deploy to RTD
+      - uses: actions/upload-artifact@v2
+        with:
+          name: docs-${{ github.sha }}
+          path: docs/build/html
+      - name: Trigger RTDs build
+        uses: dfm/rtds-action@v1
+        with:
+          webhook_url: ${{ secrets.RTD_URL }}
+          webhook_token: ${{ secrets.RTD_TOKEN }}
+          commit_ref: ${{ github.ref }}
