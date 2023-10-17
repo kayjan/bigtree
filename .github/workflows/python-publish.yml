@@ -40,6 +40,5 @@ jobs:
       with:
         name: v${{ env.VERSION_NUMBER }}
         tag: ${{ env.VERSION_NUMBER }}
-        artifacts: "*.zip,*.tar.gz"
         generateReleaseNotes: true
         makeLatest: true
