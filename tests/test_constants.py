@@ -176,6 +176,7 @@ class Constants:
         "Unable to find from_path {from_path}\n"
         "Set `skippable` to True to skip shifting for nodes not found"
     )
+    ERROR_MODIFY_TO_PATH_NOT_FOUND = "Unable to find to_path {to_path}"
     ERROR_MODIFY_INVALID_TO_PATH = "Invalid path in `to_paths` not starting with the root node. Check your `to_paths` parameter."
     ERROR_MODIFY_INVALID_FULL_PATH = (
         "Invalid path in `from_paths` not starting with the root node. "
@@ -190,6 +191,7 @@ class Constants:
 
     ERROR_MODIFY_PATH_MISMATCH = "Unable to assign from_path "
     ERROR_MODIFY_SHIFT_SAME_NODE = "Attempting to shift the same node "
+    ERROR_MODIFY_REPLACE_SAME_NODE = "Attempting to replace the same node "
 
     # tree/search
     ERROR_SEARCH_RELATIVE_INVALID_PATH = (

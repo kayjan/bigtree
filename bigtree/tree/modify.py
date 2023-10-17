@@ -11,8 +11,11 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 __all__ = [
     "shift_nodes",
     "copy_nodes",
+    "shift_and_replace_nodes",
     "copy_nodes_from_tree_to_tree",
+    "copy_and_replace_nodes_from_tree_to_tree",
     "copy_or_shift_logic",
+    "replace_logic",
 ]
 
 
@@ -494,6 +497,97 @@ def copy_nodes(
     )  # pragma: no cover
 
 
+def shift_and_replace_nodes(
+    tree: Node,
+    from_paths: List[str],
+    to_paths: List[str],
+    sep: str = "/",
+    skippable: bool = False,
+    delete_children: bool = False,
+    with_full_path: bool = False,
+) -> None:
+    """Shift nodes from `from_paths` to *replace* `to_paths` *in-place*.
+
+    - Creates intermediate nodes if to path is not present
+    - Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable).
+    - Able to shift node only and delete children, defaults to False (nodes are shifted together with children).
+
+    For paths in `from_paths` and `to_paths`,
+      - Path name can be with or without leading tree path separator symbol.
+
+    For paths in `from_paths`,
+      - Path name can be partial path (trailing part of path) or node name.
+      - If ``with_full_path=True``, path name must be full path.
+      - Path name must be unique to one node.
+
+    For paths in `to_paths`,
+      - Path name must be full path.
+      - Path must exist, node-to-be-replaced must be present.
+
+    >>> from bigtree import Node, shift_and_replace_nodes
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=b)
+    >>> d = Node("d", parent=root)
+    >>> e = Node("e", parent=d)
+    >>> root.show()
+    a
+    ├── b
+    │   └── c
+    └── d
+        └── e
+
+    >>> shift_and_replace_nodes(root, ["a/b"], ["a/d/e"])
+    >>> root.show()
+    a
+    └── d
+        └── b
+            └── c
+
+    In ``delete_children=True`` case, only the node is shifted without its accompanying children/descendants.
+
+    >>> from bigtree import Node, shift_and_replace_nodes
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=b)
+    >>> d = Node("d", parent=root)
+    >>> e = Node("e", parent=d)
+    >>> root.show()
+    a
+    ├── b
+    │   └── c
+    └── d
+        └── e
+
+    >>> shift_and_replace_nodes(root, ["a/b"], ["a/d/e"], delete_children=True)
+    >>> root.show()
+    a
+    └── d
+        └── b
+
+    Args:
+        tree (Node): tree to modify
+        from_paths (List[str]): original paths to shift nodes from
+        to_paths (List[str]): new paths to shift nodes to
+        sep (str): path separator for input paths, applies to `from_path` and `to_path`
+        skippable (bool): indicator to skip if from path is not found, defaults to False
+        delete_children (bool): indicator to shift node only without children, defaults to False
+        with_full_path (bool): indicator to shift/copy node with full path in `from_paths`, results in faster search,
+            defaults to False
+    """
+    return replace_logic(
+        tree=tree,
+        from_paths=from_paths,
+        to_paths=to_paths,
+        sep=sep,
+        copy=False,
+        skippable=skippable,
+        delete_children=delete_children,
+        to_tree=None,
+        with_full_path=with_full_path,
+    )  # pragma: no cover
+
+
 def copy_nodes_from_tree_to_tree(
     from_tree: Node,
     to_tree: Node,
@@ -664,6 +758,114 @@ def copy_nodes_from_tree_to_tree(
     )  # pragma: no cover
 
 
+def copy_and_replace_nodes_from_tree_to_tree(
+    from_tree: Node,
+    to_tree: Node,
+    from_paths: List[str],
+    to_paths: List[str],
+    sep: str = "/",
+    skippable: bool = False,
+    delete_children: bool = False,
+    with_full_path: bool = False,
+) -> None:
+    """Copy nodes from `from_paths` to *replace* `to_paths` *in-place*.
+
+    - Creates intermediate nodes if to path is not present
+    - Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable).
+    - Able to copy node only and delete children, defaults to False (nodes are copied together with children).
+
+    For paths in `from_paths` and `to_paths`,
+      - Path name can be with or without leading tree path separator symbol.
+
+    For paths in `from_paths`,
+      - Path name can be partial path (trailing part of path) or node name.
+      - If ``with_full_path=True``, path name must be full path.
+      - Path name must be unique to one node.
+
+    For paths in `to_paths`,
+      - Path name must be full path.
+      - Path must exist, node-to-be-replaced must be present.
+
+    >>> from bigtree import Node, copy_and_replace_nodes_from_tree_to_tree
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=root)
+    >>> d = Node("d", parent=c)
+    >>> e = Node("e", parent=root)
+    >>> f = Node("f", parent=e)
+    >>> g = Node("g", parent=f)
+    >>> root.show()
+    a
+    ├── b
+    ├── c
+    │   └── d
+    └── e
+        └── f
+            └── g
+
+    >>> root_other = Node("aa")
+    >>> bb = Node("bb", parent=root_other)
+    >>> cc = Node("cc", parent=bb)
+    >>> dd = Node("dd", parent=root_other)
+    >>> root_other.show()
+    aa
+    ├── bb
+    │   └── cc
+    └── dd
+
+    >>> copy_and_replace_nodes_from_tree_to_tree(root, root_other, ["a/c", "a/e"], ["aa/bb/cc", "aa/dd"])
+    >>> root_other.show()
+    aa
+    ├── bb
+    │   └── c
+    │       └── d
+    └── e
+        └── f
+            └── g
+
+    In ``delete_children=True`` case, only the node is copied without its accompanying children/descendants.
+
+    >>> root_other = Node("aa")
+    >>> bb = Node("bb", parent=root_other)
+    >>> cc = Node("cc", parent=bb)
+    >>> dd = Node("dd", parent=root_other)
+    >>> root_other.show()
+    aa
+    ├── bb
+    │   └── cc
+    └── dd
+
+    >>> copy_and_replace_nodes_from_tree_to_tree(root, root_other, ["a/c", "a/e"], ["aa/bb/cc", "aa/dd"], delete_children=True)
+    >>> root_other.show()
+    aa
+    ├── bb
+    │   └── c
+    └── e
+
+    Args:
+        from_tree (Node): tree to copy nodes from
+        to_tree (Node): tree to copy nodes to
+        from_paths (List[str]): original paths to shift nodes from
+        to_paths (List[str]): new paths to shift nodes to
+        sep (str): path separator for input paths, applies to `from_path` and `to_path`
+        skippable (bool): indicator to skip if from path is not found, defaults to False
+        delete_children (bool): indicator to copy node only without children, defaults to False
+        with_full_path (bool): indicator to shift/copy node with full path in `from_paths`, results in faster search,
+            defaults to False
+    """
+    return replace_logic(
+        tree=from_tree,
+        from_paths=from_paths,
+        to_paths=to_paths,
+        sep=sep,
+        copy=True,
+        skippable=skippable,
+        delete_children=delete_children,
+        to_tree=to_tree,
+        with_full_path=with_full_path,
+    )  # pragma: no cover
+
+
 def copy_or_shift_logic(
     tree: Node,
     from_paths: List[str],
@@ -786,7 +988,7 @@ def copy_or_shift_logic(
             "Invalid path in `to_paths` not starting with the root node. Check your `to_paths` parameter."
         )
 
-    # Perform shifting
+    # Perform shifting/copying
     for from_path, to_path in zip(from_paths, to_paths):
         if with_full_path:
             from_node = find_full_path(tree, from_path)
@@ -895,3 +1097,139 @@ def copy_or_shift_logic(
                 if delete_children:
                     del from_node.children
                 from_node.parent = to_node
+
+
+def replace_logic(
+    tree: Node,
+    from_paths: List[str],
+    to_paths: List[str],
+    sep: str = "/",
+    copy: bool = False,
+    skippable: bool = False,
+    delete_children: bool = False,
+    to_tree: Optional[Node] = None,
+    with_full_path: bool = False,
+) -> None:
+    """Shift or copy nodes from `from_paths` to *replace* `to_paths` *in-place*.
+
+    - Creates intermediate nodes if to path is not present
+    - Able to copy node, defaults to False (nodes are shifted; not copied).
+    - Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable)
+    - Able to replace node only and delete children, defaults to False (nodes are shifted/copied together with children).
+    - Able to shift/copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)
+
+    For paths in `from_paths` and `to_paths`,
+      - Path name can be with or without leading tree path separator symbol.
+
+    For paths in `from_paths`,
+      - Path name can be partial path (trailing part of path) or node name.
+      - If ``with_full_path=True``, path name must be full path.
+      - Path name must be unique to one node.
+
+    For paths in `to_paths`,
+      - Path name must be full path.
+      - Path must exist, node-to-be-replaced must be present.
+
+    Args:
+        tree (Node): tree to modify
+        from_paths (List[str]): original paths to shift nodes from
+        to_paths (List[str]): new paths to shift nodes to
+        sep (str): path separator for input paths, applies to `from_path` and `to_path`
+        copy (bool): indicator to copy node, defaults to False
+        skippable (bool): indicator to skip if from path is not found, defaults to False
+        delete_children (bool): indicator to shift/copy node only without children, defaults to False
+        to_tree (Node): tree to copy to, defaults to None
+        with_full_path (bool): indicator to shift/copy node with full path in `from_paths`, results in faster search,
+            defaults to False
+    """
+    if not (isinstance(from_paths, list) and isinstance(to_paths, list)):
+        raise ValueError(
+            "Invalid type, `from_paths` and `to_paths` should be list type"
+        )
+    if len(from_paths) != len(to_paths):
+        raise ValueError(
+            f"Paths are different length, input `from_paths` have {len(from_paths)} entries, "
+            f"while output `to_paths` have {len(to_paths)} entries"
+        )
+
+    # Modify `sep` of from_paths and to_paths
+    if not to_tree:
+        to_tree = tree
+    tree_sep = to_tree.sep
+    from_paths = [path.rstrip(sep).replace(sep, tree.sep) for path in from_paths]
+    to_paths = [
+        path.rstrip(sep).replace(sep, tree_sep) if path else None for path in to_paths
+    ]
+
+    if with_full_path:
+        if not all(
+            [
+                path.lstrip(tree.sep).split(tree.sep)[0] == tree.root.node_name
+                for path in from_paths
+            ]
+        ):
+            raise ValueError(
+                "Invalid path in `from_paths` not starting with the root node. "
+                "Check your `from_paths` parameter, alternatively set `with_full_path=False` to shift "
+                "partial path instead of full path."
+            )
+    if not all(
+        [
+            path.lstrip(tree_sep).split(tree_sep)[0] == to_tree.root.node_name
+            for path in to_paths
+            if path
+        ]
+    ):
+        raise ValueError(
+            "Invalid path in `to_paths` not starting with the root node. Check your `to_paths` parameter."
+        )
+
+    # Perform shifting/copying to replace destination node
+    for from_path, to_path in zip(from_paths, to_paths):
+        if with_full_path:
+            from_node = find_full_path(tree, from_path)
+        else:
+            from_node = find_path(tree, from_path)
+
+        # From node not found
+        if not from_node:
+            if not skippable:
+                raise NotFoundError(
+                    f"Unable to find from_path {from_path}\n"
+                    f"Set `skippable` to True to skip shifting for nodes not found"
+                )
+            else:
+                logging.info(f"Unable to find from_path {from_path}")
+
+        # From node found
+        else:
+            to_node = find_full_path(to_tree, to_path)
+
+            # To node found
+            if to_node:
+                if from_node == to_node:
+                    raise TreeError(
+                        f"Attempting to replace the same node {from_node.node_name}\n"
+                        f"Check from path {from_path} and to path {to_path}"
+                    )
+
+            # To node not found
+            else:
+                raise NotFoundError(f"Unable to find to_path {to_path}")
+
+            # Replace to_node with from_node
+            if copy:
+                logging.debug(f"Copying {from_node.node_name}")
+                from_node = from_node.copy()
+            if delete_children:
+                del from_node.children
+            parent = to_node.parent
+            to_node_siblings = parent.children
+            to_node_idx = to_node_siblings.index(to_node)
+            for node in to_node_siblings[to_node_idx:]:
+                if node == to_node:
+                    to_node.parent = None
+                    from_node.parent = parent
+                else:
+                    node.parent = None
+                    node.parent = parent

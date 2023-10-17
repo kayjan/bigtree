@@ -33,9 +33,12 @@ from bigtree.tree.export import (
 )
 from bigtree.tree.helper import clone_tree, get_tree_diff, prune_tree
 from bigtree.tree.modify import (
+    copy_and_replace_nodes_from_tree_to_tree,
     copy_nodes,
     copy_nodes_from_tree_to_tree,
     copy_or_shift_logic,
+    replace_logic,
+    shift_and_replace_nodes,
     shift_nodes,
 )
 from bigtree.tree.search import (
