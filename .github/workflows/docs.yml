@@ -1,6 +1,9 @@
 name: Docs
 
 on:
+  push:
+    branches:
+      - master
   workflow_run:
     workflows: ["Upload Python Package"]
     branches: [master]
