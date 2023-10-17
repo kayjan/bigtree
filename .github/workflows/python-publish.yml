@@ -42,3 +42,4 @@ jobs:
         tag: ${{ env.VERSION_NUMBER }}
         generateReleaseNotes: true
         makeLatest: true
+        skipIfReleaseExists: true
