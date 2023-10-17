@@ -32,6 +32,7 @@ blockquote p {
 }
 ol {
     padding-left: 40px;
+    margin-bottom: 0px;
 }
 ol p, li p {
     margin-bottom: 0;
