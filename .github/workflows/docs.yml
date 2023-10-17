@@ -3,7 +3,7 @@ name: Docs
 on:
   workflow_run:
     workflows: ["Upload Python Package"]
-    branches: [main]
+    branches: [master]
     types: 
       - completed
 
