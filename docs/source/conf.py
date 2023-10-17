@@ -28,6 +28,7 @@ extensions = [
     "myst_parser",
     "sphinxemoji.sphinxemoji",
     "sphinx.ext.mathjax",
+    "rtds_action",
 ]
 autodoc_default_options = {"autosummary": True}
 sphinxemoji_style = "twemoji"
@@ -36,6 +37,13 @@ templates_path = ["_templates"]
 exclude_patterns = []
 
 language = "Python"
+
+# GitHub Action Integration
+rtds_action_github_repo = "kayjan/bigtree"
+rtds_action_path = "../build/html"
+rtds_action_artifact_prefix = "docs-"
+rtds_action_github_token = os.environ["GH_TOKEN"]
+rtds_action_error_if_missing = True
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
