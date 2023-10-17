@@ -49,6 +49,8 @@ For **Tree** implementation, there are 9 main components.
    1. Shift nodes from location to destination
    2. Copy nodes from location to destination
    3. Copy nodes from one tree to another
+   4. Shift and replace nodes from location to destination
+   5. Copy and replace nodes from one tree to another
 5. [**Tree Search**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/search.html)
    1. Find multiple nodes based on name, partial path, relative path, attribute value, user-defined condition
    2. Find single nodes based on name, partial path, relative path, full path, attribute value, user-defined condition
