@@ -43,6 +43,8 @@ jobs:
           path: docs/build/
       - name: Trigger RTDs build
         uses: dfm/rtds-action@v1
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           webhook_url: ${{ secrets.RTD_URL }}
           webhook_token: ${{ secrets.RTD_TOKEN }}
