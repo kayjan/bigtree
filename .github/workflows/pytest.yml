@@ -8,7 +8,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  build-linux:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
