@@ -33,7 +33,7 @@ jobs:
           publish_dir: docs/build/
           force_orphan: true
       - name: Deploy to RTD
-        uses: readthedocs/actions/preview@v1
+        uses: KengoTODA/readthedocs-action@main
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           rtd-token: ${{ secrets.RTD_TOKEN }}
