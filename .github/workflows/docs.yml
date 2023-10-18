@@ -37,15 +37,6 @@ jobs:
           publish_dir: docs/build/
           force_orphan: true
       - name: Deploy to RTD
-        uses: actions/upload-artifact@v2
+        uses: readthedocs/actions/preview@v1
         with:
-          name: docs-${{ github.sha }}
-          path: docs/build/
-      - name: Trigger RTDs build
-        uses: dfm/rtds-action@v1
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          webhook_url: ${{ secrets.RTD_URL }}
-          webhook_token: ${{ secrets.RTD_TOKEN }}
-          commit_ref: ${{ github.ref }}
+          project-slug: bigtree
