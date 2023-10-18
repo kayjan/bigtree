@@ -1,8 +1,14 @@
 name: Docs
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches:
+      - master
+  workflow_run:
+    workflows: ["Upload Python Package"]
+    branches: [master]
+    types: 
+      - completed
 
 permissions:
   pull-requests: write
