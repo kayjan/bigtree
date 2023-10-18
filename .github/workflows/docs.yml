@@ -10,6 +10,9 @@ on:
     types: 
       - completed
 
+permissions:
+  pull-requests: write
+
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -36,16 +39,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/build/
           force_orphan: true
-      - name: Deploy to RTD
-        uses: actions/upload-artifact@v2
-        with:
-          name: docs-${{ github.sha }}
-          path: docs/build/
-      - name: Trigger RTDs build
-        uses: dfm/rtds-action@v1
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          webhook_url: ${{ secrets.RTD_URL }}
-          webhook_token: ${{ secrets.RTD_TOKEN }}
-          commit_ref: ${{ github.ref }}
