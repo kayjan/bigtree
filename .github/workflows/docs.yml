@@ -31,4 +31,6 @@ jobs:
       - name: Deploy to RTD
         uses: readthedocs/actions/preview@v1
         with:
-          project-slug: bigtree
+          github-token: ${{ secrets.GH_TOKEN }}
+          rtd-token: ${{ secrets.RTD_TOKEN }}
+          rtd-project: bigtree
