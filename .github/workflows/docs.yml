@@ -39,7 +39,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/build/
           force_orphan: true
-      - name: Deploy to RTD
-        uses: readthedocs/actions/preview@v1
-        with:
-          project-slug: bigtree
