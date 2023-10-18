@@ -4,7 +4,6 @@ on: [push]
 
 permissions:
   pull-requests: write
-  checks: write
 
 jobs:
   setup:
@@ -33,8 +32,6 @@ jobs:
           publish_dir: docs/build/
           force_orphan: true
       - name: Deploy to RTD
-        uses: KengoTODA/readthedocs-action@main
+        uses: readthedocs/actions/preview@v1
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          rtd-token: ${{ secrets.RTD_TOKEN }}
-          rtd-project: bigtree
+          project-slug: bigtree
