@@ -1,6 +1,6 @@
 # Big Tree Python Package
 
-Tree Implementation for Python, integrated with Python list, dictionary, and pandas DataFrame.
+Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.
 
 It is pythonic, making it easy to learn and extendable to many types of workflows.
 
