@@ -2,12 +2,12 @@ package:
   name: bigtree
   version: 0.14.3
 
-build:
-  number: 3
-
 requirements:
   run:
     - python
 
 about:
+  home: https://github.com/kayjan/bigtree
+  license: MIT
   summary: Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.
+  doc_url: https://bigtree.readthedocs.io/en/latest/
