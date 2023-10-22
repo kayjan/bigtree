@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: ["Upload Python Package"]
     branches: [master]
-    types: 
+    types:
       - completed
 
 permissions:
