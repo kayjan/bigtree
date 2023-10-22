@@ -1,7 +1,9 @@
 name: Upload Python Package to Conda
 
 on:
-  workflow_dispatch
+  push:
+    branches:
+      - publish-to-conda
 
 jobs:
   publish:
