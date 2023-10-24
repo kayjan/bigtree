@@ -9,9 +9,26 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: publish-to-conda
-      uses: maxibor/conda-package-publish-action@v1.1
+    - uses: actions/checkout@v3
+    - name: Set up Conda
+      uses: conda-incubator/setup-miniconda@v2
       with:
-        subDir: "conda"
-        AnacondaToken: ${{ secrets.CONDA_TOKEN }}
+        activate-environment: base
+        environment-file: environment.yml
+        auto-activate-base: false
+    - name: Install conda-forge CI
+      run: conda install -c conda-forge conda-smithy conda-forge-pinning
+    - name: Build package
+      run: conda-smithy rerender
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        git commit -m "Re-render recipe"
+        git push
+#    - name: publish-to-conda
+#      uses: maxibor/conda-package-publish-action@v1.1
+#      with:
+#        subDir: "conda"
+#        AnacondaToken: ${{ secrets.CONDA_TOKEN }}
