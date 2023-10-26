@@ -14,8 +14,12 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         activate-environment: base
-        environment-file: environment.yml
-        auto-activate-base: false
+        python-version: 3.11
+        channels: conda-forge
+        allow-softlinks: true
+        channel-priority: flexible
+        show-channel-urls: true
+        use-only-tar-bz2: true
     - name: Install conda-forge CI
       run: conda install -c conda-forge conda-smithy conda-forge-pinning
     - name: Build package
