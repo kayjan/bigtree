@@ -37,8 +37,11 @@ jobs:
 #        git commit -m "Re-render recipe"
 #        git push
     - name: publish-to-conda
-      uses: fcakyon/conda-publish-action@v1.3
-      with:
-        subdir: "conda"
-        anacondatoken: ${{ secrets.CONDA_TOKEN }}
-        platforms: "win osx linux"
+      run: |
+        cd conda
+        conda build -c conda-forge --output-folder . .
+        conda convert -p osx-64 linux-64/*.tar.bz2
+        conda convert -p win-64 linux-64/*.tar.bz2
+        anaconda upload --label main osx-64/*.tar.bz2
+        anaconda upload --label main linux-64/*.tar.bz2
+        anaconda upload --label main win-64/*.tar.bz2
