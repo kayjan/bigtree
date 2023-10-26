@@ -8,36 +8,37 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
+#    strategy:
+#      matrix:
+#        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Conda
-      uses: conda-incubator/setup-miniconda@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-        auto-activate-base: false
-        auto-update-conda: true
-        miniforge-variant: Mambaforge
-        miniforge-version: latest
-        activate-environment: conda-env
-        environment-file: conda/conda-env.yml
-        show-channel-urls: true
-        use-only-tar-bz2: true
-    - name: Install conda-forge CI
-      run: conda install -c conda-forge conda-smithy conda-forge-pinning
-    - name: Build package
-      run: conda-smithy rerender
-    - name: Commit changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add -A
-        git commit -m "Re-render recipe"
-        git push
-#    - name: publish-to-conda
-#      uses: maxibor/conda-package-publish-action@v1.1
+#    - name: Set up Conda
+#      uses: conda-incubator/setup-miniconda@v2
 #      with:
-#        subDir: "conda"
-#        AnacondaToken: ${{ secrets.CONDA_TOKEN }}
+#        python-version: ${{ matrix.python-version }}
+#        auto-activate-base: false
+#        auto-update-conda: true
+#        miniforge-variant: Mambaforge
+#        miniforge-version: latest
+#        activate-environment: conda-env
+#        environment-file: conda/conda-env.yml
+#        show-channel-urls: true
+#        use-only-tar-bz2: true
+#    - name: Install conda-forge CI
+#      run: conda install -c conda-forge conda-smithy conda-forge-pinning
+#    - name: Build package
+#      run: conda-smithy rerender
+#    - name: Commit changes
+#      run: |
+#        git config --local user.email "action@github.com"
+#        git config --local user.name "GitHub Action"
+#        git add -A
+#        git commit -m "Re-render recipe"
+#        git push
+    - name: publish-to-conda
+      uses: fcakyon/conda-publish-action@v1.3
+      with:
+        subdir: "conda"
+        anacondatoken: ${{ secrets.CONDA_TOKEN }}
+        platforms: "win osx linux"
