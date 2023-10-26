@@ -8,16 +8,23 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Conda
       uses: conda-incubator/setup-miniconda@v2
       with:
-        python-version: 3.11
+        python-version: ${{ matrix.python-version }}
+        auto-activate-base: false
+        auto-update-conda: true
         miniforge-variant: Mambaforge
         miniforge-version: latest
         activate-environment: conda-env
-        environment-file: etc/conda-env.yml
+        environment-file: conda/conda-env.yml
+        show-channel-urls: true
+        use-only-tar-bz2: true
     - name: Install conda-forge CI
       run: conda install -c conda-forge conda-smithy conda-forge-pinning
     - name: Build package
