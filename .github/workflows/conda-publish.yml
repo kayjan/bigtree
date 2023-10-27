@@ -36,7 +36,10 @@ jobs:
 #        git add -A
 #        git commit -m "Re-render recipe"
 #        git push
-    - name: publish-to-conda
+    - name: Set up Conda
+      run: |
+        conda install -c conda-forge conda-build
+    - name: Publish to conda
       run: |
         cd conda
         conda build -c conda-forge --output-folder . .
