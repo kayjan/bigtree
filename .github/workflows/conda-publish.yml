@@ -8,34 +8,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
     steps:
     - uses: actions/checkout@v3
-#    - name: Set up Conda
-#      uses: conda-incubator/setup-miniconda@v2
-#      with:
-#        python-version: ${{ matrix.python-version }}
-#        auto-activate-base: false
-#        auto-update-conda: true
-#        miniforge-variant: Mambaforge
-#        miniforge-version: latest
-#        activate-environment: conda-env
-#        environment-file: conda/conda-env.yml
-#        show-channel-urls: true
-#        use-only-tar-bz2: true
-#    - name: Install conda-forge CI
-#      run: conda install -c conda-forge conda-smithy conda-forge-pinning
-#    - name: Build package
-#      run: conda-smithy rerender
-#    - name: Commit changes
-#      run: |
-#        git config --local user.email "action@github.com"
-#        git config --local user.name "GitHub Action"
-#        git add -A
-#        git commit -m "Re-render recipe"
-#        git push
     - name: Set up Conda
       run: |
         conda install -c conda-forge conda-build
@@ -43,8 +17,8 @@ jobs:
       run: |
         cd conda
         conda build -c conda-forge --output-folder . .
-        conda convert -p osx-64 linux-64/*.tar.bz2
-        conda convert -p win-64 linux-64/*.tar.bz2
+        ls
+        conda convert -p osx-64 noarch/*.tar.bz2
+        conda convert -p win-64 noarch/*.tar.bz2
         anaconda upload --label main osx-64/*.tar.bz2
-        anaconda upload --label main linux-64/*.tar.bz2
         anaconda upload --label main win-64/*.tar.bz2
