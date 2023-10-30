@@ -18,7 +18,4 @@ jobs:
         cd conda
         conda build -c conda-forge --output-folder . .
         ls
-        conda convert -p osx-64 noarch/*.tar.bz2
-        conda convert -p win-64 noarch/*.tar.bz2
-        anaconda upload --label main osx-64/*.tar.bz2
-        anaconda upload --label main win-64/*.tar.bz2
+        anaconda upload noarch/*.tar.bz2

@@ -21,6 +21,9 @@ requirements:
     - pip
   run:
     - python >=3.8
+    - pandas
+    - pydot
+    - Pillow
 
 test:
   imports:
