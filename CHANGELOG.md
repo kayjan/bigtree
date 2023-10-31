@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.14.3] - 2023-10-31
 ### Added
 - Misc: Publish to conda, enable automated publishing to conda-forge in addition to existing PyPI.
-- README: Tree demonstration code for `shift_and_replace_nodes` and `copy_and_replace_nodes_from_tree_to_tree`.
+- Misc: Tree demonstration code for `shift_and_replace_nodes` and `copy_and_replace_nodes_from_tree_to_tree` in README.
 
 ## [0.14.2] - 2023-10-21
 ### Added
