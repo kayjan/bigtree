@@ -13,7 +13,9 @@ Related Links:
 - [Issues](https://github.com/kayjan/bigtree/issues)
 - [Discussions](https://github.com/kayjan/bigtree/discussions)
 - [Contributing](https://bigtree.readthedocs.io/en/latest/others/contributing.html)
-- [PyPI](https://pypi.org/project/bigtree/)
+- Package
+  - [PyPI](https://pypi.org/project/bigtree/)
+  - [Conda](https://anaconda.org/conda-forge/bigtree)
 - Articles
   - [Python Tree Implementation with BigTree](https://towardsdatascience.com/python-tree-implementation-with-bigtree-13cdabd77adc#245a-94ae81f0b3f1)
   - [The Reingold Tilford Algorithm Explained, with Walkthrough](https://towardsdatascience.com/reingold-tilford-algorithm-explained-with-walkthrough-be5810e8ed93?sk=2db8e10398cee76c486c4b06b0b33322)
@@ -99,6 +101,10 @@ For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components
 
 ## Installation
 
+There are two ways to install `bigtree`, with pip (from PyPI) or conda (from conda-forge).
+
+### a) Installation with pip (preferred)
+
 To install `bigtree`, run the following line in command prompt:
 
 ```shell
@@ -125,6 +131,14 @@ Alternatively, install all optional dependencies with the following line in comm
 
 ```shell
 $ pip install 'bigtree[all]'
+```
+
+### b) Installation with conda
+
+To install `bigtree` with conda, run the following line in command prompt:
+
+```shell
+$ conda install -c conda-forge bigtree
 ```
 
 ----
@@ -500,10 +514,10 @@ root.show()
 
 ### Modify Tree
 
-Nodes can be shifted or copied from one path to another.
+Nodes can be shifted (with or without replacement) or copied from one path to another.
 
 ```python
-from bigtree import Node, shift_nodes
+from bigtree import Node, shift_nodes, shift_and_replace_nodes
 
 root = Node("a")
 b = Node("b", parent=root)
@@ -526,6 +540,17 @@ root.show()
 # │   └── c
 # └── dummy
 #     └── d
+
+shift_and_replace_nodes(
+   tree=root,
+   from_paths=["a/dummy"],
+   to_paths=["a/b/c"],
+)
+root.show()
+# a
+# └── b
+#     └── dummy
+#         └── d
 ```
 
 ```python
@@ -556,10 +581,10 @@ root.show()
 #     └── d
 ```
 
-Nodes can also be copied between two different trees.
+Nodes can also be copied (with or without replacement) between two different trees.
 
 ```python
-from bigtree import Node, copy_nodes_from_tree_to_tree
+from bigtree import Node, copy_nodes_from_tree_to_tree, copy_and_replace_nodes_from_tree_to_tree
 root = Node("a")
 b = Node("b", parent=root)
 c = Node("c", parent=root)
@@ -583,6 +608,28 @@ root_other.show()
 # │   └── c
 # └── dummy
 #     └── d
+
+root_other = Node("aa")
+b = Node("b", parent=root_other)
+c = Node("c", parent=b)
+d = Node("d", parent=root_other)
+root_other.show()
+# aa
+# ├── b
+# │   └── c
+# └── d
+
+copy_and_replace_nodes_from_tree_to_tree(
+   from_tree=root,
+   to_tree=root_other,
+   from_paths=["a/b", "a/c"],
+   to_paths=["aa/b/c", "aa/d"],
+)
+root_other.show()
+# aa
+# ├── b
+# │   └── b
+# └── c
 ```
 
 ### Tree Search
@@ -622,6 +669,7 @@ find_attr(root, "age", 40)
 ```
 
 To find multiple nodes,
+
 ```python
 from bigtree import Node, findall, find_names, find_relative_path, find_paths, find_attrs
 root = Node("a", age=90)
