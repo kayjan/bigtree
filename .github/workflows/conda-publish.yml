@@ -1,11 +1,13 @@
 name: Upload Python Package to Conda
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Upload Python Package to PyPI"]
     branches: [master]
     types:
       - completed
+
 jobs:
   publish:
     runs-on: ubuntu-latest

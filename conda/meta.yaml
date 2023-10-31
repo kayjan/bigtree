@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/kayjan/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 21f5c61a48db0c731b00e5e08a66f16e231960accf64e4ae6d80c3fc91eb9c54
+  sha256: b9e5390879381acfd3ca9018892f9518c821d47c768bb94adf29d069198ebbdb
 
 build:
   number: 0
