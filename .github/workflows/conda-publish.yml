@@ -1,0 +1,23 @@
+name: Upload Python Package to Conda
+
+on:
+  workflow_run:
+    workflows: ["Upload Python Package to PyPI"]
+    branches: [master]
+    types:
+      - completed
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Conda
+      run: |
+        conda install -c conda-forge conda-build conda-verify
+    - name: Publish to conda
+      run: |
+        cd conda
+        conda config --set anaconda_upload yes
+        conda build -c conda-forge --output-folder . .
+        ls
+        anaconda upload ./noarch/*.tar.bz2

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.14.3] - 2023-10-31
+### Added
+- Misc: Publish to conda, enable automated publishing to conda-forge in addition to existing PyPI.
+- README: Tree demonstration code for `shift_and_replace_nodes` and `copy_and_replace_nodes_from_tree_to_tree`.
+
 ## [0.14.2] - 2023-10-21
 ### Added
 - Misc: RTD integration.
@@ -370,6 +375,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.14.3]: https://github.com/kayjan/bigtree/compare/0.14.2...0.14.3
 [0.14.2]: https://github.com/kayjan/bigtree/compare/0.14.1...0.14.2
 [0.14.1]: https://github.com/kayjan/bigtree/compare/0.14.0...0.14.1
 [0.14.0]: https://github.com/kayjan/bigtree/compare/0.13.3...0.14.0
