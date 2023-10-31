@@ -1,5 +1,5 @@
 {% set name = "bigtree" %}
-{% set version = "0.14.3" %}
+{% set version = "0.14.2" %}
 
 package:
   name: "{{ name|lower }}"
