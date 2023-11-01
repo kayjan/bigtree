@@ -69,6 +69,7 @@ no-cov = "pytest . {args}"
 lint = "black -l 88 ."
 sort = "isort --profile black ."
 mypy-type = "mypy bigtree"
+sha256 = "curl -sL https://github.com/kayjan/bigtree/archive/{args}.tar.gz | openssl sha256"
 
 [tool.hatch.envs.docs]
 dependencies = [
