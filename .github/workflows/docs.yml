@@ -2,7 +2,7 @@ name: Docs
 
 on:
   workflow_run:
-    workflows: ["Upload Python Package to PyPI"]
+    workflows: ["Upload Python Package"]
     branches: [master]
     types:
       - completed
