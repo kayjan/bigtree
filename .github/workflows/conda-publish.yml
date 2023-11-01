@@ -9,15 +9,35 @@ on:
       - completed
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set env var
+      id: set-env-var-version
+      run: |
+        echo VERSION_NUMBER=$(python -c 'import bigtree; print(bigtree.__version__)') >> $GITHUB_OUTPUT
+    - name: Set env var 2
+      id: set-env-var-sha256
+      env:
+        VERSION_NUMBER: ${{ steps.set-env-var-version.outputs.VERSION_NUMBER }}
+      run: |
+        echo SHA256=$(curl -sL https://github.com/kayjan/bigtree/archive/${VERSION_NUMBER}.tar.gz | openssl sha256) >> $GITHUB_OUTPUT
   publish:
     runs-on: ubuntu-latest
+    needs: setup
     steps:
     - uses: actions/checkout@v3
     - name: Set up Conda
       run: |
         conda install -c conda-forge conda-build conda-verify anaconda-client
     - name: Publish to conda
+      env:
+        CONDA_USERNAME:  ${{ secrets.CONDA_USERNAME }}
+        CONDA_PASSWORD:  ${{ secrets.CONDA_PASSWORD }}
+        VERSION_NUMBER: ${{ steps.set-env-var-version.outputs.VERSION_NUMBER }}
+        SHA256: ${{ steps.set-env-var-sha256.outputs.SHA256 }}
       run: |
         cd conda
+        anaconda login --username $CONDA_USERNAME --password $CONDA_PASSWORD
         conda config --set anaconda_upload yes
         conda build -c conda-forge --output-folder . .

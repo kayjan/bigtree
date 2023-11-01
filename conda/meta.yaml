@@ -1,13 +1,12 @@
 {% set name = "bigtree" %}
-{% set version = "0.14.3" %}
 
 package:
   name: "{{ name|lower }}"
-  version: "{{ version }}"
+  version: {{ environ.get('VERSION_NUMBER') }}
 
 source:
-  url: https://github.com/kayjan/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
-  sha256: b9e5390879381acfd3ca9018892f9518c821d47c768bb94adf29d069198ebbdb
+  url: https://github.com/kayjan/{{ name }}/archive/refs/tags/{{ environ.get('VERSION_NUMBER') }}.tar.gz
+  sha256: {{ environ.get('SHA256') }}
 
 build:
   number: 0
