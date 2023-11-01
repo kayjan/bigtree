@@ -10,6 +10,8 @@ on:
 
 jobs:
   setup:
+    runs-on: ubuntu-latest
+    steps:
     - name: Set env var
       id: set-env-var-version
       run: |
@@ -22,6 +24,7 @@ jobs:
         echo SHA256=$(curl -sL https://github.com/kayjan/bigtree/archive/${VERSION_NUMBER}.tar.gz | openssl sha256) >> $GITHUB_OUTPUT
   publish:
     runs-on: ubuntu-latest
+    needs: setup
     steps:
     - uses: actions/checkout@v3
     - name: Set up Conda
