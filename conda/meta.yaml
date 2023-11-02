@@ -5,7 +5,7 @@ package:
   version: {{ environ.get('VERSION_NUMBER') }}
 
 source:
-  url: https://github.com/kayjan/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+  url: https://github.com/kayjan/{{ name }}/archive/refs/tags/{{ environ.get('VERSION_NUMBER') }}.tar.gz
   sha256: {{ environ.get('SHA256') }}
 
 build:
