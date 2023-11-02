@@ -7,6 +7,9 @@ permissions: write-all
 jobs:
   create-release:
     runs-on: ubuntu-latest
+    outputs:
+      VERSION_NUMBER: ${{ steps.set-env-var-version.outputs.VERSION_NUMBER }}
+      SHA256: ${{ steps.set-env-var-sha256.outputs.SHA256 }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
@@ -35,7 +38,7 @@ jobs:
       env:
         VERSION_NUMBER: ${{ steps.set-env-var-version.outputs.VERSION_NUMBER }}
       run: |
-        echo SHA256=$(curl -sL https://github.com/kayjan/bigtree/archive/${VERSION_NUMBER}.tar.gz | openssl sha256) >> $GITHUB_OUTPUT
+        echo SHA256=$(curl -sL https://github.com/kayjan/bigtree/archive/${VERSION_NUMBER}.tar.gz | openssl sha256 sed 's/.*(stdin)= //') >> $GITHUB_OUTPUT
   publish-to-pypi:
     runs-on: ubuntu-latest
     needs: create-release
@@ -57,8 +60,8 @@ jobs:
         conda install -c conda-forge conda-build conda-verify anaconda-client
     - name: Publish to conda
       env:
-        VERSION_NUMBER: ${{ steps.set-env-var-version.outputs.VERSION_NUMBER }}
-        SHA256: ${{ steps.set-env-var-sha256.outputs.SHA256 }}
+        VERSION_NUMBER: ${{ needs.create-release.outputs.VERSION_NUMBER }}
+        SHA256: ${{ needs.create-release.outputs.SHA256 }}
       run: |
         cd conda
         conda config --set anaconda_upload yes
