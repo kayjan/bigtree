@@ -10,6 +10,7 @@ jobs:
     outputs:
       VERSION_NUMBER: ${{ steps.set-env-var-version.outputs.VERSION_NUMBER }}
       SHA256: ${{ steps.set-env-var-sha256.outputs.SHA256 }}
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
