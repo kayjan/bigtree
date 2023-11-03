@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.14.4] - 2023-11-04
+### Changed
+- Misc: Clean up github actions
+
 ## [0.14.3] - 2023-10-31
 ### Added
 - Misc: Publish to conda, enable automated publishing to conda-forge in addition to existing PyPI.
@@ -375,6 +379,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.14.4]: https://github.com/kayjan/bigtree/compare/0.14.3...0.14.4
 [0.14.3]: https://github.com/kayjan/bigtree/compare/0.14.2...0.14.3
 [0.14.2]: https://github.com/kayjan/bigtree/compare/0.14.1...0.14.2
 [0.14.1]: https://github.com/kayjan/bigtree/compare/0.14.0...0.14.1
