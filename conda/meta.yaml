@@ -19,10 +19,7 @@ requirements:
     - hatchling
     - pip
   run:
-    - python >=3.8
-    - pandas
-    - pydot
-    - Pillow
+    - python >=3.7
 
 test:
   imports:
