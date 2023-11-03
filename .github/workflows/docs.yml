@@ -2,7 +2,7 @@ name: Docs
 
 on:
   workflow_run:
-    workflows: ["Upload Python Package to PyPI"]
+    workflows: ["Upload Python Package"]
     branches: [master]
     types:
       - completed
@@ -17,6 +17,7 @@ jobs:
       - name: Check if upstream workflow failed
         if: ${{ github.event.workflow_run.conclusion == 'failure' }}
         run: exit 1
+
   docs:
     runs-on: ubuntu-latest
     steps:

@@ -1,12 +1,15 @@
-name: Upload Python Package to PyPI
+name: Upload Python Package
 
 on: workflow_dispatch
 
 permissions: write-all
 
 jobs:
-  deploy:
+  create-release:
     runs-on: ubuntu-latest
+    outputs:
+      VERSION_NUMBER: ${{ steps.set-env-var-version.outputs.VERSION_NUMBER }}
+      SHA256: ${{ steps.set-env-var-sha256.outputs.SHA256 }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
@@ -18,19 +21,29 @@ jobs:
         python -m pip install --upgrade pip
         pip install hatch
     - name: Set env var
-      id: set-env-var
+      id: set-env-var-version
       run: |
-        VERSION_NUMBER=
-        echo "VERSION_NUMBER=$(python -c 'import bigtree; print(bigtree.__version__)')" >> $GITHUB_OUTPUT
+        echo VERSION_NUMBER=$(python -c 'import bigtree; print(bigtree.__version__)') >> $GITHUB_OUTPUT
     - name: Create release
       uses: ncipollo/release-action@v1
       env:
-        VERSION_NUMBER: ${{ steps.set-env-var.outputs.VERSION_NUMBER }}
+        VERSION_NUMBER: ${{ steps.set-env-var-version.outputs.VERSION_NUMBER }}
       with:
         name: v${{ env.VERSION_NUMBER }}
         tag: ${{ env.VERSION_NUMBER }}
         generateReleaseNotes: true
         makeLatest: true
+    - name: Set env var 2
+      id: set-env-var-sha256
+      env:
+        VERSION_NUMBER: ${{ steps.set-env-var-version.outputs.VERSION_NUMBER }}
+      run: |
+        echo SHA256=$(curl -sL https://github.com/kayjan/bigtree/archive/${VERSION_NUMBER}.tar.gz | openssl sha256 | sed 's/.*(stdin)= //') >> $GITHUB_OUTPUT
+
+  publish-to-pypi:
+    runs-on: ubuntu-latest
+    needs: create-release
+    steps:
     - name: Build package
       run: hatch build
     - name: Publish package
@@ -38,3 +51,21 @@ jobs:
         HATCH_USER:  ${{ secrets.HATCH_USER }}
         HATCH_AUTH:  ${{ secrets.HATCH_AUTH }}
       run: hatch publish -u $HATCH_USER -a $HATCH_AUTH
+
+  publish-to-conda:
+    runs-on: ubuntu-latest
+    needs: create-release
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Conda
+      run: |
+        conda install -c conda-forge conda-build conda-verify anaconda-client
+    - name: Publish to conda
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.CONDA_TOKEN }}
+        VERSION_NUMBER: ${{ needs.create-release.outputs.VERSION_NUMBER }}
+        SHA256: ${{ needs.create-release.outputs.SHA256 }}
+      run: |
+        cd conda
+        conda config --set anaconda_upload yes
+        conda build -c conda-forge --output-folder . .
