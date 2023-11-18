@@ -200,7 +200,7 @@ root.show()
 
 Alternatively, we can directly pass `parent` or `children` argument.
 
-```python hl_lines="5-6"
+```Python hl_lines="5-6"
 from bigtree import Node
 
 b = Node("b")
