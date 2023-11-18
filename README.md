@@ -156,7 +156,7 @@ Nodes can have attributes if they are initialized from `Node`, *dictionary*, or 
 Nodes can be linked to each other with `parent` and `children` setter methods,
 or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
-```python
+```python hl_lines="8-9"
 from bigtree import Node, tree_to_dot
 
 root = Node("a")
@@ -179,7 +179,7 @@ graph.write_png("assets/demo_tree.png")
 
 ![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_tree.png)
 
-```python
+```python hl_lines="8-10"
 from bigtree import Node
 
 root = Node("a")
@@ -200,7 +200,7 @@ root.show()
 
 Alternatively, we can directly pass `parent` or `children` argument.
 
-```python
+```python hl_lines="5-6"
 from bigtree import Node
 
 b = Node("b")
