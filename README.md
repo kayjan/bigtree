@@ -9,13 +9,14 @@ It is pythonic, making it easy to learn and extendable to many types of workflow
 Related Links:
 - [Documentation](https://bigtree.readthedocs.io/en/latest/)
 - [GitHub](https://github.com/kayjan/bigtree/)
-- [Changelog](https://github.com/kayjan/bigtree/blob/master/CHANGELOG.md)
-- [Issues](https://github.com/kayjan/bigtree/issues)
-- [Discussions](https://github.com/kayjan/bigtree/discussions)
-- [Contributing](https://bigtree.readthedocs.io/en/latest/others/contributing.html)
+- Community
+  - [Issues](https://github.com/kayjan/bigtree/issues)
+  / [Discussions](https://github.com/kayjan/bigtree/discussions)
+  / [Changelog](https://github.com/kayjan/bigtree/blob/master/CHANGELOG.md)
+  / [Contributing](https://bigtree.readthedocs.io/en/latest/others/contributing.html)
 - Package
   - [PyPI](https://pypi.org/project/bigtree/)
-  - [Conda](https://anaconda.org/conda-forge/bigtree)
+  / [Conda](https://anaconda.org/conda-forge/bigtree)
 - Articles
   - [Python Tree Implementation with BigTree](https://towardsdatascience.com/python-tree-implementation-with-bigtree-13cdabd77adc#245a-94ae81f0b3f1)
   - [The Reingold Tilford Algorithm Explained, with Walkthrough](https://towardsdatascience.com/reingold-tilford-algorithm-explained-with-walkthrough-be5810e8ed93?sk=2db8e10398cee76c486c4b06b0b33322)
@@ -26,76 +27,80 @@ Related Links:
 ## Components
 There are 3 segments to Big Tree consisting of Tree, Binary Tree, and Directed Acyclic Graph (DAG) implementation.
 
-
 For **Tree** implementation, there are 9 main components.
 
-1. [**Node**](https://bigtree.readthedocs.io/en/latest/node.html)
+1. [**🌺 Node**](https://bigtree.readthedocs.io/en/latest/node.html)
    1. ``BaseNode``, extendable class
    2. ``Node``, BaseNode with node name attribute
-2. [**Constructing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/construct.html)
-   1. From *str*, using tree in string display format
-   2. From *list*, using paths or parent-child tuples
-   3. From *nested dictionary*, using path or recursive structure
-   4. From *pandas DataFrame*, using paths or parent-child columns
-   5. Add nodes to existing tree using path string
-   6. Add nodes and attributes to existing tree using dictionary or pandas DataFrame, using path
-   7. Add only attributes to existing tree using dictionary or pandas DataFrame, using node name
-3. [**Traversing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
+2. [**✨ Constructing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/construct.html)
+   1. From `Node`, using parent and children constructors
+   2. From *str*, using tree in string display format
+   3. From *list*, using paths or parent-child tuples
+   4. From *nested dictionary*, using path or recursive structure
+   5. From *pandas DataFrame*, using paths or parent-child columns
+   6. Add nodes to existing tree using path string
+   7. Add nodes and attributes to existing tree using *dictionary* or *pandas DataFrame*, using path
+   8. Add only attributes to existing tree using *dictionary* or *pandas DataFrame*, using node name
+3. [**➰ Traversing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
    1. Pre-Order Traversal
    2. Post-Order Traversal
    3. Level-Order Traversal
    4. Level-Order-Group Traversal
    5. ZigZag Traversal
    6. ZigZag-Group Traversal
-4. [**Modifying Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/modify.html)
+4. [**📝 Modifying Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/modify.html)
    1. Shift nodes from location to destination
    2. Copy nodes from location to destination
    3. Copy nodes from one tree to another
    4. Shift and replace nodes from location to destination
    5. Copy and replace nodes from one tree to another
-5. [**Tree Search**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/search.html)
+5. [**🔍 Tree Search**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/search.html)
    1. Find multiple nodes based on name, partial path, relative path, attribute value, user-defined condition
    2. Find single nodes based on name, partial path, relative path, full path, attribute value, user-defined condition
    3. Find multiple child nodes based on user-defined condition
    4. Find single child node based on name, user-defined condition
-6. [**Helper Function**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/helper.html)
+6. [**🔧 Helper Function**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/helper.html)
    1. Cloning tree to another `Node` type
    2. Prune tree
    3. Get difference between two trees
-7. [**Plotting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/plot.html)
+7. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/plot.html)
    1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
-8. [**Exporting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/export.html)
+8. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/export.html)
    1. Print to console
    2. Export to *dictionary*, *nested dictionary*, or *pandas DataFrame*
-   3. Export tree to dot (can save to .dot, .png, .svg, .jpeg files)
-   4. Export tree to Pillow (can save to .png, .jpg)
-   5. Export tree to Mermaid Flowchart (can display on .md)
-9. [**Workflows**](https://bigtree.readthedocs.io/en/latest/workflows.html)
+   3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
+   4. Export tree to *Pillow* (can save to .png, .jpg)
+   5. Export tree to *Mermaid Flowchart* (can display on .md)
+9. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/latest/workflows.html)
    1. Sample workflows for tree demonstration!
+
+--------
 
 For **Binary Tree** implementation, there are 3 main components.
 Binary Node inherits from Node, so the components in Tree implementation are also available in Binary Tree.
 
-1. [**Node**](https://bigtree.readthedocs.io/en/latest/node.html)
+1. [**🌿 Node**](https://bigtree.readthedocs.io/en/latest/node.html)
    1. ``BinaryNode``, Node with binary tree rules
-2. [**Constructing Binary Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/binarytree/construct.html)
+2. [**✨ Constructing Binary Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/binarytree/construct.html)
    1. From *list*, using flattened list structure
-3. [**Traversing Binary Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
+3. [**➰ Traversing Binary Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
    1. In-Order Traversal
+
+--------
 
 For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components.
 
-1. [**Node**](https://bigtree.readthedocs.io/en/latest/node.html)
+1. [**🌼 Node**](https://bigtree.readthedocs.io/en/latest/node.html)
    1. ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
-2. [**Constructing DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/dag/construct.html)
+2. [**✨ Constructing DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/dag/construct.html)
    1. From *list*, containing parent-child tuples
    2. From *nested dictionary*
    3. From *pandas DataFrame*
-3. [**Traversing DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
+3. [**➰ Traversing DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
    1. Generic traversal method
-4. [**Exporting DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/dag/export.html)
+4. [**🔨 Exporting DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/dag/export.html)
    1. Export to *list*, *dictionary*, or *pandas DataFrame*
-   2. Export DAG to dot (can save to .dot, .png, .svg, .jpeg files)
+   2. Export DAG to *dot* (can save to .dot, .png, .svg, .jpeg files)
 
 ----
 
@@ -156,6 +161,7 @@ Nodes can have attributes if they are initialized from `Node`, *dictionary*, or 
 Nodes can be linked to each other with `parent` and `children` setter methods,
 or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
+{emphasize-lines="8-9"}
 ```python
 from bigtree import Node, tree_to_dot
 
@@ -179,6 +185,7 @@ graph.write_png("assets/demo_tree.png")
 
 ![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_tree.png)
 
+{emphasize-lines="8-10"}
 ```python
 from bigtree import Node
 
@@ -200,6 +207,7 @@ root.show()
 
 Alternatively, we can directly pass `parent` or `children` argument.
 
+{emphasize-lines="5-6"}
 ```python
 from bigtree import Node
 
@@ -219,6 +227,7 @@ root.show(style="ascii")
 
 Construct nodes only.
 
+{emphasize-lines="13"}
 ```python
 from bigtree import str_to_tree
 
@@ -248,6 +257,7 @@ root.show()
 
 Construct nodes only, list can contain either full paths or tuples of parent-child names.
 
+{emphasize-lines="3,10"}
 ```python
 from bigtree import list_to_tree, list_to_tree_by_relation
 
@@ -268,10 +278,13 @@ root.show()
 
 4. **From *nested dictionary***
 
-Construct nodes with attributes, `key`: path, `value`: dict of node attribute names and attribute values.
+Construct nodes using path where `key` is path and `value` is dict of node attribute names and attribute values.
+Dictionary can also be a recursive structure where `key` is node attribute names and `value` is node attribute values,
+and list of children (recursive).
 
+{emphasize-lines="10,32"}
 ```python
-from bigtree import dict_to_tree
+from bigtree import dict_to_tree, nested_dict_to_tree
 
 path_dict = {
    "a": {"age": 90},
@@ -286,15 +299,6 @@ root.show(attr_list=["age"])
 # ├── b [age=65]
 # │   └── d [age=40]
 # └── c [age=60]
-```
-
-5. **From *nested recursive dictionary***
-
-Construct nodes with attributes, `key`: node attribute names, `value`: node attribute values, and list of
-children (recursive).
-
-```python
-from bigtree import nested_dict_to_tree
 
 path_dict = {
    "name": "a",
@@ -319,11 +323,12 @@ root.show(attr_list=["age"])
 # └── c [age=60]
 ```
 
-6. **From *pandas DataFrame***
+5. **From *pandas DataFrame***
 
 Construct nodes with attributes, *pandas DataFrame* can contain either path column or parent-child columns,
 and attribute columns.
 
+{emphasize-lines="15,32"}
 ```python
 import pandas as pd
 
@@ -371,6 +376,7 @@ root.show(attr_list=["age"])
 After tree is constructed, it can be viewed by printing to console using `show` method directly.
 Alternatively, the `print_tree` method can be used.
 
+{emphasize-lines="8,16,21,27,34,41,49,56,63,70,77,84,91-95"}
 ```python
 from bigtree import Node, print_tree
 
@@ -478,8 +484,17 @@ print_tree(
 
 Tree can be traversed using pre-order, post-order, level-order, level-order-group, zigzag, zigzag-group traversal methods.
 
+{emphasize-lines="23,26,29,32,35,38"}
 ```python
-from bigtree import Node, preorder_iter, postorder_iter, levelorder_iter, levelordergroup_iter, zigzag_iter, zigzaggroup_iter
+from bigtree import (
+    Node,
+    levelorder_iter,
+    levelordergroup_iter,
+    postorder_iter,
+    preorder_iter,
+    zigzag_iter,
+    zigzaggroup_iter,
+)
 
 root = Node("a")
 b = Node("b", parent=root)
@@ -516,6 +531,7 @@ root.show()
 
 Nodes can be shifted (with or without replacement) or copied from one path to another.
 
+{emphasize-lines="13-17,25-29"}
 ```python
 from bigtree import Node, shift_nodes, shift_and_replace_nodes
 
@@ -553,6 +569,7 @@ root.show()
 #         └── d
 ```
 
+{emphasize-lines="13-17"}
 ```python
 from bigtree import Node, copy_nodes
 
@@ -583,6 +600,7 @@ root.show()
 
 Nodes can also be copied (with or without replacement) between two different trees.
 
+{emphasize-lines="13-18,36-41"}
 ```python
 from bigtree import Node, copy_nodes_from_tree_to_tree, copy_and_replace_nodes_from_tree_to_tree
 root = Node("a")
@@ -637,6 +655,8 @@ root_other.show()
 One or multiple nodes can be search based on name, path, attribute value, or user-defined condition.
 
 To find a single node,
+
+{emphasize-lines="12,15,18,21,24,27"}
 ```python
 from bigtree import Node, find, find_name, find_path, find_relative_path, find_full_path, find_attr
 root = Node("a", age=90)
@@ -655,11 +675,11 @@ find(root, lambda node: node.age == 60)
 find_name(root, "d")
 # Node(/a/c/d, age=40)
 
-find_path(root, "/c/d")  # partial path
-# Node(/a/c/d, age=40)
-
 find_relative_path(c, "../b")  # relative path
 # (Node(/a/b, age=65),)
+
+find_path(root, "/c/d")  # partial path
+# Node(/a/c/d, age=40)
 
 find_full_path(root, "a/c/d")  # full path
 # Node(/a/c/d, age=40)
@@ -670,6 +690,7 @@ find_attr(root, "age", 40)
 
 To find multiple nodes,
 
+{emphasize-lines="12,15,18,21,24"}
 ```python
 from bigtree import Node, findall, find_names, find_relative_path, find_paths, find_attrs
 root = Node("a", age=90)
@@ -701,6 +722,7 @@ find_attrs(root, "age", 40)
 It is also possible to search for one or more child node(s) based on attributes, and the search will be faster as
 this does not require traversing the whole tree to find the node(s).
 
+{emphasize-lines="12,15,18,21"}
 ```python
 from bigtree import Node, find_children, find_child, find_child_by_name
 root = Node("a", age=90)
@@ -731,6 +753,7 @@ find_child_by_name(c, "c")
 There following are helper functions for cloning tree to another `Node` type, pruning tree, and getting difference
 between two trees.
 
+{emphasize-lines="6,18,38,43"}
 ```python
 from bigtree import BaseNode, Node, clone_tree, prune_tree, get_tree_diff
 
@@ -792,8 +815,17 @@ Tree can be exported to another data type.
 5. *Export to **Pillow** (and png)*
 6. *Export to **Mermaid Flowchart** (and md)*
 
+{emphasize-lines="23-28,37,63-69,77,80,83"}
 ```python
-from bigtree import Node, tree_to_dict, tree_to_nested_dict, tree_to_dataframe, tree_to_dot, tree_to_pillow, tree_to_mermaid
+from bigtree import (
+    Node,
+    tree_to_dataframe,
+    tree_to_dict,
+    tree_to_dot,
+    tree_to_mermaid,
+    tree_to_nested_dict,
+    tree_to_pillow,
+)
 
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
@@ -905,6 +937,7 @@ Binary Tree as well.
 BinaryNode can be linked to each other with `parent`, `children`, `left`, and `right` setter methods,
 or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
+{emphasize-lines="6-10"}
 ```python
 from bigtree import BinaryNode, tree_to_dot
 
@@ -927,6 +960,7 @@ graph.write_png("assets/demo_binarytree.png")
 
 Construct nodes only, list has similar format as `heapq` list.
 
+{emphasize-lines="4"}
 ```python
 from bigtree import list_to_binarytree
 
@@ -947,8 +981,18 @@ root.show()
 
 In addition to the traversal methods in the usual tree, binary tree includes in-order traversal method.
 
+{emphasize-lines="24,27,30,33,36,39,42"}
 ```python
-from bigtree import list_to_binarytree, inorder_iter, preorder_iter, postorder_iter, levelorder_iter, levelordergroup_iter, zigzag_iter, zigzaggroup_iter
+from bigtree import (
+    inorder_iter,
+    levelorder_iter,
+    levelordergroup_iter,
+    list_to_binarytree,
+    postorder_iter,
+    preorder_iter,
+    zigzag_iter,
+    zigzaggroup_iter,
+)
 
 nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
 root = list_to_binarytree(nums_list)
@@ -997,6 +1041,7 @@ Compared to nodes in tree, nodes in DAG are able to have multiple parents.
 DAGNode can be linked to each other with `parents` and `children` setter methods,
 or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
+{emphasize-lines="5-8,10"}
 ```python
 from bigtree import DAGNode, dag_to_dot
 
@@ -1019,6 +1064,7 @@ graph.write_png("assets/demo_dag.png")
 
 Construct nodes only, list contains parent-child tuples.
 
+{emphasize-lines="10"}
 ```python
 from bigtree import list_to_dag, dag_iterator
 
@@ -1038,6 +1084,7 @@ print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag
 
 Construct nodes with attributes, `key`: child name, `value`: dict of parent name, child node attributes.
 
+{emphasize-lines="10"}
 ```python
 from bigtree import dict_to_dag, dag_iterator
 
@@ -1057,6 +1104,7 @@ print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag
 
 Construct nodes with attributes, *pandas DataFrame* contains child column, parent column, and attribute columns.
 
+{emphasize-lines="15"}
 ```python
 import pandas as pd
 from bigtree import dataframe_to_dag, dag_iterator

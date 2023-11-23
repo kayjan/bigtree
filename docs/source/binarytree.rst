@@ -1,4 +1,4 @@
-Binary Tree
+|:cactus:| Binary Tree
 ===================================
 
 .. toctree::

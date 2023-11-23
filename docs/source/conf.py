@@ -31,6 +31,9 @@ extensions = [
 ]
 autodoc_default_options = {"autosummary": True}
 sphinxemoji_style = "twemoji"
+myst_enable_extensions = [
+    "attrs_block",
+]
 
 templates_path = ["_templates"]
 exclude_patterns = []

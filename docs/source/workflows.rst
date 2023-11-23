@@ -1,4 +1,4 @@
-Workflows
+|:construction_worker:| Workflows
 ===================================
 
 .. toctree::

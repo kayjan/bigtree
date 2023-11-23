@@ -28,7 +28,7 @@
    :alt: black
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    node
    binarytree

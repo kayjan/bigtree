@@ -1,4 +1,4 @@
-Tree
+|:evergreen_tree:| Tree
 ===================================
 
 .. toctree::
