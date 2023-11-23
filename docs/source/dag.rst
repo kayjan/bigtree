@@ -1,5 +1,5 @@
-Directed Acyclic Graph (DAG)
-===================================
+|:palm_tree:| Directed Acyclic Graph (DAG)
+==========================================
 
 .. toctree::
    :maxdepth: 2

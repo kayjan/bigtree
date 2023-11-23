@@ -1,4 +1,4 @@
-Others
+|:globe_with_meridians:| Others
 ===================================
 
 .. toctree::
