@@ -1,7 +1,7 @@
 /* Palette
  #1D4289 Blue
  #212322 Black
- #D7A068 Gold (Replace #CEB47E Sand)
+ #D7A068 Gold (rgb 215,160,104)(Replace #CEB47E Sand)
  #DBE2E9 Light blue
  #B7926C Dark sand
 */
@@ -21,11 +21,15 @@ header {
 h1, h2, h3, h4, p, a {
     font-family: Nobile, sans-serif !important;
 }
+p {
+    margin-bottom: 2rem;
+}
 a {
     color: #D7A068 !important;
 }
 blockquote {
-    border-left: 5px solid grey;
+    border-left: 2px solid grey;
+    padding: 0.5rem 1.5rem;
 }
 blockquote p {
     display: inline;
@@ -55,10 +59,14 @@ span.pre {
 
 /* Code box */
 .highlight pre {
-    background: lightyellow !important;
+    background: lightyellow;
 }
 .highlight .c1 {
     font-style: normal;
+}
+.hll {
+    display: block;
+    background-color: rgba(215,160,104,0.2) !important;
 }
 
 /* Table */
