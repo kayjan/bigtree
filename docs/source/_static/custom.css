@@ -66,6 +66,7 @@ span.pre {
 }
 .hll {
     display: block;
+    width: max-content;
     background-color: rgba(215,160,104,0.2) !important;
 }
 
