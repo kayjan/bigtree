@@ -66,8 +66,10 @@ span.pre {
 }
 .hll {
     display: block;
-    width: max-content;
+    margin: 0 -20px;
+    padding: 0 20px;
     background-color: rgba(215,160,104,0.2) !important;
+    box-shadow: 2px 0 0 0 rgb(215,160,104) inset;
 }
 
 /* Table */
