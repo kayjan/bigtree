@@ -1,4 +1,4 @@
-|:deciduous_tree:| Big Tree Documentation
+|:deciduous_tree:| Documentation
 ============================================
 
 .. image:: https://badge.fury.io/py/bigtree.svg
@@ -29,6 +29,7 @@
 
 .. toctree::
    :maxdepth: 1
+   :hidden:
 
    node
    binarytree
