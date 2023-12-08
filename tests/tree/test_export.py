@@ -996,7 +996,7 @@ class TestTreeToMermaid:
     @staticmethod
     def test_tree_to_mermaid(tree_node):
         mermaid_md = tree_to_mermaid(tree_node)
-        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```"""
+        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("g")\n0-0-1 --> 0-0-1-1("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```"""
         assert mermaid_md == expected_str
 
     @staticmethod
@@ -1043,11 +1043,12 @@ class TestTreeToMermaid:
         mermaid_mds = [
             tree_to_mermaid(tree_node, rankdir=rankdir) for rankdir in rankdirs
         ]
+        expected_graph = """0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("g")\n0-0-1 --> 0-0-1-1("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n"""
         expected_strs = [
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart BT\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart LR\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart RL\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'basis\' }} }} }}%%\nflowchart TB\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'basis\' }} }} }}%%\nflowchart BT\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'basis\' }} }} }}%%\nflowchart LR\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'basis\' }} }} }}%%\nflowchart RL\n{expected_graph}```""",
         ]
         for rankdir, mermaid_md, expected_str in zip(
             rankdirs, mermaid_mds, expected_strs
@@ -1074,19 +1075,20 @@ class TestTreeToMermaid:
             tree_to_mermaid(tree_node, line_shape=line_shape)
             for line_shape in line_shapes
         ]
+        expected_graph = """flowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("g")\n0-0-1 --> 0-0-1-1("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n"""
         expected_strs = [
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'bumpX\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'bumpY\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'cardinal\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'catmullRom\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'linear\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'monotoneX\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'monotoneY\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'natural\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'step\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'stepAfter\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'stepBefore\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'basis\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'bumpX\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'bumpY\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'cardinal\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'catmullRom\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'linear\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'monotoneX\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'monotoneY\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'natural\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'step\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'stepAfter\' }} }} }}%%\n{expected_graph}```""",
+            f"""```mermaid\n%%{{ init: {{ \'flowchart\': {{ \'curve\': \'stepBefore\' }} }} }}%%\n{expected_graph}```""",
         ]
         for line_shape, mermaid_md, expected_str in zip(
             line_shapes, mermaid_mds, expected_strs
@@ -1100,11 +1102,12 @@ class TestTreeToMermaid:
             tree_to_mermaid(tree_node, node_colour=node_colour)
             for node_colour in node_colours
         ]
+        expected_graph = """mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("g")\n0-0-1 --> 0-0-1-1("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\n"""
         expected_strs = [
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default fill:yellow,stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default fill:blue,stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default fill:#000,stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default fill:#ff0000,stroke-width:1\n```""",
+            f"""```{expected_graph}classDef default fill:yellow,stroke-width:1\n```""",
+            f"""```{expected_graph}classDef default fill:blue,stroke-width:1\n```""",
+            f"""```{expected_graph}classDef default fill:#000,stroke-width:1\n```""",
+            f"""```{expected_graph}classDef default fill:#ff0000,stroke-width:1\n```""",
         ]
         for node_colour, mermaid_md, expected_str in zip(
             node_colours, mermaid_mds, expected_strs
@@ -1118,11 +1121,12 @@ class TestTreeToMermaid:
             tree_to_mermaid(tree_node, node_border_colour=node_border_colour)
             for node_border_colour in node_border_colours
         ]
+        expected_graph = """mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("g")\n0-0-1 --> 0-0-1-1("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\n"""
         expected_strs = [
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke:yellow,stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke:blue,stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke:#000,stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke:#ff0000,stroke-width:1\n```""",
+            f"""```{expected_graph}classDef default stroke:yellow,stroke-width:1\n```""",
+            f"""```{expected_graph}classDef default stroke:blue,stroke-width:1\n```""",
+            f"""```{expected_graph}classDef default stroke:#000,stroke-width:1\n```""",
+            f"""```{expected_graph}classDef default stroke:#ff0000,stroke-width:1\n```""",
         ]
         for node_border_colour, mermaid_md, expected_str in zip(
             node_border_colours, mermaid_mds, expected_strs
@@ -1138,11 +1142,12 @@ class TestTreeToMermaid:
             tree_to_mermaid(tree_node, node_border_width=node_border_width)
             for node_border_width in node_border_widths
         ]
+        expected_graph = """mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("g")\n0-0-1 --> 0-0-1-1("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\n"""
         expected_strs = [
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1.5\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:2\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:10.5\n```""",
+            f"""```{expected_graph}classDef default stroke-width:1\n```""",
+            f"""```{expected_graph}classDef default stroke-width:1.5\n```""",
+            f"""```{expected_graph}classDef default stroke-width:2\n```""",
+            f"""```{expected_graph}classDef default stroke-width:10.5\n```""",
         ]
         for node_border_width, mermaid_md, expected_str in zip(
             node_border_widths, mermaid_mds, expected_strs
@@ -1163,9 +1168,10 @@ class TestTreeToMermaid:
             )
             for node_colour, node_border_colour, node_border_width in node_styles
         ]
+        expected_graph = """mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("g")\n0-0-1 --> 0-0-1-1("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\n"""
         expected_strs = [
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default fill:yellow,stroke:#ff0\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default fill:#ff0000,stroke:#000,stroke-width:2\n```""",
+            f"""```{expected_graph}classDef default fill:yellow,stroke:#ff0\n```""",
+            f"""```{expected_graph}classDef default fill:#ff0000,stroke:#000,stroke-width:2\n```""",
         ]
         for node_style, mermaid_md, expected_str in zip(
             node_styles, mermaid_mds, expected_strs
@@ -1194,19 +1200,19 @@ class TestTreeToMermaid:
             for node_shape in node_shapes
         ]
         expected_strs = [
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0(["a"]) --> 00(["b"])\n00 --> 000(["d"])\n00 --> 001(["e"])\n001 --> 0010(["g"])\n001 --> 0011(["h"])\n0(["a"]) --> 01(["c"])\n01 --> 010(["f"])\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[["a"]] --> 00[["b"]]\n00 --> 000[["d"]]\n00 --> 001[["e"]]\n001 --> 0010[["g"]]\n001 --> 0011[["h"]]\n0[["a"]] --> 01[["c"]]\n01 --> 010[["f"]]\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[("a")] --> 00[("b")]\n00 --> 000[("d")]\n00 --> 001[("e")]\n001 --> 0010[("g")]\n001 --> 0011[("h")]\n0[("a")] --> 01[("c")]\n01 --> 010[("f")]\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0(("a")) --> 00(("b"))\n00 --> 000(("d"))\n00 --> 001(("e"))\n001 --> 0010(("g"))\n001 --> 0011(("h"))\n0(("a")) --> 01(("c"))\n01 --> 010(("f"))\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0>"a"] --> 00>"b"]\n00 --> 000>"d"]\n00 --> 001>"e"]\n001 --> 0010>"g"]\n001 --> 0011>"h"]\n0>"a"] --> 01>"c"]\n01 --> 010>"f"]\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0{"a"} --> 00{"b"}\n00 --> 000{"d"}\n00 --> 001{"e"}\n001 --> 0010{"g"}\n001 --> 0011{"h"}\n0{"a"} --> 01{"c"}\n01 --> 010{"f"}\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0{{"a"}} --> 00{{"b"}}\n00 --> 000{{"d"}}\n00 --> 001{{"e"}}\n001 --> 0010{{"g"}}\n001 --> 0011{{"h"}}\n0{{"a"}} --> 01{{"c"}}\n01 --> 010{{"f"}}\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[/"a"/] --> 00[/"b"/]\n00 --> 000[/"d"/]\n00 --> 001[/"e"/]\n001 --> 0010[/"g"/]\n001 --> 0011[/"h"/]\n0[/"a"/] --> 01[/"c"/]\n01 --> 010[/"f"/]\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[\\"a"\\] --> 00[\\"b"\\]\n00 --> 000[\\"d"\\]\n00 --> 001[\\"e"\\]\n001 --> 0010[\\"g"\\]\n001 --> 0011[\\"h"\\]\n0[\\"a"\\] --> 01[\\"c"\\]\n01 --> 010[\\"f"\\]\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[/"a"\\] --> 00[/"b"\\]\n00 --> 000[/"d"\\]\n00 --> 001[/"e"\\]\n001 --> 0010[/"g"\\]\n001 --> 0011[/"h"\\]\n0[/"a"\\] --> 01[/"c"\\]\n01 --> 010[/"f"\\]\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[\\"a"/] --> 00[\\"b"/]\n00 --> 000[\\"d"/]\n00 --> 001[\\"e"/]\n001 --> 0010[\\"g"/]\n001 --> 0011[\\"h"/]\n0[\\"a"/] --> 01[\\"c"/]\n01 --> 010[\\"f"/]\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0((("a"))) --> 00((("b")))\n00 --> 000((("d")))\n00 --> 001((("e")))\n001 --> 0010((("g")))\n001 --> 0011((("h")))\n0((("a"))) --> 01((("c")))\n01 --> 010((("f")))\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("g")\n0-0-1 --> 0-0-1-1("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0(["a"]) --> 0-0(["b"])\n0-0 --> 0-0-0(["d"])\n0-0 --> 0-0-1(["e"])\n0-0-1 --> 0-0-1-0(["g"])\n0-0-1 --> 0-0-1-1(["h"])\n0(["a"]) --> 0-1(["c"])\n0-1 --> 0-1-0(["f"])\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[["a"]] --> 0-0[["b"]]\n0-0 --> 0-0-0[["d"]]\n0-0 --> 0-0-1[["e"]]\n0-0-1 --> 0-0-1-0[["g"]]\n0-0-1 --> 0-0-1-1[["h"]]\n0[["a"]] --> 0-1[["c"]]\n0-1 --> 0-1-0[["f"]]\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[("a")] --> 0-0[("b")]\n0-0 --> 0-0-0[("d")]\n0-0 --> 0-0-1[("e")]\n0-0-1 --> 0-0-1-0[("g")]\n0-0-1 --> 0-0-1-1[("h")]\n0[("a")] --> 0-1[("c")]\n0-1 --> 0-1-0[("f")]\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0(("a")) --> 0-0(("b"))\n0-0 --> 0-0-0(("d"))\n0-0 --> 0-0-1(("e"))\n0-0-1 --> 0-0-1-0(("g"))\n0-0-1 --> 0-0-1-1(("h"))\n0(("a")) --> 0-1(("c"))\n0-1 --> 0-1-0(("f"))\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0>"a"] --> 0-0>"b"]\n0-0 --> 0-0-0>"d"]\n0-0 --> 0-0-1>"e"]\n0-0-1 --> 0-0-1-0>"g"]\n0-0-1 --> 0-0-1-1>"h"]\n0>"a"] --> 0-1>"c"]\n0-1 --> 0-1-0>"f"]\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0{"a"} --> 0-0{"b"}\n0-0 --> 0-0-0{"d"}\n0-0 --> 0-0-1{"e"}\n0-0-1 --> 0-0-1-0{"g"}\n0-0-1 --> 0-0-1-1{"h"}\n0{"a"} --> 0-1{"c"}\n0-1 --> 0-1-0{"f"}\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0{{"a"}} --> 0-0{{"b"}}\n0-0 --> 0-0-0{{"d"}}\n0-0 --> 0-0-1{{"e"}}\n0-0-1 --> 0-0-1-0{{"g"}}\n0-0-1 --> 0-0-1-1{{"h"}}\n0{{"a"}} --> 0-1{{"c"}}\n0-1 --> 0-1-0{{"f"}}\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[/"a"/] --> 0-0[/"b"/]\n0-0 --> 0-0-0[/"d"/]\n0-0 --> 0-0-1[/"e"/]\n0-0-1 --> 0-0-1-0[/"g"/]\n0-0-1 --> 0-0-1-1[/"h"/]\n0[/"a"/] --> 0-1[/"c"/]\n0-1 --> 0-1-0[/"f"/]\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[\\"a"\\] --> 0-0[\\"b"\\]\n0-0 --> 0-0-0[\\"d"\\]\n0-0 --> 0-0-1[\\"e"\\]\n0-0-1 --> 0-0-1-0[\\"g"\\]\n0-0-1 --> 0-0-1-1[\\"h"\\]\n0[\\"a"\\] --> 0-1[\\"c"\\]\n0-1 --> 0-1-0[\\"f"\\]\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[/"a"\\] --> 0-0[/"b"\\]\n0-0 --> 0-0-0[/"d"\\]\n0-0 --> 0-0-1[/"e"\\]\n0-0-1 --> 0-0-1-0[/"g"\\]\n0-0-1 --> 0-0-1-1[/"h"\\]\n0[/"a"\\] --> 0-1[/"c"\\]\n0-1 --> 0-1-0[/"f"\\]\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0[\\"a"/] --> 0-0[\\"b"/]\n0-0 --> 0-0-0[\\"d"/]\n0-0 --> 0-0-1[\\"e"/]\n0-0-1 --> 0-0-1-0[\\"g"/]\n0-0-1 --> 0-0-1-1[\\"h"/]\n0[\\"a"/] --> 0-1[\\"c"/]\n0-1 --> 0-1-0[\\"f"/]\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0((("a"))) --> 0-0((("b")))\n0-0 --> 0-0-0((("d")))\n0-0 --> 0-0-1((("e")))\n0-0-1 --> 0-0-1-0((("g")))\n0-0-1 --> 0-0-1-1((("h")))\n0((("a"))) --> 0-1((("c")))\n0-1 --> 0-1-0((("f")))\nclassDef default stroke-width:1\n```""",
         ]
         for node_shape, mermaid_md, expected_str in zip(
             node_shapes, mermaid_mds, expected_strs
@@ -1234,17 +1240,17 @@ class TestTreeToMermaid:
             for edge_arrow in edge_arrows
         ]
         expected_strs = [
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n00 --> 001("e")\n001 --> 0010("g")\n001 --> 0011("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") ==> 00("b")\n00 ==> 000("d")\n00 ==> 001("e")\n001 ==> 0010("g")\n001 ==> 0011("h")\n0("a") ==> 01("c")\n01 ==> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") -.-> 00("b")\n00 -.-> 000("d")\n00 -.-> 001("e")\n001 -.-> 0010("g")\n001 -.-> 0011("h")\n0("a") -.-> 01("c")\n01 -.-> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --- 00("b")\n00 --- 000("d")\n00 --- 001("e")\n001 --- 0010("g")\n001 --- 0011("h")\n0("a") --- 01("c")\n01 --- 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") === 00("b")\n00 === 000("d")\n00 === 001("e")\n001 === 0010("g")\n001 === 0011("h")\n0("a") === 01("c")\n01 === 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") -.- 00("b")\n00 -.- 000("d")\n00 -.- 001("e")\n001 -.- 0010("g")\n001 -.- 0011("h")\n0("a") -.- 01("c")\n01 -.- 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") ~~~ 00("b")\n00 ~~~ 000("d")\n00 ~~~ 001("e")\n001 ~~~ 0010("g")\n001 ~~~ 0011("h")\n0("a") ~~~ 01("c")\n01 ~~~ 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --o 00("b")\n00 --o 000("d")\n00 --o 001("e")\n001 --o 0010("g")\n001 --o 0011("h")\n0("a") --o 01("c")\n01 --o 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --x 00("b")\n00 --x 000("d")\n00 --x 001("e")\n001 --x 0010("g")\n001 --x 0011("h")\n0("a") --x 01("c")\n01 --x 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") <--> 00("b")\n00 <--> 000("d")\n00 <--> 001("e")\n001 <--> 0010("g")\n001 <--> 0011("h")\n0("a") <--> 01("c")\n01 <--> 010("f")\nclassDef default stroke-width:1\n```""",
-            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") o--o 00("b")\n00 o--o 000("d")\n00 o--o 001("e")\n001 o--o 0010("g")\n001 o--o 0011("h")\n0("a") o--o 01("c")\n01 o--o 010("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("g")\n0-0-1 --> 0-0-1-1("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") ==> 0-0("b")\n0-0 ==> 0-0-0("d")\n0-0 ==> 0-0-1("e")\n0-0-1 ==> 0-0-1-0("g")\n0-0-1 ==> 0-0-1-1("h")\n0("a") ==> 0-1("c")\n0-1 ==> 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") -.-> 0-0("b")\n0-0 -.-> 0-0-0("d")\n0-0 -.-> 0-0-1("e")\n0-0-1 -.-> 0-0-1-0("g")\n0-0-1 -.-> 0-0-1-1("h")\n0("a") -.-> 0-1("c")\n0-1 -.-> 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --- 0-0("b")\n0-0 --- 0-0-0("d")\n0-0 --- 0-0-1("e")\n0-0-1 --- 0-0-1-0("g")\n0-0-1 --- 0-0-1-1("h")\n0("a") --- 0-1("c")\n0-1 --- 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") === 0-0("b")\n0-0 === 0-0-0("d")\n0-0 === 0-0-1("e")\n0-0-1 === 0-0-1-0("g")\n0-0-1 === 0-0-1-1("h")\n0("a") === 0-1("c")\n0-1 === 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") -.- 0-0("b")\n0-0 -.- 0-0-0("d")\n0-0 -.- 0-0-1("e")\n0-0-1 -.- 0-0-1-0("g")\n0-0-1 -.- 0-0-1-1("h")\n0("a") -.- 0-1("c")\n0-1 -.- 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") ~~~ 0-0("b")\n0-0 ~~~ 0-0-0("d")\n0-0 ~~~ 0-0-1("e")\n0-0-1 ~~~ 0-0-1-0("g")\n0-0-1 ~~~ 0-0-1-1("h")\n0("a") ~~~ 0-1("c")\n0-1 ~~~ 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --o 0-0("b")\n0-0 --o 0-0-0("d")\n0-0 --o 0-0-1("e")\n0-0-1 --o 0-0-1-0("g")\n0-0-1 --o 0-0-1-1("h")\n0("a") --o 0-1("c")\n0-1 --o 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --x 0-0("b")\n0-0 --x 0-0-0("d")\n0-0 --x 0-0-1("e")\n0-0-1 --x 0-0-1-0("g")\n0-0-1 --x 0-0-1-1("h")\n0("a") --x 0-1("c")\n0-1 --x 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") <--> 0-0("b")\n0-0 <--> 0-0-0("d")\n0-0 <--> 0-0-1("e")\n0-0-1 <--> 0-0-1-0("g")\n0-0-1 <--> 0-0-1-1("h")\n0("a") <--> 0-1("c")\n0-1 <--> 0-1-0("f")\nclassDef default stroke-width:1\n```""",
+            """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") o--o 0-0("b")\n0-0 o--o 0-0-0("d")\n0-0 o--o 0-0-1("e")\n0-0-1 o--o 0-0-1-0("g")\n0-0-1 o--o 0-0-1-1("h")\n0("a") o--o 0-1("c")\n0-1 o--o 0-1-0("f")\nclassDef default stroke-width:1\n```""",
         ]
         for edge_arrow, mermaid_md, expected_str in zip(
             edge_arrows, mermaid_mds, expected_strs
@@ -1256,17 +1262,18 @@ class TestTreeToMermaid:
         mermaid_md = tree_to_mermaid(
             tree_node_mermaid_style, node_shape_attr="node_shape"
         )
-        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0{"a"} --> 00(["b"])\n00 --> 000("d")\n000 --> 0000("g")\n00 --> 001("e")\n001 --> 0010("h")\n0{"a"} --> 01(["c"])\n01 --> 010("f")\nclassDef default stroke-width:1\n```"""
+        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0{"a"} --> 0-0(["b"])\n0-0 --> 0-0-0("d")\n0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("h")\n0{"a"} --> 0-1(["c"])\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```"""
         assert mermaid_md == expected_str
 
     @staticmethod
     def test_tree_to_mermaid_edge_label(tree_node_mermaid_style):
         mermaid_md = tree_to_mermaid(tree_node_mermaid_style, edge_label="label")
-        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 -->|c-d link| 000("d")\n000 --> 0000("g")\n00 -->|c-e link| 001("e")\n001 --> 0010("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\n```"""
+        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 -->|c-d link| 0-0-0("d")\n0-0-0 --> 0-0-0-0("g")\n0-0 -->|c-e link| 0-0-1("e")\n0-0-1 --> 0-0-1-0("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```"""
         assert mermaid_md == expected_str
 
     @staticmethod
     def test_tree_to_mermaid_node_attr(tree_node_mermaid_style):
         mermaid_md = tree_to_mermaid(tree_node_mermaid_style, node_attr="attr")
-        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 00("b")\n00 --> 000("d")\n000:::class0000 --> 0000("g")\n00 --> 001("e")\n001:::class0010 --> 0010("h")\n0("a") --> 01("c")\n01 --> 010("f")\nclassDef default stroke-width:1\nclassDef class0000 fill:red,stroke:black,stroke-width:2\nclassDef class0010 fill:red,stroke:black,stroke-width:2\n```"""
+        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0-0:::class0-0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1:::class0-0-1-0 --> 0-0-1-0("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\nclassDef class0-0-0-0 fill:red,stroke:black,stroke-width:2\nclassDef class0-0-1-0 fill:red,stroke:black,stroke-width:2\n```"""
+
         assert mermaid_md == expected_str
