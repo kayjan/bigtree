@@ -6,6 +6,8 @@ from urllib.request import urlopen
 
 from bigtree.node.node import Node
 from bigtree.tree.search import find_path
+from bigtree.utils.assertions import assert_key_in_dict, assert_str_in_list
+from bigtree.utils.constants import ExportConstants, MermaidConstants
 from bigtree.utils.exceptions import (
     optional_dependencies_image,
     optional_dependencies_pandas,
@@ -40,16 +42,6 @@ __all__ = [
 ]
 
 T = TypeVar("T", bound=Node)
-
-available_styles = {
-    "ansi": ("|   ", "|-- ", "`-- "),
-    "ascii": ("|   ", "|-- ", "+-- "),
-    "const": ("\u2502   ", "\u251c\u2500\u2500 ", "\u2514\u2500\u2500 "),
-    "const_bold": ("\u2503   ", "\u2523\u2501\u2501 ", "\u2517\u2501\u2501 "),
-    "rounded": ("\u2502   ", "\u251c\u2500\u2500 ", "\u2570\u2500\u2500 "),
-    "double": ("\u2551   ", "\u2560\u2550\u2550 ", "\u255a\u2550\u2550 "),
-    "custom": ("", "", ""),
-}
 
 
 def print_tree(
@@ -324,6 +316,7 @@ def yield_tree(
         style (str): style of print, defaults to abstract style
         custom_style (Iterable[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
     """
+    available_styles = ExportConstants.AVAILABLE_STYLES
     if style not in available_styles.keys():
         raise ValueError(
             f"Choose one of {available_styles.keys()} style, use `custom` to define own style"
@@ -1001,66 +994,16 @@ def tree_to_mermaid(
     """
     from bigtree.tree.helper import clone_tree
 
-    rankdirs = ["TB", "BT", "LR", "RL"]
-    line_shapes = [
-        "basis",
-        "bumpX",
-        "bumpY",
-        "cardinal",
-        "catmullRom",
-        "linear",
-        "monotoneX",
-        "monotoneY",
-        "natural",
-        "step",
-        "stepAfter",
-        "stepBefore",
-    ]
-    node_shapes = {
-        "rounded_edge": """("{label}")""",
-        "stadium": """(["{label}"])""",
-        "subroutine": """[["{label}"]]""",
-        "cylindrical": """[("{label}")]""",
-        "circle": """(("{label}"))""",
-        "asymmetric": """>"{label}"]""",
-        "rhombus": """{{"{label}"}}""",
-        "hexagon": """{{{{"{label}"}}}}""",
-        "parallelogram": """[/"{label}"/]""",
-        "parallelogram_alt": """[\\"{label}"\\]""",
-        "trapezoid": """[/"{label}"\\]""",
-        "trapezoid_alt": """[\\"{label}"/]""",
-        "double_circle": """((("{label}")))""",
-    }
-    edge_arrows = {
-        "normal": "-->",
-        "bold": "==>",
-        "dotted": "-.->",
-        "open": "---",
-        "bold_open": "===",
-        "dotted_open": "-.-",
-        "invisible": "~~~",
-        "circle": "--o",
-        "cross": "--x",
-        "double_normal": "<-->",
-        "double_circle": "o--o",
-        "double_cross": "x--x",
-    }
+    rankdirs = MermaidConstants.RANK_DIR
+    line_shapes = MermaidConstants.LINE_SHAPES
+    node_shapes = MermaidConstants.NODE_SHAPES
+    edge_arrows = MermaidConstants.EDGE_ARROWS
 
     # Assertions
-    if rankdir not in rankdirs:
-        raise ValueError(f"Invalid input, check `rankdir` should be one of {rankdirs}")
-    if node_shape not in node_shapes:
-        raise ValueError(
-            f"Invalid input, check `node_shape` should be one of {node_shapes.keys()}"
-        )
-    if line_shape not in line_shapes:
-        raise ValueError(
-            f"Invalid input, check `line_shape` should be one of {line_shapes}"
-        )
-    if edge_arrow not in edge_arrows:
-        raise ValueError(
-            f"Invalid input, check `edge_arrow` should be one of {edge_arrows.keys()}"
-        )
+    assert_str_in_list("rankdir", rankdir, rankdirs)
+    assert_key_in_dict("node_shape", node_shape, node_shapes)
+    assert_str_in_list("line_shape", line_shape, line_shapes)
+    assert_key_in_dict("edge_arrow", edge_arrow, edge_arrows)
 
     mermaid_template = """```mermaid\n{title}{line_style}\nflowchart {rankdir}\n{flows}\n{styles}\n```"""
     flowchart_template = "{from_node_ref}{from_node_name}{flow_style} {arrow}{arrow_label} {to_node_ref}{to_node_name}"
@@ -1104,7 +1047,7 @@ def tree_to_mermaid(
             """
             if self.is_root:
                 return "0"
-            return f"{self.parent.mermaid_name}{self.parent.children.index(self)}"
+            return f"{self.parent.mermaid_name}-{self.parent.children.index(self)}"
 
     tree_mermaid = clone_tree(tree, MermaidNode)
     default_edge_arrow = edge_arrows[edge_arrow]

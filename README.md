@@ -915,10 +915,10 @@ print(mermaid_md)
 ```mermaid
 %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
 flowchart TB
-0("a") --> 00("b")
-00 --> 000("d")
-00 --> 001("e")
-0("a") --> 01("c")
+0("a") --> 0-0("b")
+0-0 --> 0-0-0("d")
+0-0 --> 0-0-1("e")
+0("a") --> 0-1("c")
 classDef default stroke-width:1
 ```
 
