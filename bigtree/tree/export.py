@@ -640,6 +640,12 @@ def tree_to_dot(
     >>> e = Node("e", age=35, parent=b)
     >>> graph = tree_to_dot(root)
 
+    Display image directly without saving (requires IPython)
+
+    >>> from IPython.display import Image, display
+    >>> plt = Image(graph.create_png())
+    >>> display(plt)
+
     Export to image, dot file, etc.
 
     >>> graph.write_png("tree.png")

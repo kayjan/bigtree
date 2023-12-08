@@ -201,6 +201,12 @@ def dag_to_dot(
     >>> e = DAGNode("e", step=3, parents=[d])
     >>> dag_graph = dag_to_dot(a)
 
+    Display image directly without saving (requires IPython)
+
+    >>> from IPython.display import Image, display
+    >>> plt = Image(dag_graph.create_png())
+    >>> display(plt)
+
     Export to image, dot file, etc.
 
     >>> dag_graph.write_png("tree_dag.png")
