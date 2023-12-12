@@ -804,12 +804,16 @@ def assert_tree_structure_basenode_self(self):
     """Test tree structure with self object"""
     nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
 
-    # Test iteration
+    # Test iteration (__iter__)
     expected = [self.b, self.c]
     actual = [child for child in self.a]
     assert (
         actual == expected
     ), f"Node {self.a} should have {expected} children when iterated, but it has {actual}"
+
+    # Test contains (__contains__)
+    assert self.b in self.a, f"Check if {self.a} contains {self.b}, expected True"
+    assert self.d not in self.a, f"Check if {self.a} contains {self.d}, expected False"
 
     # Test ancestors
     expected_ans = [0, 1, 1, 2, 2, 2, 3, 3]

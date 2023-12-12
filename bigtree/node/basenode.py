@@ -727,5 +727,16 @@ class BaseNode:
         """
         yield from self.children  # type: ignore
 
+    def __contains__(self, other_node: T) -> bool:
+        """Check if child node exists
+
+        Args:
+            other_node (T): child node
+
+        Returns:
+            (bool)
+        """
+        return other_node in self.children
+
 
 T = TypeVar("T", bound=BaseNode)
