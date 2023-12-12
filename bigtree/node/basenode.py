@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import copy
-from typing import Any, Dict, Iterable, List, Optional, Tuple, TypeVar
+from typing import Any, Dict, Generator, Iterable, List, Optional, Set, Tuple, TypeVar
 
 from bigtree.utils.exceptions import CorruptedTreeError, LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
@@ -252,15 +252,21 @@ class BaseNode:
             "Attempting to set `parents` attribute, do you mean `parent`?"
         )
 
-    def __check_children_type(self: T, new_children: Iterable[T]) -> None:
+    def __check_children_type(
+        self: T, new_children: List[T] | Tuple[T] | Set[T]
+    ) -> None:
         """Check child type
 
         Args:
             new_children (Iterable[Self]): child node
         """
-        if not isinstance(new_children, Iterable):
+        if (
+            not isinstance(new_children, list)
+            and not isinstance(new_children, tuple)
+            and not isinstance(new_children, set)
+        ):
             raise TypeError(
-                f"Expect children to be Iterable type, received input type {type(new_children)}"
+                f"Expect children to be List or Tuple or Set type, received input type {type(new_children)}"
             )
 
     def __check_children_loop(self: T, new_children: Iterable[T]) -> None:
@@ -303,7 +309,7 @@ class BaseNode:
         return tuple(self.__children)
 
     @children.setter
-    def children(self: T, new_children: Iterable[T]) -> None:
+    def children(self: T, new_children: List[T] | Tuple[T] | Set[T]) -> None:
         """Set child nodes
 
         Args:
@@ -712,6 +718,14 @@ class BaseNode:
             other (Self): other node, parent
         """
         self.parent = other
+
+    def __iter__(self) -> Generator[T, None, None]:
+        """Iterate through child nodes
+
+        Returns:
+            (Self): child node
+        """
+        yield from self.children  # type: ignore
 
 
 T = TypeVar("T", bound=BaseNode)

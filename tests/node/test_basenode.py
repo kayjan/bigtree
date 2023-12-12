@@ -290,7 +290,7 @@ class TestBaseNode(unittest.TestCase):
         with pytest.raises(TypeError) as exc_info:
             self.h.children = children
         assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
-            type="Iterable", input_type=type(children)
+            type="List or Tuple or Set", input_type=type(children)
         )
 
     def test_set_children_reassign(self):
@@ -385,7 +385,7 @@ class TestBaseNode(unittest.TestCase):
 
     def test_set_children_iterable(self):
         self.a.children = (self.b, self.c)
-        self.b.children = {self.d: 0, self.e: 0}
+        self.b.children = [self.d, self.e]
         self.c.children = {self.f}
         self.e.children = (self.g, self.h)
 
@@ -803,6 +803,13 @@ def assert_tree_structure_customnode_root_attr(
 def assert_tree_structure_basenode_self(self):
     """Test tree structure with self object"""
     nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+
+    # Test iteration
+    expected = [self.b, self.c]
+    actual = [child for child in self.a]
+    assert (
+        actual == expected
+    ), f"Node {self.a} should have {expected} children when iterated, but it has {actual}"
 
     # Test ancestors
     expected_ans = [0, 1, 1, 2, 2, 2, 3, 3]

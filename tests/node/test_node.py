@@ -385,6 +385,17 @@ def assert_tree_structure_node_root(
 def assert_tree_structure_node_self(self):
     nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
 
+    # Test accessing with square bracket
+    assert (
+        self.a["b"] == self.b
+    ), f"Accessor method not returning correct for node {self.a} for {self.b}"
+    assert (
+        self.a["c"] == self.c
+    ), f"Accessor method not returning correct for node {self.a} for {self.c}"
+    assert (
+        self.a["b"]["d"] == self.d
+    ), f"Accessor method not returning correct for node {self.a} for {self.d}"
+
     # Test path_name
     expected_ans = [
         "/a",

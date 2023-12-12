@@ -381,7 +381,7 @@ class TestBinaryNode(unittest.TestCase):
         with pytest.raises(TypeError) as exc_info:
             self.h.children = children
         assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
-            type="Iterable", input_type=type(children)
+            type="List or Tuple or Set", input_type=type(children)
         )
 
     def test_set_children_reassign(self):
@@ -476,7 +476,7 @@ class TestBinaryNode(unittest.TestCase):
         with pytest.raises(TypeError) as exc_info:
             self.a.children = children
         assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
-            type="Iterable", input_type=type(children)
+            type="List or Tuple or Set", input_type=type(children)
         )
 
         children = 1

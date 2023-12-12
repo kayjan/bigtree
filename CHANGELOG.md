@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.14.6] - TBD
+### Added
+- Node: Able to access node children via square bracket accessor with `__getitem__` magic method.
+- BaseNode/Node/BinaryNode: Able to iterate the node to access children with `__iter__` magic method. Results in children setter to only accept list/tuple/set instead of iterable types.
 ### Changed
 - Tree Exporter: Change delimiter for `tree_to_mermaid` to prevent possible path confusion (backward-compatible).
 - Misc: Code abstraction for assertion checks and constants.
