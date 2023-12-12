@@ -385,7 +385,7 @@ def assert_tree_structure_node_root(
 def assert_tree_structure_node_self(self):
     nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
 
-    # Test accessing with square bracket
+    # Test accessing with square bracket (__getitem__)
     assert (
         self.a["b"] == self.b
     ), f"Accessor method not returning correct for node {self.a} for {self.b}"
@@ -395,6 +395,20 @@ def assert_tree_structure_node_self(self):
     assert (
         self.a["b"]["d"] == self.d
     ), f"Accessor method not returning correct for node {self.a} for {self.d}"
+
+    # Test deletion of children with square bracket (__delitem__)
+    assert len(self.a.children) == 2, f"Before deletion: error in {self.a.children}"
+    del self.a["c"]
+    assert len(self.a.children) == 1, f"After deletion: error in {self.a.children}"
+    self.c.parent = self.a
+    assert (
+        len(self.a.children) == 2
+    ), f"Revert after deletion: error in {self.a.children}"
+
+    # Test deletion of non-existent children with square bracket (__delitem__)
+    assert len(self.a.children) == 2, f"Before deletion: error in {self.a.children}"
+    del self.a["d"]
+    assert len(self.a.children) == 2, f"After deletion: error in {self.a.children}"
 
     # Test path_name
     expected_ans = [

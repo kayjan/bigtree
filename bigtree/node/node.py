@@ -226,6 +226,18 @@ class Node(BaseNode):
 
         return find_child_by_name(self, child_name)  # type: ignore
 
+    def __delitem__(self, child_name: str) -> None:
+        """Delete child by name identifier, will not throw error if child does not exist
+
+        Args:
+            child_name (str): name of child node
+        """
+        from bigtree.tree.search import find_child_by_name
+
+        child = find_child_by_name(self, child_name)
+        if child:
+            child.parent = None
+
     def __repr__(self) -> str:
         """Print format of Node
 

@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.14.6] - TBD
 ### Added
-- Node: Able to access node children via square bracket accessor with `__getitem__` magic method.
+- Node: Able to access and delete node children via name with square bracket accessor with `__getitem__` and `__delitem__` magic methods.
 - BaseNode/Node/BinaryNode: Able to iterate the node to access children with `__iter__` magic method. Results in children setter to only accept list/tuple/set instead of iterable types.
 ### Changed
 - Tree Exporter: Change delimiter for `tree_to_mermaid` to prevent possible path confusion (backward-compatible).
