@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.14.6] - 2023-12-14
+### Added
+- Node: Able to access and delete node children via name with square bracket accessor with `__getitem__` and `__delitem__` magic methods.
+- BaseNode/Node/BinaryNode: Able to add one or more children with `append` and `extend` methods.
+- BaseNode/Node/BinaryNode: Able to check if node contains child node with `__contains__` magic method.
+- BaseNode/Node/BinaryNode: Able to iterate the node to access children with `__iter__` magic method. Results in children setter to only accept list/tuple/set instead of iterable types.
+### Changed
+- Tree Exporter: `tree_to_dot` accepts callable to set node and edge attrs for custom node (backward-compatible).
+- Tree Exporter: `tree_to_mermaid` accepts callable to set node shape attr, edge arrow attr and node attr for custom node (backward-compatible).
+- Tree Exporter: Change delimiter for `tree_to_mermaid` to prevent possible path confusion (backward-compatible).
+- Misc: Code abstraction for assertion checks and constants.
+- Misc: Documentation for exporting tree/dag to dot.
+
 ## [0.14.5] - 2023-11-24
 ### Changed
 - Misc: Update SECURITY file.
@@ -384,6 +397,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.14.6]: https://github.com/kayjan/bigtree/compare/0.14.5...0.14.6
 [0.14.5]: https://github.com/kayjan/bigtree/compare/0.14.4...0.14.5
 [0.14.4]: https://github.com/kayjan/bigtree/compare/0.14.3...0.14.4
 [0.14.3]: https://github.com/kayjan/bigtree/compare/0.14.2...0.14.3

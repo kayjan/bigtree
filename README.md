@@ -108,7 +108,7 @@ For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components
 
 There are two ways to install `bigtree`, with pip (from PyPI) or conda (from conda-forge).
 
-### a) Installation with pip (preferred)
+### a) Installation with pip (recommended)
 
 To install `bigtree`, run the following line in command prompt:
 
@@ -158,8 +158,11 @@ Nodes can have attributes if they are initialized from `Node`, *dictionary*, or 
 
 1. **From `Node`**
 
-Nodes can be linked to each other with `parent` and `children` setter methods,
-or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
+Nodes can be linked to each other in the following ways:
+  - Using `parent` and `children` setter methods
+  - Directly passing `parent` or `children` argument
+  - Using bitshift operator with the convention `parent >> child` or `child << parent`
+  - Using `.append(child)` or `.extend([child1, child2])` methods
 
 {emphasize-lines="8-9"}
 ```python
@@ -241,7 +244,7 @@ a
 └── c
     └── f
 """
-root = str_to_tree(tree_str, tree_prefix_list=["├──", "└──"])
+root = str_to_tree(tree_str)
 root.show()
 # a
 # ├── b
@@ -369,7 +372,7 @@ root.show(attr_list=["age"])
 # └── c [age=60]
 ```
 
-> If tree is already created, attributes can still be added using dictionary or pandas DataFrame!
+> If tree is already created, attributes can still be added using a dictionary or pandas DataFrame!
 
 ### Print Tree
 
@@ -652,9 +655,9 @@ root_other.show()
 
 ### Tree Search
 
-One or multiple nodes can be search based on name, path, attribute value, or user-defined condition.
+One or multiple nodes can be searched based on name, path, attribute value, or user-defined condition.
 
-To find a single node,
+To find a single node:
 
 {emphasize-lines="12,15,18,21,24,27"}
 ```python
@@ -688,7 +691,7 @@ find_attr(root, "age", 40)
 # Node(/a/c/d, age=40)
 ```
 
-To find multiple nodes,
+To find multiple nodes:
 
 {emphasize-lines="12,15,18,21,24"}
 ```python

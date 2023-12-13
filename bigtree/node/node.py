@@ -213,6 +213,31 @@ class Node(BaseNode):
 
         print_tree(self, **kwargs)
 
+    def __getitem__(self, child_name: str) -> T:
+        """Get child by name identifier
+
+        Args:
+            child_name (str): name of child node
+
+        Returns:
+            (Self): child node
+        """
+        from bigtree.tree.search import find_child_by_name
+
+        return find_child_by_name(self, child_name)  # type: ignore
+
+    def __delitem__(self, child_name: str) -> None:
+        """Delete child by name identifier, will not throw error if child does not exist
+
+        Args:
+            child_name (str): name of child node
+        """
+        from bigtree.tree.search import find_child_by_name
+
+        child = find_child_by_name(self, child_name)
+        if child:
+            child.parent = None
+
     def __repr__(self) -> str:
         """Print format of Node
 

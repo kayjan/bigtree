@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import copy
-from typing import Any, Dict, Iterable, List, Optional, Tuple, TypeVar
+from typing import Any, Dict, Generator, Iterable, List, Optional, Set, Tuple, TypeVar
 
 from bigtree.utils.exceptions import CorruptedTreeError, LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
@@ -107,8 +107,10 @@ class BaseNode:
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
     4. ``go_to(node: Self)``: Get a path from own node to another node from same tree
-    5. ``copy()``: Deep copy self
-    6. ``sort()``: Sort child nodes
+    5. ``append(node: Self)``: Add child to node
+    6. ``extend(nodes: List[Self])``: Add multiple children to node
+    7. ``copy()``: Deep copy self
+    8. ``sort()``: Sort child nodes
 
     ----
 
@@ -252,15 +254,21 @@ class BaseNode:
             "Attempting to set `parents` attribute, do you mean `parent`?"
         )
 
-    def __check_children_type(self: T, new_children: Iterable[T]) -> None:
+    def __check_children_type(
+        self: T, new_children: List[T] | Tuple[T] | Set[T]
+    ) -> None:
         """Check child type
 
         Args:
             new_children (Iterable[Self]): child node
         """
-        if not isinstance(new_children, Iterable):
+        if (
+            not isinstance(new_children, list)
+            and not isinstance(new_children, tuple)
+            and not isinstance(new_children, set)
+        ):
             raise TypeError(
-                f"Expect children to be Iterable type, received input type {type(new_children)}"
+                f"Expect children to be List or Tuple or Set type, received input type {type(new_children)}"
             )
 
     def __check_children_loop(self: T, new_children: Iterable[T]) -> None:
@@ -303,7 +311,7 @@ class BaseNode:
         return tuple(self.__children)
 
     @children.setter
-    def children(self: T, new_children: Iterable[T]) -> None:
+    def children(self: T, new_children: List[T] | Tuple[T] | Set[T]) -> None:
         """Set child nodes
 
         Args:
@@ -638,6 +646,23 @@ class BaseNode:
         node_min_index = node_path.index(min_common_node)
         return self_path[:self_min_index] + node_path[node_min_index:]
 
+    def append(self: T, other: T) -> None:
+        """Add other as child of self
+
+        Args:
+            other (Self): other node, child to be added
+        """
+        other.parent = self
+
+    def extend(self: T, others: List[T]) -> None:
+        """Add others as children of self
+
+        Args:
+            others (Self): other nodes, children to be added
+        """
+        for child in others:
+            child.parent = self
+
     def copy(self: T) -> T:
         """Deep copy self; clone self
 
@@ -698,7 +723,7 @@ class BaseNode:
         return f"{class_name}({node_description})"
 
     def __rshift__(self: T, other: T) -> None:
-        """Set children using >> bitshift operator for self >> other
+        """Set children using >> bitshift operator for self >> children (other)
 
         Args:
             other (Self): other node, children
@@ -706,12 +731,31 @@ class BaseNode:
         other.parent = self
 
     def __lshift__(self: T, other: T) -> None:
-        """Set parent using << bitshift operator for self << other
+        """Set parent using << bitshift operator for self << parent (other)
 
         Args:
             other (Self): other node, parent
         """
         self.parent = other
+
+    def __iter__(self) -> Generator[T, None, None]:
+        """Iterate through child nodes
+
+        Returns:
+            (Self): child node
+        """
+        yield from self.children  # type: ignore
+
+    def __contains__(self, other_node: T) -> bool:
+        """Check if child node exists
+
+        Args:
+            other_node (T): child node
+
+        Returns:
+            (bool)
+        """
+        return other_node in self.children
 
 
 T = TypeVar("T", bound=BaseNode)
