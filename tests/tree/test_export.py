@@ -917,12 +917,59 @@ class TestTreeToDot:
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
+    def test_tree_to_dot_node_attr_callable(tree_node_style_callable):
+        def node_attr(node):
+            if node.get_attr("style") and node.style == 1:
+                return {"style": "filled", "fillcolor": "gold"}
+            elif node.get_attr("style") and node.style == "two":
+                return {"style": "filled", "fillcolor": "blue"}
+            elif node.node_name in ["d", "e", "f"]:
+                return {"style": "filled", "fillcolor": "green"}
+            return {"style": "filled", "fillcolor": "red"}
+
+        graph = tree_to_dot(tree_node_style_callable, node_attr=node_attr)
+        expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=green, label=d, style=filled];\nb0 -> d0;\ng0 [fillcolor=red, label=g, style=filled];\nd0 -> g0;\ne0 [fillcolor=green, label=e, style=filled];\nb0 -> e0;\nh0 [fillcolor=red, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=blue, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=green, label=f, style=filled];\nc0 -> f0;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_node_attr_callable.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
     def test_tree_to_dot_edge_attr(tree_node_style):
         graph = tree_to_dot(tree_node_style, edge_attr="edge_style")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [label=b, style=bold];\nd0 [label=d];\nb0 -> d0  [label=1, style=bold];\ng0 [label=g];\nd0 -> g0  [label=4, style=bold];\ne0 [label=e];\nb0 -> e0  [label=2, style=bold];\nh0 [label=h];\ne0 -> h0  [label=5, style=bold];\nc0 [label=c];\na0 -> c0  [label=c, style=bold];\nf0 [label=f];\nc0 -> f0  [label=3, style=bold];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_edge_attr.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    def test_tree_to_dot_edge_attr_callable(tree_node_style_callable):
+        def edge_attr(node):
+            if node.get_attr("style") and node.style == 1:
+                return {"style": "bold", "label": "a"}
+            elif node.get_attr("style") and node.style == "two":
+                return {"style": "bold", "label": "b"}
+            elif node.get_attr("style") and node.style == ("three"):
+                return {"style": "bold", "label": "c"}
+            elif node.node_name in ["d", "e", "f", "g", "h"]:
+                return {
+                    "style": "bold",
+                    "label": ["d", "e", "f", "g", "h"].index(node.node_name) + 1,
+                }
+            raise Exception("Node with invalid edge_attr not covered")
+
+        graph = tree_to_dot(tree_node_style_callable, edge_attr=edge_attr)
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [label=b, style=bold];\nd0 [label=d];\nb0 -> d0  [label=1, style=bold];\ng0 [label=g];\nd0 -> g0  [label=4, style=bold];\ne0 [label=e];\nb0 -> e0  [label=2, style=bold];\nh0 [label=h];\ne0 -> h0  [label=5, style=bold];\nc0 [label=c];\na0 -> c0  [label=c, style=bold];\nf0 [label=f];\nc0 -> f0  [label=3, style=bold];\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_edge_attr_callable.png")
         for expected_str in expected.split():
             assert (
                 expected_str in actual

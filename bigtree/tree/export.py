@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import collections
-from typing import Any, Dict, Iterable, List, Optional, Tuple, TypeVar, Union
+from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, TypeVar, Union
 from urllib.request import urlopen
 
 from bigtree.node.node import Node
@@ -619,8 +619,8 @@ def tree_to_dot(
     node_colour: str = "",
     node_shape: str = "",
     edge_colour: str = "",
-    node_attr: str = "",
-    edge_attr: str = "",
+    node_attr: Callable[[T], Dict[str, Any]] | str = "",
+    edge_attr: Callable[[T], Dict[str, Any]] | str = "",
 ) -> pydot.Dot:
     r"""Export tree or list of trees to image.
     Possible node attributes include style, fillcolor, shape.
@@ -649,7 +649,7 @@ def tree_to_dot(
     >>> graph.to_string()
     'strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\nc0 [label=c];\na0 -> c0;\n}\n'
 
-    Defining node and edge attributes
+    Defining node and edge attributes (using node attribute)
 
     >>> class CustomNode(Node):
     ...     def __init__(self, name, node_shape="", edge_label="", **kwargs):
@@ -680,6 +680,24 @@ def tree_to_dot(
 
     .. image:: https://github.com/kayjan/bigtree/raw/master/assets/custom_tree.png
 
+    Alternative way to define node and edge attributes (using callable function)
+
+    >>> def get_node_attribute(node: Node):
+    ...     if node.is_leaf:
+    ...         return {"shape": "square"}
+    ...     return {"shape": "circle"}
+    >>>
+    >>>
+    >>> root = CustomNode("a")
+    >>> b = CustomNode("b", parent=root)
+    >>> c = CustomNode("c", parent=root)
+    >>> d = CustomNode("d", parent=b)
+    >>> e = CustomNode("e", parent=b)
+    >>> graph = tree_to_dot(root, node_colour="gold", node_attr=get_node_attribute)
+    >>> graph.write_png("assets/custom_tree_callable.png")
+
+    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/custom_tree_callable.png
+
     Args:
         tree (Node/List[Node]): tree or list of trees to be exported
         directed (bool): indicator whether graph should be directed or undirected, defaults to True
@@ -690,10 +708,14 @@ def tree_to_dot(
         node_shape (str): shape of nodes, defaults to None
             Possible node_shape include "circle", "square", "diamond", "triangle"
         edge_colour (str): colour of edges, defaults to None
-        node_attr (str): ``Node`` attribute for node style, overrides `node_colour` and `node_shape`, defaults to None.
-            Possible node style (attribute value) include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
-        edge_attr (str): ``Node`` attribute for edge style, overrides `edge_colour`, defaults to None.
-            Possible edge style (attribute value) include {"style": "bold", "label": "edge label", "color": "black"}
+        node_attr (str | Callable): If string type, it refers to ``Node`` attribute for node style.
+            If callable type, it takes in the node itself and returns the node style.
+            This overrides `node_colour` and `node_shape` and defaults to None.
+            Possible node styles include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
+        edge_attr (str | Callable): If stirng type, it refers to ``Node`` attribute for edge style.
+            If callable type, it takes in the node itself and returns the edge style.
+            This overrides `edge_colour`, and defaults to None.
+            Possible edge styles include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
         (pydot.Dot)
@@ -733,10 +755,16 @@ def tree_to_dot(
             child_name = child_label + str(
                 name_dict[child_label].index(child_node.path_name)
             )
-            if node_attr and child_node.get_attr(node_attr):
-                _node_style.update(child_node.get_attr(node_attr))
-            if edge_attr and child_node.get_attr(edge_attr):
-                _edge_style.update(child_node.get_attr(edge_attr))
+            if node_attr:
+                if isinstance(node_attr, str) and child_node.get_attr(node_attr):
+                    _node_style.update(child_node.get_attr(node_attr))
+                elif isinstance(node_attr, Callable):  # type: ignore
+                    _node_style.update(node_attr(child_node))  # type: ignore
+            if edge_attr:
+                if isinstance(edge_attr, str) and child_node.get_attr(edge_attr):
+                    _edge_style.update(child_node.get_attr(edge_attr))
+                elif isinstance(edge_attr, Callable):  # type: ignore
+                    _edge_style.update(edge_attr(child_node))  # type: ignore
             node = pydot.Node(name=child_name, label=child_label, **_node_style)
             _graph.add_node(node)
             if parent_name is not None:
@@ -948,10 +976,10 @@ def tree_to_mermaid(
     ```mermaid
     %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
     flowchart TB
-    0("a") --> 00("b")
-    00 --> 000("d")
-    00 --> 001("e")
-    0("a") --> 01("c")
+    0("a") --> 0-0("b")
+    0-0 --> 0-0-0("d")
+    0-0 --> 0-0-1("e")
+    0("a") --> 0-1("c")
     classDef default stroke-width:1
     ```
 
@@ -962,12 +990,12 @@ def tree_to_mermaid(
     ```mermaid
     %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
     flowchart TB
-    0{"a"} ==>|Child 1| 00("b")
-    00:::class000 --> 000("d")
-    00 --> 001("e")
-    0{"a"} -.->|Child 2| 01("c")
+    0{"a"} ==>|Child 1| 0-0("b")
+    0-0:::class0-0-0 --> 0-0-0("d")
+    0-0 --> 0-0-1("e")
+    0{"a"} -.->|Child 2| 0-1("c")
     classDef default stroke-width:1
-    classDef class000 fill:yellow, stroke:black
+    classDef class0-0-0 fill:yellow, stroke:black
     ```
 
     Args:

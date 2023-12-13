@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BaseNode/Node/BinaryNode: Able to check if node contains child node with `__contains__` magic method.
 - BaseNode/Node/BinaryNode: Able to iterate the node to access children with `__iter__` magic method. Results in children setter to only accept list/tuple/set instead of iterable types.
 ### Changed
+- Tree Exporter: `tree_to_dot` accepts callable to set node and edge attrs for custom node (backward-compatible).
 - Tree Exporter: Change delimiter for `tree_to_mermaid` to prevent possible path confusion (backward-compatible).
 - Misc: Code abstraction for assertion checks and constants.
 - Misc: Documentation for exporting tree/dag to dot.
