@@ -878,11 +878,11 @@ def tree_to_mermaid(
     node_border_colour: str = "",
     node_border_width: float = 1,
     node_shape: str = "rounded_edge",
-    node_shape_attr: str = "",
+    node_shape_attr: Callable[[T], str] | str = "",
     edge_arrow: str = "normal",
-    edge_arrow_attr: str = "",
+    edge_arrow_attr: Callable[[T], str] | str = "",
     edge_label: str = "",
-    node_attr: str = "",
+    node_attr: Callable[[T], str] | str = "",
     **kwargs: Any,
 ) -> str:
     r"""Export tree to mermaid Markdown text. Accepts additional keyword arguments as input to `yield_tree`
@@ -1008,14 +1008,17 @@ def tree_to_mermaid(
         node_border_colour (str): border colour of nodes, can be colour name or hexcode, defaults to None
         node_border_width (float): width of node border, defaults to 1
         node_shape (str): node shape, sets the shape of every node, defaults to 'rounded_edge'
-        node_shape_attr (str): ``Node`` attribute for node shape, sets shape of custom nodes,
-            overrides default `node_shape`, defaults to None
+        node_shape_attr (str | Callable): If string type, it refers to ``Node`` attribute for node shape.
+            If callable type, it takes in the node itself and returns the node shape.
+            This sets the shape of custom nodes, and overrides default `node_shape`, defaults to None
         edge_arrow (str): edge arrow style from parent to itself, sets the arrow style of every edge, defaults to 'normal'
-        edge_arrow_attr (str): ``Node`` attribute for edge arrow style, sets edge arrow style of custom nodes from
-            parent to itself, overrides default `edge_arrow`, defaults to None
+        edge_arrow_attr (str | Callable): If string type, it refers to ``Node`` attribute for edge arrow style.
+            If callable type, it takes in the node itself and returns the edge arrow style.
+            This sets the edge arrow style of custom nodes from parent to itself, and overrides default `edge_arrow`, defaults to None
         edge_label (str): ``Node`` attribute for edge label from parent to itself, defaults to None
-        node_attr (str): ``Node`` attribute for node style, overrides `node_colour`, `node_border_colour`,
-            and `node_border_width`, defaults to None
+        node_attr (str | Callable): If string type, it refers to ``Node`` attribute for node style.
+            If callable type, it takes in the node itself and returns the node style.
+            This overrides `node_colour`, `node_border_colour`, and `node_border_width`, defaults to None
 
     Returns:
         (str)
@@ -1078,38 +1081,49 @@ def tree_to_mermaid(
             return f"{self.parent.mermaid_name}-{self.parent.children.index(self)}"
 
     tree_mermaid = clone_tree(tree, MermaidNode)
-    default_edge_arrow = edge_arrows[edge_arrow]
-    default_node_shape = node_shapes[node_shape]
     for _, _, node in yield_tree(tree_mermaid, **kwargs):
         if not node.is_root:
             # Get custom style (node_shape_attr)
             _parent_node_name = ""
             if node.parent.is_root:
-                _parent_node_shape = (
-                    node_shapes[node.parent.get_attr(node_shape_attr, node_shape)]
-                    if node_shape_attr
-                    else default_node_shape
-                )
+                _parent_node_shape_choice = node_shape
+                if node_shape_attr:
+                    if isinstance(node_shape_attr, str):
+                        _parent_node_shape_choice = node.parent.get_attr(
+                            node_shape_attr, node_shape
+                        )
+                    else:
+                        _parent_node_shape_choice = node_shape_attr(node.parent)  # type: ignore
+                _parent_node_shape = node_shapes[_parent_node_shape_choice]
                 _parent_node_name = _parent_node_shape.format(label=node.parent.name)
-            _node_shape = (
-                node_shapes[node.get_attr(node_shape_attr, node_shape)]
-                if node_shape_attr
-                else default_node_shape
-            )
+            _node_shape_choice = node_shape
+            if node_shape_attr:
+                if isinstance(node_shape_attr, str):
+                    _node_shape_choice = node.get_attr(node_shape_attr, node_shape)
+                else:
+                    _node_shape_choice = node_shape_attr(node)  # type: ignore
+            _node_shape = node_shapes[_node_shape_choice]
             _node_name = _node_shape.format(label=node.name)
 
             # Get custom style (edge_arrow_attr, edge_label)
-            _arrow = (
-                edge_arrows[node.get_attr(edge_arrow_attr, edge_arrow)]
-                if edge_arrow_attr
-                else default_edge_arrow
-            )
+            _arrow_choice = edge_arrow
+            if edge_arrow_attr:
+                if isinstance(edge_arrow_attr, str):
+                    _arrow_choice = node.get_attr(edge_arrow_attr, edge_arrow)
+                else:
+                    _arrow_choice = edge_arrow_attr(node)  # type: ignore
+            _arrow = edge_arrows[_arrow_choice]
             _arrow_label = (
                 f"|{node.get_attr(edge_label)}|" if node.get_attr(edge_label) else ""
             )
 
             # Get custom style (node_attr)
-            _flow_style = node.get_attr(node_attr, "") if node_attr else ""
+            _flow_style = ""
+            if node_attr:
+                if isinstance(node_attr, str):
+                    _flow_style = node.get_attr(node_attr, "")
+                else:
+                    _flow_style = node_attr(node)  # type: ignore
             if _flow_style:
                 _flow_style_class = f"""class{node.get_attr("mermaid_name")}"""
                 styles.append(

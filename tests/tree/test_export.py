@@ -918,7 +918,7 @@ class TestTreeToDot:
 
     @staticmethod
     def test_tree_to_dot_node_attr_callable(tree_node_style_callable):
-        def node_attr(node):
+        def get_node_attr(node):
             if node.get_attr("style") and node.style == 1:
                 return {"style": "filled", "fillcolor": "gold"}
             elif node.get_attr("style") and node.style == "two":
@@ -927,7 +927,7 @@ class TestTreeToDot:
                 return {"style": "filled", "fillcolor": "green"}
             return {"style": "filled", "fillcolor": "red"}
 
-        graph = tree_to_dot(tree_node_style_callable, node_attr=node_attr)
+        graph = tree_to_dot(tree_node_style_callable, node_attr=get_node_attr)
         expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=green, label=d, style=filled];\nb0 -> d0;\ng0 [fillcolor=red, label=g, style=filled];\nd0 -> g0;\ne0 [fillcolor=green, label=e, style=filled];\nb0 -> e0;\nh0 [fillcolor=red, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=blue, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=green, label=f, style=filled];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -951,7 +951,7 @@ class TestTreeToDot:
 
     @staticmethod
     def test_tree_to_dot_edge_attr_callable(tree_node_style_callable):
-        def edge_attr(node):
+        def get_edge_attr(node):
             if node.get_attr("style") and node.style == 1:
                 return {"style": "bold", "label": "a"}
             elif node.get_attr("style") and node.style == "two":
@@ -965,7 +965,7 @@ class TestTreeToDot:
                 }
             raise Exception("Node with invalid edge_attr not covered")
 
-        graph = tree_to_dot(tree_node_style_callable, edge_attr=edge_attr)
+        graph = tree_to_dot(tree_node_style_callable, edge_attr=get_edge_attr)
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [label=b, style=bold];\nd0 [label=d];\nb0 -> d0  [label=1, style=bold];\ng0 [label=g];\nd0 -> g0  [label=4, style=bold];\ne0 [label=e];\nb0 -> e0  [label=2, style=bold];\nh0 [label=h];\ne0 -> h0  [label=5, style=bold];\nc0 [label=c];\na0 -> c0  [label=c, style=bold];\nf0 [label=f];\nc0 -> f0  [label=3, style=bold];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1313,6 +1313,44 @@ class TestTreeToMermaid:
         assert mermaid_md == expected_str
 
     @staticmethod
+    def test_tree_to_mermaid_node_shape_attr_callable(tree_node_mermaid_style_callable):
+        def get_node_shape(node):
+            if node.node_name == "a":
+                return "rhombus"
+            elif node.depth == 2:
+                return "stadium"
+            return "rounded_edge"
+
+        mermaid_md = tree_to_mermaid(
+            tree_node_mermaid_style_callable, node_shape_attr=get_node_shape
+        )
+        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0{"a"} --> 0-0(["b"])\n0-0 --> 0-0-0("d")\n0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("h")\n0{"a"} --> 0-1(["c"])\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```"""
+        assert mermaid_md == expected_str
+
+    @staticmethod
+    def test_tree_to_mermaid_edge_arrow_attr(tree_node_mermaid_style):
+        mermaid_md = tree_to_mermaid(
+            tree_node_mermaid_style, edge_arrow_attr="edge_arrow"
+        )
+        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") -.-> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("h")\n0("a") -.- 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```"""
+        assert mermaid_md == expected_str
+
+    @staticmethod
+    def test_tree_to_mermaid_edge_arrow_attr_callable(tree_node_mermaid_style_callable):
+        def get_edge_arrow_attr(node):
+            if node.node_name == "b":
+                return "dotted"
+            if node.node_name == "c":
+                return "dotted_open"
+            return "normal"
+
+        mermaid_md = tree_to_mermaid(
+            tree_node_mermaid_style_callable, edge_arrow_attr=get_edge_arrow_attr
+        )
+        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") -.-> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("h")\n0("a") -.- 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```"""
+        assert mermaid_md == expected_str
+
+    @staticmethod
     def test_tree_to_mermaid_edge_label(tree_node_mermaid_style):
         mermaid_md = tree_to_mermaid(tree_node_mermaid_style, edge_label="label")
         expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 -->|c-d link| 0-0-0("d")\n0-0-0 --> 0-0-0-0("g")\n0-0 -->|c-e link| 0-0-1("e")\n0-0-1 --> 0-0-1-0("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```"""
@@ -1321,6 +1359,20 @@ class TestTreeToMermaid:
     @staticmethod
     def test_tree_to_mermaid_node_attr(tree_node_mermaid_style):
         mermaid_md = tree_to_mermaid(tree_node_mermaid_style, node_attr="attr")
+        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0-0:::class0-0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1:::class0-0-1-0 --> 0-0-1-0("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\nclassDef class0-0-0-0 fill:red,stroke:black,stroke-width:2\nclassDef class0-0-1-0 fill:red,stroke:black,stroke-width:2\n```"""
+
+        assert mermaid_md == expected_str
+
+    @staticmethod
+    def test_tree_to_mermaid_node_attr_callable(tree_node_mermaid_style_callable):
+        def get_node_attr(node):
+            if node.node_name in ["g", "h"]:
+                return "fill:red,stroke:black,stroke-width:2"
+            return ""
+
+        mermaid_md = tree_to_mermaid(
+            tree_node_mermaid_style_callable, node_attr=get_node_attr
+        )
         expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0-0:::class0-0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1:::class0-0-1-0 --> 0-0-1-0("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\nclassDef class0-0-0-0 fill:red,stroke:black,stroke-width:2\nclassDef class0-0-1-0 fill:red,stroke:black,stroke-width:2\n```"""
 
         assert mermaid_md == expected_str

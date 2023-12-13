@@ -291,30 +291,14 @@ def tree_node_style_callable():
     +-- c
         +-- f
     """
-    a = Node(
-        "a",
-        style=1,
-    )
-    b = Node(
-        "b",
-        style="two",
-    )
+    a = Node("a", style=1)
+    b = Node("b", style="two")
     c = Node("c", style=("three"))
-    d = Node(
-        "d",
-    )
-    e = Node(
-        "e",
-    )
-    f = Node(
-        "f",
-    )
-    g = Node(
-        "g",
-    )
-    h = Node(
-        "h",
-    )
+    d = Node("d")
+    e = Node("e")
+    f = Node("f")
+    g = Node("g")
+    h = Node("h")
 
     b.parent = a
     c.parent = a
@@ -339,39 +323,46 @@ def tree_node_mermaid_style():
     +-- c
         +-- f
     """
-    a = Node(
-        "a",
-        node_shape="rhombus",
-    )
-    b = Node(
-        "b",
-        node_shape="stadium",
-        edge_arrow="dotted",
-    )
-    c = Node(
-        "c",
-        node_shape="stadium",
-        edge_arrow="dotted_open",
-    )
-    d = Node(
-        "d",
-        label="c-d link",
-    )
-    e = Node(
-        "e",
-        label="c-e link",
-    )
-    f = Node(
-        "f",
-    )
-    g = Node(
-        "g",
-        attr="fill:red,stroke:black,stroke-width:2",
-    )
-    h = Node(
-        "h",
-        attr="fill:red,stroke:black,stroke-width:2",
-    )
+    a = Node("a", node_shape="rhombus")
+    b = Node("b", node_shape="stadium", edge_arrow="dotted")
+    c = Node("c", node_shape="stadium", edge_arrow="dotted_open")
+    d = Node("d", label="c-d link")
+    e = Node("e", label="c-e link")
+    f = Node("f")
+    g = Node("g", attr="fill:red,stroke:black,stroke-width:2")
+    h = Node("h", attr="fill:red,stroke:black,stroke-width:2")
+
+    b.parent = a
+    c.parent = a
+    d.parent = b
+    e.parent = b
+    f.parent = c
+    g.parent = d
+    h.parent = e
+    return a
+
+
+@pytest.fixture
+def tree_node_mermaid_style_callable():
+    """
+    Tree should have structure
+    a
+    |-- b
+    |   |-- d
+    |   +-- e
+    |       |-- g
+    |       +-- h
+    +-- c
+        +-- f
+    """
+    a = Node("a")
+    b = Node("b")
+    c = Node("c")
+    d = Node("d", label="c-d link")
+    e = Node("e", label="c-e link")
+    f = Node("f")
+    g = Node("g")
+    h = Node("h")
 
     b.parent = a
     c.parent = a
