@@ -107,8 +107,10 @@ class BaseNode:
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
     4. ``go_to(node: Self)``: Get a path from own node to another node from same tree
-    5. ``copy()``: Deep copy self
-    6. ``sort()``: Sort child nodes
+    5. ``append(node: Self)``: Add child to node
+    6. ``extend(nodes: List[Self])``: Add multiple children to node
+    7. ``copy()``: Deep copy self
+    8. ``sort()``: Sort child nodes
 
     ----
 
@@ -644,6 +646,23 @@ class BaseNode:
         node_min_index = node_path.index(min_common_node)
         return self_path[:self_min_index] + node_path[node_min_index:]
 
+    def append(self: T, other: T) -> None:
+        """Add other as child of self
+
+        Args:
+            other (Self): other node, child to be added
+        """
+        other.parent = self
+
+    def extend(self: T, others: List[T]) -> None:
+        """Add others as children of self
+
+        Args:
+            others (Self): other nodes, children to be added
+        """
+        for child in others:
+            child.parent = self
+
     def copy(self: T) -> T:
         """Deep copy self; clone self
 
@@ -704,7 +723,7 @@ class BaseNode:
         return f"{class_name}({node_description})"
 
     def __rshift__(self: T, other: T) -> None:
-        """Set children using >> bitshift operator for self >> other
+        """Set children using >> bitshift operator for self >> children (other)
 
         Args:
             other (Self): other node, children
@@ -712,7 +731,7 @@ class BaseNode:
         other.parent = self
 
     def __lshift__(self: T, other: T) -> None:
-        """Set parent using << bitshift operator for self << other
+        """Set parent using << bitshift operator for self << parent (other)
 
         Args:
             other (Self): other node, parent

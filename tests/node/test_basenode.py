@@ -228,6 +228,31 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
+    def test_set_children_append(self):
+        self.a.children = [self.b]
+        self.b.children = [self.d]
+        self.e.children = [self.g, self.h]
+        self.a.append(self.c)
+        self.b.append(self.e)
+        self.c.append(self.f)
+
+        assert_tree_structure_basenode_root(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
+    def test_set_children_extend(self):
+        self.a.children = [self.b]
+        self.b.children = [self.d]
+        self.c.children = [self.f]
+
+        self.a.extend([self.c])
+        self.b.extend([self.e])
+        self.e.extend([self.g, self.h])
+
+        assert_tree_structure_basenode_root(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
     def test_set_children_sort(self):
         self.a.children = [self.c, self.b]
         self.b.children = [self.e, self.d]
