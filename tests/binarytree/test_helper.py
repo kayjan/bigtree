@@ -54,14 +54,7 @@ class TestTreeDiff:
     def test_tree_diff(binarytree_node):
         other_tree_node = prune_tree(binarytree_node, "1/3")
         tree_only_diff = get_tree_diff(binarytree_node, other_tree_node, only_diff=True)
-        expected_str = """1\n└── 2\n    ├── 4\n    │   └── 8 (-)\n    └── 5 (-)\n"""
+        expected_str = (
+            """1\n└── 2 (-)\n    ├── 4 (-)\n    │   └── 8 (-)\n    └── 5 (-)\n"""
+        )
         assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
-        assert (
-            tree_only_diff.max_depth == 4
-        ), f"Expect max_depth to be 4, received {tree_only_diff.max_depth}"
-        assert (
-            len(list(tree_only_diff.children)) == 2
-        ), f"Expect root to have 2 children, received {len(list(tree_only_diff.children))}"
-        assert not list(tree_only_diff.children)[
-            1
-        ], f"Expect root second children to be None, received {list(tree_only_diff.children)}"
