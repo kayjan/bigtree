@@ -283,6 +283,7 @@ def get_tree_diff(
     data_both = data_both[[path_col]]
     if len(data_both):
         tree_diff = dataframe_to_tree(data_both, node_type=tree.__class__)
+        # Handle tree attribute difference
         if len(path_changes_deque):
             path_changes_list = sorted(path_changes_deque, reverse=True)
             name_changes_list = [
