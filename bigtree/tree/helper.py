@@ -265,7 +265,6 @@ def get_tree_diff(
             & (data_both[f"{attr_change}_x"] != data_both[f"{attr_change}_y"])
             & (data_both[indicator_col] == "both")
         )
-        data_both.loc[condition_diff, indicator_col] = "left_only"
         data_diff = data_both[condition_diff]
         if len(data_diff):
             tuple_diff = zip(
@@ -277,7 +276,10 @@ def get_tree_diff(
             path_changes_deque.extend(list(data_diff[path_col]))
 
     if only_diff:
-        data_both = data_both[data_both[indicator_col] != "both"]
+        data_both = data_both[
+            (data_both[indicator_col] != "both")
+            | (data_both[path_col].isin(path_changes_deque))
+        ]
     data_both = data_both[[path_col]]
     if len(data_both):
         tree_diff = dataframe_to_tree(data_both, node_type=tree.__class__)

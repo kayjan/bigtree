@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from bigtree import print_tree, tree_to_dict
@@ -255,6 +257,101 @@ class TestTreeDiff:
         )
         actual = tree_to_dict(tree_diff, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_diff_attributes_same_structure_multiple_attributes(tree_node):
+        tree_node_copy = tree_node.copy()
+        tree_node_copy["c"]["f"].age += 10
+        tree_node_copy["b"].age2 = 2  # attribute to create
+        tree_node_copy["b"]["e"]["g"].age2 = 4  # attribute to change
+
+        tree_node["c"]["f"].age2 = 1  # attribute to delete
+        tree_node["b"]["e"]["g"].age2 = 3  # attribute to change
+
+        # Without attributes
+        expected = None
+        actual = get_tree_diff(tree_node, tree_node_copy)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+        # With attributes
+        expected = {
+            "/a": {"name": "a"},
+            "/a/b (~)": {"name": "b (~)", "age2": (None, 2)},
+            "/a/b (~)/e": {"name": "e"},
+            "/a/b (~)/e/g (~)": {"name": "g (~)", "age2": (3, 4)},
+            "/a/c": {"name": "c"},
+            "/a/c/f (~)": {"name": "f (~)", "age": (38, 48), "age2": (1, None)},
+        }
+
+        tree_diff = get_tree_diff(tree_node, tree_node_copy, attr_list=["age", "age2"])
+        actual = tree_to_dict(tree_diff, all_attrs=True)
+        assert (
+            actual.keys() == expected.keys()
+        ), f"Expected\n{expected.keys()}\nReceived\n{actual.keys()}"
+        assert math.isnan(
+            actual["/a/b (~)"]["age2"][0]
+        ), "Check /a/b (~) before-value for age2"
+        assert actual["/a/b (~)"]["age2"][1] == 2, "Check /a/b (~) after-value for age2"
+        assert (
+            not actual["/a/c/f (~)"]["age2"] == 1
+        ), "Check /a/c/f (~) before-value for age2"
+        assert math.isnan(
+            actual["/a/c/f (~)"]["age2"][1]
+        ), "Check /a/c/f (~) after-value for age2"
+        assert (
+            actual["/a/c/f (~)"]["age"] == expected["/a/c/f (~)"]["age"]
+        ), "Check /a/c/f (~) for age"
+
+    @staticmethod
+    def test_tree_diff_attributes_same_structure_multiple_attributes_all_diff(
+        tree_node,
+    ):
+        tree_node_copy = tree_node.copy()
+        tree_node_copy["c"]["f"].age += 10
+        tree_node_copy["b"].age2 = 2  # attribute to create
+        tree_node_copy["b"]["e"]["g"].age2 = 4  # attribute to change
+
+        tree_node["c"]["f"].age2 = 1  # attribute to delete
+        tree_node["b"]["e"]["g"].age2 = 3  # attribute to change
+
+        # Without attributes
+        expected = tree_to_dict(tree_node)
+        tree_diff = get_tree_diff(tree_node, tree_node_copy, only_diff=False)
+        actual = tree_to_dict(tree_diff)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+        # With attributes
+        expected = {
+            "/a": {"name": "a"},
+            "/a/b (~)": {"name": "b (~)", "age2": (None, 2)},
+            "/a/b (~)/d": {"name": "d"},
+            "/a/b (~)/e": {"name": "e"},
+            "/a/b (~)/e/g (~)": {"name": "g (~)", "age2": (3, 4)},
+            "/a/b (~)/e/h": {"name": "h"},
+            "/a/c": {"name": "c"},
+            "/a/c/f (~)": {"name": "f (~)", "age": (38, 48), "age2": (1, None)},
+        }
+
+        tree_diff = get_tree_diff(
+            tree_node, tree_node_copy, attr_list=["age", "age2"], only_diff=False
+        )
+        actual = tree_to_dict(tree_diff, all_attrs=True)
+        assert (
+            actual.keys() == expected.keys()
+        ), f"Expected\n{expected.keys()}\nReceived\n{actual.keys()}"
+        assert math.isnan(
+            actual["/a/b (~)"]["age2"][0]
+        ), "Check /a/b (~) before-value for age2"
+        assert actual["/a/b (~)"]["age2"][1] == 2, "Check /a/b (~) after-value for age2"
+        assert (
+            not actual["/a/c/f (~)"]["age2"] == 1
+        ), "Check /a/c/f (~) before-value for age2"
+        assert math.isnan(
+            actual["/a/c/f (~)"]["age2"][1]
+        ), "Check /a/c/f (~) after-value for age2"
+        assert (
+            actual["/a/c/f (~)"]["age"] == expected["/a/c/f (~)"]["age"]
+        ), "Check /a/c/f (~) for age"
 
     @staticmethod
     def test_tree_diff_attributes_different_structure_different_attributes(tree_node):
