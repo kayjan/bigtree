@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.14.7] - 2023-12-22
+### Changed
+- Tree Helper: `get_tree_diff` enhanced to compare tree attributes by taking in `attr_list` parameter, and indicates difference with `(~)`.
+### Fixed
+- Tree Helper: `get_tree_diff` compare tree structure by considering all nodes (previously only consider leaf nodes).
+
 ## [0.14.6] - 2023-12-14
 ### Added
 - Node: Able to access and delete node children via name with square bracket accessor with `__getitem__` and `__delitem__` magic methods.
@@ -397,6 +403,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.14.7]: https://github.com/kayjan/bigtree/compare/0.14.6...0.14.7
 [0.14.6]: https://github.com/kayjan/bigtree/compare/0.14.5...0.14.6
 [0.14.5]: https://github.com/kayjan/bigtree/compare/0.14.4...0.14.5
 [0.14.4]: https://github.com/kayjan/bigtree/compare/0.14.3...0.14.4
