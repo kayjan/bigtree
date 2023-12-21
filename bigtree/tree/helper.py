@@ -1,8 +1,10 @@
-from typing import Type, TypeVar, Union
+from collections import deque
+from typing import Any, Deque, Dict, List, Type, TypeVar, Union
 
 from bigtree.node.basenode import BaseNode
 from bigtree.node.binarynode import BinaryNode
 from bigtree.node.node import Node
+from bigtree.tree.construct import add_dict_to_tree_by_path, dataframe_to_tree
 from bigtree.tree.export import tree_to_dataframe
 from bigtree.tree.search import find_path
 from bigtree.utils.exceptions import NotFoundError
@@ -133,8 +135,17 @@ def prune_tree(
     return tree_copy
 
 
-def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
+def get_tree_diff(
+    tree: Node, other_tree: Node, only_diff: bool = True, attr_list: List[str] = []
+) -> Node:
     """Get difference of `tree` to `other_tree`, changes are relative to `tree`.
+
+    Compares the difference in tree structure (default), but can also compare tree attributes using `attr_list`.
+
+    Function can return only the differences (default), or all original tree nodes and differences.
+
+    ### Comparing tree structure
+    -----
 
     (+) and (-) will be added relative to `tree`.
       - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
@@ -142,7 +153,13 @@ def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
 
     Note that only leaf nodes are compared and have (+) or (-) indicators. Intermediate parent nodes are not compared.
 
-    Function can return all original tree nodes and differences, or only the differences.
+    ### Comparing tree attributes
+    -----
+
+    If `attr_list` is provided and there are differences in tree attributes, (~) will be added to the node
+    and the node's attribute will be a list of [value in `tree`, value in `other_tree`]
+
+    Note that when attributes are compared, all nodes are compared (both leaf nodes and intermediate parent nodes).
 
     >>> from bigtree import Node, get_tree_diff
     >>> root = Node("a")
@@ -192,35 +209,87 @@ def get_tree_diff(tree: Node, other_tree: Node, only_diff: bool = True) -> Node:
         tree (Node): tree to be compared against
         other_tree (Node): tree to be compared with
         only_diff (bool): indicator to show all nodes or only nodes that are different (+/-), defaults to True
+        attr_list (List[str]): tree attributes to check for difference, defaults to empty list
 
     Returns:
         (Node)
     """
-    from bigtree.tree.construct import dataframe_to_tree
-
-    tree = tree.copy()
-    other_tree = other_tree.copy()
+    other_tree.sep = tree.sep
     name_col = "name"
     path_col = "PATH"
     indicator_col = "Exists"
 
-    data = tree_to_dataframe(tree, name_col=name_col, path_col=path_col, leaf_only=True)
-    data_other = tree_to_dataframe(
-        other_tree, name_col=name_col, path_col=path_col, leaf_only=True
-    )
-    data_both = data[[path_col, name_col]].merge(
-        data_other[[path_col, name_col]], how="outer", indicator=indicator_col
+    data, data_other = (
+        tree_to_dataframe(
+            _tree,
+            name_col=name_col,
+            path_col=path_col,
+            attr_dict={k: k for k in attr_list},
+        )
+        for _tree in (tree, other_tree)
     )
 
-    data_both.loc[data_both[indicator_col] == "left_only", name_col] = (
-        data_both[name_col] + " (-)"
+    # Check tree structure difference
+    data_both = data[[path_col, name_col] + attr_list].merge(
+        data_other[[path_col, name_col] + attr_list],
+        how="outer",
+        on=[path_col, name_col],
+        indicator=indicator_col,
     )
-    data_both.loc[data_both[indicator_col] == "right_only", name_col] = (
-        data_both[name_col] + " (+)"
-    )
+
+    # Handle tree structure difference
+    nodes_removed = list(data_both[data_both[indicator_col] == "left_only"][path_col])[
+        ::-1
+    ]
+    nodes_added = list(data_both[data_both[indicator_col] == "right_only"][path_col])[
+        ::-1
+    ]
+    for node_removed in nodes_removed:
+        data_both[path_col] = data_both[path_col].str.replace(
+            node_removed, f"{node_removed} (-)"
+        )
+    for node_added in nodes_added:
+        data_both[path_col] = data_both[path_col].str.replace(
+            node_added, f"{node_added} (+)"
+        )
+
+    # Check tree attribute difference
+    path_changes_list_of_dict: List[Dict[str, Dict[str, Any]]] = []
+    path_changes_deque: Deque[str] = deque([])
+    for attr_change in attr_list:
+        condition_diff = (
+            (
+                ~data_both[f"{attr_change}_x"].isnull()
+                | ~data_both[f"{attr_change}_y"].isnull()
+            )
+            & (data_both[f"{attr_change}_x"] != data_both[f"{attr_change}_y"])
+            & (data_both[indicator_col] == "both")
+        )
+        data_diff = data_both[condition_diff]
+        if len(data_diff):
+            tuple_diff = zip(
+                data_diff[f"{attr_change}_x"], data_diff[f"{attr_change}_y"]
+            )
+            dict_attr_diff = [{attr_change: v} for v in tuple_diff]
+            dict_path_diff = dict(list(zip(data_diff[path_col], dict_attr_diff)))
+            path_changes_list_of_dict.append(dict_path_diff)
+            path_changes_deque.extend(list(data_diff[path_col]))
 
     if only_diff:
-        data_both = data_both[data_both[indicator_col] != "both"]
-    data_both = data_both.drop(columns=indicator_col).sort_values(path_col)
+        data_both = data_both[
+            (data_both[indicator_col] != "both")
+            | (data_both[path_col].isin(path_changes_deque))
+        ]
+    data_both = data_both[[path_col]]
     if len(data_both):
-        return dataframe_to_tree(data_both, node_type=tree.__class__)
+        tree_diff = dataframe_to_tree(data_both, node_type=tree.__class__)
+        # Handle tree attribute difference
+        if len(path_changes_deque):
+            path_changes_list = sorted(path_changes_deque, reverse=True)
+            name_changes_list = [
+                {k: {"name": f"{k.split(tree.sep)[-1]} (~)"} for k in path_changes_list}
+            ]
+            path_changes_list_of_dict.extend(name_changes_list)
+            for attr_change_dict in path_changes_list_of_dict:
+                tree_diff = add_dict_to_tree_by_path(tree_diff, attr_change_dict)
+        return tree_diff
