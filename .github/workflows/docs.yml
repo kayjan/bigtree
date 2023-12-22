@@ -10,7 +10,7 @@ on:
 
 permissions:
   pull-requests: write
-  pages: write
+  contents: write
 
 jobs:
   setup:
