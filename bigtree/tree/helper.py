@@ -141,16 +141,14 @@ def get_tree_diff(
     """Get difference of `tree` to `other_tree`, changes are relative to `tree`.
 
     Compares the difference in tree structure (default), but can also compare tree attributes using `attr_list`.
-
     Function can return only the differences (default), or all original tree nodes and differences.
 
     Comparing tree structure
-    -----
+      (+) and (-) will be added to node name relative to `tree`.
+        - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
+        - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
 
-    (+) and (-) will be added to node name relative to `tree`.
-      - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
-      - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
-
+    >>> # Create original tree
     >>> from bigtree import Node, get_tree_diff, list_to_tree
     >>> root = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/photo2.jpg"])
     >>> root.show()
@@ -160,6 +158,7 @@ def get_tree_diff(
     ├── file1.doc
     └── photo2.jpg
 
+    >>> # Create other tree
     >>> root_other = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/Pictures/photo2.jpg", "Downloads/file1.doc"])
     >>> root_other.show()
     Downloads
@@ -168,6 +167,7 @@ def get_tree_diff(
     │   └── photo2.jpg
     └── file1.doc
 
+    >>> # Get tree differences
     >>> tree_diff = get_tree_diff(root, root_other)
     >>> tree_diff.show()
     Downloads
@@ -185,11 +185,10 @@ def get_tree_diff(
     └── photo2.jpg (-)
 
     Comparing tree attributes
-    -----
+      (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
+      The node's attributes will be a list of [value in `tree`, value in `other_tree`]
 
-    (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
-    The node's attributes will be a list of [value in `tree`, value in `other_tree`]
-
+    >>> # Create original tree
     >>> root = Node("Downloads")
     >>> picture_folder = Node("Pictures", parent=root)
     >>> photo2 = Node("photo1.jpg", tags="photo1", parent=picture_folder)
@@ -200,6 +199,7 @@ def get_tree_diff(
     │   └── photo1.jpg [tags=photo1]
     └── file1.doc [tags=file1]
 
+    >>> # Create other tree
     >>> root_other = Node("Downloads")
     >>> picture_folder = Node("Pictures", parent=root_other)
     >>> photo1 = Node("photo1.jpg", tags="photo1-edited", parent=picture_folder)
@@ -212,6 +212,7 @@ def get_tree_diff(
     │   └── photo2.jpg [tags=photo2-new]
     └── file1.doc [tags=file1]
 
+    >>> # Get tree differences
     >>> tree_diff = get_tree_diff(root, root_other, attr_list=["tags"])
     >>> tree_diff.show(attr_list=["tags"])
     Downloads
