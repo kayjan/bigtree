@@ -144,66 +144,80 @@ def get_tree_diff(
 
     Function can return only the differences (default), or all original tree nodes and differences.
 
-    ### Comparing tree structure
+    Comparing tree structure
     -----
 
-    (+) and (-) will be added relative to `tree`.
+    (+) and (-) will be added to node name relative to `tree`.
       - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
       - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
 
-    Note that only leaf nodes are compared and have (+) or (-) indicators. Intermediate parent nodes are not compared.
-
-    ### Comparing tree attributes
-    -----
-
-    If `attr_list` is provided and there are differences in tree attributes, (~) will be added to the node
-    and the node's attribute will be a list of [value in `tree`, value in `other_tree`]
-
-    Note that when attributes are compared, all nodes are compared (both leaf nodes and intermediate parent nodes).
-
-    >>> from bigtree import Node, get_tree_diff
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=b)
-    >>> e = Node("e", parent=root)
+    >>> from bigtree import Node, get_tree_diff, list_to_tree
+    >>> root = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/photo2.jpg"])
     >>> root.show()
-    a
-    ├── b
-    │   └── d
-    ├── c
-    └── e
+    Downloads
+    ├── Pictures
+    │   └── photo1.jpg
+    ├── file1.doc
+    └── photo2.jpg
 
-    >>> root_other = Node("a")
-    >>> b_other = Node("b", parent=root_other)
-    >>> c_other = Node("c", parent=b_other)
-    >>> d_other = Node("d", parent=root_other)
-    >>> e_other = Node("e", parent=root_other)
+    >>> root_other = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/Pictures/photo2.jpg", "Downloads/file1.doc"])
     >>> root_other.show()
-    a
-    ├── b
-    │   └── c
-    ├── d
-    └── e
+    Downloads
+    ├── Pictures
+    │   ├── photo1.jpg
+    │   └── photo2.jpg
+    └── file1.doc
 
     >>> tree_diff = get_tree_diff(root, root_other)
     >>> tree_diff.show()
-    a
-    ├── b
-    │   ├── c (+)
-    │   └── d (-)
-    ├── c (-)
-    └── d (+)
+    Downloads
+    ├── photo2.jpg (-)
+    └── Pictures
+        └── photo2.jpg (+)
 
     >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
     >>> tree_diff.show()
-    a
-    ├── b
-    │   ├── c (+)
-    │   └── d (-)
-    ├── c (-)
-    ├── d (+)
-    └── e
+    Downloads
+    ├── Pictures
+    │   ├── photo1.jpg
+    │   └── photo2.jpg (+)
+    ├── file1.doc
+    └── photo2.jpg (-)
+
+    Comparing tree attributes
+    -----
+
+    (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
+    The node's attributes will be a list of [value in `tree`, value in `other_tree`]
+
+    >>> root = Node("Downloads")
+    >>> picture_folder = Node("Pictures", parent=root)
+    >>> photo2 = Node("photo1.jpg", tags="photo1", parent=picture_folder)
+    >>> file1 = Node("file1.doc", tags="file1", parent=root)
+    >>> root.show(attr_list=["tags"])
+    Downloads
+    ├── Pictures
+    │   └── photo1.jpg [tags=photo1]
+    └── file1.doc [tags=file1]
+
+    >>> root_other = Node("Downloads")
+    >>> picture_folder = Node("Pictures", parent=root_other)
+    >>> photo1 = Node("photo1.jpg", tags="photo1-edited", parent=picture_folder)
+    >>> photo2 = Node("photo2.jpg", tags="photo2-new", parent=picture_folder)
+    >>> file1 = Node("file1.doc", tags="file1", parent=root_other)
+    >>> root_other.show(attr_list=["tags"])
+    Downloads
+    ├── Pictures
+    │   ├── photo1.jpg [tags=photo1-edited]
+    │   └── photo2.jpg [tags=photo2-new]
+    └── file1.doc [tags=file1]
+
+    >>> tree_diff = get_tree_diff(root, root_other, attr_list=["tags"])
+    >>> tree_diff.show(attr_list=["tags"])
+    Downloads
+    └── Pictures
+        ├── photo1.jpg (~) [tags=('photo1', 'photo1-edited')]
+        └── photo2.jpg (+)
 
     Args:
         tree (Node): tree to be compared against
@@ -246,11 +260,11 @@ def get_tree_diff(
     ]
     for node_removed in nodes_removed:
         data_both[path_col] = data_both[path_col].str.replace(
-            node_removed, f"{node_removed} (-)"
+            node_removed, f"{node_removed} (-)", regex=True
         )
     for node_added in nodes_added:
         data_both[path_col] = data_both[path_col].str.replace(
-            node_added, f"{node_added} (+)"
+            node_added, f"{node_added} (+)", regex=True
         )
 
     # Check tree attribute difference
