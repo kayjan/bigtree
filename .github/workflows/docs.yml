@@ -1,6 +1,7 @@
 name: Docs
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Upload Python Package"]
     branches: [master]
@@ -9,6 +10,7 @@ on:
 
 permissions:
   pull-requests: write
+  pages: write
 
 jobs:
   setup:
