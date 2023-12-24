@@ -63,173 +63,175 @@ def shift_nodes(
       - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
         original node in `from_path` is retained.
 
-    >>> from bigtree import Node, shift_nodes
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=root)
+    >>> from bigtree import Node, list_to_tree, shift_nodes
+    >>> root = list_to_tree(["Downloads/photo1.jpg", "Downloads/file1.doc"])
     >>> root.show()
-    a
-    ├── b
-    ├── c
-    └── d
+    Downloads
+    ├── photo1.jpg
+    └── file1.doc
 
-    >>> shift_nodes(root, ["a/c", "a/d"], ["a/b/c", "a/dummy/d"])
+    >>> shift_nodes(
+    ...     tree=root,
+    ...     from_paths=["Downloads/photo1.jpg", "Downloads/file1.doc"],
+    ...     to_paths=["Downloads/Pictures/photo1.jpg", "Downloads/Files/file1.doc"],
+    ... )
     >>> root.show()
-    a
-    ├── b
-    │   └── c
-    └── dummy
-        └── d
+    Downloads
+    ├── Pictures
+    │   └── photo1.jpg
+    └── Files
+        └── file1.doc
 
     To delete node,
 
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
+    >>> root = list_to_tree(["Downloads/photo1.jpg", "Downloads/file1.doc"])
     >>> root.show()
-    a
-    ├── b
-    └── c
+    Downloads
+    ├── photo1.jpg
+    └── file1.doc
 
-    >>> shift_nodes(root, ["a/b"], [None])
+    >>> shift_nodes(root, ["Downloads/photo1.jpg"], [None])
     >>> root.show()
-    a
-    └── c
+    Downloads
+    └── file1.doc
 
     In overriding case,
 
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=c)
-    >>> c2 = Node("c", parent=b)
-    >>> e = Node("e", parent=c2)
+    >>> root = Node("Downloads")
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> picture_folder = Node("Pictures", parent=misc_folder)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder)
+    >>> picture_folder2 = Node("Pictures", parent=root)
+    >>> photo2 = Node("photo2.jpg", parent=picture_folder2)
     >>> root.show()
-    a
-    ├── b
-    │   └── c
-    │       └── e
-    └── c
-        └── d
+    Downloads
+    ├── Misc
+    │   └── Pictures
+    │       └── photo1.jpg
+    └── Pictures
+        └── photo2.jpg
 
-    >>> shift_nodes(root, ["a/b/c"], ["a/c"], overriding=True)
+    >>> shift_nodes(root, ["Downloads/Misc/Pictures"], ["Downloads/Pictures"], overriding=True)
     >>> root.show()
-    a
-    ├── b
-    └── c
-        └── e
+    Downloads
+    ├── Misc
+    └── Pictures
+        └── photo1.jpg
 
     In ``merge_children=True`` case, child nodes are shifted instead of the parent node.
      - If the path already exists, child nodes are merged with existing children.
      - If same node is shifted, the child nodes of the node are merged with the node's parent.
 
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=c)
-    >>> c2 = Node("c", parent=b)
-    >>> e = Node("e", parent=c2)
-    >>> z = Node("z", parent=b)
-    >>> y = Node("y", parent=z)
-    >>> f = Node("f", parent=root)
-    >>> g = Node("g", parent=f)
-    >>> h = Node("h", parent=g)
+    >>> root = Node("Downloads")
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> picture_folder = Node("Pictures", parent=misc_folder)
+    >>> photo2 = Node("photo2.jpg", parent=picture_folder)
+    >>> application_folder = Node("Applications", parent=misc_folder)
+    >>> chrome = Node("Chrome.exe", parent=application_folder)
+    >>> picture_folder2 = Node("Pictures", parent=root)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder2)
+    >>> dummy_folder = Node("dummy", parent=root)
+    >>> file_folder = Node("Files", parent=dummy_folder)
+    >>> file1 = Node("file1.doc", parent=file_folder)
     >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   │   └── e
-    │   └── z
-    │       └── y
-    ├── c
-    │   └── d
-    └── f
-        └── g
-            └── h
+    Downloads
+    ├── Misc
+    │   ├── Pictures
+    │   │   └── photo2.jpg
+    │   └── Applications
+    │       └── Chrome.exe
+    ├── Pictures
+    │   └── photo1.jpg
+    └── dummy
+        └── Files
+            └── file1.doc
 
-    >>> shift_nodes(root, ["a/b/c", "z", "a/f"], ["a/c", "a/z", "a/f"], merge_children=True)
+    >>> shift_nodes(
+    ...     root,
+    ...     ["Downloads/Misc/Pictures", "Applications", "Downloads/dummy"],
+    ...     ["Downloads/Pictures", "Downloads/Applications", "Downloads/dummy"],
+    ...     merge_children=True,
+    ... )
     >>> root.show()
-    a
-    ├── b
-    ├── c
-    │   ├── d
-    │   └── e
-    ├── y
-    └── g
-        └── h
+    Downloads
+    ├── Misc
+    ├── Pictures
+    │   ├── photo1.jpg
+    │   └── photo2.jpg
+    ├── Chrome.exe
+    └── Files
+        └── file1.doc
 
     In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
      - If the path already exists, leaf nodes are merged with existing children.
      - If same node is copied, the leaf nodes of the node are merged with the node's parent.
 
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=c)
-    >>> c2 = Node("c", parent=b)
-    >>> e = Node("e", parent=c2)
-    >>> z = Node("z", parent=b)
-    >>> y = Node("y", parent=z)
-    >>> f = Node("f", parent=root)
-    >>> g = Node("g", parent=f)
-    >>> h = Node("h", parent=g)
+    >>> root = Node("Downloads")
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> picture_folder = Node("Pictures", parent=misc_folder)
+    >>> photo2 = Node("photo2.jpg", parent=picture_folder)
+    >>> application_folder = Node("Applications", parent=misc_folder)
+    >>> chrome = Node("Chrome.exe", parent=application_folder)
+    >>> picture_folder2 = Node("Pictures", parent=root)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder2)
+    >>> dummy_folder = Node("dummy", parent=root)
+    >>> file_folder = Node("Files", parent=dummy_folder)
+    >>> file1 = Node("file1.doc", parent=file_folder)
     >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   │   └── e
-    │   └── z
-    │       └── y
-    ├── c
-    │   └── d
-    └── f
-        └── g
-            └── h
+    Downloads
+    ├── Misc
+    │   ├── Pictures
+    │   │   └── photo2.jpg
+    │   └── Applications
+    │       └── Chrome.exe
+    ├── Pictures
+    │   └── photo1.jpg
+    └── dummy
+        └── Files
+            └── file1.doc
 
-    >>> shift_nodes(root, ["a/b/c", "z", "a/f"], ["a/c", "a/z", "a/f"], merge_leaves=True)
+    >>> shift_nodes(
+    ...     root,
+    ...     ["Downloads/Misc/Pictures", "Applications", "Downloads/dummy"],
+    ...     ["Downloads/Pictures", "Downloads/Applications", "Downloads/dummy"],
+    ...     merge_leaves=True,
+    ... )
     >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   └── z
-    ├── c
-    │   ├── d
-    │   └── e
-    ├── f
-    │   └── g
-    ├── y
-    └── h
+    Downloads
+    ├── Misc
+    │   ├── Pictures
+    │   └── Applications
+    ├── Pictures
+    │   ├── photo1.jpg
+    │   └── photo2.jpg
+    ├── dummy
+    │   └── Files
+    ├── Chrome.exe
+    └── file1.doc
 
     In ``delete_children=True`` case, only the node is shifted without its accompanying children/descendants.
 
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=c)
-    >>> c2 = Node("c", parent=b)
-    >>> e = Node("e", parent=c2)
-    >>> z = Node("z", parent=b)
-    >>> y = Node("y", parent=z)
+    >>> root = Node("Downloads")
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> application_folder = Node("Applications", parent=misc_folder)
+    >>> chrome = Node("Chrome.exe", parent=application_folder)
+    >>> picture_folder = Node("Pictures", parent=root)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder)
     >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   │   └── e
-    │   └── z
-    │       └── y
-    └── c
-        └── d
+    Downloads
+    ├── Misc
+    │   └── Applications
+    │       └── Chrome.exe
+    └── Pictures
+        └── photo1.jpg
 
-    >>> shift_nodes(root, ["a/b/z"], ["a/z"], delete_children=True)
+    >>> shift_nodes(root, ["Applications"], ["Downloads/Applications"], delete_children=True)
     >>> root.show()
-    a
-    ├── b
-    │   └── c
-    │       └── e
-    ├── c
-    │   └── d
-    └── z
+    Downloads
+    ├── Misc
+    ├── Pictures
+    │   └── photo1.jpg
+    └── Applications
 
     Args:
         tree (Node): tree to modify
@@ -302,171 +304,176 @@ def copy_nodes(
       - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
       - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
 
-    >>> from bigtree import Node, copy_nodes
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=root)
+    >>> from bigtree import Node, list_to_tree, copy_nodes
+    >>> root = list_to_tree(["Downloads/Pictures", "Downloads/photo1.jpg", "Downloads/file1.doc"])
     >>> root.show()
-    a
-    ├── b
-    ├── c
-    └── d
+    Downloads
+    ├── Pictures
+    ├── photo1.jpg
+    └── file1.doc
 
-    >>> copy_nodes(root, ["a/c", "a/d"], ["a/b/c", "a/dummy/d"])
+    >>> copy_nodes(
+    ...     tree=root,
+    ...     from_paths=["Downloads/photo1.jpg", "Downloads/file1.doc"],
+    ...     to_paths=["Downloads/Pictures/photo1.jpg", "Downloads/Files/file1.doc"],
+    ... )
     >>> root.show()
-    a
-    ├── b
-    │   └── c
-    ├── c
-    ├── d
-    └── dummy
-        └── d
+    Downloads
+    ├── Pictures
+    │   └── photo1.jpg
+    ├── photo1.jpg
+    ├── file1.doc
+    └── Files
+        └── file1.doc
 
     In overriding case,
 
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=c)
-    >>> c2 = Node("c", parent=b)
-    >>> e = Node("e", parent=c2)
+    >>> root = Node("Downloads")
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> picture_folder = Node("Pictures", parent=misc_folder)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder)
+    >>> picture_folder2 = Node("Pictures", parent=root)
+    >>> photo2 = Node("photo2.jpg", parent=picture_folder2)
     >>> root.show()
-    a
-    ├── b
-    │   └── c
-    │       └── e
-    └── c
-        └── d
+    Downloads
+    ├── Misc
+    │   └── Pictures
+    │       └── photo1.jpg
+    └── Pictures
+        └── photo2.jpg
 
-    >>> copy_nodes(root, ["a/b/c"], ["a/c"], overriding=True)
+    >>> copy_nodes(root, ["Downloads/Misc/Pictures"], ["Downloads/Pictures"], overriding=True)
     >>> root.show()
-    a
-    ├── b
-    │   └── c
-    │       └── e
-    └── c
-        └── e
+    Downloads
+    ├── Misc
+    │   └── Pictures
+    │       └── photo1.jpg
+    └── Pictures
+        └── photo1.jpg
 
     In ``merge_children=True`` case, child nodes are copied instead of the parent node.
      - If the path already exists, child nodes are merged with existing children.
      - If same node is copied, the child nodes of the node are merged with the node's parent.
 
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=c)
-    >>> c2 = Node("c", parent=b)
-    >>> e = Node("e", parent=c2)
-    >>> z = Node("z", parent=b)
-    >>> y = Node("y", parent=z)
-    >>> f = Node("f", parent=root)
-    >>> g = Node("g", parent=f)
-    >>> h = Node("h", parent=g)
+    >>> root = Node("Downloads")
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> picture_folder = Node("Pictures", parent=misc_folder)
+    >>> photo2 = Node("photo2.jpg", parent=picture_folder)
+    >>> application_folder = Node("Applications", parent=misc_folder)
+    >>> chrome = Node("Chrome.exe", parent=application_folder)
+    >>> picture_folder2 = Node("Pictures", parent=root)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder2)
+    >>> dummy_folder = Node("dummy", parent=root)
+    >>> file_folder = Node("Files", parent=dummy_folder)
+    >>> file1 = Node("file1.doc", parent=file_folder)
     >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   │   └── e
-    │   └── z
-    │       └── y
-    ├── c
-    │   └── d
-    └── f
-        └── g
-            └── h
+    Downloads
+    ├── Misc
+    │   ├── Pictures
+    │   │   └── photo2.jpg
+    │   └── Applications
+    │       └── Chrome.exe
+    ├── Pictures
+    │   └── photo1.jpg
+    └── dummy
+        └── Files
+            └── file1.doc
 
-    >>> copy_nodes(root, ["a/b/c", "z", "a/f"], ["a/c", "a/z", "a/f"], merge_children=True)
+    >>> copy_nodes(
+    ...     root,
+    ...     ["Downloads/Misc/Pictures", "Applications", "Downloads/dummy"],
+    ...     ["Downloads/Pictures", "Downloads/Applications", "Downloads/dummy"],
+    ...     merge_children=True,
+    ... )
     >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   │   └── e
-    │   └── z
-    │       └── y
-    ├── c
-    │   ├── d
-    │   └── e
-    ├── y
-    └── g
-        └── h
+    Downloads
+    ├── Misc
+    │   ├── Pictures
+    │   │   └── photo2.jpg
+    │   └── Applications
+    │       └── Chrome.exe
+    ├── Pictures
+    │   ├── photo1.jpg
+    │   └── photo2.jpg
+    ├── Chrome.exe
+    └── Files
+        └── file1.doc
 
     In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
      - If the path already exists, leaf nodes are merged with existing children.
      - If same node is copied, the leaf nodes of the node are merged with the node's parent.
 
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=c)
-    >>> c2 = Node("c", parent=b)
-    >>> e = Node("e", parent=c2)
-    >>> z = Node("z", parent=b)
-    >>> y = Node("y", parent=z)
-    >>> f = Node("f", parent=root)
-    >>> g = Node("g", parent=f)
-    >>> h = Node("h", parent=g)
+    >>> root = Node("Downloads")
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> picture_folder = Node("Pictures", parent=misc_folder)
+    >>> photo2 = Node("photo2.jpg", parent=picture_folder)
+    >>> application_folder = Node("Applications", parent=misc_folder)
+    >>> chrome = Node("Chrome.exe", parent=application_folder)
+    >>> picture_folder2 = Node("Pictures", parent=root)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder2)
+    >>> dummy_folder = Node("dummy", parent=root)
+    >>> file_folder = Node("Files", parent=dummy_folder)
+    >>> file1 = Node("file1.doc", parent=file_folder)
     >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   │   └── e
-    │   └── z
-    │       └── y
-    ├── c
-    │   └── d
-    └── f
-        └── g
-            └── h
+    Downloads
+    ├── Misc
+    │   ├── Pictures
+    │   │   └── photo2.jpg
+    │   └── Applications
+    │       └── Chrome.exe
+    ├── Pictures
+    │   └── photo1.jpg
+    └── dummy
+        └── Files
+            └── file1.doc
 
-    >>> copy_nodes(root, ["a/b/c", "z", "a/f"], ["a/c", "a/z", "a/f"], merge_leaves=True)
+    >>> copy_nodes(
+    ...     root,
+    ...     ["Downloads/Misc/Pictures", "Applications", "Downloads/dummy"],
+    ...     ["Downloads/Pictures", "Downloads/Applications", "Downloads/dummy"],
+    ...     merge_leaves=True,
+    ... )
     >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   │   └── e
-    │   └── z
-    │       └── y
-    ├── c
-    │   ├── d
-    │   └── e
-    ├── f
-    │   └── g
-    │       └── h
-    ├── y
-    └── h
+    Downloads
+    ├── Misc
+    │   ├── Pictures
+    │   │   └── photo2.jpg
+    │   └── Applications
+    │       └── Chrome.exe
+    ├── Pictures
+    │   ├── photo1.jpg
+    │   └── photo2.jpg
+    ├── dummy
+    │   └── Files
+    │       └── file1.doc
+    ├── Chrome.exe
+    └── file1.doc
 
     In ``delete_children=True`` case, only the node is copied without its accompanying children/descendants.
 
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=c)
-    >>> c2 = Node("c", parent=b)
-    >>> e = Node("e", parent=c2)
-    >>> z = Node("z", parent=b)
-    >>> y = Node("y", parent=z)
+    >>> root = Node("Downloads")
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> application_folder = Node("Applications", parent=misc_folder)
+    >>> chrome = Node("Chrome.exe", parent=application_folder)
+    >>> picture_folder = Node("Pictures", parent=root)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder)
     >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   │   └── e
-    │   └── z
-    │       └── y
-    └── c
-        └── d
+    Downloads
+    ├── Misc
+    │   └── Applications
+    │       └── Chrome.exe
+    └── Pictures
+        └── photo1.jpg
 
-    >>> copy_nodes(root, ["a/b/z"], ["a/z"], delete_children=True)
+    >>> copy_nodes(root, ["Applications"], ["Downloads/Applications"], delete_children=True)
     >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   │   └── e
-    │   └── z
-    │       └── y
-    ├── c
-    │   └── d
-    └── z
+    Downloads
+    ├── Misc
+    │   └── Applications
+    │       └── Chrome.exe
+    ├── Pictures
+    │   └── photo1.jpg
+    └── Applications
 
     Args:
         tree (Node): tree to modify
@@ -525,45 +532,44 @@ def shift_and_replace_nodes(
       - Path must exist, node-to-be-replaced must be present.
 
     >>> from bigtree import Node, shift_and_replace_nodes
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=b)
-    >>> d = Node("d", parent=root)
-    >>> e = Node("e", parent=d)
+    >>> root = Node("Downloads")
+    >>> picture_folder = Node("Pictures", parent=root)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder)
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> dummy_folder = Node("dummy", parent=misc_folder)
     >>> root.show()
-    a
-    ├── b
-    │   └── c
-    └── d
-        └── e
+    Downloads
+    ├── Pictures
+    │   └── photo1.jpg
+    └── Misc
+        └── dummy
 
-    >>> shift_and_replace_nodes(root, ["a/b"], ["a/d/e"])
+    >>> shift_and_replace_nodes(root, ["Downloads/Pictures"], ["Downloads/Misc/dummy"])
     >>> root.show()
-    a
-    └── d
-        └── b
-            └── c
+    Downloads
+    └── Misc
+        └── Pictures
+            └── photo1.jpg
 
     In ``delete_children=True`` case, only the node is shifted without its accompanying children/descendants.
 
-    >>> from bigtree import Node, shift_and_replace_nodes
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=b)
-    >>> d = Node("d", parent=root)
-    >>> e = Node("e", parent=d)
+    >>> root = Node("Downloads")
+    >>> picture_folder = Node("Pictures", parent=root)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder)
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> dummy_folder = Node("dummy", parent=misc_folder)
     >>> root.show()
-    a
-    ├── b
-    │   └── c
-    └── d
-        └── e
+    Downloads
+    ├── Pictures
+    │   └── photo1.jpg
+    └── Misc
+        └── dummy
 
-    >>> shift_and_replace_nodes(root, ["a/b"], ["a/d/e"], delete_children=True)
+    >>> shift_and_replace_nodes(root, ["Downloads/Pictures"], ["Downloads/Misc/dummy"], delete_children=True)
     >>> root.show()
-    a
-    └── d
-        └── b
+    Downloads
+    └── Misc
+        └── Pictures
 
     Args:
         tree (Node): tree to modify
@@ -632,101 +638,131 @@ def copy_nodes_from_tree_to_tree(
       - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
 
     >>> from bigtree import Node, copy_nodes_from_tree_to_tree
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=c)
-    >>> e = Node("e", parent=root)
-    >>> f = Node("f", parent=e)
-    >>> g = Node("g", parent=f)
+    >>> root = Node("Downloads")
+    >>> file1 = Node("file1.doc", parent=root)
+    >>> picture_folder = Node("Pictures", parent=root)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder)
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> dummy_folder = Node("dummy", parent=misc_folder)
+    >>> photo2 = Node("photo2.jpg", parent=dummy_folder)
     >>> root.show()
-    a
-    ├── b
-    ├── c
-    │   └── d
-    └── e
-        └── f
-            └── g
+    Downloads
+    ├── file1.doc
+    ├── Pictures
+    │   └── photo1.jpg
+    └── Misc
+        └── dummy
+            └── photo2.jpg
 
-    >>> root_other = Node("aa")
-    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/b", "a/c", "a/e"], ["aa/b", "aa/b/c", "aa/dummy/e"])
+    >>> root_other = Node("Documents")
+    >>> copy_nodes_from_tree_to_tree(
+    ...     from_tree=root,
+    ...     to_tree=root_other,
+    ...     from_paths=["Downloads/Pictures", "Downloads/Misc"],
+    ...     to_paths=["Documents/Pictures", "Documents/New Misc/Misc"],
+    ... )
     >>> root_other.show()
-    aa
-    ├── b
-    │   └── c
-    │       └── d
-    └── dummy
-        └── e
-            └── f
-                └── g
+    Documents
+    ├── Pictures
+    │   └── photo1.jpg
+    └── New Misc
+        └── Misc
+            └── dummy
+                └── photo2.jpg
 
     In overriding case,
 
-    >>> root_other = Node("aa")
-    >>> c = Node("c", parent=root_other)
-    >>> e = Node("e", parent=c)
+    >>> root_other = Node("Documents")
+    >>> picture_folder = Node("Pictures", parent=root_other)
+    >>> photo3 = Node("photo3.jpg", parent=picture_folder)
     >>> root_other.show()
-    aa
-    └── c
-        └── e
+    Documents
+    └── Pictures
+        └── photo3.jpg
 
-    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/b", "a/c"], ["aa/b", "aa/c"], overriding=True)
+    >>> copy_nodes_from_tree_to_tree(
+    ...     root,
+    ...     root_other,
+    ...     ["Downloads/Pictures", "Downloads/Misc"],
+    ...     ["Documents/Pictures", "Documents/Misc"],
+    ...     overriding=True,
+    ... )
     >>> root_other.show()
-    aa
-    ├── b
-    └── c
-        └── d
+    Documents
+    ├── Pictures
+    │   └── photo1.jpg
+    └── Misc
+        └── dummy
+            └── photo2.jpg
 
     In ``merge_children=True`` case, child nodes are copied instead of the parent node.
      - If the path already exists, child nodes are merged with existing children.
 
-    >>> root_other = Node("aa")
-    >>> c = Node("c", parent=root_other)
-    >>> e = Node("e", parent=c)
+    >>> root_other = Node("Documents")
+    >>> picture_folder = Node("Pictures", parent=root_other)
+    >>> photo3 = Node("photo3.jpg", parent=picture_folder)
     >>> root_other.show()
-    aa
-    └── c
-        └── e
+    Documents
+    └── Pictures
+        └── photo3.jpg
 
-    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/c", "e"], ["aa/c", "aa/e"], merge_children=True)
+    >>> copy_nodes_from_tree_to_tree(
+    ...     root,
+    ...     root_other,
+    ...     ["Downloads/Pictures", "Downloads/Misc"],
+    ...     ["Documents/Pictures", "Documents/Misc"],
+    ...     merge_children=True,
+    ... )
     >>> root_other.show()
-    aa
-    ├── c
-    │   ├── e
-    │   └── d
-    └── f
-        └── g
+    Documents
+    ├── Pictures
+    │   ├── photo3.jpg
+    │   └── photo1.jpg
+    └── dummy
+        └── photo2.jpg
 
     In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
      - If the path already exists, leaf nodes are merged with existing children.
 
-    >>> root_other = Node("aa")
-    >>> c = Node("c", parent=root_other)
-    >>> e = Node("e", parent=c)
+    >>> root_other = Node("Documents")
+    >>> picture_folder = Node("Pictures", parent=root_other)
+    >>> photo3 = Node("photo3.jpg", parent=picture_folder)
     >>> root_other.show()
-    aa
-    └── c
-        └── e
+    Documents
+    └── Pictures
+        └── photo3.jpg
 
-    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/c", "e"], ["aa/c", "aa/e"], merge_leaves=True)
+    >>> copy_nodes_from_tree_to_tree(
+    ...     root,
+    ...     root_other,
+    ...     ["Downloads/Pictures", "Downloads/Misc"],
+    ...     ["Documents/Pictures", "Documents/Misc"],
+    ...     merge_leaves=True,
+    ... )
     >>> root_other.show()
-    aa
-    ├── c
-    │   ├── e
-    │   └── d
-    └── g
+    Documents
+    ├── Pictures
+    │   ├── photo3.jpg
+    │   └── photo1.jpg
+    └── photo2.jpg
 
     In ``delete_children=True`` case, only the node is copied without its accompanying children/descendants.
 
-    >>> root_other = Node("aa")
+    >>> root_other = Node("Documents")
     >>> root_other.show()
-    aa
+    Documents
 
-    >>> copy_nodes_from_tree_to_tree(root, root_other, ["a/c", "e"], ["aa/c", "aa/e"], delete_children=True)
+    >>> copy_nodes_from_tree_to_tree(
+    ...     root,
+    ...     root_other,
+    ...     ["Downloads/Pictures", "Downloads/Misc"],
+    ...     ["Documents/Pictures", "Documents/Misc"],
+    ...     delete_children=True,
+    ... )
     >>> root_other.show()
-    aa
-    ├── c
-    └── e
+    Documents
+    ├── Pictures
+    └── Misc
 
     Args:
         from_tree (Node): tree to copy nodes from
@@ -787,60 +823,71 @@ def copy_and_replace_nodes_from_tree_to_tree(
       - Path must exist, node-to-be-replaced must be present.
 
     >>> from bigtree import Node, copy_and_replace_nodes_from_tree_to_tree
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=c)
-    >>> e = Node("e", parent=root)
-    >>> f = Node("f", parent=e)
-    >>> g = Node("g", parent=f)
+    >>> root = Node("Downloads")
+    >>> file1 = Node("file1.doc", parent=root)
+    >>> picture_folder = Node("Pictures", parent=root)
+    >>> photo1 = Node("photo1.jpg", parent=picture_folder)
+    >>> misc_folder = Node("Misc", parent=root)
+    >>> dummy_folder = Node("dummy", parent=misc_folder)
+    >>> photo2 = Node("photo2.jpg", parent=dummy_folder)
     >>> root.show()
-    a
-    ├── b
-    ├── c
-    │   └── d
-    └── e
-        └── f
-            └── g
+    Downloads
+    ├── file1.doc
+    ├── Pictures
+    │   └── photo1.jpg
+    └── Misc
+        └── dummy
+            └── photo2.jpg
 
-    >>> root_other = Node("aa")
-    >>> bb = Node("bb", parent=root_other)
-    >>> cc = Node("cc", parent=bb)
-    >>> dd = Node("dd", parent=root_other)
+    >>> root_other = Node("Documents")
+    >>> picture_folder = Node("Pictures2", parent=root_other)
+    >>> photo2 = Node("photo2.jpg", parent=picture_folder)
+    >>> misc_folder = Node("Misc2", parent=root_other)
     >>> root_other.show()
-    aa
-    ├── bb
-    │   └── cc
-    └── dd
+    Documents
+    ├── Pictures2
+    │   └── photo2.jpg
+    └── Misc2
 
-    >>> copy_and_replace_nodes_from_tree_to_tree(root, root_other, ["a/c", "a/e"], ["aa/bb/cc", "aa/dd"])
+    >>> copy_and_replace_nodes_from_tree_to_tree(
+    ...     from_tree=root,
+    ...     to_tree=root_other,
+    ...     from_paths=["Downloads/Pictures", "Downloads/Misc"],
+    ...     to_paths=["Documents/Pictures2/photo2.jpg", "Documents/Misc2"],
+    ... )
     >>> root_other.show()
-    aa
-    ├── bb
-    │   └── c
-    │       └── d
-    └── e
-        └── f
-            └── g
+    Documents
+    ├── Pictures2
+    │   └── Pictures
+    │       └── photo1.jpg
+    └── Misc
+        └── dummy
+            └── photo2.jpg
 
     In ``delete_children=True`` case, only the node is copied without its accompanying children/descendants.
 
-    >>> root_other = Node("aa")
-    >>> bb = Node("bb", parent=root_other)
-    >>> cc = Node("cc", parent=bb)
-    >>> dd = Node("dd", parent=root_other)
+    >>> root_other = Node("Documents")
+    >>> picture_folder = Node("Pictures2", parent=root_other)
+    >>> photo2 = Node("photo2.jpg", parent=picture_folder)
+    >>> misc_folder = Node("Misc2", parent=root_other)
     >>> root_other.show()
-    aa
-    ├── bb
-    │   └── cc
-    └── dd
+    Documents
+    ├── Pictures2
+    │   └── photo2.jpg
+    └── Misc2
 
-    >>> copy_and_replace_nodes_from_tree_to_tree(root, root_other, ["a/c", "a/e"], ["aa/bb/cc", "aa/dd"], delete_children=True)
+    >>> copy_and_replace_nodes_from_tree_to_tree(
+    ...     from_tree=root,
+    ...     to_tree=root_other,
+    ...     from_paths=["Downloads/Pictures", "Downloads/Misc"],
+    ...     to_paths=["Documents/Pictures2/photo2.jpg", "Documents/Misc2"],
+    ...     delete_children=True,
+    ... )
     >>> root_other.show()
-    aa
-    ├── bb
-    │   └── c
-    └── e
+    Documents
+    ├── Pictures2
+    │   └── Pictures
+    └── Misc
 
     Args:
         from_tree (Node): tree to copy nodes from
