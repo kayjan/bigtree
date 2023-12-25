@@ -5,8 +5,8 @@ import logging
 from typing import Any, List, Union
 
 from bigtree.node.node import Node
-from bigtree.tree.construct import dict_to_tree
-from bigtree.tree.export import print_tree, tree_to_dict
+from bigtree.tree.construct import nested_dict_to_tree
+from bigtree.tree.export import print_tree, tree_to_nested_dict
 from bigtree.tree.search import find_child_by_name, find_name
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -72,8 +72,8 @@ class AppToDo:
 
     *Exporting and Importing List*
 
-    >>> app.save("list.json")
-    >>> app2 = AppToDo.load("list.json")
+    >>> app.save("assets/docstr/list.json")
+    >>> app2 = AppToDo.load("assets/docstr/list.json")
     >>> app2.show()
     To Do App
     ├── General
@@ -242,7 +242,7 @@ class AppToDo:
         with open(json_path, "r") as fp:
             app_dict = json.load(fp)
         _app = AppToDo("dummy")
-        AppToDo.__setattr__(_app, "_root", dict_to_tree(app_dict["root"]))
+        AppToDo.__setattr__(_app, "_root", nested_dict_to_tree(app_dict["root"]))
         return _app
 
     def save(self, json_path: str) -> None:
@@ -254,7 +254,7 @@ class AppToDo:
         if not json_path.endswith(".json"):
             raise ValueError("Path should end with .json")
 
-        node_dict = tree_to_dict(self._root, all_attrs=True)
+        node_dict = tree_to_nested_dict(self._root, all_attrs=True)
         app_dict = {"root": node_dict}
         with open(json_path, "w") as fp:
             json.dump(app_dict, fp)
