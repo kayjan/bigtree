@@ -76,13 +76,17 @@ dependencies = [
   "autodocsumm",
   "karma-sphinx-theme",
   "myst-parser",
+  "IPython",
   "pandas",
+  "pydot",
+  "Pillow",
   "sphinxemoji"
 ]
 
 [tool.hatch.envs.docs.scripts]
 html = "sphinx-build -M html docs/source docs/build"
 coverage = "sphinx-build -v -b coverage docs/source docs/build/coverage"
+doctest = "sphinx-build -v -b doctest docs/source docs/build/doctest"
 clean = "sphinx-build -M clean docs/source docs/build"
 clean-html = "sphinx-build -M html docs/source docs/build & sphinx-build -M clean docs/source docs/build"
 

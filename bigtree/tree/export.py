@@ -221,7 +221,7 @@ def yield_tree(
 
     **Printing tree**
 
-    >>> from bigtree import Node, print_tree
+    >>> from bigtree import Node, yield_tree
     >>> root = Node("a", age=90)
     >>> b = Node("b", age=65, parent=root)
     >>> c = Node("c", age=60, parent=root)
@@ -638,11 +638,12 @@ def tree_to_dot(
     >>> from IPython.display import Image, display
     >>> plt = Image(graph.create_png())
     >>> display(plt)
+    <IPython.core.display.Image object>
 
     Export to image, dot file, etc.
 
-    >>> graph.write_png("tree.png")
-    >>> graph.write_dot("tree.dot")
+    >>> graph.write_png("assets/docstr/tree.png")
+    >>> graph.write_dot("assets/docstr/tree.dot")
 
     Export to string
 
@@ -676,9 +677,9 @@ def tree_to_dot(
     >>> d = CustomNode("d", node_shape="square", edge_label="child", parent=b)
     >>> e = CustomNode("e", node_shape="square", edge_label="child", parent=b)
     >>> graph = tree_to_dot(root, node_colour="gold", node_shape="diamond", node_attr="node_attr", edge_attr="edge_attr")
-    >>> graph.write_png("assets/custom_tree.png")
+    >>> graph.write_png("assets/export_tree_dot.png")
 
-    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/custom_tree.png
+    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot.png
 
     Alternative way to define node and edge attributes (using callable function)
 
@@ -694,9 +695,9 @@ def tree_to_dot(
     >>> d = CustomNode("d", parent=b)
     >>> e = CustomNode("e", parent=b)
     >>> graph = tree_to_dot(root, node_colour="gold", node_attr=get_node_attribute)
-    >>> graph.write_png("assets/custom_tree_callable.png")
+    >>> graph.write_png("assets/export_tree_dot_callable.png")
 
-    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/custom_tree_callable.png
+    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png
 
     Args:
         tree (Node/List[Node]): tree or list of trees to be exported
@@ -803,8 +804,8 @@ def tree_to_pillow(
 
     Export to image (PNG, JPG) file, etc.
 
-    >>> pillow_image.save("tree_pillow.png")
-    >>> pillow_image.save("tree_pillow.jpg")
+    >>> pillow_image.save("assets/docstr/tree_pillow.png")
+    >>> pillow_image.save("assets/docstr/tree_pillow.jpg")
 
     Args:
         tree (Node): tree to be exported

@@ -3,8 +3,7 @@
 *pytest_cache/
 *__pycache__*
 
-tests/*png
-tests/*dot
 dist/
 */build/
 *.DS_Store
+assets/docstr

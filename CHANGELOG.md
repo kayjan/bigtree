@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.14.8] - 2023-12-25
+### Changed
+- Tree Modifier: Enhance documentation examples.
+- Workflow To Do App: Change import and export logic.
+- Misc: Organize assets folder based on whether it originated from README, docstrings, or sphinx documentation.
+- Misc: Rename functions in `plot.py` utils file for coverage report.
+### Fixed
+- Misc: Fixed doctests and automate doctest checks.
+
 ## [0.14.7] - 2023-12-22
 ### Changed
 - Tree Helper: `get_tree_diff` enhanced to compare tree attributes by taking in `attr_list` parameter, and indicates difference with `(~)`.

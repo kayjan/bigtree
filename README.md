@@ -183,10 +183,10 @@ root.show()
 # └── c
 
 graph = tree_to_dot(root, node_colour="gold")
-graph.write_png("assets/demo_tree.png")
+graph.write_png("assets/docs/demo_tree.png")
 ```
 
-![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_tree.png)
+![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_tree.png)
 
 {emphasize-lines="8-10"}
 ```python
@@ -897,22 +897,22 @@ tree_to_dataframe(
 # 4    /a/c    c      a          60
 
 graph = tree_to_dot(root, node_colour="gold")
-graph.write_png("assets/demo.png")
+graph.write_png("assets/docs/demo_dot.png")
 
 pillow_image = tree_to_pillow(root)
-pillow_image.save("assets/demo_pillow.png")
+pillow_image.save("assets/docs/demo_pillow.png")
 
 mermaid_md = tree_to_mermaid(root)
 print(mermaid_md)
 ```
 
-- demo.png
+- demo_dot.png
 
-![Sample Dot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo.png)
+![Sample Dot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_dot.png)
 
 - demo_pillow.png
 
-![Sample Pillow Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_pillow.png)
+![Sample Pillow Image Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_pillow.png)
 
 - Mermaid flowchart
 ```mermaid
@@ -954,10 +954,10 @@ g = BinaryNode(7, parent=c)
 h = BinaryNode(8, parent=d)
 
 graph = tree_to_dot(a, node_colour="gold")
-graph.write_png("assets/demo_binarytree.png")
+graph.write_png("assets/docs/demo_binarytree.png")
 ```
 
-![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_binarytree.png)
+![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_binarytree.png)
 
 2. **From *list***
 
@@ -1058,10 +1058,10 @@ h = DAGNode("h")
 g = DAGNode("g", parents=[c], children=[h])
 
 graph = dag_to_dot(a, node_colour="gold")
-graph.write_png("assets/demo_dag.png")
+graph.write_png("assets/docs/demo_dag.png")
 ```
 
-![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/demo_dag.png)
+![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_dag.png)
 
 2. **From *list***
 
