@@ -5,7 +5,7 @@ import pytest
 from bigtree.node.node import Node
 from bigtree.tree.construct import list_to_tree
 from bigtree.utils.iterators import postorder_iter
-from bigtree.utils.plot import first_pass, reingold_tilford
+from bigtree.utils.plot import _first_pass, reingold_tilford
 
 
 class TestPlotNoChildren(unittest.TestCase):
@@ -99,7 +99,7 @@ class TestPlotShiftLeftSibling(unittest.TestCase):
             ("n", 15, 12, 9),
             ("o", 13.5, 0, 0),
         ]
-        first_pass(
+        _first_pass(
             self.root,
             sibling_separation=sibling_separation,
             subtree_separation=subtree_separation,
@@ -391,7 +391,7 @@ class TestPlotShiftRightSibling(unittest.TestCase):
             ("y", 5 + 1.75, 0, 4 * 5.75),
             ("z", 16.25, 0, 0),
         ]
-        first_pass(
+        _first_pass(
             self.root,
             sibling_separation=sibling_separation,
             subtree_separation=subtree_separation,
@@ -550,7 +550,7 @@ class TestPlotRelativeShift(unittest.TestCase):
             ("y", 5.5, 0, (1.5 + 1.5) + (4.5 + 4.5)),  # 9 shift
             ("z", 9.5, 0, 0),  # 8 x
         ]
-        first_pass(self.root, sibling_separation=1, subtree_separation=1)
+        _first_pass(self.root, sibling_separation=1, subtree_separation=1)
         actual = [
             (
                 node.node_name,
@@ -675,7 +675,7 @@ class TestPlotShiftLeftRightSibling(unittest.TestCase):
             ("q", 4.5, 4, (1.5 + 1.5 / 2) + 2.25),
             ("r", 5.25, 0, 0),
         ]
-        first_pass(self.root, sibling_separation=1, subtree_separation=1)
+        _first_pass(self.root, sibling_separation=1, subtree_separation=1)
         actual = [
             (
                 node.node_name,
@@ -780,7 +780,7 @@ class TestPlotNonNegative(unittest.TestCase):
             ("l", 3, 0, 0),
             ("m", 1.5, 0, 0),
         ]
-        first_pass(self.root, sibling_separation=1, subtree_separation=1)
+        _first_pass(self.root, sibling_separation=1, subtree_separation=1)
         actual = [
             (
                 node.node_name,

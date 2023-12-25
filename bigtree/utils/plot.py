@@ -67,12 +67,12 @@ def reingold_tilford(
         x_offset (float): graph offset of x-coordinates
         y_offset (float): graph offset of y-coordinates
     """
-    first_pass(tree_node, sibling_separation, subtree_separation)
-    x_adjustment = second_pass(tree_node, level_separation, x_offset, y_offset)
-    third_pass(tree_node, x_adjustment)
+    _first_pass(tree_node, sibling_separation, subtree_separation)
+    x_adjustment = _second_pass(tree_node, level_separation, x_offset, y_offset)
+    _third_pass(tree_node, x_adjustment)
 
 
-def first_pass(
+def _first_pass(
     tree_node: T, sibling_separation: float, subtree_separation: float
 ) -> None:
     """
@@ -116,7 +116,7 @@ def first_pass(
     """
     # Post-order iteration (LRN)
     for child in tree_node.children:
-        first_pass(child, sibling_separation, subtree_separation)
+        _first_pass(child, sibling_separation, subtree_separation)
 
     _x = 0.0
     _mod = 0.0
@@ -274,7 +274,7 @@ def _get_subtree_shift(
     return cum_shift + new_shift
 
 
-def second_pass(
+def _second_pass(
     tree_node: T,
     level_separation: float,
     x_offset: float,
@@ -322,7 +322,7 @@ def second_pass(
     if tree_node.children:
         return max(
             [
-                second_pass(
+                _second_pass(
                     child,
                     level_separation,
                     x_offset,
@@ -337,7 +337,7 @@ def second_pass(
     return max(x_adjustment, -final_x)
 
 
-def third_pass(tree_node: BaseNode, x_adjustment: float) -> None:
+def _third_pass(tree_node: BaseNode, x_adjustment: float) -> None:
     """Adjust all x-coordinates by an adjustment value so that every x-coordinate is greater than or equal to 0.
     Modifies tree in-place.
 
@@ -350,4 +350,4 @@ def third_pass(tree_node: BaseNode, x_adjustment: float) -> None:
 
         # Pre-order iteration (NLR)
         for child in tree_node.children:
-            third_pass(child, x_adjustment)
+            _third_pass(child, x_adjustment)
