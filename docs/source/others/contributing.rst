@@ -67,6 +67,16 @@ If there are changes related to code, please make sure that the unit tests pass 
 
 Make sure your add/update the tests and documentations accordingly.
 
+If there are changes to the docstrings and/or sample codes in the docstring, do run the following lines of code to
+generate the coverage report and test report for docstrings.
+Refer to the console log for information on the file location of the reports.
+
+.. code-block:: bash
+
+    $ python -m pip install hatch
+    $ hatch run docs:coverage
+    $ hatch run docs:doctest
+
 Convention and Standards
 -----------------------------------
 
@@ -80,7 +90,7 @@ When performing commits, it is also recommended to follow `conventional commits 
 
 During pre-commit checks, this project checks and formats code using ``black``, ``flake8``, ``isort``, and ``mypy``.
 
-For testing, this project uses ``pytest`` and ``coverage`` package for testing.
+For testing, this project uses ``pytest`` and ``coverage`` package for testing of codes, and `docstr-coverage` and `doctest` package for testing of docstrings.
 
 Consequent Changes
 -----------------------------------

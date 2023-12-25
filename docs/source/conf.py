@@ -28,12 +28,20 @@ extensions = [
     "myst_parser",
     "sphinxemoji.sphinxemoji",
     "sphinx.ext.mathjax",
+    "sphinx.ext.doctest",
 ]
 autodoc_default_options = {"autosummary": True}
 sphinxemoji_style = "twemoji"
 myst_enable_extensions = [
     "attrs_block",
 ]
+base_dir = "/".join(os.getcwd().split("/")[:-2])
+doctest_global_setup = f"""
+import os
+os.chdir("{base_dir}")
+if not os.path.exists("assets/docstr"):
+    os.mkdir("assets/docstr")
+"""
 
 templates_path = ["_templates"]
 exclude_patterns = []
