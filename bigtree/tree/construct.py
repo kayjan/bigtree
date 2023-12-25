@@ -54,7 +54,7 @@ def add_path_to_tree(
     All paths should start from the same root node.
       - For example: Path strings should be "a/b", "a/c", "a/b/d" etc., and should not start with another root node.
 
-    >>> from bigtree import add_path_to_tree
+    >>> from bigtree import add_path_to_tree, Node
     >>> root = Node("a")
     >>> add_path_to_tree(root, "a/b/c")
     Node(/a/b/c, )
@@ -249,7 +249,7 @@ def add_dataframe_to_tree_by_path(
       - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
     >>> import pandas as pd
-    >>> from bigtree import add_dataframe_to_tree_by_path
+    >>> from bigtree import add_dataframe_to_tree_by_path, Node
     >>> root = Node("a")
     >>> path_data = pd.DataFrame([
     ...     ["a", 90],
@@ -348,7 +348,7 @@ def add_dataframe_to_tree_by_name(
     Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.
 
     >>> import pandas as pd
-    >>> from bigtree import add_dataframe_to_tree_by_name
+    >>> from bigtree import add_dataframe_to_tree_by_name, Node
     >>> root = Node("a")
     >>> b = Node("b", parent=root)
     >>> name_data = pd.DataFrame([
