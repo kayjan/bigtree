@@ -206,11 +206,12 @@ def dag_to_dot(
     >>> from IPython.display import Image, display
     >>> plt = Image(dag_graph.create_png())
     >>> display(plt)
+    <IPython.core.display.Image object>
 
     Export to image, dot file, etc.
 
-    >>> dag_graph.write_png("tree_dag.png")
-    >>> dag_graph.write_dot("tree_dag.dot")
+    >>> dag_graph.write_png("assets/docstr/tree_dag.png")
+    >>> dag_graph.write_dot("assets/docstr/tree_dag.dot")
 
     Export to string
 
