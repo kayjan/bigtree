@@ -34,9 +34,9 @@ For **Tree** implementation, there are 9 main components.
    2. ``Node``, BaseNode with node name attribute
 2. [**✨ Constructing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/construct.html)
    1. From `Node`, using parent and children constructors
-   2. From *str*, using tree in string display format
+   2. From *str*, using tree display
    3. From *list*, using paths or parent-child tuples
-   4. From *nested dictionary*, using path or recursive structure
+   4. From *nested dictionary*, using path-attribute key-value pairs or recursive structure
    5. From *pandas DataFrame*, using paths or parent-child columns
    6. Add nodes to existing tree using path string
    7. Add nodes and attributes to existing tree using *dictionary* or *pandas DataFrame*, using path
@@ -49,10 +49,10 @@ For **Tree** implementation, there are 9 main components.
    5. ZigZag Traversal
    6. ZigZag-Group Traversal
 4. [**📝 Modifying Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/modify.html)
-   1. Shift nodes from location to destination
-   2. Copy nodes from location to destination
-   3. Copy nodes from one tree to another
-   4. Shift and replace nodes from location to destination
+   1. Copy nodes from location to destination
+   2. Shift nodes from location to destination
+   3. Shift and replace nodes from location to destination
+   4. Copy nodes from one tree to another
    5. Copy and replace nodes from one tree to another
 5. [**🔍 Tree Search**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/search.html)
    1. Find multiple nodes based on name, partial path, relative path, attribute value, user-defined condition
@@ -156,7 +156,7 @@ Here are some codes to get started.
 
 Nodes can have attributes if they are initialized from `Node`, *dictionary*, or *pandas DataFrame*.
 
-1. **From `Node`**
+#### 1. **From `Node`**
 
 Nodes can be linked to each other in the following ways:
   - Using `parent` and `children` setter methods
@@ -226,7 +226,7 @@ root.show(style="ascii")
 # +-- c
 ```
 
-2. **From *str***
+#### 2. **From *str***
 
 Construct nodes only.
 
@@ -256,7 +256,7 @@ root.show()
 #     └── f
 ```
 
-3. **From *list***
+#### 3. **From *list***
 
 Construct nodes only, list can contain either full paths or tuples of parent-child names.
 
@@ -279,7 +279,7 @@ root.show()
 # └── c
 ```
 
-4. **From *nested dictionary***
+#### 4. **From *nested dictionary***
 
 Construct nodes using path where `key` is path and `value` is dict of node attribute names and attribute values.
 Dictionary can also be a recursive structure where `key` is node attribute names and `value` is node attribute values,
@@ -326,7 +326,7 @@ root.show(attr_list=["age"])
 # └── c [age=60]
 ```
 
-5. **From *pandas DataFrame***
+#### 5. **From *pandas DataFrame***
 
 Construct nodes with attributes, *pandas DataFrame* can contain either path column or parent-child columns,
 and attribute columns.
@@ -372,7 +372,8 @@ root.show(attr_list=["age"])
 # └── c [age=60]
 ```
 
-> If tree is already created, attributes can still be added using a dictionary or pandas DataFrame!
+> If tree is already created, nodes can still be added using path string, dictionary, and pandas DataFrame!
+> Attributes can be added to existing nodes using a dictionary or pandas DataFrame.
 
 ### Print Tree
 
@@ -474,18 +475,79 @@ print_tree(root, style="double")
 print_tree(
     root,
     style="custom",
-    custom_style=("|   ", "|-- ", "+-- "),
+    custom_style=("│  ", "├→ ", "╰→ "),
 )
 # a
-# |-- b
-# |   |-- d
-# |   +-- e
-# +-- c
+# ├→ b
+# │  ├→ d
+# │  ╰→ e
+# ╰→ c
 ```
+
+### Tree Attributes and Operations
+
+Note that using `BaseNode` or `Node` as superclass inherits the default class attributes (properties)
+and operations (methods).
+
+```python
+from bigtree import str_to_tree
+
+# Initialize tree
+tree_str = """
+a
+├── b
+│   ├── d
+│   ├── e
+│   └── f
+│       ├── h
+│       └── i
+└── c
+    └── g
+"""
+root = str_to_tree(tree_str)
+
+# Accessing children
+node_b = root["b"]
+node_e = root["b"]["e"]
+```
+
+Below are the tables of attributes available to `BaseNode` and `Node` classes.
+
+| Attributes wrt self                  | Code               | Returns                    |
+|--------------------------------------|--------------------|----------------------------|
+| Check if root                        | `root.is_root`     | True                       |
+| Check if leaf node                   | `root.is_leaf`     | False                      |
+| Check depth of node                  | `node_b.depth`     | 2                          |
+| Check depth of tree                  | `node_b.max_depth` | 4                          |
+| Get node path                        | `node_b.node_path` | (Node(/a, ), Node(/a/b, )) |
+| Get node name (only for `Node`)      | `node_b.node_name` | 'b'                        |
+| Get node path name (only for `Node`) | `node_b.path_name` | '/a/b'                     |
+
+| Attributes wrt structure          | Code                       | Returns                                                                              |
+|-----------------------------------|----------------------------|--------------------------------------------------------------------------------------|
+| Get child/children                | `root.children`            | (Node(/a/b, ), Node(/a/c, ))                                                         |
+| Get parent                        | `node_e.parent`            | Node(/a/b, )                                                                         |
+| Get siblings                      | `node_e.siblings`          | (Node(/a/b/d, ), Node(/a/b/f, ))                                                     |
+| Get left sibling                  | `node_e.left_sibling`      | Node(/a/b/d, )                                                                       |
+| Get right sibling                 | `node_e.left_sibling`      | Node(/a/b/f, )                                                                       |
+| Get ancestors (lazy evaluation)   | `list(node_e.ancestors)`   | [Node(/a/b, ), Node(/a, )]                                                           |
+| Get descendants (lazy evaluation) | `list(node_b.descendants)` | [Node(/a/b/d, ), Node(/a/b/e, ), Node(/a/b/f, ), Node(/a/b/f/h, ), Node(/a/b/f/i, )] |
+| Get leaves (lazy evaluation)      | `list(node_b.leaves)`      | [Node(/a/b/d, ), Node(/a/b/e, ), Node(/a/b/f/h, ), Node(/a/b/f/i, )]                 |
+
+Below is the table of operations available to `BaseNode` and `Node` classes.
+
+| Operations                         | Code                                                       | Returns                                    |
+|------------------------------------|------------------------------------------------------------|--------------------------------------------|
+| Get node information               | `root.describe(exclude_prefix="_")`                        | [('name', 'a')]                            |
+| Find path from one node to another | `root.go_to(node_e)`                                       | [Node(/a, ), Node(/a/b, ), Node(/a/b/e, )] |
+| Set attribute(s)                   | `root.set_attrs({"description": "root-tag"})`              | None                                       |
+| Get attribute                      | `root.get_attr("description")`                             | 'root-tag'                                 |
+| Copy tree                          | `root.copy()`                                              | None                                       |
+| Sort children                      | `root.sort(key=lambda node: node.node_name, reverse=True)` | None                                       |
 
 ### Traverse Tree
 
-Tree can be traversed using pre-order, post-order, level-order, level-order-group, zigzag, zigzag-group traversal methods.
+Tree can be traversed using the following traversal methods.
 
 {emphasize-lines="23,26,29,32,35,38"}
 ```python
@@ -532,125 +594,116 @@ root.show()
 
 ### Modify Tree
 
-Nodes can be shifted (with or without replacement) or copied from one path to another.
+Nodes can be shifted (with or without replacement) or copied from one path to another, changes the tree in-place.
 
-{emphasize-lines="13-17,25-29"}
+{emphasize-lines="10-14,22-26"}
 ```python
-from bigtree import Node, shift_nodes, shift_and_replace_nodes
+from bigtree import list_to_tree, shift_nodes, shift_and_replace_nodes
 
-root = Node("a")
-b = Node("b", parent=root)
-c = Node("c", parent=root)
-d = Node("d", parent=root)
+root = list_to_tree(["Downloads/Pictures", "Downloads/photo1.jpg", "Downloads/file1.doc"])
 root.show()
-# a
-# ├── b
-# ├── c
-# └── d
+# Downloads
+# ├── Pictures
+# ├── photo1.jpg
+# └── file1.doc
 
 shift_nodes(
    tree=root,
-   from_paths=["a/c", "a/d"],
-   to_paths=["a/b/c", "a/dummy/d"],
+   from_paths=["photo1.jpg", "Downloads/file1.doc"],
+   to_paths=["Downloads/Pictures/photo1.jpg", "Downloads/Files/file1.doc"],
 )
 root.show()
-# a
-# ├── b
-# │   └── c
-# └── dummy
-#     └── d
+# Downloads
+# ├── Pictures
+# │   └── photo1.jpg
+# └── Files
+#     └── file1.doc
 
 shift_and_replace_nodes(
    tree=root,
-   from_paths=["a/dummy"],
-   to_paths=["a/b/c"],
+   from_paths=["Downloads/Files"],
+   to_paths=["Downloads/Pictures/photo1.jpg"],
 )
 root.show()
-# a
-# └── b
-#     └── dummy
-#         └── d
+# Downloads
+# └── Pictures
+#     └── Files
+#         └── file1.doc
 ```
 
-{emphasize-lines="13-17"}
+{emphasize-lines="10-14"}
 ```python
-from bigtree import Node, copy_nodes
+from bigtree import list_to_tree, copy_nodes
 
-root = Node("a")
-b = Node("b", parent=root)
-c = Node("c", parent=root)
-d = Node("d", parent=root)
+root = list_to_tree(["Downloads/Pictures", "Downloads/photo1.jpg", "Downloads/file1.doc"])
 root.show()
-# a
-# ├── b
-# ├── c
-# └── d
+# Downloads
+# ├── Pictures
+# ├── photo1.jpg
+# └── file1.doc
 
 copy_nodes(
    tree=root,
-   from_paths=["a/c", "a/d"],
-   to_paths=["a/b/c", "a/dummy/d"],
+   from_paths=["photo1.jpg", "Downloads/file1.doc"],
+   to_paths=["Downloads/Pictures/photo1.jpg", "Downloads/Files/file1.doc"],
 )
 root.show()
-# a
-# ├── b
-# │   └── c
-# ├── c
-# ├── d
-# └── dummy
-#     └── d
+# Downloads
+# ├── Pictures
+# │   └── photo1.jpg
+# ├── photo1.jpg
+# ├── file1.doc
+# └── Files
+#     └── file1.doc
 ```
 
 Nodes can also be copied (with or without replacement) between two different trees.
 
-{emphasize-lines="13-18,36-41"}
+{emphasize-lines="10-15,33-38"}
 ```python
-from bigtree import Node, copy_nodes_from_tree_to_tree, copy_and_replace_nodes_from_tree_to_tree
-root = Node("a")
-b = Node("b", parent=root)
-c = Node("c", parent=root)
-d = Node("d", parent=root)
+from bigtree import Node, copy_nodes_from_tree_to_tree, copy_and_replace_nodes_from_tree_to_tree, list_to_tree
+root = list_to_tree(["Downloads/Pictures", "Downloads/photo1.jpg", "Downloads/file1.doc"])
 root.show()
-# a
-# ├── b
-# ├── c
-# └── d
+# Downloads
+# ├── Pictures
+# ├── photo1.jpg
+# └── file1.doc
 
-root_other = Node("aa")
+root_other = Node("Documents")
 copy_nodes_from_tree_to_tree(
    from_tree=root,
    to_tree=root_other,
-   from_paths=["a/b", "a/c", "a/d"],
-   to_paths=["aa/b", "aa/b/c", "aa/dummy/d"],
+   from_paths=["Downloads/Pictures", "photo1.jpg", "file1.doc"],
+   to_paths=["Documents/Pictures", "Documents/Pictures/photo1.jpg", "Documents/Files/file1.doc"],
 )
 root_other.show()
-# aa
-# ├── b
-# │   └── c
-# └── dummy
-#     └── d
+# Documents
+# ├── Pictures
+# │   └── photo1.jpg
+# └── Files
+#     └── file1.doc
 
-root_other = Node("aa")
-b = Node("b", parent=root_other)
-c = Node("c", parent=b)
-d = Node("d", parent=root_other)
+root_other = Node("Documents")
+picture_folder = Node("Pictures", parent=root_other)
+photo2 = Node("photo2.jpg", parent=picture_folder)
+file2 = Node("file2.doc", parent=root_other)
 root_other.show()
-# aa
-# ├── b
-# │   └── c
-# └── d
+# Documents
+# ├── Pictures
+# │   └── photo2.jpg
+# └── file2.doc
 
 copy_and_replace_nodes_from_tree_to_tree(
    from_tree=root,
    to_tree=root_other,
-   from_paths=["a/b", "a/c"],
-   to_paths=["aa/b/c", "aa/d"],
+   from_paths=["Downloads/photo1.jpg", "Downloads/file1.doc"],
+   to_paths=["Documents/Pictures/photo2.jpg", "Documents/file2.doc"],
 )
 root_other.show()
-# aa
-# ├── b
-# │   └── b
-# └── c
+# Documents
+# ├── Pictures
+# │   └── photo1.jpg
+# └── file1.doc
 ```
 
 ### Tree Search
