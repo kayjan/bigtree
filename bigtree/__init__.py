@@ -28,6 +28,7 @@ from bigtree.tree.export import (
     tree_to_dot,
     tree_to_mermaid,
     tree_to_nested_dict,
+    tree_to_newick,
     tree_to_pillow,
     yield_tree,
 )

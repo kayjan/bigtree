@@ -39,6 +39,7 @@ __all__ = [
     "tree_to_dot",
     "tree_to_pillow",
     "tree_to_mermaid",
+    "tree_to_newick",
 ]
 
 T = TypeVar("T", bound=Node)
@@ -1156,3 +1157,36 @@ def tree_to_mermaid(
         flows="\n".join(flows),
         styles="\n".join(styles),
     )
+
+
+def tree_to_newick(tree: T) -> str:
+    """Export tree to Newick notation.
+
+    >>> from bigtree import Node, tree_to_newick
+    >>> root = Node("a", age=90)
+    >>> b = Node("b", age=65, parent=root)
+    >>> c = Node("c", age=60, parent=root)
+    >>> d = Node("d", age=40, parent=b)
+    >>> e = Node("e", age=35, parent=b)
+    >>> root.show()
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
+
+    >>> tree_to_newick(root)
+    '((d,e)b,c)a'
+
+    Args:
+        tree (Node): tree to be exported
+
+    Returns:
+        (str)
+    """
+    if not tree:
+        return ""
+    if tree.is_leaf:
+        return tree.node_name
+    children_newick = ",".join(tree_to_newick(child) for child in tree.children)
+    return f"({children_newick}){tree.node_name}"
