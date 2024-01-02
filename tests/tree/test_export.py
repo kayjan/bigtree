@@ -9,6 +9,7 @@ from bigtree.tree.export import (
     tree_to_dot,
     tree_to_mermaid,
     tree_to_nested_dict,
+    tree_to_newick,
     tree_to_pillow,
 )
 from tests.conftest import assert_print_statement
@@ -1376,3 +1377,11 @@ class TestTreeToMermaid:
         expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") --> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0-0:::class0-0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1:::class0-0-1-0 --> 0-0-1-0("h")\n0("a") --> 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\nclassDef class0-0-0-0 fill:red,stroke:black,stroke-width:2\nclassDef class0-0-1-0 fill:red,stroke:black,stroke-width:2\n```"""
 
         assert mermaid_md == expected_str
+
+
+class TestTreeToNewick:
+    @staticmethod
+    def test_tree_to_newick(tree_node):
+        newick_str = tree_to_newick(tree_node)
+        expected_str = """((d,(g,h)e)b,(f)c)a"""
+        assert newick_str == expected_str

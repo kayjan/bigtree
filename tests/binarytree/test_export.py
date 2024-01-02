@@ -6,6 +6,7 @@ from bigtree.tree.export import (
     tree_to_dict,
     tree_to_dot,
     tree_to_nested_dict,
+    tree_to_newick,
 )
 from tests.conftest import assert_print_statement
 from tests.test_constants import Constants
@@ -89,3 +90,11 @@ class TestTreeToDot:
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
+
+
+class TestTreeToNewick:
+    @staticmethod
+    def test_tree_to_newick(binarytree_node):
+        newick_str = tree_to_newick(binarytree_node)
+        expected_str = """(((,8)4,5)2,(6,7)3)1"""
+        assert newick_str == expected_str

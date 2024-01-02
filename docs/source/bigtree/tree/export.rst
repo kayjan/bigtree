@@ -11,6 +11,8 @@ Export Tree to list, dictionary, and pandas DataFrame.
      - Method
    * - Command Line / Others
      - `print_tree`, `yield_tree`
+   * - String
+     - `tree_to_newick`
    * - Dictionary
      - `tree_to_dict`, `tree_to_nested_dict`
    * - DataFrame
@@ -46,6 +48,12 @@ While exporting to another data type, methods can take in arguments to determine
      - No, but can specify subtree
      - No
      - Tree style
+   * - `tree_to_newick`
+     - No
+     - No
+     - No
+     - No
+     - N/A
    * - `tree_to_dict`
      - Yes with `attr_dict` or `all_attrs`
      - Yes with `max_depth`
