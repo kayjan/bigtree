@@ -63,9 +63,62 @@ class TestPruneTree:
         assert len(tree_prune.children[0].children[1].children) == 2
 
     @staticmethod
+    def test_prune_tree_exact(tree_node):
+        # Pruned tree is a/b/e/g
+        tree_prune = prune_tree(tree_node, "a/b/e/g", exact=True)
+
+        assert_tree_structure_basenode_root(tree_node)
+        assert_tree_structure_basenode_root_attr(tree_node)
+        assert len(list(tree_prune.children)) == 1
+        assert len(tree_prune.children[0].children) == 1
+        assert len(tree_prune.children[0].children[0].children) == 1
+
+    @staticmethod
+    def test_prune_tree_list(tree_node):
+        # Pruned tree is a/b/d, a/b/e/g, a/b/e/h
+        tree_prune = prune_tree(tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"])
+
+        assert_tree_structure_basenode_root(tree_node)
+        assert_tree_structure_basenode_root_attr(tree_node)
+        assert len(list(tree_prune.children)) == 1
+        assert len(tree_prune.children[0].children) == 2
+        assert len(tree_prune.children[0].children[0].children) == 0
+        assert len(tree_prune.children[0].children[1].children) == 2
+
+    @staticmethod
     def test_prune_tree_path_and_depth(tree_node):
         # Pruned tree is a/b/d, a/b/e (a/b/e/g, a/b/e/h pruned away)
         tree_prune = prune_tree(tree_node, "a/b", max_depth=3)
+
+        assert_tree_structure_basenode_root(tree_node)
+        assert_tree_structure_basenode_root_attr(tree_node)
+        assert len(list(tree_prune.children)) == 1
+        assert len(tree_prune.children[0].children) == 2
+        assert len(tree_prune.children[0].children[0].children) == 0
+        assert (
+            len(tree_prune.children[0].children[1].children) == 0
+        ), "Depth at 4 is not pruned away"
+
+    @staticmethod
+    def test_prune_tree_path_and_depth_and_list(tree_node):
+        # Pruned tree is a/b/d, a/b/e (a/b/e/g, a/b/e/h pruned away)
+        tree_prune = prune_tree(tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"], max_depth=3)
+
+        assert_tree_structure_basenode_root(tree_node)
+        assert_tree_structure_basenode_root_attr(tree_node)
+        assert len(list(tree_prune.children)) == 1
+        assert len(tree_prune.children[0].children) == 2
+        assert len(tree_prune.children[0].children[0].children) == 0
+        assert (
+            len(tree_prune.children[0].children[1].children) == 0
+        ), "Depth at 4 is not pruned away"
+
+    @staticmethod
+    def test_prune_tree_path_and_depth_and_list_and_exact(tree_node):
+        # Pruned tree is a/b/d, a/b/e (a/b/e/g, a/b/e/h pruned away)
+        tree_prune = prune_tree(
+            tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"], exact=True, max_depth=3
+        )
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)

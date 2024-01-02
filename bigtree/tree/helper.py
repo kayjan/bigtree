@@ -1,5 +1,5 @@
 from collections import deque
-from typing import Any, Deque, Dict, List, Type, TypeVar, Union
+from typing import Any, Deque, Dict, List, Set, Type, TypeVar, Union
 
 from bigtree.node.basenode import BaseNode
 from bigtree.node.binarynode import BinaryNode
@@ -56,18 +56,21 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
 
 def prune_tree(
     tree: Union[BinaryNodeT, NodeT],
-    prune_path: str = "",
+    prune_path: Union[List[str], str] = "",
+    exact: bool = False,
     sep: str = "/",
     max_depth: int = 0,
 ) -> Union[BinaryNodeT, NodeT]:
     """Prune tree by path or depth, returns the root of a *copy* of the original tree.
 
     For pruning by `prune_path`,
-      All siblings along the prune path will be removed.
-      Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.
+      - All siblings along the prune path will be removed.
+      - If ``exact=True``, all descendants of prune path will be removed.
+      - Prune path can be string (only one path) or a list of strings (multiple paths).
+      - Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.
 
     For pruning by `max_depth`,
-      All nodes that are beyond `max_depth` will be removed.
+      - All nodes that are beyond `max_depth` will be removed.
 
     Path should contain ``Node`` name, separated by `sep`.
       - For example: Path string "a/b" refers to Node("b") with parent Node("a").
@@ -85,12 +88,32 @@ def prune_tree(
     │   └── d
     └── e
 
+    Prune (default is keep descendants)
+
     >>> root_pruned = prune_tree(root, "a/b")
     >>> root_pruned.show()
     a
     └── b
         ├── c
         └── d
+
+    Prune exact path
+
+    >>> root_pruned = prune_tree(root, "a/b", exact=True)
+    >>> root_pruned.show()
+    a
+    └── b
+
+    Prune multiple paths
+
+    >>> root_pruned = prune_tree(root, ["a/b/d", "a/e"])
+    >>> root_pruned.show()
+    a
+    ├── b
+    │   └── d
+    └── e
+
+    Prune by depth
 
     >>> root_pruned = prune_tree(root, max_depth=2)
     >>> root_pruned.show()
@@ -100,31 +123,47 @@ def prune_tree(
 
     Args:
         tree (Union[BinaryNode, Node]): existing tree
-        prune_path (str): prune path, all siblings along the prune path will be removed
+        prune_path (List[str] | str): prune path(s), all siblings along the prune path(s) will be removed
+        exact (bool): prune path(s) to be exactly the path, defaults to False (descendants of the path are retained)
         sep (str): path separator of `prune_path`
         max_depth (int): maximum depth of pruned tree, based on `depth` attribute, defaults to None
 
     Returns:
         (Union[BinaryNode, Node])
     """
-    if not prune_path and not max_depth:
+    if isinstance(prune_path, str):
+        prune_path = [prune_path] if prune_path else []
+
+    if not len(prune_path) and not max_depth:
         raise ValueError("Please specify either `prune_path` or `max_depth` or both.")
 
     tree_copy = tree.copy()
 
     # Prune by path (prune bottom-up)
-    if prune_path:
-        prune_path = prune_path.replace(sep, tree.sep)
-        child = find_path(tree_copy, prune_path)
-        if not child:
-            raise NotFoundError(
-                f"Cannot find any node matching path_name ending with {prune_path}"
-            )
-        while child.parent:
-            for other_children in child.parent.children:
-                if other_children != child:
-                    other_children.parent = None
-            child = child.parent
+    if len(prune_path):
+        ancestors_to_prune: Set[Union[BinaryNodeT, NodeT]] = set()
+        nodes_to_prune: Set[Union[BinaryNodeT, NodeT]] = set()
+        for path in prune_path:
+            path = path.replace(sep, tree.sep)
+            child = find_path(tree_copy, path)
+            if not child:
+                raise NotFoundError(
+                    f"Cannot find any node matching path_name ending with {path}"
+                )
+            nodes_to_prune.add(child)
+            ancestors_to_prune.update(list(child.ancestors))
+
+        if exact:
+            ancestors_to_prune.update(nodes_to_prune)
+
+        for node in ancestors_to_prune:
+            for child in node.children:
+                if (
+                    child
+                    and child not in ancestors_to_prune
+                    and child not in nodes_to_prune
+                ):
+                    child.parent = None
 
     # Prune by depth (prune top-down)
     if max_depth:
