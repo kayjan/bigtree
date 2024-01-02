@@ -67,7 +67,7 @@ For **Tree** implementation, there are 9 main components.
    1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
 8. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/export.html)
    1. Print to console
-   2. Export to *dictionary*, *nested dictionary*, or *pandas DataFrame*
+   2. Export to *Newick string notation*, *dictionary*, *nested dictionary*, or *pandas DataFrame*
    3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
    4. Export tree to *Pillow* (can save to .png, .jpg)
    5. Export tree to *Mermaid Flowchart* (can display on .md)
@@ -864,14 +864,15 @@ tree_diff.show()
 
 Tree can be exported to another data type.
 
-1. *Export to **nested dictionary***
-2. *Export to **nested recursive dictionary***
-3. *Export to **pandas DataFrame***
-4. *Export to **dot** (and png)*
-5. *Export to **Pillow** (and png)*
-6. *Export to **Mermaid Flowchart** (and md)*
+1. *Export to **Newick string notation***
+2. *Export to **nested dictionary***
+3. *Export to **nested recursive dictionary***
+4. *Export to **pandas DataFrame***
+5. *Export to **dot** (and png)*
+6. *Export to **Pillow** (and png)*
+7. *Export to **Mermaid Flowchart** (and md)*
 
-{emphasize-lines="23-28,37,63-69,77,80,83"}
+{emphasize-lines="24, 27-32,41,67-73,81,84,87"}
 ```python
 from bigtree import (
     Node,
@@ -879,6 +880,7 @@ from bigtree import (
     tree_to_dict,
     tree_to_dot,
     tree_to_mermaid,
+    tree_to_newick,
     tree_to_nested_dict,
     tree_to_pillow,
 )
@@ -894,6 +896,9 @@ root.show()
 # │   ├── d
 # │   └── e
 # └── c
+
+tree_to_newick(root)
+# '((d,e)b,c)a'
 
 tree_to_dict(
    root,
