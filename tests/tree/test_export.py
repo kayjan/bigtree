@@ -1,6 +1,7 @@
 import pandas as pd
 import pytest
 
+from bigtree.node.node import Node
 from bigtree.tree.construct import dataframe_to_tree, dict_to_tree, nested_dict_to_tree
 from bigtree.tree.export import (
     print_tree,
@@ -1385,55 +1386,56 @@ class TestTreeToNewick:
         newick_str = tree_to_newick(tree_node)
         expected_str = """((d,(g,h)e)b,(f)c)a"""
         assert newick_str == expected_str
- 
+
     @staticmethod
     def test_tree_to_newick_length(tree_node):
         newick_str = tree_to_newick(tree_node, length_attr="age")
         expected_str = """((d:40,(g:10,h:6)e:35)b:65,(f:38)c:60)a"""
         assert newick_str == expected_str
- 
+
     @staticmethod
     def test_tree_to_newick_length_invalid_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
             tree_to_newick(tree_node, length_attr="age2")
-        assert str(exc_info.value).startswith("Length attribute does not exist for node ")
- 
+        assert str(exc_info.value).startswith(
+            "Length attribute does not exist for node "
+        )
+
     @staticmethod
     def test_tree_to_newick_length_sep(tree_node):
         newick_str = tree_to_newick(tree_node, length_attr="age", length_sep=";")
         expected_str = """((d;40,(g;10,h;6)e;35)b;65,(f;38)c;60)a"""
         assert newick_str == expected_str
- 
+
     @staticmethod
     def test_tree_to_newick_attr_list(tree_node):
         newick_str = tree_to_newick(tree_node, attr_list=["age"])
         expected_str = """((d[&&NHX:age=40],(g[&&NHX:age=10],h[&&NHX:age=6])e[&&NHX:age=35])b[&&NHX:age=65],(f[&&NHX:age=38])c[&&NHX:age=60])a[&&NHX:age=90]"""
         assert newick_str == expected_str
- 
+
     @staticmethod
     def test_tree_to_newick_attr_list_invalid(tree_node):
         newick_str = tree_to_newick(tree_node, attr_list=["age2"])
         expected_str = """((d,(g,h)e)b,(f)c)a"""
         assert newick_str == expected_str
- 
+
     @staticmethod
     def test_tree_to_newick_attr_prefix(tree_node):
         newick_str = tree_to_newick(tree_node, attr_list=["age"], attr_prefix="")
         expected_str = """((d[age=40],(g[age=10],h[age=6])e[age=35])b[age=65],(f[age=38])c[age=60])a[age=90]"""
         assert newick_str == expected_str
- 
+
     @staticmethod
-   def test_tree_to_newick_intermediate_node_name(tree_node):
+    def test_tree_to_newick_intermediate_node_name(tree_node):
         newick_str = tree_to_newick(tree_node, intermediate_node_name=False, attr_list=["age"])
         expected_str = """((d[&&NHX:age=40],(g[&&NHX:age=10],h[&&NHX:age=6])[&&NHX:age=35])[&&NHX:age=65],(f[&&NHX:age=38])[&&NHX:age=60])[&&NHX:age=90]"""
         assert newick_str == expected_str
- 
+
     @staticmethod
     def test_tree_to_newick_phylogenetic():
         """
         Example taken from: https://www.cs.mcgill.ca/~birch/doc/forester/NHX.pdf
         """
-        from bigtree import Node
         root = Node("placeholder_root", E="1.1.1.1", D="N")
         metazoa = Node("placeholder_metazoa", length=0.1, S="Metazoa", E="1.1.1.1", D="N", parent=root)
         primates = Node("placeholder_primates", length=0.05, S="Primates", E="1.1.1.1", D="Y", B="100", parent=metazoa)
