@@ -1397,9 +1397,7 @@ class TestTreeToNewick:
     def test_tree_to_newick_length_invalid_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
             tree_to_newick(tree_node, length_attr="age2")
-        assert str(exc_info.value).startswith(
-            "Length attribute does not exist for node "
-        )
+        assert str(exc_info.value).startswith(Constants.ERROR_NODE_NEWICK_ATTR_INVALID)
 
     @staticmethod
     def test_tree_to_newick_length_sep(tree_node):
