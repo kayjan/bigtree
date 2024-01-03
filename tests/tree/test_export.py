@@ -1427,7 +1427,9 @@ class TestTreeToNewick:
 
     @staticmethod
     def test_tree_to_newick_intermediate_node_name(tree_node):
-        newick_str = tree_to_newick(tree_node, intermediate_node_name=False, attr_list=["age"])
+        newick_str = tree_to_newick(
+            tree_node, intermediate_node_name=False, attr_list=["age"]
+        )
         expected_str = """((d[&&NHX:age=40],(g[&&NHX:age=10],h[&&NHX:age=6])[&&NHX:age=35])[&&NHX:age=65],(f[&&NHX:age=38])[&&NHX:age=60])[&&NHX:age=90]"""
         assert newick_str == expected_str
 
