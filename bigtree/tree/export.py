@@ -1159,15 +1159,35 @@ def tree_to_mermaid(
     )
 
 
-def tree_to_newick(tree: T) -> str:
-    """Export tree to Newick notation.
+def tree_to_newick(
+    tree: T,
+    intermediate_node_name: bool = True,
+    length_attr: str = "",
+    length_sep: str = ":",
+    attr_list: Iterable[str] = [],
+    attr_prefix: str = "&&NHX:",
+    attr_sep: str = ":",
+) -> str:
+    """Export tree to Newick notation. Useful for describing phylogenetic tree.
+
+    In the Newick Notation (or New Hampshire Notation)
+      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`
+      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`
+      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`
+      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`
+
+    Customizations include
+      - Omitting names of root and intermediate nodes, default all node names are shown
+      - Changing length separator to other symbol, default is `:`
+      - Adding an attribute prefix, default is `&&NHX:`
+      - Changing the attribute separator to other symbol, default is `:`
 
     >>> from bigtree import Node, tree_to_newick
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=b)
-    >>> e = Node("e", age=35, parent=b)
+    >>> root = Node("a", species="human")
+    >>> b = Node("b", age=65, species="human", parent=root)
+    >>> c = Node("c", age=60, species="human", parent=root)
+    >>> d = Node("d", age=40, species="human", parent=b)
+    >>> e = Node("e", age=35, species="human", parent=b)
     >>> root.show()
     a
     ├── b
@@ -1178,15 +1198,56 @@ def tree_to_newick(tree: T) -> str:
     >>> tree_to_newick(root)
     '((d,e)b,c)a'
 
+    >>> tree_to_newick(root, length_attr="age")
+    '((d:40,e:35)b:65,c:60)a'
+
+    >>> tree_to_newick(root, length_attr="age", attr_list=["species"])
+    '((d:40[&&NHX:species=human],e:35[&&NHX:species=human])b:65[&&NHX:species=human],c:60[&&NHX:species=human])a[&&NHX:species=human]'
+
     Args:
         tree (Node): tree to be exported
+        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
+        length_attr (str): node attribute to extract into outside of bracket, optional
+        length_sep (str): separate between node name and length, used if length_attr is non-empty, defaults to ":"
+        attr_list (Iterable[str]): list of node attributes to extract into square bracket, optional
+        attr_prefix (str): prefix before all attributes, within square bracket, used if attr_list is non-empty, defaults to "&&NHX:"
+        attr_sep (str): separator between attributes, within square brackets, used if attr_list is non-empty, defaults to ":"
 
     Returns:
         (str)
     """
     if not tree:
         return ""
+
+    node_name_str = ""
+    if (intermediate_node_name) or (not intermediate_node_name and tree.is_leaf):
+        node_name_str = tree.node_name
+    if length_attr and not tree.is_root:
+        if not tree.get_attr(length_attr):
+            raise ValueError(f"Length attribute does not exist for node {tree}")
+        node_name_str += f"{length_sep}{tree.get_attr(length_attr)}"
+
+    attr_str = ""
+    if attr_list:
+        attr_str = attr_sep.join(
+            [f"{k}={tree.get_attr(k)}" for k in attr_list if tree.get_attr(k)]
+        )
+        if attr_str:
+            attr_str = f"[{attr_prefix}{attr_str}]"
+
     if tree.is_leaf:
-        return tree.node_name
-    children_newick = ",".join(tree_to_newick(child) for child in tree.children)
-    return f"({children_newick}){tree.node_name}"
+        return f"{node_name_str}{attr_str}"
+
+    children_newick = ",".join(
+        tree_to_newick(
+            child,
+            intermediate_node_name=intermediate_node_name,
+            length_attr=length_attr,
+            length_sep=length_sep,
+            attr_list=attr_list,
+            attr_prefix=attr_prefix,
+            attr_sep=attr_sep,
+        )
+        for child in tree.children
+    )
+    return f"({children_newick}){node_name_str}{attr_str}"
