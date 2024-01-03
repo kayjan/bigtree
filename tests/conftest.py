@@ -502,6 +502,41 @@ def binarytree_node():
     return a
 
 
+@pytest.fixture
+def phylogenetic_tree():
+    """
+    Example taken from: https://www.cs.mcgill.ca/~birch/doc/forester/NHX.pdf
+    """
+    root = Node("placeholder_root", E="1.1.1.1", D="N")
+    metazoa = Node(
+        "placeholder_metazoa",
+        length=0.1,
+        S="Metazoa",
+        E="1.1.1.1",
+        D="N",
+        parent=root,
+    )
+    primates = Node(
+        "placeholder_primates",
+        length=0.05,
+        S="Primates",
+        E="1.1.1.1",
+        D="Y",
+        B="100",
+        parent=metazoa,
+    )
+    _ = Node("ADH2", length=0.1, S="human", E="1.1.1.1", parent=primates)
+    _ = Node("ADH1", length=0.11, S="human", E="1.1.1.1", parent=primates)
+    _ = Node("ADHY", length=0.1, S="nematode", E="1.1.1.1", parent=metazoa)
+    _ = Node("ADHX", length=0.12, S="insect", E="1.1.1.1", parent=metazoa)
+    fungi = Node("placeholder_fungi", length=0.1, S="Fungi", parent=root)
+    _ = Node("ADH4", length=0.09, S="yeast", E="1.1.1.1", parent=fungi)
+    _ = Node("ADH3", length=0.13, S="yeast", E="1.1.1.1", parent=fungi)
+    _ = Node("ADH2", length=0.12, S="yeast", E="1.1.1.1", parent=fungi)
+    _ = Node("ADH1", length=0.11, S="yeast", E="1.1.1.1", parent=fungi)
+    return root
+
+
 def assert_print_statement(func, expected, *args, **kwargs):
     captured_output = io.StringIO()
     sys.stdout = captured_output

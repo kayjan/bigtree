@@ -1207,8 +1207,8 @@ def tree_to_newick(
     Args:
         tree (Node): tree to be exported
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        length_attr (str): node attribute to extract into outside of bracket, optional
-        length_sep (str): separate between node name and length, used if length_attr is non-empty, defaults to ":"
+        length_attr (str): node length attribute to extract to beside name, optional
+        length_sep (str): separator between node name and length, used if length_attr is non-empty, defaults to ":"
         attr_list (Iterable[str]): list of node attributes to extract into square bracket, optional
         attr_prefix (str): prefix before all attributes, within square bracket, used if attr_list is non-empty, defaults to "&&NHX:"
         attr_sep (str): separator between attributes, within square brackets, used if attr_list is non-empty, defaults to ":"
