@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import re
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
+from enum import Enum
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Type
 
 from bigtree.node.node import Node
@@ -31,6 +32,7 @@ __all__ = [
     "nested_dict_to_tree",
     "dataframe_to_tree",
     "dataframe_to_tree_by_relation",
+    "newick_to_tree",
 ]
 
 
@@ -977,3 +979,126 @@ def dataframe_to_tree_by_relation(
         root_node.set_attrs(retrieve_attr(row))
     recursive_create_child(root_node)
     return root_node
+
+
+def newick_to_tree(
+    tree_string: str,
+    length_attr: str = "",
+    length_sep: str = ":",
+    attr_prefix: str = "&&NHX:",
+    attr_sep: str = ":",
+    node_type: Type[Node] = Node,
+) -> Node:
+    """Construct tree from Newick notation, return root of tree.
+
+    In the Newick Notation (or New Hampshire Notation)
+      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`
+      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`
+      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`
+      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`
+
+    >>> from bigtree import newick_to_tree
+    >>> root = newick_to_tree("((d,e)b,c)a")
+    >>> root.show()
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
+
+    >>> root = newick_to_tree("((d:40,e:35)b:65,c:60)a", length_attr="age")
+    >>> root.show(attr_list=["age"])
+    a [age=90]
+    ├── b [age=65]
+    │   ├── d [age=40]
+    │   └── e [age=35]
+    └── c [age=60]
+
+    >>> root = newick_to_tree(
+    ...     "((d:40[&&NHX:species=human],e:35[&&NHX:species=human])b:65[&&NHX:species=human],c:60[&&NHX:species=human])a[&&NHX:species=human]",
+    ...     length_attr="age",
+    ... )
+    >>> root.show(all_attr=True)
+    a [age=90, species=human]
+    ├── b [age=65, species=human]
+    │   ├── d [age=40, species=human]
+    │   └── e [age=35, species=human]
+    └── c [age=60, species=human]
+
+    Args:
+        tree_string (str): String in Newick notation to construct tree
+        length_attr (str): attribute name to store node length, optional
+        length_sep (str): separator between node name and length, used to detect length, defaults to ":"
+        attr_prefix (str): prefix before all attributes, within square bracket, used to detect attributes, defaults to "&&NHX:"
+        attr_sep (str): separator between attributes, within square brackets, used to detect attributes, defaults to ":"
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+
+    Returns:
+        (Node)
+    """
+    if not len(tree_string):
+        raise ValueError("Tree string does not contain any data, check `tree_string`")
+    if len(attr_sep) != 1 or len(length_sep) != 1:
+        raise ValueError(
+            "Separator should only contain one character, check `attr_sep` and/or `length_sep`"
+        )
+
+    class NewickState(Enum):
+        PARSE_STRING = 0
+        PARSE_NAME = 1
+        PARSE_LENGTH = 2
+        PARSE_ATTRIBUTES = 3
+        PARSE_ATTRIBUTE_NAME = 4
+        PARSE_ATTRIBUTE_VALUE = 5
+
+    class NewickCharacter(Enum):
+        OPEN_BRACKET = "("
+        CLOSE_BRACKET = ")"
+        ATTR_START = "["
+        ATTR_END = "]"
+        ATTR_KEY_VALUE = "="
+        ATTR_QUOTE = "'"
+        ATTR_SEP = attr_sep
+        LENGTH_SEP = length_sep
+
+        @classmethod
+        def values(cls) -> List[str]:
+            return [c.value for c in cls]
+
+    current_state: NewickState = NewickState.PARSE_STRING
+    current_depth: int = 1
+    depth_nodes: Dict[int, List[Node]] = defaultdict(list)
+    cumulative_string: str = ""
+    cumulative_attr: Dict[str, Any] = {}
+    unlabelled_nodes: int = 0
+
+    for character in tree_string:
+        if character == NewickCharacter.OPEN_BRACKET.value:
+            if current_state not in [NewickState.PARSE_STRING]:
+                raise ValueError("String not properly closed, check `tree_string`")
+            current_depth += 1
+        elif character == NewickCharacter.CLOSE_BRACKET.value:
+            if current_state not in [NewickState.PARSE_STRING]:
+                raise ValueError("String not properly closed, check `tree_string`")
+            current_depth -= 1
+            if current_depth == 1:
+                current_state = NewickState.PARSE_STRING
+        elif character == NewickCharacter.ATTR_START.value:
+            node_name = cumulative_string
+            if not cumulative_string:
+                node_name = f"node{unlabelled_nodes}"
+                unlabelled_nodes += 1
+            node = Node(node_name, **cumulative_attr)
+            depth_nodes[current_depth].append(node)
+        elif character == NewickCharacter.ATTR_END.value:
+            pass
+        elif character == NewickCharacter.ATTR_KEY_VALUE.value:
+            pass
+        elif character == NewickCharacter.ATTR_QUOTE.value:
+            pass
+        elif character == NewickCharacter.ATTR_SEP.value:
+            pass
+        elif character == NewickCharacter.LENGTH_SEP.value:
+            pass
+        else:
+            cumulative_string += character
