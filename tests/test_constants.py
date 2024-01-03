@@ -151,6 +151,7 @@ class Constants:
     ERROR_NODE_MERMAID_INVALID_ARGUMENT = (
         "Invalid input, check `{parameter}` should be one of "
     )
+    ERROR_NODE_NEWICK_ATTR_INVALID = "Length attribute does not exist for node "
 
     # tree/helper
     ERROR_NODE_PRUNE_ARGUMENT = (
