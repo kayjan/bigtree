@@ -49,11 +49,11 @@ While exporting to another data type, methods can take in arguments to determine
      - No
      - Tree style
    * - `tree_to_newick`
+     - Yes with `attr_list`
      - No
      - No
      - No
-     - No
-     - N/A
+     - Length separator and attribute prefix and separator
    * - `tree_to_dict`
      - Yes with `attr_dict` or `all_attrs`
      - Yes with `max_depth`
