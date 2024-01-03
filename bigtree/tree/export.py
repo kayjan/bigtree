@@ -1245,5 +1245,7 @@ def tree_to_newick(
             attr_list=attr_list,
             attr_prefix=attr_prefix,
             attr_sep=attr_sep,
-        ) for child in tree.children)
+        )
+        for child in tree.children
+    )
     return f"({children_newick}){node_name_str}{attr_str}"
