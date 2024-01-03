@@ -1229,7 +1229,9 @@ def tree_to_newick(
 
     attr_str = ""
     if attr_list:
-        attr_str = attr_sep.join([f"{k}={tree.get_attr(k)}" for k in attr_list if tree.get_attr(k)])
+        attr_str = attr_sep.join(
+            [f"{k}={tree.get_attr(k)}" for k in attr_list if tree.get_attr(k)]
+        )
         if attr_str:
             attr_str = f"[{attr_prefix}{attr_str}]"
 
