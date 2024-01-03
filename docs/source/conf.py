@@ -35,12 +35,12 @@ sphinxemoji_style = "twemoji"
 myst_enable_extensions = [
     "attrs_block",
 ]
-base_dir = "/".join(os.getcwd().split("/")[:-2])
+base_dir = os.path.dirname(os.path.dirname(os.getcwd()))
+assets_dir = os.path.join(base_dir, "assets", "docstr")
 doctest_global_setup = f"""
 import os
-os.chdir("{base_dir}")
-if not os.path.exists("assets/docstr"):
-    os.mkdir("assets/docstr")
+if not os.path.exists(r"{assets_dir}"):
+    os.mkdir(r"{assets_dir}")
 """
 
 templates_path = ["_templates"]
