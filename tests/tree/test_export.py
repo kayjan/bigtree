@@ -1437,8 +1437,23 @@ class TestTreeToNewick:
         Example taken from: https://www.cs.mcgill.ca/~birch/doc/forester/NHX.pdf
         """
         root = Node("placeholder_root", E="1.1.1.1", D="N")
-        metazoa = Node("placeholder_metazoa", length=0.1, S="Metazoa", E="1.1.1.1", D="N", parent=root)
-        primates = Node("placeholder_primates", length=0.05, S="Primates", E="1.1.1.1", D="Y", B="100", parent=metazoa)
+        metazoa = Node(
+            "placeholder_metazoa",
+            length=0.1,
+            S="Metazoa",
+            E="1.1.1.1",
+            D="N",
+            parent=root,
+        )
+        primates = Node(
+            "placeholder_primates",
+            length=0.05,
+            S="Primates",
+            E="1.1.1.1",
+            D="Y",
+            B="100",
+            parent=metazoa,
+        )
         _ = Node("ADH2", length=0.1, S="human", E="1.1.1.1", parent=primates)
         _ = Node("ADH1", length=0.11, S="human", E="1.1.1.1", parent=primates)
         _ = Node("ADHY", length=0.1, S="nematode", E="1.1.1.1", parent=metazoa)
