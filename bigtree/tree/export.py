@@ -7,7 +7,7 @@ from urllib.request import urlopen
 from bigtree.node.node import Node
 from bigtree.tree.search import find_path
 from bigtree.utils.assertions import assert_key_in_dict, assert_str_in_list
-from bigtree.utils.constants import ExportConstants, MermaidConstants
+from bigtree.utils.constants import ExportConstants, MermaidConstants, NewickCharacter
 from bigtree.utils.exceptions import (
     optional_dependencies_image,
     optional_dependencies_pandas,
@@ -1163,10 +1163,10 @@ def tree_to_newick(
     tree: T,
     intermediate_node_name: bool = True,
     length_attr: str = "",
-    length_sep: str = ":",
+    length_sep: str = NewickCharacter.SEP,
     attr_list: Iterable[str] = [],
     attr_prefix: str = "&&NHX:",
-    attr_sep: str = ":",
+    attr_sep: str = NewickCharacter.SEP,
 ) -> str:
     """Export tree to Newick notation. Useful for describing phylogenetic tree.
 
