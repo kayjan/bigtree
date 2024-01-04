@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, auto
 from typing import Dict, List, Tuple
 
 
