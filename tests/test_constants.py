@@ -123,7 +123,9 @@ class Constants:
         "Check your input paths or verify that path separator `sep` is set correctly"
     )
     ERROR_NODE_DUPLICATE_NAME = "Node {name} already exists, try setting `duplicate_name_allowed` to True to allow `Node` with same node name"
-    ERROR_SEP_CHARACTER = "Separator should only contain one character, check `attr_sep` and/or `length_sep`"
+    ERROR_NODE_NEWICK_NOT_CLOSED = (
+        "String not properly closed, check `tree_string` at index {index}"
+    )
 
     ERROR_NODE_DATAFRAME_DUPLICATE_NAME = (
         "There exists duplicate name with different attributes\nCheck "

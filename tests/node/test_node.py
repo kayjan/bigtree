@@ -371,11 +371,6 @@ def assert_tree_structure_node_root(
     h="/a/b/e/h",
 ):
     # Test path_name
-    expected = "/a"
-    actual = root.path_name
-    assert actual == expected, f"Node should have path {expected}, but path is {actual}"
-
-    # Test age attribute
     expected_attrs = [a, b, d, e, g, h, c, f]
     for node, expected in zip(preorder_iter(root), expected_attrs):
         actual = node.get_attr("path_name")
