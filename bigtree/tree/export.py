@@ -1163,10 +1163,10 @@ def tree_to_newick(
     tree: T,
     intermediate_node_name: bool = True,
     length_attr: str = "",
-    length_sep: str = NewickCharacter.SEP,
+    length_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
     attr_list: Iterable[str] = [],
     attr_prefix: str = "&&NHX:",
-    attr_sep: str = NewickCharacter.SEP,
+    attr_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
 ) -> str:
     """Export tree to Newick notation. Useful for describing phylogenetic tree.
 
@@ -1218,6 +1218,10 @@ def tree_to_newick(
     """
     if not tree:
         return ""
+    if isinstance(length_sep, NewickCharacter):
+        length_sep = length_sep.value
+    if isinstance(attr_sep, NewickCharacter):
+        attr_sep = attr_sep.value
 
     node_name_str = ""
     if (intermediate_node_name) or (not intermediate_node_name and tree.is_leaf):
