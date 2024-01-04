@@ -995,6 +995,10 @@ def newick_to_tree(
       - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`
       - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`
 
+    Variations supported
+      - Support special characters ([, ], (, ), :, ,) in node name, attribute name, and attribute values if
+        they are enclosed in single quotes i.e., '(name:!)'
+
     >>> from bigtree import newick_to_tree
     >>> root = newick_to_tree("((d,e)b,c)a")
     >>> root.show()
