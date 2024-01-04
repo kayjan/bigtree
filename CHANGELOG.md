@@ -5,8 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.15.1] - TBD
+### Added
+- Tree Constructor: `newick_to_tree` to convert Newick notation to tree.
 ### Changed
 - Tree Exporter: `tree_to_newick` to accept more parameters to parse length and attributes.
+### Fixed
+- Misc: Automated doctest setup to use os operations instead of string operations.
 
 ## [0.15.0] - 2024-01-02
 ### Added

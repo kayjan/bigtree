@@ -34,7 +34,7 @@ For **Tree** implementation, there are 9 main components.
    2. ``Node``, BaseNode with node name attribute
 2. [**✨ Constructing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/construct.html)
    1. From `Node`, using parent and children constructors
-   2. From *str*, using tree display
+   2. From *str*, using tree display or Newick string notation
    3. From *list*, using paths or parent-child tuples
    4. From *nested dictionary*, using path-attribute key-value pairs or recursive structure
    5. From *pandas DataFrame*, using paths or parent-child columns
@@ -228,11 +228,11 @@ root.show(style="ascii")
 
 #### 2. **From *str***
 
-Construct nodes only.
+Construct nodes only. Newick string notation supports parsing attributes.
 
-{emphasize-lines="13"}
+{emphasize-lines="13,25"}
 ```python
-from bigtree import str_to_tree
+from bigtree import str_to_tree, newick_to_tree
 
 tree_str = """
 a
@@ -245,6 +245,18 @@ a
     └── f
 """
 root = str_to_tree(tree_str)
+root.show()
+# a
+# ├── b
+# │   ├── d
+# │   └── e
+# │       ├── g
+# │       └── h
+# └── c
+#     └── f
+
+newick_str = "((d,(g,h)e)b,(f)c)a"
+root = newick_to_tree(newick_str)
 root.show()
 # a
 # ├── b
