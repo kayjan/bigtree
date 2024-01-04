@@ -782,7 +782,7 @@ def assert_tree_structure_basenode_root_attr(
 ):
     """Test tree structure with age attributes"""
     # Test describe()
-    expected = {("age", 90), ("name", "a")}
+    expected = {("age", a[1]), ("name", a[0])}
     actual = set(root.describe(exclude_prefix="_"))
     assert (
         actual == expected
@@ -810,7 +810,7 @@ def assert_tree_structure_customnode_root_attr(
 ):
     """Test tree structure with age attributes"""
     # Test describe()
-    expected = {("custom_field", 90), ("custom_field_str", "a"), ("name", "a")}
+    expected = {("custom_field", a[1]), ("custom_field_str", a[0]), ("name", a[0])}
     actual = set(root.describe(exclude_prefix="_"))
     assert (
         actual == expected
