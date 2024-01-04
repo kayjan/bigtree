@@ -6,28 +6,34 @@ Construct Tree from list, dictionary, and pandas DataFrame.
 To decide which method to use, consider your data type and data values.
 
 .. list-table:: Tree Construct Methods
-   :widths: 35 30 50 40
+   :widths: 35 30 50 30 40
    :header-rows: 1
 
    * - Construct Tree from
      - Using full path
      - Using parent-child relation
+     - Using notation
      - Add node attributes
    * - String
      - `str_to_tree`
      - NA
-     - No
+     - `newick_to_tree`
+     - | No (for `str_to_tree`)
+       | Yes (for `newick_to_tree`)
    * - List
      - `list_to_tree`
      - `list_to_tree_by_relation`
+     - NA
      - No
    * - Dictionary
      - `dict_to_tree`
      - `nested_dict_to_tree`
+     - NA
      - Yes
    * - DataFrame
      - `dataframe_to_tree`
      - `dataframe_to_tree_by_relation`
+     - NA
      - Yes
 
 

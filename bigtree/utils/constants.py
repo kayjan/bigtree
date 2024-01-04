@@ -1,3 +1,4 @@
+from enum import Enum, auto
 from typing import Dict, List, Tuple
 
 
@@ -58,3 +59,20 @@ class MermaidConstants:
         "double_circle": "o--o",
         "double_cross": "x--x",
     }
+
+
+class NewickState(Enum):
+    PARSE_STRING = auto()
+    PARSE_ATTRIBUTE_NAME = auto()
+    PARSE_ATTRIBUTE_VALUE = auto()
+
+
+class NewickCharacter(str, Enum):
+    OPEN_BRACKET = "("
+    CLOSE_BRACKET = ")"
+    ATTR_START = "["
+    ATTR_END = "]"
+    ATTR_KEY_VALUE = "="
+    ATTR_QUOTE = "'"
+    SEP = ":"
+    NODE_SEP = ","

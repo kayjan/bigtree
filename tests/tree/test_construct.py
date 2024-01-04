@@ -16,6 +16,7 @@ from bigtree.tree.construct import (
     list_to_tree,
     list_to_tree_by_relation,
     nested_dict_to_tree,
+    newick_to_tree,
     str_to_tree,
 )
 from bigtree.tree.export import print_tree
@@ -79,11 +80,13 @@ class TestAddPathToTree(unittest.TestCase):
         for path in path_list:
             add_path_to_tree(self.root, path)
         assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_path_to_tree_leaves(self):
         for path in self.path_list:
             add_path_to_tree(self.root, path)
         assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_path_to_tree_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -95,12 +98,14 @@ class TestAddPathToTree(unittest.TestCase):
         for path in path_list:
             add_path_to_tree(self.root, path)
         assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_path_to_tree_sep_trailing(self):
         path_list = ["a/b/d/", "a/b/e/", "a/b/e/g/", "a/b/e/h/", "a/c/f/"]
         for path in path_list:
             add_path_to_tree(self.root, path)
         assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_path_to_tree_sep_error(self):
         root1 = self.root.name
@@ -163,6 +168,7 @@ class TestAddPathToTree(unittest.TestCase):
         for path in path_list:
             add_path_to_tree(self.root, path)
         assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_node_root(self.root, f="/a/c/d")
 
     def test_add_path_to_tree_node_type(self):
         root = NodeA("a")
@@ -173,6 +179,7 @@ class TestAddPathToTree(unittest.TestCase):
             isinstance(node, NodeA) for node in root.children
         ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_path_to_tree_different_root_error(self):
         root1 = self.root.name
@@ -666,6 +673,7 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         )
         add_dataframe_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_sep_leading(self):
         data = pd.DataFrame(
@@ -787,6 +795,8 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         )
         add_dataframe_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root, f=("d", 38))
+        assert_tree_structure_node_root(self.root, f="/a/c/d")
 
     def test_add_dataframe_to_tree_by_path_duplicate_data_error(self):
         data = pd.DataFrame(
@@ -2358,3 +2368,278 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         assert str(
             exc_info.value
         ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=[])
+
+
+class TestNewickToTree(unittest.TestCase):
+    def setUp(self):
+        self.newick_str = "((d,(g,h)e)b,(f)c)a"
+        self.newick_str_with_attr = "((d[&&NHX:age=40],(g[&&NHX:age=10],h[&&NHX:age=6])e[&&NHX:age=35])b[&&NHX:age=65],(f[&&NHX:age=38])c[&&NHX:age=60])a[&&NHX:age=90]"
+
+    def tearDown(self):
+        self.newick_str = None
+        self.newick_str_with_attr = None
+
+    def test_newick_to_tree(self):
+        root = newick_to_tree(self.newick_str)
+        assert_tree_structure_basenode_root(root)
+
+    def test_newick_to_tree_empty_error(self):
+        with pytest.raises(ValueError) as exc_info:
+            newick_to_tree("")
+        assert str(exc_info.value) == Constants.ERROR_NODE_STRING_EMPTY
+
+    def test_newick_to_tree_bracket_error(self):
+        newick_strs_error = [
+            (
+                "((d:40[age=4(0],(g:10,h:6)e:35)b:65,(f:38)c:60)a:90",
+                12,
+            ),  # NewickCharacter.OPEN_BRACKET, state
+            (
+                "((d:(40,(g:10,h:6)e:35)b:65,(f:38)c:60)a:90",
+                4,
+            ),  # NewickCharacter.OPEN_BRACKET, current_node
+            (
+                "((d(:40,(g:10,h:6)e:35)b:65,(f:38)c:60)a:90",
+                3,
+            ),  # NewickCharacter.OPEN_BRACKET, cumulative_string
+            (
+                "((d:40[age=),(g:10,h:6)e:35)b:65,(f:38)c:60)a:90",
+                11,
+            ),  # NewickCharacter.CLOSE_BRACKET, state
+            (
+                "((d]:40,(g:10,h:6)e:35)b:65,(f:38)c:60)a:90",
+                3,
+            ),  # NewickCharacter.ATTR_END, state
+            (
+                "((d=:40,(g:10,h:6)e:35)b:65,(f:38)c:60)a:90",
+                3,
+            ),  # NewickCharacter.ATTR_KEY_VALUE, state
+            (
+                "((d:40[=,(g:10,h:6)e:35)b:65,(f:38)c:60)a:90",
+                7,
+            ),  # NewickCharacter.ATTR_KEY_VALUE, cumulative_string
+            (
+                "(('d:40[age=40],(g:10,h:6)e:35)b:65,(f:38)c:60)a:90",
+                2,
+            ),  # NewickCharacter.ATTR_QUOTE, no end quote
+            (
+                "((d:40[a:ge=40],(g:10,h:6)e:35)b:65,(f:38)c:60)a:90",
+                8,
+            ),  # NewickCharacter.SEP, state
+            (
+                "((d::40[age=40],(g:10,h:6)e:35)b:65,(f:38)c:60)a:90",
+                4,
+            ),  # NewickCharacter.SEP, current_node
+            (
+                "((d:40,(g:10,h:6)e:35)b:65,(f:38)c:60",
+                37,
+            ),  # final depth
+        ]
+        for newick_str, error_idx in newick_strs_error:
+            with pytest.raises(ValueError) as exc_info:
+                newick_to_tree(newick_str)
+            assert str(exc_info.value) == Constants.ERROR_NODE_NEWICK_NOT_CLOSED.format(
+                index=error_idx
+            )
+
+    def test_newick_to_tree_length(self):
+        newick_str_length = "((d:40,(g:10,h:6)e:35)b:65,(f:38)c:60)a:90"
+        root = newick_to_tree(newick_str_length, length_attr="age")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_newick_to_tree_attr(self):
+        root = newick_to_tree(self.newick_str_with_attr)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(
+            root,
+            a=("a", "90"),
+            b=("b", "65"),
+            c=("c", "60"),
+            d=("d", "40"),
+            e=("e", "35"),
+            f=("f", "38"),
+            g=("g", "10"),
+            h=("h", "6"),
+        )
+        assert_tree_structure_node_root(root)
+
+    def test_newick_to_tree_attr_no_prefix(self):
+        newick_str_no_attr_prefix = "((d[age=40],(g[age=10],h[age=6])e[age=35])b[age=65],(f[age=38])c[age=60])a[age=90]"
+        root = newick_to_tree(newick_str_no_attr_prefix, attr_prefix="")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(
+            root,
+            a=("a", "90"),
+            b=("b", "65"),
+            c=("c", "60"),
+            d=("d", "40"),
+            e=("e", "35"),
+            f=("f", "38"),
+            g=("g", "10"),
+            h=("h", "6"),
+        )
+        assert_tree_structure_node_root(root)
+
+    def test_newick_to_tree_quote_name(self):
+        newick_str_no_attr_prefix = "((d[age=40],('(g)'[age=10],h[age=6])e[age=35])b[age=65],(f[age=38])c[age=60])a[age=90]"
+        root = newick_to_tree(newick_str_no_attr_prefix, attr_prefix="")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(
+            root,
+            a=("a", "90"),
+            b=("b", "65"),
+            c=("c", "60"),
+            d=("d", "40"),
+            e=("e", "35"),
+            f=("f", "38"),
+            g=("(g)", "10"),
+            h=("h", "6"),
+        )
+        assert_tree_structure_node_root(root, g="/a/b/e/(g)")
+
+    def test_newick_to_tree_quote_attr_name(self):
+        newick_str_no_attr_prefix = "((d[age=40],(g['(age)'=10],h[age=6])e[age=35])b[age=65],(f[age=38])c[age=60])a[age=90]"
+        root = newick_to_tree(newick_str_no_attr_prefix, attr_prefix="")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
+
+    def test_newick_to_tree_quote_attr_value(self):
+        newick_str_no_attr_prefix = "((d[age=40],(g[age='[10]'],h[age=6])e[age=35])b[age=65],(f[age=38])c[age=60])a[age=90]"
+        root = newick_to_tree(newick_str_no_attr_prefix, attr_prefix="")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(
+            root,
+            a=("a", "90"),
+            b=("b", "65"),
+            c=("c", "60"),
+            d=("d", "40"),
+            e=("e", "35"),
+            f=("f", "38"),
+            g=("g", "[10]"),
+            h=("h", "6"),
+        )
+        assert_tree_structure_node_root(root)
+
+    def test_newick_to_tree_phylogenetic(self):
+        newick_str_phylogenetic = "(((ADH2:0.1[&&NHX:S=human:E=1.1.1.1],ADH1:0.11[&&NHX:S=human:E=1.1.1.1]):0.05[&&NHX:S=Primates:E=1.1.1.1:D=Y:B=100],ADHY:0.1[&&NHX:S=nematode:E=1.1.1.1],ADHX:0.12[&&NHX:S=insect:E=1.1.1.1]):0.1[&&NHX:S=Metazoa:E=1.1.1.1:D=N],(ADH4:0.09[&&NHX:S=yeast:E=1.1.1.1],ADH3:0.13[&&NHX:S=yeast:E=1.1.1.1],ADH2:0.12[&&NHX:S=yeast:E=1.1.1.1],ADH1:0.11[&&NHX:S=yeast:E=1.1.1.1]):0.1[&&NHX:S=Fungi])[&&NHX:E=1.1.1.1:D=N]"
+        root = newick_to_tree(newick_str_phylogenetic, length_attr="length")
+        assert_tree_structure_phylogenetic(root)
+        assert_tree_structure_phylogenetic_attr(root)
+
+    def test_newick_to_tree_phylogenetic_no_length_attr(self):
+        newick_str_phylogenetic = "(((ADH2:0.1[&&NHX:S=human:E=1.1.1.1],ADH1:0.11[&&NHX:S=human:E=1.1.1.1]):0.05[&&NHX:S=Primates:E=1.1.1.1:D=Y:B=100],ADHY:0.1[&&NHX:S=nematode:E=1.1.1.1],ADHX:0.12[&&NHX:S=insect:E=1.1.1.1]):0.1[&&NHX:S=Metazoa:E=1.1.1.1:D=N],(ADH4:0.09[&&NHX:S=yeast:E=1.1.1.1],ADH3:0.13[&&NHX:S=yeast:E=1.1.1.1],ADH2:0.12[&&NHX:S=yeast:E=1.1.1.1],ADH1:0.11[&&NHX:S=yeast:E=1.1.1.1]):0.1[&&NHX:S=Fungi])[&&NHX:E=1.1.1.1:D=N]"
+        root = newick_to_tree(newick_str_phylogenetic)
+        assert_tree_structure_phylogenetic(root)
+        assert_tree_structure_phylogenetic_attr(root, attrs=["B", "D", "E", "S"])
+
+    def test_newick_to_tree_node_type(self):
+        root = newick_to_tree(self.newick_str_with_attr, node_type=NodeA)
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(
+            root,
+            a=("a", "90"),
+            b=("b", "65"),
+            c=("c", "60"),
+            d=("d", "40"),
+            e=("e", "35"),
+            f=("f", "38"),
+            g=("g", "10"),
+            h=("h", "6"),
+        )
+        assert_tree_structure_node_root(root)
+
+
+def assert_tree_structure_phylogenetic(root):
+    assert root.max_depth == 4, f"Expected max_depth 4, received {root.max_depth}"
+    assert (
+        len(list(root.descendants)) == 11
+    ), f"Expected 11 descendants, received {len(root.descendants)}"
+    assert root.node_name == "node3"
+    assert [node.node_name for node in root.children] == ["node1", "node2"]
+    assert [node.node_name for node in root["node1"].children] == [
+        "node0",
+        "ADHY",
+        "ADHX",
+    ]
+    assert [node.node_name for node in root["node1"]["node0"].children] == [
+        "ADH2",
+        "ADH1",
+    ]
+    assert [node.node_name for node in root["node2"].children] == [
+        "ADH4",
+        "ADH3",
+        "ADH2",
+        "ADH1",
+    ]
+
+
+def assert_tree_structure_phylogenetic_attr(root, attrs=["B", "D", "E", "S", "length"]):
+    from bigtree.utils.iterators import preorder_iter
+
+    if "B" in attrs:
+        expected = [
+            None,
+            None,
+            "100",
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        ]
+        actual = [node.get_attr("B") for node in preorder_iter(root)]
+        assert expected == actual, f"Expected B to be {expected}, received {actual}"
+    if "D" in attrs:
+        expected = ["N", "N", "Y", None, None, None, None, None, None, None, None, None]
+        actual = [node.get_attr("D") for node in preorder_iter(root)]
+        assert expected == actual, f"Expected D to be {expected}, received {actual}"
+    if "E" in attrs:
+        expected = [
+            "1.1.1.1",
+            "1.1.1.1",
+            "1.1.1.1",
+            "1.1.1.1",
+            "1.1.1.1",
+            "1.1.1.1",
+            "1.1.1.1",
+            None,
+            "1.1.1.1",
+            "1.1.1.1",
+            "1.1.1.1",
+            "1.1.1.1",
+        ]
+        actual = [node.get_attr("E") for node in preorder_iter(root)]
+        assert expected == actual, f"Expected E to be {expected}, received {actual}"
+    if "S" in attrs:
+        expected = [
+            None,
+            "Metazoa",
+            "Primates",
+            "human",
+            "human",
+            "nematode",
+            "insect",
+            "Fungi",
+            "yeast",
+            "yeast",
+            "yeast",
+            "yeast",
+        ]
+        actual = [node.get_attr("S") for node in preorder_iter(root)]
+        assert expected == actual, f"Expected S to be {expected}, received {actual}"
+    if "length" in attrs:
+        expected = [None, 0.1, 0.05, 0.1, 0.11, 0.1, 0.12, 0.1, 0.09, 0.13, 0.12, 0.11]
+        actual = [node.get_attr("length") for node in preorder_iter(root)]
+        assert (
+            expected == actual
+        ), f"Expected length to be {expected}, received {actual}"
