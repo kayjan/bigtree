@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import re
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Type
 
 from bigtree.node.node import Node
 from bigtree.tree.export import tree_to_dataframe
 from bigtree.tree.search import find_child_by_name, find_name
+from bigtree.utils.constants import NewickCharacter, NewickState
 from bigtree.utils.exceptions import (
     DuplicatedNodeError,
     TreeError,
@@ -31,6 +32,7 @@ __all__ = [
     "nested_dict_to_tree",
     "dataframe_to_tree",
     "dataframe_to_tree_by_relation",
+    "newick_to_tree",
 ]
 
 
@@ -977,3 +979,269 @@ def dataframe_to_tree_by_relation(
         root_node.set_attrs(retrieve_attr(row))
     recursive_create_child(root_node)
     return root_node
+
+
+def newick_to_tree(
+    tree_string: str,
+    length_attr: str = "length",
+    attr_prefix: str = "&&NHX:",
+    node_type: Type[Node] = Node,
+) -> Node:
+    """Construct tree from Newick notation, return root of tree.
+
+    In the Newick Notation (or New Hampshire Notation)
+      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`
+      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`
+      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`
+      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`
+
+    Variations supported
+      - Support special characters ([, ], (, ), :, ,) in node name, attribute name, and attribute values if
+        they are enclosed in single quotes i.e., '(name:!)'
+
+    >>> from bigtree import newick_to_tree
+    >>> root = newick_to_tree("((d,e)b,c)a")
+    >>> root.show()
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
+
+    >>> root = newick_to_tree("((d:40,e:35)b:65,c:60)a", length_attr="age")
+    >>> root.show(attr_list=["age"])
+    a
+    ├── b [age=65]
+    │   ├── d [age=40]
+    │   └── e [age=35]
+    └── c [age=60]
+
+    >>> root = newick_to_tree(
+    ...     "((d:40[&&NHX:species=human],e:35[&&NHX:species=human])b:65[&&NHX:species=human],c:60[&&NHX:species=human])a[&&NHX:species=human]",
+    ...     length_attr="age",
+    ... )
+    >>> root.show(all_attrs=True)
+    a [species=human]
+    ├── b [age=65, species=human]
+    │   ├── d [age=40, species=human]
+    │   └── e [age=35, species=human]
+    └── c [age=60, species=human]
+
+    Args:
+        tree_string (str): String in Newick notation to construct tree
+        length_attr (str): attribute name to store node length, optional, defaults to 'length'
+        attr_prefix (str): prefix before all attributes, within square bracket, used to detect attributes, defaults to "&&NHX:"
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+
+    Returns:
+        (Node)
+    """
+    if not len(tree_string):
+        raise ValueError("Tree string does not contain any data, check `tree_string`")
+
+    # Store results (for tracking)
+    depth_nodes: Dict[int, List[Node]] = defaultdict(list)
+    unlabelled_node_counter: int = 0
+    current_depth: int = 1
+    tree_string_idx: int = 0
+
+    # Store states (for assertions and checks)
+    current_state: NewickState = NewickState.PARSE_STRING
+    current_node: Optional[Node] = None
+    cumulative_string: str = ""
+    cumulative_string_value: str = ""
+
+    def _create_node(
+        _new_node: Optional[Node],
+        _cumulative_string: str,
+        _unlabelled_node_counter: int,
+        _depth_nodes: Dict[int, List[Node]],
+        _current_depth: int,
+    ) -> Tuple[Node, int]:
+        if not _new_node:
+            if not _cumulative_string:
+                _cumulative_string = f"node{_unlabelled_node_counter}"
+                _unlabelled_node_counter += 1
+            _new_node = node_type(_cumulative_string)
+            _depth_nodes[_current_depth].append(_new_node)
+        elif _cumulative_string:
+            _new_node.set_attrs(
+                {
+                    length_attr: int(_cumulative_string)
+                    if _cumulative_string.isdigit()
+                    else float(_cumulative_string)
+                }
+            )
+
+        if len(_depth_nodes[_current_depth + 1]):
+            _new_node.children = depth_nodes[_current_depth + 1]  # type: ignore
+            del _depth_nodes[_current_depth + 1]
+        return _new_node, _unlabelled_node_counter
+
+    def _raise_value_error(tree_idx: int) -> None:
+        raise ValueError(
+            f"String not properly closed, check `tree_string` at index {tree_idx}"
+        )
+
+    while tree_string_idx < len(tree_string):
+        character = tree_string[tree_string_idx]
+        if character == NewickCharacter.OPEN_BRACKET:
+            # Check and/or change state
+            state_title = "Node creation start"
+            if current_state not in [NewickState.PARSE_STRING]:
+                _raise_value_error(tree_string_idx)
+            # Logic
+            current_depth += 1
+            if current_node:
+                _raise_value_error(tree_string_idx)
+            if cumulative_string:
+                _raise_value_error(tree_string_idx)
+            assert (
+                not cumulative_string_value
+            ), f"{state_title}, should not have cumulative_string_value"
+            tree_string_idx += 1
+            continue
+
+        if character in [
+            NewickCharacter.CLOSE_BRACKET,
+            NewickCharacter.ATTR_START,
+            NewickCharacter.NODE_SEP,
+        ]:
+            # Check and/or change state
+            state_title = "Node creation end / Node attribute start"
+            if current_state not in [
+                NewickState.PARSE_STRING,
+                NewickState.PARSE_ATTRIBUTE_NAME,
+            ]:
+                _raise_value_error(tree_string_idx)
+            # Logic
+            if character == NewickCharacter.ATTR_START:
+                current_state = NewickState.PARSE_ATTRIBUTE_NAME
+                if tree_string[tree_string_idx + 1 :].startswith(  # noqa: E203
+                    attr_prefix
+                ):
+                    tree_string_idx += len(attr_prefix)
+            current_node, unlabelled_node_counter = _create_node(
+                current_node,
+                cumulative_string,
+                unlabelled_node_counter,
+                depth_nodes,
+                current_depth,
+            )
+            if character == NewickCharacter.CLOSE_BRACKET:
+                current_depth -= 1
+                current_node = None
+            if character == NewickCharacter.NODE_SEP:
+                current_node = None
+            cumulative_string = ""
+            assert (
+                not cumulative_string_value
+            ), f"{state_title}, should not have cumulative_string_value"
+            tree_string_idx += 1
+            continue
+
+        if character == NewickCharacter.ATTR_END:
+            # Check and/or change state
+            state_title = "Node attribute end"
+            if current_state not in [NewickState.PARSE_ATTRIBUTE_VALUE]:
+                _raise_value_error(tree_string_idx)
+            current_state = NewickState.PARSE_STRING
+            # Logic
+            assert current_node, f"{state_title}, should have current_node"
+            current_node.set_attrs({cumulative_string: cumulative_string_value})
+            cumulative_string = ""
+            cumulative_string_value = ""
+            tree_string_idx += 1
+            continue
+
+        if character == NewickCharacter.ATTR_KEY_VALUE:
+            # Check and/or change state
+            state_title = "Node attribute creation"
+            if current_state not in [NewickState.PARSE_ATTRIBUTE_NAME]:
+                _raise_value_error(tree_string_idx)
+            current_state = NewickState.PARSE_ATTRIBUTE_VALUE
+            # Logic
+            assert current_node, f"{state_title}, should have current_node"
+            if not cumulative_string:
+                _raise_value_error(tree_string_idx)
+            assert (
+                not cumulative_string_value
+            ), f"{state_title}, should not have cumulative_string_value"
+            tree_string_idx += 1
+            continue
+
+        if character == NewickCharacter.ATTR_QUOTE:
+            # Logic
+            quote_end_idx = tree_string.find(
+                NewickCharacter.ATTR_QUOTE, tree_string_idx + 1
+            )
+            if quote_end_idx == -1:
+                _raise_value_error(tree_string_idx)
+            if current_state in [
+                NewickState.PARSE_STRING,
+                NewickState.PARSE_ATTRIBUTE_NAME,
+            ]:
+                cumulative_string = tree_string[
+                    tree_string_idx + 1 : quote_end_idx  # noqa: E203
+                ]
+            else:
+                cumulative_string_value = tree_string[
+                    tree_string_idx + 1 : quote_end_idx  # noqa: E203
+                ]
+            tree_string_idx = quote_end_idx + 1
+            continue
+
+        if character == NewickCharacter.SEP:
+            # Check and/or change state
+            state_title = "Node length creation / Node attribute creation"
+            if current_state not in [
+                NewickState.PARSE_STRING,
+                NewickState.PARSE_ATTRIBUTE_VALUE,
+            ]:
+                _raise_value_error(tree_string_idx)
+            # Logic
+            if current_state == NewickState.PARSE_STRING:
+                if current_node:
+                    _raise_value_error(tree_string_idx)
+                current_node, unlabelled_node_counter = _create_node(
+                    current_node,
+                    cumulative_string,
+                    unlabelled_node_counter,
+                    depth_nodes,
+                    current_depth,
+                )
+                cumulative_string = ""
+                assert (
+                    not cumulative_string_value
+                ), f"{state_title}, should not have cumulative_string_value"
+                tree_string_idx += 1
+                continue
+            else:
+                current_state = NewickState.PARSE_ATTRIBUTE_NAME
+                assert current_node, f"{state_title}, should not have current_node"
+                current_node.set_attrs({cumulative_string: cumulative_string_value})
+                cumulative_string = ""
+                cumulative_string_value = ""
+                tree_string_idx += 1
+                continue
+
+        if current_state == NewickState.PARSE_ATTRIBUTE_VALUE:
+            cumulative_string_value += character
+        else:
+            cumulative_string += character
+        tree_string_idx += 1
+
+    if current_depth != 1:
+        _raise_value_error(tree_string_idx)
+
+    # Final root node
+    if len(depth_nodes[current_depth]):
+        current_node = depth_nodes[current_depth][0]
+    current_node, unlabelled_node_counter = _create_node(
+        current_node,
+        cumulative_string,
+        unlabelled_node_counter,
+        depth_nodes,
+        current_depth,
+    )
+    return current_node
