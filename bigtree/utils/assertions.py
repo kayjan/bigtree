@@ -1,6 +1,22 @@
 from typing import Any, Dict, List
 
 
+def assert_style_in_dict(
+    parameter: Any,
+    accepted_parameters: Dict[str, Any],
+) -> None:
+    """Raise ValueError is parameter is not in list of accepted parameters
+
+    Args:
+        parameter (Any): argument input for parameter
+        accepted_parameters (List[Any]): list of accepted parameters
+    """
+    if parameter not in accepted_parameters and parameter != "custom":
+        raise ValueError(
+            f"Choose one of {accepted_parameters.keys()} style, use `custom` to define own style"
+        )
+
+
 def assert_str_in_list(
     parameter_name: str,
     parameter: Any,

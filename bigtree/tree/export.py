@@ -5,8 +5,11 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, TypeVar
 from urllib.request import urlopen
 
 from bigtree.node.node import Node
-from bigtree.tree.search import find_path
-from bigtree.utils.assertions import assert_key_in_dict, assert_str_in_list
+from bigtree.utils.assertions import (
+    assert_key_in_dict,
+    assert_str_in_list,
+    assert_style_in_dict,
+)
 from bigtree.utils.constants import ExportConstants, MermaidConstants, NewickCharacter
 from bigtree.utils.exceptions import (
     optional_dependencies_image,
@@ -33,6 +36,7 @@ except ImportError:  # pragma: no cover
 __all__ = [
     "print_tree",
     "yield_tree",
+    "hprint_tree",
     "tree_to_dict",
     "tree_to_nested_dict",
     "tree_to_dataframe",
@@ -63,7 +67,7 @@ def print_tree(
     - Able to choose which attributes to show or show all attributes, using `attr_name_filter` and `all_attrs`
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
     - Able to customize open and close brackets if attributes are shown, using `attr_bracket`
-    - Able to customize style, to choose from `ansi`, `ascii`, `const`, `rounded`, `double`, and `custom` style
+    - Able to customize style, to choose from `ansi`, `ascii`, `const`, `const_bold`, `rounded`, `double`, and `custom` style
         - Default style is `const` style
         - If style is set to custom, user can choose their own style for stem, branch and final stem icons
         - Stem, branch, and final stem symbol should have the same number of characters
@@ -163,7 +167,7 @@ def print_tree(
         attr_list (Iterable[str]): list of node attributes to print, optional
         attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to False
         attr_bracket (List[str]): open and close bracket for `all_attrs` or `attr_list`
-        style (str): style of print, defaults to abstract style
+        style (str): style of print, defaults to const style
         custom_style (Iterable[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
     """
     for pre_str, fill_str, _node in yield_tree(
@@ -215,12 +219,12 @@ def yield_tree(
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from `ansi`, `ascii`, `const`, `rounded`, `double`, and `custom` style
+    - Able to customize style, to choose from `ansi`, `ascii`, `const`, `const_bold`, `rounded`, `double`, and `custom` style
         - Default style is `const` style
         - If style is set to custom, user can choose their own style for stem, branch and final stem icons
         - Stem, branch, and final stem symbol should have the same number of characters
 
-    **Printing tree**
+    **Yield tree**
 
     >>> from bigtree import Node, yield_tree
     >>> root = Node("a", age=90)
@@ -236,7 +240,7 @@ def yield_tree(
     │   └── e
     └── c
 
-    **Printing Sub-tree**
+    **Yield Sub-tree**
 
     >>> for branch, stem, node in yield_tree(root, node_name_or_path="b"):
     ...     print(f"{branch}{stem}{node.node_name}")
@@ -314,22 +318,15 @@ def yield_tree(
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing, optional
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        style (str): style of print, defaults to abstract style
+        style (str): style of print, defaults to const
         custom_style (Iterable[str]): style of stem, branch and final stem, used when `style` is set to 'custom'
     """
-    available_styles = ExportConstants.AVAILABLE_STYLES
-    if style not in available_styles.keys():
-        raise ValueError(
-            f"Choose one of {available_styles.keys()} style, use `custom` to define own style"
-        )
+    from bigtree.tree.helper import get_subtree
 
-    tree = tree.copy()
-    if node_name_or_path:
-        tree = find_path(tree, node_name_or_path)
-        if not tree:
-            raise ValueError(f"Node name or path {node_name_or_path} not found")
-    if not tree.is_root:
-        tree.parent = None
+    available_styles = ExportConstants.PRINT_STYLES
+    assert_style_in_dict(style, available_styles)
+
+    tree = get_subtree(tree, node_name_or_path, max_depth)
 
     # Set style
     if style == "custom":
@@ -373,6 +370,239 @@ def yield_tree(
                     pre_str += gap_str
 
         yield pre_str, fill_str, _node
+
+
+def hprint_tree(
+    tree: T,
+    node_name_or_path: str = "",
+    max_depth: int = 0,
+    style: str = "const",
+    custom_style: Iterable[str] = [],
+) -> None:
+    """Print tree horizontally to console, starting from `tree`.
+
+    - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
+    - Able to customize for maximum depth to print, using `max_depth`
+    - Able to customize style, to choose from `ansi`, `ascii`, `const`, `const_bold`, `rounded`, `double`, and `custom` style
+        - Default style is `const` style
+        - If style is set to custom, user can choose their own style icons
+        - Style icons should have the same number of characters
+
+    **Printing tree**
+
+    >>> from bigtree import Node, hprint_tree
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=root)
+    >>> d = Node("d", parent=b)
+    >>> e = Node("e", parent=b)
+    >>> hprint_tree(root)
+               ┌─ d
+         ┌─ b ─┤
+    ─ a ─┤     └─ e
+         └─ c
+
+    **Printing Sub-tree**
+
+    >>> hprint_tree(root, node_name_or_path="b")
+         ┌─ d
+    ─ b ─┤
+         └─ e
+
+    >>> hprint_tree(root, max_depth=2)
+         ┌─ b
+    ─ a ─┤
+         └─ c
+
+    **Available Styles**
+
+    >>> hprint_tree(root, style="ansi")
+               /- d
+         /- b -+
+    - a -+     \\- e
+         \\- c
+
+    >>> hprint_tree(root, style="ascii")
+               +- d
+         +- b -+
+    - a -+     +- e
+         +- c
+
+    >>> hprint_tree(root, style="const")
+               ┌─ d
+         ┌─ b ─┤
+    ─ a ─┤     └─ e
+         └─ c
+
+    >>> hprint_tree(root, style="const_bold")
+               ┏━ d
+         ┏━ b ━┫
+    ━ a ━┫     ┗━ e
+         ┗━ c
+
+    >>> hprint_tree(root, style="rounded")
+               ╭─ d
+         ╭─ b ─┤
+    ─ a ─┤     ╰─ e
+         ╰─ c
+
+    >>> hprint_tree(root, style="double")
+               ╔═ d
+         ╔═ b ═╣
+    ═ a ═╣     ╚═ e
+         ╚═ c
+
+    Args:
+        tree (Node): tree to print
+        node_name_or_path (str): node to print from, becomes the root node of printing
+        max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
+        style (str): style of print, defaults to const style
+        custom_style (Iterable[str]): style of icons, used when `style` is set to 'custom'
+    """
+    from itertools import accumulate
+
+    from bigtree.tree.helper import get_subtree
+
+    available_styles = ExportConstants.HPRINT_STYLES
+    assert_style_in_dict(style, available_styles)
+
+    tree = get_subtree(tree, node_name_or_path, max_depth)
+
+    # Set style
+    if style == "custom":
+        if len(list(custom_style)) != 7:
+            raise ValueError(
+                "Custom style selected, please specify the style of 7 icons in `custom_style`"
+            )
+        (
+            style_first_child,
+            style_subsequent_child,
+            style_split_branch,
+            style_middle_child,
+            style_last_child,
+            style_stem,
+            style_branch,
+        ) = custom_style
+    else:
+        (
+            style_first_child,
+            style_subsequent_child,
+            style_split_branch,
+            style_middle_child,
+            style_last_child,
+            style_stem,
+            style_branch,
+        ) = available_styles[style]
+    if (
+        not len(style_first_child)
+        == len(style_subsequent_child)
+        == len(style_split_branch)
+        == len(style_middle_child)
+        == len(style_last_child)
+        == len(style_stem)
+        == len(style_branch)
+        == 1
+    ):
+        raise ValueError("For custom style, all style icons must have length 1")
+
+    # Calculate padding
+    max_name_length = max([len(node.node_name) for node in tree.descendants])
+    space = " "
+    padding_initial = space * (len(tree.node_name) + 4)
+    padding = space * (max_name_length + 4)
+
+    def _hprint_branch(_node: T, _padding: str = padding) -> Tuple[List[str], int]:
+        """Get string for tree horizontally.
+        Recursively iterate the nodes in post-order traversal manner.
+
+        Args:
+            _node (Node): node to get string
+            _padding (str): amount of padding, defaults to spacing of (maximum name length + 4)
+
+        Returns:
+            (Tuple[List[str], int]): Intermediate/final result for node, index of branch
+        """
+        children = list(_node.children)
+        if not len(children):
+            node_str = f"{style_branch} {_node.node_name}"
+            return [node_str], 0
+
+        result, result_nrow, result_idx = [], [], []
+        node_name_str = _node.node_name.center(max_name_length)
+        node_str = f"""{style_branch} {node_name_str} {style_branch}"""
+        for idx, child in enumerate(children):
+            result_child, result_branch_idx = _hprint_branch(child)
+            result.extend(result_child)
+            result_nrow.append(len(result_child))
+            result_idx.append(result_branch_idx)
+
+        # Calculate index of first branch, last branch, total length, and midpoint
+        first, last, end = (
+            result_idx[0],
+            sum(result_nrow) + result_idx[-1] - result_nrow[-1],
+            sum(result_nrow) - 1,
+        )
+        mid = (first + last) // 2
+
+        if len(children) == 1:
+            # Special case for one child (need only branch)
+            mid, last = result_idx[0], result_nrow[0]
+            result_prefix = (
+                [_padding + space] * first
+                + [node_str + style_branch]
+                + [_padding + space] * (end - last)
+            )
+        elif len(children) == 2:
+            # Special case for two children (need split_branch)
+            if last - first == 1:
+                # Create gap if two children occupy two rows
+                assert len(result) == 2
+                result = [result[0], "", result[1]]
+                last = end = first + 2
+                mid = (last - first) // 2
+            result_prefix = (
+                [_padding + space] * first
+                + [_padding + style_first_child]
+                + [_padding + style_stem] * (mid - first - 1)
+                + [node_str + style_split_branch]
+                + [_padding + style_stem] * (last - mid - 1)
+                + [_padding + style_last_child]
+                + [_padding + space] * (end - last)
+            )
+        else:
+            branch_idxs = list(
+                (
+                    offset + blanks
+                    for offset, blanks in zip(
+                        result_idx, [0] + list(accumulate(result_nrow))
+                    )
+                )
+            )
+            n_stems = [(b - a - 1) for a, b in zip(branch_idxs, branch_idxs[1:])]
+            result_prefix = (
+                [_padding + space] * first
+                + [_padding + style_first_child]
+                + [
+                    _line
+                    for line in [
+                        [_padding + style_stem] * n_stem
+                        + [_padding + style_subsequent_child]
+                        for n_stem in n_stems[:-1]
+                    ]
+                    for _line in line
+                ]
+                + [_padding + style_stem] * n_stems[-1]
+                + [_padding + style_last_child]
+                + [_padding + space] * (end - last)
+            )
+            result_prefix[mid] = node_str + style_split_branch
+            if mid in branch_idxs:
+                result_prefix[mid] = node_str + style_middle_child
+        result = [prefix + stem for prefix, stem in zip(result_prefix, result)]
+        return result, mid
+
+    result, _ = _hprint_branch(tree, _padding=padding_initial)
+    print("\n".join(result))
 
 
 def tree_to_dict(

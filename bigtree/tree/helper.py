@@ -54,6 +54,36 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
     return root_node
 
 
+def get_subtree(
+    tree: NodeT,
+    node_name_or_path: str = "",
+    max_depth: int = 0,
+) -> NodeT:
+    """Get subtree based on node name or node path, and/or maximum depth of tree.
+
+    Args:
+        tree (Node): existing tree
+        node_name_or_path (str): node name or path to get subtree, defaults to None
+        max_depth (int): maximum depth of subtree, based on `depth` attribute, defaults to None
+
+    Returns:
+        (Node)
+    """
+    tree = tree.copy()
+
+    if node_name_or_path:
+        tree = find_path(tree, node_name_or_path)
+        if not tree:
+            raise ValueError(f"Node name or path {node_name_or_path} not found")
+
+    if not tree.is_root:
+        tree.parent = None
+
+    if max_depth:
+        tree = prune_tree(tree, max_depth=max_depth)
+    return tree
+
+
 def prune_tree(
     tree: Union[BinaryNodeT, NodeT],
     prune_path: Union[List[str], str] = "",
