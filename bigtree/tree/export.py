@@ -494,8 +494,8 @@ def hyield_tree(
     >>> c = Node("c", parent=root)
     >>> d = Node("d", parent=b)
     >>> e = Node("e", parent=b)
-    >>> tree_str = hyield_tree
-    >>> print("\n".join(tree_str))
+    >>> result = hyield_tree(root)
+    >>> print("\\n".join(result))
                ┌─ d
          ┌─ b ─┤
     ─ a ─┤     └─ e

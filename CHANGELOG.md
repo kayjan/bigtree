@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.15.1] - 2024-01-05
 ### Added
 - Tree Constructor: `newick_to_tree` to convert Newick notation to tree.
+- Tree Exporter: `hprint_tree` and `hyield_tree` to print and retrieve results for tree in horizontal orientation.
+- Node: Added `hshow` method to print tree in horizontal orientation to console.
 ### Changed
 - Tree Exporter: `tree_to_newick` to accept more parameters to parse length and attributes.
 ### Fixed
