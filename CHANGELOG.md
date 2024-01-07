@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.15.3] - 2024-01-08
+### Added
+- Tree Helper: `get_subtree` method to retrieve subtree.
+
 ## [0.15.2] - 2024-01-08
 ### Added
 - Tree Exporter: `hprint_tree` and `hyield_tree` to print and retrieve results for tree in horizontal orientation.
@@ -432,6 +436,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
+[0.15.3]: https://github.com/kayjan/bigtree/compare/0.15.3...0.15.2
 [0.15.2]: https://github.com/kayjan/bigtree/compare/0.15.2...0.15.1
 [0.15.1]: https://github.com/kayjan/bigtree/compare/0.15.1...0.15.0
 [0.15.0]: https://github.com/kayjan/bigtree/compare/0.15.0...0.14.8

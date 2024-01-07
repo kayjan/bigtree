@@ -61,8 +61,9 @@ For **Tree** implementation, there are 9 main components.
    4. Find single child node based on name, user-defined condition
 6. [**🔧 Helper Function**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/helper.html)
    1. Cloning tree to another `Node` type
-   2. Prune tree
-   3. Get difference between two trees
+   2. Get subtree (smaller tree with different root)
+   3. Prune tree (smaller tree with same root)
+   4. Get difference between two trees
 7. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/plot.html)
    1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
 8. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/export.html)
@@ -835,58 +836,80 @@ find_child_by_name(c, "c")
 
 ### Helper Utility
 
-There following are helper functions for cloning tree to another `Node` type, pruning tree, and getting difference
-between two trees.
+There following are helper functions for
+1. Cloning tree to another `Node` type
+2. Getting subtree (smaller tree with different root)
+3. Pruning tree (smaller tree with same root)
+4. Getting difference between two trees
 
 {emphasize-lines="6,18,38,43"}
 ```python
-from bigtree import BaseNode, Node, clone_tree, prune_tree, get_tree_diff
+from bigtree import BaseNode, Node, clone_tree, get_subtree, get_tree_diff, prune_tree, str_to_tree
 
-# Cloning tree from `BaseNode` to `Node` type
+# 1. Cloning tree from `BaseNode` to `Node` type
 root = BaseNode(name="a")
 b = BaseNode(name="b", parent=root)
 clone_tree(root, Node)
 # Node(/a, )
 
-# Prune tree to only path a/b
-root = Node("a")
-b = Node("b", parent=root)
-c = Node("c", parent=root)
-root.show()
-# a
-# ├── b
-# └── c
+# Create a tree for future sections
+root = str_to_tree("""
+a
+├── b
+│   ├── d
+│   └── e
+└── c
+    └── f
+""")
 
+# 2. Getting subtree with root b
+root_subtree = get_subtree(root, "b")
+root_subtree.show()
+# b
+# ├── d
+# └── e
+
+# 3.1 Prune tree to only path a/b
 root_pruned = prune_tree(root, "a/b")
 root_pruned.show()
 # a
 # └── b
+#     ├── d
+#     └── e
 
-# Get difference between two trees
-root = Node("a")
-b = Node("b", parent=root)
-c = Node("c", parent=root)
-root.show()
-# a
-# ├── b
-# └── c
-
-root_other = Node("a")
-b_other = Node("b", parent=root_other)
-root_other.show()
+# 3.1 Prune tree to exactly path a/b
+root_pruned = prune_tree(root, "a/b", exact=True)
+root_pruned.show()
 # a
 # └── b
+
+# 4. Get difference between two trees
+root_other = str_to_tree("""
+a
+├── b
+│   └── d
+└── c
+    └── g
+""")
 
 tree_diff = get_tree_diff(root, root_other)
 tree_diff.show()
 # a
-# └── c (-)
+# ├── b
+# │   └── e (-)
+# └── c
+#     ├── f (-)
+#     └── g (+)
 
 tree_diff = get_tree_diff(root, root_other, only_diff=False)
 tree_diff.show()
 # a
 # ├── b
-# └── c (-)
+# │   ├── d
+# │   └── e (-)
+# └── c
+#     ├── f (-)
+#     └── g (+)
 ```
 
 ### Export Tree
