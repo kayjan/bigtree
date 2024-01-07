@@ -66,7 +66,7 @@ For **Tree** implementation, there are 9 main components.
 7. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/plot.html)
    1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
 8. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/export.html)
-   1. Print to console
+   1. Print to console, in vertical or horizontal orientation
    2. Export to *Newick string notation*, *dictionary*, *nested dictionary*, or *pandas DataFrame*
    3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
    4. Export tree to *Pillow* (can save to .png, .jpg)
@@ -394,12 +394,13 @@ root.show(attr_list=["age"])
 
 ### Print Tree
 
-After tree is constructed, it can be viewed by printing to console using `show` method directly.
-Alternatively, the `print_tree` method can be used.
+After tree is constructed, it can be viewed by printing to console using `show` or `hshow` method directly,
+for vertical and horizontal orientation respectively.
+Alternatively, the `print_tree` or `hprint_tree` method can be used.
 
-{emphasize-lines="8,16,21,27,34,41,49,56,63,70,77,84,91-95"}
+{emphasize-lines="8,15,22,27,33,40,47,55,62,69,76,83,90,97-101"}
 ```python
-from bigtree import Node, print_tree
+from bigtree import Node, print_tree, hprint_tree
 
 root = Node("a", age=90, gender="F")
 b = Node("b", age=65, gender="M", parent=root)
@@ -412,6 +413,12 @@ print_tree(root)
 # │   ├── d
 # │   └── e
 # └── c
+
+hprint_tree(root)
+#            ┌─ d
+#      ┌─ b ─┤
+# ─ a ─┤     └─ e
+#      └─ c
 
 # Print subtree
 print_tree(root, node_name_or_path="b")
@@ -536,6 +543,7 @@ Below are the tables of attributes available to `BaseNode` and `Node` classes.
 | Check if leaf node                   | `root.is_leaf`     | False                      |
 | Check depth of node                  | `node_b.depth`     | 2                          |
 | Check depth of tree                  | `node_b.max_depth` | 4                          |
+| Get root of tree                     | `node_b.root`      | Node(/a, )                 |
 | Get node path                        | `node_b.node_path` | (Node(/a, ), Node(/a/b, )) |
 | Get node name (only for `Node`)      | `node_b.node_name` | 'b'                        |
 | Get node path name (only for `Node`) | `node_b.path_name` | '/a/b'                     |
@@ -553,14 +561,18 @@ Below are the tables of attributes available to `BaseNode` and `Node` classes.
 
 Below is the table of operations available to `BaseNode` and `Node` classes.
 
-| Operations                         | Code                                                       | Returns                                    |
-|------------------------------------|------------------------------------------------------------|--------------------------------------------|
-| Get node information               | `root.describe(exclude_prefix="_")`                        | [('name', 'a')]                            |
-| Find path from one node to another | `root.go_to(node_e)`                                       | [Node(/a, ), Node(/a/b, ), Node(/a/b/e, )] |
-| Set attribute(s)                   | `root.set_attrs({"description": "root-tag"})`              | None                                       |
-| Get attribute                      | `root.get_attr("description")`                             | 'root-tag'                                 |
-| Copy tree                          | `root.copy()`                                              | None                                       |
-| Sort children                      | `root.sort(key=lambda node: node.node_name, reverse=True)` | None                                       |
+| Operations                                      | Code                                                       | Returns                                    |
+|-------------------------------------------------|------------------------------------------------------------|--------------------------------------------|
+| Visualize tree (only for `Node`)                | `root.show()`                                              | None                                       |
+| Visualize tree (horizontally) (only for `Node`) | `root.hshow()`                                             | None                                       |
+| Get node information                            | `root.describe(exclude_prefix="_")`                        | [('name', 'a')]                            |
+| Find path from one node to another              | `root.go_to(node_e)`                                       | [Node(/a, ), Node(/a/b, ), Node(/a/b/e, )] |
+| Add child to node                               | `root.append(Node("j"))`                                   | None                                       |
+| Add multiple children to node                   | `root.extend([Node("k"), Node("l")])`                      | None                                       |
+| Set attribute(s)                                | `root.set_attrs({"description": "root-tag"})`              | None                                       |
+| Get attribute                                   | `root.get_attr("description")`                             | 'root-tag'                                 |
+| Copy tree                                       | `root.copy()`                                              | None                                       |
+| Sort children                                   | `root.sort(key=lambda node: node.node_name, reverse=True)` | None                                       |
 
 ### Traverse Tree
 
