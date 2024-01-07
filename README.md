@@ -842,7 +842,7 @@ There following are helper functions for
 3. Pruning tree (smaller tree with same root)
 4. Getting difference between two trees
 
-{emphasize-lines="6,18,38,43"}
+{emphasize-lines="6,20,27,35,49,58"}
 ```python
 from bigtree import BaseNode, Node, clone_tree, get_subtree, get_tree_diff, prune_tree, str_to_tree
 
