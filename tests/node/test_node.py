@@ -436,6 +436,12 @@ def assert_tree_structure_node_self(self):
         style="ansi",
     )
 
+    expected_str = "           ┌─ d\n     ┌─ b ─┤     ┌─ g\n─ a ─┤     └─ e ─┤\n     │           └─ h\n     └─ c ─── f\n"
+    assert_print_statement(
+        self.a.hshow,
+        expected_str,
+    )
+
 
 def assert_tree_structure_node_root_sep(root):
     # Test path_name

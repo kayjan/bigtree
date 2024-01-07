@@ -66,6 +66,7 @@ class Node(BaseNode):
     `Node` methods
 
     1. ``show()``: Print tree to console
+    2. ``hshow()``: Print tree in horizontal orientation to console
 
     ----
 
@@ -212,6 +213,12 @@ class Node(BaseNode):
         from bigtree.tree.export import print_tree
 
         print_tree(self, **kwargs)
+
+    def hshow(self, **kwargs: Any) -> None:
+        """Print tree in horizontal orientation to console, takes in same keyword arguments as `hprint_tree` function"""
+        from bigtree.tree.export import hprint_tree
+
+        hprint_tree(self, **kwargs)
 
     def __getitem__(self, child_name: str) -> T:
         """Get child by name identifier

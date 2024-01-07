@@ -3,14 +3,97 @@ from typing import Dict, List, Tuple
 
 
 class ExportConstants:
-    AVAILABLE_STYLES: Dict[str, Tuple[str, str, str]] = {
+    DOWN_RIGHT = "\u250c"
+    VERTICAL_RIGHT = "\u251c"
+    VERTICAL_LEFT = "\u2524"
+    VERTICAL_HORIZONTAL = "\u253c"
+    UP_RIGHT = "\u2514"
+    VERTICAL = "\u2502"
+    HORIZONTAL = "\u2500"
+
+    DOWN_RIGHT_ROUNDED = "\u256D"
+    UP_RIGHT_ROUNDED = "\u2570"
+
+    DOWN_RIGHT_BOLD = "\u250F"
+    VERTICAL_RIGHT_BOLD = "\u2523"
+    VERTICAL_LEFT_BOLD = "\u252B"
+    VERTICAL_HORIZONTAL_BOLD = "\u254B"
+    UP_RIGHT_BOLD = "\u2517"
+    VERTICAL_BOLD = "\u2503"
+    HORIZONTAL_BOLD = "\u2501"
+
+    DOWN_RIGHT_DOUBLE = "\u2554"
+    VERTICAL_RIGHT_DOUBLE = "\u2560"
+    VERTICAL_LEFT_DOUBLE = "\u2563"
+    VERTICAL_HORIZONTAL_DOUBLE = "\u256C"
+    UP_RIGHT_DOUBLE = "\u255a"
+    VERTICAL_DOUBLE = "\u2551"
+    HORIZONTAL_DOUBLE = "\u2550"
+
+    PRINT_STYLES: Dict[str, Tuple[str, str, str]] = {
         "ansi": ("|   ", "|-- ", "`-- "),
         "ascii": ("|   ", "|-- ", "+-- "),
-        "const": ("\u2502   ", "\u251c\u2500\u2500 ", "\u2514\u2500\u2500 "),
-        "const_bold": ("\u2503   ", "\u2523\u2501\u2501 ", "\u2517\u2501\u2501 "),
-        "rounded": ("\u2502   ", "\u251c\u2500\u2500 ", "\u2570\u2500\u2500 "),
-        "double": ("\u2551   ", "\u2560\u2550\u2550 ", "\u255a\u2550\u2550 "),
-        "custom": ("", "", ""),
+        "const": (
+            f"{VERTICAL}   ",
+            f"{VERTICAL_RIGHT}{HORIZONTAL}{HORIZONTAL} ",
+            f"{UP_RIGHT}{HORIZONTAL}{HORIZONTAL} ",
+        ),
+        "const_bold": (
+            f"{VERTICAL_BOLD}   ",
+            f"{VERTICAL_RIGHT_BOLD}{HORIZONTAL_BOLD}{HORIZONTAL_BOLD} ",
+            f"{UP_RIGHT_BOLD}{HORIZONTAL_BOLD}{HORIZONTAL_BOLD} ",
+        ),
+        "rounded": (
+            f"{VERTICAL}   ",
+            f"{VERTICAL_RIGHT}{HORIZONTAL}{HORIZONTAL} ",
+            f"{UP_RIGHT_ROUNDED}{HORIZONTAL}{HORIZONTAL} ",
+        ),
+        "double": (
+            f"{VERTICAL_DOUBLE}   ",
+            f"{VERTICAL_RIGHT_DOUBLE}{HORIZONTAL_DOUBLE}{HORIZONTAL_DOUBLE} ",
+            f"{UP_RIGHT_DOUBLE}{HORIZONTAL_DOUBLE}{HORIZONTAL_DOUBLE} ",
+        ),
+    }
+
+    HPRINT_STYLES: Dict[str, Tuple[str, str, str, str, str, str, str]] = {
+        "ansi": ("/", "+", "+", "+", "\\", "|", "-"),
+        "ascii": ("+", "+", "+", "+", "+", "|", "-"),
+        "const": (
+            DOWN_RIGHT,
+            VERTICAL_RIGHT,
+            VERTICAL_LEFT,
+            VERTICAL_HORIZONTAL,
+            UP_RIGHT,
+            VERTICAL,
+            HORIZONTAL,
+        ),
+        "const_bold": (
+            DOWN_RIGHT_BOLD,
+            VERTICAL_RIGHT_BOLD,
+            VERTICAL_LEFT_BOLD,
+            VERTICAL_HORIZONTAL_BOLD,
+            UP_RIGHT_BOLD,
+            VERTICAL_BOLD,
+            HORIZONTAL_BOLD,
+        ),
+        "rounded": (
+            DOWN_RIGHT_ROUNDED,
+            VERTICAL_RIGHT,
+            VERTICAL_LEFT,
+            VERTICAL_HORIZONTAL,
+            UP_RIGHT_ROUNDED,
+            VERTICAL,
+            HORIZONTAL,
+        ),
+        "double": (
+            DOWN_RIGHT_DOUBLE,
+            VERTICAL_RIGHT_DOUBLE,
+            VERTICAL_LEFT_DOUBLE,
+            VERTICAL_HORIZONTAL_DOUBLE,
+            UP_RIGHT_DOUBLE,
+            VERTICAL_DOUBLE,
+            HORIZONTAL_DOUBLE,
+        ),
     }
 
 

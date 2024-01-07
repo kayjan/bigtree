@@ -3,6 +3,7 @@ import pytest
 
 from bigtree.tree.construct import dataframe_to_tree, dict_to_tree, nested_dict_to_tree
 from bigtree.tree.export import (
+    hprint_tree,
     print_tree,
     tree_to_dataframe,
     tree_to_dict,
@@ -210,6 +211,210 @@ class TestPrintTree:
                 custom_style=["", ""],
             )
         assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_PRINT_STYLE_SELECT
+
+
+class TestHPrintTree:
+    @staticmethod
+    def test_hprint_tree(tree_node):
+        expected_str = "           ┌─ d\n     ┌─ b ─┤     ┌─ g\n─ a ─┤     └─ e ─┤\n     │           └─ h\n     └─ c ─── f\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+        )
+
+    @staticmethod
+    def test_hprint_tree2():
+        from bigtree.tree.construct import list_to_tree
+
+        tree_node = list_to_tree(
+            [
+                "a/b/b1",
+                "a/b/b2",
+                "a/b/b3",
+                "a/b/b4",
+                "a/b/b5",
+                "a/c/c1/c11",
+                "a/c/c1/c12",
+                "a/d/d1",
+                "a/d/d2",
+                "a/d/d3",
+                "a/d/d4",
+                "a/d/d5/d51",
+                "a/d/d5/d52",
+                "a/d/d5/d53",
+                "a/d/d5/d54",
+                "a/d/d6",
+                "a/e/e1/e11",
+                "a/e/e1/e12",
+                "a/e/e1/e13",
+                "a/e/e1/e14",
+                "a/e/e1/e15",
+                "a/e/e1/e16",
+                "a/e/e2",
+                "a/e/e3/e311",
+                "a/e/e3/e312",
+                "a/e/e3/e313",
+            ]
+        )
+        expected_str = "           ┌─ b1\n           ├─ b2\n     ┌─ b ─┼─ b3\n     │     ├─ b4\n     │     └─ b5\n     │            ┌─ c11\n     ├─ c ─── c1 ─┤\n     │            └─ c12\n     │     ┌─ d1\n     │     ├─ d2\n     │     ├─ d3\n     │     ├─ d4\n─ a ─┼─ d ─┤      ┌─ d51\n     │     ├─ d5 ─┼─ d52\n     │     │      ├─ d53\n     │     │      └─ d54\n     │     └─ d6\n     │            ┌─ e11\n     │            ├─ e12\n     │     ┌─ e1 ─┼─ e13\n     │     │      ├─ e14\n     │     │      ├─ e15\n     └─ e ─┤      └─ e16\n           ├─ e2\n           │      ┌─ e311\n           └─ e3 ─┼─ e312\n                  └─ e313\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+        )
+
+    @staticmethod
+    def test_hprint_tree_long_root_name_length(tree_node):
+        tree_node.name = "abcdefghijkl"
+        expected_str = "                      ┌─ d\n                ┌─ b ─┤     ┌─ g\n─ abcdefghijkl ─┤     └─ e ─┤\n                │           └─ h\n                └─ c ─── f\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+        )
+
+    @staticmethod
+    def test_hprint_tree_diff_node_name_length(tree_node):
+        tree_node["b"].name = "bcde"
+        tree_node["c"]["f"].name = "fghijk"
+        expected_str = "              ┌─   d\n     ┌─ bcde ─┤          ┌─ g\n─ a ─┤        └─   e    ─┤\n     │                   └─ h\n     └─  c   ─── fghijk\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+        )
+
+    @staticmethod
+    def test_hprint_tree_child_node_name(tree_node):
+        expected_str = "     ┌─ d\n─ b ─┤     ┌─ g\n     └─ e ─┤\n           └─ h\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            node_name_or_path="b",
+        )
+
+    @staticmethod
+    def test_hprint_tree_child_node_name_error(tree_node):
+        node_name_or_path = "bb"
+        with pytest.raises(ValueError) as exc_info:
+            hprint_tree(tree_node, node_name_or_path=node_name_or_path)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_EXPORT_PRINT_INVALID_PATH.format(
+            node_name_or_path=node_name_or_path
+        )
+
+    @staticmethod
+    def test_hprint_tree_child_node_path(tree_node):
+        expected_str = "     ┌─ d\n─ b ─┤     ┌─ g\n     └─ e ─┤\n           └─ h\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            node_name_or_path="a/b",
+        )
+
+    @staticmethod
+    def test_hprint_tree_style_ansi(tree_node):
+        expected_str = "           /- d\n     /- b -+     /- g\n- a -+     \\- e -+\n     |           \\- h\n     \\- c --- f\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="ansi",
+        )
+
+    @staticmethod
+    def test_hprint_tree_style_ascii(tree_node):
+        expected_str = "           +- d\n     +- b -+     +- g\n- a -+     +- e -+\n     |           +- h\n     +- c --- f\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="ascii",
+        )
+
+    @staticmethod
+    def test_hprint_tree_style_const(tree_node):
+        expected_str = "           ┌─ d\n     ┌─ b ─┤     ┌─ g\n─ a ─┤     └─ e ─┤\n     │           └─ h\n     └─ c ─── f\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="const",
+        )
+
+    @staticmethod
+    def test_hprint_tree_style_const_bold(tree_node):
+        expected_str = "           ┏━ d\n     ┏━ b ━┫     ┏━ g\n━ a ━┫     ┗━ e ━┫\n     ┃           ┗━ h\n     ┗━ c ━━━ f\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="const_bold",
+        )
+
+    @staticmethod
+    def test_hprint_tree_style_rounded(tree_node):
+        expected_str = "           ╭─ d\n     ╭─ b ─┤     ╭─ g\n─ a ─┤     ╰─ e ─┤\n     │           ╰─ h\n     ╰─ c ─── f\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="rounded",
+        )
+
+    @staticmethod
+    def test_hprint_tree_style_double(tree_node):
+        expected_str = "           ╔═ d\n     ╔═ b ═╣     ╔═ g\n═ a ═╣     ╚═ e ═╣\n     ║           ╚═ h\n     ╚═ c ═══ f\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="double",
+        )
+
+    @staticmethod
+    def test_hprint_tree_style_unknown_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            hprint_tree(tree_node, style="something")
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_EXPORT_PRINT_INVALID_STYLE
+        )
+
+    @staticmethod
+    def test_hprint_tree_custom_style(tree_node):
+        expected_str = "           -= d\n     -= b =+     -= g\n= a =+     |= e =+\n     -           |= h\n     |= c === f\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="custom",
+            custom_style=["-", "-", "+", "+", "|", "-", "="],
+        )
+
+    @staticmethod
+    def test_hprint_tree_custom_style_unequal_char_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            hprint_tree(
+                tree_node,
+                style="custom",
+                custom_style=["- ", "-", "+", "+", "|", "-", "="],
+            )
+        assert (
+            str(exc_info.value)
+            == Constants.ERROR_NODE_EXPORT_HPRINT_CUSTOM_STYLE_DIFFERENT_LENGTH
+        )
+
+    @staticmethod
+    def test_hprint_tree_custom_style_missing_style_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            hprint_tree(
+                tree_node, style="custom", custom_style=["-", "+", "+", "|", "-", "="]
+            )
+        assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_HPRINT_STYLE_SELECT
 
 
 class TestTreeToDataFrame:
