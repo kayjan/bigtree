@@ -10,7 +10,7 @@ from bigtree.tree.search import find_path
 from bigtree.utils.exceptions import NotFoundError
 from bigtree.utils.iterators import levelordergroup_iter
 
-__all__ = ["clone_tree", "prune_tree", "get_tree_diff"]
+__all__ = ["clone_tree", "get_subtree", "prune_tree", "get_tree_diff"]
 BaseNodeT = TypeVar("BaseNodeT", bound=BaseNode)
 BinaryNodeT = TypeVar("BinaryNodeT", bound=BinaryNode)
 NodeT = TypeVar("NodeT", bound=Node)
@@ -60,6 +60,27 @@ def get_subtree(
     max_depth: int = 0,
 ) -> NodeT:
     """Get subtree based on node name or node path, and/or maximum depth of tree.
+
+    >>> from bigtree import Node, get_subtree
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=b)
+    >>> d = Node("d", parent=b)
+    >>> e = Node("e", parent=root)
+    >>> root.show()
+    a
+    ├── b
+    │   ├── c
+    │   └── d
+    └── e
+
+    Get subtree
+
+    >>> root_subtree = get_subtree(root, "b")
+    >>> root_subtree.show()
+    b
+    ├── c
+    └── d
 
     Args:
         tree (Node): existing tree
