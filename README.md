@@ -182,6 +182,11 @@ root.show()
 # │   └── d
 # └── c
 
+root.hshow()
+#      ┌─ b ─── d
+# ─ a ─┤
+#      └─ c
+
 graph = tree_to_dot(root, node_colour="gold")
 graph.write_png("assets/docs/demo_tree.png")
 ```

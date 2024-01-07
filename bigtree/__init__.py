@@ -23,6 +23,8 @@ from bigtree.tree.construct import (
     str_to_tree,
 )
 from bigtree.tree.export import (
+    hprint_tree,
+    hyield_tree,
     print_tree,
     tree_to_dataframe,
     tree_to_dict,
