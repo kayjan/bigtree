@@ -15,7 +15,7 @@ from bigtree.utils.exceptions import (
     optional_dependencies_image,
     optional_dependencies_pandas,
 )
-from bigtree.utils.iterators import preorder_iter
+from bigtree.utils.iterators import levelordergroup_iter, preorder_iter
 
 try:
     import pandas as pd
@@ -506,30 +506,32 @@ def hprint_tree(
         raise ValueError("For custom style, all style icons must have length 1")
 
     # Calculate padding
-    max_name_length = max([len(node.node_name) for node in tree.descendants])
     space = " "
-    padding_initial = space * (len(tree.node_name) + 4)
-    padding = space * (max_name_length + 4)
+    padding_depths = {}
+    for _idx, _children in enumerate(levelordergroup_iter(tree)):
+        padding_depths[_idx + 1] = max([len(node.node_name) for node in _children])
 
-    def _hprint_branch(_node: T, _padding: str = padding) -> Tuple[List[str], int]:
+    def _hprint_branch(_node: T) -> Tuple[List[str], int]:
         """Get string for tree horizontally.
         Recursively iterate the nodes in post-order traversal manner.
 
         Args:
             _node (Node): node to get string
-            _padding (str): amount of padding, defaults to spacing of (maximum name length + 4)
 
         Returns:
             (Tuple[List[str], int]): Intermediate/final result for node, index of branch
         """
+        padding_depth = padding_depths[_node.depth]
+        padding = space * (padding_depth + 4)
+        node_name_centered = _node.node_name.center(padding_depth)
+
         children = list(_node.children)
         if not len(children):
-            node_str = f"{style_branch} {_node.node_name}"
+            node_str = f"{style_branch} {node_name_centered.rstrip()}"
             return [node_str], 0
 
         result, result_nrow, result_idx = [], [], []
-        node_name_str = _node.node_name.center(max_name_length)
-        node_str = f"""{style_branch} {node_name_str} {style_branch}"""
+        node_str = f"""{style_branch} {node_name_centered} {style_branch}"""
         for idx, child in enumerate(children):
             result_child, result_branch_idx = _hprint_branch(child)
             result.extend(result_child)
@@ -546,11 +548,10 @@ def hprint_tree(
 
         if len(children) == 1:
             # Special case for one child (need only branch)
-            mid, last = result_idx[0], result_nrow[0]
             result_prefix = (
-                [_padding + space] * first
+                [padding + space] * first
                 + [node_str + style_branch]
-                + [_padding + space] * (end - last)
+                + [padding + space] * (end - last)
             )
         elif len(children) == 2:
             # Special case for two children (need split_branch)
@@ -561,13 +562,13 @@ def hprint_tree(
                 last = end = first + 2
                 mid = (last - first) // 2
             result_prefix = (
-                [_padding + space] * first
-                + [_padding + style_first_child]
-                + [_padding + style_stem] * (mid - first - 1)
+                [padding + space] * first
+                + [padding + style_first_child]
+                + [padding + style_stem] * (mid - first - 1)
                 + [node_str + style_split_branch]
-                + [_padding + style_stem] * (last - mid - 1)
-                + [_padding + style_last_child]
-                + [_padding + space] * (end - last)
+                + [padding + style_stem] * (last - mid - 1)
+                + [padding + style_last_child]
+                + [padding + space] * (end - last)
             )
         else:
             branch_idxs = list(
@@ -580,20 +581,20 @@ def hprint_tree(
             )
             n_stems = [(b - a - 1) for a, b in zip(branch_idxs, branch_idxs[1:])]
             result_prefix = (
-                [_padding + space] * first
-                + [_padding + style_first_child]
+                [padding + space] * first
+                + [padding + style_first_child]
                 + [
                     _line
                     for line in [
-                        [_padding + style_stem] * n_stem
-                        + [_padding + style_subsequent_child]
+                        [padding + style_stem] * n_stem
+                        + [padding + style_subsequent_child]
                         for n_stem in n_stems[:-1]
                     ]
                     for _line in line
                 ]
-                + [_padding + style_stem] * n_stems[-1]
-                + [_padding + style_last_child]
-                + [_padding + space] * (end - last)
+                + [padding + style_stem] * n_stems[-1]
+                + [padding + style_last_child]
+                + [padding + space] * (end - last)
             )
             result_prefix[mid] = node_str + style_split_branch
             if mid in branch_idxs:
@@ -601,7 +602,7 @@ def hprint_tree(
         result = [prefix + stem for prefix, stem in zip(result_prefix, result)]
         return result, mid
 
-    result, _ = _hprint_branch(tree, _padding=padding_initial)
+    result, _ = _hprint_branch(tree)
     print("\n".join(result))
 
 
