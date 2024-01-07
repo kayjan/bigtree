@@ -37,6 +37,7 @@ __all__ = [
     "print_tree",
     "yield_tree",
     "hprint_tree",
+    "hyield_tree",
     "tree_to_dict",
     "tree_to_nested_dict",
     "tree_to_dataframe",
@@ -379,7 +380,7 @@ def hprint_tree(
     style: str = "const",
     custom_style: Iterable[str] = [],
 ) -> None:
-    """Print tree horizontally to console, starting from `tree`.
+    """Print tree in horizontal orientation to console, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
@@ -458,6 +459,107 @@ def hprint_tree(
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         style (str): style of print, defaults to const style
         custom_style (Iterable[str]): style of icons, used when `style` is set to 'custom'
+    """
+    result = hyield_tree(
+        tree,
+        node_name_or_path=node_name_or_path,
+        max_depth=max_depth,
+        style=style,
+        custom_style=custom_style,
+    )
+    print("\n".join(result))
+
+
+def hyield_tree(
+    tree: T,
+    node_name_or_path: str = "",
+    max_depth: int = 0,
+    style: str = "const",
+    custom_style: Iterable[str] = [],
+) -> List[str]:
+    """Yield tree in horizontal orientation to console, starting from `tree`.
+
+    - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
+    - Able to customize for maximum depth to print, using `max_depth`
+    - Able to customize style, to choose from `ansi`, `ascii`, `const`, `const_bold`, `rounded`, `double`, and `custom` style
+        - Default style is `const` style
+        - If style is set to custom, user can choose their own style icons
+        - Style icons should have the same number of characters
+
+    **Printing tree**
+
+    >>> from bigtree import Node, hyield_tree
+    >>> root = Node("a")
+    >>> b = Node("b", parent=root)
+    >>> c = Node("c", parent=root)
+    >>> d = Node("d", parent=b)
+    >>> e = Node("e", parent=b)
+    >>> tree_str = hyield_tree
+    >>> print("\n".join(tree_str))
+               ┌─ d
+         ┌─ b ─┤
+    ─ a ─┤     └─ e
+         └─ c
+
+    **Printing Sub-tree**
+
+    >>> hprint_tree(root, node_name_or_path="b")
+         ┌─ d
+    ─ b ─┤
+         └─ e
+
+    >>> hprint_tree(root, max_depth=2)
+         ┌─ b
+    ─ a ─┤
+         └─ c
+
+    **Available Styles**
+
+    >>> hprint_tree(root, style="ansi")
+               /- d
+         /- b -+
+    - a -+     \\- e
+         \\- c
+
+    >>> hprint_tree(root, style="ascii")
+               +- d
+         +- b -+
+    - a -+     +- e
+         +- c
+
+    >>> hprint_tree(root, style="const")
+               ┌─ d
+         ┌─ b ─┤
+    ─ a ─┤     └─ e
+         └─ c
+
+    >>> hprint_tree(root, style="const_bold")
+               ┏━ d
+         ┏━ b ━┫
+    ━ a ━┫     ┗━ e
+         ┗━ c
+
+    >>> hprint_tree(root, style="rounded")
+               ╭─ d
+         ╭─ b ─┤
+    ─ a ─┤     ╰─ e
+         ╰─ c
+
+    >>> hprint_tree(root, style="double")
+               ╔═ d
+         ╔═ b ═╣
+    ═ a ═╣     ╚═ e
+         ╚═ c
+
+    Args:
+        tree (Node): tree to print
+        node_name_or_path (str): node to print from, becomes the root node of printing
+        max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
+        style (str): style of print, defaults to const style
+        custom_style (Iterable[str]): style of icons, used when `style` is set to 'custom'
+
+    Returns:
+        (List[str])
     """
     from itertools import accumulate
 
@@ -603,7 +705,7 @@ def hprint_tree(
         return result, mid
 
     result, _ = _hprint_branch(tree)
-    print("\n".join(result))
+    return result
 
 
 def tree_to_dict(
