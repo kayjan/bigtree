@@ -159,3 +159,7 @@ class NewickCharacter(str, Enum):
     ATTR_QUOTE = "'"
     SEP = ":"
     NODE_SEP = ","
+
+    @classmethod
+    def values(cls) -> List[str]:
+        return [c.value for c in cls]

@@ -1556,9 +1556,22 @@ def tree_to_newick(
     if isinstance(attr_sep, NewickCharacter):
         attr_sep = attr_sep.value
 
+    def _serialize(item: Any) -> Any:
+        """Serialize item if it contains special Newick characters
+
+        Args:
+            item (Any): item to serialize
+
+        Returns:
+            (Any)
+        """
+        if isinstance(item, str) and set(item).intersection(NewickCharacter.values()):
+            item = f"""'{item.replace(NewickCharacter.ATTR_QUOTE, '"')}'"""
+        return item
+
     node_name_str = ""
     if (intermediate_node_name) or (not intermediate_node_name and tree.is_leaf):
-        node_name_str = tree.node_name
+        node_name_str = _serialize(tree.node_name)
     if length_attr and not tree.is_root:
         if not tree.get_attr(length_attr):
             raise ValueError(f"Length attribute does not exist for node {tree}")
@@ -1567,7 +1580,11 @@ def tree_to_newick(
     attr_str = ""
     if attr_list:
         attr_str = attr_sep.join(
-            [f"{k}={tree.get_attr(k)}" for k in attr_list if tree.get_attr(k)]
+            [
+                f"{_serialize(k)}={_serialize(tree.get_attr(k))}"
+                for k in attr_list
+                if tree.get_attr(k)
+            ]
         )
         if attr_str:
             attr_str = f"[{attr_prefix}{attr_str}]"

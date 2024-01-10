@@ -1636,6 +1636,23 @@ class TestTreeToNewick:
         assert newick_str == expected_str
 
     @staticmethod
+    def test_tree_to_newick_special_character():
+        from bigtree.node.node import Node
+
+        root = Node("(root)")
+        b = Node("[b]", parent=root)
+        c = Node("c:", parent=root)
+        _ = Node("d,", parent=b)
+        e = Node(":e", parent=b)
+        _ = Node("f=", parent=c)
+        _ = Node('"g"', parent=e)
+        _ = Node("'h'", parent=e)
+
+        newick_str = tree_to_newick(root)
+        expected_str = """(('d,',("g",'"h"')':e')'[b]',('f=')'c:')'(root)'"""
+        assert newick_str == expected_str
+
+    @staticmethod
     def test_tree_to_newick_phylogenetic(phylogenetic_tree):
         newick_str = tree_to_newick(
             phylogenetic_tree,
