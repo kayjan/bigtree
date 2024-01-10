@@ -317,6 +317,30 @@ class TestHPrintTree:
         )
 
     @staticmethod
+    def test_hprint_tree_intermediate_node_name(tree_node):
+        expected_str = (
+            "       ┌─ d\n   ┌───┤   ┌─ g\n───┤   └───┤\n   │       └─ h\n   └───── f\n"
+        )
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            intermediate_node_name=False,
+        )
+
+    @staticmethod
+    def test_hprint_tree_intermediate_node_name_diff_node_name_length(tree_node):
+        tree_node["b"].name = "bcde"
+        tree_node["c"]["f"].name = "fghijk"
+        expected_str = "       ┌─ d\n   ┌───┤   ┌─ g\n───┤   └───┤\n   │       └─ h\n   └───── fghijk\n"
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            intermediate_node_name=False,
+        )
+
+    @staticmethod
     def test_hprint_tree_style_ansi(tree_node):
         expected_str = "           /- d\n     /- b -+     /- g\n- a -+     \\- e -+\n     |           \\- h\n     \\- c --- f\n"
         assert_print_statement(

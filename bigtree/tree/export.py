@@ -377,6 +377,7 @@ def hprint_tree(
     tree: T,
     node_name_or_path: str = "",
     max_depth: int = 0,
+    intermediate_node_name: bool = True,
     style: str = "const",
     custom_style: Iterable[str] = [],
 ) -> None:
@@ -457,12 +458,14 @@ def hprint_tree(
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
+        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
         style (str): style of print, defaults to const style
         custom_style (Iterable[str]): style of icons, used when `style` is set to 'custom'
     """
     result = hyield_tree(
         tree,
         node_name_or_path=node_name_or_path,
+        intermediate_node_name=intermediate_node_name,
         max_depth=max_depth,
         style=style,
         custom_style=custom_style,
@@ -474,6 +477,7 @@ def hyield_tree(
     tree: T,
     node_name_or_path: str = "",
     max_depth: int = 0,
+    intermediate_node_name: bool = True,
     style: str = "const",
     custom_style: Iterable[str] = [],
 ) -> List[str]:
@@ -555,6 +559,7 @@ def hyield_tree(
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
+        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
         style (str): style of print, defaults to const style
         custom_style (Iterable[str]): style of icons, used when `style` is set to 'custom'
 
@@ -609,9 +614,10 @@ def hyield_tree(
 
     # Calculate padding
     space = " "
-    padding_depths = {}
-    for _idx, _children in enumerate(levelordergroup_iter(tree)):
-        padding_depths[_idx + 1] = max([len(node.node_name) for node in _children])
+    padding_depths = collections.defaultdict(int)
+    if intermediate_node_name:
+        for _idx, _children in enumerate(levelordergroup_iter(tree)):
+            padding_depths[_idx + 1] = max([len(node.node_name) for node in _children])
 
     def _hprint_branch(_node: T) -> Tuple[List[str], int]:
         """Get string for tree horizontally.
@@ -623,9 +629,7 @@ def hyield_tree(
         Returns:
             (Tuple[List[str], int]): Intermediate/final result for node, index of branch
         """
-        padding_depth = padding_depths[_node.depth]
-        padding = space * (padding_depth + 4)
-        node_name_centered = _node.node_name.center(padding_depth)
+        node_name_centered = _node.node_name.center(padding_depths[_node.depth])
 
         children = list(_node.children)
         if not len(children):
@@ -633,7 +637,11 @@ def hyield_tree(
             return [node_str], 0
 
         result, result_nrow, result_idx = [], [], []
-        node_str = f"""{style_branch} {node_name_centered} {style_branch}"""
+        if intermediate_node_name:
+            node_str = f"""{style_branch} {node_name_centered} {style_branch}"""
+        else:
+            node_str = f"""{style_branch}{style_branch}{style_branch}"""
+        padding = space * len(node_str)
         for idx, child in enumerate(children):
             result_child, result_branch_idx = _hprint_branch(child)
             result.extend(result_child)
