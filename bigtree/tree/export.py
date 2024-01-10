@@ -1566,7 +1566,7 @@ def tree_to_newick(
             (Any)
         """
         if isinstance(item, str) and set(item).intersection(NewickCharacter.values()):
-            item = f"""{item.replace(NewickCharacter.ATTR_QUOTE, '"'}"""
+            item = f"""'{item.replace(NewickCharacter.ATTR_QUOTE, '"')}'"""
         return item
 
     node_name_str = ""
