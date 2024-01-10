@@ -1182,10 +1182,14 @@ def newick_to_tree(
                 NewickState.PARSE_STRING,
                 NewickState.PARSE_ATTRIBUTE_NAME,
             ]:
+                if cumulative_string:
+                    _raise_value_error(tree_string_idx)
                 cumulative_string = tree_string[
                     tree_string_idx + 1 : quote_end_idx  # noqa: E203
                 ]
             else:
+                if cumulative_string_value:
+                    _raise_value_error(tree_string_idx)
                 cumulative_string_value = tree_string[
                     tree_string_idx + 1 : quote_end_idx  # noqa: E203
                 ]

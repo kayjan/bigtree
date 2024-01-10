@@ -2554,6 +2554,24 @@ class TestNewickToTree(unittest.TestCase):
         )
         assert_tree_structure_node_root(root)
 
+    def test_newick_to_tree_invalid_character_error(self):
+        newick_strs_error = [
+            (
+                """((d,(g,h)e)b,(f)c)"'a'\"""",
+                19,
+            ),  # NewickCharacter.ATTR_QUOTE, wrong order of bracket (name)
+            (
+                """((d,(g,h)e)b,(f[age="'38'"])c)a""",
+                21,
+            ),  # NewickCharacter.ATTR_QUOTE, wrong order of bracket (attr value)
+        ]
+        for newick_str, error_idx in newick_strs_error:
+            with pytest.raises(ValueError) as exc_info:
+                newick_to_tree(newick_str)
+            assert str(exc_info.value) == Constants.ERROR_NODE_NEWICK_NOT_CLOSED.format(
+                index=error_idx
+            )
+
 
 def assert_tree_structure_phylogenetic(root):
     assert root.max_depth == 4, f"Expected max_depth 4, received {root.max_depth}"
