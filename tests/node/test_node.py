@@ -423,20 +423,44 @@ def assert_tree_structure_node_self(self):
         ), f"Node should have path {expected}, but path is {actual}"
 
     # Test show
-    expected_str = """a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
+    expected_str = (
+        "a\n"
+        "├── b\n"
+        "│   ├── d\n"
+        "│   └── e\n"
+        "│       ├── g\n"
+        "│       └── h\n"
+        "└── c\n"
+        "    └── f\n"
+    )
     assert_print_statement(
         self.a.show,
         expected_str,
     )
 
-    expected_str = """a\n|-- b\n|   |-- d\n|   `-- e\n|       |-- g\n|       `-- h\n`-- c\n    `-- f\n"""
+    expected_str = (
+        "a\n"
+        "|-- b\n"
+        "|   |-- d\n"
+        "|   `-- e\n"
+        "|       |-- g\n"
+        "|       `-- h\n"
+        "`-- c\n"
+        "    `-- f\n"
+    )
     assert_print_statement(
         self.a.show,
         expected_str,
         style="ansi",
     )
 
-    expected_str = "           ┌─ d\n     ┌─ b ─┤     ┌─ g\n─ a ─┤     └─ e ─┤\n     │           └─ h\n     └─ c ─── f\n"
+    expected_str = (
+        "           ┌─ d\n"
+        "     ┌─ b ─┤     ┌─ g\n"
+        "─ a ─┤     └─ e ─┤\n"
+        "     │           └─ h\n"
+        "     └─ c ─── f\n"
+    )
     assert_print_statement(
         self.a.hshow,
         expected_str,

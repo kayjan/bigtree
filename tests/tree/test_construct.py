@@ -1427,7 +1427,19 @@ class TestListToTreeByRelation(unittest.TestCase):
             ("e", "h"),  # duplicate parent
         ]
         root = list_to_tree_by_relation(relations, allow_duplicates=True)
-        expected = """a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    ├── e\n    │   ├── g\n    │   └── h\n    └── f\n"""
+        expected = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d\n"
+            "│   └── e\n"
+            "│       ├── g\n"
+            "│       └── h\n"
+            "└── c\n"
+            "    ├── e\n"
+            "    │   ├── g\n"
+            "    │   └── h\n"
+            "    └── f\n"
+        )
         assert_print_statement(print_tree, expected, tree=root)
 
     def test_list_to_tree_by_relation_empty_parent(self):
@@ -1444,12 +1456,32 @@ class TestListToTreeByRelation(unittest.TestCase):
 
     def test_list_to_tree_by_relation_switch_order(self):
         root = list_to_tree_by_relation(self.relations_switch)
-        expected = """h\n├── g\n│   ├── e\n│   ├── d\n│   │   ├── b\n│   │   └── a\n│   └── a\n└── f\n    └── a\n"""
+        expected = (
+            "h\n"
+            "├── g\n"
+            "│   ├── e\n"
+            "│   ├── d\n"
+            "│   │   ├── b\n"
+            "│   │   └── a\n"
+            "│   └── a\n"
+            "└── f\n"
+            "    └── a\n"
+        )
         assert_print_statement(print_tree, expected, root)
 
     def test_list_to_tree_by_relation_switch_order_reverse(self):
         root = list_to_tree_by_relation(self.relations_switch[::-1])
-        expected = """h\n├── f\n│   └── a\n└── g\n    ├── a\n    ├── d\n    │   ├── a\n    │   └── b\n    └── e\n"""
+        expected = (
+            "h\n"
+            "├── f\n"
+            "│   └── a\n"
+            "└── g\n"
+            "    ├── a\n"
+            "    ├── d\n"
+            "    │   ├── a\n"
+            "    │   └── b\n"
+            "    └── e\n"
+        )
         assert_print_statement(print_tree, expected, root)
 
 
@@ -2245,7 +2277,17 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
             columns=["child", "parent", "age"],
         )
         root = dataframe_to_tree_by_relation(relation_data)
-        expected = """a\n├── b\n│   ├── d\n│   ├── e\n│   │   ├── g\n│   │   └── h\n│   └── h\n└── c\n    └── h\n"""
+        expected = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d\n"
+            "│   ├── e\n"
+            "│   │   ├── g\n"
+            "│   │   └── h\n"
+            "│   └── h\n"
+            "└── c\n"
+            "    └── h\n"
+        )
         assert_print_statement(print_tree, expected, tree=root, style="const")
 
     @staticmethod
