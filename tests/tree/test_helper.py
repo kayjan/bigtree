@@ -205,7 +205,15 @@ class TestTreeDiff:
         other_tree_node = prune_tree(tree_node, "a/c")
         _ = Node("d", parent=other_tree_node)
         tree_only_diff = get_tree_diff(tree_node, other_tree_node)
-        expected_str = """a\n├── b (-)\n│   ├── d (-)\n│   └── e (-)\n│       ├── g (-)\n│       └── h (-)\n└── d (+)\n"""
+        expected_str = (
+            "a\n"
+            "├── b (-)\n"
+            "│   ├── d (-)\n"
+            "│   └── e (-)\n"
+            "│       ├── g (-)\n"
+            "│       └── h (-)\n"
+            "└── d (+)\n"
+        )
         assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
@@ -214,7 +222,15 @@ class TestTreeDiff:
         _ = Node("d", parent=other_tree_node)
         other_tree_node.sep = "-"
         tree_only_diff = get_tree_diff(tree_node, other_tree_node)
-        expected_str = """a\n├── b (-)\n│   ├── d (-)\n│   └── e (-)\n│       ├── g (-)\n│       └── h (-)\n└── d (+)\n"""
+        expected_str = (
+            "a\n"
+            "├── b (-)\n"
+            "│   ├── d (-)\n"
+            "│   └── e (-)\n"
+            "│       ├── g (-)\n"
+            "│       └── h (-)\n"
+            "└── d (+)\n"
+        )
         assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
@@ -222,7 +238,17 @@ class TestTreeDiff:
         other_tree_node = prune_tree(tree_node, "a/c")
         _ = Node("d", parent=other_tree_node)
         tree_diff = get_tree_diff(tree_node, other_tree_node, only_diff=False)
-        expected_str = """a\n├── b (-)\n│   ├── d (-)\n│   └── e (-)\n│       ├── g (-)\n│       └── h (-)\n├── c\n│   └── f\n└── d (+)\n"""
+        expected_str = (
+            "a\n"
+            "├── b (-)\n"
+            "│   ├── d (-)\n"
+            "│   └── e (-)\n"
+            "│       ├── g (-)\n"
+            "│       └── h (-)\n"
+            "├── c\n"
+            "│   └── f\n"
+            "└── d (+)\n"
+        )
         assert_print_statement(print_tree, expected_str, tree=tree_diff)
 
     @staticmethod
@@ -231,7 +257,7 @@ class TestTreeDiff:
         tree_node_new_parent = other_tree_node["c"]["f"]
         _ = Node("i", parent=tree_node_new_parent)
         tree_only_diff = get_tree_diff(tree_node, other_tree_node)
-        expected_str = """a\n└── c\n    └── f\n        └── i (+)\n"""
+        expected_str = "a\n" "└── c\n" "    └── f\n" "        └── i (+)\n"
         assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
@@ -240,7 +266,17 @@ class TestTreeDiff:
         tree_node_new_parent = other_tree_node["c"]["f"]
         _ = Node("i", parent=tree_node_new_parent)
         tree_only_diff = get_tree_diff(tree_node, other_tree_node, only_diff=False)
-        expected_str = """a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n        └── i (+)\n"""
+        expected_str = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d\n"
+            "│   └── e\n"
+            "│       ├── g\n"
+            "│       └── h\n"
+            "└── c\n"
+            "    └── f\n"
+            "        └── i (+)\n"
+        )
         assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
@@ -419,7 +455,7 @@ class TestTreeDiff:
             node_to_change.age += 10
 
         # Without attributes
-        expected_str = """a\n└── b\n    └── d (-)\n"""
+        expected_str = "a\n" "└── b\n" "    └── d (-)\n"
         tree_diff = get_tree_diff(tree_node, tree_node_copy)
         assert_print_statement(print_tree, expected_str, tree=tree_diff)
 
@@ -450,7 +486,16 @@ class TestTreeDiff:
             node_to_change.age += 10
 
         # Without attributes
-        expected_str = """a\n├── b\n│   ├── d (-)\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
+        expected_str = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d (-)\n"
+            "│   └── e\n"
+            "│       ├── g\n"
+            "│       └── h\n"
+            "└── c\n"
+            "    └── f\n"
+        )
         tree_diff = get_tree_diff(tree_node, tree_node_copy, only_diff=False)
         assert_print_statement(print_tree, expected_str, tree=tree_diff)
 

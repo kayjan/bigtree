@@ -31,7 +31,7 @@ LOCAL = Constants.LOCAL
 class TestPrintTree:
     @staticmethod
     def test_print_tree_child_node_name(tree_node):
-        expected_str = """b\n├── d\n└── e\n    ├── g\n    └── h\n"""
+        expected_str = "b\n" "├── d\n" "└── e\n" "    ├── g\n" "    └── h\n"
         assert_print_statement(
             print_tree,
             expected_str,
@@ -52,7 +52,7 @@ class TestPrintTree:
 
     @staticmethod
     def test_print_tree_child_node_path(tree_node):
-        expected_str = """b\n├── d\n└── e\n    ├── g\n    └── h\n"""
+        expected_str = "b\n" "├── d\n" "└── e\n" "    ├── g\n" "    └── h\n"
         assert_print_statement(
             print_tree,
             expected_str,
@@ -92,7 +92,16 @@ class TestPrintTree:
     # attr_list, attr_omit_null
     @staticmethod
     def test_print_tree_attr_omit_null_false(tree_node_negative_null_attr):
-        expected_str = """a\n├── b [age=-1]\n│   ├── d [age=1]\n│   └── e [age=None]\n│       ├── g\n│       └── h\n└── c [age=0]\n    └── f\n"""
+        expected_str = (
+            "a\n"
+            "├── b [age=-1]\n"
+            "│   ├── d [age=1]\n"
+            "│   └── e [age=None]\n"
+            "│       ├── g\n"
+            "│       └── h\n"
+            "└── c [age=0]\n"
+            "    └── f\n"
+        )
         assert_print_statement(
             print_tree,
             expected_str,
@@ -103,7 +112,16 @@ class TestPrintTree:
 
     @staticmethod
     def test_print_tree_attr_omit_null_true(tree_node_negative_null_attr):
-        expected_str = """a\n├── b [age=-1]\n│   ├── d [age=1]\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
+        expected_str = (
+            "a\n"
+            "├── b [age=-1]\n"
+            "│   ├── d [age=1]\n"
+            "│   └── e\n"
+            "│       ├── g\n"
+            "│       └── h\n"
+            "└── c\n"
+            "    └── f\n"
+        )
         assert_print_statement(
             print_tree,
             expected_str,
@@ -137,36 +155,90 @@ class TestPrintTree:
     # style
     @staticmethod
     def test_print_tree_style_ansi(tree_node):
-        expected_str = """a\n|-- b\n|   |-- d\n|   `-- e\n|       |-- g\n|       `-- h\n`-- c\n    `-- f\n"""
+        expected_str = (
+            "a\n"
+            "|-- b\n"
+            "|   |-- d\n"
+            "|   `-- e\n"
+            "|       |-- g\n"
+            "|       `-- h\n"
+            "`-- c\n"
+            "    `-- f\n"
+        )
         assert_print_statement(print_tree, expected_str, tree=tree_node, style="ansi")
 
     @staticmethod
     def test_print_tree_style_ascii(tree_node):
-        expected_str = """a\n|-- b\n|   |-- d\n|   +-- e\n|       |-- g\n|       +-- h\n+-- c\n    +-- f\n"""
+        expected_str = (
+            "a\n"
+            "|-- b\n"
+            "|   |-- d\n"
+            "|   +-- e\n"
+            "|       |-- g\n"
+            "|       +-- h\n"
+            "+-- c\n"
+            "    +-- f\n"
+        )
         assert_print_statement(print_tree, expected_str, tree=tree_node, style="ascii")
 
     @staticmethod
     def test_print_tree_style_const(tree_node):
-        expected_str = """a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
+        expected_str = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d\n"
+            "│   └── e\n"
+            "│       ├── g\n"
+            "│       └── h\n"
+            "└── c\n"
+            "    └── f\n"
+        )
         assert_print_statement(print_tree, expected_str, tree=tree_node, style="const")
 
     @staticmethod
     def test_print_tree_style_const_bold(tree_node):
-        expected_str = """a\n┣━━ b\n┃   ┣━━ d\n┃   ┗━━ e\n┃       ┣━━ g\n┃       ┗━━ h\n┗━━ c\n    ┗━━ f\n"""
+        expected_str = (
+            "a\n"
+            "┣━━ b\n"
+            "┃   ┣━━ d\n"
+            "┃   ┗━━ e\n"
+            "┃       ┣━━ g\n"
+            "┃       ┗━━ h\n"
+            "┗━━ c\n"
+            "    ┗━━ f\n"
+        )
         assert_print_statement(
             print_tree, expected_str, tree=tree_node, style="const_bold"
         )
 
     @staticmethod
     def test_print_tree_style_rounded(tree_node):
-        expected_str = """a\n├── b\n│   ├── d\n│   ╰── e\n│       ├── g\n│       ╰── h\n╰── c\n    ╰── f\n"""
+        expected_str = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d\n"
+            "│   ╰── e\n"
+            "│       ├── g\n"
+            "│       ╰── h\n"
+            "╰── c\n"
+            "    ╰── f\n"
+        )
         assert_print_statement(
             print_tree, expected_str, tree=tree_node, style="rounded"
         )
 
     @staticmethod
     def test_print_tree_style_double(tree_node):
-        expected_str = """a\n╠══ b\n║   ╠══ d\n║   ╚══ e\n║       ╠══ g\n║       ╚══ h\n╚══ c\n    ╚══ f\n"""
+        expected_str = (
+            "a\n"
+            "╠══ b\n"
+            "║   ╠══ d\n"
+            "║   ╚══ e\n"
+            "║       ╠══ g\n"
+            "║       ╚══ h\n"
+            "╚══ c\n"
+            "    ╚══ f\n"
+        )
         assert_print_statement(print_tree, expected_str, tree=tree_node, style="double")
 
     @staticmethod
@@ -180,7 +252,7 @@ class TestPrintTree:
     # custom_style
     @staticmethod
     def test_print_tree_custom_style(tree_node):
-        expected_str = """a\nb\nd\ne\ng\nh\nc\nf\n"""
+        expected_str = "a\nb\nd\ne\ng\nh\nc\nf\n"
         assert_print_statement(
             print_tree,
             expected_str,
@@ -216,7 +288,13 @@ class TestPrintTree:
 class TestHPrintTree:
     @staticmethod
     def test_hprint_tree(tree_node):
-        expected_str = "           ┌─ d\n     ┌─ b ─┤     ┌─ g\n─ a ─┤     └─ e ─┤\n     │           └─ h\n     └─ c ─── f\n"
+        expected_str = (
+            "           ┌─ d\n"
+            "     ┌─ b ─┤     ┌─ g\n"
+            "─ a ─┤     └─ e ─┤\n"
+            "     │           └─ h\n"
+            "     └─ c ─── f\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -257,7 +335,35 @@ class TestHPrintTree:
                 "a/e/e3/e313",
             ]
         )
-        expected_str = "           ┌─ b1\n           ├─ b2\n     ┌─ b ─┼─ b3\n     │     ├─ b4\n     │     └─ b5\n     │            ┌─ c11\n     ├─ c ─── c1 ─┤\n     │            └─ c12\n     │     ┌─ d1\n     │     ├─ d2\n     │     ├─ d3\n     │     ├─ d4\n─ a ─┼─ d ─┤      ┌─ d51\n     │     ├─ d5 ─┼─ d52\n     │     │      ├─ d53\n     │     │      └─ d54\n     │     └─ d6\n     │            ┌─ e11\n     │            ├─ e12\n     │     ┌─ e1 ─┼─ e13\n     │     │      ├─ e14\n     │     │      ├─ e15\n     └─ e ─┤      └─ e16\n           ├─ e2\n           │      ┌─ e311\n           └─ e3 ─┼─ e312\n                  └─ e313\n"
+        expected_str = (
+            "           ┌─ b1\n"
+            "           ├─ b2\n"
+            "     ┌─ b ─┼─ b3\n"
+            "     │     ├─ b4\n"
+            "     │     └─ b5\n"
+            "     │            ┌─ c11\n"
+            "     ├─ c ─── c1 ─┤\n"
+            "     │            └─ c12\n"
+            "     │     ┌─ d1\n"
+            "     │     ├─ d2\n"
+            "     │     ├─ d3\n"
+            "     │     ├─ d4\n"
+            "─ a ─┼─ d ─┤      ┌─ d51\n"
+            "     │     ├─ d5 ─┼─ d52\n"
+            "     │     │      ├─ d53\n"
+            "     │     │      └─ d54\n"
+            "     │     └─ d6\n"
+            "     │            ┌─ e11\n"
+            "     │            ├─ e12\n"
+            "     │     ┌─ e1 ─┼─ e13\n"
+            "     │     │      ├─ e14\n"
+            "     │     │      ├─ e15\n"
+            "     └─ e ─┤      └─ e16\n"
+            "           ├─ e2\n"
+            "           │      ┌─ e311\n"
+            "           └─ e3 ─┼─ e312\n"
+            "                  └─ e313\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -267,7 +373,13 @@ class TestHPrintTree:
     @staticmethod
     def test_hprint_tree_long_root_name_length(tree_node):
         tree_node.name = "abcdefghijkl"
-        expected_str = "                      ┌─ d\n                ┌─ b ─┤     ┌─ g\n─ abcdefghijkl ─┤     └─ e ─┤\n                │           └─ h\n                └─ c ─── f\n"
+        expected_str = (
+            "                      ┌─ d\n"
+            "                ┌─ b ─┤     ┌─ g\n"
+            "─ abcdefghijkl ─┤     └─ e ─┤\n"
+            "                │           └─ h\n"
+            "                └─ c ─── f\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -278,7 +390,13 @@ class TestHPrintTree:
     def test_hprint_tree_diff_node_name_length(tree_node):
         tree_node["b"].name = "bcde"
         tree_node["c"]["f"].name = "fghijk"
-        expected_str = "              ┌─   d\n     ┌─ bcde ─┤          ┌─ g\n─ a ─┤        └─   e    ─┤\n     │                   └─ h\n     └─  c   ─── fghijk\n"
+        expected_str = (
+            "              ┌─   d\n"
+            "     ┌─ bcde ─┤          ┌─ g\n"
+            "─ a ─┤        └─   e    ─┤\n"
+            "     │                   └─ h\n"
+            "     └─  c   ─── fghijk\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -287,7 +405,9 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_child_node_name(tree_node):
-        expected_str = "     ┌─ d\n─ b ─┤     ┌─ g\n     └─ e ─┤\n           └─ h\n"
+        expected_str = (
+            "     ┌─ d\n" "─ b ─┤     ┌─ g\n" "     └─ e ─┤\n" "           └─ h\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -308,7 +428,9 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_child_node_path(tree_node):
-        expected_str = "     ┌─ d\n─ b ─┤     ┌─ g\n     └─ e ─┤\n           └─ h\n"
+        expected_str = (
+            "     ┌─ d\n" "─ b ─┤     ┌─ g\n" "     └─ e ─┤\n" "           └─ h\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -319,7 +441,11 @@ class TestHPrintTree:
     @staticmethod
     def test_hprint_tree_intermediate_node_name(tree_node):
         expected_str = (
-            "       ┌─ d\n   ┌───┤   ┌─ g\n───┤   └───┤\n   │       └─ h\n   └───── f\n"
+            "       ┌─ d\n"
+            "   ┌───┤   ┌─ g\n"
+            "───┤   └───┤\n"
+            "   │       └─ h\n"
+            "   └───── f\n"
         )
         assert_print_statement(
             hprint_tree,
@@ -332,7 +458,13 @@ class TestHPrintTree:
     def test_hprint_tree_intermediate_node_name_diff_node_name_length(tree_node):
         tree_node["b"].name = "bcde"
         tree_node["c"]["f"].name = "fghijk"
-        expected_str = "       ┌─ d\n   ┌───┤   ┌─ g\n───┤   └───┤\n   │       └─ h\n   └───── fghijk\n"
+        expected_str = (
+            "       ┌─ d\n"
+            "   ┌───┤   ┌─ g\n"
+            "───┤   └───┤\n"
+            "   │       └─ h\n"
+            "   └───── fghijk\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -342,7 +474,13 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_style_ansi(tree_node):
-        expected_str = "           /- d\n     /- b -+     /- g\n- a -+     \\- e -+\n     |           \\- h\n     \\- c --- f\n"
+        expected_str = (
+            "           /- d\n"
+            "     /- b -+     /- g\n"
+            "- a -+     \\- e -+\n"
+            "     |           \\- h\n"
+            "     \\- c --- f\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -352,7 +490,13 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_style_ascii(tree_node):
-        expected_str = "           +- d\n     +- b -+     +- g\n- a -+     +- e -+\n     |           +- h\n     +- c --- f\n"
+        expected_str = (
+            "           +- d\n"
+            "     +- b -+     +- g\n"
+            "- a -+     +- e -+\n"
+            "     |           +- h\n"
+            "     +- c --- f\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -362,7 +506,13 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_style_const(tree_node):
-        expected_str = "           ┌─ d\n     ┌─ b ─┤     ┌─ g\n─ a ─┤     └─ e ─┤\n     │           └─ h\n     └─ c ─── f\n"
+        expected_str = (
+            "           ┌─ d\n"
+            "     ┌─ b ─┤     ┌─ g\n"
+            "─ a ─┤     └─ e ─┤\n"
+            "     │           └─ h\n"
+            "     └─ c ─── f\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -372,7 +522,13 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_style_const_bold(tree_node):
-        expected_str = "           ┏━ d\n     ┏━ b ━┫     ┏━ g\n━ a ━┫     ┗━ e ━┫\n     ┃           ┗━ h\n     ┗━ c ━━━ f\n"
+        expected_str = (
+            "           ┏━ d\n"
+            "     ┏━ b ━┫     ┏━ g\n"
+            "━ a ━┫     ┗━ e ━┫\n"
+            "     ┃           ┗━ h\n"
+            "     ┗━ c ━━━ f\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -382,7 +538,13 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_style_rounded(tree_node):
-        expected_str = "           ╭─ d\n     ╭─ b ─┤     ╭─ g\n─ a ─┤     ╰─ e ─┤\n     │           ╰─ h\n     ╰─ c ─── f\n"
+        expected_str = (
+            "           ╭─ d\n"
+            "     ╭─ b ─┤     ╭─ g\n"
+            "─ a ─┤     ╰─ e ─┤\n"
+            "     │           ╰─ h\n"
+            "     ╰─ c ─── f\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -392,7 +554,13 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_style_double(tree_node):
-        expected_str = "           ╔═ d\n     ╔═ b ═╣     ╔═ g\n═ a ═╣     ╚═ e ═╣\n     ║           ╚═ h\n     ╚═ c ═══ f\n"
+        expected_str = (
+            "           ╔═ d\n"
+            "     ╔═ b ═╣     ╔═ g\n"
+            "═ a ═╣     ╚═ e ═╣\n"
+            "     ║           ╚═ h\n"
+            "     ╚═ c ═══ f\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
@@ -410,7 +578,13 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_custom_style(tree_node):
-        expected_str = "           -= d\n     -= b =+     -= g\n= a =+     |= e =+\n     -           |= h\n     |= c === f\n"
+        expected_str = (
+            "           -= d\n"
+            "     -= b =+     -= g\n"
+            "= a =+     |= e =+\n"
+            "     -           |= h\n"
+            "     |= c === f\n"
+        )
         assert_print_statement(
             hprint_tree,
             expected_str,
