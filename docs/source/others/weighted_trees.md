@@ -15,7 +15,10 @@ class WeightedNode(Node):
 
     @property
     def edge_attr(self):
-        return {"label": self.weight}
+        """Edge attribute for pydot diagram
+        Label for edge label, penwidth for edge width
+        """
+        return {"label": self.weight, "penwidth": self.weight}
 
 # Construct weighted tree
 root = WeightedNode("a")
