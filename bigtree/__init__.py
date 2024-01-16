@@ -60,14 +60,6 @@ from bigtree.tree.search import (
     find_relative_path,
     findall,
 )
-from bigtree.utils.exceptions import (
-    CorruptedTreeError,
-    DuplicatedNodeError,
-    LoopError,
-    NotFoundError,
-    SearchError,
-    TreeError,
-)
 from bigtree.utils.groot import speak_like_groot, whoami
 from bigtree.utils.iterators import (
     dag_iterator,
