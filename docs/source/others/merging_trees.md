@@ -7,42 +7,44 @@ Children of node `b` from both trees are retained as long as `merge_children=Tru
 If only children of other tree is desired, set `overriding=True` instead.
 
 ```python
-from bigtree import Node, print_tree, copy_nodes_from_tree_to_tree
+from bigtree import Node, copy_nodes_from_tree_to_tree
 
 # Construct trees
-root1 = Node("a")
-b1 = Node("b", parent=root1)
-c1 = Node("c", parent=root1)
-d1 = Node("d", parent=b1)
+downloads_folder = Node("Downloads")
+pictures_folder = Node("Pictures", parent=downloads_folder)
+photo1 = Node("photo1.jpg", parent=pictures_folder)
+file1 = Node("file1.doc", parent=downloads_folder)
 
-b2 = Node("b")
-e2 = Node("e", parent=b2)
+documents_folder = Node("Documents")
+pictures_folder = Node("Pictures", parent=documents_folder)
+photo2 = Node("photo2.jpg", parent=pictures_folder)
 
 # Validate tree structure
-print_tree(root1)
-# a
-# ├── b
-# │   └── d
-# └── c
+downloads_folder.show()
+# Downloads
+# ├── Pictures
+# │   └── photo1.jpg
+# └── file1.doc
 
-print_tree(b2)
-# b
-# └── e
+documents_folder.show()
+# Documents
+# └── Pictures
+#     └── photo2.jpg
 
 # Merge trees
 copy_nodes_from_tree_to_tree(
-    from_tree=b2,
-    to_tree=root1,
-    from_paths=["b"],
-    to_paths=["a/b"],
+    from_tree=documents_folder,
+    to_tree=downloads_folder,
+    from_paths=["Documents/Pictures"],
+    to_paths=["Downloads/Pictures"],
     merge_children=True,  # set overriding=True to override existing children
 )
 
 # Validate tree structure
-print_tree(root1)
-# a
-# ├── b
-# │   ├── d
-# │   └── e
-# └── c
+downloads_folder.show()
+# Downloads
+# ├── Pictures
+# │   ├── photo1.jpg
+# │   └── photo2.jpg
+# └── file1.doc
 ```
