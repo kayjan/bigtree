@@ -951,6 +951,56 @@ def assert_dag_structure_self(self):
             actual == expected
         ), f"Node attribute should be {expected}, but it is {actual}"
 
+    # Test accessing with square bracket (__getitem__)
+    assert (
+        self.a["c"] == self.c
+    ), f"Accessor method not returning correct for node {self.a} for {self.c}"
+    assert (
+        self.a["d"] == self.d
+    ), f"Accessor method not returning correct for node {self.a} for {self.d}"
+    assert (
+        self.a["c"]["d"] == self.d
+    ), f"Accessor method not returning correct for node {self.a} for {self.d}"
+
+    # Test deletion of children with square bracket (__delitem__)
+    assert len(self.a.children) == 2, f"Before deletion: error in {self.a.children}"
+    del self.a["d"]
+    assert len(self.a.children) == 1, f"After deletion: error in {self.a.children}"
+    self.a >> self.d
+    assert (
+        len(self.a.children) == 2
+    ), f"Revert after deletion: error in {self.a.children}"
+
+    # Test deletion of non-existent children with square bracket (__delitem__)
+    assert len(self.a.children) == 2, f"Before deletion: error in {self.a.children}"
+    del self.a["b"]
+    assert len(self.a.children) == 2, f"After deletion: error in {self.a.children}"
+
+    # Test deletion of all children
+    assert len(self.a.children) == 2, f"Before deletion: error in {self.a.children}"
+    assert self.a in self.c.parents, f"Before deletion: error in {self.c.parents}"
+    assert self.a in self.d.parents, f"Before deletion: error in {self.d.parents}"
+    del self.a.children
+    assert len(self.a.children) == 0, f"After deletion: error in {self.a.children}"
+    assert self.a not in self.c.parents, f"Before deletion: error in {self.c.parents}"
+    assert self.a not in self.d.parents, f"Before deletion: error in {self.d.parents}"
+    self.a >> self.c
+    self.a >> self.d
+    assert (
+        len(self.a.children) == 2
+    ), f"Revert after deletion: error in {self.a.children}"
+
+    # Test iteration (__iter__)
+    expected = [self.c, self.d]
+    actual = [child for child in self.a]
+    assert (
+        actual == expected
+    ), f"Node {self.a} should have {expected} children when iterated, but it has {actual}"
+
+    # Test contains (__contains__)
+    assert self.c in self.a, f"Check if {self.a} contains {self.c}, expected True"
+    assert self.b not in self.a, f"Check if {self.a} contains {self.b}, expected False"
+
 
 def assert_dag_child_attr(dag, parent_name, child_name, child_attr, child_value):
     """Test tree attributes"""

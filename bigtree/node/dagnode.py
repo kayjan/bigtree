@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import copy
-from typing import Any, Dict, Iterable, List, Optional, Tuple, TypeVar
+from typing import Any, Dict, Generator, Iterable, List, Optional, Tuple, TypeVar
 
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
@@ -319,6 +319,13 @@ class DAGNode:
                     self.__children.remove(new_child)
             raise TreeError(exc_info)
 
+    @children.deleter
+    def children(self) -> None:
+        """Delete child node(s)"""
+        for child in self.children:
+            self.__children.remove(child)  # type: ignore
+            child.__parents.remove(self)  # type: ignore
+
     def __pre_assign_children(self: T, new_children: Iterable[T]) -> None:
         """Custom method to check before attaching children
         Can be overridden with `_DAGNode__pre_assign_children()`
@@ -553,6 +560,32 @@ class DAGNode:
         obj.__dict__.update(self.__dict__)
         return obj
 
+    def __getitem__(self, child_name: str) -> T:
+        """Get child by name identifier
+
+        Args:
+            child_name (str): name of child node
+
+        Returns:
+            (Self): child node
+        """
+        from bigtree.tree.search import find_child_by_name
+
+        return find_child_by_name(self, child_name)  # type: ignore
+
+    def __delitem__(self, child_name: str) -> None:
+        """Delete child by name identifier, will not throw error if child does not exist
+
+        Args:
+            child_name (str): name of child node
+        """
+        from bigtree.tree.search import find_child_by_name
+
+        child = find_child_by_name(self, child_name)
+        if child:
+            self.__children.remove(child)  # type: ignore
+            child.__parents.remove(self)  # type: ignore
+
     def __repr__(self) -> str:
         """Print format of DAGNode
 
@@ -567,7 +600,7 @@ class DAGNode:
         return f"{class_name}({self.node_name}, {node_description})"
 
     def __rshift__(self: T, other: T) -> None:
-        """Set children using >> bitshift operator for self >> other
+        """Set children using >> bitshift operator for self >> children (other)
 
         Args:
             other (Self): other node, children
@@ -575,12 +608,31 @@ class DAGNode:
         other.parents = [self]
 
     def __lshift__(self: T, other: T) -> None:
-        """Set parent using << bitshift operator for self << other
+        """Set parent using << bitshift operator for self << parent (other)
 
         Args:
             other (Self): other node, parent
         """
         self.parents = [other]
+
+    def __iter__(self) -> Generator[T, None, None]:
+        """Iterate through child nodes
+
+        Returns:
+            (Self): child node
+        """
+        yield from self.children  # type: ignore
+
+    def __contains__(self, other_node: T) -> bool:
+        """Check if child node exists
+
+        Args:
+            other_node (T): child node
+
+        Returns:
+            (bool)
+        """
+        return other_node in self.children
 
 
 T = TypeVar("T", bound=DAGNode)

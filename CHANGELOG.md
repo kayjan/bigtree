@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- DAGNode: Able to access and delete node children via name with square bracket accessor with `__getitem__` and `__delitem__` magic methods.
+- DAGNode: Able to delete all children for a node.
+- DAGNode: Able to check if node contains child node with `__contains__` magic method.
+- DAGNode: Able to iterate the node to access children with `__iter__` magic method.
+### Changed
+- Tree Search: Modify type hints to include DAGNode for `find_children`, `find_child`, and `find_child_by_name`.
+- Misc: Neater handling of strings for tests.
 
 ## [0.15.5] - 2023-01-17
 ### Changed
