@@ -555,7 +555,7 @@ Below are the tables of attributes available to `BaseNode` and `Node` classes.
 | Get parent                        | `node_e.parent`            | Node(/a/b, )                                                                         |
 | Get siblings                      | `node_e.siblings`          | (Node(/a/b/d, ), Node(/a/b/f, ))                                                     |
 | Get left sibling                  | `node_e.left_sibling`      | Node(/a/b/d, )                                                                       |
-| Get right sibling                 | `node_e.left_sibling`      | Node(/a/b/f, )                                                                       |
+| Get right sibling                 | `node_e.right_sibling`     | Node(/a/b/f, )                                                                       |
 | Get ancestors (lazy evaluation)   | `list(node_e.ancestors)`   | [Node(/a/b, ), Node(/a, )]                                                           |
 | Get descendants (lazy evaluation) | `list(node_b.descendants)` | [Node(/a/b/d, ), Node(/a/b/e, ), Node(/a/b/f, ), Node(/a/b/f/h, ), Node(/a/b/f/i, )] |
 | Get leaves (lazy evaluation)      | `list(node_b.leaves)`      | [Node(/a/b/d, ), Node(/a/b/e, ), Node(/a/b/f/h, ), Node(/a/b/f/i, )]                 |
@@ -1151,8 +1151,10 @@ Compared to nodes in tree, nodes in DAG are able to have multiple parents.
 
 1. **From `DAGNode`**
 
-DAGNode can be linked to each other with `parents` and `children` setter methods,
-or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
+DAGNodes can be linked to each other in the following ways:
+  - Using `parents` and `children` setter methods
+  - Directly passing `parents` or `children` argument
+  - Using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`
 
 {emphasize-lines="5-8,10"}
 ```python
@@ -1237,6 +1239,55 @@ dag = dataframe_to_dag(path_data)
 print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
 # [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 ```
+
+### DAG Attributes and Operations
+
+Note that using `DAGNode` as superclass inherits the default class attributes (properties) and operations (methods).
+
+```python
+from bigtree import list_to_dag
+
+relations_list = [
+   ("a", "c"),
+   ("a", "d"),
+   ("b", "c"),
+   ("c", "d"),
+   ("d", "e")
+]
+dag = list_to_dag(relations_list)
+dag
+# DAGNode(d, )
+
+# Accessing children
+node_e = dag["e"]
+node_a = dag.parents[0]
+```
+
+Below are the tables of attributes available to `DAGNode` class.
+
+| Attributes wrt self                  | Code             | Returns |
+|--------------------------------------|------------------|---------|
+| Check if root                        | `node_a.is_root` | True    |
+| Check if leaf node                   | `dag.is_leaf`    | False   |
+| Get node name (only for `Node`)      | `dag.node_name`  | 'd'     |
+
+| Attributes wrt structure     | Code                  | Returns                                                              |
+|------------------------------|-----------------------|----------------------------------------------------------------------|
+| Get child/children           | `node_a.children`     | (DAGNode(c, ), DAGNode(d, ))                                         |
+| Get parents                  | `dag.parents`         | (DAGNode(a, ), DAGNode(c, ))                                         |
+| Get siblings                 | `dag.siblings`        | (DAGNode(c, ),)                                                      |
+| Get ancestors                | `dag.ancestors`       | [DAGNode(a, ), DAGNode(b, ), DAGNode(c, )]                           |
+| Get descendants              | `dag.descendants`     | [DAGNode(e, )]                                                       |
+
+Below is the table of operations available to `DAGNode` class.
+
+| Operations                            | Code                                                       | Returns                                                                                                          |
+|---------------------------------------|------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| Get node information                  | `dag.describe(exclude_prefix="_")`                         | [('name', 'd')]                                                                                                  |
+| Find path(s) from one node to another | `node_a.go_to(dag)`                                        | [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, description=dag-tag)], [DAGNode(a, ), DAGNode(d, description=dag-tag)]] |
+| Set attribute(s)                      | `dag.set_attrs({"description": "dag-tag"})`                | None                                                                                                             |
+| Get attribute                         | `dag.get_attr("description")`                              | 'dag-tag'                                                                                                        |
+| Copy DAG                              | `dag.copy()`                                               | None                                                                                                             |
 
 ----
 
