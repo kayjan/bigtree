@@ -422,7 +422,7 @@ def assert_tree_structure_node_self(self):
             actual == expected
         ), f"Node should have path {expected}, but path is {actual}"
 
-    # Test show
+    # Test show()
     expected_str = (
         "a\n"
         "├── b\n"
@@ -454,6 +454,7 @@ def assert_tree_structure_node_self(self):
         style="ansi",
     )
 
+    # Test hshow()
     expected_str = (
         "           ┌─ d\n"
         "     ┌─ b ─┤     ┌─ g\n"

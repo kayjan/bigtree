@@ -9,7 +9,16 @@ class TestCloneTree:
     def test_clone_tree(binarytree_node):
         root_clone = clone_tree(binarytree_node, node_type=Node)
         assert isinstance(root_clone, Node), "Wrong type returned"
-        expected_str = """1\n├── 2\n│   ├── 4\n│   │   └── 8\n│   └── 5\n└── 3\n    ├── 6\n    └── 7\n"""
+        expected_str = (
+            "1\n"
+            "├── 2\n"
+            "│   ├── 4\n"
+            "│   │   └── 8\n"
+            "│   └── 5\n"
+            "└── 3\n"
+            "    ├── 6\n"
+            "    └── 7\n"
+        )
         assert_print_statement(print_tree, expected_str, tree=binarytree_node)
 
 
@@ -87,6 +96,10 @@ class TestTreeDiff:
         other_tree_node = prune_tree(binarytree_node, "1/3")
         tree_only_diff = get_tree_diff(binarytree_node, other_tree_node, only_diff=True)
         expected_str = (
-            """1\n└── 2 (-)\n    ├── 4 (-)\n    │   └── 8 (-)\n    └── 5 (-)\n"""
+            "1\n"
+            "└── 2 (-)\n"
+            "    ├── 4 (-)\n"
+            "    │   └── 8 (-)\n"
+            "    └── 5 (-)\n"
         )
         assert_print_statement(print_tree, expected_str, tree=tree_only_diff)

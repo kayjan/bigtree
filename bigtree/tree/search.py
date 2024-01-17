@@ -1,6 +1,7 @@
-from typing import Any, Callable, Iterable, List, Tuple, TypeVar
+from typing import Any, Callable, Iterable, List, Tuple, TypeVar, Union
 
 from bigtree.node.basenode import BaseNode
+from bigtree.node.dagnode import DAGNode
 from bigtree.node.node import Node
 from bigtree.utils.exceptions import SearchError
 from bigtree.utils.iterators import preorder_iter
@@ -24,6 +25,7 @@ __all__ = [
 
 T = TypeVar("T", bound=BaseNode)
 NodeT = TypeVar("NodeT", bound=Node)
+DAGNodeT = TypeVar("DAGNodeT", bound=DAGNode)
 
 
 def findall(
@@ -368,11 +370,11 @@ def find_attrs(
 
 
 def find_children(
-    tree: T,
-    condition: Callable[[T], bool],
+    tree: Union[T, DAGNodeT],
+    condition: Callable[[Union[T, DAGNodeT]], bool],
     min_count: int = 0,
     max_count: int = 0,
-) -> Tuple[T, ...]:
+) -> Tuple[Union[T, DAGNodeT], ...]:
     """
     Search children for nodes matching condition (callable function).
 
@@ -385,7 +387,7 @@ def find_children(
     (Node(/a/b, age=65), Node(/a/c, age=60))
 
     Args:
-        tree (BaseNode): tree to search for its children
+        tree (BaseNode/DAGNode): tree to search for its children
         condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
         min_count (int): checks for minimum number of occurrences,
             raise SearchError if the number of results do not meet min_count, defaults to None
@@ -393,7 +395,7 @@ def find_children(
             raise SearchError if the number of results do not meet min_count, defaults to None
 
     Returns:
-        (BaseNode)
+        (BaseNode/DAGNode)
     """
     result = tuple([node for node in tree.children if node and condition(node)])
     if min_count and len(result) < min_count:
@@ -408,9 +410,9 @@ def find_children(
 
 
 def find_child(
-    tree: T,
-    condition: Callable[[T], bool],
-) -> T:
+    tree: Union[T, DAGNodeT],
+    condition: Callable[[Union[T, DAGNodeT]], bool],
+) -> Union[T, DAGNodeT]:
     """
     Search children for *single node* matching condition (callable function).
 
@@ -423,18 +425,20 @@ def find_child(
     Node(/a/b, age=65)
 
     Args:
-        tree (BaseNode): tree to search for its child
+        tree (BaseNode/DAGNode): tree to search for its child
         condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
 
     Returns:
-        (BaseNode)
+        (BaseNode/DAGNode)
     """
     result = find_children(tree, condition, max_count=1)
     if result:
         return result[0]
 
 
-def find_child_by_name(tree: NodeT, name: str) -> NodeT:
+def find_child_by_name(
+    tree: Union[NodeT, DAGNodeT], name: str
+) -> Union[NodeT, DAGNodeT]:
     """
     Search tree for single node matching name attribute.
 
@@ -449,10 +453,10 @@ def find_child_by_name(tree: NodeT, name: str) -> NodeT:
     Node(/a/c/d, age=40)
 
     Args:
-        tree (Node): tree to search, parent node
+        tree (Node/DAGNode): tree to search, parent node
         name (str): value to match for name attribute, child node
 
     Returns:
-        (Node)
+        (Node/DAGNode)
     """
     return find_child(tree, lambda node: node.node_name == name)
