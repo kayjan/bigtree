@@ -53,19 +53,20 @@ language = "Python"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_material"
+sphinx_versions = ["latest", "0.15.5", "0.14.8"]
 html_theme_options = {
     "nav_title": "bigtree Documentation",
-    "base_url": https://https://kayjan.github.io/bigtree,
+    "base_url": "https://kayjan.github.io/bigtree",
     "logo_icon": "&#xe88a",
     "color_primary": "teal",
     "color_accent": "amber",
-    "repo_url": https://github.com/kayjan/bigtree/,
+    "repo_url": "https://github.com/kayjan/bigtree/",
     "repo_name": "bigtree",
     "heroes": {
         "index": "Tree Implementation and Methods for Python",
     },
     "version_info": {
-        version: fhttps://bigtree.readthedocs.io/en/{version}
+        version: f"https://bigtree.readthedocs.io/en/{version}"
         for version in sphinx_versions
     },
 }
