@@ -1,5 +1,5 @@
 autodocsumm==0.2.11
-karma-sphinx-theme==0.0.8
 myst-parser~=1.0.0
-pandas==1.5.1
+pandas
 sphinxemoji==0.2.0
+sphinx-material==0.0.36
