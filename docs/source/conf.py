@@ -29,6 +29,7 @@ extensions = [
     "sphinxemoji.sphinxemoji",
     "sphinx.ext.mathjax",
     "sphinx.ext.doctest",
+    "sphinx_material",
 ]
 autodoc_default_options = {"autosummary": True}
 sphinxemoji_style = "twemoji"
@@ -51,7 +52,37 @@ language = "Python"
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "karma_sphinx_theme"
+html_theme = "sphinx_material"
+html_theme_options = {
+    "nav_title": "bigtree Documentation",
+    "base_url": https://https://kayjan.github.io/bigtree,
+    "logo_icon": "&#xe88a",
+    "color_primary": "teal",
+    "color_accent": "amber",
+    "repo_url": https://github.com/kayjan/bigtree/,
+    "repo_name": "bigtree",
+    "heroes": {
+        "index": "Tree Implementation and Methods for Python",
+    },
+    "version_info": {
+        version: fhttps://bigtree.readthedocs.io/en/{version}
+        for version in sphinx_versions
+    },
+}
+html_show_sourcelink = True
+html_sidebars = {
+    "**": [
+        "globaltoc.html",
+        "node.html",
+        "binarytree.html",
+        "dag.html",
+        "tree.html",
+        "utils.html",
+        "workflows.html",
+        "others.html",
+    ]
+}
+
 html_static_path = ["_static"]
 html_favicon = "_static/favicon.ico"
 html_logo = "_static/favicon.ico"
