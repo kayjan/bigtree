@@ -74,3 +74,5 @@ from bigtree.utils.iterators import (
 from bigtree.utils.plot import reingold_tilford
 from bigtree.workflows.app_calendar import Calendar
 from bigtree.workflows.app_todo import AppToDo
+
+sphinx_versions = ["latest", "0.15.5", "0.14.8"]

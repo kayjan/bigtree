@@ -1,7 +1,7 @@
 import os
 import sys
 
-from docs.source.versions import sphinx_versions
+from bigtree import sphinx_versions
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../.."))
