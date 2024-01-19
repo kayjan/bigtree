@@ -1,8 +1,6 @@
 import os
 import sys
 
-from bigtree import sphinx_versions
-
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../.."))
 import bigtree
@@ -70,7 +68,7 @@ html_theme_options = {
     },
     "version_info": {
         version: f"https://bigtree.readthedocs.io/en/{version}"
-        for version in sphinx_versions
+        for version in bigtree.sphinx_versions
     },
 }
 html_show_sourcelink = True
