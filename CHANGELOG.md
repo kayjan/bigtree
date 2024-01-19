@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Tree Search: Modify type hints to include DAGNode for `find_children`, `find_child`, and `find_child_by_name`.
 - Misc: Neater handling of strings for tests.
+- Misc: New Sphinx documentation theme.
 
 ## [0.15.5] - 2023-01-17
 ### Changed

@@ -4,6 +4,8 @@
 }
 .md-typeset h5 {
     text-transform: initial;
+    color: black;
+    font-size: 0.9em;
 }
 pre {
     font-family: monospace;
@@ -17,8 +19,9 @@ li, ul {
 }
 
 /* Code Font */
-span.pre {
+span.pre, .highlight {
     font-family: monospace;
+    font-size: 0.9rem;
 }
 .sig span {
     color: #212322 !important;

@@ -41,3 +41,15 @@
 
 .. include:: ../../README.md
    :parser: myst_parser.sphinx_
+
+.. include:: demo/tree.md
+   :parser: myst_parser.sphinx_
+
+.. include:: demo/binarytree.md
+   :parser: myst_parser.sphinx_
+
+.. include:: demo/dag.md
+   :parser: myst_parser.sphinx_
+
+.. include:: demo/workflow.md
+   :parser: myst_parser.sphinx_
