@@ -8,7 +8,7 @@ Binary Tree as well.
 
 ### Construct Binary Tree
 
-1. From BinaryNode
+#### 1. From BinaryNode
 
 BinaryNode can be linked to each other with `parent`, `children`, `left`, and `right` setter methods,
 or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
@@ -32,7 +32,7 @@ graph.write_png("assets/docs/demo_binarytree.png")
 
 ![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_binarytree.png)
 
-2. From list
+#### 2. From list
 
 Construct nodes only, list has similar format as `heapq` list.
 

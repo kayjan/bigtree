@@ -688,22 +688,25 @@ find_child_by_name(c, "c")
 ### Helper Utility
 
 There following are helper functions for
-1. Cloning tree to another `Node` type
-2. Getting subtree (smaller tree with different root)
-3. Pruning tree (smaller tree with same root)
-4. Getting difference between two trees
+#### 1. Cloning tree to another `Node` type
 
-{emphasize-lines="6,20,27,35,49,58"}
-```python
-from bigtree import BaseNode, Node, clone_tree, get_subtree, get_tree_diff, prune_tree, str_to_tree
+{emphasize-lines="4"}
+```python3
+from bigtree import BaseNode, Node, clone_tree
 
-# 1. Cloning tree from `BaseNode` to `Node` type
+# Cloning tree from `BaseNode` to `Node` type
 root = BaseNode(name="a")
 b = BaseNode(name="b", parent=root)
 clone_tree(root, Node)
 # Node(/a, )
+```
 
-# Create a tree for future sections
+#### 2. Getting subtree (smaller tree with different root)
+
+{emphasize-lines="13"}
+```python3
+from bigtree import str_to_tree, get_subtree
+
 root = str_to_tree("""
 a
 ├── b
@@ -713,14 +716,30 @@ a
     └── f
 """)
 
-# 2. Getting subtree with root b
+# Getting subtree with root b
 root_subtree = get_subtree(root, "b")
 root_subtree.show()
 # b
 # ├── d
 # └── e
+```
 
-# 3.1 Prune tree to only path a/b
+#### 3. Pruning tree (smaller tree with same root)
+
+{emphasize-lines="13,21"}
+```python3
+from bigtree import str_to_tree, prune_tree
+
+root = str_to_tree("""
+a
+├── b
+│   ├── d
+│   └── e
+└── c
+    └── f
+""")
+
+# Prune tree to only path a/b
 root_pruned = prune_tree(root, "a/b")
 root_pruned.show()
 # a
@@ -728,13 +747,29 @@ root_pruned.show()
 #     ├── d
 #     └── e
 
-# 3.1 Prune tree to exactly path a/b
+# Prune tree to exactly path a/b
 root_pruned = prune_tree(root, "a/b", exact=True)
 root_pruned.show()
 # a
 # └── b
+```
 
-# 4. Get difference between two trees
+#### 4. Getting difference between two trees
+
+{emphasize-lines="22,31"}
+```python3
+from bigtree import str_to_tree, get_tree_diff
+
+root = str_to_tree("""
+a
+├── b
+│   ├── d
+│   └── e
+└── c
+    └── f
+""")
+
+# Get difference between two trees
 root_other = str_to_tree("""
 a
 ├── b
@@ -767,26 +802,8 @@ tree_diff.show()
 
 Tree can be exported to another data type.
 
-1. *Export to **Newick string notation***
-2. *Export to **nested dictionary***
-3. *Export to **nested recursive dictionary***
-4. *Export to **pandas DataFrame***
-5. *Export to **dot** (and png)*
-6. *Export to **Pillow** (and png)*
-7. *Export to **Mermaid Flowchart** (and md)*
-
-{emphasize-lines="24, 27-32,41,67-73,81,84,87"}
-```python
-from bigtree import (
-    Node,
-    tree_to_dataframe,
-    tree_to_dict,
-    tree_to_dot,
-    tree_to_mermaid,
-    tree_to_newick,
-    tree_to_nested_dict,
-    tree_to_pillow,
-)
+```python3
+from bigtree import Node
 
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
@@ -799,9 +816,23 @@ root.show()
 # │   ├── d
 # │   └── e
 # └── c
+```
+
+#### 1. Export to Newick string notation
+
+{emphasize-lines="3"}
+```python3
+from bigtree import tree_to_newick
 
 tree_to_newick(root)
 # '((d,e)b,c)a'
+```
+
+#### 2. Export to nested dictionary
+
+{emphasize-lines="3-8"}
+```python3
+from bigtree import tree_to_dict
 
 tree_to_dict(
    root,
@@ -816,6 +847,13 @@ tree_to_dict(
 #    '/a/b/e': {'name': 'e', 'parent': 'b', 'person age': 35},
 #    '/a/c': {'name': 'c', 'parent': 'a', 'person age': 60}
 # }
+```
+
+#### 3. Export to nested recursive dictionary
+
+{emphasize-lines="3"}
+```python3
+from bigtree import tree_to_nested_dict
 
 tree_to_nested_dict(root, all_attrs=True)
 # {
@@ -842,6 +880,13 @@ tree_to_nested_dict(root, all_attrs=True)
 #       }
 #    ]
 # }
+```
+
+#### 4. Export to pandas DataFrame
+
+{emphasize-lines="3-9"}
+```python3
+from bigtree import tree_to_dataframe
 
 tree_to_dataframe(
    root,
@@ -856,24 +901,43 @@ tree_to_dataframe(
 # 2  /a/b/d    d      b          40
 # 3  /a/b/e    e      b          35
 # 4    /a/c    c      a          60
+```
+
+#### 5. Export to dot (and png)
+
+{emphasize-lines="3"}
+```python3
+from bigtree import tree_to_dot
 
 graph = tree_to_dot(root, node_colour="gold")
 graph.write_png("assets/docs/demo_dot.png")
-
-pillow_image = tree_to_pillow(root)
-pillow_image.save("assets/docs/demo_pillow.png")
-
-mermaid_md = tree_to_mermaid(root)
-print(mermaid_md)
 ```
-
 - demo_dot.png
 
 ![Sample Dot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_dot.png)
 
+#### 6. Export to Pillow (and png)
+
+{emphasize-lines="3"}
+```python3
+from bigtree import tree_to_pillow
+
+pillow_image = tree_to_pillow(root)
+pillow_image.save("assets/docs/demo_pillow.png")
+```
 - demo_pillow.png
 
 ![Sample Pillow Image Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_pillow.png)
+
+#### 7. Export to Mermaid Flowchart (and md)
+
+{emphasize-lines="3"}
+```python3
+from bigtree import tree_to_mermaid
+
+mermaid_md = tree_to_mermaid(root)
+print(mermaid_md)
+```
 
 - Mermaid flowchart
 ```mermaid
