@@ -1,10 +1,8 @@
-----
-
-## Demo Usage
+# Demo Usage
 
 There are existing implementations of workflows to showcase how `bigtree` can be used!
 
-### To Do Application
+## To Do Application
 There are functions to:
 - Add or remove list to To-Do application
 - Add or remove item to list, default list is the 'General' list
@@ -32,7 +30,7 @@ app.save("list.json")
 app2 = AppToDo.load("list.json")
 ```
 
-### Calendar Application
+## Calendar Application
 
 There are functions to:
 - Add or remove event from Calendar

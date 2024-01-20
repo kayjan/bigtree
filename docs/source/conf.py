@@ -71,20 +71,12 @@ html_theme_options = {
         for version in bigtree.sphinx_versions
     },
 }
-html_show_sourcelink = True
 html_sidebars = {
     "**": [
         "globaltoc.html",
         "localtoc.html",
         "logo-text.html",
         "searchbox.html",
-        "node.html",
-        "binarytree.html",
-        "dag.html",
-        "tree.html",
-        "utils.html",
-        "workflows.html",
-        "others.html",
     ]
 }
 

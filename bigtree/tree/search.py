@@ -149,10 +149,10 @@ def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
 
 
 def find_relative_path(tree: NodeT, path_name: str) -> Iterable[NodeT]:
-    """
+    r"""
     Search tree for single node matching relative path attribute.
       - Supports unix folder expression for relative path, i.e., '../../node_name'
-      - Supports wildcards, i.e., '*/node_name'
+      - Supports wildcards, i.e., '\*/node_name'
       - If path name starts with leading separator symbol, it will start at root node.
 
     >>> from bigtree import Node, find_relative_path

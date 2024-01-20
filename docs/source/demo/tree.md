@@ -1,14 +1,12 @@
-----
-
-## Tree Demonstration
+# Tree Demonstration
 
 Here are some codes to get started.
 
-### Construct Tree
+## Construct Tree
 
 Nodes can have attributes if they are initialized from `Node`, *dictionary*, or *pandas DataFrame*.
 
-#### 1. From Node
+### 1. From Node
 
 Nodes can be linked to each other in the following ways:
   - Using `parent` and `children` setter methods
@@ -83,7 +81,7 @@ root.show(style="ascii")
 # +-- c
 ```
 
-#### 2. From str
+### 2. From str
 
 Construct nodes only. Newick string notation supports parsing attributes.
 
@@ -125,7 +123,7 @@ root.show()
 #     └── f
 ```
 
-#### 3. From list
+### 3. From list
 
 Construct nodes only, list can contain either full paths or tuples of parent-child names.
 
@@ -148,7 +146,7 @@ root.show()
 # └── c
 ```
 
-#### 4. From nested dictionary
+### 4. From nested dictionary
 
 Construct nodes using path where `key` is path and `value` is dict of node attribute names and attribute values.
 Dictionary can also be a recursive structure where `key` is node attribute names and `value` is node attribute values,
@@ -195,7 +193,7 @@ root.show(attr_list=["age"])
 # └── c [age=60]
 ```
 
-#### 5. From pandas DataFrame
+### 5. From pandas DataFrame
 
 Construct nodes with attributes, *pandas DataFrame* can contain either path column or parent-child columns,
 and attribute columns.
@@ -244,7 +242,7 @@ root.show(attr_list=["age"])
 > If tree is already created, nodes can still be added using path string, dictionary, and pandas DataFrame!
 > Attributes can be added to existing nodes using a dictionary or pandas DataFrame.
 
-### Print Tree
+## Print Tree
 
 After tree is constructed, it can be viewed by printing to console using `show` or `hshow` method directly,
 for vertical and horizontal orientation respectively.
@@ -360,7 +358,7 @@ print_tree(
 # ╰→ c
 ```
 
-### Tree Attributes and Operations
+## Tree Attributes and Operations
 
 Note that using `BaseNode` or `Node` as superclass inherits the default class attributes (properties)
 and operations (methods).
@@ -426,7 +424,7 @@ Below is the table of operations available to `BaseNode` and `Node` classes.
 | Copy tree                                       | `root.copy()`                                              | None                                       |
 | Sort children                                   | `root.sort(key=lambda node: node.node_name, reverse=True)` | None                                       |
 
-### Traverse Tree
+## Traverse Tree
 
 Tree can be traversed using the following traversal methods.
 
@@ -473,7 +471,7 @@ root.show()
 # [['a'], ['c', 'b'], ['d', 'e']]
 ```
 
-### Modify Tree
+## Modify Tree
 
 Nodes can be shifted (with or without replacement) or copied from one path to another, changes the tree in-place.
 
@@ -587,7 +585,7 @@ root_other.show()
 # └── file1.doc
 ```
 
-### Tree Search
+## Tree Search
 
 One or multiple nodes can be searched based on name, path, attribute value, or user-defined condition.
 
@@ -685,10 +683,10 @@ find_child_by_name(c, "c")
 # Node(/a/c/c, age=40)
 ```
 
-### Helper Utility
+## Helper Utility
 
 There following are helper functions for
-#### 1. Cloning tree to another `Node` type
+### 1. Cloning tree to another Node type
 
 {emphasize-lines="4"}
 ```python3
@@ -701,7 +699,7 @@ clone_tree(root, Node)
 # Node(/a, )
 ```
 
-#### 2. Getting subtree (smaller tree with different root)
+### 2. Getting subtree (smaller tree with different root)
 
 {emphasize-lines="13"}
 ```python3
@@ -724,7 +722,7 @@ root_subtree.show()
 # └── e
 ```
 
-#### 3. Pruning tree (smaller tree with same root)
+### 3. Pruning tree (smaller tree with same root)
 
 {emphasize-lines="13,21"}
 ```python3
@@ -754,7 +752,7 @@ root_pruned.show()
 # └── b
 ```
 
-#### 4. Getting difference between two trees
+### 4. Getting difference between two trees
 
 {emphasize-lines="22,31"}
 ```python3
@@ -798,7 +796,7 @@ tree_diff.show()
 #     └── g (+)
 ```
 
-### Export Tree
+## Export Tree
 
 Tree can be exported to another data type.
 
@@ -818,7 +816,7 @@ root.show()
 # └── c
 ```
 
-#### 1. Export to Newick string notation
+### 1. Export to Newick string notation
 
 {emphasize-lines="3"}
 ```python3
@@ -828,7 +826,7 @@ tree_to_newick(root)
 # '((d,e)b,c)a'
 ```
 
-#### 2. Export to nested dictionary
+### 2. Export to nested dictionary
 
 {emphasize-lines="3-8"}
 ```python3
@@ -849,7 +847,7 @@ tree_to_dict(
 # }
 ```
 
-#### 3. Export to nested recursive dictionary
+### 3. Export to nested recursive dictionary
 
 {emphasize-lines="3"}
 ```python3
@@ -882,7 +880,7 @@ tree_to_nested_dict(root, all_attrs=True)
 # }
 ```
 
-#### 4. Export to pandas DataFrame
+### 4. Export to pandas DataFrame
 
 {emphasize-lines="3-9"}
 ```python3
@@ -903,7 +901,7 @@ tree_to_dataframe(
 # 4    /a/c    c      a          60
 ```
 
-#### 5. Export to dot (and png)
+### 5. Export to dot (and png)
 
 {emphasize-lines="3"}
 ```python3
@@ -916,7 +914,7 @@ graph.write_png("assets/docs/demo_dot.png")
 
 ![Sample Dot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_dot.png)
 
-#### 6. Export to Pillow (and png)
+### 6. Export to Pillow (and png)
 
 {emphasize-lines="3"}
 ```python3
@@ -929,7 +927,7 @@ pillow_image.save("assets/docs/demo_pillow.png")
 
 ![Sample Pillow Image Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_pillow.png)
 
-#### 7. Export to Mermaid Flowchart (and md)
+### 7. Export to Mermaid Flowchart (and md)
 
 {emphasize-lines="3"}
 ```python3
