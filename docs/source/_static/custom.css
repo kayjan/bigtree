@@ -1,4 +1,7 @@
 /* Font */
+body {
+    font-size: 14px;
+}
 .md-typeset h2 {
     margin: 1.5rem 0 0.5rem;
 }
@@ -22,9 +25,9 @@ li, ul {
 }
 
 /* Code Font */
-span.pre, .highlight {
+span.pre, .highlight, .highlight * {
     font-family: monospace;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
 }
 .sig span {
     color: #212322 !important;
