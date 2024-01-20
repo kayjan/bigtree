@@ -13,9 +13,6 @@ body {
     color: black;
     font-size: 0.9em;
 }
-pre {
-    font-family: monospace;
-}
 p {
     margin: 0 !important;
 }
@@ -25,7 +22,7 @@ li, ul {
 }
 
 /* Code Font */
-span.pre, .highlight, .highlight * {
+span.pre, .md-typeset pre, pre, .highlight, .highlight * {
     font-family: monospace;
     font-size: 0.7rem;
 }
