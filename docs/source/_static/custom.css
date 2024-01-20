@@ -1,6 +1,9 @@
 /* Font */
 .md-typeset h2 {
-    margin-top: 0.5em;
+    margin: 1.5rem 0 0.5rem;
+}
+.md-typeset h3 {
+    margin: 0.8rem 0 0.5rem;
 }
 .md-typeset h5 {
     text-transform: initial;

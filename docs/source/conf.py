@@ -53,6 +53,15 @@ language = "Python"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_material"
+html_show_sourcelink = False
+html_sidebars = {
+    "**": [
+        "globaltoc.html",
+        "localtoc.html",
+        "logo-text.html",
+        "searchbox.html",
+    ]
+}
 html_theme_options = {
     "nav_title": "bigtree Documentation",
     "base_url": "https://kayjan.github.io/bigtree",
@@ -62,6 +71,7 @@ html_theme_options = {
     "color_primary": "teal",
     "color_accent": "amber",
     "logo_icon": "&#xe88a",
+    "localtoc_label_text": "Contents",
     "globaltoc_depth": 2,
     "heroes": {
         "index": "Tree Implementation and Methods for Python",
@@ -70,14 +80,6 @@ html_theme_options = {
         version: f"https://bigtree.readthedocs.io/en/{version}"
         for version in bigtree.sphinx_versions
     },
-}
-html_sidebars = {
-    "**": [
-        "globaltoc.html",
-        "localtoc.html",
-        "logo-text.html",
-        "searchbox.html",
-    ]
 }
 
 html_static_path = ["_static"]
