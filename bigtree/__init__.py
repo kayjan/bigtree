@@ -1,4 +1,4 @@
-__version__ = "0.15.5"
+__version__ = "0.15.6"
 
 from bigtree.binarytree.construct import list_to_binarytree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
@@ -74,3 +74,5 @@ from bigtree.utils.iterators import (
 from bigtree.utils.plot import reingold_tilford
 from bigtree.workflows.app_calendar import Calendar
 from bigtree.workflows.app_todo import AppToDo
+
+sphinx_versions = ["latest", "0.15.6", "0.14.8"]

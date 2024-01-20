@@ -27,8 +27,10 @@
 .. image:: https://img.shields.io/static/v1?label=style&message=black&color=black
    :alt: black
 
+.. include:: ../../README.md
+   :parser: myst_parser.sphinx_
+
 .. toctree::
-   :maxdepth: 1
    :hidden:
 
    node
@@ -39,5 +41,11 @@
    workflows
    others
 
-.. include:: ../../README.md
-   :parser: myst_parser.sphinx_
+.. toctree::
+   :caption: Demonstration
+   :hidden:
+
+   demo/tree.md
+   demo/binarytree.md
+   demo/dag.md
+   demo/workflow.md

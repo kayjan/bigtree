@@ -1134,7 +1134,7 @@ def tree_to_pillow(
     **kwargs: Any,
 ) -> Image.Image:
     """Export tree to image (JPG, PNG).
-    Image will be similar format as `print_tree`, accepts additional keyword arguments as input to `yield_tree`
+    Image will be similar format as `print_tree`, accepts additional keyword arguments as input to `yield_tree`.
 
     >>> from bigtree import Node, tree_to_pillow
     >>> root = Node("a", age=90)
@@ -1182,7 +1182,7 @@ def tree_to_pillow(
     def get_list_of_text_dimensions(
         text_list: List[str],
     ) -> List[Tuple[int, int, int, int]]:
-        """Get list dimensions
+        """Get list dimensions.
 
         Args:
             text_list (List[str]): list of texts
@@ -1228,9 +1228,9 @@ def tree_to_mermaid(
     node_attr: Callable[[T], str] | str = "",
     **kwargs: Any,
 ) -> str:
-    r"""Export tree to mermaid Markdown text. Accepts additional keyword arguments as input to `yield_tree`
+    r"""Export tree to mermaid Markdown text. Accepts additional keyword arguments as input to `yield_tree`.
 
-    Parameters for customizations that applies to entire flowchart include
+    Parameters for customizations that applies to entire flowchart include:
         - Title, `title`
         - Layout direction, `rankdir`
         - Line shape or curvature, `line_shape`
@@ -1240,7 +1240,7 @@ def tree_to_mermaid(
         - Node shape, `node_shape`
         - Edge arrow style, `edge_arrow`
 
-    Parameters for customizations that apply to customized nodes
+    Parameters for customizations that apply to customized nodes:
         - Fill colour of nodes, fill under `node_attr`
         - Border colour of nodes, stroke under `node_attr`
         - Border width of nodes, stroke-width under `node_attr`
@@ -1250,13 +1250,13 @@ def tree_to_mermaid(
 
     **Accepted Parameter Values**
 
-    Possible `rankdir`
+    Possible `rankdir`:
         - `TB`: top-to-bottom
         - `BT`: bottom-to-top
         - `LR`: left-to-right
         - `RL`: right-to-left
 
-    Possible `line_shape`
+    Possible `line_shape`:
         - `basis`
         - `bumpX`: used in LR or RL direction
         - `bumpY`
@@ -1270,7 +1270,7 @@ def tree_to_mermaid(
         - `stepAfter`
         - `stepBefore`: used in LR or RL direction
 
-    Possible `node_shape`
+    Possible `node_shape`:
         - `rounded_edge`: rectangular with rounded edges
         - `stadium`: (_) shape, rectangular with rounded ends
         - `subroutine`: ||_|| shape, rectangular with additional line at the ends
@@ -1285,7 +1285,7 @@ def tree_to_mermaid(
         - `trapezoid_alt`: \\_/ shape, inverted trapezoid
         - `double_circle`
 
-    Possible `edge_arrow`
+    Possible `edge_arrow`:
         - `normal`: directed arrow, shaded arrowhead
         - `bold`: bold directed arrow
         - `dotted`: dotted directed arrow
@@ -1414,7 +1414,7 @@ def tree_to_mermaid(
     class MermaidNode(Node):
         @property
         def mermaid_name(self) -> str:
-            """Reference name for MermaidNode, must be unique for each node
+            """Reference name for MermaidNode, must be unique for each node.
 
             Returns:
                 (str)
@@ -1428,7 +1428,7 @@ def tree_to_mermaid(
         attr_parameter: str | Callable[[MermaidNode], str],
         default_parameter: str,
     ) -> str:
-        """Get custom attribute if available, otherwise return default parameter
+        """Get custom attribute if available, otherwise return default parameter.
 
         Args:
             _node (MermaidNode): node to get custom attribute, can be accessed as node attribute or a callable that takes in the node
@@ -1511,17 +1511,17 @@ def tree_to_newick(
 ) -> str:
     """Export tree to Newick notation. Useful for describing phylogenetic tree.
 
-    In the Newick Notation (or New Hampshire Notation)
-      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`
-      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`
-      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`
-      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`
+    In the Newick Notation (or New Hampshire Notation),
+      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`.
+      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
+      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`.
+      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`.
 
-    Customizations include
-      - Omitting names of root and intermediate nodes, default all node names are shown
-      - Changing length separator to other symbol, default is `:`
-      - Adding an attribute prefix, default is `&&NHX:`
-      - Changing the attribute separator to other symbol, default is `:`
+    Customizations include:
+      - Omitting names of root and intermediate nodes, default all node names are shown.
+      - Changing length separator to other symbol, default is `:`.
+      - Adding an attribute prefix, default is `&&NHX:`.
+      - Changing the attribute separator to other symbol, default is `:`.
 
     >>> from bigtree import Node, tree_to_newick
     >>> root = Node("a", species="human")
