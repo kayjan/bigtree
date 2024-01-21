@@ -70,12 +70,14 @@ html_theme_options = {
     "repo_type": "github",
     "color_primary": "teal",
     "color_accent": "amber",
-    "logo_icon": "&#xe88a",
-    "localtoc_label_text": "Contents",
     "globaltoc_depth": 2,
     "heroes": {
         "index": "Tree Implementation and Methods for Python",
     },
+    "logo_icon": "&#xe88a",
+    "localtoc_label_text": "Contents",
+    "nav_next_text": "Next",
+    "nav_previous_text": "Previous",
     "version_info": {
         version: f"https://bigtree.readthedocs.io/en/{version}"
         for version in bigtree.sphinx_versions
