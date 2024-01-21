@@ -49,6 +49,9 @@ span.pre, .md-typeset pre, pre, .highlight, .highlight * {
 table {
     border: 1px solid black;
 }
+td .line-block {
+    padding: initial;
+}
 .autosummary > colgroup > col:first-child {
     width: 25% !important;
 }
