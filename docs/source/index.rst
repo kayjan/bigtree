@@ -49,3 +49,9 @@
    demo/binarytree.md
    demo/dag.md
    demo/workflow.md
+
+.. toctree::
+   :caption: Changes
+   :hidden:
+
+   others/changelog
