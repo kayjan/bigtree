@@ -5,9 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Misc: Sphinx documentation to support mermaid markdown images.
 ### Changed
 - Misc: Update SEO image.
-- Misc: Fix Sphinx documentation CSS for font size difference.
+- Misc: Fix Sphinx documentation font size difference between web and mobile, include last updated date.
 
 ## [0.15.6] - 2023-01-20
 ### Added
