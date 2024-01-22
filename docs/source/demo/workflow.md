@@ -1,4 +1,4 @@
-# Demo Usage
+# 📋 Workflow Demonstration
 
 There are existing implementations of workflows to showcase how `bigtree` can be used!
 
