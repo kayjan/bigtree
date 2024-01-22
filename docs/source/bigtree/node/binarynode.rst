@@ -1,5 +1,5 @@
-|:herb:| BinaryNode
-=====================
+|:cherry_blossom:| BinaryNode
+============================================
 
 .. automodule:: bigtree.node.binarynode
    :members:

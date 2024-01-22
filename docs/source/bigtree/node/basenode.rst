@@ -1,5 +1,5 @@
 |:seedling:| BaseNode
-=====================
+============================================
 
 .. automodule:: bigtree.node.basenode
    :members:

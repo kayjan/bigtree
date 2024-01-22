@@ -1,4 +1,4 @@
-# Binary Tree Demonstration
+# 📋 Binary Tree Demonstration
 
 Compared to nodes in tree, nodes in Binary Tree are only allowed maximum of 2 children.
 Since BinaryNode extends from Node, construct, traverse, search, export methods from Node are applicable to

@@ -1,5 +1,5 @@
 |:sparkles:| Construct
-=========================
+============================================
 
 Construct Directed Acyclic Graph (DAG) from list, dictionary, and pandas DataFrame.
 

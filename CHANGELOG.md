@@ -6,8 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Misc: Sphinx documentation to support mermaid markdown images.
-- Misc: Sphinx documentation to reflect CHANGELOG section.
+- Misc: Sphinx documentation to support mermaid markdown images, reflect CHANGELOG section, add more emojis.
 ### Changed
 - Misc: Update SEO image.
 - Misc: Fix Sphinx documentation font size difference between web and mobile, include last updated date.
