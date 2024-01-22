@@ -22,12 +22,13 @@ release = bigtree.__version__
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "sphinx.ext.coverage",
-    "sphinx.ext.napoleon",
     "autodocsumm",
     "myst_parser",
+    "sphinxcontrib.mermaid",
     "sphinxemoji.sphinxemoji",
+    "sphinx.ext.coverage",
     "sphinx.ext.mathjax",
+    "sphinx.ext.napoleon",
     "sphinx.ext.doctest",
     "sphinx_material",
 ]
@@ -53,6 +54,7 @@ language = "Python"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_material"
+html_last_updated_fmt = ""
 html_show_sourcelink = False
 html_sidebars = {
     "**": [

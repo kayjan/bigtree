@@ -947,3 +947,13 @@ flowchart TB
 0("a") --> 0-1("c")
 classDef default stroke-width:1
 ```
+
+```{mermaid}
+%%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
+flowchart TB
+0("a") --> 0-0("b")
+0-0 --> 0-0-0("d")
+0-0 --> 0-0-1("e")
+0("a") --> 0-1("c")
+classDef default stroke-width:1
+```
