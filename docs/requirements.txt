@@ -2,4 +2,5 @@ autodocsumm==0.2.11
 myst-parser~=1.0.0
 pandas
 sphinx-material==0.0.36
+sphinxcontrib-mermaid==0.9.2
 sphinxemoji==0.2.0
