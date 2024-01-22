@@ -22,12 +22,13 @@ release = bigtree.__version__
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "sphinx.ext.coverage",
-    "sphinx.ext.napoleon",
     "autodocsumm",
     "myst_parser",
+    "sphinxcontrib.mermaid",
     "sphinxemoji.sphinxemoji",
+    "sphinx.ext.coverage",
     "sphinx.ext.mathjax",
+    "sphinx.ext.napoleon",
     "sphinx.ext.doctest",
     "sphinx_material",
 ]
