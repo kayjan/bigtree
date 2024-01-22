@@ -53,6 +53,7 @@ language = "Python"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_material"
+html_last_updated_fmt = ""
 html_show_sourcelink = False
 html_sidebars = {
     "**": [
