@@ -27,7 +27,7 @@ c = WeightedNode("c", parent=root, weight=2)
 d = WeightedNode("d", parent=b, weight=3)
 
 graph = tree_to_dot(root, node_colour="gold", edge_attr="edge_attr")
-graph.write_png("assets/sphinx/weighted_tree.png")
+graph.write_png("assets/docs/weighted_tree.png")
 ```
 
-![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/sphinx/weighted_tree.png)
+![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/weighted_tree.png)

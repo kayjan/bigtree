@@ -25,10 +25,10 @@ g = BinaryNode(7, parent=c)
 h = BinaryNode(8, parent=d)
 
 graph = tree_to_dot(a, node_colour="gold")
-graph.write_png("assets/docs/demo_binarytree.png")
+graph.write_png("assets/demo/binarytree.png")
 ```
 
-![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_binarytree.png)
+![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/binarytree.png)
 
 ### 2. From list
 

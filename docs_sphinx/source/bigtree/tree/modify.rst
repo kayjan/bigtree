@@ -91,8 +91,8 @@ All other methods calls these 2 methods directly.
 Tree Modification Illustration
 ----------------------------------
 
-.. image:: https://github.com/kayjan/bigtree/raw/master/assets/sphinx/modify_shift_and_copy.png
-   :target: https://github.com/kayjan/bigtree/raw/master/assets/sphinx/modify_shift_and_copy.png
+.. image:: https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_shift_and_copy.png
+   :target: https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_shift_and_copy.png
    :width: 80%
    :align: center
    :alt: Shift and Copy Example
@@ -126,8 +126,8 @@ Tree Modification Illustration
      - "/a/b/c"
      - Shift/copy node `c`, skip if "/a/c" cannot be found
 
-.. image:: https://github.com/kayjan/bigtree/raw/master/assets/sphinx/modify_advanced.png
-   :target: https://github.com/kayjan/bigtree/raw/master/assets/sphinx/modify_advanced.png
+.. image:: https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_advanced.png
+   :target: https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_advanced.png
    :alt: Advanced Shift Example
 
 .. list-table:: Sample Tree Modification (Advanced)

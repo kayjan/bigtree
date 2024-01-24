@@ -38,10 +38,10 @@ root.hshow()
 #      └─ c
 
 graph = tree_to_dot(root, node_colour="gold")
-graph.write_png("assets/docs/demo_tree.png")
+graph.write_png("assets/demo/tree.png")
 ```
 
-![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_tree.png)
+![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/tree.png)
 
 {emphasize-lines="8-10"}
 ```python
@@ -908,11 +908,11 @@ tree_to_dataframe(
 from bigtree import tree_to_dot
 
 graph = tree_to_dot(root, node_colour="gold")
-graph.write_png("assets/docs/demo_dot.png")
+graph.write_png("assets/demo/dot.png")
 ```
-- demo_dot.png
+- dot.png
 
-![Sample Dot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_dot.png)
+![Sample Dot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/dot.png)
 
 ### 6. Export to Pillow (and png)
 
@@ -921,11 +921,11 @@ graph.write_png("assets/docs/demo_dot.png")
 from bigtree import tree_to_pillow
 
 pillow_image = tree_to_pillow(root)
-pillow_image.save("assets/docs/demo_pillow.png")
+pillow_image.save("assets/demo/pillow.png")
 ```
-- demo_pillow.png
+- pillow.png
 
-![Sample Pillow Image Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_pillow.png)
+![Sample Pillow Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/pillow.png)
 
 ### 7. Export to Mermaid Flowchart (and md)
 

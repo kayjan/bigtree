@@ -29,14 +29,14 @@ jobs:
         uses: actions/setup-python@v4
       - name: Install dependencies
         run: |
-          pip install -r docs/requirements.txt
+          pip install -r docs_sphinx/requirements.txt
       - name: Sphinx build
         run: |
-          sphinx-build docs/source docs/build
+          sphinx-build docs_sphinx/source docs_sphinx/build
       - name: Deploy to GH Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/build/
+          publish_dir: docs_sphinx/build/
           force_orphan: true
