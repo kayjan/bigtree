@@ -25,10 +25,10 @@ h = DAGNode("h")
 g = DAGNode("g", parents=[c], children=[h])
 
 graph = dag_to_dot(a, node_colour="gold")
-graph.write_png("assets/docs/demo_dag.png")
+graph.write_png("assets/demo/dag.png")
 ```
 
-![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/docs/demo_dag.png)
+![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/dag.png)
 
 ### 2. From list
 

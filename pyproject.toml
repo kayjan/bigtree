@@ -84,11 +84,24 @@ dependencies = [
 ]
 
 [tool.hatch.envs.docs.scripts]
-html = "sphinx-build -M html docs/source docs/build"
-coverage = "sphinx-build -v -b coverage docs/source docs/build/coverage"
-doctest = "sphinx-build -v -b doctest docs/source docs/build/doctest"
-clean = "sphinx-build -M clean docs/source docs/build"
-clean-html = "sphinx-build -M html docs/source docs/build & sphinx-build -M clean docs/source docs/build"
+html = "sphinx-build -M html docs_sphinx/source docs_sphinx/build"
+coverage = "sphinx-build -v -b coverage docs_sphinx/source docs_sphinx/build/coverage"
+doctest = "sphinx-build -v -b doctest docs_sphinx/source docs_sphinx/build/doctest"
+clean = "sphinx-build -M clean docs_sphinx/source docs_sphinx/build"
+clean-html = "sphinx-build -M html docs_sphinx/source docs_sphinx/build & sphinx-build -M clean docs_sphinx/source docs_sphinx/build"
+
+[tool.hatch.envs.mkdocs]
+dependencies = [
+  "mkdocs",
+  "IPython",
+  "pandas",
+  "pydot",
+  "Pillow",
+]
+
+[tool.hatch.envs.mkdocs.scripts]
+build = "mkdocs build"
+serve = "mkdocs serve"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["37", "38", "39", "310", "311"]
@@ -111,7 +124,7 @@ exclude_lines = [
 [tool.flake8]
 ignore = """E501, W503"""
 per-file-ignores = """
-  docs/source/conf.py: E402
+  docs_sphinx/source/conf.py: E402
   bigtree/__init__.py: F401
 """
 
