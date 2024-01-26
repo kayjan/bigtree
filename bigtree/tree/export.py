@@ -619,19 +619,22 @@ def hyield_tree(
         for _idx, _children in enumerate(levelordergroup_iter(tree)):
             padding_depths[_idx + 1] = max([len(node.node_name) for node in _children])
 
-    def _hprint_branch(_node: T) -> Tuple[List[str], int]:
+    def _hprint_branch(_node: Union[T, Node], _cur_depth: int) -> Tuple[List[str], int]:
         """Get string for tree horizontally.
         Recursively iterate the nodes in post-order traversal manner.
 
         Args:
             _node (Node): node to get string
+            _cur_depth (int): current depth of node
 
         Returns:
             (Tuple[List[str], int]): Intermediate/final result for node, index of branch
         """
-        node_name_centered = _node.node_name.center(padding_depths[_node.depth])
+        if not _node:
+            _node = Node("  ")
+        node_name_centered = _node.node_name.center(padding_depths[_cur_depth])
 
-        children = list(_node.children)
+        children = list(_node.children) if any(list(_node.children)) else []
         if not len(children):
             node_str = f"{style_branch} {node_name_centered.rstrip()}"
             return [node_str], 0
@@ -643,7 +646,7 @@ def hyield_tree(
             node_str = f"""{style_branch}{style_branch}{style_branch}"""
         padding = space * len(node_str)
         for idx, child in enumerate(children):
-            result_child, result_branch_idx = _hprint_branch(child)
+            result_child, result_branch_idx = _hprint_branch(child, _cur_depth + 1)
             result.extend(result_child)
             result_nrow.append(len(result_child))
             result_idx.append(result_branch_idx)
@@ -712,7 +715,7 @@ def hyield_tree(
         result = [prefix + stem for prefix, stem in zip(result_prefix, result)]
         return result, mid
 
-    result, _ = _hprint_branch(tree)
+    result, _ = _hprint_branch(tree, 1)
     return result
 
 
