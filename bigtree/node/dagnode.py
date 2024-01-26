@@ -18,46 +18,47 @@ class DAGNode:
     DAGNode can be linked to each other with `parents` and `children` setter methods,
     or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
-    >>> from bigtree import DAGNode
-    >>> a = DAGNode("a")
-    >>> b = DAGNode("b")
-    >>> c = DAGNode("c")
-    >>> d = DAGNode("d")
-    >>> c.parents = [a, b]
-    >>> c.children = [d]
+    Examples:
+        >>> from bigtree import DAGNode
+        >>> a = DAGNode("a")
+        >>> b = DAGNode("b")
+        >>> c = DAGNode("c")
+        >>> d = DAGNode("d")
+        >>> c.parents = [a, b]
+        >>> c.children = [d]
 
-    >>> from bigtree import DAGNode
-    >>> a = DAGNode("a")
-    >>> b = DAGNode("b")
-    >>> c = DAGNode("c")
-    >>> d = DAGNode("d")
-    >>> a >> c
-    >>> b >> c
-    >>> d << c
+        >>> from bigtree import DAGNode
+        >>> a = DAGNode("a")
+        >>> b = DAGNode("b")
+        >>> c = DAGNode("c")
+        >>> d = DAGNode("d")
+        >>> a >> c
+        >>> b >> c
+        >>> d << c
 
-    Directly passing `parents` argument.
+        Directly passing `parents` argument.
 
-    >>> from bigtree import DAGNode
-    >>> a = DAGNode("a")
-    >>> b = DAGNode("b")
-    >>> c = DAGNode("c", parents=[a, b])
-    >>> d = DAGNode("d", parents=[c])
+        >>> from bigtree import DAGNode
+        >>> a = DAGNode("a")
+        >>> b = DAGNode("b")
+        >>> c = DAGNode("c", parents=[a, b])
+        >>> d = DAGNode("d", parents=[c])
 
-    Directly passing `children` argument.
+        Directly passing `children` argument.
 
-    >>> from bigtree import DAGNode
-    >>> d = DAGNode("d")
-    >>> c = DAGNode("c", children=[d])
-    >>> b = DAGNode("b", children=[c])
-    >>> a = DAGNode("a", children=[c])
+        >>> from bigtree import DAGNode
+        >>> d = DAGNode("d")
+        >>> c = DAGNode("c", children=[d])
+        >>> b = DAGNode("b", children=[c])
+        >>> a = DAGNode("a", children=[c])
 
-    **DAGNode Creation**
+        **DAGNode Creation**
 
-    Node can be created by instantiating a `DAGNode` class or by using a *dictionary*.
-    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+        Node can be created by instantiating a `DAGNode` class or by using a *dictionary*.
+        If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
-    >>> from bigtree import DAGNode
-    >>> a = DAGNode.from_dict({"name": "a", "age": 90})
+        >>> from bigtree import DAGNode
+        >>> a = DAGNode.from_dict({"name": "a", "age": 90})
 
     **DAGNode Attributes**
 
@@ -420,8 +421,9 @@ class DAGNode:
         """Construct node from dictionary, all keys of dictionary will be stored as class attributes
         Input dictionary must have key `name` if not `Node` will not have any name
 
-        >>> from bigtree import DAGNode
-        >>> a = DAGNode.from_dict({"name": "a", "age": 90})
+        Examples:
+            >>> from bigtree import DAGNode
+            >>> a = DAGNode.from_dict({"name": "a", "age": 90})
 
         Args:
             input_dict (Dict[str, Any]): dictionary with node information, key: attribute name, value: attribute value
@@ -469,11 +471,12 @@ class DAGNode:
     def set_attrs(self, attrs: Dict[str, Any]) -> None:
         """Set node attributes
 
-        >>> from bigtree.node.dagnode import DAGNode
-        >>> a = DAGNode('a')
-        >>> a.set_attrs({"age": 90})
-        >>> a
-        DAGNode(a, age=90)
+        Examples:
+            >>> from bigtree.node.dagnode import DAGNode
+            >>> a = DAGNode('a')
+            >>> a.set_attrs({"age": 90})
+            >>> a
+            DAGNode(a, age=90)
 
         Args:
             attrs (Dict[str, Any]): attribute dictionary,
@@ -484,23 +487,24 @@ class DAGNode:
     def go_to(self: T, node: T) -> List[List[T]]:
         """Get list of possible paths from current node to specified node from same tree
 
-        >>> from bigtree import DAGNode
-        >>> a = DAGNode("a")
-        >>> b = DAGNode("b")
-        >>> c = DAGNode("c")
-        >>> d = DAGNode("d")
-        >>> a >> c
-        >>> b >> c
-        >>> c >> d
-        >>> a >> d
-        >>> a.go_to(c)
-        [[DAGNode(a, ), DAGNode(c, )]]
-        >>> a.go_to(d)
-        [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, )], [DAGNode(a, ), DAGNode(d, )]]
-        >>> a.go_to(b)
-        Traceback (most recent call last):
-            ...
-        bigtree.utils.exceptions.TreeError: It is not possible to go to DAGNode(b, )
+        Examples:
+            >>> from bigtree import DAGNode
+            >>> a = DAGNode("a")
+            >>> b = DAGNode("b")
+            >>> c = DAGNode("c")
+            >>> d = DAGNode("d")
+            >>> a >> c
+            >>> b >> c
+            >>> c >> d
+            >>> a >> d
+            >>> a.go_to(c)
+            [[DAGNode(a, ), DAGNode(c, )]]
+            >>> a.go_to(d)
+            [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, )], [DAGNode(a, ), DAGNode(d, )]]
+            >>> a.go_to(b)
+            Traceback (most recent call last):
+                ...
+            bigtree.utils.exceptions.TreeError: It is not possible to go to DAGNode(b, )
 
         Args:
             node (Self): node to travel to from current node, inclusive of start and end node
@@ -536,9 +540,10 @@ class DAGNode:
     def copy(self: T) -> T:
         """Deep copy self; clone DAGNode
 
-        >>> from bigtree.node.dagnode import DAGNode
-        >>> a = DAGNode('a')
-        >>> a_copy = a.copy()
+        Examples:
+            >>> from bigtree.node.dagnode import DAGNode
+            >>> a = DAGNode('a')
+            >>> a_copy = a.copy()
 
         Returns:
             (Self)
@@ -548,10 +553,11 @@ class DAGNode:
     def __copy__(self: T) -> T:
         """Shallow copy self
 
-        >>> import copy
-        >>> from bigtree.node.dagnode import DAGNode
-        >>> a = DAGNode('a')
-        >>> a_copy = copy.deepcopy(a)
+        Examples:
+            >>> import copy
+            >>> from bigtree.node.dagnode import DAGNode
+            >>> a = DAGNode('a')
+            >>> a_copy = copy.deepcopy(a)
 
         Returns:
             (Self)

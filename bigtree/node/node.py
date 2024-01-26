@@ -14,37 +14,38 @@ class Node(BaseNode):
 
     Nodes can be linked to each other with `parent` and `children` setter methods.
 
-    >>> from bigtree import Node
-    >>> a = Node("a")
-    >>> b = Node("b")
-    >>> c = Node("c")
-    >>> d = Node("d")
-    >>> b.parent = a
-    >>> b.children = [c, d]
+    Examples:
+        >>> from bigtree import Node
+        >>> a = Node("a")
+        >>> b = Node("b")
+        >>> c = Node("c")
+        >>> d = Node("d")
+        >>> b.parent = a
+        >>> b.children = [c, d]
 
-    Directly passing `parent` argument.
+        Directly passing `parent` argument.
 
-    >>> from bigtree import Node
-    >>> a = Node("a")
-    >>> b = Node("b", parent=a)
-    >>> c = Node("c", parent=b)
-    >>> d = Node("d", parent=b)
+        >>> from bigtree import Node
+        >>> a = Node("a")
+        >>> b = Node("b", parent=a)
+        >>> c = Node("c", parent=b)
+        >>> d = Node("d", parent=b)
 
-    Directly passing `children` argument.
+        Directly passing `children` argument.
 
-    >>> from bigtree import Node
-    >>> d = Node("d")
-    >>> c = Node("c")
-    >>> b = Node("b", children=[c, d])
-    >>> a = Node("a", children=[b])
+        >>> from bigtree import Node
+        >>> d = Node("d")
+        >>> c = Node("c")
+        >>> b = Node("b", children=[c, d])
+        >>> a = Node("a", children=[b])
 
-    **Node Creation**
+        **Node Creation**
 
-    Node can be created by instantiating a `Node` class or by using a *dictionary*.
-    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+        Node can be created by instantiating a `Node` class or by using a *dictionary*.
+        If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
-    >>> from bigtree import Node
-    >>> a = Node.from_dict({"name": "a", "age": 90})
+        >>> from bigtree import Node
+        >>> a = Node.from_dict({"name": "a", "age": 90})
 
     **Node Attributes**
 

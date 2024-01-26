@@ -18,69 +18,70 @@ class AppToDo:
       - To-Do List has three levels - app name, list name, and item name.
       - If list name is not given, item will be assigned to a `General` list.
 
-    *Initializing and Adding Items*
+    Examples:
+        *Initializing and Adding Items*
 
-    >>> from bigtree import AppToDo
-    >>> app = AppToDo("To Do App")
-    >>> app.add_item(item_name="Homework 1", list_name="School")
-    >>> app.add_item(item_name=["Milk", "Bread"], list_name="Groceries", description="Urgent")
-    >>> app.add_item(item_name="Cook")
-    >>> app.show()
-    To Do App
-    ├── School
-    │   └── Homework 1
-    ├── Groceries
-    │   ├── Milk [description=Urgent]
-    │   └── Bread [description=Urgent]
-    └── General
-        └── Cook
+        >>> from bigtree import AppToDo
+        >>> app = AppToDo("To Do App")
+        >>> app.add_item(item_name="Homework 1", list_name="School")
+        >>> app.add_item(item_name=["Milk", "Bread"], list_name="Groceries", description="Urgent")
+        >>> app.add_item(item_name="Cook")
+        >>> app.show()
+        To Do App
+        ├── School
+        │   └── Homework 1
+        ├── Groceries
+        │   ├── Milk [description=Urgent]
+        │   └── Bread [description=Urgent]
+        └── General
+            └── Cook
 
-    *Reorder List and Item*
+        *Reorder List and Item*
 
-    >>> app.prioritize_list(list_name="General")
-    >>> app.show()
-    To Do App
-    ├── General
-    │   └── Cook
-    ├── School
-    │   └── Homework 1
-    └── Groceries
-        ├── Milk [description=Urgent]
-        └── Bread [description=Urgent]
+        >>> app.prioritize_list(list_name="General")
+        >>> app.show()
+        To Do App
+        ├── General
+        │   └── Cook
+        ├── School
+        │   └── Homework 1
+        └── Groceries
+            ├── Milk [description=Urgent]
+            └── Bread [description=Urgent]
 
-    >>> app.prioritize_item(item_name="Bread")
-    >>> app.show()
-    To Do App
-    ├── General
-    │   └── Cook
-    ├── School
-    │   └── Homework 1
-    └── Groceries
-        ├── Bread [description=Urgent]
-        └── Milk [description=Urgent]
+        >>> app.prioritize_item(item_name="Bread")
+        >>> app.show()
+        To Do App
+        ├── General
+        │   └── Cook
+        ├── School
+        │   └── Homework 1
+        └── Groceries
+            ├── Bread [description=Urgent]
+            └── Milk [description=Urgent]
 
-    *Removing Items*
+        *Removing Items*
 
-    >>> app.remove_item("Homework 1")
-    >>> app.show()
-    To Do App
-    ├── General
-    │   └── Cook
-    └── Groceries
-        ├── Bread [description=Urgent]
-        └── Milk [description=Urgent]
+        >>> app.remove_item("Homework 1")
+        >>> app.show()
+        To Do App
+        ├── General
+        │   └── Cook
+        └── Groceries
+            ├── Bread [description=Urgent]
+            └── Milk [description=Urgent]
 
-    *Exporting and Importing List*
+        *Exporting and Importing List*
 
-    >>> app.save("assets/docstr/list.json")
-    >>> app2 = AppToDo.load("assets/docstr/list.json")
-    >>> app2.show()
-    To Do App
-    ├── General
-    │   └── Cook
-    └── Groceries
-        ├── Bread [description=Urgent]
-        └── Milk [description=Urgent]
+        >>> app.save("assets/docstr/list.json")
+        >>> app2 = AppToDo.load("assets/docstr/list.json")
+        >>> app2.show()
+        To Do App
+        ├── General
+        │   └── Cook
+        └── Groceries
+            ├── Bread [description=Urgent]
+            └── Milk [description=Urgent]
     """
 
     def __init__(

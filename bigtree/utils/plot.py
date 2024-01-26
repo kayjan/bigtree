@@ -30,29 +30,30 @@ def reingold_tilford(
     3. A parent should be centered over their children.
     4. A tree and its mirror image should produce drawings that are reflections of one another; a subtree should be drawn the same way regardless of where it occurs in the tree.
 
-    >>> from bigtree import reingold_tilford, list_to_tree
-    >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
-    >>> root = list_to_tree(path_list)
-    >>> root.show()
-    a
-    ├── b
-    │   ├── d
-    │   └── e
-    │       ├── g
-    │       └── h
-    └── c
-        └── f
+    Examples:
+        >>> from bigtree import reingold_tilford, list_to_tree
+        >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        >>> root = list_to_tree(path_list)
+        >>> root.show()
+        a
+        ├── b
+        │   ├── d
+        │   └── e
+        │       ├── g
+        │       └── h
+        └── c
+            └── f
 
-    >>> reingold_tilford(root)
-    >>> root.show(attr_list=["x", "y"])
-    a [x=1.25, y=3.0]
-    ├── b [x=0.5, y=2.0]
-    │   ├── d [x=0.0, y=1.0]
-    │   └── e [x=1.0, y=1.0]
-    │       ├── g [x=0.5, y=0.0]
-    │       └── h [x=1.5, y=0.0]
-    └── c [x=2.0, y=2.0]
-        └── f [x=2.0, y=1.0]
+        >>> reingold_tilford(root)
+        >>> root.show(attr_list=["x", "y"])
+        a [x=1.25, y=3.0]
+        ├── b [x=0.5, y=2.0]
+        │   ├── d [x=0.0, y=1.0]
+        │   └── e [x=1.0, y=1.0]
+        │       ├── g [x=0.5, y=0.0]
+        │       └── h [x=1.5, y=0.0]
+        └── c [x=2.0, y=2.0]
+            └── f [x=2.0, y=1.0]
 
     References
       [1] Walker, J. (1991). Positioning Nodes for General Trees. https://www.drdobbs.com/positioning-nodes-for-general-trees/184402320?pgno=4

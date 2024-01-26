@@ -38,13 +38,14 @@ def findall(
     """
     Search tree for nodes matching condition (callable function).
 
-    >>> from bigtree import Node, findall
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> findall(root, lambda node: node.age > 62)
-    (Node(/a, age=90), Node(/a/b, age=65))
+    Examples:
+        >>> from bigtree import Node, findall
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> findall(root, lambda node: node.age > 62)
+        (Node(/a, age=90), Node(/a/b, age=65))
 
     Args:
         tree (BaseNode): tree to search
@@ -74,18 +75,19 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
     """
     Search tree for *single node* matching condition (callable function).
 
-    >>> from bigtree import Node, find
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> find(root, lambda node: node.age == 65)
-    Node(/a/b, age=65)
-    >>> find(root, lambda node: node.age > 5)
-    Traceback (most recent call last):
-        ...
-    bigtree.utils.exceptions.SearchError: Expected less than 1 element(s), found 4 elements
-    (Node(/a, age=90), Node(/a/b, age=65), Node(/a/c, age=60), Node(/a/c/d, age=40))
+    Examples:
+        >>> from bigtree import Node, find
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find(root, lambda node: node.age == 65)
+        Node(/a/b, age=65)
+        >>> find(root, lambda node: node.age > 5)
+        Traceback (most recent call last):
+            ...
+        bigtree.utils.exceptions.SearchError: Expected less than 1 element(s), found 4 elements
+        (Node(/a, age=90), Node(/a/b, age=65), Node(/a/c, age=60), Node(/a/c/d, age=40))
 
     Args:
         tree (BaseNode): tree to search
@@ -104,13 +106,14 @@ def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT:
     """
     Search tree for single node matching name attribute.
 
-    >>> from bigtree import Node, find_name
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> find_name(root, "c")
-    Node(/a/c, age=60)
+    Examples:
+        >>> from bigtree import Node, find_name
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find_name(root, "c")
+        Node(/a/c, age=60)
 
     Args:
         tree (Node): tree to search
@@ -127,15 +130,16 @@ def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
     """
     Search tree for multiple node(s) matching name attribute.
 
-    >>> from bigtree import Node, find_names
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("b", age=40, parent=c)
-    >>> find_names(root, "c")
-    (Node(/a/c, age=60),)
-    >>> find_names(root, "b")
-    (Node(/a/b, age=65), Node(/a/c/b, age=40))
+    Examples:
+        >>> from bigtree import Node, find_names
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("b", age=40, parent=c)
+        >>> find_names(root, "c")
+        (Node(/a/c, age=60),)
+        >>> find_names(root, "b")
+        (Node(/a/b, age=65), Node(/a/c/b, age=40))
 
     Args:
         tree (Node): tree to search
@@ -155,17 +159,18 @@ def find_relative_path(tree: NodeT, path_name: str) -> Iterable[NodeT]:
       - Supports wildcards, i.e., '\*/node_name'
       - If path name starts with leading separator symbol, it will start at root node.
 
-    >>> from bigtree import Node, find_relative_path
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> find_relative_path(d, "..")
-    (Node(/a/c, age=60),)
-    >>> find_relative_path(d, "../../b")
-    (Node(/a/b, age=65),)
-    >>> find_relative_path(d, "../../*")
-    (Node(/a/b, age=65), Node(/a/c, age=60))
+    Examples:
+        >>> from bigtree import Node, find_relative_path
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find_relative_path(d, "..")
+        (Node(/a/c, age=60),)
+        >>> find_relative_path(d, "../../b")
+        (Node(/a/b, age=65),)
+        >>> find_relative_path(d, "../../*")
+        (Node(/a/b, age=65), Node(/a/c, age=60))
 
     Args:
         tree (Node): tree to search
@@ -224,13 +229,14 @@ def find_full_path(tree: NodeT, path_name: str) -> NodeT:
       - Path name can be with or without leading tree path separator symbol.
       - Path name must be full path, works similar to `find_path` but faster.
 
-    >>> from bigtree import Node, find_full_path
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> find_full_path(root, "/a/c/d")
-    Node(/a/c/d, age=40)
+    Examples:
+        >>> from bigtree import Node, find_full_path
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find_full_path(root, "/a/c/d")
+        Node(/a/c/d, age=40)
 
     Args:
         tree (Node): tree to search
@@ -261,15 +267,16 @@ def find_path(tree: NodeT, path_name: str) -> NodeT:
       - Path name can be with or without leading tree path separator symbol.
       - Path name can be full path or partial path (trailing part of path) or node name.
 
-    >>> from bigtree import Node, find_path
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> find_path(root, "c")
-    Node(/a/c, age=60)
-    >>> find_path(root, "/c")
-    Node(/a/c, age=60)
+    Examples:
+        >>> from bigtree import Node, find_path
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find_path(root, "c")
+        Node(/a/c, age=60)
+        >>> find_path(root, "/c")
+        Node(/a/c, age=60)
 
     Args:
         tree (Node): tree to search
@@ -288,15 +295,16 @@ def find_paths(tree: NodeT, path_name: str) -> Tuple[NodeT, ...]:
       - Path name can be with or without leading tree path separator symbol.
       - Path name can be partial path (trailing part of path) or node name.
 
-    >>> from bigtree import Node, find_paths
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("c", age=40, parent=c)
-    >>> find_paths(root, "/a/c")
-    (Node(/a/c, age=60),)
-    >>> find_paths(root, "/c")
-    (Node(/a/c, age=60), Node(/a/c/c, age=40))
+    Examples:
+        >>> from bigtree import Node, find_paths
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("c", age=40, parent=c)
+        >>> find_paths(root, "/a/c")
+        (Node(/a/c, age=60),)
+        >>> find_paths(root, "/c")
+        (Node(/a/c, age=60), Node(/a/c/c, age=40))
 
     Args:
         tree (Node): tree to search
@@ -315,13 +323,14 @@ def find_attr(
     """
     Search tree for single node matching custom attribute.
 
-    >>> from bigtree import Node, find_attr
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> find_attr(root, "age", 65)
-    Node(/a/b, age=65)
+    Examples:
+        >>> from bigtree import Node, find_attr
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find_attr(root, "age", 65)
+        Node(/a/b, age=65)
 
     Args:
         tree (BaseNode): tree to search
@@ -345,13 +354,14 @@ def find_attrs(
     """
     Search tree for node(s) matching custom attribute.
 
-    >>> from bigtree import Node, find_attrs
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=65, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> find_attrs(root, "age", 65)
-    (Node(/a/b, age=65), Node(/a/c, age=65))
+    Examples:
+        >>> from bigtree import Node, find_attrs
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=65, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find_attrs(root, "age", 65)
+        (Node(/a/b, age=65), Node(/a/c, age=65))
 
     Args:
         tree (BaseNode): tree to search
@@ -378,13 +388,14 @@ def find_children(
     """
     Search children for nodes matching condition (callable function).
 
-    >>> from bigtree import Node, find_children
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> find_children(root, lambda node: node.age > 30)
-    (Node(/a/b, age=65), Node(/a/c, age=60))
+    Examples:
+        >>> from bigtree import Node, find_children
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find_children(root, lambda node: node.age > 30)
+        (Node(/a/b, age=65), Node(/a/c, age=60))
 
     Args:
         tree (BaseNode/DAGNode): tree to search for its children
@@ -416,13 +427,14 @@ def find_child(
     """
     Search children for *single node* matching condition (callable function).
 
-    >>> from bigtree import Node, find_child
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> find_child(root, lambda node: node.age > 62)
-    Node(/a/b, age=65)
+    Examples:
+        >>> from bigtree import Node, find_child
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find_child(root, lambda node: node.age > 62)
+        Node(/a/b, age=65)
 
     Args:
         tree (BaseNode/DAGNode): tree to search for its child
@@ -442,15 +454,16 @@ def find_child_by_name(
     """
     Search tree for single node matching name attribute.
 
-    >>> from bigtree import Node, find_child_by_name
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=c)
-    >>> find_child_by_name(root, "c")
-    Node(/a/c, age=60)
-    >>> find_child_by_name(c, "d")
-    Node(/a/c/d, age=40)
+    Examples:
+        >>> from bigtree import Node, find_child_by_name
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find_child_by_name(root, "c")
+        Node(/a/c, age=60)
+        >>> find_child_by_name(c, "d")
+        Node(/a/c/d, age=40)
 
     Args:
         tree (Node/DAGNode): tree to search, parent node

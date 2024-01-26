@@ -14,36 +14,37 @@ class BinaryNode(Node):
     BinaryNode can be linked to each other with `children`, `left`, or `right` setter methods.
     If initialized with `children`, it must be length 2, denoting left and right child.
 
-    >>> from bigtree import BinaryNode, print_tree
-    >>> a = BinaryNode(1)
-    >>> b = BinaryNode(2)
-    >>> c = BinaryNode(3)
-    >>> d = BinaryNode(4)
-    >>> a.children = [b, c]
-    >>> b.right = d
-    >>> print_tree(a)
-    1
-    ├── 2
-    │   └── 4
-    └── 3
+    Examples:
+        >>> from bigtree import BinaryNode, print_tree
+        >>> a = BinaryNode(1)
+        >>> b = BinaryNode(2)
+        >>> c = BinaryNode(3)
+        >>> d = BinaryNode(4)
+        >>> a.children = [b, c]
+        >>> b.right = d
+        >>> print_tree(a)
+        1
+        ├── 2
+        │   └── 4
+        └── 3
 
-    Directly passing `left`, `right`, or `children` argument.
+        Directly passing `left`, `right`, or `children` argument.
 
-    >>> from bigtree import BinaryNode
-    >>> d = BinaryNode(4)
-    >>> c = BinaryNode(3)
-    >>> b = BinaryNode(2, right=d)
-    >>> a = BinaryNode(1, children=[b, c])
+        >>> from bigtree import BinaryNode
+        >>> d = BinaryNode(4)
+        >>> c = BinaryNode(3)
+        >>> b = BinaryNode(2, right=d)
+        >>> a = BinaryNode(1, children=[b, c])
 
-    **BinaryNode Creation**
+        **BinaryNode Creation**
 
-    Node can be created by instantiating a `BinaryNode` class or by using a *dictionary*.
-    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+        Node can be created by instantiating a `BinaryNode` class or by using a *dictionary*.
+        If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
-    >>> from bigtree import BinaryNode
-    >>> a = BinaryNode.from_dict({"name": "1"})
-    >>> a
-    BinaryNode(name=1, val=1)
+        >>> from bigtree import BinaryNode
+        >>> a = BinaryNode.from_dict({"name": "1"})
+        >>> a
+        BinaryNode(name=1, val=1)
 
     **BinaryNode Attributes**
 
@@ -379,19 +380,20 @@ class BinaryNode(Node):
     def sort(self, **kwargs: Any) -> None:
         """Sort children, possible keyword arguments include ``key=lambda node: node.val``, ``reverse=True``
 
-        >>> from bigtree import BinaryNode, print_tree
-        >>> a = BinaryNode(1)
-        >>> c = BinaryNode(3, parent=a)
-        >>> b = BinaryNode(2, parent=a)
-        >>> print_tree(a)
-        1
-        ├── 3
-        └── 2
-        >>> a.sort(key=lambda node: node.val)
-        >>> print_tree(a)
-        1
-        ├── 2
-        └── 3
+        Examples:
+            >>> from bigtree import BinaryNode, print_tree
+            >>> a = BinaryNode(1)
+            >>> c = BinaryNode(3, parent=a)
+            >>> b = BinaryNode(2, parent=a)
+            >>> print_tree(a)
+            1
+            ├── 3
+            └── 2
+            >>> a.sort(key=lambda node: node.val)
+            >>> print_tree(a)
+            1
+            ├── 2
+            └── 3
         """
         children = [child for child in self.children if child]
         if len(children) == 2:

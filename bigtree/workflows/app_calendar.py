@@ -19,40 +19,41 @@ class Calendar:
     Calendar Implementation with Big Tree.
       - Calendar has four levels - year, month, day, and event name (with event attributes)
 
-    *Initializing and Adding Events*
+    Examples:
+        *Initializing and Adding Events*
 
-    >>> from bigtree import Calendar
-    >>> calendar = Calendar("My Calendar")
-    >>> calendar.add_event("Gym", "2023-01-01 18:00")
-    >>> calendar.add_event("Dinner", "2023-01-01", date_format="%Y-%m-%d", budget=20)
-    >>> calendar.add_event("Gym", "2023-01-02 18:00")
-    >>> calendar.show()
-    My Calendar
-    2023-01-01 00:00:00 - Dinner (budget: 20)
-    2023-01-01 18:00:00 - Gym
-    2023-01-02 18:00:00 - Gym
+        >>> from bigtree import Calendar
+        >>> calendar = Calendar("My Calendar")
+        >>> calendar.add_event("Gym", "2023-01-01 18:00")
+        >>> calendar.add_event("Dinner", "2023-01-01", date_format="%Y-%m-%d", budget=20)
+        >>> calendar.add_event("Gym", "2023-01-02 18:00")
+        >>> calendar.show()
+        My Calendar
+        2023-01-01 00:00:00 - Dinner (budget: 20)
+        2023-01-01 18:00:00 - Gym
+        2023-01-02 18:00:00 - Gym
 
-    *Search for Events*
+        *Search for Events*
 
-    >>> calendar.find_event("Gym")
-    2023-01-01 18:00:00 - Gym
-    2023-01-02 18:00:00 - Gym
+        >>> calendar.find_event("Gym")
+        2023-01-01 18:00:00 - Gym
+        2023-01-02 18:00:00 - Gym
 
-    *Removing Events*
+        *Removing Events*
 
-    >>> import datetime as dt
-    >>> calendar.delete_event("Gym", dt.date(2023, 1, 1))
-    >>> calendar.show()
-    My Calendar
-    2023-01-01 00:00:00 - Dinner (budget: 20)
-    2023-01-02 18:00:00 - Gym
+        >>> import datetime as dt
+        >>> calendar.delete_event("Gym", dt.date(2023, 1, 1))
+        >>> calendar.show()
+        My Calendar
+        2023-01-01 00:00:00 - Dinner (budget: 20)
+        2023-01-02 18:00:00 - Gym
 
-    *Export Calendar*
+        *Export Calendar*
 
-    >>> calendar.to_dataframe()
-                                 path    name        date      time  budget
-    0  /My Calendar/2023/01/01/Dinner  Dinner  2023-01-01  00:00:00    20.0
-    1     /My Calendar/2023/01/02/Gym     Gym  2023-01-02  18:00:00     NaN
+        >>> calendar.to_dataframe()
+                                     path    name        date      time  budget
+        0  /My Calendar/2023/01/01/Dinner  Dinner  2023-01-01  00:00:00    20.0
+        1     /My Calendar/2023/01/02/Gym     Gym  2023-01-02  18:00:00     NaN
     """
 
     def __init__(self, name: str):
