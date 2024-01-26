@@ -5,6 +5,7 @@ import pytest
 from bigtree.node.basenode import BaseNode
 from bigtree.node.binarynode import BinaryNode
 from bigtree.node.node import Node
+from bigtree.tree.export import hprint_tree
 from bigtree.tree.helper import clone_tree
 from bigtree.utils.exceptions import LoopError, TreeError
 from tests.conftest import assert_print_statement
@@ -969,6 +970,21 @@ def assert_binarytree_structure_root2(root):
     d, e = b.children
     f, g = c.children
     h, _ = d.children
+
+    expected_str = (
+        "                 ┌─ 8\n"
+        "           ┌─ 4 ─┤\n"
+        "     ┌─ 2 ─┤     └─ \n"
+        "─ 1 ─┤     └─ 5\n"
+        "     │     ┌─ 6\n"
+        "     └─ 3 ─┤\n"
+        "           └─ 7\n"
+    )
+    assert_print_statement(
+        hprint_tree,
+        expected_str,
+        tree=root,
+    )
 
     class Sample:
         pass

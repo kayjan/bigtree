@@ -5,11 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.15.7] - 2023-01-26
 ### Added
 - Misc: Sphinx documentation to support mermaid markdown images, reflect CHANGELOG section, add more emojis.
 ### Changed
 - Misc: Update SEO image.
 - Misc: Fix Sphinx documentation font size difference between web and mobile, include last updated date.
+- Misc: Upgrade package versions in pre-commit hook.
+### Fixed
+- Tree Exporter: `hprint_tree` and `hyield_tree` to be compatible with `BinaryNode` where child nodes can be None type.
 
 ## [0.15.6] - 2023-01-20
 ### Added
@@ -468,7 +473,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.15.6...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.15.7...HEAD
+[0.15.7]: https://github.com/kayjan/bigtree/compare/0.15.6...0.15.7
 [0.15.6]: https://github.com/kayjan/bigtree/compare/0.15.5...0.15.6
 [0.15.5]: https://github.com/kayjan/bigtree/compare/0.15.4...0.15.5
 [0.15.4]: https://github.com/kayjan/bigtree/compare/0.15.3...0.15.4
