@@ -1,0 +1,57 @@
+/* Font */
+body {
+    font-size: 14px;
+}
+.md-typeset h2 {
+    margin: 1.5rem 0 0.5rem;
+}
+.md-typeset h3 {
+    margin: 0.8rem 0 0.5rem;
+}
+.md-typeset h5 {
+    text-transform: initial;
+    color: black;
+    font-size: 0.9em;
+}
+p {
+    margin: 0 !important;
+}
+li, ul {
+    margin-top: 0.2em !important;
+    margin-bottom: 0.2em !important;
+}
+
+/* Code Font */
+span.pre, .md-typeset pre, pre, .highlight, .highlight * {
+    font-family: monospace;
+    font-size: 0.7rem;
+}
+.sig span {
+    color: #212322 !important;
+}
+.sig {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    background-color: rgba(0, 150, 136, 0.5) !important;
+    border-top: 3px solid teal !important;
+}
+
+/* Admonition */
+.admonition.note {
+    padding: 0;
+}
+.line-block, .admonition.note p {
+    padding: 0.6rem 0.6rem;
+    margin-bottom: 0 !important;
+}
+
+/* Table */
+table {
+    border: 1px solid black;
+}
+td .line-block {
+    padding: initial;
+}
+.autosummary > colgroup > col:first-child {
+    width: 25% !important;
+}

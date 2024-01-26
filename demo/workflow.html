@@ -1,0 +1,519 @@
+
+<!DOCTYPE html>
+
+<html lang="Python">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="lang:clipboard.copy" content="Copy to clipboard">
+  <meta name="lang:clipboard.copied" content="Copied to clipboard">
+  <meta name="lang:search.language" content="en">
+  <meta name="lang:search.pipeline.stopwords" content="True">
+  <meta name="lang:search.pipeline.trimmer" content="True">
+  <meta name="lang:search.result.none" content="No matching documents">
+  <meta name="lang:search.result.one" content="1 matching document">
+  <meta name="lang:search.result.other" content="# matching documents">
+  <meta name="lang:search.tokenizer" content="[\s\-]+">
+
+  
+    <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:300,400,400i,700&display=fallback" rel="stylesheet">
+
+    <style>
+      body,
+      input {
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+      }
+
+      code,
+      kbd,
+      pre {
+        font-family: "Roboto Mono", "Courier New", Courier, monospace
+      }
+    </style>
+  
+
+  <link rel="stylesheet" href="../_static/stylesheets/application.css"/>
+  <link rel="stylesheet" href="../_static/stylesheets/application-palette.css"/>
+  <link rel="stylesheet" href="../_static/stylesheets/application-fixes.css"/>
+  
+  <link rel="stylesheet" href="../_static/fonts/material-icons.css"/>
+  
+  <meta name="theme-color" content="#3f51b5">
+  <script src="../_static/javascripts/modernizr.js"></script>
+  
+  
+  
+    <title>📋 Workflow Demonstration &#8212; bigtree 0.15.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/material.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/twemoji.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
+    <script src="../_static/twemoji.js"></script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="🍂 Changelog" href="../others/changelog.html" />
+    <link rel="prev" title="📋 DAG Demonstration" href="dag.html" />
+        <meta name="description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame." lang="en" xml:lang="en">
+        <meta name="keywords" content="Python, Tree, Bigtree">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Big Tree Documentation">
+        <meta property="og:description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="og:url" content="https://bigtree.readthedocs.io/">
+        <meta property="og:image" content="https://i.ibb.co/wS3sb4D/favicon.png">
+        <meta property="twitter:title" content="Big Tree Documentation">
+        <meta property="twitter:description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="twitter:image" content="https://i.ibb.co/wS3sb4D/favicon.png">
+    
+  </head>
+  <body dir=ltr
+        data-md-color-primary=teal data-md-color-accent=amber>
+  
+  <svg class="md-svg">
+    <defs data-children-count="0">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+      
+    </defs>
+  </svg>
+  
+  <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer">
+  <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search">
+  <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+  <a href="#demo/workflow" tabindex="1" class="md-skip"> Skip to content </a>
+  <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex navheader">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../index.html" title="bigtree 0.15.7 documentation"
+           class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">&#xe88a</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          <span class="md-header-nav__topic">bigtree Documentation</span>
+          <span class="md-header-nav__topic"> 📋 Workflow Demonstration </span>
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+        
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" action="../search.html" method="get" name="search">
+      <input type="text" class="md-search__input" name="q" placeholder=""Search""
+             autocapitalize="off" autocomplete="off" spellcheck="false"
+             data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            <a href="https://github.com/kayjan/bigtree/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    bigtree
+  </div>
+</a>
+          </div>
+        </div>
+      
+      
+  
+  <div class="md-flex__cell md-flex__cell--shrink dropdown">
+    <button class="dropdownbutton">Versions</button>
+    <div class="dropdown-content md-hero">
+          <a title="latest" href="https://bigtree.readthedocs.io/en/latest">latest</a>
+      
+          <a title="0.15.7" href="https://bigtree.readthedocs.io/en/0.15.7">0.15.7</a>
+      
+          <a title="0.14.8" href="https://bigtree.readthedocs.io/en/0.14.8">0.14.8</a>
+      
+    </div>
+  </div>
+  
+
+    </div>
+  </nav>
+</header>
+
+        
+  
+  <div class="md-container">
+    
+    
+    
+  <nav class="md-tabs" data-md-component="tabs">
+    <div class="md-tabs__inner md-grid">
+      <ul class="md-tabs__list">
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">bigtree 0.15.7 documentation</a></li>
+      </ul>
+    </div>
+  </nav>
+    <main class="md-main">
+      <div class="md-main__inner md-grid" data-md-component="container">
+        
+          <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../index.html" title="bigtree 0.15.7 documentation" class="md-nav__button md-logo">
+      
+        <i class="md-icon">&#xe88a</i>
+      
+    </a>
+    <a href="../index.html"
+       title="bigtree 0.15.7 documentation">bigtree Documentation</a>
+  </label>
+    <div class="md-nav__source">
+      <a href="https://github.com/kayjan/bigtree/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    bigtree
+  </div>
+</a>
+    </div>
+  
+  
+
+  
+  <ul class="md-nav__list">
+    <li class="md-nav__item">
+    
+    
+      <a href="../node.html" class="md-nav__link">🌿 Node</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../binarytree.html" class="md-nav__link">🌵 Binary Tree</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../dag.html" class="md-nav__link">🌴 Directed Acyclic Graph (DAG)</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../tree.html" class="md-nav__link">🌲 Tree</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../utils.html" class="md-nav__link">🔧 Utils</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../workflows.html" class="md-nav__link">👷 Workflows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../others.html" class="md-nav__link">🌐 Others</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">Demonstration</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="tree.html" class="md-nav__link">📋 Tree Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="binarytree.html" class="md-nav__link">📋 Binary Tree Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="dag.html" class="md-nav__link">📋 DAG Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <label class="md-nav__link md-nav__link--active" for="__toc"> 📋 Workflow Demonstration </label>
+    
+      <a href="#" class="md-nav__link md-nav__link--active">📋 Workflow Demonstration</a>
+      
+        
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#demo-workflow--page-root" class="md-nav__link">📋 Workflow Demonstration</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#to-do-application" class="md-nav__link">To Do Application</a>
+        </li>
+        <li class="md-nav__item"><a href="#calendar-application" class="md-nav__link">Calendar Application</a>
+        </li></ul>
+            </nav>
+        </li>
+  </ul>
+</nav>
+      <ul class="md-nav__list"> 
+    <li class="md-nav__item">
+    
+    
+      <a href="#to-do-application" class="md-nav__link">To Do Application</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="#calendar-application" class="md-nav__link">Calendar Application</a>
+      
+    
+    </li></ul>
+    
+    </li>
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">Changes</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../others/changelog.html" class="md-nav__link">🍂 Changelog</a>
+      
+    
+    </li>
+  </ul>
+  
+
+</nav>
+              </div>
+            </div>
+          </div>
+          <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#demo-workflow--page-root" class="md-nav__link">📋 Workflow Demonstration</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#to-do-application" class="md-nav__link">To Do Application</a>
+        </li>
+        <li class="md-nav__item"><a href="#calendar-application" class="md-nav__link">Calendar Application</a>
+        </li></ul>
+            </nav>
+        </li>
+  </ul>
+</nav>
+              </div>
+            </div>
+          </div>
+        
+        <div class="md-content">
+          <article class="md-content__inner md-typeset" role="main">
+            
+  <section id="workflow-demonstration">
+<h1 id="demo-workflow--page-root">📋 Workflow Demonstration<a class="headerlink" href="#demo-workflow--page-root" title="Permalink to this heading">¶</a></h1>
+<p>There are existing implementations of workflows to showcase how <code class="docutils literal notranslate"><span class="pre">bigtree</span></code> can be used!</p>
+<section id="to-do-application">
+<h2 id="to-do-application">To Do Application<a class="headerlink" href="#to-do-application" title="Permalink to this heading">¶</a></h2>
+<p>There are functions to:</p>
+<ul class="simple">
+<li><p>Add or remove list to To-Do application</p></li>
+<li><p>Add or remove item to list, default list is the 'General' list</p></li>
+<li><p>Prioritize a list/item by reordering them as first list/item</p></li>
+<li><p>Save and import To-Do application to and from an external JSON file</p></li>
+<li><p>Show To-Do application, which prints tree to console</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">AppToDo</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">AppToDo</span><span class="p">(</span><span class="s2">"To Do App"</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">item_name</span><span class="o">=</span><span class="s2">"Homework 1"</span><span class="p">,</span> <span class="n">list_name</span><span class="o">=</span><span class="s2">"School"</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">item_name</span><span class="o">=</span><span class="p">[</span><span class="s2">"Milk"</span><span class="p">,</span> <span class="s2">"Bread"</span><span class="p">],</span> <span class="n">list_name</span><span class="o">=</span><span class="s2">"Groceries"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Urgent"</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">item_name</span><span class="o">=</span><span class="s2">"Cook"</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># To Do App</span>
+<span class="c1"># ├── School</span>
+<span class="c1"># │   └── Homework 1</span>
+<span class="c1"># ├── Groceries</span>
+<span class="c1"># │   ├── Milk [description=Urgent]</span>
+<span class="c1"># │   └── Bread [description=Urgent]</span>
+<span class="c1"># └── General</span>
+<span class="c1">#   └── Cook</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"list.json"</span><span class="p">)</span>
+<span class="n">app2</span> <span class="o">=</span> <span class="n">AppToDo</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"list.json"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="calendar-application">
+<h2 id="calendar-application">Calendar Application<a class="headerlink" href="#calendar-application" title="Permalink to this heading">¶</a></h2>
+<p>There are functions to:</p>
+<ul class="simple">
+<li><p>Add or remove event from Calendar</p></li>
+<li><p>Find event by name, or name and date</p></li>
+<li><p>Display calendar, which prints events to console</p></li>
+<li><p>Export calendar to pandas DataFrame</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Calendar</span>
+<span class="n">calendar</span> <span class="o">=</span> <span class="n">Calendar</span><span class="p">(</span><span class="s2">"My Calendar"</span><span class="p">)</span>
+<span class="n">calendar</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="s2">"Gym"</span><span class="p">,</span> <span class="s2">"2023-01-01 18:00"</span><span class="p">)</span>
+<span class="n">calendar</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="s2">"Dinner"</span><span class="p">,</span> <span class="s2">"2023-01-01"</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">,</span> <span class="n">budget</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">calendar</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="s2">"Gym"</span><span class="p">,</span> <span class="s2">"2023-01-02 18:00"</span><span class="p">)</span>
+<span class="n">calendar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># My Calendar</span>
+<span class="c1"># 2023-01-01 00:00:00 - Dinner (budget: 20)</span>
+<span class="c1"># 2023-01-01 18:00:00 - Gym</span>
+<span class="c1"># 2023-01-02 18:00:00 - Gym</span>
+
+<span class="n">calendar</span><span class="o">.</span><span class="n">find_event</span><span class="p">(</span><span class="s2">"Gym"</span><span class="p">)</span>
+<span class="c1"># 2023-01-01 18:00:00 - Gym</span>
+<span class="c1"># 2023-01-02 18:00:00 - Gym</span>
+
+<span class="n">calendar</span><span class="o">.</span><span class="n">delete_event</span><span class="p">(</span><span class="s2">"Gym"</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">calendar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># My Calendar</span>
+<span class="c1"># 2023-01-01 00:00:00 - Dinner (budget: 20)</span>
+<span class="c1"># 2023-01-02 18:00:00 - Gym</span>
+
+<span class="n">data_calendar</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+<span class="n">data_calendar</span>
+<span class="c1">#                              path    name        date      time  budget</span>
+<span class="c1"># 0  /My Calendar/2023/01/01/Dinner  Dinner  2023-01-01  00:00:00    20.0</span>
+<span class="c1"># 1     /My Calendar/2023/01/02/Gym     Gym  2023-01-02  18:00:00     NaN</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+        
+  <footer class="md-footer">
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+          
+            <a href="dag.html" title="📋 DAG Demonstration"
+               class="md-flex md-footer-nav__link md-footer-nav__link--prev"
+               rel="prev">
+              <div class="md-flex__cell md-flex__cell--shrink">
+                <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+              </div>
+              <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+                <span class="md-flex__ellipsis">
+                  <span
+                      class="md-footer-nav__direction"> Previous </span> 📋 DAG Demonstration </span>
+              </div>
+            </a>
+          
+          
+            <a href="../others/changelog.html" title="🍂 Changelog"
+               class="md-flex md-footer-nav__link md-footer-nav__link--next"
+               rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
+                class="md-flex__ellipsis"> <span
+                class="md-footer-nav__direction"> Next </span> 🍂 Changelog </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink"><i
+                class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          
+        </a>
+        
+      </nav>
+    </div>
+    <div class="md-footer-meta md-typeset">
+      <div class="md-footer-meta__inner md-grid">
+        <div class="md-footer-copyright">
+          <div class="md-footer-copyright__highlight">
+              &#169; Copyright 2022, Kay Jan WONG.
+              
+          </div>
+            Last updated on
+              Jan 26, 2024.
+            <br/>
+            Created using
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+             and
+            <a href="https://github.com/bashtage/sphinx-material/">Material for
+              Sphinx</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="../_static/javascripts/application.js"></script>
+  <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+  </body>
+</html>

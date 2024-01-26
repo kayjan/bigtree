@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+
+<html lang="Python">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="lang:clipboard.copy" content="Copy to clipboard">
+  <meta name="lang:clipboard.copied" content="Copied to clipboard">
+  <meta name="lang:search.language" content="en">
+  <meta name="lang:search.pipeline.stopwords" content="True">
+  <meta name="lang:search.pipeline.trimmer" content="True">
+  <meta name="lang:search.result.none" content="No matching documents">
+  <meta name="lang:search.result.one" content="1 matching document">
+  <meta name="lang:search.result.other" content="# matching documents">
+  <meta name="lang:search.tokenizer" content="[\s\-]+">
+
+  
+    <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:300,400,400i,700&display=fallback" rel="stylesheet">
+
+    <style>
+      body,
+      input {
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+      }
+
+      code,
+      kbd,
+      pre {
+        font-family: "Roboto Mono", "Courier New", Courier, monospace
+      }
+    </style>
+  
+
+  <link rel="stylesheet" href="../../_static/stylesheets/application.css"/>
+  <link rel="stylesheet" href="../../_static/stylesheets/application-palette.css"/>
+  <link rel="stylesheet" href="../../_static/stylesheets/application-fixes.css"/>
+  
+  <link rel="stylesheet" href="../../_static/fonts/material-icons.css"/>
+  
+  <meta name="theme-color" content="#3f51b5">
+  <script src="../../_static/javascripts/modernizr.js"></script>
+  
+  
+  
+    <title>🔨 Export &#8212; bigtree 0.15.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/twemoji.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
+    <script src="../../_static/twemoji.js"></script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="🌲 Tree" href="../../tree.html" />
+    <link rel="prev" title="✨ Construct" href="construct.html" />
+        <meta name="description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame." lang="en" xml:lang="en">
+        <meta name="keywords" content="Python, Tree, Bigtree">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Big Tree Documentation">
+        <meta property="og:description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="og:url" content="https://bigtree.readthedocs.io/">
+        <meta property="og:image" content="https://i.ibb.co/wS3sb4D/favicon.png">
+        <meta property="twitter:title" content="Big Tree Documentation">
+        <meta property="twitter:description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="twitter:image" content="https://i.ibb.co/wS3sb4D/favicon.png">
+    
+  </head>
+  <body dir=ltr
+        data-md-color-primary=teal data-md-color-accent=amber>
+  
+  <svg class="md-svg">
+    <defs data-children-count="0">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+      
+    </defs>
+  </svg>
+  
+  <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer">
+  <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search">
+  <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+  <a href="#bigtree/dag/export" tabindex="1" class="md-skip"> Skip to content </a>
+  <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex navheader">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../index.html" title="bigtree 0.15.7 documentation"
+           class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">&#xe88a</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          <span class="md-header-nav__topic">bigtree Documentation</span>
+          <span class="md-header-nav__topic"> 🔨 Export </span>
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+        
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" action="../../search.html" method="get" name="search">
+      <input type="text" class="md-search__input" name="q" placeholder=""Search""
+             autocapitalize="off" autocomplete="off" spellcheck="false"
+             data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            <a href="https://github.com/kayjan/bigtree/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    bigtree
+  </div>
+</a>
+          </div>
+        </div>
+      
+      
+  
+  <div class="md-flex__cell md-flex__cell--shrink dropdown">
+    <button class="dropdownbutton">Versions</button>
+    <div class="dropdown-content md-hero">
+          <a title="latest" href="https://bigtree.readthedocs.io/en/latest">latest</a>
+      
+          <a title="0.15.7" href="https://bigtree.readthedocs.io/en/0.15.7">0.15.7</a>
+      
+          <a title="0.14.8" href="https://bigtree.readthedocs.io/en/0.14.8">0.14.8</a>
+      
+    </div>
+  </div>
+  
+
+    </div>
+  </nav>
+</header>
+
+        
+  
+  <div class="md-container">
+    
+    
+    
+  <nav class="md-tabs" data-md-component="tabs">
+    <div class="md-tabs__inner md-grid">
+      <ul class="md-tabs__list">
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">bigtree 0.15.7 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../dag.html" class="md-tabs__link">🌴 Directed Acyclic Graph (DAG)</a></li>
+      </ul>
+    </div>
+  </nav>
+    <main class="md-main">
+      <div class="md-main__inner md-grid" data-md-component="container">
+        
+          <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../../index.html" title="bigtree 0.15.7 documentation" class="md-nav__button md-logo">
+      
+        <i class="md-icon">&#xe88a</i>
+      
+    </a>
+    <a href="../../index.html"
+       title="bigtree 0.15.7 documentation">bigtree Documentation</a>
+  </label>
+    <div class="md-nav__source">
+      <a href="https://github.com/kayjan/bigtree/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    bigtree
+  </div>
+</a>
+    </div>
+  
+  
+
+  
+  <ul class="md-nav__list">
+    <li class="md-nav__item">
+    
+    
+      <a href="../../node.html" class="md-nav__link">🌿 Node</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../binarytree.html" class="md-nav__link">🌵 Binary Tree</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../dag.html" class="md-nav__link">🌴 Directed Acyclic Graph (DAG)</a>
+      <ul class="md-nav__list"> 
+    <li class="md-nav__item">
+    
+    
+      <a href="construct.html" class="md-nav__link">✨ Construct</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <label class="md-nav__link md-nav__link--active" for="__toc"> 🔨 Export </label>
+    
+      <a href="#" class="md-nav__link md-nav__link--active">🔨 Export</a>
+      
+        
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#bigtree-dag-export--page-root" class="md-nav__link">🔨 Export</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#bigtree.dag.export.dag_to_dataframe" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">dag_to_dataframe()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.dag.export.dag_to_dict" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">dag_to_dict()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.dag.export.dag_to_dot" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">dag_to_dot()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.dag.export.dag_to_list" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">dag_to_list()</span></code></a>
+        </li></ul>
+            </nav>
+        </li>
+  </ul>
+</nav>
+      
+    
+    </li></ul>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../tree.html" class="md-nav__link">🌲 Tree</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../utils.html" class="md-nav__link">🔧 Utils</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../workflows.html" class="md-nav__link">👷 Workflows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../others.html" class="md-nav__link">🌐 Others</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">Demonstration</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/tree.html" class="md-nav__link">📋 Tree Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/binarytree.html" class="md-nav__link">📋 Binary Tree Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/dag.html" class="md-nav__link">📋 DAG Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/workflow.html" class="md-nav__link">📋 Workflow Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">Changes</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../others/changelog.html" class="md-nav__link">🍂 Changelog</a>
+      
+    
+    </li>
+  </ul>
+  
+
+</nav>
+              </div>
+            </div>
+          </div>
+          <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#bigtree-dag-export--page-root" class="md-nav__link">🔨 Export</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#bigtree.dag.export.dag_to_dataframe" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">dag_to_dataframe()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.dag.export.dag_to_dict" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">dag_to_dict()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.dag.export.dag_to_dot" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">dag_to_dot()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.dag.export.dag_to_list" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">dag_to_list()</span></code></a>
+        </li></ul>
+            </nav>
+        </li>
+  </ul>
+</nav>
+              </div>
+            </div>
+          </div>
+        
+        <div class="md-content">
+          <article class="md-content__inner md-typeset" role="main">
+            
+  <section id="hammer-export">
+<h1 id="bigtree-dag-export--page-root">🔨 Export<a class="headerlink" href="#bigtree-dag-export--page-root" title="Permalink to this heading">¶</a></h1>
+<p>Export Directed Acyclic Graph (DAG) to list, dictionary, and pandas DataFrame.</p>
+<table id="id1">
+<caption><span class="caption-text">DAG Export Methods</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 42.1%"/>
+<col style="width: 26.3%"/>
+<col style="width: 31.6%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Export DAG to</p></th>
+<th class="head"><p>Method</p></th>
+<th class="head"><p>Extract node attributes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>List</p></td>
+<td><p><cite>dag_to_list</cite></p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dictionary</p></td>
+<td><p><cite>dag_to_dict</cite></p></td>
+<td><p>Yes with <cite>attr_dict</cite> or <cite>all_attrs</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>DataFrame</p></td>
+<td><p><cite>dag_to_dataframe</cite></p></td>
+<td><p>Yes with <cite>attr_dict</cite> or <cite>all_attrs</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>Dot (for .dot, .png, .svg, .jpeg, etc.)</p></td>
+<td><p><cite>dag_to_dot</cite></p></td>
+<td><p>No</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-bigtree.dag.export"></span><p><strong>Functions:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.dag.export.dag_to_dataframe" title="bigtree.dag.export.dag_to_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dag_to_dataframe</span></code></a>(dag[, name_col, ...])</p></td>
+<td><p>Export DAG to pandas DataFrame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.dag.export.dag_to_dict" title="bigtree.dag.export.dag_to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dag_to_dict</span></code></a>(dag[, parent_key, attr_dict, ...])</p></td>
+<td><p>Export DAG to dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.dag.export.dag_to_dot" title="bigtree.dag.export.dag_to_dot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dag_to_dot</span></code></a>(dag[, rankdir, bg_colour, ...])</p></td>
+<td><p>Export DAG or list of DAGs to image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.dag.export.dag_to_list" title="bigtree.dag.export.dag_to_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dag_to_list</span></code></a>(dag)</p></td>
+<td><p>Export DAG to list of tuples containing parent-child names</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.dag.export.dag_to_dataframe">
+<span class="sig-prename descclassname"><span class="pre">bigtree.dag.export.</span></span><span class="sig-name descname"><span class="pre">dag_to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parent'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_attrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#bigtree.dag.export.dag_to_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export DAG to pandas DataFrame.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">DAGNode</span><span class="p">,</span> <span class="n">dag_to_dataframe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">d</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dag_to_dataframe</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">name_col</span><span class="o">=</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">parent_col</span><span class="o">=</span><span class="s2">"parent"</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="p">{</span><span class="s2">"step"</span><span class="p">:</span> <span class="s2">"step no."</span><span class="p">})</span>
+<span class="go">  name parent  step no.</span>
+<span class="go">0    a   None         1</span>
+<span class="go">1    c      a         2</span>
+<span class="go">2    d      a         2</span>
+<span class="go">3    b   None         1</span>
+<span class="go">4    c      b         2</span>
+<span class="go">5    d      c         2</span>
+<span class="go">6    e      d         3</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dag</strong> (<a class="reference internal" href="../node/dagnode.html#bigtree.node.dagnode.DAGNode" title="bigtree.node.dagnode.DAGNode"><em>DAGNode</em></a>) -- DAG to be exported</p></li>
+<li><p><strong>name_col</strong> (<em>str</em>) -- column name for <cite>node.node_name</cite>, defaults to 'name'</p></li>
+<li><p><strong>parent_col</strong> (<em>str</em>) -- column name for <cite>node.parent.node_name</cite>, defaults to 'parent'</p></li>
+<li><p><strong>attr_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) -- dictionary mapping node attributes to column name,
+key: node attributes, value: corresponding column in dataframe, optional</p></li>
+<li><p><strong>all_attrs</strong> (<em>bool</em>) -- indicator whether to retrieve all <cite>Node</cite> attributes, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(pd.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.dag.export.dag_to_dict">
+<span class="sig-prename descclassname"><span class="pre">bigtree.dag.export.</span></span><span class="sig-name descname"><span class="pre">dag_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parents'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_attrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bigtree.dag.export.dag_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export DAG to dictionary.</p>
+<p>Exported dictionary will have key as child name, and parent names and node attributes as a nested dictionary.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">DAGNode</span><span class="p">,</span> <span class="n">dag_to_dict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">d</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dag_to_dict</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">parent_key</span><span class="o">=</span><span class="s2">"parent"</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="p">{</span><span class="s2">"step"</span><span class="p">:</span> <span class="s2">"step no."</span><span class="p">})</span>
+<span class="go">{'a': {'step no.': 1}, 'c': {'parent': ['a', 'b'], 'step no.': 2}, 'd': {'parent': ['a', 'c'], 'step no.': 2}, 'b': {'step no.': 1}, 'e': {'parent': ['d'], 'step no.': 3}}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dag</strong> (<a class="reference internal" href="../node/dagnode.html#bigtree.node.dagnode.DAGNode" title="bigtree.node.dagnode.DAGNode"><em>DAGNode</em></a>) -- DAG to be exported</p></li>
+<li><p><strong>parent_key</strong> (<em>str</em>) -- dictionary key for <cite>node.parent.node_name</cite>, defaults to <cite>parents</cite></p></li>
+<li><p><strong>attr_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) -- dictionary mapping node attributes to dictionary key,
+key: node attributes, value: corresponding dictionary key, optional</p></li>
+<li><p><strong>all_attrs</strong> (<em>bool</em>) -- indicator whether to retrieve all <cite>Node</cite> attributes, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Dict[str, Any])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.dag.export.dag_to_dot">
+<span class="sig-prename descclassname"><span class="pre">bigtree.dag.export.</span></span><span class="sig-name descname"><span class="pre">dag_to_dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rankdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'TB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">pydot.Dot</span></span></span><a class="headerlink" href="#bigtree.dag.export.dag_to_dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export DAG or list of DAGs to image.
+Note that node names must be unique.
+Possible node attributes include style, fillcolor, shape.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">DAGNode</span><span class="p">,</span> <span class="n">dag_to_dot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">d</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dag_graph</span> <span class="o">=</span> <span class="n">dag_to_dot</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Display image directly without saving (requires IPython)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="n">dag_graph</span><span class="o">.</span><span class="n">create_png</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">display</span><span class="p">(</span><span class="n">plt</span><span class="p">)</span>
+<span class="go">&lt;IPython.core.display.Image object&gt;</span>
+</pre></div>
+</div>
+<p>Export to image, dot file, etc.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dag_graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">"assets/docstr/tree_dag.png"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dag_graph</span><span class="o">.</span><span class="n">write_dot</span><span class="p">(</span><span class="s2">"assets/docstr/tree_dag.dot"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Export to string</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dag_graph</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span>
+<span class="go">'strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -&gt; c;\nd [label=d];\na [label=a];\na -&gt; d;\nc [label=c];\nb [label=b];\nb -&gt; c;\nd [label=d];\nc [label=c];\nc -&gt; d;\ne [label=e];\nd [label=d];\nd -&gt; e;\n}\n'</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dag</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../node/dagnode.html#bigtree.node.dagnode.DAGNode" title="bigtree.node.dagnode.DAGNode"><em>DAGNode</em></a><em>, </em><em>List</em><em>[</em><a class="reference internal" href="../node/dagnode.html#bigtree.node.dagnode.DAGNode" title="bigtree.node.dagnode.DAGNode"><em>DAGNode</em></a><em>]</em><em>]</em>) -- DAG or list of DAGs to be exported</p></li>
+<li><p><strong>rankdir</strong> (<em>str</em>) -- set direction of graph layout, defaults to 'TB', can be 'BT, 'LR', 'RL'</p></li>
+<li><p><strong>bg_colour</strong> (<em>str</em>) -- background color of image, defaults to ''</p></li>
+<li><p><strong>node_colour</strong> (<em>str</em>) -- fill colour of nodes, defaults to ''</p></li>
+<li><p><strong>node_shape</strong> (<em>str</em>) -- shape of nodes, defaults to None
+Possible node_shape include "circle", "square", "diamond", "triangle"</p></li>
+<li><p><strong>edge_colour</strong> (<em>str</em>) -- colour of edges, defaults to ''</p></li>
+<li><p><strong>node_attr</strong> (<em>str</em>) -- node attribute for style, overrides node_colour, defaults to ''
+Possible node attributes include {"style": "filled", "fillcolor": "gold"}</p></li>
+<li><p><strong>edge_attr</strong> (<em>str</em>) -- edge attribute for style, overrides edge_colour, defaults to ''
+Possible edge attributes include {"style": "bold", "label": "edge label", "color": "black"}</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(pydot.Dot)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.dag.export.dag_to_list">
+<span class="sig-prename descclassname"><span class="pre">bigtree.dag.export.</span></span><span class="sig-name descname"><span class="pre">dag_to_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bigtree.dag.export.dag_to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export DAG to list of tuples containing parent-child names</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">DAGNode</span><span class="p">,</span> <span class="n">dag_to_list</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">d</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dag_to_list</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dag</strong> (<a class="reference internal" href="../node/dagnode.html#bigtree.node.dagnode.DAGNode" title="bigtree.node.dagnode.DAGNode"><em>DAGNode</em></a>) -- DAG to be exported</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(List[Tuple[str, str]])</p>
+</dd>
+</dl>
+</dd></dl>
+</section>
+
+
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+        
+  <footer class="md-footer">
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+          
+            <a href="construct.html" title="✨ Construct"
+               class="md-flex md-footer-nav__link md-footer-nav__link--prev"
+               rel="prev">
+              <div class="md-flex__cell md-flex__cell--shrink">
+                <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+              </div>
+              <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+                <span class="md-flex__ellipsis">
+                  <span
+                      class="md-footer-nav__direction"> Previous </span> ✨ Construct </span>
+              </div>
+            </a>
+          
+          
+            <a href="../../tree.html" title="🌲 Tree"
+               class="md-flex md-footer-nav__link md-footer-nav__link--next"
+               rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
+                class="md-flex__ellipsis"> <span
+                class="md-footer-nav__direction"> Next </span> 🌲 Tree </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink"><i
+                class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          
+        </a>
+        
+      </nav>
+    </div>
+    <div class="md-footer-meta md-typeset">
+      <div class="md-footer-meta__inner md-grid">
+        <div class="md-footer-copyright">
+          <div class="md-footer-copyright__highlight">
+              &#169; Copyright 2022, Kay Jan WONG.
+              
+          </div>
+            Last updated on
+              Jan 26, 2024.
+            <br/>
+            Created using
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+             and
+            <a href="https://github.com/bashtage/sphinx-material/">Material for
+              Sphinx</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="../../_static/javascripts/application.js"></script>
+  <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+  </body>
+</html>

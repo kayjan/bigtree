@@ -1,0 +1,1078 @@
+
+<!DOCTYPE html>
+
+<html lang="Python">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="lang:clipboard.copy" content="Copy to clipboard">
+  <meta name="lang:clipboard.copied" content="Copied to clipboard">
+  <meta name="lang:search.language" content="en">
+  <meta name="lang:search.pipeline.stopwords" content="True">
+  <meta name="lang:search.pipeline.trimmer" content="True">
+  <meta name="lang:search.result.none" content="No matching documents">
+  <meta name="lang:search.result.one" content="1 matching document">
+  <meta name="lang:search.result.other" content="# matching documents">
+  <meta name="lang:search.tokenizer" content="[\s\-]+">
+
+  
+    <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:300,400,400i,700&display=fallback" rel="stylesheet">
+
+    <style>
+      body,
+      input {
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+      }
+
+      code,
+      kbd,
+      pre {
+        font-family: "Roboto Mono", "Courier New", Courier, monospace
+      }
+    </style>
+  
+
+  <link rel="stylesheet" href="../../_static/stylesheets/application.css"/>
+  <link rel="stylesheet" href="../../_static/stylesheets/application-palette.css"/>
+  <link rel="stylesheet" href="../../_static/stylesheets/application-fixes.css"/>
+  
+  <link rel="stylesheet" href="../../_static/fonts/material-icons.css"/>
+  
+  <meta name="theme-color" content="#3f51b5">
+  <script src="../../_static/javascripts/modernizr.js"></script>
+  
+  
+  
+    <title>🌱 BaseNode &#8212; bigtree 0.15.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/twemoji.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
+    <script src="../../_static/twemoji.js"></script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="🌺 Node" href="node.html" />
+    <link rel="prev" title="🌿 Node" href="../../node.html" />
+        <meta name="description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame." lang="en" xml:lang="en">
+        <meta name="keywords" content="Python, Tree, Bigtree">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Big Tree Documentation">
+        <meta property="og:description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="og:url" content="https://bigtree.readthedocs.io/">
+        <meta property="og:image" content="https://i.ibb.co/wS3sb4D/favicon.png">
+        <meta property="twitter:title" content="Big Tree Documentation">
+        <meta property="twitter:description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="twitter:image" content="https://i.ibb.co/wS3sb4D/favicon.png">
+    
+  </head>
+  <body dir=ltr
+        data-md-color-primary=teal data-md-color-accent=amber>
+  
+  <svg class="md-svg">
+    <defs data-children-count="0">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+      
+    </defs>
+  </svg>
+  
+  <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer">
+  <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search">
+  <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+  <a href="#bigtree/node/basenode" tabindex="1" class="md-skip"> Skip to content </a>
+  <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex navheader">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../index.html" title="bigtree 0.15.7 documentation"
+           class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">&#xe88a</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          <span class="md-header-nav__topic">bigtree Documentation</span>
+          <span class="md-header-nav__topic"> 🌱 BaseNode </span>
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+        
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" action="../../search.html" method="get" name="search">
+      <input type="text" class="md-search__input" name="q" placeholder=""Search""
+             autocapitalize="off" autocomplete="off" spellcheck="false"
+             data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            <a href="https://github.com/kayjan/bigtree/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    bigtree
+  </div>
+</a>
+          </div>
+        </div>
+      
+      
+  
+  <div class="md-flex__cell md-flex__cell--shrink dropdown">
+    <button class="dropdownbutton">Versions</button>
+    <div class="dropdown-content md-hero">
+          <a title="latest" href="https://bigtree.readthedocs.io/en/latest">latest</a>
+      
+          <a title="0.15.7" href="https://bigtree.readthedocs.io/en/0.15.7">0.15.7</a>
+      
+          <a title="0.14.8" href="https://bigtree.readthedocs.io/en/0.14.8">0.14.8</a>
+      
+    </div>
+  </div>
+  
+
+    </div>
+  </nav>
+</header>
+
+        
+  
+  <div class="md-container">
+    
+    
+    
+  <nav class="md-tabs" data-md-component="tabs">
+    <div class="md-tabs__inner md-grid">
+      <ul class="md-tabs__list">
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">bigtree 0.15.7 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../node.html" class="md-tabs__link">🌿 Node</a></li>
+      </ul>
+    </div>
+  </nav>
+    <main class="md-main">
+      <div class="md-main__inner md-grid" data-md-component="container">
+        
+          <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../../index.html" title="bigtree 0.15.7 documentation" class="md-nav__button md-logo">
+      
+        <i class="md-icon">&#xe88a</i>
+      
+    </a>
+    <a href="../../index.html"
+       title="bigtree 0.15.7 documentation">bigtree Documentation</a>
+  </label>
+    <div class="md-nav__source">
+      <a href="https://github.com/kayjan/bigtree/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    bigtree
+  </div>
+</a>
+    </div>
+  
+  
+
+  
+  <ul class="md-nav__list">
+    <li class="md-nav__item">
+    
+    
+      <a href="../../node.html" class="md-nav__link">🌿 Node</a>
+      <ul class="md-nav__list"> 
+    <li class="md-nav__item">
+    
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <label class="md-nav__link md-nav__link--active" for="__toc"> 🌱 BaseNode </label>
+    
+      <a href="#" class="md-nav__link md-nav__link--active">🌱 BaseNode</a>
+      
+        
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#bigtree-node-basenode--page-root" class="md-nav__link">🌱 BaseNode</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode</span></code></a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.ancestors" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.ancestors</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.append" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.append()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.children" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.children</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.copy" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.copy()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.depth" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.depth</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.descendants" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.descendants</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.describe" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.describe()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.extend" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.extend()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.from_dict" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.from_dict()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.get_attr" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.get_attr()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.go_to" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.go_to()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.is_leaf" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.is_leaf</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.is_root" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.is_root</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.leaves" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.leaves</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.left_sibling" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.left_sibling</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.max_depth" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.max_depth</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.node_path" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.node_path</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.parent" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.parent</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.parents" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.parents</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.right_sibling" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.right_sibling</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.root" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.root</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.set_attrs" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.set_attrs()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.siblings" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.siblings</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.sort" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.sort()</span></code></a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+  </ul>
+</nav>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="node.html" class="md-nav__link">🌺 Node</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="binarynode.html" class="md-nav__link">🌸 BinaryNode</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="dagnode.html" class="md-nav__link">🌼 DAGNode</a>
+      
+    
+    </li></ul>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../binarytree.html" class="md-nav__link">🌵 Binary Tree</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../dag.html" class="md-nav__link">🌴 Directed Acyclic Graph (DAG)</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../tree.html" class="md-nav__link">🌲 Tree</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../utils.html" class="md-nav__link">🔧 Utils</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../workflows.html" class="md-nav__link">👷 Workflows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../others.html" class="md-nav__link">🌐 Others</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">Demonstration</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/tree.html" class="md-nav__link">📋 Tree Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/binarytree.html" class="md-nav__link">📋 Binary Tree Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/dag.html" class="md-nav__link">📋 DAG Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/workflow.html" class="md-nav__link">📋 Workflow Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">Changes</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../others/changelog.html" class="md-nav__link">🍂 Changelog</a>
+      
+    
+    </li>
+  </ul>
+  
+
+</nav>
+              </div>
+            </div>
+          </div>
+          <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#bigtree-node-basenode--page-root" class="md-nav__link">🌱 BaseNode</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode</span></code></a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.ancestors" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.ancestors</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.append" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.append()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.children" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.children</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.copy" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.copy()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.depth" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.depth</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.descendants" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.descendants</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.describe" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.describe()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.extend" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.extend()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.from_dict" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.from_dict()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.get_attr" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.get_attr()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.go_to" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.go_to()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.is_leaf" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.is_leaf</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.is_root" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.is_root</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.leaves" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.leaves</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.left_sibling" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.left_sibling</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.max_depth" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.max_depth</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.node_path" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.node_path</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.parent" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.parent</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.parents" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.parents</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.right_sibling" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.right_sibling</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.root" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.root</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.set_attrs" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.set_attrs()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.siblings" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.siblings</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.node.basenode.BaseNode.sort" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">BaseNode.sort()</span></code></a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+  </ul>
+</nav>
+              </div>
+            </div>
+          </div>
+        
+        <div class="md-content">
+          <article class="md-content__inner md-typeset" role="main">
+            
+  <section id="module-bigtree.node.basenode">
+<span id="seedling-basenode"></span><h1 id="bigtree-node-basenode--page-root">🌱 BaseNode<a class="headerlink" href="#bigtree-node-basenode--page-root" title="Permalink to this heading">¶</a></h1>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseNode</span></code></a>([parent, children])</p></td>
+<td><p>BaseNode extends any Python class to a tree node.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bigtree.node.basenode.</span></span><span class="sig-name descname"><span class="pre">BaseNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bigtree.node.basenode.BaseNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>BaseNode extends any Python class to a tree node.
+Nodes can have attributes if they are initialized from <cite>Node</cite>, <em>dictionary</em>, or <em>pandas DataFrame</em>.</p>
+<p>Nodes can be linked to each other with <cite>parent</cite> and <cite>children</cite> setter methods,
+or using bitshift operator with the convention <cite>parent_node &gt;&gt; child_node</cite> or <cite>child_node &lt;&lt; parent_node</cite>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">print_tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">"age"</span><span class="p">])</span>
+<span class="go">a [age=90]</span>
+<span class="go">├── b [age=65]</span>
+<span class="go">│   └── d [age=40]</span>
+<span class="go">└── c [age=60]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">&gt;&gt;</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">&gt;&gt;</span> <span class="n">c</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">"age"</span><span class="p">])</span>
+<span class="go">a [age=90]</span>
+<span class="go">├── b [age=65]</span>
+<span class="go">│   └── d [age=40]</span>
+<span class="go">└── c [age=60]</span>
+</pre></div>
+</div>
+<p>Directly passing <cite>parent</cite> argument.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Directly passing <cite>children</cite> argument.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">d</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>BaseNode Creation</strong></p>
+<p>Node can be created by instantiating a <cite>BaseNode</cite> class or by using a <em>dictionary</em>.
+If node is created with dictionary, all keys of dictionary will be stored as class attributes.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"a"</span><span class="p">,</span> <span class="s2">"age"</span><span class="p">:</span> <span class="mi">90</span><span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>BaseNode Attributes</strong></p>
+<p>These are node attributes that have getter and/or setter methods.</p>
+<p>Get and set other <cite>BaseNode</cite></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">parent</span></code>: Get/set parent node</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">children</span></code>: Get/set child nodes</p></li>
+</ol>
+<p>Get other <cite>BaseNode</cite></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ancestors</span></code>: Get ancestors of node excluding self, iterator</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">descendants</span></code>: Get descendants of node excluding self, iterator</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">leaves</span></code>: Get all leaf node(s) from self, iterator</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">siblings</span></code>: Get siblings of self</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left_sibling</span></code>: Get sibling left of self</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right_sibling</span></code>: Get sibling right of self</p></li>
+</ol>
+<p>Get <cite>BaseNode</cite> configuration</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">node_path</span></code>: Get tuple of nodes from root</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">is_root</span></code>: Get indicator if self is root node</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">is_leaf</span></code>: Get indicator if self is leaf node</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">root</span></code>: Get root node of tree</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>: Get depth of self</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_depth</span></code>: Get maximum depth from root to leaf node</p></li>
+</ol>
+<p><strong>BaseNode Methods</strong></p>
+<p>These are methods available to be performed on <cite>BaseNode</cite>.</p>
+<p>Constructor methods</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">from_dict()</span></code>: Create BaseNode from dictionary</p></li>
+</ol>
+<p><cite>BaseNode</cite> methods</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">describe()</span></code>: Get node information sorted by attributes, return list of tuples</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_attr(attr_name:</span> <span class="pre">str)</span></code>: Get value of node attribute</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set_attrs(attrs:</span> <span class="pre">dict)</span></code>: Set node attribute name(s) and value(s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">go_to(node:</span> <span class="pre">Self)</span></code>: Get a path from own node to another node from same tree</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">append(node:</span> <span class="pre">Self)</span></code>: Add child to node</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">extend(nodes:</span> <span class="pre">List[Self])</span></code>: Add multiple children to node</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">copy()</span></code>: Deep copy self</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sort()</span></code>: Sort child nodes</p></li>
+</ol>
+<hr class="docutils"/>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.ancestors" title="bigtree.node.basenode.BaseNode.ancestors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ancestors</span></code></a></p></td>
+<td><p>Get iterator to yield all ancestors of self, does not include self</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.children" title="bigtree.node.basenode.BaseNode.children"><code class="xref py py-obj docutils literal notranslate"><span class="pre">children</span></code></a></p></td>
+<td><p>Get child nodes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.depth" title="bigtree.node.basenode.BaseNode.depth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">depth</span></code></a></p></td>
+<td><p>Get depth of self, indexing starts from 1</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.descendants" title="bigtree.node.basenode.BaseNode.descendants"><code class="xref py py-obj docutils literal notranslate"><span class="pre">descendants</span></code></a></p></td>
+<td><p>Get iterator to yield all descendants of self, does not include self</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.is_leaf" title="bigtree.node.basenode.BaseNode.is_leaf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_leaf</span></code></a></p></td>
+<td><p>Get indicator if self is leaf node</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.is_root" title="bigtree.node.basenode.BaseNode.is_root"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_root</span></code></a></p></td>
+<td><p>Get indicator if self is root node</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.leaves" title="bigtree.node.basenode.BaseNode.leaves"><code class="xref py py-obj docutils literal notranslate"><span class="pre">leaves</span></code></a></p></td>
+<td><p>Get iterator to yield all leaf nodes from self</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.left_sibling" title="bigtree.node.basenode.BaseNode.left_sibling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">left_sibling</span></code></a></p></td>
+<td><p>Get sibling left of self</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.max_depth" title="bigtree.node.basenode.BaseNode.max_depth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_depth</span></code></a></p></td>
+<td><p>Get maximum depth from root to leaf node</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.node_path" title="bigtree.node.basenode.BaseNode.node_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">node_path</span></code></a></p></td>
+<td><p>Get tuple of nodes starting from root</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.parent" title="bigtree.node.basenode.BaseNode.parent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parent</span></code></a></p></td>
+<td><p>Get parent node</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.parents" title="bigtree.node.basenode.BaseNode.parents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parents</span></code></a></p></td>
+<td><p>Do not allow <cite>parents</cite> attribute to be accessed</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.right_sibling" title="bigtree.node.basenode.BaseNode.right_sibling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">right_sibling</span></code></a></p></td>
+<td><p>Get sibling right of self</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.root" title="bigtree.node.basenode.BaseNode.root"><code class="xref py py-obj docutils literal notranslate"><span class="pre">root</span></code></a></p></td>
+<td><p>Get root node of tree</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.siblings" title="bigtree.node.basenode.BaseNode.siblings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">siblings</span></code></a></p></td>
+<td><p>Get siblings of self</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.append" title="bigtree.node.basenode.BaseNode.append"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append</span></code></a>(other)</p></td>
+<td><p>Add other as child of self</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.copy" title="bigtree.node.basenode.BaseNode.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
+<td><p>Deep copy self; clone self</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.describe" title="bigtree.node.basenode.BaseNode.describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code></a>([exclude_attributes, exclude_prefix])</p></td>
+<td><p>Get node information sorted by attribute name, returns list of tuples</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.extend" title="bigtree.node.basenode.BaseNode.extend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extend</span></code></a>(others)</p></td>
+<td><p>Add others as children of self</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.from_dict" title="bigtree.node.basenode.BaseNode.from_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_dict</span></code></a>(input_dict)</p></td>
+<td><p>Construct node from dictionary, all keys of dictionary will be stored as class attributes Input dictionary must have key <cite>name</cite> if not <cite>Node</cite> will not have any name</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.get_attr" title="bigtree.node.basenode.BaseNode.get_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_attr</span></code></a>(attr_name[, default_value])</p></td>
+<td><p>Get value of node attribute Returns default value if attribute name does not exist</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.go_to" title="bigtree.node.basenode.BaseNode.go_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">go_to</span></code></a>(node)</p></td>
+<td><p>Get path from current node to specified node from same tree</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.set_attrs" title="bigtree.node.basenode.BaseNode.set_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_attrs</span></code></a>(attrs)</p></td>
+<td><p>Set node attributes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.node.basenode.BaseNode.sort" title="bigtree.node.basenode.BaseNode.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>(**kwargs)</p></td>
+<td><p>Sort children, possible keyword arguments include <code class="docutils literal notranslate"><span class="pre">key=lambda</span> <span class="pre">node:</span> <span class="pre">node.name</span></code>, <code class="docutils literal notranslate"><span class="pre">reverse=True</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.ancestors">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ancestors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.ancestors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get iterator to yield all ancestors of self, does not include self</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Iterable[Self])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bigtree.node.basenode.BaseNode.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add other as child of self</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>Self</em>) -- other node, child to be added</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.children">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">children</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get child nodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Tuple[Self, ...])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">T</span></span></span><a class="headerlink" href="#bigtree.node.basenode.BaseNode.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deep copy self; clone self</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree.node.node</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a_copy</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Self)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.depth">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">depth</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get depth of self, indexing starts from 1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.descendants">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">descendants</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.descendants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get iterator to yield all descendants of self, does not include self</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Iterable[Self])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.describe">
+<span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exclude_attributes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bigtree.node.basenode.BaseNode.describe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get node information sorted by attribute name, returns list of tuples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree.node.node</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s1">'a'</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<span class="go">[('_BaseNode__children', []), ('_BaseNode__parent', None), ('_sep', '/'), ('age', 90), ('name', 'a')]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">exclude_prefix</span><span class="o">=</span><span class="s2">"_"</span><span class="p">)</span>
+<span class="go">[('age', 90), ('name', 'a')]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">exclude_prefix</span><span class="o">=</span><span class="s2">"_"</span><span class="p">,</span> <span class="n">exclude_attributes</span><span class="o">=</span><span class="p">[</span><span class="s2">"name"</span><span class="p">])</span>
+<span class="go">[('age', 90)]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exclude_attributes</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- list of attributes to exclude</p></li>
+<li><p><strong>exclude_prefix</strong> (<em>str</em>) -- prefix of attributes to exclude</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(List[Tuple[str, Any]])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.extend">
+<span class="sig-name descname"><span class="pre">extend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">others</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bigtree.node.basenode.BaseNode.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add others as children of self</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>others</strong> (<em>Self</em>) -- other nodes, children to be added</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#bigtree.node.basenode.BaseNode" title="bigtree.node.basenode.BaseNode"><span class="pre">BaseNode</span></a></span></span><a class="headerlink" href="#bigtree.node.basenode.BaseNode.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct node from dictionary, all keys of dictionary will be stored as class attributes
+Input dictionary must have key <cite>name</cite> if not <cite>Node</cite> will not have any name</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"a"</span><span class="p">,</span> <span class="s2">"age"</span><span class="p">:</span> <span class="mi">90</span><span class="p">})</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) -- dictionary with node information, key: attribute name, value: attribute value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(BaseNode)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.get_attr">
+<span class="sig-name descname"><span class="pre">get_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#bigtree.node.basenode.BaseNode.get_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get value of node attribute
+Returns default value if attribute name does not exist</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree.node.node</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s1">'a'</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">get_attr</span><span class="p">(</span><span class="s2">"age"</span><span class="p">)</span>
+<span class="go">90</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attr_name</strong> (<em>str</em>) -- attribute name</p></li>
+<li><p><strong>default_value</strong> (<em>Any</em>) -- default value if attribute does not exist, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Any)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.go_to">
+<span class="sig-name descname"><span class="pre">go_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bigtree.node.basenode.BaseNode.go_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get path from current node to specified node from same tree</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">print_tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"f"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"g"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"h"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">│   ├── d</span>
+<span class="go">│   └── e</span>
+<span class="go">│       ├── g</span>
+<span class="go">│       └── h</span>
+<span class="go">└── c</span>
+<span class="go">    └── f</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">go_to</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="go">[Node(/a/b/d, )]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">go_to</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="go">[Node(/a/b/d, ), Node(/a/b, ), Node(/a/b/e, ), Node(/a/b/e/g, )]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">go_to</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">[Node(/a/b/d, ), Node(/a/b, ), Node(/a, ), Node(/a/c, ), Node(/a/c/f, )]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>Self</em>) -- node to travel to from current node, inclusive of start and end node</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Iterable[Self])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.is_leaf">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_leaf</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.is_leaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get indicator if self is leaf node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(bool)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.is_root">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_root</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.is_root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get indicator if self is root node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(bool)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.leaves">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">leaves</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.leaves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get iterator to yield all leaf nodes from self</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Iterable[Self])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.left_sibling">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">left_sibling</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">T</span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.left_sibling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get sibling left of self</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Self)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.max_depth">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_depth</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.max_depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get maximum depth from root to leaf node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.node_path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">node_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.node_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get tuple of nodes starting from root</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Iterable[Self])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.parent">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">T</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parent node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Optional[Self])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.parents">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parents</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.parents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do not allow <cite>parents</cite> attribute to be accessed</p>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.right_sibling">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">right_sibling</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">T</span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.right_sibling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get sibling right of self</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Self)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.root">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">T</span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get root node of tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Self)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.set_attrs">
+<span class="sig-name descname"><span class="pre">set_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bigtree.node.basenode.BaseNode.set_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set node attributes</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree.node.node</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">set_attrs</span><span class="p">({</span><span class="s2">"age"</span><span class="p">:</span> <span class="mi">90</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">Node(/a, age=90)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>attrs</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) -- attribute dictionary,
+key: attribute name, value: attribute value</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.siblings">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">siblings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bigtree.node.basenode.BaseNode.siblings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get siblings of self</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Iterable[Self])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="bigtree.node.basenode.BaseNode.sort">
+<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bigtree.node.basenode.BaseNode.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort children, possible keyword arguments include <code class="docutils literal notranslate"><span class="pre">key=lambda</span> <span class="pre">node:</span> <span class="pre">node.name</span></code>, <code class="docutils literal notranslate"><span class="pre">reverse=True</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">print_tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── c</span>
+<span class="go">└── b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">└── c</span>
+</pre></div>
+</div>
+</dd></dl>
+</dd></dl>
+</section>
+
+
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+        
+  <footer class="md-footer">
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+          
+            <a href="../../node.html" title="🌿 Node"
+               class="md-flex md-footer-nav__link md-footer-nav__link--prev"
+               rel="prev">
+              <div class="md-flex__cell md-flex__cell--shrink">
+                <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+              </div>
+              <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+                <span class="md-flex__ellipsis">
+                  <span
+                      class="md-footer-nav__direction"> Previous </span> 🌿 Node </span>
+              </div>
+            </a>
+          
+          
+            <a href="node.html" title="🌺 Node"
+               class="md-flex md-footer-nav__link md-footer-nav__link--next"
+               rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
+                class="md-flex__ellipsis"> <span
+                class="md-footer-nav__direction"> Next </span> 🌺 Node </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink"><i
+                class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          
+        </a>
+        
+      </nav>
+    </div>
+    <div class="md-footer-meta md-typeset">
+      <div class="md-footer-meta__inner md-grid">
+        <div class="md-footer-copyright">
+          <div class="md-footer-copyright__highlight">
+              &#169; Copyright 2022, Kay Jan WONG.
+              
+          </div>
+            Last updated on
+              Jan 26, 2024.
+            <br/>
+            Created using
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+             and
+            <a href="https://github.com/bashtage/sphinx-material/">Material for
+              Sphinx</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="../../_static/javascripts/application.js"></script>
+  <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+  </body>
+</html>

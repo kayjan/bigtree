@@ -1,0 +1,1605 @@
+
+<!DOCTYPE html>
+
+<html lang="Python">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="lang:clipboard.copy" content="Copy to clipboard">
+  <meta name="lang:clipboard.copied" content="Copied to clipboard">
+  <meta name="lang:search.language" content="en">
+  <meta name="lang:search.pipeline.stopwords" content="True">
+  <meta name="lang:search.pipeline.trimmer" content="True">
+  <meta name="lang:search.result.none" content="No matching documents">
+  <meta name="lang:search.result.one" content="1 matching document">
+  <meta name="lang:search.result.other" content="# matching documents">
+  <meta name="lang:search.tokenizer" content="[\s\-]+">
+
+  
+    <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:300,400,400i,700&display=fallback" rel="stylesheet">
+
+    <style>
+      body,
+      input {
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+      }
+
+      code,
+      kbd,
+      pre {
+        font-family: "Roboto Mono", "Courier New", Courier, monospace
+      }
+    </style>
+  
+
+  <link rel="stylesheet" href="../../_static/stylesheets/application.css"/>
+  <link rel="stylesheet" href="../../_static/stylesheets/application-palette.css"/>
+  <link rel="stylesheet" href="../../_static/stylesheets/application-fixes.css"/>
+  
+  <link rel="stylesheet" href="../../_static/fonts/material-icons.css"/>
+  
+  <meta name="theme-color" content="#3f51b5">
+  <script src="../../_static/javascripts/modernizr.js"></script>
+  
+  
+  
+    <title>🔨 Export &#8212; bigtree 0.15.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/twemoji.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
+    <script src="../../_static/twemoji.js"></script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="🔧 Helper" href="helper.html" />
+    <link rel="prev" title="✨ Construct" href="construct.html" />
+        <meta name="description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame." lang="en" xml:lang="en">
+        <meta name="keywords" content="Python, Tree, Bigtree">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Big Tree Documentation">
+        <meta property="og:description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="og:url" content="https://bigtree.readthedocs.io/">
+        <meta property="og:image" content="https://i.ibb.co/wS3sb4D/favicon.png">
+        <meta property="twitter:title" content="Big Tree Documentation">
+        <meta property="twitter:description" content="Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.">
+        <meta property="twitter:image" content="https://i.ibb.co/wS3sb4D/favicon.png">
+    
+  </head>
+  <body dir=ltr
+        data-md-color-primary=teal data-md-color-accent=amber>
+  
+  <svg class="md-svg">
+    <defs data-children-count="0">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+      
+    </defs>
+  </svg>
+  
+  <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer">
+  <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search">
+  <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+  <a href="#bigtree/tree/export" tabindex="1" class="md-skip"> Skip to content </a>
+  <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex navheader">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../index.html" title="bigtree 0.15.7 documentation"
+           class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">&#xe88a</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          <span class="md-header-nav__topic">bigtree Documentation</span>
+          <span class="md-header-nav__topic"> 🔨 Export </span>
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+        
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" action="../../search.html" method="get" name="search">
+      <input type="text" class="md-search__input" name="q" placeholder=""Search""
+             autocapitalize="off" autocomplete="off" spellcheck="false"
+             data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            <a href="https://github.com/kayjan/bigtree/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    bigtree
+  </div>
+</a>
+          </div>
+        </div>
+      
+      
+  
+  <div class="md-flex__cell md-flex__cell--shrink dropdown">
+    <button class="dropdownbutton">Versions</button>
+    <div class="dropdown-content md-hero">
+          <a title="latest" href="https://bigtree.readthedocs.io/en/latest">latest</a>
+      
+          <a title="0.15.7" href="https://bigtree.readthedocs.io/en/0.15.7">0.15.7</a>
+      
+          <a title="0.14.8" href="https://bigtree.readthedocs.io/en/0.14.8">0.14.8</a>
+      
+    </div>
+  </div>
+  
+
+    </div>
+  </nav>
+</header>
+
+        
+  
+  <div class="md-container">
+    
+    
+    
+  <nav class="md-tabs" data-md-component="tabs">
+    <div class="md-tabs__inner md-grid">
+      <ul class="md-tabs__list">
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">bigtree 0.15.7 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../tree.html" class="md-tabs__link">🌲 Tree</a></li>
+      </ul>
+    </div>
+  </nav>
+    <main class="md-main">
+      <div class="md-main__inner md-grid" data-md-component="container">
+        
+          <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../../index.html" title="bigtree 0.15.7 documentation" class="md-nav__button md-logo">
+      
+        <i class="md-icon">&#xe88a</i>
+      
+    </a>
+    <a href="../../index.html"
+       title="bigtree 0.15.7 documentation">bigtree Documentation</a>
+  </label>
+    <div class="md-nav__source">
+      <a href="https://github.com/kayjan/bigtree/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    bigtree
+  </div>
+</a>
+    </div>
+  
+  
+
+  
+  <ul class="md-nav__list">
+    <li class="md-nav__item">
+    
+    
+      <a href="../../node.html" class="md-nav__link">🌿 Node</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../binarytree.html" class="md-nav__link">🌵 Binary Tree</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../dag.html" class="md-nav__link">🌴 Directed Acyclic Graph (DAG)</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../tree.html" class="md-nav__link">🌲 Tree</a>
+      <ul class="md-nav__list"> 
+    <li class="md-nav__item">
+    
+    
+      <a href="construct.html" class="md-nav__link">✨ Construct</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <label class="md-nav__link md-nav__link--active" for="__toc"> 🔨 Export </label>
+    
+      <a href="#" class="md-nav__link md-nav__link--active">🔨 Export</a>
+      
+        
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#bigtree-tree-export--page-root" class="md-nav__link">🔨 Export</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#bigtree.tree.export.hprint_tree" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">hprint_tree()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.hyield_tree" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">hyield_tree()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.print_tree" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">print_tree()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_dataframe" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_dataframe()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_dict" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_dict()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_dot" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_dot()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_mermaid" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_mermaid()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_nested_dict" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_nested_dict()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_newick" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_newick()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_pillow" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_pillow()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.yield_tree" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">yield_tree()</span></code></a>
+        </li></ul>
+            </nav>
+        </li>
+  </ul>
+</nav>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="helper.html" class="md-nav__link">🔧 Helper</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="modify.html" class="md-nav__link">📝 Modify</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="search.html" class="md-nav__link">🔍 Search</a>
+      
+    
+    </li></ul>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../utils.html" class="md-nav__link">🔧 Utils</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../workflows.html" class="md-nav__link">👷 Workflows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../others.html" class="md-nav__link">🌐 Others</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">Demonstration</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/tree.html" class="md-nav__link">📋 Tree Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/binarytree.html" class="md-nav__link">📋 Binary Tree Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/dag.html" class="md-nav__link">📋 DAG Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../demo/workflow.html" class="md-nav__link">📋 Workflow Demonstration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">Changes</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../others/changelog.html" class="md-nav__link">🍂 Changelog</a>
+      
+    
+    </li>
+  </ul>
+  
+
+</nav>
+              </div>
+            </div>
+          </div>
+          <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#bigtree-tree-export--page-root" class="md-nav__link">🔨 Export</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#bigtree.tree.export.hprint_tree" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">hprint_tree()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.hyield_tree" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">hyield_tree()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.print_tree" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">print_tree()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_dataframe" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_dataframe()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_dict" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_dict()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_dot" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_dot()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_mermaid" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_mermaid()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_nested_dict" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_nested_dict()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_newick" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_newick()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.tree_to_pillow" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">tree_to_pillow()</span></code></a>
+        </li>
+        <li class="md-nav__item"><a href="#bigtree.tree.export.yield_tree" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">yield_tree()</span></code></a>
+        </li></ul>
+            </nav>
+        </li>
+  </ul>
+</nav>
+              </div>
+            </div>
+          </div>
+        
+        <div class="md-content">
+          <article class="md-content__inner md-typeset" role="main">
+            
+  <section id="hammer-export">
+<h1 id="bigtree-tree-export--page-root">🔨 Export<a class="headerlink" href="#bigtree-tree-export--page-root" title="Permalink to this heading">¶</a></h1>
+<p>Export Tree to list, dictionary, and pandas DataFrame.</p>
+<table id="id1">
+<caption><span class="caption-text">Tree Export Methods</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 57.1%"/>
+<col style="width: 42.9%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Export Tree to</p></th>
+<th class="head"><p>Method</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Command Line / Others</p></td>
+<td><p><cite>print_tree</cite>, <cite>yield_tree</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>String</p></td>
+<td><p><cite>tree_to_newick</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>Dictionary</p></td>
+<td><p><cite>tree_to_dict</cite>, <cite>tree_to_nested_dict</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>DataFrame</p></td>
+<td><p><cite>tree_to_dataframe</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>Dot (for .dot, .png, .svg, .jpeg, etc.)</p></td>
+<td><p><cite>tree_to_dot</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>Pillow (for .png, .jpg, .jpeg, etc.)</p></td>
+<td><p><cite>tree_to_pillow</cite></p></td>
+</tr>
+<tr class="row-even"><td><p>Mermaid Markdown (for .md)</p></td>
+<td><p><cite>tree_to_mermaid</cite></p></td>
+</tr>
+</tbody>
+</table>
+<p>While exporting to another data type, methods can take in arguments to determine what information to extract.</p>
+<table id="id2">
+<caption><span class="caption-text">Tree Export Customizations</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 21.1%"/>
+<col style="width: 15.8%"/>
+<col style="width: 15.8%"/>
+<col style="width: 15.8%"/>
+<col style="width: 15.8%"/>
+<col style="width: 15.8%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Extract node attributes</p></th>
+<th class="head"><p>Specify maximum depth</p></th>
+<th class="head"><p>Skip depth</p></th>
+<th class="head"><p>Extract leaves only</p></th>
+<th class="head"><p>Others</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><cite>print_tree</cite></p></td>
+<td><p>Yes with <cite>attr_list</cite> or <cite>all_attrs</cite></p></td>
+<td><p>Yes with <cite>max_depth</cite></p></td>
+<td><p>No, but can specify subtree</p></td>
+<td><p>No</p></td>
+<td><p>Tree style</p></td>
+</tr>
+<tr class="row-odd"><td><p><cite>yield_tree</cite></p></td>
+<td><p>No, returns node</p></td>
+<td><p>Yes with <cite>max_depth</cite></p></td>
+<td><p>No, but can specify subtree</p></td>
+<td><p>No</p></td>
+<td><p>Tree style</p></td>
+</tr>
+<tr class="row-even"><td><p><cite>tree_to_newick</cite></p></td>
+<td><p>Yes with <cite>attr_list</cite></p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Length separator and attribute prefix and separator</p></td>
+</tr>
+<tr class="row-odd"><td><p><cite>tree_to_dict</cite></p></td>
+<td><p>Yes with <cite>attr_dict</cite> or <cite>all_attrs</cite></p></td>
+<td><p>Yes with <cite>max_depth</cite></p></td>
+<td><p>Yes with <cite>skip_depth</cite></p></td>
+<td><p>Yes with <cite>leaf_only</cite></p></td>
+<td><p>Dict key for parent</p></td>
+</tr>
+<tr class="row-even"><td><p><cite>tree_to_nested_dict</cite></p></td>
+<td><p>Yes with <cite>attr_dict</cite> or <cite>all_attrs</cite></p></td>
+<td><p>Yes with <cite>max_depth</cite></p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Dict key for node name and node children</p></td>
+</tr>
+<tr class="row-odd"><td><p><cite>tree_to_dataframe</cite></p></td>
+<td><p>Yes with <cite>attr_dict</cite> or <cite>all_attrs</cite></p></td>
+<td><p>Yes with <cite>max_depth</cite></p></td>
+<td><p>Yes with <cite>skip_depth</cite></p></td>
+<td><p>Yes with <cite>leaf_only</cite></p></td>
+<td><p>Column name for path, node name, node parent</p></td>
+</tr>
+<tr class="row-even"><td><p><cite>tree_to_dot</cite></p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Graph attributes, background, node, edge colour, etc.</p></td>
+</tr>
+<tr class="row-odd"><td><p><cite>tree_to_pillow</cite></p></td>
+<td><p>No</p></td>
+<td><p>Yes, using keyword arguments similar to <cite>yield_tree</cite></p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Font (family, size, colour), background colour, etc.</p></td>
+</tr>
+<tr class="row-even"><td><p><cite>tree_to_mermaid</cite></p></td>
+<td><p>No</p></td>
+<td><p>Yes, using keyword arguments similar to <cite>yield_tree</cite></p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Node shape, node fill, edge arrow, edge label etc.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-bigtree.tree.export"></span><p><strong>Functions:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.export.hprint_tree" title="bigtree.tree.export.hprint_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hprint_tree</span></code></a>(tree[, node_name_or_path, ...])</p></td>
+<td><p>Print tree in horizontal orientation to console, starting from <cite>tree</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.tree.export.hyield_tree" title="bigtree.tree.export.hyield_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hyield_tree</span></code></a>(tree[, node_name_or_path, ...])</p></td>
+<td><p>Yield tree in horizontal orientation to console, starting from <cite>tree</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.export.print_tree" title="bigtree.tree.export.print_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_tree</span></code></a>(tree[, node_name_or_path, ...])</p></td>
+<td><p>Print tree to console, starting from <cite>tree</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.tree.export.tree_to_dataframe" title="bigtree.tree.export.tree_to_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_to_dataframe</span></code></a>(tree[, path_col, ...])</p></td>
+<td><p>Export tree to pandas DataFrame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.export.tree_to_dict" title="bigtree.tree.export.tree_to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_to_dict</span></code></a>(tree[, name_key, parent_key, ...])</p></td>
+<td><p>Export tree to dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.tree.export.tree_to_dot" title="bigtree.tree.export.tree_to_dot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_to_dot</span></code></a>(tree[, directed, rankdir, ...])</p></td>
+<td><p>Export tree or list of trees to image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.export.tree_to_mermaid" title="bigtree.tree.export.tree_to_mermaid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_to_mermaid</span></code></a>(tree[, title, rankdir, ...])</p></td>
+<td><p>Export tree to mermaid Markdown text.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.tree.export.tree_to_nested_dict" title="bigtree.tree.export.tree_to_nested_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_to_nested_dict</span></code></a>(tree[, name_key, ...])</p></td>
+<td><p>Export tree to nested dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.export.tree_to_newick" title="bigtree.tree.export.tree_to_newick"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_to_newick</span></code></a>(tree[, ...])</p></td>
+<td><p>Export tree to Newick notation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bigtree.tree.export.tree_to_pillow" title="bigtree.tree.export.tree_to_pillow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_to_pillow</span></code></a>(tree[, width, height, ...])</p></td>
+<td><p>Export tree to image (JPG, PNG).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bigtree.tree.export.yield_tree" title="bigtree.tree.export.yield_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yield_tree</span></code></a>(tree[, node_name_or_path, ...])</p></td>
+<td><p>Generator method for customizing printing of tree, starting from <cite>tree</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.hprint_tree">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">hprint_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_name_or_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intermediate_node_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'const'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bigtree.tree.export.hprint_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print tree in horizontal orientation to console, starting from <cite>tree</cite>.</p>
+<ul class="simple">
+<li><p>Able to select which node to print from, resulting in a subtree, using <cite>node_name_or_path</cite></p></li>
+<li><p>Able to customize for maximum depth to print, using <cite>max_depth</cite></p></li>
+<li><dl class="simple">
+<dt>Able to customize style, to choose from <cite>ansi</cite>, <cite>ascii</cite>, <cite>const</cite>, <cite>const_bold</cite>, <cite>rounded</cite>, <cite>double</cite>, and <cite>custom</cite> style</dt><dd><ul>
+<li><p>Default style is <cite>const</cite> style</p></li>
+<li><p>If style is set to custom, user can choose their own style icons</p></li>
+<li><p>Style icons should have the same number of characters</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Printing tree</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">hprint_tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+<span class="go">           ┌─ d</span>
+<span class="go">     ┌─ b ─┤</span>
+<span class="go">─ a ─┤     └─ e</span>
+<span class="go">     └─ c</span>
+</pre></div>
+</div>
+<p><strong>Printing Sub-tree</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">"b"</span><span class="p">)</span>
+<span class="go">     ┌─ d</span>
+<span class="go">─ b ─┤</span>
+<span class="go">     └─ e</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">     ┌─ b</span>
+<span class="go">─ a ─┤</span>
+<span class="go">     └─ c</span>
+</pre></div>
+</div>
+<p><strong>Available Styles</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"ansi"</span><span class="p">)</span>
+<span class="go">           /- d</span>
+<span class="go">     /- b -+</span>
+<span class="go">- a -+     \- e</span>
+<span class="go">     \- c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"ascii"</span><span class="p">)</span>
+<span class="go">           +- d</span>
+<span class="go">     +- b -+</span>
+<span class="go">- a -+     +- e</span>
+<span class="go">     +- c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"const"</span><span class="p">)</span>
+<span class="go">           ┌─ d</span>
+<span class="go">     ┌─ b ─┤</span>
+<span class="go">─ a ─┤     └─ e</span>
+<span class="go">     └─ c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"const_bold"</span><span class="p">)</span>
+<span class="go">           ┏━ d</span>
+<span class="go">     ┏━ b ━┫</span>
+<span class="go">━ a ━┫     ┗━ e</span>
+<span class="go">     ┗━ c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"rounded"</span><span class="p">)</span>
+<span class="go">           ╭─ d</span>
+<span class="go">     ╭─ b ─┤</span>
+<span class="go">─ a ─┤     ╰─ e</span>
+<span class="go">     ╰─ c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"double"</span><span class="p">)</span>
+<span class="go">           ╔═ d</span>
+<span class="go">     ╔═ b ═╣</span>
+<span class="go">═ a ═╣     ╚═ e</span>
+<span class="go">     ╚═ c</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to print</p></li>
+<li><p><strong>node_name_or_path</strong> (<em>str</em>) -- node to print from, becomes the root node of printing</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth of tree to print, based on <cite>depth</cite> attribute, optional</p></li>
+<li><p><strong>intermediate_node_name</strong> (<em>bool</em>) -- indicator if intermediate nodes have node names, defaults to True</p></li>
+<li><p><strong>style</strong> (<em>str</em>) -- style of print, defaults to const style</p></li>
+<li><p><strong>custom_style</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) -- style of icons, used when <cite>style</cite> is set to 'custom'</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.hyield_tree">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">hyield_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_name_or_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intermediate_node_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'const'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bigtree.tree.export.hyield_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield tree in horizontal orientation to console, starting from <cite>tree</cite>.</p>
+<ul class="simple">
+<li><p>Able to select which node to print from, resulting in a subtree, using <cite>node_name_or_path</cite></p></li>
+<li><p>Able to customize for maximum depth to print, using <cite>max_depth</cite></p></li>
+<li><dl class="simple">
+<dt>Able to customize style, to choose from <cite>ansi</cite>, <cite>ascii</cite>, <cite>const</cite>, <cite>const_bold</cite>, <cite>rounded</cite>, <cite>double</cite>, and <cite>custom</cite> style</dt><dd><ul>
+<li><p>Default style is <cite>const</cite> style</p></li>
+<li><p>If style is set to custom, user can choose their own style icons</p></li>
+<li><p>Style icons should have the same number of characters</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Printing tree</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">hyield_tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+<span class="go">           ┌─ d</span>
+<span class="go">     ┌─ b ─┤</span>
+<span class="go">─ a ─┤     └─ e</span>
+<span class="go">     └─ c</span>
+</pre></div>
+</div>
+<p><strong>Printing Sub-tree</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">"b"</span><span class="p">)</span>
+<span class="go">     ┌─ d</span>
+<span class="go">─ b ─┤</span>
+<span class="go">     └─ e</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">     ┌─ b</span>
+<span class="go">─ a ─┤</span>
+<span class="go">     └─ c</span>
+</pre></div>
+</div>
+<p><strong>Available Styles</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"ansi"</span><span class="p">)</span>
+<span class="go">           /- d</span>
+<span class="go">     /- b -+</span>
+<span class="go">- a -+     \- e</span>
+<span class="go">     \- c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"ascii"</span><span class="p">)</span>
+<span class="go">           +- d</span>
+<span class="go">     +- b -+</span>
+<span class="go">- a -+     +- e</span>
+<span class="go">     +- c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"const"</span><span class="p">)</span>
+<span class="go">           ┌─ d</span>
+<span class="go">     ┌─ b ─┤</span>
+<span class="go">─ a ─┤     └─ e</span>
+<span class="go">     └─ c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"const_bold"</span><span class="p">)</span>
+<span class="go">           ┏━ d</span>
+<span class="go">     ┏━ b ━┫</span>
+<span class="go">━ a ━┫     ┗━ e</span>
+<span class="go">     ┗━ c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"rounded"</span><span class="p">)</span>
+<span class="go">           ╭─ d</span>
+<span class="go">     ╭─ b ─┤</span>
+<span class="go">─ a ─┤     ╰─ e</span>
+<span class="go">     ╰─ c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"double"</span><span class="p">)</span>
+<span class="go">           ╔═ d</span>
+<span class="go">     ╔═ b ═╣</span>
+<span class="go">═ a ═╣     ╚═ e</span>
+<span class="go">     ╚═ c</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to print</p></li>
+<li><p><strong>node_name_or_path</strong> (<em>str</em>) -- node to print from, becomes the root node of printing</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth of tree to print, based on <cite>depth</cite> attribute, optional</p></li>
+<li><p><strong>intermediate_node_name</strong> (<em>bool</em>) -- indicator if intermediate nodes have node names, defaults to True</p></li>
+<li><p><strong>style</strong> (<em>str</em>) -- style of print, defaults to const style</p></li>
+<li><p><strong>custom_style</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) -- style of icons, used when <cite>style</cite> is set to 'custom'</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(List[str])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.print_tree">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">print_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_name_or_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_attrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_omit_null</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_bracket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['[',</span> <span class="pre">']']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'const'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bigtree.tree.export.print_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print tree to console, starting from <cite>tree</cite>.</p>
+<ul class="simple">
+<li><p>Able to select which node to print from, resulting in a subtree, using <cite>node_name_or_path</cite></p></li>
+<li><p>Able to customize for maximum depth to print, using <cite>max_depth</cite></p></li>
+<li><p>Able to choose which attributes to show or show all attributes, using <cite>attr_name_filter</cite> and <cite>all_attrs</cite></p></li>
+<li><p>Able to omit showing of attributes if it is null, using <cite>attr_omit_null</cite></p></li>
+<li><p>Able to customize open and close brackets if attributes are shown, using <cite>attr_bracket</cite></p></li>
+<li><dl class="simple">
+<dt>Able to customize style, to choose from <cite>ansi</cite>, <cite>ascii</cite>, <cite>const</cite>, <cite>const_bold</cite>, <cite>rounded</cite>, <cite>double</cite>, and <cite>custom</cite> style</dt><dd><ul>
+<li><p>Default style is <cite>const</cite> style</p></li>
+<li><p>If style is set to custom, user can choose their own style for stem, branch and final stem icons</p></li>
+<li><p>Stem, branch, and final stem symbol should have the same number of characters</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Printing tree</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">print_tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">│   ├── d</span>
+<span class="go">│   └── e</span>
+<span class="go">└── c</span>
+</pre></div>
+</div>
+<p><strong>Printing Sub-tree</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">"b"</span><span class="p">)</span>
+<span class="go">b</span>
+<span class="go">├── d</span>
+<span class="go">└── e</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">└── c</span>
+</pre></div>
+</div>
+<p><strong>Printing Attributes</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">"age"</span><span class="p">])</span>
+<span class="go">a [age=90]</span>
+<span class="go">├── b [age=65]</span>
+<span class="go">│   ├── d [age=40]</span>
+<span class="go">│   └── e [age=35]</span>
+<span class="go">└── c [age=60]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">"age"</span><span class="p">],</span> <span class="n">attr_bracket</span><span class="o">=</span><span class="p">[</span><span class="s2">"*("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">])</span>
+<span class="go">a *(age=90)</span>
+<span class="go">├── b *(age=65)</span>
+<span class="go">│   ├── d *(age=40)</span>
+<span class="go">│   └── e *(age=35)</span>
+<span class="go">└── c *(age=60)</span>
+</pre></div>
+</div>
+<p><strong>Available Styles</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"ansi"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">|-- b</span>
+<span class="go">|   |-- d</span>
+<span class="go">|   `-- e</span>
+<span class="go">`-- c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"ascii"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">|-- b</span>
+<span class="go">|   |-- d</span>
+<span class="go">|   +-- e</span>
+<span class="go">+-- c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"const"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">│   ├── d</span>
+<span class="go">│   └── e</span>
+<span class="go">└── c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"const_bold"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">┣━━ b</span>
+<span class="go">┃   ┣━━ d</span>
+<span class="go">┃   ┗━━ e</span>
+<span class="go">┗━━ c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"rounded"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">│   ├── d</span>
+<span class="go">│   ╰── e</span>
+<span class="go">╰── c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"double"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">╠══ b</span>
+<span class="go">║   ╠══ d</span>
+<span class="go">║   ╚══ e</span>
+<span class="go">╚══ c</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to print</p></li>
+<li><p><strong>node_name_or_path</strong> (<em>str</em>) -- node to print from, becomes the root node of printing</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth of tree to print, based on <cite>depth</cite> attribute, optional</p></li>
+<li><p><strong>all_attrs</strong> (<em>bool</em>) -- indicator to show all attributes, defaults to False, overrides <cite>attr_list</cite> and <cite>attr_omit_null</cite></p></li>
+<li><p><strong>attr_list</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) -- list of node attributes to print, optional</p></li>
+<li><p><strong>attr_omit_null</strong> (<em>bool</em>) -- indicator whether to omit showing of null attributes, defaults to False</p></li>
+<li><p><strong>attr_bracket</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- open and close bracket for <cite>all_attrs</cite> or <cite>attr_list</cite></p></li>
+<li><p><strong>style</strong> (<em>str</em>) -- style of print, defaults to const style</p></li>
+<li><p><strong>custom_style</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) -- style of stem, branch and final stem, used when <cite>style</cite> is set to 'custom'</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.tree_to_dataframe">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">tree_to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'path'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_attrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaf_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#bigtree.tree.export.tree_to_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export tree to pandas DataFrame.</p>
+<p>All descendants from <cite>tree</cite> will be exported, <cite>tree</cite> can be the root node or child node of tree.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">tree_to_dataframe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree_to_dataframe</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name_col</span><span class="o">=</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">parent_col</span><span class="o">=</span><span class="s2">"parent"</span><span class="p">,</span> <span class="n">path_col</span><span class="o">=</span><span class="s2">"path"</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="p">{</span><span class="s2">"age"</span><span class="p">:</span> <span class="s2">"person age"</span><span class="p">})</span>
+<span class="go">     path name parent  person age</span>
+<span class="go">0      /a    a   None          90</span>
+<span class="go">1    /a/b    b      a          65</span>
+<span class="go">2  /a/b/d    d      b          40</span>
+<span class="go">3  /a/b/e    e      b          35</span>
+<span class="go">4    /a/c    c      a          60</span>
+</pre></div>
+</div>
+<p>For a subset of a tree.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_to_dataframe</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">name_col</span><span class="o">=</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">parent_col</span><span class="o">=</span><span class="s2">"parent"</span><span class="p">,</span> <span class="n">path_col</span><span class="o">=</span><span class="s2">"path"</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="p">{</span><span class="s2">"age"</span><span class="p">:</span> <span class="s2">"person age"</span><span class="p">})</span>
+<span class="go">     path name parent  person age</span>
+<span class="go">0    /a/b    b      a          65</span>
+<span class="go">1  /a/b/d    d      b          40</span>
+<span class="go">2  /a/b/e    e      b          35</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to be exported</p></li>
+<li><p><strong>path_col</strong> (<em>str</em>) -- column name for <cite>node.path_name</cite>, defaults to 'path'</p></li>
+<li><p><strong>name_col</strong> (<em>str</em>) -- column name for <cite>node.node_name</cite>, defaults to 'name'</p></li>
+<li><p><strong>parent_col</strong> (<em>str</em>) -- column name for <cite>node.parent.node_name</cite>, optional</p></li>
+<li><p><strong>attr_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) -- dictionary mapping node attributes to column name,
+key: node attributes, value: corresponding column in dataframe, optional</p></li>
+<li><p><strong>all_attrs</strong> (<em>bool</em>) -- indicator whether to retrieve all <code class="docutils literal notranslate"><span class="pre">Node</span></code> attributes, overrides <cite>attr_dict</cite>, defaults to False</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth to export tree, optional</p></li>
+<li><p><strong>skip_depth</strong> (<em>int</em>) -- number of initial depths to skip, optional</p></li>
+<li><p><strong>leaf_only</strong> (<em>bool</em>) -- indicator to retrieve only information from leaf nodes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(pd.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.tree_to_dict">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">tree_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_attrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaf_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bigtree.tree.export.tree_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export tree to dictionary.</p>
+<p>All descendants from <cite>tree</cite> will be exported, <cite>tree</cite> can be the root node or child node of tree.</p>
+<p>Exported dictionary will have key as node path, and node attributes as a nested dictionary.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">tree_to_dict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree_to_dict</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name_key</span><span class="o">=</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">parent_key</span><span class="o">=</span><span class="s2">"parent"</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="p">{</span><span class="s2">"age"</span><span class="p">:</span> <span class="s2">"person age"</span><span class="p">})</span>
+<span class="go">{'/a': {'name': 'a', 'parent': None, 'person age': 90}, '/a/b': {'name': 'b', 'parent': 'a', 'person age': 65}, '/a/b/d': {'name': 'd', 'parent': 'b', 'person age': 40}, '/a/b/e': {'name': 'e', 'parent': 'b', 'person age': 35}, '/a/c': {'name': 'c', 'parent': 'a', 'person age': 60}}</span>
+</pre></div>
+</div>
+<p>For a subset of a tree</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_to_dict</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">name_key</span><span class="o">=</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">parent_key</span><span class="o">=</span><span class="s2">"parent"</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="p">{</span><span class="s2">"age"</span><span class="p">:</span> <span class="s2">"person age"</span><span class="p">})</span>
+<span class="go">{'/a/c': {'name': 'c', 'parent': 'a', 'person age': 60}}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to be exported</p></li>
+<li><p><strong>name_key</strong> (<em>str</em>) -- dictionary key for <cite>node.node_name</cite>, defaults to 'name'</p></li>
+<li><p><strong>parent_key</strong> (<em>str</em>) -- dictionary key for <cite>node.parent.node_name</cite>, optional</p></li>
+<li><p><strong>attr_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) -- dictionary mapping node attributes to dictionary key,
+key: node attributes, value: corresponding dictionary key, optional</p></li>
+<li><p><strong>all_attrs</strong> (<em>bool</em>) -- indicator whether to retrieve all <code class="docutils literal notranslate"><span class="pre">Node</span></code> attributes, overrides <cite>attr_dict</cite>, defaults to False</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth to export tree, optional</p></li>
+<li><p><strong>skip_depth</strong> (<em>int</em>) -- number of initial depths to skip, optional</p></li>
+<li><p><strong>leaf_only</strong> (<em>bool</em>) -- indicator to retrieve only information from leaf nodes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Dict[str, Any])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.tree_to_dot">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">tree_to_dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rankdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'TB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">pydot.Dot</span></span></span><a class="headerlink" href="#bigtree.tree.export.tree_to_dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export tree or list of trees to image.
+Possible node attributes include style, fillcolor, shape.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">tree_to_dot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_to_dot</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Display image directly without saving (requires IPython)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">create_png</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">display</span><span class="p">(</span><span class="n">plt</span><span class="p">)</span>
+<span class="go">&lt;IPython.core.display.Image object&gt;</span>
+</pre></div>
+</div>
+<p>Export to image, dot file, etc.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">"assets/docstr/tree.png"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">write_dot</span><span class="p">(</span><span class="s2">"assets/docstr/tree.dot"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Export to string</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span>
+<span class="go">'strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -&gt; b0;\nd0 [label=d];\nb0 -&gt; d0;\ne0 [label=e];\nb0 -&gt; e0;\nc0 [label=c];\na0 -&gt; c0;\n}\n'</span>
+</pre></div>
+</div>
+<p>Defining node and edge attributes (using node attribute)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">CustomNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">node_shape</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">edge_label</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">node_shape</span> <span class="o">=</span> <span class="n">node_shape</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">edge_label</span> <span class="o">=</span> <span class="n">edge_label</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@property</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">edge_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_label</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="k">return</span> <span class="p">{</span><span class="s2">"label"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_label</span><span class="p">}</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="p">{}</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@property</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">node_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_shape</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="k">return</span> <span class="p">{</span><span class="s2">"shape"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_shape</span><span class="p">}</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">CustomNode</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">node_shape</span><span class="o">=</span><span class="s2">"circle"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">CustomNode</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">edge_label</span><span class="o">=</span><span class="s2">"child"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">CustomNode</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">edge_label</span><span class="o">=</span><span class="s2">"child"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">CustomNode</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">node_shape</span><span class="o">=</span><span class="s2">"square"</span><span class="p">,</span> <span class="n">edge_label</span><span class="o">=</span><span class="s2">"child"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">CustomNode</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">node_shape</span><span class="o">=</span><span class="s2">"square"</span><span class="p">,</span> <span class="n">edge_label</span><span class="o">=</span><span class="s2">"child"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_to_dot</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_colour</span><span class="o">=</span><span class="s2">"gold"</span><span class="p">,</span> <span class="n">node_shape</span><span class="o">=</span><span class="s2">"diamond"</span><span class="p">,</span> <span class="n">node_attr</span><span class="o">=</span><span class="s2">"node_attr"</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">=</span><span class="s2">"edge_attr"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">"assets/export_tree_dot.png"</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot.png" src="https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot.png"/>
+<p>Alternative way to define node and edge attributes (using callable function)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">get_node_attribute</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_leaf</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="p">{</span><span class="s2">"shape"</span><span class="p">:</span> <span class="s2">"square"</span><span class="p">}</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">{</span><span class="s2">"shape"</span><span class="p">:</span> <span class="s2">"circle"</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">CustomNode</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">CustomNode</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">CustomNode</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">CustomNode</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">CustomNode</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_to_dot</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_colour</span><span class="o">=</span><span class="s2">"gold"</span><span class="p">,</span> <span class="n">node_attr</span><span class="o">=</span><span class="n">get_node_attribute</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">"assets/export_tree_dot_callable.png"</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png" src="https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png"/>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<em>Node/List</em><em>[</em><a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a><em>]</em>) -- tree or list of trees to be exported</p></li>
+<li><p><strong>directed</strong> (<em>bool</em>) -- indicator whether graph should be directed or undirected, defaults to True</p></li>
+<li><p><strong>rankdir</strong> (<em>str</em>) -- layout direction, defaults to 'TB' (top to bottom), can be 'BT' (bottom to top),
+'LR' (left to right), 'RL' (right to left)</p></li>
+<li><p><strong>bg_colour</strong> (<em>str</em>) -- background color of image, defaults to None</p></li>
+<li><p><strong>node_colour</strong> (<em>str</em>) -- fill colour of nodes, defaults to None</p></li>
+<li><p><strong>node_shape</strong> (<em>str</em>) -- shape of nodes, defaults to None
+Possible node_shape include "circle", "square", "diamond", "triangle"</p></li>
+<li><p><strong>edge_colour</strong> (<em>str</em>) -- colour of edges, defaults to None</p></li>
+<li><p><strong>node_attr</strong> (<em>str</em><em> | </em><em>Callable</em>) -- If string type, it refers to <code class="docutils literal notranslate"><span class="pre">Node</span></code> attribute for node style.
+If callable type, it takes in the node itself and returns the node style.
+This overrides <cite>node_colour</cite> and <cite>node_shape</cite> and defaults to None.
+Possible node styles include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}</p></li>
+<li><p><strong>edge_attr</strong> (<em>str</em><em> | </em><em>Callable</em>) -- If stirng type, it refers to <code class="docutils literal notranslate"><span class="pre">Node</span></code> attribute for edge style.
+If callable type, it takes in the node itself and returns the edge style.
+This overrides <cite>edge_colour</cite>, and defaults to None.
+Possible edge styles include {"style": "bold", "label": "edge label", "color": "black"}</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(pydot.Dot)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.tree_to_mermaid">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">tree_to_mermaid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rankdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'TB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'basis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_border_colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_border_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rounded_edge'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_shape_attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_arrow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'normal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_arrow_attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bigtree.tree.export.tree_to_mermaid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export tree to mermaid Markdown text. Accepts additional keyword arguments as input to <cite>yield_tree</cite>.</p>
+<dl class="simple">
+<dt>Parameters for customizations that applies to entire flowchart include:</dt><dd><ul class="simple">
+<li><p>Title, <cite>title</cite></p></li>
+<li><p>Layout direction, <cite>rankdir</cite></p></li>
+<li><p>Line shape or curvature, <cite>line_shape</cite></p></li>
+<li><p>Fill colour of nodes, <cite>node_colour</cite></p></li>
+<li><p>Border colour of nodes, <cite>node_border_colour</cite></p></li>
+<li><p>Border width of nodes, <cite>node_border_width</cite></p></li>
+<li><p>Node shape, <cite>node_shape</cite></p></li>
+<li><p>Edge arrow style, <cite>edge_arrow</cite></p></li>
+</ul>
+</dd>
+<dt>Parameters for customizations that apply to customized nodes:</dt><dd><ul class="simple">
+<li><p>Fill colour of nodes, fill under <cite>node_attr</cite></p></li>
+<li><p>Border colour of nodes, stroke under <cite>node_attr</cite></p></li>
+<li><p>Border width of nodes, stroke-width under <cite>node_attr</cite></p></li>
+<li><p>Node shape, <cite>node_shape_attr</cite></p></li>
+<li><p>Edge arrow style, <cite>edge_arrow_attr</cite></p></li>
+<li><p>Edge label, <cite>edge_label</cite></p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Accepted Parameter Values</strong></p>
+<dl class="simple">
+<dt>Possible <cite>rankdir</cite>:</dt><dd><ul class="simple">
+<li><p><cite>TB</cite>: top-to-bottom</p></li>
+<li><p><cite>BT</cite>: bottom-to-top</p></li>
+<li><p><cite>LR</cite>: left-to-right</p></li>
+<li><p><cite>RL</cite>: right-to-left</p></li>
+</ul>
+</dd>
+<dt>Possible <cite>line_shape</cite>:</dt><dd><ul class="simple">
+<li><p><cite>basis</cite></p></li>
+<li><p><cite>bumpX</cite>: used in LR or RL direction</p></li>
+<li><p><cite>bumpY</cite></p></li>
+<li><p><cite>cardinal</cite>: undirected</p></li>
+<li><p><cite>catmullRom</cite>: undirected</p></li>
+<li><p><cite>linear</cite>:</p></li>
+<li><p><cite>monotoneX</cite>: used in LR or RL direction</p></li>
+<li><p><cite>monotoneY</cite></p></li>
+<li><p><cite>natural</cite></p></li>
+<li><p><cite>step</cite>: used in LR or RL direction</p></li>
+<li><p><cite>stepAfter</cite></p></li>
+<li><p><cite>stepBefore</cite>: used in LR or RL direction</p></li>
+</ul>
+</dd>
+<dt>Possible <cite>node_shape</cite>:</dt><dd><ul class="simple">
+<li><p><cite>rounded_edge</cite>: rectangular with rounded edges</p></li>
+<li><p><cite>stadium</cite>: (_) shape, rectangular with rounded ends</p></li>
+<li><p><cite>subroutine</cite>: ||_|| shape, rectangular with additional line at the ends</p></li>
+<li><p><cite>cylindrical</cite>: database node</p></li>
+<li><p><cite>circle</cite>: circular</p></li>
+<li><p><cite>asymmetric</cite>: &gt;_| shape</p></li>
+<li><p><cite>rhombus</cite>: decision node</p></li>
+<li><p><cite>hexagon</cite>: &lt;_&gt; shape</p></li>
+<li><p><cite>parallelogram</cite>: /_/ shape</p></li>
+<li><p><cite>parallelogram_alt</cite>: \_\ shape, inverted parallelogram</p></li>
+<li><p><cite>trapezoid</cite>: /_\ shape</p></li>
+<li><p><cite>trapezoid_alt</cite>: \_/ shape, inverted trapezoid</p></li>
+<li><p><cite>double_circle</cite></p></li>
+</ul>
+</dd>
+<dt>Possible <cite>edge_arrow</cite>:</dt><dd><ul class="simple">
+<li><p><cite>normal</cite>: directed arrow, shaded arrowhead</p></li>
+<li><p><cite>bold</cite>: bold directed arrow</p></li>
+<li><p><cite>dotted</cite>: dotted directed arrow</p></li>
+<li><p><cite>open</cite>: line, undirected arrow</p></li>
+<li><p><cite>bold_open</cite>: bold line</p></li>
+<li><p><cite>dotted_open</cite>: dotted line</p></li>
+<li><p><cite>invisible</cite>: no line</p></li>
+<li><p><cite>circle</cite>: directed arrow with filled circle arrowhead</p></li>
+<li><p><cite>cross</cite>: directed arrow with cross arrowhead</p></li>
+<li><p><cite>double_normal</cite>: bidirectional directed arrow</p></li>
+<li><p><cite>double_circle</cite>: bidirectional directed arrow with filled circle arrowhead</p></li>
+<li><p><cite>double_cross</cite>: bidirectional directed arrow with cross arrowhead</p></li>
+</ul>
+</dd>
+</dl>
+<p>Refer to mermaid <a class="reference external" href="http://mermaid.js.org/syntax/flowchart.html">documentation</a> for more information.
+Paste the output into any markdown file renderer to view the flowchart, alternatively visit the
+mermaid playground <a class="reference external" href="https://mermaid.live/">here</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Advanced mermaid flowchart functionalities such as subgraphs and interactions (script, click) are not supported.</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">tree_to_mermaid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">node_shape</span><span class="o">=</span><span class="s2">"rhombus"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">edge_arrow</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span> <span class="n">edge_label</span><span class="o">=</span><span class="s2">"Child 1"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">edge_arrow</span><span class="o">=</span><span class="s2">"dotted"</span><span class="p">,</span> <span class="n">edge_label</span><span class="o">=</span><span class="s2">"Child 2"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">node_style</span><span class="o">=</span><span class="s2">"fill:yellow, stroke:black"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_to_mermaid</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+<span class="go">```mermaid</span>
+<span class="go">%%{ init: { 'flowchart': { 'curve': 'basis' } } }%%</span>
+<span class="go">flowchart TB</span>
+<span class="go">0("a") --&gt; 0-0("b")</span>
+<span class="go">0-0 --&gt; 0-0-0("d")</span>
+<span class="go">0-0 --&gt; 0-0-1("e")</span>
+<span class="go">0("a") --&gt; 0-1("c")</span>
+<span class="go">classDef default stroke-width:1</span>
+<span class="go">```</span>
+</pre></div>
+</div>
+<p><strong>Customize node shape, edge label, edge arrow, and custom node attributes</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_to_mermaid</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_shape_attr</span><span class="o">=</span><span class="s2">"node_shape"</span><span class="p">,</span> <span class="n">edge_label</span><span class="o">=</span><span class="s2">"edge_label"</span><span class="p">,</span> <span class="n">edge_arrow_attr</span><span class="o">=</span><span class="s2">"edge_arrow"</span><span class="p">,</span> <span class="n">node_attr</span><span class="o">=</span><span class="s2">"node_style"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+<span class="go">```mermaid</span>
+<span class="go">%%{ init: { 'flowchart': { 'curve': 'basis' } } }%%</span>
+<span class="go">flowchart TB</span>
+<span class="go">0{"a"} ==&gt;|Child 1| 0-0("b")</span>
+<span class="go">0-0:::class0-0-0 --&gt; 0-0-0("d")</span>
+<span class="go">0-0 --&gt; 0-0-1("e")</span>
+<span class="go">0{"a"} -.-&gt;|Child 2| 0-1("c")</span>
+<span class="go">classDef default stroke-width:1</span>
+<span class="go">classDef class0-0-0 fill:yellow, stroke:black</span>
+<span class="go">```</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to be exported</p></li>
+<li><p><strong>title</strong> (<em>str</em>) -- title, defaults to None</p></li>
+<li><p><strong>rankdir</strong> (<em>str</em>) -- layout direction, defaults to 'TB' (top to bottom), can be 'BT' (bottom to top),
+'LR' (left to right), 'RL' (right to left)</p></li>
+<li><p><strong>line_shape</strong> (<em>str</em>) -- line shape or curvature, defaults to 'basis'</p></li>
+<li><p><strong>node_colour</strong> (<em>str</em>) -- fill colour of nodes, can be colour name or hexcode, defaults to None</p></li>
+<li><p><strong>node_border_colour</strong> (<em>str</em>) -- border colour of nodes, can be colour name or hexcode, defaults to None</p></li>
+<li><p><strong>node_border_width</strong> (<em>float</em>) -- width of node border, defaults to 1</p></li>
+<li><p><strong>node_shape</strong> (<em>str</em>) -- node shape, sets the shape of every node, defaults to 'rounded_edge'</p></li>
+<li><p><strong>node_shape_attr</strong> (<em>str</em><em> | </em><em>Callable</em>) -- If string type, it refers to <code class="docutils literal notranslate"><span class="pre">Node</span></code> attribute for node shape.
+If callable type, it takes in the node itself and returns the node shape.
+This sets the shape of custom nodes, and overrides default <cite>node_shape</cite>, defaults to None</p></li>
+<li><p><strong>edge_arrow</strong> (<em>str</em>) -- edge arrow style from parent to itself, sets the arrow style of every edge, defaults to 'normal'</p></li>
+<li><p><strong>edge_arrow_attr</strong> (<em>str</em><em> | </em><em>Callable</em>) -- If string type, it refers to <code class="docutils literal notranslate"><span class="pre">Node</span></code> attribute for edge arrow style.
+If callable type, it takes in the node itself and returns the edge arrow style.
+This sets the edge arrow style of custom nodes from parent to itself, and overrides default <cite>edge_arrow</cite>, defaults to None</p></li>
+<li><p><strong>edge_label</strong> (<em>str</em>) -- <code class="docutils literal notranslate"><span class="pre">Node</span></code> attribute for edge label from parent to itself, defaults to None</p></li>
+<li><p><strong>node_attr</strong> (<em>str</em><em> | </em><em>Callable</em>) -- If string type, it refers to <code class="docutils literal notranslate"><span class="pre">Node</span></code> attribute for node style.
+If callable type, it takes in the node itself and returns the node style.
+This overrides <cite>node_colour</cite>, <cite>node_border_colour</cite>, and <cite>node_border_width</cite>, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.tree_to_nested_dict">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">tree_to_nested_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'children'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_attrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bigtree.tree.export.tree_to_nested_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export tree to nested dictionary.</p>
+<p>All descendants from <cite>tree</cite> will be exported, <cite>tree</cite> can be the root node or child node of tree.</p>
+<p>Exported dictionary will have key as node attribute names, and children as a nested recursive dictionary.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">tree_to_nested_dict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree_to_nested_dict</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">all_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">{'name': 'a', 'age': 90, 'children': [{'name': 'b', 'age': 65, 'children': [{'name': 'd', 'age': 40}, {'name': 'e', 'age': 35}]}, {'name': 'c', 'age': 60}]}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to be exported</p></li>
+<li><p><strong>name_key</strong> (<em>str</em>) -- dictionary key for <cite>node.node_name</cite>, defaults to 'name'</p></li>
+<li><p><strong>child_key</strong> (<em>str</em>) -- dictionary key for list of children, optional</p></li>
+<li><p><strong>attr_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) -- dictionary mapping node attributes to dictionary key,
+key: node attributes, value: corresponding dictionary key, optional</p></li>
+<li><p><strong>all_attrs</strong> (<em>bool</em>) -- indicator whether to retrieve all <code class="docutils literal notranslate"><span class="pre">Node</span></code> attributes, overrides <cite>attr_dict</cite>, defaults to False</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth to export tree, optional</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Dict[str, Any])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.tree_to_newick">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">tree_to_newick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intermediate_node_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length_attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length_sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">NewickCharacter</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">NewickCharacter.SEP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'&amp;&amp;NHX:'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">NewickCharacter</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">NewickCharacter.SEP</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bigtree.tree.export.tree_to_newick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export tree to Newick notation. Useful for describing phylogenetic tree.</p>
+<dl class="simple">
+<dt>In the Newick Notation (or New Hampshire Notation),</dt><dd><ul class="simple">
+<li><p>Tree is represented in round brackets i.e., <cite>(child1,child2,child3)parent</cite>.</p></li>
+<li><p>If there are nested tree, they will be in nested round brackets i.e., <cite>((grandchild1)child1,(grandchild2,grandchild3)child2)parent</cite>.</p></li>
+<li><p>If there is length attribute, they will be beside the name i.e., <cite>(child1:0.5,child2:0.1)parent</cite>.</p></li>
+<li><p>If there are other attributes, attributes are represented in square brackets i.e., <cite>(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]</cite>.</p></li>
+</ul>
+</dd>
+<dt>Customizations include:</dt><dd><ul class="simple">
+<li><p>Omitting names of root and intermediate nodes, default all node names are shown.</p></li>
+<li><p>Changing length separator to other symbol, default is <cite>:</cite>.</p></li>
+<li><p>Adding an attribute prefix, default is <cite>&amp;&amp;NHX:</cite>.</p></li>
+<li><p>Changing the attribute separator to other symbol, default is <cite>:</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">tree_to_newick</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s2">"human"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s2">"human"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s2">"human"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s2">"human"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s2">"human"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">│   ├── d</span>
+<span class="go">│   └── e</span>
+<span class="go">└── c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_to_newick</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+<span class="go">'((d,e)b,c)a'</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_to_newick</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">length_attr</span><span class="o">=</span><span class="s2">"age"</span><span class="p">)</span>
+<span class="go">'((d:40,e:35)b:65,c:60)a'</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_to_newick</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">length_attr</span><span class="o">=</span><span class="s2">"age"</span><span class="p">,</span> <span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">"species"</span><span class="p">])</span>
+<span class="go">'((d:40[&amp;&amp;NHX:species=human],e:35[&amp;&amp;NHX:species=human])b:65[&amp;&amp;NHX:species=human],c:60[&amp;&amp;NHX:species=human])a[&amp;&amp;NHX:species=human]'</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to be exported</p></li>
+<li><p><strong>intermediate_node_name</strong> (<em>bool</em>) -- indicator if intermediate nodes have node names, defaults to True</p></li>
+<li><p><strong>length_attr</strong> (<em>str</em>) -- node length attribute to extract to beside name, optional</p></li>
+<li><p><strong>length_sep</strong> (<em>str</em>) -- separator between node name and length, used if length_attr is non-empty, defaults to ":"</p></li>
+<li><p><strong>attr_list</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) -- list of node attributes to extract into square bracket, optional</p></li>
+<li><p><strong>attr_prefix</strong> (<em>str</em>) -- prefix before all attributes, within square bracket, used if attr_list is non-empty, defaults to "&amp;&amp;NHX:"</p></li>
+<li><p><strong>attr_sep</strong> (<em>str</em>) -- separator between attributes, within square brackets, used if attr_list is non-empty, defaults to ":"</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.tree_to_pillow">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">tree_to_pillow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(10,</span> <span class="pre">10)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_family</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'white'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Image.Image</span></span></span><a class="headerlink" href="#bigtree.tree.export.tree_to_pillow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export tree to image (JPG, PNG).
+Image will be similar format as <cite>print_tree</cite>, accepts additional keyword arguments as input to <cite>yield_tree</cite>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">tree_to_pillow</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pillow_image</span> <span class="o">=</span> <span class="n">tree_to_pillow</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Export to image (PNG, JPG) file, etc.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pillow_image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"assets/docstr/tree_pillow.png"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pillow_image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"assets/docstr/tree_pillow.jpg"</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to be exported</p></li>
+<li><p><strong>width</strong> (<em>int</em>) -- width of image, optional as width of image is calculated automatically</p></li>
+<li><p><strong>height</strong> (<em>int</em>) -- height of image, optional as height of image is calculated automatically</p></li>
+<li><p><strong>start_pos</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) -- start position of text, (x-offset, y-offset), defaults to (10, 10)</p></li>
+<li><p><strong>font_family</strong> (<em>str</em>) -- file path of font family, requires .ttf file, defaults to DejaVuSans</p></li>
+<li><p><strong>font_size</strong> (<em>int</em>) -- font size, defaults to 12</p></li>
+<li><p><strong>font_colour</strong> (<em>Union</em><em>[</em><em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>str</em><em>]</em>) -- font colour, accepts tuple of RGB values or string, defaults to black</p></li>
+<li><p><strong>bg_colour</strong> (<em>Union</em><em>[</em><em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>str</em><em>]</em>) -- background of image, accepts tuple of RGB values or string, defaults to white</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(PIL.Image.Image)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="bigtree.tree.export.yield_tree">
+<span class="sig-prename descclassname"><span class="pre">bigtree.tree.export.</span></span><span class="sig-name descname"><span class="pre">yield_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_name_or_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'const'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bigtree.tree.export.yield_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generator method for customizing printing of tree, starting from <cite>tree</cite>.</p>
+<ul class="simple">
+<li><p>Able to select which node to print from, resulting in a subtree, using <cite>node_name_or_path</cite></p></li>
+<li><p>Able to customize for maximum depth to print, using <cite>max_depth</cite></p></li>
+<li><dl class="simple">
+<dt>Able to customize style, to choose from <cite>ansi</cite>, <cite>ascii</cite>, <cite>const</cite>, <cite>const_bold</cite>, <cite>rounded</cite>, <cite>double</cite>, and <cite>custom</cite> style</dt><dd><ul>
+<li><p>Default style is <cite>const</cite> style</p></li>
+<li><p>If style is set to custom, user can choose their own style for stem, branch and final stem icons</p></li>
+<li><p>Stem, branch, and final stem symbol should have the same number of characters</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Yield tree</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">yield_tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">"e"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">│   ├── d</span>
+<span class="go">│   └── e</span>
+<span class="go">└── c</span>
+</pre></div>
+</div>
+<p><strong>Yield Sub-tree</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">"b"</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">b</span>
+<span class="go">├── d</span>
+<span class="go">└── e</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">└── c</span>
+</pre></div>
+</div>
+<p><strong>Available Styles</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"ansi"</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">|-- b</span>
+<span class="go">|   |-- d</span>
+<span class="go">|   `-- e</span>
+<span class="go">`-- c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"ascii"</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">|-- b</span>
+<span class="go">|   |-- d</span>
+<span class="go">|   +-- e</span>
+<span class="go">+-- c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"const"</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">│   ├── d</span>
+<span class="go">│   └── e</span>
+<span class="go">└── c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"const_bold"</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">┣━━ b</span>
+<span class="go">┃   ┣━━ d</span>
+<span class="go">┃   ┗━━ e</span>
+<span class="go">┗━━ c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"rounded"</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">├── b</span>
+<span class="go">│   ├── d</span>
+<span class="go">│   ╰── e</span>
+<span class="go">╰── c</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"double"</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">a</span>
+<span class="go">╠══ b</span>
+<span class="go">║   ╠══ d</span>
+<span class="go">║   ╚══ e</span>
+<span class="go">╚══ c</span>
+</pre></div>
+</div>
+<p><strong>Printing Attributes</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"const"</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2"> [age=</span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">age</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+<span class="go">a [age=90]</span>
+<span class="go">├── b [age=65]</span>
+<span class="go">│   ├── d [age=40]</span>
+<span class="go">│   └── e [age=35]</span>
+<span class="go">└── c [age=60]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<a class="reference internal" href="../node/node.html#bigtree.node.node.Node" title="bigtree.node.node.Node"><em>Node</em></a>) -- tree to print</p></li>
+<li><p><strong>node_name_or_path</strong> (<em>str</em>) -- node to print from, becomes the root node of printing, optional</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) -- maximum depth of tree to print, based on <cite>depth</cite> attribute, optional</p></li>
+<li><p><strong>style</strong> (<em>str</em>) -- style of print, defaults to const</p></li>
+<li><p><strong>custom_style</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) -- style of stem, branch and final stem, used when <cite>style</cite> is set to 'custom'</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+</section>
+
+
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+        
+  <footer class="md-footer">
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+          
+            <a href="construct.html" title="✨ Construct"
+               class="md-flex md-footer-nav__link md-footer-nav__link--prev"
+               rel="prev">
+              <div class="md-flex__cell md-flex__cell--shrink">
+                <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+              </div>
+              <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+                <span class="md-flex__ellipsis">
+                  <span
+                      class="md-footer-nav__direction"> Previous </span> ✨ Construct </span>
+              </div>
+            </a>
+          
+          
+            <a href="helper.html" title="🔧 Helper"
+               class="md-flex md-footer-nav__link md-footer-nav__link--next"
+               rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
+                class="md-flex__ellipsis"> <span
+                class="md-footer-nav__direction"> Next </span> 🔧 Helper </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink"><i
+                class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          
+        </a>
+        
+      </nav>
+    </div>
+    <div class="md-footer-meta md-typeset">
+      <div class="md-footer-meta__inner md-grid">
+        <div class="md-footer-copyright">
+          <div class="md-footer-copyright__highlight">
+              &#169; Copyright 2022, Kay Jan WONG.
+              
+          </div>
+            Last updated on
+              Jan 26, 2024.
+            <br/>
+            Created using
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+             and
+            <a href="https://github.com/bashtage/sphinx-material/">Material for
+              Sphinx</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="../../_static/javascripts/application.js"></script>
+  <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+  </body>
+</html>
