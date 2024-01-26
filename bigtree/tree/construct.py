@@ -1068,9 +1068,11 @@ def newick_to_tree(
         elif _cumulative_string:
             _new_node.set_attrs(
                 {
-                    length_attr: int(_cumulative_string)
-                    if _cumulative_string.isdigit()
-                    else float(_cumulative_string)
+                    length_attr: (
+                        int(_cumulative_string)
+                        if _cumulative_string.isdigit()
+                        else float(_cumulative_string)
+                    )
                 }
             )
 
