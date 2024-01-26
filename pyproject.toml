@@ -92,7 +92,8 @@ clean-html = "sphinx-build -M html docs_sphinx/source docs_sphinx/build & sphinx
 
 [tool.hatch.envs.mkdocs]
 dependencies = [
-  "mkdocs",
+  "mkdocs==1.5.3",
+  "mkdocs-material==9.5.5",
   "IPython",
   "pandas",
   "pydot",
