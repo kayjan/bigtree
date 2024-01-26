@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Misc: Update SEO image.
 - Misc: Fix Sphinx documentation font size difference between web and mobile, include last updated date.
+- Misc: Upgrade package versions in pre-commit hook.
 ### Fixed
 - Tree Exporter: `hprint_tree` and `hyield_tree` to be compatible with `BinaryNode` where child nodes can be None type.
 
