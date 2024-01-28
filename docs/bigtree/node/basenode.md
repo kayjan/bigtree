@@ -1,0 +1,3 @@
+# 🌱 BaseNode
+
+::: bigtree.node.basenode

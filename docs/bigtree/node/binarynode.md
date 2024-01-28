@@ -1,0 +1,3 @@
+# 🌸 BinaryNode
+
+::: bigtree.node.binarynode

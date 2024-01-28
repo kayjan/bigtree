@@ -1,0 +1,3 @@
+# 🌺 Node
+
+::: bigtree.node.node

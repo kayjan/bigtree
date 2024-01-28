@@ -108,7 +108,7 @@ def dataframe_to_dag(
     - `child_col` and `parent_col` specify columns for child name and parent name to construct DAG.
     - `attribute_cols` specify columns for node attribute for child name.
     - If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
-    columns are `attribute_cols`.
+        columns are `attribute_cols`.
 
     Examples:
         >>> import pandas as pd

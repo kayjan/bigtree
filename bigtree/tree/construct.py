@@ -1030,7 +1030,7 @@ def newick_to_tree(
     Variations supported
 
     - Support special characters (`[`, `]`, `(`, `)`, `:`, `,`) in node name, attribute name, and attribute values if
-    they are enclosed in single quotes i.e., '(name:!)'.
+        they are enclosed in single quotes i.e., '(name:!)'.
     - If there are no node names, it will be auto-filled with convention `nodeN` with N representing a number.
 
     Examples:

@@ -1,0 +1,3 @@
+# 🌼 DAGNode
+
+::: bigtree.node.dagnode

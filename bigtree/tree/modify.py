@@ -66,7 +66,7 @@ def shift_nodes(
     - If `to_path` is not present, it shifts leaves of `from_path`.
     - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
     - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
-    original non-leaf nodes in `from_path` are retained.
+        original non-leaf nodes in `from_path` are retained.
 
     Examples:
         >>> from bigtree import list_to_tree, str_to_tree, shift_nodes
@@ -746,7 +746,8 @@ def copy_nodes_from_tree_to_tree(
                 └── photo2.jpg
 
         In ``merge_children=True`` case, child nodes are copied instead of the parent node.
-         - If the path already exists, child nodes are merged with existing children.
+
+        - If the path already exists, child nodes are merged with existing children.
 
         >>> root_other = str_to_tree(
         ... "Documents\\n"
@@ -1029,7 +1030,7 @@ def copy_or_shift_logic(
     - If `to_path` is not present, it shifts/copies leaves of `from_path`.
     - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
     - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
-    original non-leaf nodes in `from_path` are retained.
+        original non-leaf nodes in `from_path` are retained.
 
     Args:
         tree (Node): tree to modify
