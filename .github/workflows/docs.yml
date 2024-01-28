@@ -30,7 +30,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r docs/requirements.txt
+          git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
       - name: Deploy to GH Pages
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mkdocs gh-deploy
