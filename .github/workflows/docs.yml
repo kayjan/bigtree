@@ -25,18 +25,7 @@ jobs:
     needs: setup
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-      - name: Install dependencies
-        run: |
-          pip install -r docs_sphinx/requirements.txt
-      - name: Sphinx build
-        run: |
-          sphinx-build docs_sphinx/source docs_sphinx/build
       - name: Deploy to GH Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          publish_branch: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs_sphinx/build/
-          force_orphan: true
+        uses: mhausenblas/mkdocs-deploy-gh-pages@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
