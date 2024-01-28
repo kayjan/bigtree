@@ -41,30 +41,35 @@ def shift_nodes(
     - Able to shift node only and delete children, defaults to False (nodes are shifted together with children).
 
     For paths in `from_paths` and `to_paths`,
-      - Path name can be with or without leading tree path separator symbol.
+
+    - Path name can be with or without leading tree path separator symbol.
 
     For paths in `from_paths`,
-      - Path name can be partial path (trailing part of path) or node name.
-      - If ``with_full_path=True``, path name must be full path.
-      - Path name must be unique to one node.
+
+    - Path name can be partial path (trailing part of path) or node name.
+    - If ``with_full_path=True``, path name must be full path.
+    - Path name must be unique to one node.
 
     For paths in `to_paths`,
-      - Path name must be full path.
-      - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False.
+
+    - Path name must be full path.
+    - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False.
 
     If ``merge_children=True``,
-      - If `to_path` is not present, it shifts children of `from_path`.
-      - If `to_path` is present, and ``overriding=False``, original and new children are merged.
-      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
+
+    - If `to_path` is not present, it shifts children of `from_path`.
+    - If `to_path` is present, and ``overriding=False``, original and new children are merged.
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
 
     If ``merge_leaves=True``,
-      - If `to_path` is not present, it shifts leaves of `from_path`.
-      - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
-      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
-        original node in `from_path` is retained.
+
+    - If `to_path` is not present, it shifts leaves of `from_path`.
+    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
+    original non-leaf nodes in `from_path` are retained.
 
     Examples:
-        >>> from bigtree import Node, list_to_tree, shift_nodes
+        >>> from bigtree import list_to_tree, str_to_tree, shift_nodes
         >>> root = list_to_tree(["Downloads/photo1.jpg", "Downloads/file1.doc"])
         >>> root.show()
         Downloads
@@ -98,12 +103,14 @@ def shift_nodes(
 
         In overriding case,
 
-        >>> root = Node("Downloads")
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> picture_folder = Node("Pictures", parent=misc_folder)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder)
-        >>> picture_folder2 = Node("Pictures", parent=root)
-        >>> photo2 = Node("photo2.jpg", parent=picture_folder2)
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── Misc\\n"
+        ... "│   └── Pictures\\n"
+        ... "│       └── photo1.jpg\\n"
+        ... "└── Pictures\\n"
+        ... "    └── photo2.jpg"
+        ... )
         >>> root.show()
         Downloads
         ├── Misc
@@ -120,20 +127,23 @@ def shift_nodes(
             └── photo1.jpg
 
         In ``merge_children=True`` case, child nodes are shifted instead of the parent node.
-         - If the path already exists, child nodes are merged with existing children.
-         - If same node is shifted, the child nodes of the node are merged with the node's parent.
 
-        >>> root = Node("Downloads")
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> picture_folder = Node("Pictures", parent=misc_folder)
-        >>> photo2 = Node("photo2.jpg", parent=picture_folder)
-        >>> application_folder = Node("Applications", parent=misc_folder)
-        >>> chrome = Node("Chrome.exe", parent=application_folder)
-        >>> picture_folder2 = Node("Pictures", parent=root)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder2)
-        >>> dummy_folder = Node("dummy", parent=root)
-        >>> file_folder = Node("Files", parent=dummy_folder)
-        >>> file1 = Node("file1.doc", parent=file_folder)
+        - If the path already exists, child nodes are merged with existing children.
+        - If same node is shifted, the child nodes of the node are merged with the node's parent.
+
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── Misc\\n"
+        ... "│   ├── Pictures\\n"
+        ... "│   │   └── photo2.jpg\\n"
+        ... "│   └── Applications\\n"
+        ... "│       └── Chrome.exe\\n"
+        ... "├── Pictures\\n"
+        ... "│   └── photo1.jpg\\n"
+        ... "└── dummy\\n"
+        ... "    └── Files\\n"
+        ... "        └── file1.doc"
+        ... )
         >>> root.show()
         Downloads
         ├── Misc
@@ -164,20 +174,23 @@ def shift_nodes(
             └── file1.doc
 
         In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
-         - If the path already exists, leaf nodes are merged with existing children.
-         - If same node is copied, the leaf nodes of the node are merged with the node's parent.
 
-        >>> root = Node("Downloads")
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> picture_folder = Node("Pictures", parent=misc_folder)
-        >>> photo2 = Node("photo2.jpg", parent=picture_folder)
-        >>> application_folder = Node("Applications", parent=misc_folder)
-        >>> chrome = Node("Chrome.exe", parent=application_folder)
-        >>> picture_folder2 = Node("Pictures", parent=root)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder2)
-        >>> dummy_folder = Node("dummy", parent=root)
-        >>> file_folder = Node("Files", parent=dummy_folder)
-        >>> file1 = Node("file1.doc", parent=file_folder)
+        - If the path already exists, leaf nodes are merged with existing children.
+        - If same node is copied, the leaf nodes of the node are merged with the node's parent.
+
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── Misc\\n"
+        ... "│   ├── Pictures\\n"
+        ... "│   │   └── photo2.jpg\\n"
+        ... "│   └── Applications\\n"
+        ... "│       └── Chrome.exe\\n"
+        ... "├── Pictures\\n"
+        ... "│   └── photo1.jpg\\n"
+        ... "└── dummy\\n"
+        ... "    └── Files\\n"
+        ... "        └── file1.doc"
+        ... )
         >>> root.show()
         Downloads
         ├── Misc
@@ -212,12 +225,14 @@ def shift_nodes(
 
         In ``delete_children=True`` case, only the node is shifted without its accompanying children/descendants.
 
-        >>> root = Node("Downloads")
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> application_folder = Node("Applications", parent=misc_folder)
-        >>> chrome = Node("Chrome.exe", parent=application_folder)
-        >>> picture_folder = Node("Pictures", parent=root)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder)
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── Misc\\n"
+        ... "│   └── Applications\\n"
+        ... "│       └── Chrome.exe\\n"
+        ... "└── Pictures\\n"
+        ... "    └── photo1.jpg"
+        ... )
         >>> root.show()
         Downloads
         ├── Misc
@@ -285,28 +300,33 @@ def copy_nodes(
     - Able to copy node only and delete children, defaults to False (nodes are copied together with children).
 
     For paths in `from_paths` and `to_paths`,
-      - Path name can be with or without leading tree path separator symbol.
+
+    - Path name can be with or without leading tree path separator symbol.
 
     For paths in `from_paths`,
-      - Path name can be partial path (trailing part of path) or node name.
-      - If ``with_full_path=True``, path name must be full path.
-      - Path name must be unique to one node.
+
+    - Path name can be partial path (trailing part of path) or node name.
+    - If ``with_full_path=True``, path name must be full path.
+    - Path name must be unique to one node.
 
     For paths in `to_paths`,
-      - Path name must be full path.
+
+    - Path name must be full path.
 
     If ``merge_children=True``,
-      - If `to_path` is not present, it copies children of `from_path`.
-      - If `to_path` is present, and ``overriding=False``, original and new children are merged.
-      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
+
+    - If `to_path` is not present, it copies children of `from_path`.
+    - If `to_path` is present, and ``overriding=False``, original and new children are merged.
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
 
     If ``merge_leaves=True``,
-      - If `to_path` is not present, it copies leaves of `from_path`.
-      - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
-      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
+
+    - If `to_path` is not present, it copies leaves of `from_path`.
+    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
 
     Examples:
-        >>> from bigtree import Node, list_to_tree, copy_nodes
+        >>> from bigtree import list_to_tree, str_to_tree, copy_nodes
         >>> root = list_to_tree(["Downloads/Pictures", "Downloads/photo1.jpg", "Downloads/file1.doc"])
         >>> root.show()
         Downloads
@@ -330,12 +350,14 @@ def copy_nodes(
 
         In overriding case,
 
-        >>> root = Node("Downloads")
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> picture_folder = Node("Pictures", parent=misc_folder)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder)
-        >>> picture_folder2 = Node("Pictures", parent=root)
-        >>> photo2 = Node("photo2.jpg", parent=picture_folder2)
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── Misc\\n"
+        ... "│   └── Pictures\\n"
+        ... "│       └── photo1.jpg\\n"
+        ... "└── Pictures\\n"
+        ... "    └── photo2.jpg"
+        ... )
         >>> root.show()
         Downloads
         ├── Misc
@@ -354,20 +376,23 @@ def copy_nodes(
             └── photo1.jpg
 
         In ``merge_children=True`` case, child nodes are copied instead of the parent node.
-         - If the path already exists, child nodes are merged with existing children.
-         - If same node is copied, the child nodes of the node are merged with the node's parent.
 
-        >>> root = Node("Downloads")
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> picture_folder = Node("Pictures", parent=misc_folder)
-        >>> photo2 = Node("photo2.jpg", parent=picture_folder)
-        >>> application_folder = Node("Applications", parent=misc_folder)
-        >>> chrome = Node("Chrome.exe", parent=application_folder)
-        >>> picture_folder2 = Node("Pictures", parent=root)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder2)
-        >>> dummy_folder = Node("dummy", parent=root)
-        >>> file_folder = Node("Files", parent=dummy_folder)
-        >>> file1 = Node("file1.doc", parent=file_folder)
+        - If the path already exists, child nodes are merged with existing children.
+        - If same node is copied, the child nodes of the node are merged with the node's parent.
+
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── Misc\\n"
+        ... "│   ├── Pictures\\n"
+        ... "│   │   └── photo2.jpg\\n"
+        ... "│   └── Applications\\n"
+        ... "│       └── Chrome.exe\\n"
+        ... "├── Pictures\\n"
+        ... "│   └── photo1.jpg\\n"
+        ... "└── dummy\\n"
+        ... "    └── Files\\n"
+        ... "        └── file1.doc"
+        ... )
         >>> root.show()
         Downloads
         ├── Misc
@@ -402,20 +427,23 @@ def copy_nodes(
             └── file1.doc
 
         In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
-         - If the path already exists, leaf nodes are merged with existing children.
-         - If same node is copied, the leaf nodes of the node are merged with the node's parent.
 
-        >>> root = Node("Downloads")
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> picture_folder = Node("Pictures", parent=misc_folder)
-        >>> photo2 = Node("photo2.jpg", parent=picture_folder)
-        >>> application_folder = Node("Applications", parent=misc_folder)
-        >>> chrome = Node("Chrome.exe", parent=application_folder)
-        >>> picture_folder2 = Node("Pictures", parent=root)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder2)
-        >>> dummy_folder = Node("dummy", parent=root)
-        >>> file_folder = Node("Files", parent=dummy_folder)
-        >>> file1 = Node("file1.doc", parent=file_folder)
+        - If the path already exists, leaf nodes are merged with existing children.
+        - If same node is copied, the leaf nodes of the node are merged with the node's parent.
+
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── Misc\\n"
+        ... "│   ├── Pictures\\n"
+        ... "│   │   └── photo2.jpg\\n"
+        ... "│   └── Applications\\n"
+        ... "│       └── Chrome.exe\\n"
+        ... "├── Pictures\\n"
+        ... "│   └── photo1.jpg\\n"
+        ... "└── dummy\\n"
+        ... "    └── Files\\n"
+        ... "        └── file1.doc"
+        ... )
         >>> root.show()
         Downloads
         ├── Misc
@@ -453,12 +481,14 @@ def copy_nodes(
 
         In ``delete_children=True`` case, only the node is copied without its accompanying children/descendants.
 
-        >>> root = Node("Downloads")
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> application_folder = Node("Applications", parent=misc_folder)
-        >>> chrome = Node("Chrome.exe", parent=application_folder)
-        >>> picture_folder = Node("Pictures", parent=root)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder)
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── Misc\\n"
+        ... "│   └── Applications\\n"
+        ... "│       └── Chrome.exe\\n"
+        ... "└── Pictures\\n"
+        ... "    └── photo1.jpg"
+        ... )
         >>> root.show()
         Downloads
         ├── Misc
@@ -522,24 +552,29 @@ def shift_and_replace_nodes(
     - Able to shift node only and delete children, defaults to False (nodes are shifted together with children).
 
     For paths in `from_paths` and `to_paths`,
-      - Path name can be with or without leading tree path separator symbol.
+
+    - Path name can be with or without leading tree path separator symbol.
 
     For paths in `from_paths`,
-      - Path name can be partial path (trailing part of path) or node name.
-      - If ``with_full_path=True``, path name must be full path.
-      - Path name must be unique to one node.
+
+    - Path name can be partial path (trailing part of path) or node name.
+    - If ``with_full_path=True``, path name must be full path.
+    - Path name must be unique to one node.
 
     For paths in `to_paths`,
-      - Path name must be full path.
-      - Path must exist, node-to-be-replaced must be present.
+
+    - Path name must be full path.
+    - Path must exist, node-to-be-replaced must be present.
 
     Examples:
-        >>> from bigtree import Node, shift_and_replace_nodes
-        >>> root = Node("Downloads")
-        >>> picture_folder = Node("Pictures", parent=root)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder)
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> dummy_folder = Node("dummy", parent=misc_folder)
+        >>> from bigtree import str_to_tree, shift_and_replace_nodes
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── Pictures\\n"
+        ... "│   └── photo1.jpg\\n"
+        ... "└── Misc\\n"
+        ... "    └── dummy"
+        ... )
         >>> root.show()
         Downloads
         ├── Pictures
@@ -556,11 +591,13 @@ def shift_and_replace_nodes(
 
         In ``delete_children=True`` case, only the node is shifted without its accompanying children/descendants.
 
-        >>> root = Node("Downloads")
-        >>> picture_folder = Node("Pictures", parent=root)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder)
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> dummy_folder = Node("dummy", parent=misc_folder)
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── Pictures\\n"
+        ... "│   └── photo1.jpg\\n"
+        ... "└── Misc\\n"
+        ... "    └── dummy"
+        ... )
         >>> root.show()
         Downloads
         ├── Pictures
@@ -620,35 +657,42 @@ def copy_nodes_from_tree_to_tree(
     - Able to copy node only and delete children, defaults to False (nodes are copied together with children).
 
     For paths in `from_paths` and `to_paths`,
-      - Path name can be with or without leading tree path separator symbol.
+
+    - Path name can be with or without leading tree path separator symbol.
 
     For paths in `from_paths`,
-      - Path name can be partial path (trailing part of path) or node name.
-      - If ``with_full_path=True``, path name must be full path.
-      - Path name must be unique to one node.
+
+    - Path name can be partial path (trailing part of path) or node name.
+    - If ``with_full_path=True``, path name must be full path.
+    - Path name must be unique to one node.
 
     For paths in `to_paths`,
-      - Path name must be full path.
+
+    - Path name must be full path.
 
     If ``merge_children=True``,
-      - If `to_path` is not present, it copies children of `from_path`
-      - If `to_path` is present, and ``overriding=False``, original and new children are merged
-      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
+
+    - If `to_path` is not present, it copies children of `from_path`
+    - If `to_path` is present, and ``overriding=False``, original and new children are merged
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
 
     If ``merge_leaves=True``,
-      - If `to_path` is not present, it copies leaves of `from_path`.
-      - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
-      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
+
+    - If `to_path` is not present, it copies leaves of `from_path`.
+    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
 
     Examples:
-        >>> from bigtree import Node, copy_nodes_from_tree_to_tree
-        >>> root = Node("Downloads")
-        >>> file1 = Node("file1.doc", parent=root)
-        >>> picture_folder = Node("Pictures", parent=root)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder)
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> dummy_folder = Node("dummy", parent=misc_folder)
-        >>> photo2 = Node("photo2.jpg", parent=dummy_folder)
+        >>> from bigtree import Node, str_to_tree, copy_nodes_from_tree_to_tree
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── file1.doc\\n"
+        ... "├── Pictures\\n"
+        ... "│   └── photo1.jpg\\n"
+        ... "└── Misc\\n"
+        ... "    └── dummy\\n"
+        ... "        └── photo2.jpg"
+        ... )
         >>> root.show()
         Downloads
         ├── file1.doc
@@ -676,9 +720,11 @@ def copy_nodes_from_tree_to_tree(
 
         In overriding case,
 
-        >>> root_other = Node("Documents")
-        >>> picture_folder = Node("Pictures", parent=root_other)
-        >>> photo3 = Node("photo3.jpg", parent=picture_folder)
+        >>> root_other = str_to_tree(
+        ... "Documents\\n"
+        ... "└── Pictures\\n"
+        ... "    └── photo3.jpg"
+        ... )
         >>> root_other.show()
         Documents
         └── Pictures
@@ -702,9 +748,11 @@ def copy_nodes_from_tree_to_tree(
         In ``merge_children=True`` case, child nodes are copied instead of the parent node.
          - If the path already exists, child nodes are merged with existing children.
 
-        >>> root_other = Node("Documents")
-        >>> picture_folder = Node("Pictures", parent=root_other)
-        >>> photo3 = Node("photo3.jpg", parent=picture_folder)
+        >>> root_other = str_to_tree(
+        ... "Documents\\n"
+        ... "└── Pictures\\n"
+        ... "    └── photo3.jpg"
+        ... )
         >>> root_other.show()
         Documents
         └── Pictures
@@ -726,11 +774,14 @@ def copy_nodes_from_tree_to_tree(
             └── photo2.jpg
 
         In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
-         - If the path already exists, leaf nodes are merged with existing children.
 
-        >>> root_other = Node("Documents")
-        >>> picture_folder = Node("Pictures", parent=root_other)
-        >>> photo3 = Node("photo3.jpg", parent=picture_folder)
+        - If the path already exists, leaf nodes are merged with existing children.
+
+        >>> root_other = str_to_tree(
+        ... "Documents\\n"
+        ... "└── Pictures\\n"
+        ... "    └── photo3.jpg"
+        ... )
         >>> root_other.show()
         Documents
         └── Pictures
@@ -815,26 +866,31 @@ def copy_and_replace_nodes_from_tree_to_tree(
     - Able to copy node only and delete children, defaults to False (nodes are copied together with children).
 
     For paths in `from_paths` and `to_paths`,
-      - Path name can be with or without leading tree path separator symbol.
+
+    - Path name can be with or without leading tree path separator symbol.
 
     For paths in `from_paths`,
-      - Path name can be partial path (trailing part of path) or node name.
-      - If ``with_full_path=True``, path name must be full path.
-      - Path name must be unique to one node.
+
+    - Path name can be partial path (trailing part of path) or node name.
+    - If ``with_full_path=True``, path name must be full path.
+    - Path name must be unique to one node.
 
     For paths in `to_paths`,
-      - Path name must be full path.
-      - Path must exist, node-to-be-replaced must be present.
+
+    - Path name must be full path.
+    - Path must exist, node-to-be-replaced must be present.
 
     Examples:
-        >>> from bigtree import Node, copy_and_replace_nodes_from_tree_to_tree
-        >>> root = Node("Downloads")
-        >>> file1 = Node("file1.doc", parent=root)
-        >>> picture_folder = Node("Pictures", parent=root)
-        >>> photo1 = Node("photo1.jpg", parent=picture_folder)
-        >>> misc_folder = Node("Misc", parent=root)
-        >>> dummy_folder = Node("dummy", parent=misc_folder)
-        >>> photo2 = Node("photo2.jpg", parent=dummy_folder)
+        >>> from bigtree import str_to_tree, copy_and_replace_nodes_from_tree_to_tree
+        >>> root = str_to_tree(
+        ... "Downloads\\n"
+        ... "├── file1.doc\\n"
+        ... "├── Pictures\\n"
+        ... "│   └── photo1.jpg\\n"
+        ... "└── Misc\\n"
+        ... "    └── dummy\\n"
+        ... "        └── photo2.jpg"
+        ... )
         >>> root.show()
         Downloads
         ├── file1.doc
@@ -844,10 +900,12 @@ def copy_and_replace_nodes_from_tree_to_tree(
             └── dummy
                 └── photo2.jpg
 
-        >>> root_other = Node("Documents")
-        >>> picture_folder = Node("Pictures2", parent=root_other)
-        >>> photo2 = Node("photo2.jpg", parent=picture_folder)
-        >>> misc_folder = Node("Misc2", parent=root_other)
+        >>> root_other = str_to_tree(
+        ... "Documents\\n"
+        ... "├── Pictures2\\n"
+        ... "│   └── photo2.jpg\\n"
+        ... "└── Misc2"
+        ... )
         >>> root_other.show()
         Documents
         ├── Pictures2
@@ -871,10 +929,12 @@ def copy_and_replace_nodes_from_tree_to_tree(
 
         In ``delete_children=True`` case, only the node is copied without its accompanying children/descendants.
 
-        >>> root_other = Node("Documents")
-        >>> picture_folder = Node("Pictures2", parent=root_other)
-        >>> photo2 = Node("photo2.jpg", parent=picture_folder)
-        >>> misc_folder = Node("Misc2", parent=root_other)
+        >>> root_other = str_to_tree(
+        ... "Documents\\n"
+        ... "├── Pictures2\\n"
+        ... "│   └── photo2.jpg\\n"
+        ... "└── Misc2"
+        ... )
         >>> root_other.show()
         Documents
         ├── Pictures2
@@ -944,27 +1004,32 @@ def copy_or_shift_logic(
     - Able to shift/copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)
 
     For paths in `from_paths` and `to_paths`,
-      - Path name can be with or without leading tree path separator symbol.
+
+    - Path name can be with or without leading tree path separator symbol.
 
     For paths in `from_paths`,
-      - Path name can be partial path (trailing part of path) or node name.
-      - If ``with_full_path=True``, path name must be full path.
-      - Path name must be unique to one node.
+
+    - Path name can be partial path (trailing part of path) or node name.
+    - If ``with_full_path=True``, path name must be full path.
+    - Path name must be unique to one node.
 
     For paths in `to_paths`,
-      - Path name must be full path.
-      - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False.
+
+    - Path name must be full path.
+    - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False.
 
     If ``merge_children=True``,
-      - If `to_path` is not present, it shifts/copies children of `from_path`.
-      - If `to_path` is present, and ``overriding=False``, original and new children are merged.
-      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
+
+    - If `to_path` is not present, it shifts/copies children of `from_path`.
+    - If `to_path` is present, and ``overriding=False``, original and new children are merged.
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
 
     If ``merge_leaves=True``,
-      - If `to_path` is not present, it shifts/copies leaves of `from_path`.
-      - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
-      - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
-        original non-leaf nodes in `from_path` are retained.
+
+    - If `to_path` is not present, it shifts/copies leaves of `from_path`.
+    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
+    original non-leaf nodes in `from_path` are retained.
 
     Args:
         tree (Node): tree to modify
@@ -1171,16 +1236,19 @@ def replace_logic(
     - Able to shift/copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)
 
     For paths in `from_paths` and `to_paths`,
-      - Path name can be with or without leading tree path separator symbol.
+
+    - Path name can be with or without leading tree path separator symbol.
 
     For paths in `from_paths`,
-      - Path name can be partial path (trailing part of path) or node name.
-      - If ``with_full_path=True``, path name must be full path.
-      - Path name must be unique to one node.
+
+    - Path name can be partial path (trailing part of path) or node name.
+    - If ``with_full_path=True``, path name must be full path.
+    - Path name must be unique to one node.
 
     For paths in `to_paths`,
-      - Path name must be full path.
-      - Path must exist, node-to-be-replaced must be present.
+
+    - Path name must be full path.
+    - Path must exist, node-to-be-replaced must be present.
 
     Args:
         tree (Node): tree to modify
