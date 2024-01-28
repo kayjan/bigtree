@@ -4,6 +4,7 @@ repo_url: https://github.com/kayjan/bigtree
 repo_name: bigtree
 nav:
   - Home:
+    - index.md
     - home.md
     - install.md
     - Components:
