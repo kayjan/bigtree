@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.16.1] - 2023-01-29
+### Fixed
+- Misc: Compatibility of mkdocs with readthedocs.
+
 ## [0.16.0] - 2023-01-28
 ### Added
 - Misc: Documentation using mkdocs.
@@ -482,7 +486,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.16.0...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.16.1...HEAD
+[0.16.1]: https://github.com/kayjan/bigtree/compare/0.16.0...0.16.1
 [0.16.0]: https://github.com/kayjan/bigtree/compare/0.15.7...0.16.0
 [0.15.7]: https://github.com/kayjan/bigtree/compare/0.15.6...0.15.7
 [0.15.6]: https://github.com/kayjan/bigtree/compare/0.15.5...0.15.6
