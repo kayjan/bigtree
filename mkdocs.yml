@@ -61,9 +61,9 @@ nav:
 theme:
   name: material
   favicon: _static/favicon.ico
+  logo: _static/favicon.svg
   icon:
     repo: fontawesome/brands/github
-    logo: material/forest
   palette:
     - media: "(prefers-color-scheme: light)"
       primary: teal
