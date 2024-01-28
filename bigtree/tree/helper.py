@@ -117,16 +117,19 @@ def prune_tree(
     """Prune tree by path or depth, returns the root of a *copy* of the original tree.
 
     For pruning by `prune_path`,
-      - All siblings along the prune path will be removed.
-      - If ``exact=True``, all descendants of prune path will be removed.
-      - Prune path can be string (only one path) or a list of strings (multiple paths).
-      - Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.
+
+    - All siblings along the prune path will be removed.
+    - If ``exact=True``, all descendants of prune path will be removed.
+    - Prune path can be string (only one path) or a list of strings (multiple paths).
+    - Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.
 
     For pruning by `max_depth`,
-      - All nodes that are beyond `max_depth` will be removed.
+
+    - All nodes that are beyond `max_depth` will be removed.
 
     Path should contain ``Node`` name, separated by `sep`.
-      - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
     Examples:
         >>> from bigtree import Node, prune_tree
@@ -236,10 +239,11 @@ def get_tree_diff(
     Compares the difference in tree structure (default), but can also compare tree attributes using `attr_list`.
     Function can return only the differences (default), or all original tree nodes and differences.
 
-    Comparing tree structure
-      (+) and (-) will be added to node name relative to `tree`.
-        - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
-        - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
+    Comparing tree structure:
+
+    - (+) and (-) will be added to node name relative to `tree`.
+    - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
+    - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
 
     Examples:
         >>> # Create original tree
@@ -279,8 +283,9 @@ def get_tree_diff(
         └── photo2.jpg (-)
 
         Comparing tree attributes
-          (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
-          The node's attributes will be a list of [value in `tree`, value in `other_tree`]
+
+        - (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
+        - The node's attributes will be a list of [value in `tree`, value in `other_tree`]
 
         >>> # Create original tree
         >>> root = Node("Downloads")

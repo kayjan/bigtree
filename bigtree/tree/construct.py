@@ -43,18 +43,21 @@ def add_path_to_tree(
     duplicate_name_allowed: bool = True,
     node_attrs: Dict[str, Any] = {},
 ) -> Node:
-    """Add nodes and attributes to existing tree *in-place*, return node of added path.
+    """Add nodes and attributes to existing tree *in-place*, return node of path added.
     Adds to existing tree from list of path strings.
 
     Path should contain ``Node`` name, separated by `sep`.
-      - For example: Path string "a/b" refers to Node("b") with parent Node("a").
-      - Path separator `sep` is for the input `path` and can differ from existing tree.
+
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+    - Path separator `sep` is for the input `path` and can differ from existing tree.
 
     Path can start from root node `name`, or start with `sep`.
-      - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
 
     All paths should start from the same root node.
-      - For example: Path strings should be "a/b", "a/c", "a/b/d" etc., and should not start with another root node.
+
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc., and should not start with another root node.
 
     Examples:
         >>> from bigtree import add_path_to_tree, Node
@@ -126,14 +129,17 @@ def add_dict_to_tree_by_path(
     Adds to existing tree from nested dictionary, ``key``: path, ``value``: dict of attribute name and attribute value.
 
     Path should contain ``Node`` name, separated by `sep`.
-      - For example: Path string "a/b" refers to Node("b") with parent Node("a").
-      - Path separator `sep` is for the input `path` and can differ from existing tree.
+
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+    - Path separator `sep` is for the input `path` and can differ from existing tree.
 
     Path can start from root node `name`, or start with `sep`.
-      - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
 
     All paths should start from the same root node.
-      - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
     Examples:
         >>> from bigtree import Node, add_dict_to_tree_by_path
@@ -244,14 +250,17 @@ def add_dataframe_to_tree_by_path(
     If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`
 
     Path in path column should contain ``Node`` name, separated by `sep`.
-      - For example: Path string "a/b" refers to Node("b") with parent Node("a").
-      - Path separator `sep` is for the input `path` and can differ from existing tree.
+
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+    - Path separator `sep` is for the input `path` and can differ from existing tree.
 
     Path in path column can start from root node `name`, or start with `sep`.
-      - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
 
     All paths should start from the same root node.
-      - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
     Examples:
         >>> import pandas as pd
@@ -511,13 +520,16 @@ def list_to_tree(
     """Construct tree from list of path strings.
 
     Path should contain ``Node`` name, separated by `sep`.
-      - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
     Path can start from root node `name`, or start with `sep`.
-      - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
 
     All paths should start from the same root node.
-      - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
     Examples:
         >>> from bigtree import list_to_tree
@@ -620,13 +632,16 @@ def dict_to_tree(
     ``key``: path, ``value``: dict of attribute name and attribute value.
 
     Path should contain ``Node`` name, separated by `sep`.
-      - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
     Path can start from root node `name`, or start with `sep`.
-      - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
 
     All paths should start from the same root node.
-      - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
     Examples:
         >>> from bigtree import dict_to_tree
@@ -681,9 +696,10 @@ def nested_dict_to_tree(
     node_type: Type[Node] = Node,
 ) -> Node:
     """Construct tree from nested recursive dictionary.
-      - ``key``: `name_key`, `child_key`, or any attributes key.
-      - ``value`` of `name_key` (str): node name.
-      - ``value`` of `child_key` (List[Dict[str, Any]]): list of dict containing `name_key` and `child_key` (recursive).
+
+    - ``key``: `name_key`, `child_key`, or any attributes key.
+    - ``value`` of `name_key` (str): node name.
+    - ``value`` of `child_key` (List[Dict[str, Any]]): list of dict containing `name_key` and `child_key` (recursive).
 
     Examples:
         >>> from bigtree import nested_dict_to_tree
@@ -757,13 +773,16 @@ def dataframe_to_tree(
     If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`.
 
     Path in path column can start from root node `name`, or start with `sep`.
-      - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
 
     Path in path column should contain ``Node`` name, separated by `sep`.
-      - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
     All paths should start from the same root node.
-      - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
     Examples:
         >>> import pandas as pd
@@ -1002,15 +1021,17 @@ def newick_to_tree(
     """Construct tree from Newick notation, return root of tree.
 
     In the Newick Notation (or New Hampshire Notation)
-      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`.
-      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
-      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`.
-      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`.
+
+    - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`.
+    - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
+    - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`.
+    - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`.
 
     Variations supported
-      - Support special characters ([, ], (, ), :, ,) in node name, attribute name, and attribute values if
-        they are enclosed in single quotes i.e., '(name:!)'.
-      - If there are no node names, it will be auto-filled with convention `nodeN` with N representing a number.
+
+    - Support special characters (`[`, `]`, `(`, `)`, `:`, `,`) in node name, attribute name, and attribute values if
+    they are enclosed in single quotes i.e., '(name:!)'.
+    - If there are no node names, it will be auto-filled with convention `nodeN` with N representing a number.
 
     Examples:
         >>> from bigtree import newick_to_tree
@@ -1042,7 +1063,7 @@ def newick_to_tree(
         └── c [age=60, species=human]
 
     Args:
-        tree_string (str): String in Newick notation to construct tree
+        tree_string (str): Newick notation to construct tree
         length_attr (str): attribute name to store node length, optional, defaults to 'length'
         attr_prefix (str): prefix before all attributes, within square bracket, used to detect attributes, defaults to "&&NHX:"
         node_type (Type[Node]): node type of tree to be created, defaults to ``Node``

@@ -28,7 +28,7 @@ def list_to_binarytree(
         >>> graph = tree_to_dot(root, node_colour="gold")
         >>> graph.write_png("assets/construct_binarytree.png")
 
-        .. image:: https://github.com/kayjan/bigtree/raw/master/assets/construct_binarytree.png
+        ![Sample Binary Tree](https://github.com/kayjan/bigtree/raw/master/assets/construct_binarytree.png)
 
     Args:
         heapq_list (List[int]): list containing integer node names, ordered in heapq fashion

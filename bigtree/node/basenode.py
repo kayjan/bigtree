@@ -239,7 +239,11 @@ class BaseNode:
 
     @property
     def parents(self) -> None:
-        """Do not allow `parents` attribute to be accessed"""
+        """Do not allow `parents` attribute to be accessed
+
+        Raises:
+            AttributeError: No such attribute
+        """
         raise AttributeError(
             "Attempting to access `parents` attribute, do you mean `parent`?"
         )
@@ -250,6 +254,9 @@ class BaseNode:
 
         Args:
             new_parent (Self): parent node
+
+        Raises:
+            AttributeError: No such attribute
         """
         raise AttributeError(
             "Attempting to set `parents` attribute, do you mean `parent`?"
