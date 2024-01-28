@@ -1,3 +1,7 @@
+---
+title: Tree
+---
+
 # 🌲 Tree
 
 For **Tree** implementation, there are 9 main components.

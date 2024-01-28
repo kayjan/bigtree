@@ -1,3 +1,7 @@
+---
+title: Plot
+---
+
 # 📊 Plot
 
 Plotting methods for Trees.

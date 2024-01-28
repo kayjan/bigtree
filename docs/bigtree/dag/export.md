@@ -1,3 +1,7 @@
+---
+title: DAG Export
+---
+
 # 🔨 Export
 
 Export Directed Acyclic Graph (DAG) to list, dictionary, and pandas DataFrame.

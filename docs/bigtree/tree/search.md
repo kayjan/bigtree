@@ -1,3 +1,7 @@
+---
+title: Tree Search
+---
+
 # 🔍 Search
 
 Search methods for Trees.

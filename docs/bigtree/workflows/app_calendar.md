@@ -1,3 +1,7 @@
+---
+title: Calendar App
+---
+
 # 📆 Calendar App
 
 -----

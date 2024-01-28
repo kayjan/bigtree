@@ -1,3 +1,7 @@
+---
+title: Tree Construct
+---
+
 # ✨ Construct
 
 ## Tree Construct Methods

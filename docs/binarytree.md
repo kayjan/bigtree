@@ -1,3 +1,7 @@
+---
+title: Binary Tree
+---
+
 # 🌵 Binary Tree
 
 For **Binary Tree** implementation, there are 3 main components.

@@ -1,3 +1,7 @@
+---
+title: Contributing
+---
+
 # 🍪 Contributing
 bigtree is a tree implementation package for Python. It integrates with Python lists, dictionaries, and pandas DataFrame.
 

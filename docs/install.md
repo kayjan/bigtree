@@ -1,3 +1,7 @@
+---
+title: Installation
+---
+
 # 💻 Installation
 
 There are two ways to install `bigtree`, with pip (recommended) or conda.

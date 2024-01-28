@@ -1,3 +1,7 @@
+---
+title: Binary Tree Construct
+---
+
 # ✨ Construct
 
 Construct Binary Tree from a list.

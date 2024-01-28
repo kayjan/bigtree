@@ -1,3 +1,7 @@
+---
+title: DAG Demonstration
+---
+
 # 📋 DAG Demonstration
 
 Compared to nodes in tree, nodes in DAG are able to have multiple parents.
