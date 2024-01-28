@@ -38,13 +38,13 @@ __all__ = [
     "yield_tree",
     "hprint_tree",
     "hyield_tree",
+    "tree_to_newick",
     "tree_to_dict",
     "tree_to_nested_dict",
     "tree_to_dataframe",
     "tree_to_dot",
     "tree_to_pillow",
     "tree_to_mermaid",
-    "tree_to_newick",
 ]
 
 T = TypeVar("T", bound=Node)
@@ -73,92 +73,93 @@ def print_tree(
         - If style is set to custom, user can choose their own style for stem, branch and final stem icons
         - Stem, branch, and final stem symbol should have the same number of characters
 
-    **Printing tree**
+    Examples:
+        **Printing tree**
 
-    >>> from bigtree import Node, print_tree
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=b)
-    >>> e = Node("e", age=35, parent=b)
-    >>> print_tree(root)
-    a
-    ├── b
-    │   ├── d
-    │   └── e
-    └── c
+        >>> from bigtree import Node, print_tree
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=b)
+        >>> e = Node("e", age=35, parent=b)
+        >>> print_tree(root)
+        a
+        ├── b
+        │   ├── d
+        │   └── e
+        └── c
 
-    **Printing Sub-tree**
+        **Printing Sub-tree**
 
-    >>> print_tree(root, node_name_or_path="b")
-    b
-    ├── d
-    └── e
+        >>> print_tree(root, node_name_or_path="b")
+        b
+        ├── d
+        └── e
 
-    >>> print_tree(root, max_depth=2)
-    a
-    ├── b
-    └── c
+        >>> print_tree(root, max_depth=2)
+        a
+        ├── b
+        └── c
 
-    **Printing Attributes**
+        **Printing Attributes**
 
-    >>> print_tree(root, attr_list=["age"])
-    a [age=90]
-    ├── b [age=65]
-    │   ├── d [age=40]
-    │   └── e [age=35]
-    └── c [age=60]
+        >>> print_tree(root, attr_list=["age"])
+        a [age=90]
+        ├── b [age=65]
+        │   ├── d [age=40]
+        │   └── e [age=35]
+        └── c [age=60]
 
-    >>> print_tree(root, attr_list=["age"], attr_bracket=["*(", ")"])
-    a *(age=90)
-    ├── b *(age=65)
-    │   ├── d *(age=40)
-    │   └── e *(age=35)
-    └── c *(age=60)
+        >>> print_tree(root, attr_list=["age"], attr_bracket=["*(", ")"])
+        a *(age=90)
+        ├── b *(age=65)
+        │   ├── d *(age=40)
+        │   └── e *(age=35)
+        └── c *(age=60)
 
-    **Available Styles**
+        **Available Styles**
 
-    >>> print_tree(root, style="ansi")
-    a
-    |-- b
-    |   |-- d
-    |   `-- e
-    `-- c
+        >>> print_tree(root, style="ansi")
+        a
+        |-- b
+        |   |-- d
+        |   `-- e
+        `-- c
 
-    >>> print_tree(root, style="ascii")
-    a
-    |-- b
-    |   |-- d
-    |   +-- e
-    +-- c
+        >>> print_tree(root, style="ascii")
+        a
+        |-- b
+        |   |-- d
+        |   +-- e
+        +-- c
 
-    >>> print_tree(root, style="const")
-    a
-    ├── b
-    │   ├── d
-    │   └── e
-    └── c
+        >>> print_tree(root, style="const")
+        a
+        ├── b
+        │   ├── d
+        │   └── e
+        └── c
 
-    >>> print_tree(root, style="const_bold")
-    a
-    ┣━━ b
-    ┃   ┣━━ d
-    ┃   ┗━━ e
-    ┗━━ c
+        >>> print_tree(root, style="const_bold")
+        a
+        ┣━━ b
+        ┃   ┣━━ d
+        ┃   ┗━━ e
+        ┗━━ c
 
-    >>> print_tree(root, style="rounded")
-    a
-    ├── b
-    │   ├── d
-    │   ╰── e
-    ╰── c
+        >>> print_tree(root, style="rounded")
+        a
+        ├── b
+        │   ├── d
+        │   ╰── e
+        ╰── c
 
-    >>> print_tree(root, style="double")
-    a
-    ╠══ b
-    ║   ╠══ d
-    ║   ╚══ e
-    ╚══ c
+        >>> print_tree(root, style="double")
+        a
+        ╠══ b
+        ║   ╠══ d
+        ║   ╚══ e
+        ╚══ c
 
     Args:
         tree (Node): tree to print
@@ -225,95 +226,96 @@ def yield_tree(
         - If style is set to custom, user can choose their own style for stem, branch and final stem icons
         - Stem, branch, and final stem symbol should have the same number of characters
 
-    **Yield tree**
+    Examples:
+        **Yield tree**
 
-    >>> from bigtree import Node, yield_tree
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=b)
-    >>> e = Node("e", age=35, parent=b)
-    >>> for branch, stem, node in yield_tree(root):
-    ...     print(f"{branch}{stem}{node.node_name}")
-    a
-    ├── b
-    │   ├── d
-    │   └── e
-    └── c
+        >>> from bigtree import Node, yield_tree
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=b)
+        >>> e = Node("e", age=35, parent=b)
+        >>> for branch, stem, node in yield_tree(root):
+        ...     print(f"{branch}{stem}{node.node_name}")
+        a
+        ├── b
+        │   ├── d
+        │   └── e
+        └── c
 
-    **Yield Sub-tree**
+        **Yield Sub-tree**
 
-    >>> for branch, stem, node in yield_tree(root, node_name_or_path="b"):
-    ...     print(f"{branch}{stem}{node.node_name}")
-    b
-    ├── d
-    └── e
+        >>> for branch, stem, node in yield_tree(root, node_name_or_path="b"):
+        ...     print(f"{branch}{stem}{node.node_name}")
+        b
+        ├── d
+        └── e
 
-    >>> for branch, stem, node in yield_tree(root, max_depth=2):
-    ...     print(f"{branch}{stem}{node.node_name}")
-    a
-    ├── b
-    └── c
+        >>> for branch, stem, node in yield_tree(root, max_depth=2):
+        ...     print(f"{branch}{stem}{node.node_name}")
+        a
+        ├── b
+        └── c
 
-    **Available Styles**
+        **Available Styles**
 
-    >>> for branch, stem, node in yield_tree(root, style="ansi"):
-    ...     print(f"{branch}{stem}{node.node_name}")
-    a
-    |-- b
-    |   |-- d
-    |   `-- e
-    `-- c
+        >>> for branch, stem, node in yield_tree(root, style="ansi"):
+        ...     print(f"{branch}{stem}{node.node_name}")
+        a
+        |-- b
+        |   |-- d
+        |   `-- e
+        `-- c
 
-    >>> for branch, stem, node in yield_tree(root, style="ascii"):
-    ...     print(f"{branch}{stem}{node.node_name}")
-    a
-    |-- b
-    |   |-- d
-    |   +-- e
-    +-- c
+        >>> for branch, stem, node in yield_tree(root, style="ascii"):
+        ...     print(f"{branch}{stem}{node.node_name}")
+        a
+        |-- b
+        |   |-- d
+        |   +-- e
+        +-- c
 
-    >>> for branch, stem, node in yield_tree(root, style="const"):
-    ...     print(f"{branch}{stem}{node.node_name}")
-    a
-    ├── b
-    │   ├── d
-    │   └── e
-    └── c
+        >>> for branch, stem, node in yield_tree(root, style="const"):
+        ...     print(f"{branch}{stem}{node.node_name}")
+        a
+        ├── b
+        │   ├── d
+        │   └── e
+        └── c
 
-    >>> for branch, stem, node in yield_tree(root, style="const_bold"):
-    ...     print(f"{branch}{stem}{node.node_name}")
-    a
-    ┣━━ b
-    ┃   ┣━━ d
-    ┃   ┗━━ e
-    ┗━━ c
+        >>> for branch, stem, node in yield_tree(root, style="const_bold"):
+        ...     print(f"{branch}{stem}{node.node_name}")
+        a
+        ┣━━ b
+        ┃   ┣━━ d
+        ┃   ┗━━ e
+        ┗━━ c
 
-    >>> for branch, stem, node in yield_tree(root, style="rounded"):
-    ...     print(f"{branch}{stem}{node.node_name}")
-    a
-    ├── b
-    │   ├── d
-    │   ╰── e
-    ╰── c
+        >>> for branch, stem, node in yield_tree(root, style="rounded"):
+        ...     print(f"{branch}{stem}{node.node_name}")
+        a
+        ├── b
+        │   ├── d
+        │   ╰── e
+        ╰── c
 
-    >>> for branch, stem, node in yield_tree(root, style="double"):
-    ...     print(f"{branch}{stem}{node.node_name}")
-    a
-    ╠══ b
-    ║   ╠══ d
-    ║   ╚══ e
-    ╚══ c
+        >>> for branch, stem, node in yield_tree(root, style="double"):
+        ...     print(f"{branch}{stem}{node.node_name}")
+        a
+        ╠══ b
+        ║   ╠══ d
+        ║   ╚══ e
+        ╚══ c
 
-    **Printing Attributes**
+        **Printing Attributes**
 
-    >>> for branch, stem, node in yield_tree(root, style="const"):
-    ...     print(f"{branch}{stem}{node.node_name} [age={node.age}]")
-    a [age=90]
-    ├── b [age=65]
-    │   ├── d [age=40]
-    │   └── e [age=35]
-    └── c [age=60]
+        >>> for branch, stem, node in yield_tree(root, style="const"):
+        ...     print(f"{branch}{stem}{node.node_name} [age={node.age}]")
+        a [age=90]
+        ├── b [age=65]
+        │   ├── d [age=40]
+        │   └── e [age=35]
+        └── c [age=60]
 
     Args:
         tree (Node): tree to print
@@ -390,69 +392,70 @@ def hprint_tree(
         - If style is set to custom, user can choose their own style icons
         - Style icons should have the same number of characters
 
-    **Printing tree**
+    Examples:
+        **Printing tree**
 
-    >>> from bigtree import Node, hprint_tree
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=b)
-    >>> e = Node("e", parent=b)
-    >>> hprint_tree(root)
-               ┌─ d
-         ┌─ b ─┤
-    ─ a ─┤     └─ e
-         └─ c
+        >>> from bigtree import Node, hprint_tree
+        >>> root = Node("a")
+        >>> b = Node("b", parent=root)
+        >>> c = Node("c", parent=root)
+        >>> d = Node("d", parent=b)
+        >>> e = Node("e", parent=b)
+        >>> hprint_tree(root)
+                   ┌─ d
+             ┌─ b ─┤
+        ─ a ─┤     └─ e
+             └─ c
 
-    **Printing Sub-tree**
+        **Printing Sub-tree**
 
-    >>> hprint_tree(root, node_name_or_path="b")
-         ┌─ d
-    ─ b ─┤
-         └─ e
+        >>> hprint_tree(root, node_name_or_path="b")
+             ┌─ d
+        ─ b ─┤
+             └─ e
 
-    >>> hprint_tree(root, max_depth=2)
-         ┌─ b
-    ─ a ─┤
-         └─ c
+        >>> hprint_tree(root, max_depth=2)
+             ┌─ b
+        ─ a ─┤
+             └─ c
 
-    **Available Styles**
+        **Available Styles**
 
-    >>> hprint_tree(root, style="ansi")
-               /- d
-         /- b -+
-    - a -+     \\- e
-         \\- c
+        >>> hprint_tree(root, style="ansi")
+                   /- d
+             /- b -+
+        - a -+     \\- e
+             \\- c
 
-    >>> hprint_tree(root, style="ascii")
-               +- d
-         +- b -+
-    - a -+     +- e
-         +- c
+        >>> hprint_tree(root, style="ascii")
+                   +- d
+             +- b -+
+        - a -+     +- e
+             +- c
 
-    >>> hprint_tree(root, style="const")
-               ┌─ d
-         ┌─ b ─┤
-    ─ a ─┤     └─ e
-         └─ c
+        >>> hprint_tree(root, style="const")
+                   ┌─ d
+             ┌─ b ─┤
+        ─ a ─┤     └─ e
+             └─ c
 
-    >>> hprint_tree(root, style="const_bold")
-               ┏━ d
-         ┏━ b ━┫
-    ━ a ━┫     ┗━ e
-         ┗━ c
+        >>> hprint_tree(root, style="const_bold")
+                   ┏━ d
+             ┏━ b ━┫
+        ━ a ━┫     ┗━ e
+             ┗━ c
 
-    >>> hprint_tree(root, style="rounded")
-               ╭─ d
-         ╭─ b ─┤
-    ─ a ─┤     ╰─ e
-         ╰─ c
+        >>> hprint_tree(root, style="rounded")
+                   ╭─ d
+             ╭─ b ─┤
+        ─ a ─┤     ╰─ e
+             ╰─ c
 
-    >>> hprint_tree(root, style="double")
-               ╔═ d
-         ╔═ b ═╣
-    ═ a ═╣     ╚═ e
-         ╚═ c
+        >>> hprint_tree(root, style="double")
+                   ╔═ d
+             ╔═ b ═╣
+        ═ a ═╣     ╚═ e
+             ╚═ c
 
     Args:
         tree (Node): tree to print
@@ -490,70 +493,71 @@ def hyield_tree(
         - If style is set to custom, user can choose their own style icons
         - Style icons should have the same number of characters
 
-    **Printing tree**
+    Examples:
+        **Printing tree**
 
-    >>> from bigtree import Node, hyield_tree
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=b)
-    >>> e = Node("e", parent=b)
-    >>> result = hyield_tree(root)
-    >>> print("\\n".join(result))
-               ┌─ d
-         ┌─ b ─┤
-    ─ a ─┤     └─ e
-         └─ c
+        >>> from bigtree import Node, hyield_tree
+        >>> root = Node("a")
+        >>> b = Node("b", parent=root)
+        >>> c = Node("c", parent=root)
+        >>> d = Node("d", parent=b)
+        >>> e = Node("e", parent=b)
+        >>> result = hyield_tree(root)
+        >>> print("\\n".join(result))
+                   ┌─ d
+             ┌─ b ─┤
+        ─ a ─┤     └─ e
+             └─ c
 
-    **Printing Sub-tree**
+        **Printing Sub-tree**
 
-    >>> hprint_tree(root, node_name_or_path="b")
-         ┌─ d
-    ─ b ─┤
-         └─ e
+        >>> hprint_tree(root, node_name_or_path="b")
+             ┌─ d
+        ─ b ─┤
+             └─ e
 
-    >>> hprint_tree(root, max_depth=2)
-         ┌─ b
-    ─ a ─┤
-         └─ c
+        >>> hprint_tree(root, max_depth=2)
+             ┌─ b
+        ─ a ─┤
+             └─ c
 
-    **Available Styles**
+        **Available Styles**
 
-    >>> hprint_tree(root, style="ansi")
-               /- d
-         /- b -+
-    - a -+     \\- e
-         \\- c
+        >>> hprint_tree(root, style="ansi")
+                   /- d
+             /- b -+
+        - a -+     \\- e
+             \\- c
 
-    >>> hprint_tree(root, style="ascii")
-               +- d
-         +- b -+
-    - a -+     +- e
-         +- c
+        >>> hprint_tree(root, style="ascii")
+                   +- d
+             +- b -+
+        - a -+     +- e
+             +- c
 
-    >>> hprint_tree(root, style="const")
-               ┌─ d
-         ┌─ b ─┤
-    ─ a ─┤     └─ e
-         └─ c
+        >>> hprint_tree(root, style="const")
+                   ┌─ d
+             ┌─ b ─┤
+        ─ a ─┤     └─ e
+             └─ c
 
-    >>> hprint_tree(root, style="const_bold")
-               ┏━ d
-         ┏━ b ━┫
-    ━ a ━┫     ┗━ e
-         ┗━ c
+        >>> hprint_tree(root, style="const_bold")
+                   ┏━ d
+             ┏━ b ━┫
+        ━ a ━┫     ┗━ e
+             ┗━ c
 
-    >>> hprint_tree(root, style="rounded")
-               ╭─ d
-         ╭─ b ─┤
-    ─ a ─┤     ╰─ e
-         ╰─ c
+        >>> hprint_tree(root, style="rounded")
+                   ╭─ d
+             ╭─ b ─┤
+        ─ a ─┤     ╰─ e
+             ╰─ c
 
-    >>> hprint_tree(root, style="double")
-               ╔═ d
-         ╔═ b ═╣
-    ═ a ═╣     ╚═ e
-         ╚═ c
+        >>> hprint_tree(root, style="double")
+                   ╔═ d
+             ╔═ b ═╣
+        ═ a ═╣     ╚═ e
+             ╚═ c
 
     Args:
         tree (Node): tree to print
@@ -719,6 +723,122 @@ def hyield_tree(
     return result
 
 
+def tree_to_newick(
+    tree: T,
+    intermediate_node_name: bool = True,
+    length_attr: str = "",
+    length_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
+    attr_list: Iterable[str] = [],
+    attr_prefix: str = "&&NHX:",
+    attr_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
+) -> str:
+    """Export tree to Newick notation. Useful for describing phylogenetic tree.
+
+    In the Newick Notation (or New Hampshire Notation),
+      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`.
+      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
+      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`.
+      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`.
+
+    Customizations include:
+      - Omitting names of root and intermediate nodes, default all node names are shown.
+      - Changing length separator to other symbol, default is `:`.
+      - Adding an attribute prefix, default is `&&NHX:`.
+      - Changing the attribute separator to other symbol, default is `:`.
+
+    Examples:
+        >>> from bigtree import Node, tree_to_newick
+        >>> root = Node("a", species="human")
+        >>> b = Node("b", age=65, species="human", parent=root)
+        >>> c = Node("c", age=60, species="human", parent=root)
+        >>> d = Node("d", age=40, species="human", parent=b)
+        >>> e = Node("e", age=35, species="human", parent=b)
+        >>> root.show()
+        a
+        ├── b
+        │   ├── d
+        │   └── e
+        └── c
+
+        >>> tree_to_newick(root)
+        '((d,e)b,c)a'
+
+        >>> tree_to_newick(root, length_attr="age")
+        '((d:40,e:35)b:65,c:60)a'
+
+        >>> tree_to_newick(root, length_attr="age", attr_list=["species"])
+        '((d:40[&&NHX:species=human],e:35[&&NHX:species=human])b:65[&&NHX:species=human],c:60[&&NHX:species=human])a[&&NHX:species=human]'
+
+    Args:
+        tree (Node): tree to be exported
+        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
+        length_attr (str): node length attribute to extract to beside name, optional
+        length_sep (str): separator between node name and length, used if length_attr is non-empty, defaults to ":"
+        attr_list (Iterable[str]): list of node attributes to extract into square bracket, optional
+        attr_prefix (str): prefix before all attributes, within square bracket, used if attr_list is non-empty, defaults to "&&NHX:"
+        attr_sep (str): separator between attributes, within square brackets, used if attr_list is non-empty, defaults to ":"
+
+    Returns:
+        (str)
+    """
+    if not tree:
+        return ""
+    if isinstance(length_sep, NewickCharacter):
+        length_sep = length_sep.value
+    if isinstance(attr_sep, NewickCharacter):
+        attr_sep = attr_sep.value
+
+    def _serialize(item: Any) -> Any:
+        """Serialize item if it contains special Newick characters
+
+        Args:
+            item (Any): item to serialize
+
+        Returns:
+            (Any)
+        """
+        if isinstance(item, str) and set(item).intersection(NewickCharacter.values()):
+            item = f"""'{item.replace(NewickCharacter.ATTR_QUOTE, '"')}'"""
+        return item
+
+    node_name_str = ""
+    if (intermediate_node_name) or (not intermediate_node_name and tree.is_leaf):
+        node_name_str = _serialize(tree.node_name)
+    if length_attr and not tree.is_root:
+        if not tree.get_attr(length_attr):
+            raise ValueError(f"Length attribute does not exist for node {tree}")
+        node_name_str += f"{length_sep}{tree.get_attr(length_attr)}"
+
+    attr_str = ""
+    if attr_list:
+        attr_str = attr_sep.join(
+            [
+                f"{_serialize(k)}={_serialize(tree.get_attr(k))}"
+                for k in attr_list
+                if tree.get_attr(k)
+            ]
+        )
+        if attr_str:
+            attr_str = f"[{attr_prefix}{attr_str}]"
+
+    if tree.is_leaf:
+        return f"{node_name_str}{attr_str}"
+
+    children_newick = ",".join(
+        tree_to_newick(
+            child,
+            intermediate_node_name=intermediate_node_name,
+            length_attr=length_attr,
+            length_sep=length_sep,
+            attr_list=attr_list,
+            attr_prefix=attr_prefix,
+            attr_sep=attr_sep,
+        )
+        for child in tree.children
+    )
+    return f"({children_newick}){node_name_str}{attr_str}"
+
+
 def tree_to_dict(
     tree: T,
     name_key: str = "name",
@@ -735,19 +855,20 @@ def tree_to_dict(
 
     Exported dictionary will have key as node path, and node attributes as a nested dictionary.
 
-    >>> from bigtree import Node, tree_to_dict
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=b)
-    >>> e = Node("e", age=35, parent=b)
-    >>> tree_to_dict(root, name_key="name", parent_key="parent", attr_dict={"age": "person age"})
-    {'/a': {'name': 'a', 'parent': None, 'person age': 90}, '/a/b': {'name': 'b', 'parent': 'a', 'person age': 65}, '/a/b/d': {'name': 'd', 'parent': 'b', 'person age': 40}, '/a/b/e': {'name': 'e', 'parent': 'b', 'person age': 35}, '/a/c': {'name': 'c', 'parent': 'a', 'person age': 60}}
+    Examples:
+        >>> from bigtree import Node, tree_to_dict
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=b)
+        >>> e = Node("e", age=35, parent=b)
+        >>> tree_to_dict(root, name_key="name", parent_key="parent", attr_dict={"age": "person age"})
+        {'/a': {'name': 'a', 'parent': None, 'person age': 90}, '/a/b': {'name': 'b', 'parent': 'a', 'person age': 65}, '/a/b/d': {'name': 'd', 'parent': 'b', 'person age': 40}, '/a/b/e': {'name': 'e', 'parent': 'b', 'person age': 35}, '/a/c': {'name': 'c', 'parent': 'a', 'person age': 60}}
 
-    For a subset of a tree
+        For a subset of a tree
 
-    >>> tree_to_dict(c, name_key="name", parent_key="parent", attr_dict={"age": "person age"})
-    {'/a/c': {'name': 'c', 'parent': 'a', 'person age': 60}}
+        >>> tree_to_dict(c, name_key="name", parent_key="parent", attr_dict={"age": "person age"})
+        {'/a/c': {'name': 'c', 'parent': 'a', 'person age': 60}}
 
     Args:
         tree (Node): tree to be exported
@@ -814,14 +935,15 @@ def tree_to_nested_dict(
 
     Exported dictionary will have key as node attribute names, and children as a nested recursive dictionary.
 
-    >>> from bigtree import Node, tree_to_nested_dict
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=b)
-    >>> e = Node("e", age=35, parent=b)
-    >>> tree_to_nested_dict(root, all_attrs=True)
-    {'name': 'a', 'age': 90, 'children': [{'name': 'b', 'age': 65, 'children': [{'name': 'd', 'age': 40}, {'name': 'e', 'age': 35}]}, {'name': 'c', 'age': 60}]}
+    Examples:
+        >>> from bigtree import Node, tree_to_nested_dict
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=b)
+        >>> e = Node("e", age=35, parent=b)
+        >>> tree_to_nested_dict(root, all_attrs=True)
+        {'name': 'a', 'age': 90, 'children': [{'name': 'b', 'age': 65, 'children': [{'name': 'd', 'age': 40}, {'name': 'e', 'age': 35}]}, {'name': 'c', 'age': 60}]}
 
     Args:
         tree (Node): tree to be exported
@@ -881,28 +1003,28 @@ def tree_to_dataframe(
 
     All descendants from `tree` will be exported, `tree` can be the root node or child node of tree.
 
-    >>> from bigtree import Node, tree_to_dataframe
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=b)
-    >>> e = Node("e", age=35, parent=b)
-    >>> tree_to_dataframe(root, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
-         path name parent  person age
-    0      /a    a   None          90
-    1    /a/b    b      a          65
-    2  /a/b/d    d      b          40
-    3  /a/b/e    e      b          35
-    4    /a/c    c      a          60
+    Examples:
+        >>> from bigtree import Node, tree_to_dataframe
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=b)
+        >>> e = Node("e", age=35, parent=b)
+        >>> tree_to_dataframe(root, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
+             path name parent  person age
+        0      /a    a   None          90
+        1    /a/b    b      a          65
+        2  /a/b/d    d      b          40
+        3  /a/b/e    e      b          35
+        4    /a/c    c      a          60
 
+        For a subset of a tree.
 
-    For a subset of a tree.
-
-    >>> tree_to_dataframe(b, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
-         path name parent  person age
-    0    /a/b    b      a          65
-    1  /a/b/d    d      b          40
-    2  /a/b/e    e      b          35
+        >>> tree_to_dataframe(b, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
+             path name parent  person age
+        0    /a/b    b      a          65
+        1  /a/b/d    d      b          40
+        2  /a/b/e    e      b          35
 
     Args:
         tree (Node): tree to be exported
@@ -970,79 +1092,80 @@ def tree_to_dot(
     r"""Export tree or list of trees to image.
     Possible node attributes include style, fillcolor, shape.
 
-    >>> from bigtree import Node, tree_to_dot
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=b)
-    >>> e = Node("e", age=35, parent=b)
-    >>> graph = tree_to_dot(root)
+    Examples:
+        >>> from bigtree import Node, tree_to_dot
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=b)
+        >>> e = Node("e", age=35, parent=b)
+        >>> graph = tree_to_dot(root)
 
-    Display image directly without saving (requires IPython)
+        Display image directly without saving (requires IPython)
 
-    >>> from IPython.display import Image, display
-    >>> plt = Image(graph.create_png())
-    >>> display(plt)
-    <IPython.core.display.Image object>
+        >>> from IPython.display import Image, display
+        >>> plt = Image(graph.create_png())
+        >>> display(plt)
+        <IPython.core.display.Image object>
 
-    Export to image, dot file, etc.
+        Export to image, dot file, etc.
 
-    >>> graph.write_png("assets/docstr/tree.png")
-    >>> graph.write_dot("assets/docstr/tree.dot")
+        >>> graph.write_png("assets/docstr/tree.png")
+        >>> graph.write_dot("assets/docstr/tree.dot")
 
-    Export to string
+        Export to string
 
-    >>> graph.to_string()
-    'strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\nc0 [label=c];\na0 -> c0;\n}\n'
+        >>> graph.to_string()
+        'strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\nc0 [label=c];\na0 -> c0;\n}\n'
 
-    Defining node and edge attributes (using node attribute)
+        Defining node and edge attributes (using node attribute)
 
-    >>> class CustomNode(Node):
-    ...     def __init__(self, name, node_shape="", edge_label="", **kwargs):
-    ...         super().__init__(name, **kwargs)
-    ...         self.node_shape = node_shape
-    ...         self.edge_label = edge_label
-    ...
-    ...     @property
-    ...     def edge_attr(self):
-    ...         if self.edge_label:
-    ...             return {"label": self.edge_label}
-    ...         return {}
-    ...
-    ...     @property
-    ...     def node_attr(self):
-    ...         if self.node_shape:
-    ...             return {"shape": self.node_shape}
-    ...         return {}
-    >>>
-    >>>
-    >>> root = CustomNode("a", node_shape="circle")
-    >>> b = CustomNode("b", edge_label="child", parent=root)
-    >>> c = CustomNode("c", edge_label="child", parent=root)
-    >>> d = CustomNode("d", node_shape="square", edge_label="child", parent=b)
-    >>> e = CustomNode("e", node_shape="square", edge_label="child", parent=b)
-    >>> graph = tree_to_dot(root, node_colour="gold", node_shape="diamond", node_attr="node_attr", edge_attr="edge_attr")
-    >>> graph.write_png("assets/export_tree_dot.png")
+        >>> class CustomNode(Node):
+        ...     def __init__(self, name, node_shape="", edge_label="", **kwargs):
+        ...         super().__init__(name, **kwargs)
+        ...         self.node_shape = node_shape
+        ...         self.edge_label = edge_label
+        ...
+        ...     @property
+        ...     def edge_attr(self):
+        ...         if self.edge_label:
+        ...             return {"label": self.edge_label}
+        ...         return {}
+        ...
+        ...     @property
+        ...     def node_attr(self):
+        ...         if self.node_shape:
+        ...             return {"shape": self.node_shape}
+        ...         return {}
+        >>>
+        >>>
+        >>> root = CustomNode("a", node_shape="circle")
+        >>> b = CustomNode("b", edge_label="child", parent=root)
+        >>> c = CustomNode("c", edge_label="child", parent=root)
+        >>> d = CustomNode("d", node_shape="square", edge_label="child", parent=b)
+        >>> e = CustomNode("e", node_shape="square", edge_label="child", parent=b)
+        >>> graph = tree_to_dot(root, node_colour="gold", node_shape="diamond", node_attr="node_attr", edge_attr="edge_attr")
+        >>> graph.write_png("assets/export_tree_dot.png")
 
-    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot.png
+        ![Export to dot](https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot.png)
 
-    Alternative way to define node and edge attributes (using callable function)
+        Alternative way to define node and edge attributes (using callable function)
 
-    >>> def get_node_attribute(node: Node):
-    ...     if node.is_leaf:
-    ...         return {"shape": "square"}
-    ...     return {"shape": "circle"}
-    >>>
-    >>>
-    >>> root = CustomNode("a")
-    >>> b = CustomNode("b", parent=root)
-    >>> c = CustomNode("c", parent=root)
-    >>> d = CustomNode("d", parent=b)
-    >>> e = CustomNode("e", parent=b)
-    >>> graph = tree_to_dot(root, node_colour="gold", node_attr=get_node_attribute)
-    >>> graph.write_png("assets/export_tree_dot_callable.png")
+        >>> def get_node_attribute(node: Node):
+        ...     if node.is_leaf:
+        ...         return {"shape": "square"}
+        ...     return {"shape": "circle"}
+        >>>
+        >>>
+        >>> root = CustomNode("a")
+        >>> b = CustomNode("b", parent=root)
+        >>> c = CustomNode("c", parent=root)
+        >>> d = CustomNode("d", parent=b)
+        >>> e = CustomNode("e", parent=b)
+        >>> graph = tree_to_dot(root, node_colour="gold", node_attr=get_node_attribute)
+        >>> graph.write_png("assets/export_tree_dot_callable.png")
 
-    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png
+        ![Export to dot (callable)](https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png)
 
     Args:
         tree (Node/List[Node]): tree or list of trees to be exported
@@ -1139,18 +1262,19 @@ def tree_to_pillow(
     """Export tree to image (JPG, PNG).
     Image will be similar format as `print_tree`, accepts additional keyword arguments as input to `yield_tree`.
 
-    >>> from bigtree import Node, tree_to_pillow
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65, parent=root)
-    >>> c = Node("c", age=60, parent=root)
-    >>> d = Node("d", age=40, parent=b)
-    >>> e = Node("e", age=35, parent=b)
-    >>> pillow_image = tree_to_pillow(root)
+    Examples:
+        >>> from bigtree import Node, tree_to_pillow
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=b)
+        >>> e = Node("e", age=35, parent=b)
+        >>> pillow_image = tree_to_pillow(root)
 
-    Export to image (PNG, JPG) file, etc.
+        Export to image (PNG, JPG) file, etc.
 
-    >>> pillow_image.save("assets/docstr/tree_pillow.png")
-    >>> pillow_image.save("assets/docstr/tree_pillow.jpg")
+        >>> pillow_image.save("assets/docstr/tree_pillow.png")
+        >>> pillow_image.save("assets/docstr/tree_pillow.jpg")
 
     Args:
         tree (Node): tree to be exported
@@ -1253,13 +1377,13 @@ def tree_to_mermaid(
 
     **Accepted Parameter Values**
 
-    Possible `rankdir`:
+    Possible rankdir:
         - `TB`: top-to-bottom
         - `BT`: bottom-to-top
         - `LR`: left-to-right
         - `RL`: right-to-left
 
-    Possible `line_shape`:
+    Possible line_shape:
         - `basis`
         - `bumpX`: used in LR or RL direction
         - `bumpY`
@@ -1273,7 +1397,7 @@ def tree_to_mermaid(
         - `stepAfter`
         - `stepBefore`: used in LR or RL direction
 
-    Possible `node_shape`:
+    Possible node_shape:
         - `rounded_edge`: rectangular with rounded edges
         - `stadium`: (_) shape, rectangular with rounded ends
         - `subroutine`: ||_|| shape, rectangular with additional line at the ends
@@ -1288,7 +1412,7 @@ def tree_to_mermaid(
         - `trapezoid_alt`: \\_/ shape, inverted trapezoid
         - `double_circle`
 
-    Possible `edge_arrow`:
+    Possible edge_arrow:
         - `normal`: directed arrow, shaded arrowhead
         - `bold`: bold directed arrow
         - `dotted`: dotted directed arrow
@@ -1302,47 +1426,47 @@ def tree_to_mermaid(
         - `double_circle`: bidirectional directed arrow with filled circle arrowhead
         - `double_cross`: bidirectional directed arrow with cross arrowhead
 
-    Refer to mermaid `documentation`_ for more information.
+    Refer to mermaid [documentation](http://mermaid.js.org/syntax/flowchart.html) for more information.
     Paste the output into any markdown file renderer to view the flowchart, alternatively visit the
-    mermaid playground `here`_.
+    mermaid playground [here](https://mermaid.live/).
 
-    .. note:: Advanced mermaid flowchart functionalities such as subgraphs and interactions (script, click) are not supported.
+    !!! note
 
-    .. _documentation: http://mermaid.js.org/syntax/flowchart.html
-    .. _here: https://mermaid.live/
+        Advanced mermaid flowchart functionalities such as subgraphs and interactions (script, click) are not supported.
 
-    >>> from bigtree import tree_to_mermaid
-    >>> root = Node("a", node_shape="rhombus")
-    >>> b = Node("b", edge_arrow="bold", edge_label="Child 1", parent=root)
-    >>> c = Node("c", edge_arrow="dotted", edge_label="Child 2", parent=root)
-    >>> d = Node("d", node_style="fill:yellow, stroke:black", parent=b)
-    >>> e = Node("e", parent=b)
-    >>> graph = tree_to_mermaid(root)
-    >>> print(graph)
-    ```mermaid
-    %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
-    flowchart TB
-    0("a") --> 0-0("b")
-    0-0 --> 0-0-0("d")
-    0-0 --> 0-0-1("e")
-    0("a") --> 0-1("c")
-    classDef default stroke-width:1
-    ```
+    Examples:
+        >>> from bigtree import tree_to_mermaid
+        >>> root = Node("a", node_shape="rhombus")
+        >>> b = Node("b", edge_arrow="bold", edge_label="Child 1", parent=root)
+        >>> c = Node("c", edge_arrow="dotted", edge_label="Child 2", parent=root)
+        >>> d = Node("d", node_style="fill:yellow, stroke:black", parent=b)
+        >>> e = Node("e", parent=b)
+        >>> graph = tree_to_mermaid(root)
+        >>> print(graph)
+        ```mermaid
+        %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
+        flowchart TB
+        0("a") --> 0-0("b")
+        0-0 --> 0-0-0("d")
+        0-0 --> 0-0-1("e")
+        0("a") --> 0-1("c")
+        classDef default stroke-width:1
+        ```
 
-    **Customize node shape, edge label, edge arrow, and custom node attributes**
+        **Customize node shape, edge label, edge arrow, and custom node attributes**
 
-    >>> graph = tree_to_mermaid(root, node_shape_attr="node_shape", edge_label="edge_label", edge_arrow_attr="edge_arrow", node_attr="node_style")
-    >>> print(graph)
-    ```mermaid
-    %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
-    flowchart TB
-    0{"a"} ==>|Child 1| 0-0("b")
-    0-0:::class0-0-0 --> 0-0-0("d")
-    0-0 --> 0-0-1("e")
-    0{"a"} -.->|Child 2| 0-1("c")
-    classDef default stroke-width:1
-    classDef class0-0-0 fill:yellow, stroke:black
-    ```
+        >>> graph = tree_to_mermaid(root, node_shape_attr="node_shape", edge_label="edge_label", edge_arrow_attr="edge_arrow", node_attr="node_style")
+        >>> print(graph)
+        ```mermaid
+        %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
+        flowchart TB
+        0{"a"} ==>|Child 1| 0-0("b")
+        0-0:::class0-0-0 --> 0-0-0("d")
+        0-0 --> 0-0-1("e")
+        0{"a"} -.->|Child 2| 0-1("c")
+        classDef default stroke-width:1
+        classDef class0-0-0 fill:yellow, stroke:black
+        ```
 
     Args:
         tree (Node): tree to be exported
@@ -1501,118 +1625,3 @@ def tree_to_mermaid(
         flows="\n".join(flows),
         styles="\n".join(styles),
     )
-
-
-def tree_to_newick(
-    tree: T,
-    intermediate_node_name: bool = True,
-    length_attr: str = "",
-    length_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
-    attr_list: Iterable[str] = [],
-    attr_prefix: str = "&&NHX:",
-    attr_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
-) -> str:
-    """Export tree to Newick notation. Useful for describing phylogenetic tree.
-
-    In the Newick Notation (or New Hampshire Notation),
-      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`.
-      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
-      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`.
-      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`.
-
-    Customizations include:
-      - Omitting names of root and intermediate nodes, default all node names are shown.
-      - Changing length separator to other symbol, default is `:`.
-      - Adding an attribute prefix, default is `&&NHX:`.
-      - Changing the attribute separator to other symbol, default is `:`.
-
-    >>> from bigtree import Node, tree_to_newick
-    >>> root = Node("a", species="human")
-    >>> b = Node("b", age=65, species="human", parent=root)
-    >>> c = Node("c", age=60, species="human", parent=root)
-    >>> d = Node("d", age=40, species="human", parent=b)
-    >>> e = Node("e", age=35, species="human", parent=b)
-    >>> root.show()
-    a
-    ├── b
-    │   ├── d
-    │   └── e
-    └── c
-
-    >>> tree_to_newick(root)
-    '((d,e)b,c)a'
-
-    >>> tree_to_newick(root, length_attr="age")
-    '((d:40,e:35)b:65,c:60)a'
-
-    >>> tree_to_newick(root, length_attr="age", attr_list=["species"])
-    '((d:40[&&NHX:species=human],e:35[&&NHX:species=human])b:65[&&NHX:species=human],c:60[&&NHX:species=human])a[&&NHX:species=human]'
-
-    Args:
-        tree (Node): tree to be exported
-        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        length_attr (str): node length attribute to extract to beside name, optional
-        length_sep (str): separator between node name and length, used if length_attr is non-empty, defaults to ":"
-        attr_list (Iterable[str]): list of node attributes to extract into square bracket, optional
-        attr_prefix (str): prefix before all attributes, within square bracket, used if attr_list is non-empty, defaults to "&&NHX:"
-        attr_sep (str): separator between attributes, within square brackets, used if attr_list is non-empty, defaults to ":"
-
-    Returns:
-        (str)
-    """
-    if not tree:
-        return ""
-    if isinstance(length_sep, NewickCharacter):
-        length_sep = length_sep.value
-    if isinstance(attr_sep, NewickCharacter):
-        attr_sep = attr_sep.value
-
-    def _serialize(item: Any) -> Any:
-        """Serialize item if it contains special Newick characters
-
-        Args:
-            item (Any): item to serialize
-
-        Returns:
-            (Any)
-        """
-        if isinstance(item, str) and set(item).intersection(NewickCharacter.values()):
-            item = f"""'{item.replace(NewickCharacter.ATTR_QUOTE, '"')}'"""
-        return item
-
-    node_name_str = ""
-    if (intermediate_node_name) or (not intermediate_node_name and tree.is_leaf):
-        node_name_str = _serialize(tree.node_name)
-    if length_attr and not tree.is_root:
-        if not tree.get_attr(length_attr):
-            raise ValueError(f"Length attribute does not exist for node {tree}")
-        node_name_str += f"{length_sep}{tree.get_attr(length_attr)}"
-
-    attr_str = ""
-    if attr_list:
-        attr_str = attr_sep.join(
-            [
-                f"{_serialize(k)}={_serialize(tree.get_attr(k))}"
-                for k in attr_list
-                if tree.get_attr(k)
-            ]
-        )
-        if attr_str:
-            attr_str = f"[{attr_prefix}{attr_str}]"
-
-    if tree.is_leaf:
-        return f"{node_name_str}{attr_str}"
-
-    children_newick = ",".join(
-        tree_to_newick(
-            child,
-            intermediate_node_name=intermediate_node_name,
-            length_attr=length_attr,
-            length_sep=length_sep,
-            attr_list=attr_list,
-            attr_prefix=attr_prefix,
-            attr_sep=attr_sep,
-        )
-        for child in tree.children
-    )
-    return f"({children_newick}){node_name_str}{attr_str}"

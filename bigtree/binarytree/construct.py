@@ -10,24 +10,25 @@ def list_to_binarytree(
 ) -> BinaryNode:
     """Construct tree from a list of numbers (int or float) in heapq format.
 
-    >>> from bigtree import list_to_binarytree, tree_to_dot
-    >>> nums_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    >>> root = list_to_binarytree(nums_list)
-    >>> root.show()
-    1
-    ├── 2
-    │   ├── 4
-    │   │   ├── 8
-    │   │   └── 9
-    │   └── 5
-    │       └── 10
-    └── 3
-        ├── 6
-        └── 7
-    >>> graph = tree_to_dot(root, node_colour="gold")
-    >>> graph.write_png("assets/construct_binarytree.png")
+    Examples:
+        >>> from bigtree import list_to_binarytree, tree_to_dot
+        >>> nums_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        >>> root = list_to_binarytree(nums_list)
+        >>> root.show()
+        1
+        ├── 2
+        │   ├── 4
+        │   │   ├── 8
+        │   │   └── 9
+        │   └── 5
+        │       └── 10
+        └── 3
+            ├── 6
+            └── 7
+        >>> graph = tree_to_dot(root, node_colour="gold")
+        >>> graph.write_png("assets/construct_binarytree.png")
 
-    .. image:: https://github.com/kayjan/bigtree/raw/master/assets/construct_binarytree.png
+        ![Sample Binary Tree](https://github.com/kayjan/bigtree/raw/master/assets/construct_binarytree.png)
 
     Args:
         heapq_list (List[int]): list containing integer node names, ordered in heapq fashion

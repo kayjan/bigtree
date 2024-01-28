@@ -20,11 +20,12 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
     """Clone tree to another ``Node`` type.
     If the same type is needed, simply do a tree.copy().
 
-    >>> from bigtree import BaseNode, Node, clone_tree
-    >>> root = BaseNode(name="a")
-    >>> b = BaseNode(name="b", parent=root)
-    >>> clone_tree(root, Node)
-    Node(/a, )
+    Examples:
+        >>> from bigtree import BaseNode, Node, clone_tree
+        >>> root = BaseNode(name="a")
+        >>> b = BaseNode(name="b", parent=root)
+        >>> clone_tree(root, Node)
+        Node(/a, )
 
     Args:
         tree (BaseNode): tree to be cloned, must inherit from BaseNode
@@ -61,26 +62,27 @@ def get_subtree(
 ) -> NodeT:
     """Get subtree based on node name or node path, and/or maximum depth of tree.
 
-    >>> from bigtree import Node, get_subtree
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=b)
-    >>> d = Node("d", parent=b)
-    >>> e = Node("e", parent=root)
-    >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   └── d
-    └── e
+    Examples:
+        >>> from bigtree import Node, get_subtree
+        >>> root = Node("a")
+        >>> b = Node("b", parent=root)
+        >>> c = Node("c", parent=b)
+        >>> d = Node("d", parent=b)
+        >>> e = Node("e", parent=root)
+        >>> root.show()
+        a
+        ├── b
+        │   ├── c
+        │   └── d
+        └── e
 
-    Get subtree
+        Get subtree
 
-    >>> root_subtree = get_subtree(root, "b")
-    >>> root_subtree.show()
-    b
-    ├── c
-    └── d
+        >>> root_subtree = get_subtree(root, "b")
+        >>> root_subtree.show()
+        b
+        ├── c
+        └── d
 
     Args:
         tree (Node): existing tree
@@ -115,62 +117,66 @@ def prune_tree(
     """Prune tree by path or depth, returns the root of a *copy* of the original tree.
 
     For pruning by `prune_path`,
-      - All siblings along the prune path will be removed.
-      - If ``exact=True``, all descendants of prune path will be removed.
-      - Prune path can be string (only one path) or a list of strings (multiple paths).
-      - Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.
+
+    - All siblings along the prune path will be removed.
+    - If ``exact=True``, all descendants of prune path will be removed.
+    - Prune path can be string (only one path) or a list of strings (multiple paths).
+    - Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.
 
     For pruning by `max_depth`,
-      - All nodes that are beyond `max_depth` will be removed.
+
+    - All nodes that are beyond `max_depth` will be removed.
 
     Path should contain ``Node`` name, separated by `sep`.
-      - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
-    >>> from bigtree import Node, prune_tree
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=b)
-    >>> d = Node("d", parent=b)
-    >>> e = Node("e", parent=root)
-    >>> root.show()
-    a
-    ├── b
-    │   ├── c
-    │   └── d
-    └── e
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
 
-    Prune (default is keep descendants)
+    Examples:
+        >>> from bigtree import Node, prune_tree
+        >>> root = Node("a")
+        >>> b = Node("b", parent=root)
+        >>> c = Node("c", parent=b)
+        >>> d = Node("d", parent=b)
+        >>> e = Node("e", parent=root)
+        >>> root.show()
+        a
+        ├── b
+        │   ├── c
+        │   └── d
+        └── e
 
-    >>> root_pruned = prune_tree(root, "a/b")
-    >>> root_pruned.show()
-    a
-    └── b
-        ├── c
-        └── d
+        Prune (default is keep descendants)
 
-    Prune exact path
+        >>> root_pruned = prune_tree(root, "a/b")
+        >>> root_pruned.show()
+        a
+        └── b
+            ├── c
+            └── d
 
-    >>> root_pruned = prune_tree(root, "a/b", exact=True)
-    >>> root_pruned.show()
-    a
-    └── b
+        Prune exact path
 
-    Prune multiple paths
+        >>> root_pruned = prune_tree(root, "a/b", exact=True)
+        >>> root_pruned.show()
+        a
+        └── b
 
-    >>> root_pruned = prune_tree(root, ["a/b/d", "a/e"])
-    >>> root_pruned.show()
-    a
-    ├── b
-    │   └── d
-    └── e
+        Prune multiple paths
 
-    Prune by depth
+        >>> root_pruned = prune_tree(root, ["a/b/d", "a/e"])
+        >>> root_pruned.show()
+        a
+        ├── b
+        │   └── d
+        └── e
 
-    >>> root_pruned = prune_tree(root, max_depth=2)
-    >>> root_pruned.show()
-    a
-    ├── b
-    └── e
+        Prune by depth
+
+        >>> root_pruned = prune_tree(root, max_depth=2)
+        >>> root_pruned.show()
+        a
+        ├── b
+        └── e
 
     Args:
         tree (Union[BinaryNode, Node]): existing tree
@@ -233,82 +239,85 @@ def get_tree_diff(
     Compares the difference in tree structure (default), but can also compare tree attributes using `attr_list`.
     Function can return only the differences (default), or all original tree nodes and differences.
 
-    Comparing tree structure
-      (+) and (-) will be added to node name relative to `tree`.
-        - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
-        - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
+    Comparing tree structure:
 
-    >>> # Create original tree
-    >>> from bigtree import Node, get_tree_diff, list_to_tree
-    >>> root = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/photo2.jpg"])
-    >>> root.show()
-    Downloads
-    ├── Pictures
-    │   └── photo1.jpg
-    ├── file1.doc
-    └── photo2.jpg
+    - (+) and (-) will be added to node name relative to `tree`.
+    - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
+    - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
 
-    >>> # Create other tree
-    >>> root_other = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/Pictures/photo2.jpg", "Downloads/file1.doc"])
-    >>> root_other.show()
-    Downloads
-    ├── Pictures
-    │   ├── photo1.jpg
-    │   └── photo2.jpg
-    └── file1.doc
+    Examples:
+        >>> # Create original tree
+        >>> from bigtree import Node, get_tree_diff, list_to_tree
+        >>> root = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/photo2.jpg"])
+        >>> root.show()
+        Downloads
+        ├── Pictures
+        │   └── photo1.jpg
+        ├── file1.doc
+        └── photo2.jpg
 
-    >>> # Get tree differences
-    >>> tree_diff = get_tree_diff(root, root_other)
-    >>> tree_diff.show()
-    Downloads
-    ├── photo2.jpg (-)
-    └── Pictures
-        └── photo2.jpg (+)
+        >>> # Create other tree
+        >>> root_other = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/Pictures/photo2.jpg", "Downloads/file1.doc"])
+        >>> root_other.show()
+        Downloads
+        ├── Pictures
+        │   ├── photo1.jpg
+        │   └── photo2.jpg
+        └── file1.doc
 
-    >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
-    >>> tree_diff.show()
-    Downloads
-    ├── Pictures
-    │   ├── photo1.jpg
-    │   └── photo2.jpg (+)
-    ├── file1.doc
-    └── photo2.jpg (-)
+        >>> # Get tree differences
+        >>> tree_diff = get_tree_diff(root, root_other)
+        >>> tree_diff.show()
+        Downloads
+        ├── photo2.jpg (-)
+        └── Pictures
+            └── photo2.jpg (+)
 
-    Comparing tree attributes
-      (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
-      The node's attributes will be a list of [value in `tree`, value in `other_tree`]
+        >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
+        >>> tree_diff.show()
+        Downloads
+        ├── Pictures
+        │   ├── photo1.jpg
+        │   └── photo2.jpg (+)
+        ├── file1.doc
+        └── photo2.jpg (-)
 
-    >>> # Create original tree
-    >>> root = Node("Downloads")
-    >>> picture_folder = Node("Pictures", parent=root)
-    >>> photo2 = Node("photo1.jpg", tags="photo1", parent=picture_folder)
-    >>> file1 = Node("file1.doc", tags="file1", parent=root)
-    >>> root.show(attr_list=["tags"])
-    Downloads
-    ├── Pictures
-    │   └── photo1.jpg [tags=photo1]
-    └── file1.doc [tags=file1]
+        Comparing tree attributes
 
-    >>> # Create other tree
-    >>> root_other = Node("Downloads")
-    >>> picture_folder = Node("Pictures", parent=root_other)
-    >>> photo1 = Node("photo1.jpg", tags="photo1-edited", parent=picture_folder)
-    >>> photo2 = Node("photo2.jpg", tags="photo2-new", parent=picture_folder)
-    >>> file1 = Node("file1.doc", tags="file1", parent=root_other)
-    >>> root_other.show(attr_list=["tags"])
-    Downloads
-    ├── Pictures
-    │   ├── photo1.jpg [tags=photo1-edited]
-    │   └── photo2.jpg [tags=photo2-new]
-    └── file1.doc [tags=file1]
+        - (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
+        - The node's attributes will be a list of [value in `tree`, value in `other_tree`]
 
-    >>> # Get tree differences
-    >>> tree_diff = get_tree_diff(root, root_other, attr_list=["tags"])
-    >>> tree_diff.show(attr_list=["tags"])
-    Downloads
-    └── Pictures
-        ├── photo1.jpg (~) [tags=('photo1', 'photo1-edited')]
-        └── photo2.jpg (+)
+        >>> # Create original tree
+        >>> root = Node("Downloads")
+        >>> picture_folder = Node("Pictures", parent=root)
+        >>> photo2 = Node("photo1.jpg", tags="photo1", parent=picture_folder)
+        >>> file1 = Node("file1.doc", tags="file1", parent=root)
+        >>> root.show(attr_list=["tags"])
+        Downloads
+        ├── Pictures
+        │   └── photo1.jpg [tags=photo1]
+        └── file1.doc [tags=file1]
+
+        >>> # Create other tree
+        >>> root_other = Node("Downloads")
+        >>> picture_folder = Node("Pictures", parent=root_other)
+        >>> photo1 = Node("photo1.jpg", tags="photo1-edited", parent=picture_folder)
+        >>> photo2 = Node("photo2.jpg", tags="photo2-new", parent=picture_folder)
+        >>> file1 = Node("file1.doc", tags="file1", parent=root_other)
+        >>> root_other.show(attr_list=["tags"])
+        Downloads
+        ├── Pictures
+        │   ├── photo1.jpg [tags=photo1-edited]
+        │   └── photo2.jpg [tags=photo2-new]
+        └── file1.doc [tags=file1]
+
+        >>> # Get tree differences
+        >>> tree_diff = get_tree_diff(root, root_other, attr_list=["tags"])
+        >>> tree_diff.show(attr_list=["tags"])
+        Downloads
+        └── Pictures
+            ├── photo1.jpg (~) [tags=('photo1', 'photo1-edited')]
+            └── photo2.jpg (+)
 
     Args:
         tree (Node): tree to be compared against

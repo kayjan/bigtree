@@ -12,10 +12,11 @@ build:
     python: "3.8"
 
 # Build documentation in the docs/ directory with Sphinx
-sphinx:
-   configuration: docs_sphinx/source/conf.py
+mkdocs:
+  configuration: mkdocs.yml
+  fail_on_warning: false
 
 # Optionally declare the Python requirements required to build your docs
 python:
   install:
-    - requirements: docs_sphinx/requirements.txt
+    - requirements: docs/requirements.txt

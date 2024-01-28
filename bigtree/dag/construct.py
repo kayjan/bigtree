@@ -21,11 +21,12 @@ def list_to_dag(
     """Construct DAG from list of tuples containing parent-child names.
     Note that node names must be unique.
 
-    >>> from bigtree import list_to_dag, dag_iterator
-    >>> relations_list = [("a", "c"), ("a", "d"), ("b", "c"), ("c", "d"), ("d", "e")]
-    >>> dag = list_to_dag(relations_list)
-    >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
-    [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
+    Examples:
+        >>> from bigtree import list_to_dag, dag_iterator
+        >>> relations_list = [("a", "c"), ("a", "d"), ("b", "c"), ("c", "d"), ("d", "e")]
+        >>> dag = list_to_dag(relations_list)
+        >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
+        [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
         relations (List[Tuple[str, str]]): list containing tuple of parent-child names
@@ -52,17 +53,18 @@ def dict_to_dag(
     name, and attribute value.
     Note that node names must be unique.
 
-    >>> from bigtree import dict_to_dag, dag_iterator
-    >>> relation_dict = {
-    ...     "a": {"step": 1},
-    ...     "b": {"step": 1},
-    ...     "c": {"parents": ["a", "b"], "step": 2},
-    ...     "d": {"parents": ["a", "c"], "step": 2},
-    ...     "e": {"parents": ["d"], "step": 3},
-    ... }
-    >>> dag = dict_to_dag(relation_dict, parent_key="parents")
-    >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
-    [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
+    Examples:
+        >>> from bigtree import dict_to_dag, dag_iterator
+        >>> relation_dict = {
+        ...     "a": {"step": 1},
+        ...     "b": {"step": 1},
+        ...     "c": {"parents": ["a", "b"], "step": 2},
+        ...     "d": {"parents": ["a", "c"], "step": 2},
+        ...     "e": {"parents": ["d"], "step": 3},
+        ... }
+        >>> dag = dict_to_dag(relation_dict, parent_key="parents")
+        >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
+        [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
         relation_attrs (Dict[str, Any]): dictionary containing node, node parents, and node attribute information,
@@ -103,27 +105,28 @@ def dataframe_to_dag(
     """Construct DAG from pandas DataFrame.
     Note that node names must be unique.
 
-    `child_col` and `parent_col` specify columns for child name and parent name to construct DAG.
-    `attribute_cols` specify columns for node attribute for child name
-    If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
-    columns are `attribute_cols`.
+    - `child_col` and `parent_col` specify columns for child name and parent name to construct DAG.
+    - `attribute_cols` specify columns for node attribute for child name.
+    - If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
+        columns are `attribute_cols`.
 
-    >>> import pandas as pd
-    >>> from bigtree import dataframe_to_dag, dag_iterator
-    >>> relation_data = pd.DataFrame([
-    ...     ["a", None, 1],
-    ...     ["b", None, 1],
-    ...     ["c", "a", 2],
-    ...     ["c", "b", 2],
-    ...     ["d", "a", 2],
-    ...     ["d", "c", 2],
-    ...     ["e", "d", 3],
-    ... ],
-    ...     columns=["child", "parent", "step"]
-    ... )
-    >>> dag = dataframe_to_dag(relation_data)
-    >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
-    [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
+    Examples:
+        >>> import pandas as pd
+        >>> from bigtree import dataframe_to_dag, dag_iterator
+        >>> relation_data = pd.DataFrame([
+        ...     ["a", None, 1],
+        ...     ["b", None, 1],
+        ...     ["c", "a", 2],
+        ...     ["c", "b", 2],
+        ...     ["d", "a", 2],
+        ...     ["d", "c", 2],
+        ...     ["e", "d", 3],
+        ... ],
+        ...     columns=["child", "parent", "step"]
+        ... )
+        >>> dag = dataframe_to_dag(relation_data)
+        >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
+        [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
         data (pd.DataFrame): data containing path and node attribute information

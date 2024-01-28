@@ -93,7 +93,10 @@ clean-html = "sphinx-build -M html docs_sphinx/source docs_sphinx/build & sphinx
 [tool.hatch.envs.mkdocs]
 dependencies = [
   "mkdocs==1.5.3",
-  "mkdocs-material==9.5.5",
+  "mkdocs-material[imaging]==9.5.5",
+  "mdx_truly_sane_lists",
+  "mkdocstrings[python]",
+  "black",
   "IPython",
   "pandas",
   "pydot",
@@ -101,8 +104,10 @@ dependencies = [
 ]
 
 [tool.hatch.envs.mkdocs.scripts]
-build = "mkdocs build"
-serve = "mkdocs serve"
+add-cairo = "ln -s /opt/homebrew/lib/libcairo.2.dylib . "
+build = "ln -s /opt/homebrew/lib/libcairo.2.dylib .  & mkdocs build"
+serve = "ln -s /opt/homebrew/lib/libcairo.2.dylib .  & mkdocs serve"
+deploy = "ln -s /opt/homebrew/lib/libcairo.2.dylib .  & mkdocs gh-deploy"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["37", "38", "39", "310", "311"]

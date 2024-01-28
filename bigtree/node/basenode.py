@@ -15,56 +15,57 @@ class BaseNode:
     Nodes can be linked to each other with `parent` and `children` setter methods,
     or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
-    >>> from bigtree import Node, print_tree
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65)
-    >>> c = Node("c", age=60)
-    >>> d = Node("d", age=40)
-    >>> root.children = [b, c]
-    >>> d.parent = b
-    >>> print_tree(root, attr_list=["age"])
-    a [age=90]
-    ├── b [age=65]
-    │   └── d [age=40]
-    └── c [age=60]
+    Examples:
+        >>> from bigtree import Node, print_tree
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65)
+        >>> c = Node("c", age=60)
+        >>> d = Node("d", age=40)
+        >>> root.children = [b, c]
+        >>> d.parent = b
+        >>> print_tree(root, attr_list=["age"])
+        a [age=90]
+        ├── b [age=65]
+        │   └── d [age=40]
+        └── c [age=60]
 
-    >>> from bigtree import Node
-    >>> root = Node("a", age=90)
-    >>> b = Node("b", age=65)
-    >>> c = Node("c", age=60)
-    >>> d = Node("d", age=40)
-    >>> root >> b
-    >>> root >> c
-    >>> d << b
-    >>> print_tree(root, attr_list=["age"])
-    a [age=90]
-    ├── b [age=65]
-    │   └── d [age=40]
-    └── c [age=60]
+        >>> from bigtree import Node
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65)
+        >>> c = Node("c", age=60)
+        >>> d = Node("d", age=40)
+        >>> root >> b
+        >>> root >> c
+        >>> d << b
+        >>> print_tree(root, attr_list=["age"])
+        a [age=90]
+        ├── b [age=65]
+        │   └── d [age=40]
+        └── c [age=60]
 
-    Directly passing `parent` argument.
+        Directly passing `parent` argument.
 
-    >>> from bigtree import Node
-    >>> root = Node("a")
-    >>> b = Node("b", parent=root)
-    >>> c = Node("c", parent=root)
-    >>> d = Node("d", parent=b)
+        >>> from bigtree import Node
+        >>> root = Node("a")
+        >>> b = Node("b", parent=root)
+        >>> c = Node("c", parent=root)
+        >>> d = Node("d", parent=b)
 
-    Directly passing `children` argument.
+        Directly passing `children` argument.
 
-    >>> from bigtree import Node
-    >>> d = Node("d")
-    >>> c = Node("c")
-    >>> b = Node("b", children=[d])
-    >>> a = Node("a", children=[b, c])
+        >>> from bigtree import Node
+        >>> d = Node("d")
+        >>> c = Node("c")
+        >>> b = Node("b", children=[d])
+        >>> a = Node("a", children=[b, c])
 
-    **BaseNode Creation**
+        **BaseNode Creation**
 
-    Node can be created by instantiating a `BaseNode` class or by using a *dictionary*.
-    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+        Node can be created by instantiating a `BaseNode` class or by using a *dictionary*.
+        If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
-    >>> from bigtree import Node
-    >>> root = Node.from_dict({"name": "a", "age": 90})
+        >>> from bigtree import Node
+        >>> root = Node.from_dict({"name": "a", "age": 90})
 
     **BaseNode Attributes**
 
@@ -238,7 +239,11 @@ class BaseNode:
 
     @property
     def parents(self) -> None:
-        """Do not allow `parents` attribute to be accessed"""
+        """Do not allow `parents` attribute to be accessed
+
+        Raises:
+            AttributeError: No such attribute
+        """
         raise AttributeError(
             "Attempting to access `parents` attribute, do you mean `parent`?"
         )
@@ -249,6 +254,9 @@ class BaseNode:
 
         Args:
             new_parent (Self): parent node
+
+        Raises:
+            AttributeError: No such attribute
         """
         raise AttributeError(
             "Attempting to set `parents` attribute, do you mean `parent`?"
@@ -518,8 +526,9 @@ class BaseNode:
         """Construct node from dictionary, all keys of dictionary will be stored as class attributes
         Input dictionary must have key `name` if not `Node` will not have any name
 
-        >>> from bigtree import Node
-        >>> a = Node.from_dict({"name": "a", "age": 90})
+        Examples:
+            >>> from bigtree import Node
+            >>> a = Node.from_dict({"name": "a", "age": 90})
 
         Args:
             input_dict (Dict[str, Any]): dictionary with node information, key: attribute name, value: attribute value
@@ -534,14 +543,15 @@ class BaseNode:
     ) -> List[Tuple[str, Any]]:
         """Get node information sorted by attribute name, returns list of tuples
 
-        >>> from bigtree.node.node import Node
-        >>> a = Node('a', age=90)
-        >>> a.describe()
-        [('_BaseNode__children', []), ('_BaseNode__parent', None), ('_sep', '/'), ('age', 90), ('name', 'a')]
-        >>> a.describe(exclude_prefix="_")
-        [('age', 90), ('name', 'a')]
-        >>> a.describe(exclude_prefix="_", exclude_attributes=["name"])
-        [('age', 90)]
+        Examples:
+            >>> from bigtree.node.node import Node
+            >>> a = Node('a', age=90)
+            >>> a.describe()
+            [('_BaseNode__children', []), ('_BaseNode__parent', None), ('_sep', '/'), ('age', 90), ('name', 'a')]
+            >>> a.describe(exclude_prefix="_")
+            [('age', 90), ('name', 'a')]
+            >>> a.describe(exclude_prefix="_", exclude_attributes=["name"])
+            [('age', 90)]
 
         Args:
             exclude_attributes (List[str]): list of attributes to exclude
@@ -561,10 +571,11 @@ class BaseNode:
         """Get value of node attribute
         Returns default value if attribute name does not exist
 
-        >>> from bigtree.node.node import Node
-        >>> a = Node('a', age=90)
-        >>> a.get_attr("age")
-        90
+        Examples:
+            >>> from bigtree.node.node import Node
+            >>> a = Node('a', age=90)
+            >>> a.get_attr("age")
+            90
 
         Args:
             attr_name (str): attribute name
@@ -581,11 +592,12 @@ class BaseNode:
     def set_attrs(self, attrs: Dict[str, Any]) -> None:
         """Set node attributes
 
-        >>> from bigtree.node.node import Node
-        >>> a = Node('a')
-        >>> a.set_attrs({"age": 90})
-        >>> a
-        Node(/a, age=90)
+        Examples:
+            >>> from bigtree.node.node import Node
+            >>> a = Node('a')
+            >>> a.set_attrs({"age": 90})
+            >>> a
+            Node(/a, age=90)
 
         Args:
             attrs (Dict[str, Any]): attribute dictionary,
@@ -596,30 +608,31 @@ class BaseNode:
     def go_to(self: T, node: T) -> Iterable[T]:
         """Get path from current node to specified node from same tree
 
-        >>> from bigtree import Node, print_tree
-        >>> a = Node(name="a")
-        >>> b = Node(name="b", parent=a)
-        >>> c = Node(name="c", parent=a)
-        >>> d = Node(name="d", parent=b)
-        >>> e = Node(name="e", parent=b)
-        >>> f = Node(name="f", parent=c)
-        >>> g = Node(name="g", parent=e)
-        >>> h = Node(name="h", parent=e)
-        >>> print_tree(a)
-        a
-        ├── b
-        │   ├── d
-        │   └── e
-        │       ├── g
-        │       └── h
-        └── c
-            └── f
-        >>> d.go_to(d)
-        [Node(/a/b/d, )]
-        >>> d.go_to(g)
-        [Node(/a/b/d, ), Node(/a/b, ), Node(/a/b/e, ), Node(/a/b/e/g, )]
-        >>> d.go_to(f)
-        [Node(/a/b/d, ), Node(/a/b, ), Node(/a, ), Node(/a/c, ), Node(/a/c/f, )]
+        Examples:
+            >>> from bigtree import Node, print_tree
+            >>> a = Node(name="a")
+            >>> b = Node(name="b", parent=a)
+            >>> c = Node(name="c", parent=a)
+            >>> d = Node(name="d", parent=b)
+            >>> e = Node(name="e", parent=b)
+            >>> f = Node(name="f", parent=c)
+            >>> g = Node(name="g", parent=e)
+            >>> h = Node(name="h", parent=e)
+            >>> print_tree(a)
+            a
+            ├── b
+            │   ├── d
+            │   └── e
+            │       ├── g
+            │       └── h
+            └── c
+                └── f
+            >>> d.go_to(d)
+            [Node(/a/b/d, )]
+            >>> d.go_to(g)
+            [Node(/a/b/d, ), Node(/a/b, ), Node(/a/b/e, ), Node(/a/b/e/g, )]
+            >>> d.go_to(f)
+            [Node(/a/b/d, ), Node(/a/b, ), Node(/a, ), Node(/a/c, ), Node(/a/c/f, )]
 
         Args:
             node (Self): node to travel to from current node, inclusive of start and end node
@@ -666,9 +679,10 @@ class BaseNode:
     def copy(self: T) -> T:
         """Deep copy self; clone self
 
-        >>> from bigtree.node.node import Node
-        >>> a = Node('a')
-        >>> a_copy = a.copy()
+        Examples:
+            >>> from bigtree.node.node import Node
+            >>> a = Node('a')
+            >>> a_copy = a.copy()
 
         Returns:
             (Self)
@@ -678,19 +692,20 @@ class BaseNode:
     def sort(self: T, **kwargs: Any) -> None:
         """Sort children, possible keyword arguments include ``key=lambda node: node.name``, ``reverse=True``
 
-        >>> from bigtree import Node, print_tree
-        >>> a = Node('a')
-        >>> c = Node("c", parent=a)
-        >>> b = Node("b", parent=a)
-        >>> print_tree(a)
-        a
-        ├── c
-        └── b
-        >>> a.sort(key=lambda node: node.name)
-        >>> print_tree(a)
-        a
-        ├── b
-        └── c
+        Examples:
+            >>> from bigtree import Node, print_tree
+            >>> a = Node('a')
+            >>> c = Node("c", parent=a)
+            >>> b = Node("b", parent=a)
+            >>> print_tree(a)
+            a
+            ├── c
+            └── b
+            >>> a.sort(key=lambda node: node.name)
+            >>> print_tree(a)
+            a
+            ├── b
+            └── c
         """
         children = list(self.children)
         children.sort(**kwargs)
@@ -699,10 +714,11 @@ class BaseNode:
     def __copy__(self: T) -> T:
         """Shallow copy self
 
-        >>> import copy
-        >>> from bigtree.node.node import Node
-        >>> a = Node('a')
-        >>> a_copy = copy.deepcopy(a)
+        Examples:
+            >>> import copy
+            >>> from bigtree.node.node import Node
+            >>> a = Node('a')
+            >>> a_copy = copy.deepcopy(a)
 
         Returns:
             (Self)

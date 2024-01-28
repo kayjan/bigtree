@@ -30,14 +30,15 @@ def dag_to_list(
 ) -> List[Tuple[str, str]]:
     """Export DAG to list of tuples containing parent-child names
 
-    >>> from bigtree import DAGNode, dag_to_list
-    >>> a = DAGNode("a", step=1)
-    >>> b = DAGNode("b", step=1)
-    >>> c = DAGNode("c", step=2, parents=[a, b])
-    >>> d = DAGNode("d", step=2, parents=[a, c])
-    >>> e = DAGNode("e", step=3, parents=[d])
-    >>> dag_to_list(a)
-    [('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]
+    Examples:
+        >>> from bigtree import DAGNode, dag_to_list
+        >>> a = DAGNode("a", step=1)
+        >>> b = DAGNode("b", step=1)
+        >>> c = DAGNode("c", step=2, parents=[a, b])
+        >>> d = DAGNode("d", step=2, parents=[a, c])
+        >>> e = DAGNode("e", step=3, parents=[d])
+        >>> dag_to_list(a)
+        [('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]
 
     Args:
         dag (DAGNode): DAG to be exported
@@ -61,14 +62,15 @@ def dag_to_dict(
 
     Exported dictionary will have key as child name, and parent names and node attributes as a nested dictionary.
 
-    >>> from bigtree import DAGNode, dag_to_dict
-    >>> a = DAGNode("a", step=1)
-    >>> b = DAGNode("b", step=1)
-    >>> c = DAGNode("c", step=2, parents=[a, b])
-    >>> d = DAGNode("d", step=2, parents=[a, c])
-    >>> e = DAGNode("e", step=3, parents=[d])
-    >>> dag_to_dict(a, parent_key="parent", attr_dict={"step": "step no."})
-    {'a': {'step no.': 1}, 'c': {'parent': ['a', 'b'], 'step no.': 2}, 'd': {'parent': ['a', 'c'], 'step no.': 2}, 'b': {'step no.': 1}, 'e': {'parent': ['d'], 'step no.': 3}}
+    Examples:
+        >>> from bigtree import DAGNode, dag_to_dict
+        >>> a = DAGNode("a", step=1)
+        >>> b = DAGNode("b", step=1)
+        >>> c = DAGNode("c", step=2, parents=[a, b])
+        >>> d = DAGNode("d", step=2, parents=[a, c])
+        >>> e = DAGNode("e", step=3, parents=[d])
+        >>> dag_to_dict(a, parent_key="parent", attr_dict={"step": "step no."})
+        {'a': {'step no.': 1}, 'c': {'parent': ['a', 'b'], 'step no.': 2}, 'd': {'parent': ['a', 'c'], 'step no.': 2}, 'b': {'step no.': 1}, 'e': {'parent': ['d'], 'step no.': 3}}
 
     Args:
         dag (DAGNode): DAG to be exported
@@ -122,21 +124,22 @@ def dag_to_dataframe(
 ) -> pd.DataFrame:
     """Export DAG to pandas DataFrame.
 
-    >>> from bigtree import DAGNode, dag_to_dataframe
-    >>> a = DAGNode("a", step=1)
-    >>> b = DAGNode("b", step=1)
-    >>> c = DAGNode("c", step=2, parents=[a, b])
-    >>> d = DAGNode("d", step=2, parents=[a, c])
-    >>> e = DAGNode("e", step=3, parents=[d])
-    >>> dag_to_dataframe(a, name_col="name", parent_col="parent", attr_dict={"step": "step no."})
-      name parent  step no.
-    0    a   None         1
-    1    c      a         2
-    2    d      a         2
-    3    b   None         1
-    4    c      b         2
-    5    d      c         2
-    6    e      d         3
+    Examples:
+        >>> from bigtree import DAGNode, dag_to_dataframe
+        >>> a = DAGNode("a", step=1)
+        >>> b = DAGNode("b", step=1)
+        >>> c = DAGNode("c", step=2, parents=[a, b])
+        >>> d = DAGNode("d", step=2, parents=[a, c])
+        >>> e = DAGNode("e", step=3, parents=[d])
+        >>> dag_to_dataframe(a, name_col="name", parent_col="parent", attr_dict={"step": "step no."})
+          name parent  step no.
+        0    a   None         1
+        1    c      a         2
+        2    d      a         2
+        3    b   None         1
+        4    c      b         2
+        5    d      c         2
+        6    e      d         3
 
     Args:
         dag (DAGNode): DAG to be exported
@@ -193,30 +196,31 @@ def dag_to_dot(
     Note that node names must be unique.
     Possible node attributes include style, fillcolor, shape.
 
-    >>> from bigtree import DAGNode, dag_to_dot
-    >>> a = DAGNode("a", step=1)
-    >>> b = DAGNode("b", step=1)
-    >>> c = DAGNode("c", step=2, parents=[a, b])
-    >>> d = DAGNode("d", step=2, parents=[a, c])
-    >>> e = DAGNode("e", step=3, parents=[d])
-    >>> dag_graph = dag_to_dot(a)
+    Examples:
+        >>> from bigtree import DAGNode, dag_to_dot
+        >>> a = DAGNode("a", step=1)
+        >>> b = DAGNode("b", step=1)
+        >>> c = DAGNode("c", step=2, parents=[a, b])
+        >>> d = DAGNode("d", step=2, parents=[a, c])
+        >>> e = DAGNode("e", step=3, parents=[d])
+        >>> dag_graph = dag_to_dot(a)
 
-    Display image directly without saving (requires IPython)
+        Display image directly without saving (requires IPython)
 
-    >>> from IPython.display import Image, display
-    >>> plt = Image(dag_graph.create_png())
-    >>> display(plt)
-    <IPython.core.display.Image object>
+        >>> from IPython.display import Image, display
+        >>> plt = Image(dag_graph.create_png())
+        >>> display(plt)
+        <IPython.core.display.Image object>
 
-    Export to image, dot file, etc.
+        Export to image, dot file, etc.
 
-    >>> dag_graph.write_png("assets/docstr/tree_dag.png")
-    >>> dag_graph.write_dot("assets/docstr/tree_dag.dot")
+        >>> dag_graph.write_png("assets/docstr/tree_dag.png")
+        >>> dag_graph.write_dot("assets/docstr/tree_dag.dot")
 
-    Export to string
+        Export to string
 
-    >>> dag_graph.to_string()
-    'strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nb [label=b];\nb -> c;\nd [label=d];\nc [label=c];\nc -> d;\ne [label=e];\nd [label=d];\nd -> e;\n}\n'
+        >>> dag_graph.to_string()
+        'strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nb [label=b];\nb -> c;\nd [label=d];\nc [label=c];\nc -> d;\ne [label=e];\nd [label=d];\nd -> e;\n}\n'
 
     Args:
         dag (Union[DAGNode, List[DAGNode]]): DAG or list of DAGs to be exported
