@@ -90,7 +90,11 @@ theme:
 
 plugins:
   - search
-  - social
+  - social:
+      cards_layout_options:
+        logo: docs/_static/favicon.svg
+        title: bigtree
+        description: Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.
   - mkdocstrings:
       handlers:
           python:
@@ -117,6 +121,8 @@ extra:
       link: https://github.com/kayjan
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/kayjan
+    - icon: fontawesome/brands/medium
+      link: https://kayjanwong.medium.com
   version:
     provider: mike
 
