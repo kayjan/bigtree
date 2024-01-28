@@ -3,4 +3,4 @@ hide:
   - toc
 ---
 
---8<-- "docs/index.md:7"
+--8<-- "docs/index.md:8"

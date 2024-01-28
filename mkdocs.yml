@@ -94,8 +94,6 @@ plugins:
   - social:
       cards_layout_options:
         logo: docs/_static/favicon.svg
-        title: bigtree
-        description: Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.
   - mkdocstrings:
       handlers:
           python:

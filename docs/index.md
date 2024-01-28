@@ -1,5 +1,6 @@
 ---
 title: bigtree
+description: Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.
 hide:
   - toc
 ---
