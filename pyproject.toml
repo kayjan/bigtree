@@ -107,6 +107,7 @@ dependencies = [
 add-cairo = "ln -s /opt/homebrew/lib/libcairo.2.dylib . "
 build = "ln -s /opt/homebrew/lib/libcairo.2.dylib .  & mkdocs build"
 serve = "ln -s /opt/homebrew/lib/libcairo.2.dylib .  & mkdocs serve"
+deploy = "ln -s /opt/homebrew/lib/libcairo.2.dylib .  & mkdocs gh-deploy"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["37", "38", "39", "310", "311"]
