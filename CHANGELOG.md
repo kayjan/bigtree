@@ -5,9 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Misc: Documentation using mkdocs.
 ### Changed
-- Misc: Docstring to have 'Examples' and code indented.
-- Misc: Misc edit of markdown files for README, CHANGELOG.
+- Misc: Markdown edit for README, CHANGELOG.
+- Misc: Docstring to indicate Examples, to indicate exceptions for BaseNode and DAGNode, simplify code for tree modification.
+### Fixed
+- Misc: Docstring bullet point alignment, images compatibility with markdown.
 
 ## [0.15.7] - 2023-01-26
 ### Added
