@@ -22,7 +22,7 @@ Related Links:
   - [The Reingold Tilford Algorithm Explained, with Walkthrough](https://towardsdatascience.com/reingold-tilford-algorithm-explained-with-walkthrough-be5810e8ed93?sk=2db8e10398cee76c486c4b06b0b33322)
 - <div><p>If you want to support bigtree, <a href="https://www.buymeacoffee.com/kayjan"><img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me a Coffee" style="vertical-align:middle"></a></p></div>
 
-----
+-----
 
 ## Components
 There are 3 segments to Big Tree consisting of Tree, Binary Tree, and Directed Acyclic Graph (DAG) implementation.
@@ -87,7 +87,7 @@ Binary Node inherits from Node, so the components in Tree implementation are als
 3. [**➰ Traversing Binary Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
    1. In-Order Traversal
 
---------
+-----
 
 For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components.
 
@@ -103,31 +103,31 @@ For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components
    1. Export to *list*, *dictionary*, or *pandas DataFrame*
    2. Export DAG to *dot* (can save to .dot, .png, .svg, .jpeg files)
 
-----
+-----
 
 ## Installation
 
-There are two ways to install `bigtree`, with pip (from PyPI) or conda (from conda-forge).
+There are two ways to install `bigtree`, with pip (recommended) or conda.
 
-### a) Installation with pip (recommended)
+### a) Installation with pip
 
 To install `bigtree`, run the following line in command prompt:
 
-```shell
+```console
 $ pip install bigtree
 ```
 
 If tree needs to use pandas methods, it requires additional dependencies.
 Run the following line in command prompt:
 
-```shell
+```console
 $ pip install 'bigtree[pandas]'
 ```
 
 If tree needs to be exported to image, it requires additional dependencies.
 Run the following lines in command prompt:
 
-```shell
+```console
 $ pip install 'bigtree[image]'
 $ brew install gprof2dot  # for MacOS
 $ conda install graphviz  # for Windows
@@ -135,7 +135,7 @@ $ conda install graphviz  # for Windows
 
 Alternatively, install all optional dependencies with the following line in command prompt:
 
-```shell
+```console
 $ pip install 'bigtree[all]'
 ```
 
@@ -143,6 +143,6 @@ $ pip install 'bigtree[all]'
 
 To install `bigtree` with conda, run the following line in command prompt:
 
-```shell
+```console
 $ conda install -c conda-forge bigtree
 ```
