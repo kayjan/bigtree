@@ -1,6 +1,6 @@
 .md-header__topic span {
     font-weight: normal;
 }
-.md-typeset h1 {
-    color: initial;
+h1 {
+    --md-default-fg-color--light: hsla(var(--md-hue),0%,50%,1);
 }
