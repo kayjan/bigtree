@@ -113,6 +113,10 @@ plugins:
               merge_init_into_class: true
               docstring_section_style: table
               signature_crossrefs: true
+  - termynal:
+      prompt_literal_start:
+        - "$"
+        - ">"
 
 extra:
   social:

@@ -7,3 +7,4 @@ mkdocstrings[python]==0.24.0
 pandas
 Pillow
 pydot
+termynal==0.11.1

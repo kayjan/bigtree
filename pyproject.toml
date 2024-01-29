@@ -96,6 +96,7 @@ dependencies = [
   "mkdocs-material[imaging]==9.5.5",
   "mdx_truly_sane_lists",
   "mkdocstrings[python]",
+  "termynal",
   "black",
   "IPython",
   "pandas",
