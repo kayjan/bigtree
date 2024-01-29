@@ -64,6 +64,8 @@
     
       <link rel="stylesheet" href="../_static/custom.css">
     
+      <link rel="stylesheet" href="../termynal.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -2082,25 +2084,22 @@
 <p>There are two ways to install <code>bigtree</code>, with pip (recommended) or conda.</p>
 <h2 id="installation-with-pip">Installation with pip</h2>
 <p>To install <code>bigtree</code>, run the following line in command prompt:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>bigtree
-</span></code></pre></div>
+<div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">pip install bigtree</span><span data-ty="progress"></span><span data-ty>Installed<br></span></div>
+
 <p>If tree needs to use pandas methods, it requires additional dependencies.
 Run the following line in command prompt:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;bigtree[pandas]&#39;</span>
-</span></code></pre></div>
+<div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">pip install 'bigtree[pandas]'</span><span data-ty></span></div>
+
 <p>If tree needs to be exported to image, it requires additional dependencies.
 Run the following lines in command prompt:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;bigtree[image]&#39;</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="gp">$ </span>brew<span class="w"> </span>install<span class="w"> </span>gprof2dot<span class="w">  </span><span class="c1"># for MacOS</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="gp">$ </span>conda<span class="w"> </span>install<span class="w"> </span>graphviz<span class="w">  </span><span class="c1"># for Windows</span>
-</span></code></pre></div>
+<div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">pip install 'bigtree[image]'</span><span data-ty="input" data-ty-prompt="$">brew install gprof2dot  # for MacOS</span><span data-ty="input" data-ty-prompt="$">conda install graphviz  # for Windows</span><span data-ty></span></div>
+
 <p>Alternatively, install all optional dependencies with the following line in command prompt:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;bigtree[all]&#39;</span>
-</span></code></pre></div>
+<div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">pip install 'bigtree[all]'</span><span data-ty></span></div>
+
 <h2 id="installation-with-conda">Installation with conda</h2>
 <p>To install <code>bigtree</code> with conda, run the following line in command prompt:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="gp">$ </span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>bigtree
-</span></code></pre></div>
+<div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">conda install -c conda-forge bigtree</span><span data-ty></span></div>
 
 
 
@@ -2197,6 +2196,8 @@ Run the following lines in command prompt:</p>
     
     
       <script src="../assets/javascripts/bundle.c18c5fb9.min.js"></script>
+      
+        <script src="../termynal.js"></script>
       
     
   </body>
