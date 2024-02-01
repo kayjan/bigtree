@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Misc: Documentation plugin Termynal for code animation.
+### Changed
+- Misc: Documentation CSS for h1 display for windows compatibility.
 
 ## [0.16.1] - 2023-01-29
 ### Fixed
