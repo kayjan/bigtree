@@ -789,7 +789,7 @@ def tree_to_newick(
         attr_sep = attr_sep.value
 
     def _serialize(item: Any) -> Any:
-        """Serialize item if it contains special Newick characters
+        """Serialize item if it contains special Newick characters.
 
         Args:
             item (Any): item to serialize
@@ -887,7 +887,12 @@ def tree_to_dict(
     tree = tree.copy()
     data_dict = {}
 
-    def recursive_append(node: T) -> None:
+    def _recursive_append(node: T) -> None:
+        """Recursively iterate through node and its children to export to dictionary.
+
+        Args:
+            node (Node): current node
+        """
         if node:
             if (
                 (not max_depth or node.depth <= max_depth)
@@ -915,9 +920,9 @@ def tree_to_dict(
                         data_child[v] = node.get_attr(k)
                 data_dict[node.path_name] = data_child
             for _node in node.children:
-                recursive_append(_node)
+                _recursive_append(_node)
 
-    recursive_append(tree)
+    _recursive_append(tree)
     return data_dict
 
 
@@ -960,7 +965,13 @@ def tree_to_nested_dict(
     tree = tree.copy()
     data_dict: Dict[str, List[Dict[str, Any]]] = {}
 
-    def recursive_append(node: T, parent_dict: Dict[str, Any]) -> None:
+    def _recursive_append(node: T, parent_dict: Dict[str, Any]) -> None:
+        """Recursively iterate through node and its children to export to nested dictionary.
+
+        Args:
+            node (Node): current node
+            parent_dict (Dict[str, Any]): parent dictionary
+        """
         if node:
             if not max_depth or node.depth <= max_depth:
                 data_child = {name_key: node.node_name}
@@ -981,9 +992,9 @@ def tree_to_nested_dict(
                     parent_dict[child_key] = [data_child]
 
                 for _node in node.children:
-                    recursive_append(_node, data_child)
+                    _recursive_append(_node, data_child)
 
-    recursive_append(tree, data_dict)
+    _recursive_append(tree, data_dict)
     return data_dict[child_key][0]
 
 
@@ -1044,7 +1055,12 @@ def tree_to_dataframe(
     tree = tree.copy()
     data_list = []
 
-    def recursive_append(node: T) -> None:
+    def _recursive_append(node: T) -> None:
+        """Recursively iterate through node and its children to export to dataframe.
+
+        Args:
+            node (Node): current node
+        """
         if node:
             if (
                 (not max_depth or node.depth <= max_depth)
@@ -1071,9 +1087,9 @@ def tree_to_dataframe(
                         data_child[v] = node.get_attr(k)
                 data_list.append(data_child)
             for _node in node.children:
-                recursive_append(_node)
+                _recursive_append(_node)
 
-    recursive_append(tree)
+    _recursive_append(tree)
     return pd.DataFrame(data_list)
 
 
@@ -1212,9 +1228,13 @@ def tree_to_dot(
 
         name_dict: Dict[str, List[str]] = collections.defaultdict(list)
 
-        def recursive_create_node_and_edges(
-            parent_name: Optional[str], child_node: T
-        ) -> None:
+        def _recursive_append(parent_name: Optional[str], child_node: T) -> None:
+            """Recursively iterate through node and its children to export to dot by creating node and edges.
+
+            Args:
+                parent_name (Optional[str]): parent name
+                child_node (Node): current node
+            """
             _node_style = node_style.copy()
             _edge_style = edge_style.copy()
 
@@ -1241,9 +1261,9 @@ def tree_to_dot(
                 _graph.add_edge(edge)
             for child in child_node.children:
                 if child:
-                    recursive_create_node_and_edges(child_name, child)
+                    _recursive_append(child_name, child)
 
-        recursive_create_node_and_edges(None, _tree.root)
+        _recursive_append(None, _tree.root)
     return _graph
 
 
@@ -1522,6 +1542,17 @@ def tree_to_mermaid(
         _node_border_colour: str,
         _node_border_width: float,
     ) -> str:
+        """Construct style for Mermaid.
+
+        Args:
+            _style_name (str): style name
+            _node_colour (str): node colour
+            _node_border_colour (str): node border colour
+            _node_border_width (float): node border width
+
+        Returns:
+            (str)
+        """
         style = []
         if _node_colour:
             style.append(f"fill:{_node_colour}")
@@ -1539,6 +1570,8 @@ def tree_to_mermaid(
     styles.append(default_style)
 
     class MermaidNode(Node):
+        """Mermaid Node, adds property `mermaid_name`"""
+
         @property
         def mermaid_name(self) -> str:
             """Reference name for MermaidNode, must be unique for each node.
@@ -1550,7 +1583,7 @@ def tree_to_mermaid(
                 return "0"
             return f"{self.parent.mermaid_name}-{self.parent.children.index(self)}"
 
-    def get_attr(
+    def _get_attr(
         _node: MermaidNode,
         attr_parameter: str | Callable[[MermaidNode], str],
         default_parameter: str,
@@ -1579,24 +1612,24 @@ def tree_to_mermaid(
             # Get custom style (node_shape_attr)
             _parent_node_name = ""
             if node.parent.is_root:
-                _parent_node_shape_choice = get_attr(
+                _parent_node_shape_choice = _get_attr(
                     node.parent, node_shape_attr, node_shape  # type: ignore
                 )
                 _parent_node_shape = node_shapes[_parent_node_shape_choice]
                 _parent_node_name = _parent_node_shape.format(label=node.parent.name)
-            _node_shape_choice = get_attr(node, node_shape_attr, node_shape)  # type: ignore
+            _node_shape_choice = _get_attr(node, node_shape_attr, node_shape)  # type: ignore
             _node_shape = node_shapes[_node_shape_choice]
             _node_name = _node_shape.format(label=node.name)
 
             # Get custom style (edge_arrow_attr, edge_label)
-            _arrow_choice = get_attr(node, edge_arrow_attr, edge_arrow)  # type: ignore
+            _arrow_choice = _get_attr(node, edge_arrow_attr, edge_arrow)  # type: ignore
             _arrow = edge_arrows[_arrow_choice]
             _arrow_label = (
                 f"|{node.get_attr(edge_label)}|" if node.get_attr(edge_label) else ""
             )
 
             # Get custom style (node_attr)
-            _flow_style = get_attr(node, node_attr, "")  # type: ignore
+            _flow_style = _get_attr(node, node_attr, "")  # type: ignore
             if _flow_style:
                 _flow_style_class = f"""class{node.get_attr("mermaid_name")}"""
                 styles.append(

@@ -363,12 +363,20 @@ class DAGNode:
         if not len(list(self.parents)):
             return ()
 
-        def recursive_parent(node: T) -> Iterable[T]:
+        def _recursive_parent(node: T) -> Iterable[T]:
+            """Recursively yield parent of current node, returns earliest to latest ancestor
+
+            Args:
+                node (DAGNode): current node
+
+            Returns:
+                (Iterable[DAGNode])
+            """
             for _node in node.parents:
-                yield from recursive_parent(_node)
+                yield from _recursive_parent(_node)
                 yield _node
 
-        ancestors = list(recursive_parent(self))
+        ancestors = list(_recursive_parent(self))
         return list(dict.fromkeys(ancestors))
 
     @property
@@ -531,18 +539,27 @@ class DAGNode:
 
         self.__path: List[List[T]] = []
 
-        def recursive_path(_node: T, _path: List[T]) -> Optional[List[T]]:
+        def _recursive_path(_node: T, _path: List[T]) -> Optional[List[T]]:
+            """Get path to specified node
+
+            Args:
+                _node (DAGNode): current node
+                _path (List[DAGNode]): current path, from start node to current node, excluding current node
+
+            Returns:
+                (List[DAGNode])
+            """
             if _node:  # pragma: no cover
                 _path.append(_node)
                 if _node == node:
                     return _path
                 for _child in _node.children:
-                    ans = recursive_path(_child, _path.copy())
+                    ans = _recursive_path(_child, _path.copy())
                     if ans:
                         self.__path.append(ans)
             return None
 
-        recursive_path(self, [])
+        _recursive_path(self, [])
         return self.__path
 
     def copy(self: T) -> T:
