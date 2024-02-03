@@ -96,6 +96,7 @@ dependencies = [
   "mkdocs-material[imaging]==9.5.5",
   "mdx_truly_sane_lists",
   "mkdocstrings[python]",
+  "docstr-coverage",
   "termynal",
   "black",
   "IPython",
@@ -106,9 +107,10 @@ dependencies = [
 
 [tool.hatch.envs.mkdocs.scripts]
 add-cairo = "ln -s /opt/homebrew/lib/libcairo.2.dylib . "
-build = "ln -s /opt/homebrew/lib/libcairo.2.dylib .  & mkdocs build"
-serve = "ln -s /opt/homebrew/lib/libcairo.2.dylib .  & mkdocs serve"
-deploy = "ln -s /opt/homebrew/lib/libcairo.2.dylib .  & mkdocs gh-deploy"
+coverage = "docstr-coverage bigtree --skip-file-doc --skip-init --exclude \"(.*/exceptions.py|.*/constants.py)\""
+build = "mkdocs build"
+serve = "mkdocs serve"
+deploy = "mkdocs gh-deploy"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["37", "38", "39", "310", "311"]
