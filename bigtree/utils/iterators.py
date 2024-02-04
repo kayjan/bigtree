@@ -260,6 +260,14 @@ def levelorder_iter(
     """
 
     def _levelorder_iter(trees: List[BaseNodeT]) -> Iterable[BaseNodeT]:
+        """Iterate through all children of a tree.
+
+        Args:
+            trees (List[BaseNode]): trees to get children for next level
+
+        Returns:
+            (Iterable[BaseNode])
+        """
         next_level = []
         for _tree in trees:
             if _tree:
@@ -325,6 +333,14 @@ def levelordergroup_iter(
     """
 
     def _levelordergroup_iter(trees: List[BaseNodeT]) -> Iterable[Iterable[BaseNodeT]]:
+        """Iterate through all children of a tree.
+
+        Args:
+            trees (List[BaseNode]): trees to get children for next level
+
+        Returns:
+            (Iterable[Iterable[BaseNode]])
+        """
         current_tree = []
         next_level = []
         for _tree in trees:
@@ -393,6 +409,15 @@ def zigzag_iter(
     def _zigzag_iter(
         trees: List[BaseNodeT], reverse_indicator: bool = False
     ) -> Iterable[BaseNodeT]:
+        """Iterate through all children of a tree.
+
+        Args:
+            trees (List[BaseNode]): trees to get children for next level
+            reverse_indicator (bool): indicator whether it is in reverse order
+
+        Returns:
+            (Iterable[BaseNode])
+        """
         next_level = []
         for _tree in trees:
             if _tree:
@@ -466,6 +491,15 @@ def zigzaggroup_iter(
     def _zigzaggroup_iter(
         trees: List[BaseNodeT], reverse_indicator: bool = False
     ) -> Iterable[Iterable[BaseNodeT]]:
+        """Iterate through all children of a tree.
+
+        Args:
+            trees (List[BaseNode]): trees to get children for next level
+            reverse_indicator (bool): indicator whether it is in reverse order
+
+        Returns:
+            (Iterable[Iterable[BaseNode]])
+        """
         current_tree = []
         next_level = []
         for _tree in trees:
@@ -514,7 +548,15 @@ def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
     """
     visited_nodes = set()
 
-    def recursively_parse_dag(node: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
+    def _dag_iterator(node: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
+        """Iterate through all children of a DAG.
+
+        Args:
+            node (DAGNode): current node
+
+        Returns:
+            (Iterable[Tuple[DAGNode, DAGNode]])
+        """
         node_name = node.node_name
         visited_nodes.add(node_name)
 
@@ -534,12 +576,12 @@ def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
         for parent in node.parents:
             parent_name = parent.node_name
             if parent_name not in visited_nodes:
-                yield from recursively_parse_dag(parent)
+                yield from _dag_iterator(parent)
 
         # Parse downwards
         for child in node.children:
             child_name = child.node_name
             if child_name not in visited_nodes:
-                yield from recursively_parse_dag(child)
+                yield from _dag_iterator(child)
 
-    yield from recursively_parse_dag(dag)
+    yield from _dag_iterator(dag)

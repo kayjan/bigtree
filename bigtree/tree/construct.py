@@ -740,9 +740,18 @@ def nested_dict_to_tree(
     if not node_attrs:
         raise ValueError("Dictionary does not contain any data, check `node_attrs`")
 
-    def recursive_add_child(
+    def _recursive_add_child(
         child_dict: Dict[str, Any], parent_node: Optional[Node] = None
     ) -> Node:
+        """Recursively add child to tree, given child attributes and parent node.
+
+        Args:
+            child_dict (Dict[str, Any]): child to be added to tree, from dictionary
+            parent_node (Node): parent node to be assigned to child node, defaults to None
+
+        Returns:
+            (Node)
+        """
         child_dict = child_dict.copy()
         node_name = child_dict.pop(name_key)
         node_children = child_dict.pop(child_key, [])
@@ -752,10 +761,10 @@ def nested_dict_to_tree(
             )
         node = node_type(node_name, parent=parent_node, **child_dict)
         for _child in node_children:
-            recursive_add_child(_child, parent_node=node)
+            _recursive_add_child(_child, parent_node=node)
         return node
 
-    root_node = recursive_add_child(node_attrs)
+    root_node = _recursive_add_child(node_attrs)
     return root_node
 
 
@@ -988,7 +997,15 @@ def dataframe_to_tree_by_relation(
     else:
         root_node = node_type(root_name)
 
-    def retrieve_attr(_row: Dict[str, Any]) -> Dict[str, Any]:
+    def _retrieve_attr(_row: Dict[str, Any]) -> Dict[str, Any]:
+        """Retrieve node attributes from dictionary, remove parent and child column from dictionary.
+
+        Args:
+            _row (Dict[str, Any]): node attributes
+
+        Returns:
+            (Dict[str, Any])
+        """
         node_attrs = _row.copy()
         node_attrs["name"] = node_attrs[child_col]
         del node_attrs[child_col]
@@ -996,19 +1013,24 @@ def dataframe_to_tree_by_relation(
         _node_attrs = {k: v for k, v in node_attrs.items() if v is not None}
         return _node_attrs
 
-    def recursive_create_child(parent_node: Node) -> None:
+    def _recursive_add_child(parent_node: Node) -> None:
+        """Recursive add child to tree, given current node.
+
+        Args:
+            parent_node (Node): parent node
+        """
         child_rows = data[data[parent_col] == parent_node.node_name]
 
         for row in child_rows.to_dict(orient="index").values():
-            child_node = node_type(**retrieve_attr(row))
+            child_node = node_type(**_retrieve_attr(row))
             child_node.parent = parent_node
-            recursive_create_child(child_node)
+            _recursive_add_child(child_node)
 
     # Create root node attributes
     if len(root_row):
         row = list(root_row.to_dict(orient="index").values())[0]
-        root_node.set_attrs(retrieve_attr(row))
-    recursive_create_child(root_node)
+        root_node.set_attrs(_retrieve_attr(row))
+    _recursive_add_child(root_node)
     return root_node
 
 
@@ -1093,6 +1115,18 @@ def newick_to_tree(
         _depth_nodes: Dict[int, List[Node]],
         _current_depth: int,
     ) -> Tuple[Node, int]:
+        """Create node at checkpoint.
+
+        Args:
+            _new_node (Optional[Node]): existing node (to add length attribute), or nothing (to create a node)
+            _cumulative_string (str): cumulative string, contains either node name or length attribute
+            _unlabelled_node_counter (int): number of unlabelled nodes, updates and returns counter
+            _depth_nodes (Dict[int, List[Node]]): list of nodes at each depth
+            _current_depth (int): depth of current node or node to be created
+
+        Returns:
+            (Tuple[Node, int])
+        """
         if not _new_node:
             if not _cumulative_string:
                 _cumulative_string = f"node{_unlabelled_node_counter}"
@@ -1116,6 +1150,11 @@ def newick_to_tree(
         return _new_node, _unlabelled_node_counter
 
     def _raise_value_error(tree_idx: int) -> None:
+        """Raise value error.
+
+        Raises:
+            ValueError
+        """
         raise ValueError(
             f"String not properly closed, check `tree_string` at index {tree_idx}"
         )

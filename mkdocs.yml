@@ -21,6 +21,8 @@ nav:
     - demo/binarytree.md
     - demo/dag.md
     - demo/workflow.md
+    - Resources:
+        - resources/articles.md
   - Code Documentation:
     - Node:
         - bigtree/node/index.md

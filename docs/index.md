@@ -36,22 +36,25 @@ It is pythonic, making it easy to learn and extendable to many types of workflow
 
     [:octicons-arrow-right-24: Reference](demo/index.md)
 
+- :material-newspaper-variant-outline:{ .lg .middle } __Resources__
+
+    ---
+    Articles relating to trees and [`bigtree`](#)
+
+    [:octicons-arrow-right-24: View articles](resources/articles.md)
+
+- :material-heart-outline:{ .lg .middle } __Support bigtree__
+
+    ---
+    Do support if you like this project!
+
+    [:octicons-arrow-right-24: Support me](https://www.buymeacoffee.com/kayjan)
+
 </div>
 
 -----
 
 Related Links:
 
-- [GitHub](https://github.com/kayjan/bigtree/)
-- Community
-  - [Issues](https://github.com/kayjan/bigtree/issues)
-  / [Discussions](https://github.com/kayjan/bigtree/discussions)
-  / [Changelog](changelog.md)
-  / [Contributing](contributing.md)
-- Package
-  - [PyPI](https://pypi.org/project/bigtree/)
-  / [Conda](https://anaconda.org/conda-forge/bigtree)
-- Articles
-  - [Python Tree Implementation with BigTree](https://towardsdatascience.com/python-tree-implementation-with-bigtree-13cdabd77adc#245a-94ae81f0b3f1)
-  - [The Reingold Tilford Algorithm Explained, with Walkthrough](https://towardsdatascience.com/reingold-tilford-algorithm-explained-with-walkthrough-be5810e8ed93?sk=2db8e10398cee76c486c4b06b0b33322)
-- <div><p>If you want to support bigtree, <a href="https://www.buymeacoffee.com/kayjan"><img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me a Coffee" style="vertical-align:middle"></a></p></div>
+- Community: [Issues](https://github.com/kayjan/bigtree/issues) / [Discussions](https://github.com/kayjan/bigtree/discussions)
+- Package: [PyPI](https://pypi.org/project/bigtree/) / [Conda](https://anaconda.org/conda-forge/bigtree)
