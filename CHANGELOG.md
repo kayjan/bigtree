@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: Usage of `docstr-coverage`.
 - Misc: Docstrings for nested functions to pass `docstr-coverage`.
 ### Changed
+- BaseNode: Make assertion checks optional.
 - Misc: Documentation CSS for h1 display for windows compatibility, modify the related links on main page.
 
 ## [0.16.1] - 2023-01-29
