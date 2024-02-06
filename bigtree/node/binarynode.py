@@ -294,9 +294,9 @@ class BinaryNode(Node):
         Args:
             _new_children (List[Optional[Self]]): child node
         """
+        new_children = self.__check_children_type(_new_children)
         if ASSERTIONS:
             self._BaseNode__check_children_type(_new_children)  # type: ignore
-            new_children = self.__check_children_type(_new_children)
             self.__check_children_loop(new_children)
 
         current_new_children = {
