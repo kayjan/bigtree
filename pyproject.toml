@@ -97,6 +97,7 @@ dependencies = [
   "mdx_truly_sane_lists",
   "mkdocstrings[python]",
   "docstr-coverage",
+  "mkdocs-glightbox",
   "termynal",
   "black",
   "IPython",
