@@ -15,7 +15,7 @@ class TestBaseNodeNoAssertions(unittest.TestCase):
         |-- b (age=65)
         |   |-- d (age=40)
         |   +-- e (age=35)
-       |       |-- g (age=10)
+        |       |-- g (age=10)
         |       +-- h (age=6)
         +-- c (age=60)
             +-- f (age=38)
@@ -71,14 +71,14 @@ class TestBaseNodeNoAssertions(unittest.TestCase):
         with pytest.raises(AttributeError):
             self.a.children = [self.b, children]
 
-   def test_set_children_loop_error(self):
+    def test_set_children_loop_error(self):
         # No error without assertion
         self.a.children = [self.b, self.a]
 
         # No error without assertion
         self.a.children = [self.b, self.c]
         self.c.children = [self.d, self.e, self.f]
-       self.f.children = [self.a]
+        self.f.children = [self.a]
 
     def test_set_duplicate_children_error(self):
         # No error without assertion
