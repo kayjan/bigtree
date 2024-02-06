@@ -99,7 +99,16 @@
       
     
     
-  </head>
+   <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -2527,7 +2536,7 @@ All other methods calls these 2 methods directly.</p>
 </tbody>
 </table>
 <h2 id="tree-modification-illustration">Tree Modification Illustration</h2>
-<p><img alt="Shift and Copy Example" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_shift_and_copy.png" title="Shift and Copy Example" /></p>
+<p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_shift_and_copy.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Shift and Copy Example" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_shift_and_copy.png" title="Shift and Copy Example" /></a></p>
 <h3 id="sample-tree-modification-shift-copy-delete">Sample Tree Modification (Shift, Copy, Delete)</h3>
 <table>
 <thead>
@@ -2571,7 +2580,7 @@ All other methods calls these 2 methods directly.</p>
 </tr>
 </tbody>
 </table>
-<p><img alt="Advanced Shift Example" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_advanced.png" title="Advanced Shift Example" /></p>
+<p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_advanced.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Advanced Shift Example" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_advanced.png" title="Advanced Shift Example" /></a></p>
 <h2 id="sample-tree-modification-advanced">Sample Tree Modification (Advanced)</h2>
 <table>
 <thead>
@@ -4863,5 +4872,5 @@ defaults to False</p>
         <script src="../../../termynal.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

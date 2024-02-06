@@ -99,7 +99,16 @@
       
     
     
-  </head>
+   <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -4357,7 +4366,7 @@ Possible node attributes include style, fillcolor, shape.</p>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_to_dot</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_colour</span><span class="o">=</span><span class="s2">&quot;gold&quot;</span><span class="p">,</span> <span class="n">node_shape</span><span class="o">=</span><span class="s2">&quot;diamond&quot;</span><span class="p">,</span> <span class="n">node_attr</span><span class="o">=</span><span class="s2">&quot;node_attr&quot;</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">=</span><span class="s2">&quot;edge_attr&quot;</span><span class="p">)</span>
 </span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">&quot;assets/export_tree_dot.png&quot;</span><span class="p">)</span>
 </span></code></pre></div>
-    <p><img alt="Export to dot" src="https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot.png" /></p>
+    <p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Export to dot" src="https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot.png" /></a></p>
 <p>Alternative way to define node and edge attributes (using callable function)</p>
     <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">get_node_attribute</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">):</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span>    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_leaf</span><span class="p">:</span>
@@ -4373,7 +4382,7 @@ Possible node attributes include style, fillcolor, shape.</p>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_to_dot</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_colour</span><span class="o">=</span><span class="s2">&quot;gold&quot;</span><span class="p">,</span> <span class="n">node_attr</span><span class="o">=</span><span class="n">get_node_attribute</span><span class="p">)</span>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">&quot;assets/export_tree_dot_callable.png&quot;</span><span class="p">)</span>
 </span></code></pre></div>
-    <p><img alt="Export to dot (callable)" src="https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png" /></p>
+    <p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Export to dot (callable)" src="https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png" /></a></p>
 
 
 
@@ -5254,5 +5263,5 @@ This overrides <code>node_colour</code>, <code>node_border_colour</code>, and <c
         <script src="../../../termynal.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

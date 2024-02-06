@@ -99,7 +99,16 @@
       
     
     
-  </head>
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -2548,7 +2557,7 @@
 </div>
 </div>
 </div>
-<p><img alt="Sample Tree Output" src="https://github.com/kayjan/bigtree/raw/master/assets/demo/tree.png" /></p>
+<p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/demo/tree.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Sample Tree Output" src="https://github.com/kayjan/bigtree/raw/master/assets/demo/tree.png" /></a></p>
 <h3 id="2-from-str">2. From str</h3>
 <p>Construct nodes only. Newick string notation supports parsing attributes.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Tree string</label><label for="__tabbed_2_2">Newick string</label></div>
@@ -3551,11 +3560,11 @@ it does not require traversing the whole tree to find the node(s).</p>
 <ul>
 <li>dot.png</li>
 </ul>
-<p><img alt="Sample Dot Image Output" src="https://github.com/kayjan/bigtree/raw/master/assets/demo/dot.png" /></p>
+<p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/demo/dot.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Sample Dot Image Output" src="https://github.com/kayjan/bigtree/raw/master/assets/demo/dot.png" /></a></p>
 <ul>
 <li>pillow.png</li>
 </ul>
-<p><img alt="Sample Pillow Image Output" src="https://github.com/kayjan/bigtree/raw/master/assets/demo/pillow.png" /></p>
+<p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/demo/pillow.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Sample Pillow Image Output" src="https://github.com/kayjan/bigtree/raw/master/assets/demo/pillow.png" /></a></p>
 <ul>
 <li>Mermaid flowchart
 <pre class="mermaid"><code>%%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
@@ -3666,5 +3675,5 @@ classDef default stroke-width:1</code></pre></li>
         <script src="../../termynal.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

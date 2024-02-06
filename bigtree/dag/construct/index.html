@@ -99,7 +99,16 @@
       
     
     
-  </head>
+   <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -2278,7 +2287,7 @@
 </tbody>
 </table>
 <p>These functions are not standalone functions. Under the hood, they have the following dependency,</p>
-<p><img alt="DAG Constructor Dependency Diagram" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/dag_construct.png" title="DAG Constructor Dependency Diagram" /></p>
+<p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/docs/dag_construct.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="DAG Constructor Dependency Diagram" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/dag_construct.png" title="DAG Constructor Dependency Diagram" /></a></p>
 <hr />
 
 
@@ -2805,5 +2814,5 @@ if not set, it will take all columns of data except <code>child_col</code> and <
         <script src="../../../termynal.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

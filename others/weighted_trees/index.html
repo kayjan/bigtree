@@ -97,7 +97,16 @@
       
     
     
-  </head>
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -2133,7 +2142,7 @@ However, if we want to visualize the weighted tree, we can create a <code>Weight
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_to_dot</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_colour</span><span class="o">=</span><span class="s2">&quot;gold&quot;</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">=</span><span class="s2">&quot;edge_attr&quot;</span><span class="p">)</span>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">&quot;assets/docs/weighted_tree.png&quot;</span><span class="p">)</span>
 </span></code></pre></div>
-<p><img alt="Sample DAG Output" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/weighted_tree.png" /></p>
+<p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/docs/weighted_tree.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Sample DAG Output" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/weighted_tree.png" /></a></p>
 
 
 
@@ -2234,5 +2243,5 @@ However, if we want to visualize the weighted tree, we can create a <code>Weight
         <script src="../../termynal.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>
