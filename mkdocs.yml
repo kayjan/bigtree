@@ -93,6 +93,7 @@ theme:
     - content.tooltips
 
 plugins:
+  - glightbox
   - search
   - social:
       cards_layout_options:
