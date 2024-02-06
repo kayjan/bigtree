@@ -55,6 +55,7 @@ nav:
   - Others:
     - Tips and Tricks:
       - others/index.md
+      - others/remove_checks.md
       - others/list_dir.md
       - others/nodes.md
       - others/merging_trees.md
