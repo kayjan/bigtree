@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 from typing import Any, Dict, Generator, Iterable, List, Optional, Tuple, TypeVar
 
+from bigtree.globals import ASSERTIONS
 from bigtree.utils.exceptions import LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
 
@@ -208,8 +209,9 @@ class DAGNode:
         Args:
             new_parents (List[Self]): parent nodes
         """
-        self.__check_parent_type(new_parents)
-        self.__check_parent_loop(new_parents)
+        if ASSERTIONS:
+            self.__check_parent_type(new_parents)
+            self.__check_parent_loop(new_parents)
 
         current_parents = self.__parents.copy()
 
@@ -306,8 +308,9 @@ class DAGNode:
         Args:
             new_children (Iterable[Self]): child node
         """
-        self.__check_children_type(new_children)
-        self.__check_children_loop(new_children)
+        if ASSERTIONS:
+            self.__check_children_type(new_children)
+            self.__check_children_loop(new_children)
 
         current_children = list(self.children)
 
