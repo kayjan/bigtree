@@ -5,18 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.16.2] - 2024-02-06
 ### Added
 - Misc: Documentation plugin Termynal for code animation.
 - Misc: Usage of `docstr-coverage`.
 - Misc: Docstrings for nested functions to pass `docstr-coverage`.
 ### Changed
+- [#185] BaseNode: Make assertion checks optional.
 - Misc: Documentation CSS for h1 display for windows compatibility, modify the related links on main page.
 
-## [0.16.1] - 2023-01-29
+## [0.16.1] - 2024-01-29
 ### Fixed
 - Misc: Compatibility of mkdocs with readthedocs.
 
-## [0.16.0] - 2023-01-28
+## [0.16.0] - 2024-01-28
 ### Added
 - Misc: Documentation using mkdocs.
 ### Changed
@@ -25,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Misc: Docstring bullet point alignment, images compatibility with markdown.
 
-## [0.15.7] - 2023-01-26
+## [0.15.7] - 2024-01-26
 ### Added
 - Misc: Sphinx documentation to support mermaid markdown images, reflect CHANGELOG section, add more emojis.
 ### Changed
@@ -35,7 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Tree Exporter: `hprint_tree` and `hyield_tree` to be compatible with `BinaryNode` where child nodes can be None type.
 
-## [0.15.6] - 2023-01-20
+## [0.15.6] - 2024-01-20
 ### Added
 - DAGNode: Able to access and delete node children via name with square bracket accessor with `__getitem__` and `__delitem__` magic methods.
 - DAGNode: Able to delete all children for a node.
@@ -47,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: Documentation enhancement to split README into multiple files.
 - Misc: New Sphinx documentation theme.
 
-## [0.15.5] - 2023-01-17
+## [0.15.5] - 2024-01-17
 ### Changed
 - Misc: Neater handling of strings for tests.
 - Misc: Better examples for merging trees and weighted trees in Sphinx documentation.
@@ -492,7 +495,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.16.1...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.16.2...HEAD
+[0.16.2]: https://github.com/kayjan/bigtree/compare/0.16.1...0.16.2
 [0.16.1]: https://github.com/kayjan/bigtree/compare/0.16.0...0.16.1
 [0.16.0]: https://github.com/kayjan/bigtree/compare/0.15.7...0.16.0
 [0.15.7]: https://github.com/kayjan/bigtree/compare/0.15.6...0.15.7

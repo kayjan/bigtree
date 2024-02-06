@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any, List, Optional, Tuple, TypeVar, Union
 
+from bigtree.globals import ASSERTIONS
 from bigtree.node.node import Node
 from bigtree.utils.exceptions import CorruptedTreeError, LoopError, TreeError
 
@@ -165,8 +166,9 @@ class BinaryNode(Node):
         Args:
             new_parent (Optional[Self]): parent node
         """
-        self.__check_parent_type(new_parent)
-        self._BaseNode__check_parent_loop(new_parent)  # type: ignore
+        if ASSERTIONS:
+            self.__check_parent_type(new_parent)
+            self._BaseNode__check_parent_loop(new_parent)  # type: ignore
 
         current_parent = self.parent
         current_child_idx = None
@@ -294,7 +296,8 @@ class BinaryNode(Node):
         """
         self._BaseNode__check_children_type(_new_children)  # type: ignore
         new_children = self.__check_children_type(_new_children)
-        self.__check_children_loop(new_children)
+        if ASSERTIONS:
+            self.__check_children_loop(new_children)
 
         current_new_children = {
             new_child: (

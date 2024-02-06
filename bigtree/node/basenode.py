@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 from typing import Any, Dict, Generator, Iterable, List, Optional, Set, Tuple, TypeVar
 
+from bigtree.globals import ASSERTIONS
 from bigtree.utils.exceptions import CorruptedTreeError, LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
 
@@ -181,8 +182,9 @@ class BaseNode:
         Args:
             new_parent (Self): parent node
         """
-        self.__check_parent_type(new_parent)
-        self.__check_parent_loop(new_parent)
+        if ASSERTIONS:
+            self.__check_parent_type(new_parent)
+            self.__check_parent_loop(new_parent)
 
         current_parent = self.parent
         current_child_idx = None
@@ -325,8 +327,9 @@ class BaseNode:
         Args:
             new_children (List[Self]): child node
         """
-        self.__check_children_type(new_children)
-        self.__check_children_loop(new_children)
+        if ASSERTIONS:
+            self.__check_children_type(new_children)
+            self.__check_children_loop(new_children)
         new_children = list(new_children)
 
         current_new_children = {
