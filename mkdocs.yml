@@ -16,13 +16,15 @@ nav:
     - Changes:
       - changelog.md
   - Getting Started:
-    - demo/index.md
-    - demo/tree.md
-    - demo/binarytree.md
-    - demo/dag.md
-    - demo/workflow.md
+    - Demonstration:
+      - demo/index.md
+      - demo/tree.md
+      - demo/binarytree.md
+      - demo/dag.md
+      - demo/workflow.md
     - Resources:
-        - resources/articles.md
+      - resources/index.md
+      - resources/articles.md
   - Code Documentation:
     - Node:
         - bigtree/node/index.md
