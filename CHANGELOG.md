@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Misc: Documentation to enable zooming in of images.
+- Misc: Documentation to enable zooming in of images, add navigation section headers.
 
 ## [0.16.2] - 2024-02-06
 ### Added

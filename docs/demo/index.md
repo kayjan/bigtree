@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+title: Demonstration
 ---
 
-# 📋 Getting Started
+# 📋 Demonstration
