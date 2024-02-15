@@ -44,5 +44,5 @@ jobs:
           isort --profile black . --check
       - name: Test with pytest
         run: |
-          python -m pip install pytest
+          python -m pip install pytest pytest-benchmark
           pytest
