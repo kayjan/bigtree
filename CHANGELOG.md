@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Misc: Testing to include benchmark timings for tree creation.
+- Misc: Attach benchmark timing results to pull requests.
 ### Changed
 - Misc: Documentation to enable zooming in of images, add navigation section headers, remove some meta tags.
 
