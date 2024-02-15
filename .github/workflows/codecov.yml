@@ -54,7 +54,7 @@ jobs:
         uses: edunad/actions-image@v2.0.0
         with:
           path: "/home/runner/work/bigtree/bigtree/.benchmarks/histogram.svg"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           title: "Benchmark results"
       - name: Upload coverage to Codecov
         if: ${{ github.event_name == 'push' }}
