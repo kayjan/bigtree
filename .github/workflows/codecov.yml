@@ -7,6 +7,11 @@ on:
   pull_request:
     types: [opened, synchronize]
 
+permissions:
+    contents: write
+    actions: read
+    checks: write
+
 jobs:
   codecov:
     runs-on: ubuntu-latest
