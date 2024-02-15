@@ -60,6 +60,7 @@ dependencies = [
   "pydot",
   "pytest",
   "pytest-cov",
+  "pytest-benchmark",
 ]
 
 [tool.hatch.envs.default.scripts]
