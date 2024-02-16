@@ -27,7 +27,7 @@ def run_construct_node(depth: int, width: int = 1, parent_node: Node = None) -> 
 def test_node_benchmark_width_1_depth_10(benchmark):
     import time
 
-    time.sleep(1000)
+    time.sleep(100)
     benchmark.pedantic(run_construct_node, (10, 1), iterations=10, rounds=2)
 
 
