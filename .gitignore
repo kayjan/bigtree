@@ -9,3 +9,4 @@ dist/
 assets/docstr
 site/
 .cache
+.benchmarks
