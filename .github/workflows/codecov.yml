@@ -73,7 +73,6 @@ jobs:
         with:
           tool: "pytest"
           output-file-path: output.json
-          benchmark-data-dir-path: docs/dev/bench
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
       - name: Upload coverage to Codecov
