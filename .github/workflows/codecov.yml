@@ -69,6 +69,7 @@ jobs:
           comment-always: true
           summary-always: true
       - name: Store benchmark report (gh-pages)
+        if: ${{ github.event_name == 'push' }}
         uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: "pytest"
