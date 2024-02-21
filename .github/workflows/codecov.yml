@@ -63,6 +63,7 @@ jobs:
         with:
           tool: "pytest"
           output-file-path: output.json
+          benchmark-data-dir-path: docs/dev/bench
           fail-on-alert: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
