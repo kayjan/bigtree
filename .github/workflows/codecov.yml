@@ -64,9 +64,8 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         env:
           GH_TOKEN: ${{ github.token }}
-        permissions: write-all
         run: |
-          gh cache delete ${{ runner.os }}-benchmark
+          gh cache delete ${{ runner.os }}-benchmark --repo
       - name: Upload coverage to Codecov
         if: ${{ github.event_name == 'push' }}
         uses: codecov/codecov-action@v3
