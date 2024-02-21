@@ -14,6 +14,7 @@ nav:
     - Contributing:
       - contributing.md
     - Changes:
+      - benchmark.md
       - changelog.md
   - Getting Started:
     - Demonstration:
