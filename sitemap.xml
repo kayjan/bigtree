@@ -6,6 +6,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://kayjan.github.io/bigtree/benchmark/</loc>
+         <lastmod>2024-02-21</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://kayjan.github.io/bigtree/binarytree/</loc>
          <lastmod>2024-02-21</lastmod>
          <changefreq>daily</changefreq>
