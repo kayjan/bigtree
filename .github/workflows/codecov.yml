@@ -64,9 +64,9 @@ jobs:
           tool: "pytest"
           output-file-path: output.json
           external-data-json-path: ./cache/benchmark-data.json
-          fail-on-alert: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-always: true
+          fail-on-alert: true
           summary-always: true
       - name: Store benchmark report (gh-pages)
         if: ${{ github.event_name == 'push' }}
@@ -74,9 +74,8 @@ jobs:
         with:
           tool: "pytest"
           output-file-path: output.json
-          gh-pages-branch: master
-          benchmark-data-dir-path: docs/dev/bench
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          gh-repository: 'github.com/kayjan/bigtree-benchmark'
+          github-token: ${{ secrets.GH_TOKEN }}
           auto-push: true
       - name: Upload coverage to Codecov
         if: ${{ github.event_name == 'push' }}
