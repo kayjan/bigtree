@@ -63,12 +63,19 @@ jobs:
         with:
           tool: "pytest"
           output-file-path: output.json
-          benchmark-data-dir-path: docs/dev/bench
+          external-data-json-path: ./cache/benchmark-data.json
           fail-on-alert: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          auto-push: true
           comment-always: true
           summary-always: true
+      - name: Store benchmark report (gh-pages)
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: "pytest"
+          output-file-path: output.json
+          benchmark-data-dir-path: docs/dev/bench
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
       - name: Upload coverage to Codecov
         if: ${{ github.event_name == 'push' }}
         uses: codecov/codecov-action@v3
