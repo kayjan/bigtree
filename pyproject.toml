@@ -74,11 +74,8 @@ mypy-type = "mypy bigtree"
 [tool.hatch.envs.docs]
 dependencies = [
   "autodocsumm==0.2.11",
-  "myst-parser~=1.0.0",
   "IPython",
-  "pandas",
-  "pydot",
-  "Pillow",
+  "myst-parser~=1.0.0",
   "sphinxcontrib-mermaid==0.9.2",
   "sphinxemoji==0.2.0",
   "sphinx-material==0.0.36"
@@ -93,18 +90,15 @@ clean-html = "sphinx-build -M html docs_sphinx/source docs_sphinx/build & sphinx
 
 [tool.hatch.envs.mkdocs]
 dependencies = [
+  "black",
+  "docstr-coverage",
+  "IPython",
   "mkdocs==1.5.3",
   "mkdocs-material[imaging]==9.5.5",
   "mdx_truly_sane_lists",
   "mkdocstrings[python]",
-  "docstr-coverage",
   "mkdocs-glightbox",
   "termynal",
-  "black",
-  "IPython",
-  "pandas",
-  "pydot",
-  "Pillow",
 ]
 
 [tool.hatch.envs.mkdocs.scripts]

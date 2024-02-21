@@ -60,6 +60,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-always: true
           summary-always: true
+      - name: Clear previous benchmark report
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          gh cache delete ${{ runner.os }}-benchmark
       - name: Upload coverage to Codecov
         if: ${{ github.event_name == 'push' }}
         uses: codecov/codecov-action@v3
