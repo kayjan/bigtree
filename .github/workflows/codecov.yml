@@ -74,8 +74,6 @@ jobs:
           tool: "pytest"
           output-file-path: output.json
           gh-repository: "github.com/kayjan/bigtree-benchmark"
-          github-token: ${{ secrets.BENCHMARK_TOKEN }}
-          auto-push: true
       - name: Upload coverage to Codecov
         if: ${{ github.event_name == 'push' }}
         uses: codecov/codecov-action@v3
