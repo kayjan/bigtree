@@ -537,6 +537,18 @@ def phylogenetic_tree():
     return root
 
 
+def pytest_benchmark_scale_unit(config, unit, benchmarks, best, worst, sort):
+    prefix = ""
+    if unit == "seconds":
+        scale = 1.0
+    elif unit == "operations":
+        scale = 0.001
+    else:
+        raise RuntimeError("Unexpected measurement unit %r" % unit)
+
+    return prefix, scale
+
+
 def assert_print_statement(func, expected, *args, **kwargs):
     captured_output = io.StringIO()
     sys.stdout = captured_output
