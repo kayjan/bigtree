@@ -46,6 +46,13 @@ jobs:
           header: Code coverage report
           recreate: true
           path: code-coverage-results.md
+      - name: Clear previous benchmark report
+        if: ${{ github.event_name == 'push' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh cache delete ${{ runner.os }}-benchmark --repo kayjan/bigtree
+        continue-on-error: true
       - name: Download previous benchmark report
         uses: actions/cache@v4
         with:
@@ -61,13 +68,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-always: true
           summary-always: true
-      - name: Clear previous benchmark report
-        if: ${{ github.event_name == 'push' }}
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh cache delete ${{ runner.os }}-benchmark --repo kayjan/bigtree
-        continue-on-error: true
       - name: Upload coverage to Codecov
         if: ${{ github.event_name == 'push' }}
         uses: codecov/codecov-action@v3
