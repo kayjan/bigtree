@@ -62,6 +62,8 @@ jobs:
           summary-always: true
       - name: Clear previous benchmark report
         if: ${{ github.event_name == 'push' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh cache delete ${{ runner.os }}-benchmark
       - name: Upload coverage to Codecov
