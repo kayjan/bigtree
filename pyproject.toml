@@ -64,8 +64,8 @@ dependencies = [
 ]
 
 [tool.hatch.envs.default.scripts]
-cov = "no-cov && coverage report --show-missing --omit='*/workflows/*' {args} --benchmark-autosave --benchmark-histogram=.benchmarks/histogram --benchmark-json .benchmarks/output.json --benchmark-calibration-precision 3"
-cov2 = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree {args} --benchmark-autosave --benchmark-histogram=.benchmarks/histogram --benchmark-json .benchmarks/output.json --benchmark-calibration-precision 3"
+cov = "no-cov && coverage report --show-missing --omit='*/workflows/*' {args} --benchmark-autosave --benchmark-histogram=.benchmarks/histogram --benchmark-json .benchmarks/output.json"
+cov2 = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree {args} --benchmark-autosave --benchmark-histogram=.benchmarks/histogram --benchmark-json .benchmarks/output.json"
 no-cov = "pytest . {args}"
 lint = "black -l 88 ."
 sort = "isort --profile black ."
