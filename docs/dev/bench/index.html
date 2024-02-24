@@ -5,105 +5,87 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes" />
     <style>
       html {
-        font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-family: Roboto, -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
-        background-color: #fff;
-        font-size: 16px;
       }
       body {
         color: #4a4a4a;
         margin: 8px;
-        font-size: 1em;
-        font-weight: 400;
-      }
-      header {
-        margin-bottom: 8px;
-        display: flex;
-        flex-direction: column;
       }
       main {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
       }
+      footer {
+        display: grid;
+        grid-template-columns: 70% 30%;
+        margin-bottom: 8px;
+      }
+
       a {
-        color: #3273dc;
+        color: #000;
         cursor: pointer;
         text-decoration: none;
       }
       a:hover {
-        color: #000;
+        color: rgb(0, 148, 133);
       }
       button {
+        width: fit-content;
         color: #fff;
-        background-color: #3298dc;
-        border-color: transparent;
+        background-color: rgb(0, 148, 133);
+        border-radius: 20px;
+        margin-bottom: 8px;
         cursor: pointer;
         text-align: center;
       }
       button:hover {
-        background-color: #2793da;
+        color: #000;
+        background-color: rgb(255, 193, 5);
         flex: none;
       }
-      .spacer {
-        flex: auto;
+      .last-update {
+        grid-column-start: 1
       }
-      .small {
+      .credits {
+        grid-column-start: 2;
+        align-self: end;
+        justify-self: end;
         font-size: 0.75rem;
       }
-      footer {
-        margin-top: 16px;
-        display: flex;
-        align-items: center;
-      }
-      .header-label {
-        margin-right: 4px;
-      }
+
       .benchmark-set {
         margin: 8px 0;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-      .benchmark-title {
-        font-size: 3rem;
-        font-weight: 600;
-        word-break: break-word;
-        text-align: center;
       }
       .benchmark-graphs {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        flex-wrap: wrap;
-        width: 100%;
+        display: grid;
+        grid-template-columns: 50% 50%;
       }
       .benchmark-chart {
-        max-width: 1000px;
+        height: 100% !important;
+        width: 100% !important;
       }
     </style>
     <title>Benchmarks</title>
   </head>
 
   <body>
-    <header id="header">
-      <div class="header-item">
-        <strong class="header-label">Last Update:</strong>
-        <span id="last-update"></span>
-      </div>
-      <div class="header-item">
-        <strong class="header-label">Repository:</strong>
-        <a id="repository-link" rel="noopener"></a>
-      </div>
-    </header>
     <main id="main"></main>
     <footer>
       <button id="dl-button">Download data as JSON</button>
-      <div class="spacer"></div>
-      <div class="small">Powered by <a rel="noopener" href="https://github.com/marketplace/actions/continuous-benchmark">github-action-benchmark</a></div>
+      <div></div>
+      <div class="last-update">
+        <div>
+          <strong>Last Update:</strong>
+          <span id="last-update"></span>
+        </div>
+        <div>
+          <strong>View Actual Page:</strong>
+          <a id="repository-result" target="_blank"></a>
+        </div>
+      </div>
+      <div class="credits">
+        <div>Powered by <a rel="noopener" href="https://github.com/marketplace/actions/continuous-benchmark">github-action-benchmark</a></div>
+      </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
     <script src="https://kayjan.github.io/bigtree-benchmark/dev/bench/data.js" type="text/javascript"></script>
     <script id="main-script">
@@ -133,9 +115,10 @@
               const {commit, date, tool, benches} = entry;
               for (const bench of benches) {
                 const result = { commit, date, tool, bench };
-                const arr = map.get(bench.name);
+                const bench_name = bench.name.split("::")[bench.name.split("::").length - 1]
+                const arr = map.get(bench_name);
                 if (arr === undefined) {
-                  map.set(bench.name, [result]);
+                  map.set(bench_name, [result]);
                 } else {
                   arr.push(result);
                 }
@@ -146,13 +129,16 @@
 
           const data = window.BENCHMARK_DATA;
 
-          // Render header
-          document.getElementById('last-update').textContent = new Date(data.lastUpdate).toString();
-          const repoLink = document.getElementById('repository-link');
-          repoLink.href = data.repoUrl;
-          repoLink.textContent = data.repoUrl;
+          // Render footer (repository)
+          const date = Date(data.lastUpdate).split(" ").slice(0, 4).join(" ");
+          document.getElementById('last-update').textContent = date;
 
-          // Render footer
+          const repoResultURL = 'https://kayjan.github.io/bigtree-benchmark/dev/bench/';
+          const repoResult = document.getElementById('repository-result');
+          repoResult.href = repoResultURL;
+          repoResult.textContent = repoResultURL;
+
+          // Render footer (button)
           document.getElementById('dl-button').onclick = () => {
             const dataUrl = 'data:,' + JSON.stringify(data, null, 2);
             const a = document.createElement('a');
@@ -170,12 +156,15 @@
 
         function renderAllChars(dataSets) {
 
-          function renderGraph(parent, name, dataset) {
+          // Set benchmark-graphs div
+          function renderGraph(name, dataset, parent) {
             const canvas = document.createElement('canvas');
             canvas.className = 'benchmark-chart';
             parent.appendChild(canvas);
 
             const color = toolColors[dataset.length > 0 ? dataset[0].tool : '_'];
+            const smallFontSize = 18;
+            const normalFontSize = 20;
             const data = {
               labels: dataset.map(d => d.commit.id.slice(0, 7)),
               datasets: [
@@ -188,12 +177,21 @@
               ],
             };
             const options = {
+              legend: {
+                labels: {
+                  fontSize: normalFontSize,
+                }
+              },
               scales: {
                 xAxes: [
                   {
                     scaleLabel: {
                       display: true,
+                      fontSize: normalFontSize,
                       labelString: 'commit',
+                    },
+                    ticks: {
+                      fontSize: smallFontSize,
                     },
                   }
                 ],
@@ -201,20 +199,27 @@
                   {
                     scaleLabel: {
                       display: true,
+                      fontSize: normalFontSize,
                       labelString: dataset.length > 0 ? dataset[0].bench.unit : '',
                     },
                     ticks: {
+                      fontSize: smallFontSize,
                       beginAtZero: true,
-                    }
+                    },
                   }
                 ],
               },
               tooltips: {
+                titleFontSize: normalFontSize,
+                bodyFontSize: normalFontSize,
                 callbacks: {
                   afterTitle: items => {
                     const {index} = items[0];
                     const data = dataset[index];
-                    return '\n' + data.commit.message + '\n\n' + data.commit.timestamp + ' committed by @' + data.commit.committer.username + '\n';
+                    const commit_message = data.commit.message;
+                    const commit_timestamp = data.commit.timestamp.substr(0, 10);
+                    const commit_user = data.commit.committer.username;
+                    return '\n' + commit_message + '\n\n' + commit_timestamp + ' committed by @' + commit_user + '\n';
                   },
                   label: item => {
                     let label = item.value;
@@ -235,7 +240,6 @@
                 if (activeElems.length === 0) {
                   return;
                 }
-                // XXX: Undocumented. How can we know the index?
                 const index = activeElems[0]._index;
                 const url = dataset[index].commit.url;
                 window.open(url, '_blank');
@@ -249,22 +253,18 @@
             });
           }
 
+          // Set main div
           function renderBenchSet(name, benchSet, main) {
             const setElem = document.createElement('div');
             setElem.className = 'benchmark-set';
             main.appendChild(setElem);
-
-            const nameElem = document.createElement('h1');
-            nameElem.className = 'benchmark-title';
-            nameElem.textContent = name;
-            setElem.appendChild(nameElem);
 
             const graphsElem = document.createElement('div');
             graphsElem.className = 'benchmark-graphs';
             setElem.appendChild(graphsElem);
 
             for (const [benchName, benches] of benchSet.entries()) {
-              renderGraph(graphsElem, benchName, benches)
+              renderGraph(benchName, benches, graphsElem)
             }
           }
 
