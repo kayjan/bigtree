@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import heapq
 from typing import Any, Dict, Generator, Iterable, List, Optional, Set, Tuple, TypeVar
 
 from bigtree.globals import ASSERTIONS
@@ -92,8 +93,9 @@ class BaseNode:
     2. ``is_root``: Get indicator if self is root node
     3. ``is_leaf``: Get indicator if self is leaf node
     4. ``root``: Get root node of tree
-    5. ``depth``: Get depth of self
-    6. ``max_depth``: Get maximum depth from root to leaf node
+    5. ``diameter``: Get diameter of self
+    6. ``depth``: Get depth of self
+    7. ``max_depth``: Get maximum depth from root to leaf node
 
     **BaseNode Methods**
 
@@ -501,6 +503,37 @@ class BaseNode:
         if self.parent is None:
             return self
         return self.parent.root
+
+    @property
+    def diameter(self) -> int;
+        """Get diameter of tree or subtree, the length of longest path between any two nodes
+
+        Returns:
+            (int)
+        """
+        diameter = 0
+
+        if self.is_leaf:
+            return diameter
+
+        def _recursive_diameter(node: T) -> int:
+            """Recursively iterate through node and its children to get diameter of node
+
+            Args:
+                node (Node): current node
+
+            Returns:
+                (int)
+            """
+            nonlocal diameter
+            if node.is_leaf:
+                return 1
+            child_length = [_recursive_diameter(child) for child in self.children]
+            diameter = max(diameter, sum(heapq.nlargest(2, child_length)))
+            return 1 + max(child_length)
+
+        _recursive_diameter(self)
+        return diameter
 
     @property
     def depth(self) -> int:
