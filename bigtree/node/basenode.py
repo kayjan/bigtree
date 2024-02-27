@@ -505,7 +505,7 @@ class BaseNode:
         return self.parent.root
 
     @property
-    def diameter(self) -> int;
+    def diameter(self) -> int:
         """Get diameter of tree or subtree, the length of longest path between any two nodes
 
         Returns:
