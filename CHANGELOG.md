@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: Documentation to include benchmark results.
 ### Changed
 - Misc: Documentation to enable zooming in of images, add navigation section headers, remove some meta tags.
+- Misc: Split up testing into multiple conftest files.
 
 ## [0.16.2] - 2024-02-06
 ### Added
