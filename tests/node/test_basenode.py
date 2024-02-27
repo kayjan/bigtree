@@ -928,10 +928,18 @@ def assert_tree_structure_basenode_self(self):
             actual == nodes[0]
         ), f"Node {node} root should be {expected}, but it is {actual}"
 
+    # Test diameter
+    expected_ans = [5, 3, 1, 0, 2, 0, 0, 0]
+    for node, expected in zip(nodes, expected_ans):
+        actual = node.diameter
+        assert (
+            actual == expected
+        ), f"Node {node} diameter should be {expected}, but it is {actual}"
+
     # Test depth
     expected_ans = [1, 2, 2, 3, 3, 3, 4, 4]
-    for self, expected in zip(nodes, expected_ans):
-        actual = self.depth
+    for node, expected in zip(nodes, expected_ans):
+        actual = node.depth
         assert (
             actual == expected
         ), f"Node {node} should be nested to {expected} levels, but it has {actual} levels"
