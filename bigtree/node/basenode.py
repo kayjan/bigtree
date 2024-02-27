@@ -528,7 +528,7 @@ class BaseNode:
             nonlocal diameter
             if node.is_leaf:
                 return 1
-            child_length = [_recursive_diameter(child) for child in self.children]
+            child_length = [_recursive_diameter(child) for child in node.children]
             diameter = max(diameter, sum(heapq.nlargest(2, child_length)))
             return 1 + max(child_length)
 
