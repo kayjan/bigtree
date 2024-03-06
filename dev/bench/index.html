@@ -131,7 +131,7 @@
 
           // Render footer (repository)
           const date = new Date(data.lastUpdate);
-          const date_str = date.toLocaleDateString("en-sg", {weekday:"short", day:"numeric", month:"short", year:"numeric"});
+          const date_str = date.toLocaleDateString("en-sg", {weekday:"short", day:"2-digit", month:"short", year:"numeric"});
           document.getElementById('last-update').textContent = date_str;
 
           const repoResultURL = 'https://kayjan.github.io/bigtree-benchmark/dev/bench/';
