@@ -233,6 +233,7 @@ def add_dict_to_tree_by_name(
 
     # Convert dictionary to dataframe
     data = pd.DataFrame(name_attrs).T.rename_axis("NAME").reset_index()
+    data = data.replace({float("nan"): None})
     return add_dataframe_to_tree_by_name(tree, data=data, join_type=join_type)
 
 
@@ -681,6 +682,7 @@ def dict_to_tree(
 
     # Convert dictionary to dataframe
     data = pd.DataFrame(path_attrs).T.rename_axis("PATH").reset_index()
+    data = data.replace({float("nan"): None})
     return dataframe_to_tree(
         data,
         sep=sep,
