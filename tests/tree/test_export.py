@@ -100,7 +100,7 @@ class TestPrintTree:
             "│       ├── g\n"
             "│       └── h\n"
             "└── c [age=0]\n"
-            "    └── f\n"
+            "    └── f [age=nan]\n"
         )
         assert_print_statement(
             print_tree,
