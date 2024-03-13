@@ -425,6 +425,7 @@ Below are the tables of attributes available to `BaseNode` and `Node` classes.
 |:------------------------------------:|--------------------|----------------------------|
 |            Check if root             | `root.is_root`     | True                       |
 |          Check if leaf node          | `root.is_leaf`     | False                      |
+|        Check diameter of tree        | `node_b.diameter`  | 3                          |
 |         Check depth of node          | `node_b.depth`     | 2                          |
 |         Check depth of tree          | `node_b.max_depth` | 4                          |
 |           Get root of tree           | `node_b.root`      | Node(/a, )                 |
