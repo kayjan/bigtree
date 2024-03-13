@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import collections
+import math
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, TypeVar, Union
 from urllib.request import urlopen
 
@@ -48,6 +49,20 @@ __all__ = [
 ]
 
 T = TypeVar("T", bound=Node)
+
+
+def _isnull(value: Any) -> bool:
+    """Check if value is null
+
+    Args:
+        value (Any): value to check
+
+    Returns:
+        (bool)
+    """
+    if not value or math.isnan(value):
+        return True
+    return False
 
 
 def print_tree(
@@ -195,7 +210,7 @@ def print_tree(
                     attr_str_list = [
                         f"{attr_name}={_node.get_attr(attr_name)}"
                         for attr_name in attr_list
-                        if _node.get_attr(attr_name)
+                        if not _isnull(_node.get_attr(attr_name))
                     ]
                 else:
                     attr_str_list = [

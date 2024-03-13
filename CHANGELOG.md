@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.16.3] - 2024-03-14
 ### Added
 - BaseNode: Add diameter property.
 - Misc: Testing to include benchmark timings for tree creation, compare benchmark tests across commits, reject pull request if benchmark tests fails.
@@ -12,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Misc: Documentation to enable zooming in of images, add navigation section headers, remove some meta tags.
 - Misc: Split up testing into multiple conftest files.
+### Fixed
+- Tree Constructor: Tree creation from dictionary adds None for empty attributes instead of np.nan.
+- [#216] Tree Exporter: `attr_omit_null` to handle nan/null values in addition to checking for None.
 
 ## [0.16.2] - 2024-02-06
 ### Added
@@ -502,7 +507,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.16.2...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.16.3...HEAD
+[0.16.3]: https://github.com/kayjan/bigtree/compare/0.16.2...0.16.3
 [0.16.2]: https://github.com/kayjan/bigtree/compare/0.16.1...0.16.2
 [0.16.1]: https://github.com/kayjan/bigtree/compare/0.16.0...0.16.1
 [0.16.0]: https://github.com/kayjan/bigtree/compare/0.15.7...0.16.0

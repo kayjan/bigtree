@@ -582,6 +582,18 @@ class TestAddDictToTreeByName(unittest.TestCase):
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
 
+    def test_add_dict_to_tree_by_name_inconsistent_attributes(self):
+        name_dict = {
+            "a": {"age": 90},
+            "b": {},
+            "c": {"age": 60},
+        }
+        root = add_dict_to_tree_by_name(self.root, name_dict)
+        expected_root_str = "a [age=90.0]\n" "├── b\n" "└── c [age=60.0]\n"
+        assert_print_statement(
+            print_tree, expected_root_str, root, all_attrs=True, max_depth=2
+        )
+
 
 class TestAddDataFrameToTreeByPath(unittest.TestCase):
     def setUp(self):
@@ -1682,6 +1694,17 @@ class TestDictToTree(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
             root1=root1, root2=root2
         )
+
+    @staticmethod
+    def test_dict_to_tree_inconsistent_attributes():
+        path_dict = {
+            "a": {"age": 90},
+            "a/b": {},
+            "a/c": {"age": 60},
+        }
+        root = dict_to_tree(path_dict)
+        expected_root_str = "a [age=90.0]\n" "├── b\n" "└── c [age=60.0]\n"
+        assert_print_statement(print_tree, expected_root_str, root, all_attrs=True)
 
 
 class TestNestedDictToTree(unittest.TestCase):
