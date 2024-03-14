@@ -1,4 +1,4 @@
-from __future__ import annotations
+:from __future__ import annotations
 
 import collections
 import math
@@ -50,6 +50,12 @@ __all__ = [
 
 T = TypeVar("T", bound=Node)
 
+def _safe_isnan(input_value):
+    try:
+        numeric_value = float(input_value)
+        return math.isnan(numeric_value)
+    except ValueError:
+        return False
 
 def _isnull(value: Any) -> bool:
     """Check if value is null
@@ -60,7 +66,7 @@ def _isnull(value: Any) -> bool:
     Returns:
         (bool)
     """
-    if not value or math.isnan(value):
+    if not value or _safe_isnan(value):
         return True
     return False
 
