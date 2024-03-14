@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.16.4] - 2024-03-14
+### Fixed
+- [#216] Tree Exporter: Fix nan checker when printing trees.
+
 ## [0.16.3] - 2024-03-14
 ### Added
 - BaseNode: Add diameter property.
@@ -507,7 +511,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.16.3...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.16.4...HEAD
+[0.16.4]: https://github.com/kayjan/bigtree/compare/0.16.3...0.16.4
 [0.16.3]: https://github.com/kayjan/bigtree/compare/0.16.2...0.16.3
 [0.16.2]: https://github.com/kayjan/bigtree/compare/0.16.1...0.16.2
 [0.16.1]: https://github.com/kayjan/bigtree/compare/0.16.0...0.16.1

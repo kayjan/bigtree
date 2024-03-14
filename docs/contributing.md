@@ -83,9 +83,7 @@ When creating branches, it is recommended to create them in the format `type/act
 $ git checkout -b feat/add-this
 ```
 
-When performing commits, it is also recommended to follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) when writing commit messages.
-
-During pre-commit checks, this project checks and formats code using `black`, `flake8`, `isort`, and `mypy`.
+During pre-commit checks, this project enforces [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) when writing commit messages, and checks and formats code using `black`, `flake8`, `isort`, and `mypy`.
 
 For testing, this project uses `pytest` and `coverage` package for testing of codes, and `docstr-coverage` and `doctest` package for testing of docstrings.
 
