@@ -60,7 +60,7 @@ def _isnull(value: Any) -> bool:
     Returns:
         (bool)
     """
-    if not value or math.isnan(value):
+    if not value or (isinstance(value, float) and math.isnan(value)):
         return True
     return False
 
