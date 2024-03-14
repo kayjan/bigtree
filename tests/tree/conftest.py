@@ -94,7 +94,7 @@ def tree_node_negative_null_attr():
     d = Node("d", age=1)
     e = Node("e", age=None)
     f = Node("f", age=float("nan"))
-    g = Node("g")
+    g = Node("g", age="10")
     h = Node("h")
 
     b.parent = a
