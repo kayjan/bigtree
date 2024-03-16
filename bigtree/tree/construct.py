@@ -682,7 +682,10 @@ def dict_to_tree(
     # Initial tree
     root_name = list(path_attrs.keys())[0].strip(sep).split(sep)[0]
     root_node_data = dict(
-        path_attrs.get(root_name, {}) or path_attrs.get(sep + root_name, {})
+        path_attrs.get(root_name, {})
+        or path_attrs.get(sep + root_name, {})
+        or path_attrs.get(root_name + sep, {})
+        or path_attrs.get(sep + root_name + sep, {})
     )
     root_node_data.update(dict(name=root_name, sep=sep))
     root_node = node_type(**root_node_data)
