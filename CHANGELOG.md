@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Tree Constructor: `dict_to_tree` no longer uses dataframe operations, leading to 33% improvement in timings for
+a tree with 10000 nodes, averaged across 10 runs. The resulting data type of node follows the dictionary exactly,
+compared to the previous dataframe operations that may change the dtypes for certain columns.
 
 ## [0.16.4] - 2024-03-14
 ### Fixed

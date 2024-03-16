@@ -1703,7 +1703,7 @@ class TestDictToTree(unittest.TestCase):
             "a/c": {"age": 60},
         }
         root = dict_to_tree(path_dict)
-        expected_root_str = "a [age=90.0]\n" "├── b\n" "└── c [age=60.0]\n"
+        expected_root_str = "a [age=90]\n" "├── b\n" "└── c [age=60]\n"
         assert_print_statement(print_tree, expected_root_str, root, all_attrs=True)
 
 

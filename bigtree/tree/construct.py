@@ -622,7 +622,6 @@ def list_to_tree_by_relation(
     )
 
 
-@optional_dependencies_pandas
 def dict_to_tree(
     path_attrs: Dict[str, Any],
     sep: str = "/",
@@ -680,15 +679,24 @@ def dict_to_tree(
     if not len(path_attrs):
         raise ValueError("Dictionary does not contain any data, check `path_attrs`")
 
-    # Convert dictionary to dataframe
-    data = pd.DataFrame(path_attrs).T.rename_axis("PATH").reset_index()
-    data = data.replace({float("nan"): None})
-    return dataframe_to_tree(
-        data,
-        sep=sep,
-        duplicate_name_allowed=duplicate_name_allowed,
-        node_type=node_type,
+    # Initial tree
+    root_name = list(path_attrs.keys())[0].strip(sep).split(sep)[0]
+    root_node_data = dict(
+        path_attrs.get(root_name, {}) or path_attrs.get(sep + root_name, {})
     )
+    root_node_data.update(dict(name=root_name, sep=sep))
+    root_node = node_type(**root_node_data)
+
+    # Convert dictionary to dataframe
+    for node_path, node_attrs in path_attrs.items():
+        add_path_to_tree(
+            root_node,
+            node_path,
+            sep=sep,
+            duplicate_name_allowed=duplicate_name_allowed,
+            node_attrs=node_attrs,
+        )
+    return root_node
 
 
 def nested_dict_to_tree(
