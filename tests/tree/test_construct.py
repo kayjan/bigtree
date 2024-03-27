@@ -458,10 +458,10 @@ class TestAddDictToTreeByName(unittest.TestCase):
         self.name_dict = None
 
     def test_add_dict_to_tree_by_name(self):
-        root = add_dict_to_tree_by_name(self.root, self.name_dict)
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
+        add_dict_to_tree_by_name(self.root, self.name_dict)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dict_to_tree_by_name_different_dtype(self):
         name_dict = {
@@ -474,11 +474,11 @@ class TestAddDictToTreeByName(unittest.TestCase):
             "g": {"random": -1},
             "h": {"random": [-1]},
         }
-        root = add_dict_to_tree_by_name(self.root, name_dict)
+        add_dict_to_tree_by_name(self.root, name_dict)
         nodes = ["a", "b", "c", "d", "e", "f", "g", "h"]
         expected_list = [[1], [1, 2], [1, None], [None], None, 0, -1, [-1]]
         for node_name, expected in zip(nodes, expected_list):
-            actual = find_name(root, node_name).get_attr("random")
+            actual = find_name(self.root, node_name).get_attr("random")
             assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     def test_add_dict_to_tree_by_name_empty_error(self):
@@ -496,11 +496,11 @@ class TestAddDictToTreeByName(unittest.TestCase):
     def test_add_dict_to_tree_by_name_duplicate_name(self):
         hh = Node("h", age=6)
         hh.parent = self.root
-        root = add_dict_to_tree_by_name(self.root, self.name_dict)
+        add_dict_to_tree_by_name(self.root, self.name_dict)
         assert (
-            len(list(find_names(root, "h"))) == 2
+            len(list(find_names(self.root, "h"))) == 2
         ), "There is less node 'h' than expected"
-        for _node in list(find_names(root, "h")):
+        for _node in list(find_names(self.root, "h")):
             assert _node.get_attr("age") == 6
 
     def test_add_dict_to_tree_by_name_node_type(self):
@@ -517,7 +517,7 @@ class TestAddDictToTreeByName(unittest.TestCase):
         f.parent = c
         g.parent = e
         h.parent = e
-        root = add_dict_to_tree_by_name(root, self.name_dict)
+        add_dict_to_tree_by_name(root, self.name_dict)
         assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
@@ -545,7 +545,7 @@ class TestAddDictToTreeByName(unittest.TestCase):
             "g": {"custom_field": 10, "custom_field_str": "g"},
             "h": {"custom_field": 6, "custom_field_str": "h"},
         }
-        root = add_dict_to_tree_by_name(root, name_dict)
+        add_dict_to_tree_by_name(root, name_dict)
         assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
             type="CustomNode"
         )
@@ -562,10 +562,10 @@ class TestAddDictToTreeByName(unittest.TestCase):
             "b": {},
             "c": {"age": 60},
         }
-        root = add_dict_to_tree_by_name(self.root, name_dict)
+        add_dict_to_tree_by_name(self.root, name_dict)
         expected_root_str = "a [age=90]\n" "├── b [age=1]\n" "└── c [age=60]\n"
         assert_print_statement(
-            print_tree, expected_root_str, root, all_attrs=True, max_depth=2
+            print_tree, expected_root_str, self.root, all_attrs=True, max_depth=2
         )
 
 
@@ -932,29 +932,29 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         self.data = None
 
     def test_add_dataframe_to_tree_by_name(self):
-        root = add_dataframe_to_tree_by_name(self.root, self.data)
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
+        add_dataframe_to_tree_by_name(self.root, self.data)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_name_col_name(self):
-        root = add_dataframe_to_tree_by_name(
+        add_dataframe_to_tree_by_name(
             self.root, self.data, name_col="NAME", attribute_cols=["age"]
         )
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_name_col_name_reverse(self):
-        root = add_dataframe_to_tree_by_name(
+        add_dataframe_to_tree_by_name(
             self.root,
             self.data[["age", "NAME"]],
             name_col="NAME",
             attribute_cols=["age"],
         )
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_name_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -1022,7 +1022,7 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         f.parent = c
         g.parent = e
         h.parent = e
-        root = add_dataframe_to_tree_by_name(root, self.data)
+        add_dataframe_to_tree_by_name(root, self.data)
         assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
@@ -1053,7 +1053,7 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
             ],
             columns=["NAME", "custom_field", "custom_field_str"],
         )
-        root = add_dataframe_to_tree_by_name(root, data)
+        add_dataframe_to_tree_by_name(root, data)
         assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
             type="CustomNode"
         )
@@ -1073,10 +1073,10 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
             ],
             columns=["NAME", "age"],
         )
-        root = add_dataframe_to_tree_by_name(self.root, data)
+        add_dataframe_to_tree_by_name(self.root, data)
         expected_root_str = "a [age=90.0]\n" "├── b [age=nan]\n" "└── c [age=60.0]\n"
         assert_print_statement(
-            print_tree, expected_root_str, root, all_attrs=True, max_depth=2
+            print_tree, expected_root_str, self.root, all_attrs=True, max_depth=2
         )
 
 
