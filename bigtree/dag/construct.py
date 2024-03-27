@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple, Type
 
 from bigtree.node.dagnode import DAGNode
+from bigtree.utils.assertions import assert_dataframe_not_empty
 from bigtree.utils.exceptions import optional_dependencies_pandas
 
 try:
@@ -142,11 +143,7 @@ def dataframe_to_dag(
         (DAGNode)
     """
     data = data.copy()
-
-    if not len(data.columns):
-        raise ValueError("Data does not contain any columns, check `data`")
-    if not len(data):
-        raise ValueError("Data does not contain any rows, check `data`")
+    assert_dataframe_not_empty(data)
 
     if not child_col:
         child_col = data.columns[0]

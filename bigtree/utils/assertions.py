@@ -1,5 +1,10 @@
 from typing import Any, Dict, List
 
+try:
+    import pandas as pd
+except ImportError:  # pragma: no cover
+    pd = None
+
 
 def assert_style_in_dict(
     parameter: Any,
@@ -51,3 +56,15 @@ def assert_key_in_dict(
         raise ValueError(
             f"Invalid input, check `{parameter_name}` should be one of {accepted_parameters.keys()}"
         )
+
+
+def assert_dataframe_not_empty(data: pd.DataFrame) -> None:
+    """Raise ValueError is dataframe is empty
+
+    Args:
+        data (pd.DataFrame): dataframe to check
+    """
+    if not len(data.columns):
+        raise ValueError("Data does not contain any columns, check `data`")
+    if not len(data):
+        raise ValueError("Data does not contain any rows, check `data`")

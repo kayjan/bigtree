@@ -488,32 +488,6 @@ class TestAddDictToTreeByName(unittest.TestCase):
             parameter="name_attrs"
         )
 
-    def test_add_dict_to_tree_by_name_inner_join_tree(self):
-        dummy = Node("dummy")
-        dummy.parent = self.b
-        root = add_dict_to_tree_by_name(self.root, self.name_dict, join_type="inner")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dict_to_tree_by_name_inner_join_dict(self):
-        self.name_dict["dummy"] = {"age": 100}
-        root = add_dict_to_tree_by_name(self.root, self.name_dict, join_type="inner")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dict_to_tree_by_name_left_join(self):
-        root = add_dict_to_tree_by_name(self.root, self.name_dict, join_type="left")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dict_to_tree_by_name_invalid_join_error(self):
-        with pytest.raises(ValueError) as exc_info:
-            add_dict_to_tree_by_name(self.root, self.name_dict, join_type="something")
-        assert str(exc_info.value) == Constants.ERROR_NODE_JOIN_TYPE
-
     def test_add_dict_to_tree_by_name_sep_tree(self):
         self.root.sep = "\\"
         root = add_dict_to_tree_by_name(self.root, self.name_dict)
@@ -589,7 +563,7 @@ class TestAddDictToTreeByName(unittest.TestCase):
             "c": {"age": 60},
         }
         root = add_dict_to_tree_by_name(self.root, name_dict)
-        expected_root_str = "a [age=90.0]\n" "├── b\n" "└── c [age=60.0]\n"
+        expected_root_str = "a [age=90]\n" "├── b [age=1]\n" "└── c [age=60]\n"
         assert_print_statement(
             print_tree, expected_root_str, root, all_attrs=True, max_depth=2
         )
@@ -999,45 +973,6 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
             add_dataframe_to_tree_by_name(self.root, data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
-    def test_add_dataframe_to_tree_by_name_inner_join_tree(self):
-        dummy = Node("dummy")
-        dummy.parent = self.b
-        root = add_dataframe_to_tree_by_name(self.root, self.data, join_type="inner")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dataframe_to_tree_by_name_inner_join_data(self):
-        data = pd.DataFrame(
-            [
-                ["a", 90],
-                ["b", 65],
-                ["c", 60],
-                ["d", 40],
-                ["e", 35],
-                ["f", 38],
-                ["g", 10],
-                ["h", 6],
-                ["dummy", 100],
-            ],
-            columns=["NAME", "age"],
-        )
-        root = add_dataframe_to_tree_by_name(self.root, data, join_type="inner")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dataframe_to_tree_by_name_left_join(self):
-        root = add_dataframe_to_tree_by_name(self.root, self.data, join_type="left")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dataframe_to_tree_by_name_invalid_join_error(self):
-        with pytest.raises(ValueError) as exc_info:
-            add_dataframe_to_tree_by_name(self.root, self.data, join_type="something")
-        assert str(exc_info.value) == Constants.ERROR_NODE_JOIN_TYPE
-
     def test_add_dataframe_to_tree_by_name_sep_tree(self):
         self.root.sep = "\\"
         root = add_dataframe_to_tree_by_name(self.root, self.data)
@@ -1128,6 +1063,21 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
+
+    def test_add_dataframe_to_tree_by_name_inconsistent_attributes(self):
+        data = pd.DataFrame(
+            [
+                ["a", 90],
+                ["b", None],
+                ["c", 60],
+            ],
+            columns=["NAME", "age"],
+        )
+        root = add_dataframe_to_tree_by_name(self.root, data)
+        expected_root_str = "a [age=90.0]\n" "├── b [age=nan]\n" "└── c [age=60.0]\n"
+        assert_print_statement(
+            print_tree, expected_root_str, root, all_attrs=True, max_depth=2
+        )
 
 
 class TestStrToTree(unittest.TestCase):

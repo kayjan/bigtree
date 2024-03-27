@@ -5,8 +5,8 @@ from collections import OrderedDict, defaultdict
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Type
 
 from bigtree.node.node import Node
-from bigtree.tree.export import tree_to_dataframe
 from bigtree.tree.search import find_child_by_name, find_name
+from bigtree.utils.assertions import assert_dataframe_not_empty
 from bigtree.utils.constants import NewickCharacter, NewickState
 from bigtree.utils.exceptions import (
     DuplicatedNodeError,
@@ -191,14 +191,10 @@ def add_dict_to_tree_by_path(
     return tree_root
 
 
-@optional_dependencies_pandas
-def add_dict_to_tree_by_name(
-    tree: Node, name_attrs: Dict[str, Dict[str, Any]], join_type: str = "left"
-) -> Node:
-    """Add attributes to tree, return *new* root of tree.
+def add_dict_to_tree_by_name(tree: Node, name_attrs: Dict[str, Dict[str, Any]]) -> Node:
+    """Add attributes to existing tree *in-place*.
     Adds to existing tree from nested dictionary, ``key``: name, ``value``: dict of attribute name and attribute value.
 
-    Function can return all existing tree nodes or only tree nodes that are in the input dictionary keys depending on join type.
     Input dictionary keys that are not existing node names will be ignored.
     Note that if multiple nodes have the same name, attributes will be added to all nodes sharing the same name.
 
@@ -219,22 +215,21 @@ def add_dict_to_tree_by_name(
         tree (Node): existing tree
         name_attrs (Dict[str, Dict[str, Any]]): dictionary containing node name and attribute information,
             key: node name, value: dict of node attribute name and attribute value
-        join_type (str): join type with attribute, default of 'left' takes existing tree nodes,
-            if join_type is set to 'inner' it will only take tree nodes that are in `name_attrs` key and drop others
 
     Returns:
         (Node)
     """
-    if join_type not in ["inner", "left"]:
-        raise ValueError("`join_type` must be one of 'inner' or 'left'")
+    from bigtree.tree.search import findall
 
     if not len(name_attrs):
         raise ValueError("Dictionary does not contain any data, check `name_attrs`")
 
-    # Convert dictionary to dataframe
-    data = pd.DataFrame(name_attrs).T.rename_axis("NAME").reset_index()
-    data = data.replace({float("nan"): None})
-    return add_dataframe_to_tree_by_name(tree, data=data, join_type=join_type)
+    attr_dict_names = set(name_attrs.keys())
+
+    for node in findall(tree, lambda x: x.node_name in attr_dict_names):
+        node.set_attrs(name_attrs[node.node_name])
+
+    return tree
 
 
 def add_dataframe_to_tree_by_path(
@@ -304,11 +299,7 @@ def add_dataframe_to_tree_by_path(
         (Node)
     """
     data = data.copy()
-
-    if not len(data.columns):
-        raise ValueError("Data does not contain any columns, check `data`")
-    if not len(data):
-        raise ValueError("Data does not contain any rows, check `data`")
+    assert_dataframe_not_empty(data)
 
     if not path_col:
         path_col = data.columns[0]
@@ -346,20 +337,17 @@ def add_dataframe_to_tree_by_path(
     return tree_root
 
 
-@optional_dependencies_pandas
 def add_dataframe_to_tree_by_name(
     tree: Node,
     data: pd.DataFrame,
     name_col: str = "",
     attribute_cols: List[str] = [],
-    join_type: str = "left",
 ) -> Node:
-    """Add attributes to tree, return *new* root of tree.
+    """Add attributes to existing tree *in-place*.
 
     `name_col` and `attribute_cols` specify columns for node name and attributes to add to existing tree.
     If columns are not specified, the first column will be taken as name column and all other columns as attributes.
 
-    Function can return all existing tree nodes or only tree nodes that are in the input data node names.
     Input data node names that are not existing node names will be ignored.
     Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.
 
@@ -386,21 +374,12 @@ def add_dataframe_to_tree_by_name(
             if not set, it will take the first column of data
         attribute_cols (List[str]): column(s) of data containing node attribute information,
             if not set, it will take all columns of data except `path_col`
-        join_type (str): join type with attribute, default of 'left' takes existing tree nodes,
-            if join_type is set to 'inner' it will only take tree nodes with attributes and drop the other nodes
 
     Returns:
         (Node)
     """
     data = data.copy()
-
-    if join_type not in ["inner", "left"]:
-        raise ValueError("`join_type` must be one of 'inner' or 'left'")
-
-    if not len(data.columns):
-        raise ValueError("Data does not contain any columns, check `data`")
-    if not len(data):
-        raise ValueError("Data does not contain any rows, check `data`")
+    assert_dataframe_not_empty(data)
 
     if not name_col:
         name_col = data.columns[0]
@@ -409,7 +388,6 @@ def add_dataframe_to_tree_by_name(
         attribute_cols.remove(name_col)
 
     # Attribute data
-    path_col = "PATH"
     data2 = data.copy()[[name_col] + attribute_cols].astype(str).drop_duplicates()
     _duplicate_check = (
         data2[name_col]
@@ -424,23 +402,14 @@ def add_dataframe_to_tree_by_name(
             f"There exists duplicate name with different attributes\nCheck {_duplicate_check}"
         )
 
-    # Tree data
-    tree_root = tree.root
-    sep = tree_root.sep
-    node_type = tree_root.__class__
-    data_tree = tree_to_dataframe(
-        tree_root, name_col=name_col, path_col=path_col, all_attrs=True
+    # Get attribute dict
+    name_attrs = (
+        data.drop_duplicates(name_col)
+        .set_index(name_col)[attribute_cols]
+        .to_dict(orient="index")
     )
-    common_cols = list(set(data_tree.columns).intersection(attribute_cols))
-    data_tree = data_tree.drop(columns=common_cols)
 
-    # Attribute data
-    data_tree_attrs = pd.merge(data_tree, data, on=name_col, how=join_type)
-    data_tree_attrs = data_tree_attrs.drop(columns=name_col)
-
-    return dataframe_to_tree(
-        data_tree_attrs, path_col=path_col, sep=sep, node_type=node_type
-    )
+    return add_dict_to_tree_by_name(tree, name_attrs)
 
 
 def str_to_tree(
@@ -846,11 +815,7 @@ def dataframe_to_tree(
         (Node)
     """
     data = data.copy()
-
-    if not len(data.columns):
-        raise ValueError("Data does not contain any columns, check `data`")
-    if not len(data):
-        raise ValueError("Data does not contain any rows, check `data`")
+    assert_dataframe_not_empty(data)
 
     if not path_col:
         path_col = data.columns[0]
@@ -956,11 +921,7 @@ def dataframe_to_tree_by_relation(
         (Node)
     """
     data = data.copy()
-
-    if not len(data.columns):
-        raise ValueError("Data does not contain any columns, check `data`")
-    if not len(data):
-        raise ValueError("Data does not contain any rows, check `data`")
+    assert_dataframe_not_empty(data)
 
     if not child_col:
         child_col = data.columns[0]
