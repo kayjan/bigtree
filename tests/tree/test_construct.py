@@ -2242,10 +2242,10 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
                 ["c", "a", 60],
                 ["d", "b", 40],
                 ["e", "b", 35],
-                ["h", "b", 1],
-                ["h", "c", 2],
-                ["g", "e", 10],  # duplicate
-                ["h", "e", 1],  # duplicate
+                ["h", "b", 1],  # duplicate
+                ["h", "c", 2],  # duplicate
+                ["g", "e", 10],
+                ["h", "e", 6],  # duplicate
             ],
             columns=["child", "parent", "age"],
         )
@@ -2265,7 +2265,7 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_duplicate_intermediate_node_error():
-        data = pd.DataFrame(
+        relation_data = pd.DataFrame(
             [
                 ["a", None, 90],
                 ["b", "a", 65],
@@ -2280,28 +2280,28 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
             columns=["child", "parent", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_tree_by_relation(data)
+            dataframe_to_tree_by_relation(relation_data)
         assert str(exc_info.value).startswith(
             Constants.ERROR_NODE_DUPLICATED_INTERMEDIATE_NODE
         )
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_duplicate_intermediate_node():
-        data = pd.DataFrame(
+        relation_data = pd.DataFrame(
             [
                 ["a", None, 90],
                 ["b", "a", 65],
                 ["c", "a", 60],
                 ["d", "b", 40],
                 ["e", "b", 35],
-                ["e", "c", 1],
+                ["e", "c", 1],  # duplicate intermediate node
                 ["f", "c", 38],
                 ["g", "e", 10],
                 ["h", "e", 6],
             ],
             columns=["child", "parent", "age"],
         )
-        root = dataframe_to_tree_by_relation(data, allow_duplicates=True)
+        root = dataframe_to_tree_by_relation(relation_data, allow_duplicates=True)
         actual = len(list(root.descendants))
         assert actual == 10, f"Expected tree to have 10 descendants, received {actual}"
 
@@ -2341,45 +2341,63 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         assert_tree_structure_node_root(root)
 
     @staticmethod
-    def test_dataframe_to_tree_by_relation_different_root_error():
-        data = pd.DataFrame(
+    def test_dataframe_to_tree_by_relation_multiple_root_parent_none_error():
+        relation_data = pd.DataFrame(
             [
                 ["a", None, 90],
                 ["b", None, 65],
                 ["c", "a", 60],
-                ["e", "b", 40],
+                ["d", "b", 40],
                 ["e", "b", 35],
-                ["h", "b", 1],
-                ["h", "c", 2],
+                ["f", "c", 38],
                 ["g", "e", 10],
-                ["h", "e", 1],
+                ["h", "e", 6],
             ],
             columns=["child", "parent", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_tree_by_relation(data)
+            dataframe_to_tree_by_relation(relation_data)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=["a", "b"])
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_multiple_root_error():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            dataframe_to_tree_by_relation(relation_data)
         assert str(
             exc_info.value
         ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=["a", "b"])
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_no_root_error():
-        data = pd.DataFrame(
+        relation_data = pd.DataFrame(
             [
                 ["a", "b", 90],
                 ["b", "a", 65],
                 ["c", "a", 60],
                 ["d", "b", 40],
                 ["e", "b", 35],
-                ["h", "b", 1],
-                ["h", "c", 2],
+                ["f", "c", 38],
                 ["g", "e", 10],
-                ["h", "e", 1],
+                ["h", "e", 6],
             ],
             columns=["child", "parent", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_tree_by_relation(data)
+            dataframe_to_tree_by_relation(relation_data)
         assert str(
             exc_info.value
         ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=[])

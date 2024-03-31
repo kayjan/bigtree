@@ -526,6 +526,8 @@ def list_to_tree_by_relation(
 ) -> Node:
     """Construct tree from list of tuple containing parent-child names.
 
+    Root node is inferred when parent is empty, or when name appears as parent but not as child.
+
     Since tree is created from parent-child names, only names of leaf nodes may be repeated.
     Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
     This error can be ignored by setting `allow_duplicates` to be True.
@@ -832,6 +834,8 @@ def dataframe_to_tree_by_relation(
 ) -> Node:
     """Construct tree from pandas DataFrame using parent and child names, return root of tree.
 
+    Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.
+
     Since tree is created from parent-child names, only names of leaf nodes may be repeated.
     Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
     This error can be ignored by setting `allow_duplicates` to be True.
@@ -897,16 +901,15 @@ def dataframe_to_tree_by_relation(
     if not allow_duplicates:
         assert_dataframe_no_duplicate_children(data, child_col, parent_col)
 
-    # If parent-child contains None -> root
+    # Infer root node
     root_row = data[data[parent_col].isnull()]
-    root_names = list(root_row[child_col])
-    if not len(root_names):
-        root_names = list(set(data[parent_col]) - set(data[child_col]))
+    root_names = set(root_row[child_col])
+    root_names.update(set(data[parent_col]) - set(data[child_col]) - {None})
     if len(root_names) != 1:
         raise ValueError(
-            f"Unable to determine root node\nPossible root nodes: {root_names}"
+            f"Unable to determine root node\nPossible root nodes: {sorted(root_names)}"
         )
-    root_name = root_names[0]
+    root_name = list(root_names)[0]
     root_node_data = data[data[child_col] == root_name]
     if len(root_node_data):
         root_node_kwargs = list(
