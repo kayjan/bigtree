@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from collections import OrderedDict, defaultdict
-from typing import Any, Dict, Iterable, List, Optional, Tuple, Type
+from typing import Any, Dict, List, Optional, Tuple, Type
 
 from bigtree.node.node import Node
 from bigtree.tree.search import find_child_by_name, find_name
@@ -10,6 +10,8 @@ from bigtree.utils.assertions import (
     assert_dataframe_no_duplicate_attribute,
     assert_dataframe_no_duplicate_children,
     assert_dataframe_not_empty,
+    assert_dictionary_not_empty,
+    assert_length_not_empty,
 )
 from bigtree.utils.constants import NewickCharacter, NewickState
 from bigtree.utils.exceptions import (
@@ -179,8 +181,7 @@ def add_dict_to_tree_by_path(
     Returns:
         (Node)
     """
-    if not len(path_attrs):
-        raise ValueError("Dictionary does not contain any data, check `path_attrs`")
+    assert_dictionary_not_empty(path_attrs, "path_attrs")
 
     root_node = tree.root
 
@@ -225,8 +226,7 @@ def add_dict_to_tree_by_name(tree: Node, name_attrs: Dict[str, Dict[str, Any]]) 
     """
     from bigtree.tree.search import findall
 
-    if not len(name_attrs):
-        raise ValueError("Dictionary does not contain any data, check `name_attrs`")
+    assert_dictionary_not_empty(name_attrs, "name_attrs")
 
     attr_dict_names = set(name_attrs.keys())
 
@@ -420,8 +420,7 @@ def str_to_tree(
         (Node)
     """
     tree_string = tree_string.strip("\n")
-    if not len(tree_string):
-        raise ValueError("Tree string does not contain any data, check `tree_string`")
+    assert_length_not_empty(tree_string, "Tree string", "tree_string")
     tree_list = tree_string.split("\n")
     root_node = node_type(tree_list[0])
 
@@ -459,7 +458,7 @@ def str_to_tree(
 
 
 def list_to_tree(
-    paths: Iterable[str],
+    paths: List[str],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_type: Type[Node] = Node,
@@ -493,7 +492,7 @@ def list_to_tree(
             └── f
 
     Args:
-        paths (Iterable[str]): list containing path strings
+        paths (List[str]): list containing path strings
         sep (str): path separator for input `paths` and created tree, defaults to `/`
         duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
         node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
@@ -501,8 +500,7 @@ def list_to_tree(
     Returns:
         (Node)
     """
-    if not paths:
-        raise ValueError("Path list does not contain any data, check `paths`")
+    assert_length_not_empty(paths, "Path list", "paths")
 
     # Remove duplicates
     paths = list(OrderedDict.fromkeys(paths))
@@ -522,7 +520,7 @@ def list_to_tree(
 
 @optional_dependencies_pandas
 def list_to_tree_by_relation(
-    relations: Iterable[Tuple[str, str]],
+    relations: List[Tuple[str, str]],
     allow_duplicates: bool = False,
     node_type: Type[Node] = Node,
 ) -> Node:
@@ -547,7 +545,7 @@ def list_to_tree_by_relation(
             └── f
 
     Args:
-        relations (Iterable[Tuple[str, str]]): list containing tuple containing parent-child names
+        relations (List[Tuple[str, str]]): list containing tuple containing parent-child names
         allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
             be tagged to multiple parent nodes, defaults to False
         node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
@@ -555,8 +553,7 @@ def list_to_tree_by_relation(
     Returns:
         (Node)
     """
-    if not relations:
-        raise ValueError("Path list does not contain any data, check `relations`")
+    assert_length_not_empty(relations, "Path list", "relations")
 
     relation_data = pd.DataFrame(relations, columns=["parent", "child"])
     return dataframe_to_tree_by_relation(
@@ -622,8 +619,7 @@ def dict_to_tree(
     Returns:
         (Node)
     """
-    if not len(path_attrs):
-        raise ValueError("Dictionary does not contain any data, check `path_attrs`")
+    assert_dictionary_not_empty(path_attrs, "path_attrs")
 
     # Initial tree
     root_name = list(path_attrs.keys())[0].strip(sep).split(sep)[0]
@@ -696,8 +692,7 @@ def nested_dict_to_tree(
     Returns:
         (Node)
     """
-    if not node_attrs:
-        raise ValueError("Dictionary does not contain any data, check `node_attrs`")
+    assert_dictionary_not_empty(node_attrs, "node_attrs")
 
     def _recursive_add_child(
         child_dict: Dict[str, Any], parent_node: Optional[Node] = None
@@ -1018,8 +1013,7 @@ def newick_to_tree(
     Returns:
         (Node)
     """
-    if not len(tree_string):
-        raise ValueError("Tree string does not contain any data, check `tree_string`")
+    assert_length_not_empty(tree_string, "Tree string", "tree_string")
 
     # Store results (for tracking)
     depth_nodes: Dict[int, List[Node]] = defaultdict(list)

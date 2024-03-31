@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 try:
     import pandas as pd
@@ -58,6 +58,33 @@ def assert_key_in_dict(
         )
 
 
+def assert_length_not_empty(
+    data: Union[str, List[Any]], argument_name: str, argument: str
+) -> None:
+    """Raise ValueError if data (str, list, or iterable) does not have length
+
+    Args:
+        data (str/List[Any]): data to check
+        argument_name: argument name for data, for error message
+        argument (str): argument for data, for error message
+    """
+    if not len(data):
+        raise ValueError(
+            f"{argument_name} does not contain any data, check `{argument}`"
+        )
+
+
+def assert_dictionary_not_empty(data_dict: Dict[Any, Any], argument: str) -> None:
+    """Raise ValueError is dictionary is empty
+
+    Args:
+        data_dict (Dict[Any, Any]): dictionary to check
+        argument (str): argument for dictionary, for error message
+    """
+    if not len(data_dict):
+        raise ValueError(f"Dictionary does not contain any data, check `{argument}`")
+
+
 def assert_dataframe_not_empty(data: pd.DataFrame) -> None:
     """Raise ValueError is dataframe is empty
 
@@ -77,7 +104,7 @@ def assert_dataframe_no_duplicate_attribute(
 
     Args:
         data (pd.DataFrame): dataframe to check
-        id_type (str): type of uniqueness to check for
+        id_type (str): type of uniqueness to check for, for error message
         id_col (str): column of data that is unique, can be name or path
         attribute_cols (List[str]): columns of data containing node attribute information,
     """
