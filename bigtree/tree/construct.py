@@ -86,24 +86,24 @@ def add_path_to_tree(
     if not len(path):
         raise ValueError("Path is empty, check `path`")
 
-    tree_root = tree.root
-    tree_sep = tree_root.sep
-    node_type = tree_root.__class__
+    root_node = tree.root
+    tree_sep = root_node.sep
+    node_type = root_node.__class__
     branch = path.lstrip(sep).rstrip(sep).split(sep)
-    if branch[0] != tree_root.node_name:
+    if branch[0] != root_node.node_name:
         raise TreeError(
-            f"Path does not have same root node, expected {tree_root.node_name}, received {branch[0]}\n"
+            f"Path does not have same root node, expected {root_node.node_name}, received {branch[0]}\n"
             f"Check your input paths or verify that path separator `sep` is set correctly"
         )
 
     # Grow tree
-    node = tree_root
-    parent_node = tree_root
+    node = root_node
+    parent_node = root_node
     for idx in range(1, len(branch)):
         node_name = branch[idx]
         node_path = tree_sep.join(branch[: idx + 1])
         if not duplicate_name_allowed:
-            node = find_name(tree_root, node_name)
+            node = find_name(root_node, node_name)
             if node and not node.path_name.endswith(node_path):
                 raise DuplicatedNodeError(
                     f"Node {node_name} already exists, try setting `duplicate_name_allowed` to True "
@@ -182,17 +182,17 @@ def add_dict_to_tree_by_path(
     if not len(path_attrs):
         raise ValueError("Dictionary does not contain any data, check `path_attrs`")
 
-    tree_root = tree.root
+    root_node = tree.root
 
     for k, v in path_attrs.items():
         add_path_to_tree(
-            tree_root,
+            root_node,
             k,
             sep=sep,
             duplicate_name_allowed=duplicate_name_allowed,
             node_attrs=v,
         )
-    return tree_root
+    return root_node
 
 
 def add_dict_to_tree_by_name(tree: Node, name_attrs: Dict[str, Dict[str, Any]]) -> Node:
@@ -311,20 +311,20 @@ def add_dataframe_to_tree_by_path(
         attribute_cols = list(data.columns)
         attribute_cols.remove(path_col)
 
-    tree_root = tree.root
     data[path_col] = data[path_col].str.lstrip(sep).str.rstrip(sep)
     assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
 
+    root_node = tree.root
     for row in data.to_dict(orient="index").values():
         node_attrs = {k: v for k, v in row.items() if v is not None and k != path_col}
         add_path_to_tree(
-            tree_root,
+            root_node,
             row[path_col],
             sep=sep,
             duplicate_name_allowed=duplicate_name_allowed,
             node_attrs=node_attrs,
         )
-    return tree_root
+    return root_node
 
 
 def add_dataframe_to_tree_by_name(
@@ -423,11 +423,11 @@ def str_to_tree(
     if not len(tree_string):
         raise ValueError("Tree string does not contain any data, check `tree_string`")
     tree_list = tree_string.split("\n")
-    tree_root = node_type(tree_list[0])
+    root_node = node_type(tree_list[0])
 
     # Infer prefix length
     prefix_length = None
-    cur_parent = tree_root
+    cur_parent = root_node
     for node_str in tree_list[1:]:
         if len(tree_prefix_list):
             node_name = re.split("|".join(tree_prefix_list), node_str)[-1].lstrip()
@@ -455,7 +455,7 @@ def str_to_tree(
         child_node.parent = cur_parent
         cur_parent = child_node
 
-    return tree_root
+    return root_node
 
 
 def list_to_tree(
@@ -813,14 +813,16 @@ def dataframe_to_tree(
         root_node = node_type(root_name, **root_node_kwargs)
     else:
         root_node = node_type(root_name)
-    add_dataframe_to_tree_by_path(
-        root_node,
-        data,
-        path_col=path_col,
-        attribute_cols=attribute_cols,
-        sep=sep,
-        duplicate_name_allowed=duplicate_name_allowed,
-    )
+
+    for row in data.to_dict(orient="index").values():
+        node_attrs = {k: v for k, v in row.items() if v is not None and k != path_col}
+        add_path_to_tree(
+            root_node,
+            row[path_col],
+            sep=sep,
+            duplicate_name_allowed=duplicate_name_allowed,
+            node_attrs=node_attrs,
+        )
     root_node.sep = sep
     return root_node
 

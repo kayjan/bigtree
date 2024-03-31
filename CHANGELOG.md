@@ -18,6 +18,9 @@ If there are clashing attributes, only those that have values will be replaced.
 - Tree Constructor: `dict_to_tree` no longer uses dataframe operations, leading to 33% improvement in timings for
 a tree with 10000 nodes, averaged across 10 runs. The resulting data type of node follows the dictionary exactly,
 compared to the previous dataframe operations that may change the dtypes for certain columns.
+**This might not be backwards-compatible!**
+- Tree Constructor: `dataframe_to_tree` no longer relies on `add_dataframe_to_tree_by_path` as it performs
+assertion checks twice. This leads to 5% improvement in timings for a tree with 10000 nodes, averaged across 10 runs.
 
 ## [0.16.4] - 2024-03-14
 ### Fixed
