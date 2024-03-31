@@ -108,18 +108,18 @@ def assert_dataframe_no_duplicate_attribute(
         id_col (str): column of data that is unique, can be name or path
         attribute_cols (List[str]): columns of data containing node attribute information,
     """
-    data2 = data[[id_col] + attribute_cols].astype(str).drop_duplicates()
-    _duplicate_check = (
-        data2[id_col]
+    data_check = data[[id_col] + attribute_cols].astype(str).drop_duplicates()
+    duplicate_check = (
+        data_check[id_col]
         .value_counts()
         .to_frame("counts")
         .rename_axis(id_col)
         .reset_index()
     )
-    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
-    if len(_duplicate_check):
+    duplicate_check = duplicate_check[duplicate_check["counts"] > 1]
+    if len(duplicate_check):
         raise ValueError(
-            f"There exists duplicate {id_type} with different attributes\nCheck {_duplicate_check}"
+            f"There exists duplicate {id_type} with different attributes\nCheck {duplicate_check}"
         )
 
 
@@ -139,17 +139,17 @@ def assert_dataframe_no_duplicate_children(
     data_check = data[[child_col, parent_col]].drop_duplicates()
     data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
 
-    _duplicate_check = (
+    duplicate_check = (
         data_check[child_col]
         .value_counts()
         .to_frame("counts")
         .rename_axis(child_col)
         .reset_index()
     )
-    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
-    if len(_duplicate_check):
+    duplicate_check = duplicate_check[duplicate_check["counts"] > 1]
+    if len(duplicate_check):
         raise ValueError(
             f"There exists duplicate child with different parent where the child is also a parent node.\n"
             f"Duplicated node names should not happen, but can only exist in leaf nodes to avoid confusion.\n"
-            f"Check {_duplicate_check}"
+            f"Check {duplicate_check}"
         )
