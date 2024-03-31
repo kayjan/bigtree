@@ -68,3 +68,61 @@ def assert_dataframe_not_empty(data: pd.DataFrame) -> None:
         raise ValueError("Data does not contain any columns, check `data`")
     if not len(data):
         raise ValueError("Data does not contain any rows, check `data`")
+
+
+def assert_dataframe_no_duplicate_attribute(
+    data: pd.DataFrame, id_type: str, id_col: str, attribute_cols: List[str]
+) -> None:
+    """Raise ValueError is dataframe contains different attributes for same path
+
+    Args:
+        data (pd.DataFrame): dataframe to check
+        id_type (str): type of uniqueness to check for
+        id_col (str): column of data that is unique, can be name or path
+        attribute_cols (List[str]): columns of data containing node attribute information,
+    """
+    data2 = data.copy()[[id_col] + attribute_cols].astype(str).drop_duplicates()
+    _duplicate_check = (
+        data2[id_col]
+        .value_counts()
+        .to_frame("counts")
+        .rename_axis(id_col)
+        .reset_index()
+    )
+    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
+    if len(_duplicate_check):
+        raise ValueError(
+            f"There exists duplicate {id_type} with different attributes\nCheck {_duplicate_check}"
+        )
+
+
+def assert_dataframe_no_duplicate_children(
+    data: pd.DataFrame,
+    child_col: str,
+    parent_col: str,
+) -> None:
+    """Raise ValueError is dataframe contains different duplicated parent tagged to different grandparents
+
+    Args:
+        data (pd.DataFrame): dataframe to check
+        child_col (str): column of data containing child name information
+        parent_col (str): column of data containing parent name information
+    """
+    # Filter for child nodes that are parent of other nodes
+    data_check = data.copy()[[child_col, parent_col]].drop_duplicates()
+    data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
+
+    _duplicate_check = (
+        data_check[child_col]
+        .value_counts()
+        .to_frame("counts")
+        .rename_axis(child_col)
+        .reset_index()
+    )
+    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
+    if len(_duplicate_check):
+        raise ValueError(
+            f"There exists duplicate child with different parent where the child is also a parent node.\n"
+            f"Duplicated node names should not happen, but can only exist in leaf nodes to avoid confusion.\n"
+            f"Check {_duplicate_check}"
+        )

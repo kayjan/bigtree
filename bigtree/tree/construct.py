@@ -6,7 +6,11 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple, Type
 
 from bigtree.node.node import Node
 from bigtree.tree.search import find_child_by_name, find_name
-from bigtree.utils.assertions import assert_dataframe_not_empty
+from bigtree.utils.assertions import (
+    assert_dataframe_no_duplicate_attribute,
+    assert_dataframe_no_duplicate_children,
+    assert_dataframe_not_empty,
+)
 from bigtree.utils.constants import NewickCharacter, NewickState
 from bigtree.utils.exceptions import (
     DuplicatedNodeError,
@@ -309,19 +313,7 @@ def add_dataframe_to_tree_by_path(
 
     tree_root = tree.root
     data[path_col] = data[path_col].str.lstrip(sep).str.rstrip(sep)
-    data2 = data.copy()[[path_col] + attribute_cols].astype(str).drop_duplicates()
-    _duplicate_check = (
-        data2[path_col]
-        .value_counts()
-        .to_frame("counts")
-        .rename_axis(path_col)
-        .reset_index()
-    )
-    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
-    if len(_duplicate_check):
-        raise ValueError(
-            f"There exists duplicate path with different attributes\nCheck {_duplicate_check}"
-        )
+    assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
 
     for row in data.to_dict(orient="index").values():
         node_attrs = row.copy()
@@ -387,20 +379,7 @@ def add_dataframe_to_tree_by_name(
         attribute_cols = list(data.columns)
         attribute_cols.remove(name_col)
 
-    # Attribute data
-    data2 = data.copy()[[name_col] + attribute_cols].astype(str).drop_duplicates()
-    _duplicate_check = (
-        data2[name_col]
-        .value_counts()
-        .to_frame("counts")
-        .rename_axis(name_col)
-        .reset_index()
-    )
-    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
-    if len(_duplicate_check):
-        raise ValueError(
-            f"There exists duplicate name with different attributes\nCheck {_duplicate_check}"
-        )
+    assert_dataframe_no_duplicate_attribute(data, "name", name_col, attribute_cols)
 
     # Get attribute dict
     name_attrs = (
@@ -824,19 +803,7 @@ def dataframe_to_tree(
         attribute_cols.remove(path_col)
 
     data[path_col] = data[path_col].str.lstrip(sep).str.rstrip(sep)
-    data2 = data.copy()[[path_col] + attribute_cols].astype(str).drop_duplicates()
-    _duplicate_check = (
-        data2[path_col]
-        .value_counts()
-        .to_frame("counts")
-        .rename_axis(path_col)
-        .reset_index()
-    )
-    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
-    if len(_duplicate_check):
-        raise ValueError(
-            f"There exists duplicate path with different attributes\nCheck {_duplicate_check}"
-        )
+    assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
 
     root_name = data[path_col].values[0].split(sep)[0]
     root_node_data = data[data[path_col] == root_name]
@@ -932,24 +899,8 @@ def dataframe_to_tree_by_relation(
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
 
-    data_check = data.copy()[[child_col, parent_col]].drop_duplicates()
-    # Filter for child nodes that are parent of other nodes
     if not allow_duplicates:
-        data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
-        _duplicate_check = (
-            data_check[child_col]
-            .value_counts()
-            .to_frame("counts")
-            .rename_axis(child_col)
-            .reset_index()
-        )
-        _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
-        if len(_duplicate_check):
-            raise ValueError(
-                f"There exists duplicate child with different parent where the child is also a parent node.\n"
-                f"Duplicated node names should not happen, but can only exist in leaf nodes to avoid confusion.\n"
-                f"Check {_duplicate_check}"
-            )
+        assert_dataframe_no_duplicate_children(data, child_col, parent_col)
 
     # If parent-child contains None -> root
     root_row = data[data[parent_col].isnull()]
