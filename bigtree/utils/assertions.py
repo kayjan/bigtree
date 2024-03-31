@@ -81,7 +81,7 @@ def assert_dataframe_no_duplicate_attribute(
         id_col (str): column of data that is unique, can be name or path
         attribute_cols (List[str]): columns of data containing node attribute information,
     """
-    data2 = data.copy()[[id_col] + attribute_cols].astype(str).drop_duplicates()
+    data2 = data[[id_col] + attribute_cols].astype(str).drop_duplicates()
     _duplicate_check = (
         data2[id_col]
         .value_counts()
@@ -109,7 +109,7 @@ def assert_dataframe_no_duplicate_children(
         parent_col (str): column of data containing parent name information
     """
     # Filter for child nodes that are parent of other nodes
-    data_check = data.copy()[[child_col, parent_col]].drop_duplicates()
+    data_check = data[[child_col, parent_col]].drop_duplicates()
     data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
 
     _duplicate_check = (
