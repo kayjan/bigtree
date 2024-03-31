@@ -6,6 +6,8 @@ from bigtree.node.dagnode import DAGNode
 from bigtree.utils.assertions import (
     assert_dataframe_no_duplicate_attribute,
     assert_dataframe_not_empty,
+    assert_dictionary_not_empty,
+    assert_length_not_empty,
 )
 from bigtree.utils.exceptions import optional_dependencies_pandas
 
@@ -39,8 +41,7 @@ def list_to_dag(
     Returns:
         (DAGNode)
     """
-    if not len(relations):
-        raise ValueError("Input list does not contain any data, check `relations`")
+    assert_length_not_empty(relations, "Input list", "relations")
 
     relation_data = pd.DataFrame(relations, columns=["parent", "child"])
     return dataframe_to_dag(
@@ -79,8 +80,7 @@ def dict_to_dag(
     Returns:
         (DAGNode)
     """
-    if not len(relation_attrs):
-        raise ValueError("Dictionary does not contain any data, check `relation_attrs`")
+    assert_dictionary_not_empty(relation_attrs, "relation_attrs")
 
     # Convert dictionary to dataframe
     data = pd.DataFrame(relation_attrs).T.rename_axis("_tmp_child").reset_index()
