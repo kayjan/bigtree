@@ -85,8 +85,7 @@ def add_path_to_tree(
     Returns:
         (Node)
     """
-    if not len(path):
-        raise ValueError("Path is empty, check `path`")
+    assert_length_not_empty(path, "Path", "path")
 
     root_node = tree.root
     tree_sep = root_node.sep

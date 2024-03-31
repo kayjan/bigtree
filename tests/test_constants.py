@@ -109,7 +109,7 @@ class Constants:
         "child_key {child_key} should be List type, received {child}"
     )
     ERROR_NODE_LIST_EMPTY = "Path list does not contain any data, check `{parameter}`"
-    ERROR_NODE_PATH_EMPTY = "Path is empty, check `path`"
+    ERROR_NODE_PATH_EMPTY = "Path does not contain any data, check `path`"
     ERROR_NODE_STRING_EMPTY = (
         "Tree string does not contain any data, check `tree_string`"
     )
