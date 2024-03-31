@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 of returning new tree, and does not accept `join_type` as argument as pandas dataframe operation is phased out.
 If there are clashing attributes, only those that have values will be replaced.
 **This might not be backwards-compatible!**
-- Misc: Abstract out assertion checks for empty dataframe.
+- Misc: Abstract out assertion checks for empty dataframe and duplicate attribute.
 ### Fixed
 - Tree Constructor: `dict_to_tree` no longer uses dataframe operations, leading to 33% improvement in timings for
 a tree with 10000 nodes, averaged across 10 runs. The resulting data type of node follows the dictionary exactly,
