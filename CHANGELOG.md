@@ -13,6 +13,7 @@ of returning new tree, and does not accept `join_type` as argument as pandas dat
 If there are clashing attributes, only those that have values will be replaced.
 **This might not be backwards-compatible!**
 - Misc: Abstract out assertion checks for empty dataframe and duplicate attribute.
+- Misc: Optimization in dictionary and dataframe operations.
 ### Fixed
 - Tree Constructor: `dict_to_tree` no longer uses dataframe operations, leading to 33% improvement in timings for
 a tree with 10000 nodes, averaged across 10 runs. The resulting data type of node follows the dictionary exactly,
