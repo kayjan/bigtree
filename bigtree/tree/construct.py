@@ -316,9 +316,7 @@ def add_dataframe_to_tree_by_path(
     assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
 
     for row in data.to_dict(orient="index").values():
-        node_attrs = row.copy()
-        del node_attrs[path_col]
-        node_attrs = {k: v for k, v in node_attrs.items() if v is not None}
+        node_attrs = {k: v for k, v in row.items() if v is not None and k != path_col}
         add_path_to_tree(
             tree_root,
             row[path_col],
