@@ -3,7 +3,10 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple, Type
 
 from bigtree.node.dagnode import DAGNode
-from bigtree.utils.assertions import assert_dataframe_not_empty
+from bigtree.utils.assertions import (
+    assert_dataframe_no_duplicate_attribute,
+    assert_dataframe_not_empty,
+)
 from bigtree.utils.exceptions import optional_dependencies_pandas
 
 try:
@@ -162,22 +165,9 @@ def dataframe_to_dag(
             f"One or more attribute column(s) not in data, check `attribute_cols`: {attribute_cols}"
         )
 
-    data_check = data.copy()[[child_col, parent_col] + attribute_cols].drop_duplicates(
-        subset=[child_col] + attribute_cols
+    assert_dataframe_no_duplicate_attribute(
+        data, "child name", child_col, attribute_cols
     )
-    _duplicate_check = (
-        data_check[child_col]
-        .value_counts()
-        .to_frame("counts")
-        .rename_axis(child_col)
-        .reset_index()
-    )
-    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
-    if len(_duplicate_check):
-        raise ValueError(
-            f"There exists duplicate child name with different attributes\n"
-            f"Check {_duplicate_check}"
-        )
     if sum(data[child_col].isnull()):
         raise ValueError(f"Child name cannot be empty, check column: {child_col}")
 
