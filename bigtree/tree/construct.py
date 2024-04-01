@@ -382,12 +382,13 @@ def add_dataframe_to_tree_by_name(
         attribute_cols = list(data.columns)
         attribute_cols.remove(name_col)
 
-    data = data[[name_col] + attribute_cols].copy()
     assert_dataframe_no_duplicate_attribute(data, "name", name_col, attribute_cols)
 
     # Get attribute dict, remove null attributes
     name_attrs = (
-        data.drop_duplicates(name_col).set_index(name_col).to_dict(orient="index")
+        data.drop_duplicates(name_col)
+        .set_index(name_col)[attribute_cols]
+        .to_dict(orient="index")
     )
     name_attrs = {
         k1: {k2: v2 for k2, v2 in v1.items() if not isnull(v2)}
