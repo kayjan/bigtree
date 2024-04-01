@@ -27,6 +27,8 @@ ignore non-attribute columns, ignore null attribute columns.
 ignore null attribute columns.
 - Tree Constructor: `add_dataframe_to_tree_by_name` ignore existing name column, ignore non-attribute columns,
 ignore null attribute columns.
+- Tree Constructor: `dataframe_to_tree` ignore existing name column, ignore non-attribute columns,
+ignore null attribute columns.
 
 ## [0.16.4] - 2024-03-14
 ### Fixed

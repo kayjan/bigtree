@@ -2076,6 +2076,69 @@ class TestDataFrameToTree(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     @staticmethod
+    def test_dataframe_to_tree_ignore_name_col():
+        path_data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["a/b", 65, "b1"],
+                ["a/c", 60, "c1"],
+                ["a/b/d", 40, "d1"],
+                ["a/b/e", 35, "e1"],
+                ["a/c/f", 38, "f1"],
+                ["a/b/e/g", 10, "g1"],
+                ["a/b/e/h", 6, "h1"],
+            ],
+            columns=["PATH", "age", "name"],
+        )
+        root = dataframe_to_tree(path_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_dataframe_to_tree_ignore_non_attribute_cols():
+        path_data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["a/b", 65, "b1"],
+                ["a/c", 60, "c1"],
+                ["a/b/d", 40, "d1"],
+                ["a/b/e", 35, "e1"],
+                ["a/c/f", 38, "f1"],
+                ["a/b/e/g", 10, "g1"],
+                ["a/b/e/h", 6, "h1"],
+            ],
+            columns=["PATH", "age", "name2"],
+        )
+        root = dataframe_to_tree(path_data, path_col="PATH", attribute_cols=["age"])
+        assert not root.get_attr("name2")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_dataframe_to_tree_root_node_empty_attribute():
+        path_data = pd.DataFrame(
+            [
+                ["a", None],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            columns=["PATH", "age"],
+        )
+        root = dataframe_to_tree(path_data)
+        assert not root.get_attr("age")
+        root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
     def test_dataframe_to_tree_sep_leading():
         path_data = pd.DataFrame(
             [

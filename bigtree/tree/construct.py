@@ -797,7 +797,6 @@ def dataframe_to_tree(
     Returns:
         (Node)
     """
-    data = data.copy()
     assert_dataframe_not_empty(data)
 
     if not path_col:
@@ -806,6 +805,7 @@ def dataframe_to_tree(
         attribute_cols = list(data.columns)
         attribute_cols.remove(path_col)
 
+    data = data[[path_col] + attribute_cols].copy()
     data[path_col] = data[path_col].str.lstrip(sep).str.rstrip(sep)
     assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
 
@@ -815,13 +815,21 @@ def dataframe_to_tree(
         root_node_kwargs = list(
             root_node_data[attribute_cols].to_dict(orient="index").values()
         )[0]
-        root_name = root_node_kwargs.pop("name", root_name)
+        root_node_kwargs = {
+            k: v
+            for k, v in root_node_kwargs.items()
+            if not isnull(v) and k not in ["name", path_col]
+        }
         root_node = node_type(root_name, **root_node_kwargs)
     else:
         root_node = node_type(root_name)
 
     for row in data.to_dict(orient="index").values():
-        node_attrs = {k: v for k, v in row.items() if v is not None and k != path_col}
+        node_attrs = {
+            k: v
+            for k, v in row.items()
+            if not isnull(v) and k not in ["name", path_col]
+        }
         add_path_to_tree(
             root_node,
             row[path_col],
