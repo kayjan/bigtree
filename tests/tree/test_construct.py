@@ -643,6 +643,68 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
             add_dataframe_to_tree_by_path(self.root, data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
+    def test_add_dataframe_to_tree_by_path_ignore_name_col(self):
+        data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["a/b", 65, "b1"],
+                ["a/c", 60, "c1"],
+                ["a/b/d", 40, "d1"],
+                ["a/b/e", 35, "e1"],
+                ["a/c/f", 38, "f1"],
+                ["a/b/e/g", 10, "g1"],
+                ["a/b/e/h", 6, "h1"],
+            ],
+            columns=["PATH", "age", "name"],
+        )
+        add_dataframe_to_tree_by_path(self.root, data)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_add_dataframe_to_tree_by_path_ignore_non_attribute_cols(self):
+        data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["a/b", 65, "b1"],
+                ["a/c", 60, "c1"],
+                ["a/b/d", 40, "d1"],
+                ["a/b/e", 35, "e1"],
+                ["a/c/f", 38, "f1"],
+                ["a/b/e/g", 10, "g1"],
+                ["a/b/e/h", 6, "h1"],
+            ],
+            columns=["PATH", "age", "name2"],
+        )
+        add_dataframe_to_tree_by_path(
+            self.root, data, path_col="PATH", attribute_cols=["age"]
+        )
+        assert not self.root.get_attr("name2")
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_add_dataframe_to_tree_by_path_root_node_empty_attribute(self):
+        data = pd.DataFrame(
+            [
+                ["a", None],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            columns=["PATH", "age"],
+        )
+        add_dataframe_to_tree_by_path(self.root, data)
+        assert self.root.get_attr("age") == 1
+        self.root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
     def test_add_dataframe_to_tree_by_path_no_attribute(self):
         data = pd.DataFrame(
             [

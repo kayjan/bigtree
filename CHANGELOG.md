@@ -23,6 +23,8 @@ compared to the previous dataframe operations that may change the dtypes for cer
 **This might not be backwards-compatible!**
 - Tree Constructor: `dataframe_to_tree_by_relation` fix root node detection logic, ignore existing name column,
 ignore non-attribute columns, ignore null attribute columns.
+- Tree Constructor: `add_dataframe_to_tree_by_path` ignore existing name column, ignore non-attribute columns,
+ignore null attribute columns.
 
 ## [0.16.4] - 2024-03-14
 ### Fixed

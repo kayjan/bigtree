@@ -302,7 +302,6 @@ def add_dataframe_to_tree_by_path(
     Returns:
         (Node)
     """
-    data = data.copy()
     assert_dataframe_not_empty(data)
 
     if not path_col:
@@ -311,12 +310,17 @@ def add_dataframe_to_tree_by_path(
         attribute_cols = list(data.columns)
         attribute_cols.remove(path_col)
 
+    data = data[[path_col] + attribute_cols].copy()
     data[path_col] = data[path_col].str.lstrip(sep).str.rstrip(sep)
     assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
 
     root_node = tree.root
     for row in data.to_dict(orient="index").values():
-        node_attrs = {k: v for k, v in row.items() if v is not None and k != path_col}
+        node_attrs = {
+            k: v
+            for k, v in row.items()
+            if not isnull(v) and k not in ["name", path_col]
+        }
         add_path_to_tree(
             root_node,
             row[path_col],
@@ -898,7 +902,6 @@ def dataframe_to_tree_by_relation(
         attribute_cols.remove(parent_col)
 
     data = data[[child_col, parent_col] + attribute_cols].copy()
-
     if not allow_duplicates:
         assert_dataframe_no_duplicate_children(data, child_col, parent_col)
 
