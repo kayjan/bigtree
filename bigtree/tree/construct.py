@@ -231,7 +231,9 @@ def add_dict_to_tree_by_name(tree: Node, name_attrs: Dict[str, Dict[str, Any]]) 
     attr_dict_names = set(name_attrs.keys())
 
     for node in findall(tree, lambda x: x.node_name in attr_dict_names):
-        node.set_attrs(name_attrs[node.node_name])
+        node.set_attrs(
+            {k: v for k, v in name_attrs[node.node_name].items() if k not in ["name"]}
+        )
 
     return tree
 
@@ -372,7 +374,6 @@ def add_dataframe_to_tree_by_name(
     Returns:
         (Node)
     """
-    data = data.copy()
     assert_dataframe_not_empty(data)
 
     if not name_col:
@@ -381,14 +382,17 @@ def add_dataframe_to_tree_by_name(
         attribute_cols = list(data.columns)
         attribute_cols.remove(name_col)
 
+    data = data[[name_col] + attribute_cols].copy()
     assert_dataframe_no_duplicate_attribute(data, "name", name_col, attribute_cols)
 
-    # Get attribute dict
+    # Get attribute dict, remove null attributes
     name_attrs = (
-        data.drop_duplicates(name_col)
-        .set_index(name_col)[attribute_cols]
-        .to_dict(orient="index")
+        data.drop_duplicates(name_col).set_index(name_col).to_dict(orient="index")
     )
+    name_attrs = {
+        k1: {k2: v2 for k2, v2 in v1.items() if not isnull(v2)}
+        for k1, v1 in name_attrs.items()
+    }
 
     return add_dict_to_tree_by_name(tree, name_attrs)
 

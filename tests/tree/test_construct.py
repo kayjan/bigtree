@@ -1035,6 +1035,68 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
             add_dataframe_to_tree_by_name(self.root, data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
+    def test_add_dataframe_to_tree_by_name_ignore_name_col(self):
+        data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["b", 65, "b1"],
+                ["c", 60, "c1"],
+                ["d", 40, "d1"],
+                ["e", 35, "e1"],
+                ["f", 38, "f1"],
+                ["g", 10, "g1"],
+                ["h", 6, "h1"],
+            ],
+            columns=["name2", "age", "name"],
+        )
+        add_dataframe_to_tree_by_name(self.root, data, name_col="name2")
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_add_dataframe_to_tree_by_name_ignore_non_attribute_cols(self):
+        data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["b", 65, "b1"],
+                ["c", 60, "c1"],
+                ["d", 40, "d1"],
+                ["e", 35, "e1"],
+                ["f", 38, "f1"],
+                ["g", 10, "g1"],
+                ["h", 6, "h1"],
+            ],
+            columns=["NAME", "age", "name2"],
+        )
+        add_dataframe_to_tree_by_name(
+            self.root, data, name_col="NAME", attribute_cols=["age"]
+        )
+        assert not self.root.get_attr("name2")
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_add_dataframe_to_tree_by_name_root_node_empty_attribute(self):
+        data = pd.DataFrame(
+            [
+                ["a", None],
+                ["b", 65],
+                ["c", 60],
+                ["d", 40],
+                ["e", 35],
+                ["f", 38],
+                ["g", 10],
+                ["h", 6],
+            ],
+            columns=["NAME", "age"],
+        )
+        add_dataframe_to_tree_by_name(self.root, data)
+        assert self.root.get_attr("age") == 1
+        self.root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
     def test_add_dataframe_to_tree_by_name_sep_tree(self):
         self.root.sep = "\\"
         root = add_dataframe_to_tree_by_name(self.root, self.data)
@@ -1136,7 +1198,7 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
             columns=["NAME", "age"],
         )
         add_dataframe_to_tree_by_name(self.root, data)
-        expected_root_str = "a [age=90.0]\n" "├── b [age=nan]\n" "└── c [age=60.0]\n"
+        expected_root_str = "a [age=90.0]\n" "├── b [age=1]\n" "└── c [age=60.0]\n"
         assert_print_statement(
             print_tree, expected_root_str, self.root, all_attrs=True, max_depth=2
         )
