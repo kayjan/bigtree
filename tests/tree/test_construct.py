@@ -2234,6 +2234,74 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     @staticmethod
+    def test_dataframe_to_tree_by_relation_ignore_name_col():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, 90, "a1"],
+                ["b", "a", 65, "b1"],
+                ["c", "a", 60, "c1"],
+                ["d", "b", 40, "d1"],
+                ["e", "b", 35, "e1"],
+                ["f", "c", 38, "f1"],
+                ["g", "e", 10, "g1"],
+                ["h", "e", 6, "h1"],
+            ],
+            columns=["child", "parent", "age", "name"],
+        )
+        root = dataframe_to_tree_by_relation(relation_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_ignore_non_attribute_cols():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, 90, "a1"],
+                ["b", "a", 65, "b1"],
+                ["c", "a", 60, "c1"],
+                ["d", "b", 40, "d1"],
+                ["e", "b", 35, "e1"],
+                ["f", "c", 38, "f1"],
+                ["g", "e", 10, "g1"],
+                ["h", "e", 6, "h1"],
+            ],
+            columns=["child", "parent", "age", "name2"],
+        )
+        root = dataframe_to_tree_by_relation(
+            relation_data,
+            child_col="child",
+            parent_col="parent",
+            attribute_cols=["age"],
+        )
+        assert not root.get_attr("name2")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_root_node_empty_attribute():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, None],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        root = dataframe_to_tree_by_relation(relation_data)
+        assert not root.get_attr("age")
+        root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
     def test_dataframe_to_tree_by_relation_duplicate_leaf_node():
         relation_data = pd.DataFrame(
             [

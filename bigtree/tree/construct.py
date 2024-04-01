@@ -12,6 +12,7 @@ from bigtree.utils.assertions import (
     assert_dataframe_not_empty,
     assert_dictionary_not_empty,
     assert_length_not_empty,
+    isnull,
 )
 from bigtree.utils.constants import NewickCharacter, NewickState
 from bigtree.utils.exceptions import (
@@ -885,7 +886,6 @@ def dataframe_to_tree_by_relation(
     Returns:
         (Node)
     """
-    data = data.copy()
     assert_dataframe_not_empty(data)
 
     if not child_col:
@@ -897,27 +897,19 @@ def dataframe_to_tree_by_relation(
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
 
+    data = data[[child_col, parent_col] + attribute_cols].copy()
+
     if not allow_duplicates:
         assert_dataframe_no_duplicate_children(data, child_col, parent_col)
 
     # Infer root node
-    root_row = data[data[parent_col].isnull()]
-    root_names = set(root_row[child_col])
+    root_names = set(data[data[parent_col].isnull()][child_col])
     root_names.update(set(data[parent_col]) - set(data[child_col]) - {None})
     if len(root_names) != 1:
         raise ValueError(
             f"Unable to determine root node\nPossible root nodes: {sorted(root_names)}"
         )
     root_name = list(root_names)[0]
-    root_node_data = data[data[child_col] == root_name]
-    if len(root_node_data):
-        root_node_kwargs = list(
-            root_node_data[attribute_cols].to_dict(orient="index").values()
-        )[0]
-        root_name = root_node_kwargs.pop("name", root_name)
-        root_node = node_type(root_name, **root_node_kwargs)
-    else:
-        root_node = node_type(root_name)
 
     def _retrieve_attr(_row: Dict[str, Any]) -> Dict[str, Any]:
         """Retrieve node attributes from dictionary, remove parent and child column from dictionary.
@@ -928,12 +920,13 @@ def dataframe_to_tree_by_relation(
         Returns:
             (Dict[str, Any])
         """
-        node_attrs = _row.copy()
-        node_attrs["name"] = node_attrs[child_col]
-        del node_attrs[child_col]
-        del node_attrs[parent_col]
-        _node_attrs = {k: v for k, v in node_attrs.items() if v is not None}
-        return _node_attrs
+        node_attrs = {
+            k: v
+            for k, v in _row.items()
+            if not isnull(v) and k not in [child_col, parent_col]
+        }
+        node_attrs["name"] = _row[child_col]
+        return node_attrs
 
     def _recursive_add_child(parent_node: Node) -> None:
         """Recursive add child to tree, given current node.
@@ -949,9 +942,12 @@ def dataframe_to_tree_by_relation(
             _recursive_add_child(child_node)
 
     # Create root node attributes
+    root_row = data[data[child_col] == root_name]
     if len(root_row):
         row = list(root_row.to_dict(orient="index").values())[0]
-        root_node.set_attrs(_retrieve_attr(row))
+        root_node = node_type(**_retrieve_attr(row))
+    else:
+        root_node = node_type(root_name)
     _recursive_add_child(root_node)
     return root_node
 

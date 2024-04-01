@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import collections
-import math
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, TypeVar, Union
 from urllib.request import urlopen
 
@@ -10,6 +9,7 @@ from bigtree.utils.assertions import (
     assert_key_in_dict,
     assert_str_in_list,
     assert_style_in_dict,
+    isnull,
 )
 from bigtree.utils.constants import ExportConstants, MermaidConstants, NewickCharacter
 from bigtree.utils.exceptions import (
@@ -49,20 +49,6 @@ __all__ = [
 ]
 
 T = TypeVar("T", bound=Node)
-
-
-def _isnull(value: Any) -> bool:
-    """Check if value is null
-
-    Args:
-        value (Any): value to check
-
-    Returns:
-        (bool)
-    """
-    if not value or (isinstance(value, float) and math.isnan(value)):
-        return True
-    return False
 
 
 def print_tree(
@@ -210,7 +196,7 @@ def print_tree(
                     attr_str_list = [
                         f"{attr_name}={_node.get_attr(attr_name)}"
                         for attr_name in attr_list
-                        if not _isnull(_node.get_attr(attr_name))
+                        if not isnull(_node.get_attr(attr_name))
                     ]
                 else:
                     attr_str_list = [

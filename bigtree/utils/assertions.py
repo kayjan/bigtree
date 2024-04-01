@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import math
 from typing import Any, Dict, List, Union
 
 try:
@@ -153,3 +156,17 @@ def assert_dataframe_no_duplicate_children(
             f"Duplicated node names should not happen, but can only exist in leaf nodes to avoid confusion.\n"
             f"Check {duplicate_check}"
         )
+
+
+def isnull(value: Any) -> bool:
+    """Check if value is null
+
+    Args:
+        value (Any): value to check
+
+    Returns:
+        (bool)
+    """
+    if not value or (isinstance(value, float) and math.isnan(value)):
+        return True
+    return False
