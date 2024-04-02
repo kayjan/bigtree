@@ -170,3 +170,27 @@ def isnull(value: Any) -> bool:
     if not value or (isinstance(value, float) and math.isnan(value)):
         return True
     return False
+
+
+def filter_attributes(
+    node_attributes: Dict[str, Any],
+    omit_keys: List[str],
+    omit_null_values: bool,
+) -> Dict[str, Any]:
+    """Filter node attributes to remove certain keys and/or values
+
+    Args:
+        node_attributes (Dict[str, Any]): node attribute dictionary
+        omit_keys (List[str]): list of keys to omit
+        omit_null_values (bool): indicator whether to omit values that are null
+
+    Returns:
+        (Dict[str, Any])
+    """
+    if omit_null_values:
+        return {
+            k: v
+            for k, v in node_attributes.items()
+            if not isnull(v) and k not in omit_keys
+        }
+    return {k: v for k, v in node_attributes.items() if k not in omit_keys}

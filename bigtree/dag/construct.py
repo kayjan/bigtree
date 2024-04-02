@@ -8,6 +8,8 @@ from bigtree.utils.assertions import (
     assert_dataframe_not_empty,
     assert_dictionary_not_empty,
     assert_length_not_empty,
+    filter_attributes,
+    isnull,
 )
 from bigtree.utils.exceptions import optional_dependencies_pandas
 
@@ -49,6 +51,7 @@ def list_to_dag(
     )
 
 
+@optional_dependencies_pandas
 def dict_to_dag(
     relation_attrs: Dict[str, Any],
     parent_key: str = "parents",
@@ -114,6 +117,8 @@ def dataframe_to_dag(
     - If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
         columns are `attribute_cols`.
 
+    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+
     Examples:
         >>> import pandas as pd
         >>> from bigtree import dataframe_to_dag, dag_iterator
@@ -145,7 +150,6 @@ def dataframe_to_dag(
     Returns:
         (DAGNode)
     """
-    data = data.copy()
     assert_dataframe_not_empty(data)
 
     if not child_col:
@@ -165,6 +169,8 @@ def dataframe_to_dag(
             f"One or more attribute column(s) not in data, check `attribute_cols`: {attribute_cols}"
         )
 
+    data = data[[child_col, parent_col] + attribute_cols].copy()
+
     assert_dataframe_no_duplicate_attribute(
         data, "child name", child_col, attribute_cols
     )
@@ -177,15 +183,14 @@ def dataframe_to_dag(
     for row in data.reset_index(drop=True).to_dict(orient="index").values():
         child_name = row[child_col]
         parent_name = row[parent_col]
-        node_attrs = row.copy()
-        del node_attrs[child_col]
-        del node_attrs[parent_col]
-        node_attrs = {k: v for k, v in node_attrs.items() if not pd.isnull(v)}
-        child_node = node_dict.get(child_name, node_type(child_name))
+        node_attrs = filter_attributes(
+            row, omit_keys=["name", child_col, parent_col], omit_null_values=True
+        )
+        child_node = node_dict.get(child_name, node_type(child_name, **node_attrs))
         child_node.set_attrs(node_attrs)
         node_dict[child_name] = child_node
 
-        if not pd.isnull(parent_name):
+        if not isnull(parent_name):
             parent_node = node_dict.get(parent_name, node_type(parent_name))
             node_dict[parent_name] = parent_node
             child_node.parents = [parent_node]
