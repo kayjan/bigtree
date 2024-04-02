@@ -645,9 +645,7 @@ def dict_to_tree(
     assert_dictionary_not_empty(path_attrs, "path_attrs")
 
     # Initial tree
-    root_name = (
-        list(path_attrs.keys())[0].removeprefix(sep).removesuffix(sep).split(sep)[0]
-    )
+    root_name = list(path_attrs.keys())[0].lstrip(sep).rstrip(sep).split(sep)[0]
     root_node_attrs = dict(
         path_attrs.get(root_name, {})
         or path_attrs.get(sep + root_name, {})
