@@ -12,6 +12,7 @@ from bigtree.utils.assertions import (
     assert_dataframe_not_empty,
     assert_dictionary_not_empty,
     assert_length_not_empty,
+    filter_attributes,
     isnull,
 )
 from bigtree.utils.constants import NewickCharacter, NewickState
@@ -66,6 +67,8 @@ def add_path_to_tree(
 
     - For example: Path strings should be "a/b", "a/c", "a/b/d" etc., and should not start with another root node.
 
+    All attributes in `node_attrs` will be added to the tree, including attributes with null values.
+
     Examples:
         >>> from bigtree import add_path_to_tree, Node
         >>> root = Node("a")
@@ -115,10 +118,9 @@ def add_path_to_tree(
             node = find_child_by_name(parent_node, node_name)
         if not node:
             if idx == len(branch) - 1:
-                node_name = node_attrs.pop("name", branch[idx])
                 node = node_type(node_name, **node_attrs)
             else:
-                node = node_type(branch[idx])
+                node = node_type(node_name)
             node.parent = parent_node
         parent_node = node
     node.set_attrs(node_attrs)
@@ -133,6 +135,8 @@ def add_dict_to_tree_by_path(
 ) -> Node:
     """Add nodes and attributes to tree *in-place*, return root of tree.
     Adds to existing tree from nested dictionary, ``key``: path, ``value``: dict of attribute name and attribute value.
+
+    All attributes in `path_attrs` will be added to the tree, including attributes with null values.
 
     Path should contain ``Node`` name, separated by `sep`.
 
@@ -185,13 +189,13 @@ def add_dict_to_tree_by_path(
 
     root_node = tree.root
 
-    for k, v in path_attrs.items():
+    for path, node_attrs in path_attrs.items():
         add_path_to_tree(
             root_node,
-            k,
+            path,
             sep=sep,
             duplicate_name_allowed=duplicate_name_allowed,
-            node_attrs=v,
+            node_attrs=node_attrs,
         )
     return root_node
 
@@ -199,6 +203,8 @@ def add_dict_to_tree_by_path(
 def add_dict_to_tree_by_name(tree: Node, name_attrs: Dict[str, Dict[str, Any]]) -> Node:
     """Add attributes to existing tree *in-place*.
     Adds to existing tree from nested dictionary, ``key``: name, ``value``: dict of attribute name and attribute value.
+
+    All attributes in `name_attrs` will be added to the tree, including attributes with null values.
 
     Input dictionary keys that are not existing node names will be ignored.
     Note that if multiple nodes have the same name, attributes will be added to all nodes sharing the same name.
@@ -230,10 +236,11 @@ def add_dict_to_tree_by_name(tree: Node, name_attrs: Dict[str, Dict[str, Any]]) 
 
     attr_dict_names = set(name_attrs.keys())
 
-    for node in findall(tree, lambda x: x.node_name in attr_dict_names):
-        node.set_attrs(
-            {k: v for k, v in name_attrs[node.node_name].items() if k not in ["name"]}
+    for node in findall(tree, lambda _node: _node.node_name in attr_dict_names):
+        node_attrs = filter_attributes(
+            name_attrs[node.node_name], omit_keys=["name"], omit_null_values=False
         )
+        node.set_attrs(node_attrs)
 
     return tree
 
@@ -247,6 +254,9 @@ def add_dataframe_to_tree_by_path(
     duplicate_name_allowed: bool = True,
 ) -> Node:
     """Add nodes and attributes to tree *in-place*, return root of tree.
+    Adds to existing tree from pandas DataFrame.
+
+    Only attributes in `attribute_cols` with non-null values will be added to the tree.
 
     `path_col` and `attribute_cols` specify columns for node path and attributes to add to existing tree.
     If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`
@@ -318,11 +328,9 @@ def add_dataframe_to_tree_by_path(
 
     root_node = tree.root
     for row in data.to_dict(orient="index").values():
-        node_attrs = {
-            k: v
-            for k, v in row.items()
-            if not isnull(v) and k not in ["name", path_col]
-        }
+        node_attrs = filter_attributes(
+            row, omit_keys=["name", path_col], omit_null_values=True
+        )
         add_path_to_tree(
             root_node,
             row[path_col],
@@ -340,6 +348,9 @@ def add_dataframe_to_tree_by_name(
     attribute_cols: List[str] = [],
 ) -> Node:
     """Add attributes to existing tree *in-place*.
+    Adds to existing tree from pandas DataFrame.
+
+    Only attributes in `attribute_cols` with non-null values will be added to the tree.
 
     `name_col` and `attribute_cols` specify columns for node name and attributes to add to existing tree.
     If columns are not specified, the first column will be taken as name column and all other columns as attributes.
@@ -523,7 +534,6 @@ def list_to_tree(
         add_path_to_tree(
             root_node, path, sep=sep, duplicate_name_allowed=duplicate_name_allowed
         )
-    root_node.sep = sep
     return root_node
 
 
@@ -597,6 +607,8 @@ def dict_to_tree(
 
     - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
+    All attributes in `path_attrs` will be added to the tree, including attributes with null values.
+
     Examples:
         >>> from bigtree import dict_to_tree
         >>> path_dict = {
@@ -633,18 +645,29 @@ def dict_to_tree(
     assert_dictionary_not_empty(path_attrs, "path_attrs")
 
     # Initial tree
-    root_name = list(path_attrs.keys())[0].strip(sep).split(sep)[0]
-    root_node_data = dict(
+    root_name = (
+        list(path_attrs.keys())[0].removeprefix(sep).removesuffix(sep).split(sep)[0]
+    )
+    root_node_attrs = dict(
         path_attrs.get(root_name, {})
         or path_attrs.get(sep + root_name, {})
         or path_attrs.get(root_name + sep, {})
         or path_attrs.get(sep + root_name + sep, {})
     )
-    root_node_data.update(dict(name=root_name, sep=sep))
-    root_node = node_type(**root_node_data)
+    root_node_attrs = filter_attributes(
+        root_node_attrs, omit_keys=["name"], omit_null_values=False
+    )
+    root_node = node_type(
+        name=root_name,
+        sep=sep,
+        **root_node_attrs,
+    )
 
     # Convert dictionary to dataframe
     for node_path, node_attrs in path_attrs.items():
+        node_attrs = filter_attributes(
+            node_attrs, omit_keys=["name"], omit_null_values=False
+        )
         add_path_to_tree(
             root_node,
             node_path,
@@ -746,6 +769,8 @@ def dataframe_to_tree(
     `path_col` and `attribute_cols` specify columns for node path and attributes to construct tree.
     If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`.
 
+    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+
     Path in path column can start from root node `name`, or start with `sep`.
 
     - For example: Path string can be "/a/b" or "a/b", if sep is "/".
@@ -815,21 +840,17 @@ def dataframe_to_tree(
         root_node_kwargs = list(
             root_node_data[attribute_cols].to_dict(orient="index").values()
         )[0]
-        root_node_kwargs = {
-            k: v
-            for k, v in root_node_kwargs.items()
-            if not isnull(v) and k not in ["name", path_col]
-        }
+        root_node_kwargs = filter_attributes(
+            root_node_kwargs, omit_keys=["name", path_col], omit_null_values=True
+        )
         root_node = node_type(root_name, **root_node_kwargs)
     else:
         root_node = node_type(root_name)
 
     for row in data.to_dict(orient="index").values():
-        node_attrs = {
-            k: v
-            for k, v in row.items()
-            if not isnull(v) and k not in ["name", path_col]
-        }
+        node_attrs = filter_attributes(
+            row, omit_keys=["name", path_col], omit_null_values=True
+        )
         add_path_to_tree(
             root_node,
             row[path_col],
@@ -861,6 +882,8 @@ def dataframe_to_tree_by_relation(
     `attribute_cols` specify columns for node attribute for child name.
     If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
     columns are `attribute_cols`.
+
+    Only attributes in `attribute_cols` with non-null values will be added to the tree.
 
     Examples:
         >>> import pandas as pd
@@ -936,11 +959,9 @@ def dataframe_to_tree_by_relation(
         Returns:
             (Dict[str, Any])
         """
-        node_attrs = {
-            k: v
-            for k, v in _row.items()
-            if not isnull(v) and k not in [child_col, parent_col]
-        }
+        node_attrs = filter_attributes(
+            _row, omit_keys=[child_col, parent_col], omit_null_values=True
+        )
         node_attrs["name"] = _row[child_col]
         return node_attrs
 

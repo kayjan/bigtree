@@ -15,6 +15,7 @@ If there are clashing attributes, only those that have values will be replaced.
 - Tree Constructor: `dataframe_to_tree` no longer relies on `add_dataframe_to_tree_by_path` as it performs
 assertion checks twice. This leads to 5% improvement in timings for a tree with 10000 nodes, averaged across 10 runs.
 - Misc: Abstract out assertion checks for empty dataframe and duplicate attribute.
+- Misc: Abstract out logic for checking null and filtering attributes.
 - Misc: Optimization in dictionary and dataframe operations.
 ### Fixed
 - Tree Constructor: `dict_to_tree` no longer uses dataframe operations, leading to 33% improvement in timings for
