@@ -164,10 +164,6 @@ def dataframe_to_dag(
         attribute_cols = list(data.columns)
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
-    elif any([col not in data.columns for col in attribute_cols]):
-        raise ValueError(
-            f"One or more attribute column(s) not in data, check `attribute_cols`: {attribute_cols}"
-        )
 
     data = data[[child_col, parent_col] + attribute_cols].copy()
 

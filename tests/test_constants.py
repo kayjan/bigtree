@@ -32,7 +32,6 @@ class Constants:
     ERROR_DAG_DATAFRAME_CHILD_COL = (
         "Child column not in data, check `child_col`: {child_col}"
     )
-    ERROR_DAG_DATAFRAME_ATTRIBUTE_COL = "One or more attribute column(s) not in data, check `attribute_cols`: {attribute_cols}"
 
     ERROR_DAG_DATAFRAME_DUPLICATE_PARENT = (
         "There exists duplicate child name with different attributes\nCheck "

@@ -185,13 +185,8 @@ class TestDataFrameToDAG(unittest.TestCase):
 
     def test_dataframe_to_dag_attribute_cols_error(self):
         attribute_cols = ["age2"]
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(KeyError):
             dataframe_to_dag(self.data, attribute_cols=attribute_cols)
-        assert str(
-            exc_info.value
-        ) == Constants.ERROR_DAG_DATAFRAME_ATTRIBUTE_COL.format(
-            attribute_cols=attribute_cols
-        )
 
     @staticmethod
     def test_dataframe_to_dag_empty_child_error():

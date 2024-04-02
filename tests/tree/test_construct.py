@@ -643,6 +643,13 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
             add_dataframe_to_tree_by_path(self.root, data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
+    def test_add_dataframe_to_tree_by_path_attribute_cols_error(self):
+        attribute_cols = ["age2"]
+        with pytest.raises(KeyError):
+            add_dataframe_to_tree_by_path(
+                self.root, self.data, attribute_cols=attribute_cols
+            )
+
     def test_add_dataframe_to_tree_by_path_ignore_name_col(self):
         data = pd.DataFrame(
             [
@@ -1034,6 +1041,13 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_name(self.root, data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
+
+    def test_add_dataframe_to_tree_by_name_attribute_cols_error(self):
+        attribute_cols = ["age2"]
+        with pytest.raises(KeyError):
+            add_dataframe_to_tree_by_name(
+                self.root, self.data, attribute_cols=attribute_cols
+            )
 
     def test_add_dataframe_to_tree_by_name_ignore_name_col(self):
         data = pd.DataFrame(
@@ -2075,6 +2089,11 @@ class TestDataFrameToTree(unittest.TestCase):
             dataframe_to_tree(path_data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
+    def test_dataframe_to_tree_attribute_cols_error(self):
+        attribute_cols = ["age2"]
+        with pytest.raises(KeyError):
+            dataframe_to_tree(self.path_data, attribute_cols=attribute_cols)
+
     @staticmethod
     def test_dataframe_to_tree_ignore_name_col():
         path_data = pd.DataFrame(
@@ -2408,17 +2427,26 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
 
-    def test_dataframe_to_tree_by_relation_empty_row_error(self):
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_empty_row_error():
         relation_data = pd.DataFrame(columns=["child", "parent"])
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree_by_relation(relation_data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
 
-    def test_dataframe_to_tree_by_relation_empty_col_error(self):
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_empty_col_error():
         relation_data = pd.DataFrame()
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree_by_relation(relation_data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
+
+    def test_dataframe_to_tree_by_relation_attribute_cols_error(self):
+        attribute_cols = ["age2"]
+        with pytest.raises(KeyError):
+            dataframe_to_tree_by_relation(
+                self.relation_data, attribute_cols=attribute_cols
+            )
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_ignore_name_col():
