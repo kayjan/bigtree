@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import collections
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, TypeVar, Union
-from urllib.request import urlopen
 
 from bigtree.node.node import Node
 from bigtree.utils.assertions import (
@@ -1312,6 +1311,8 @@ def tree_to_pillow(
     """
     # Initialize font
     if not font_family:
+        from urllib.request import urlopen
+
         dejavusans_url = "https://github.com/kayjan/bigtree/raw/master/assets/DejaVuSans.ttf?raw=true"
         font_family = urlopen(dejavusans_url)
     try:
