@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.17.0] - 2024-04-04
 ### Added
 - Misc: Group tests for benchmark timings to compare the timings by multiplier more effectively.
 ### Changed
@@ -538,7 +540,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.16.4...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.17.0...HEAD
+[0.17.0]: https://github.com/kayjan/bigtree/compare/0.16.4...0.17.0
 [0.16.4]: https://github.com/kayjan/bigtree/compare/0.16.3...0.16.4
 [0.16.3]: https://github.com/kayjan/bigtree/compare/0.16.2...0.16.3
 [0.16.2]: https://github.com/kayjan/bigtree/compare/0.16.1...0.16.2
