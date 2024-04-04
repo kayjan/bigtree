@@ -84,6 +84,7 @@ $ git checkout -b feat/add-this
 ```
 
 During pre-commit checks, this project enforces [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) when writing commit messages, and checks and formats code using `black`, `flake8`, `isort`, and `mypy`.
+- The regex for conventional commits is as such `(?s)(build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert|bump)(\(\S+\))?!?:( [^\n\r]+)((\n\n.*)|(\s*))?$`.
 
 For testing, this project uses `pytest` and `coverage` package for testing of codes, and `docstr-coverage` and `doctest` package for testing of docstrings.
 

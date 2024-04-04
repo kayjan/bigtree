@@ -185,13 +185,8 @@ class TestDataFrameToDAG(unittest.TestCase):
 
     def test_dataframe_to_dag_attribute_cols_error(self):
         attribute_cols = ["age2"]
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(KeyError):
             dataframe_to_dag(self.data, attribute_cols=attribute_cols)
-        assert str(
-            exc_info.value
-        ) == Constants.ERROR_DAG_DATAFRAME_ATTRIBUTE_COL.format(
-            attribute_cols=attribute_cols
-        )
 
     @staticmethod
     def test_dataframe_to_dag_empty_child_error():
@@ -217,6 +212,77 @@ class TestDataFrameToDAG(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_DAG_DATAFRAME_EMPTY_CHILD.format(
             child_col=child_col
         )
+
+    @staticmethod
+    def test_dataframe_to_dag_ignore_name_col():
+        data = pd.DataFrame(
+            [
+                ["a", None, 90, "a1"],
+                ["b", None, 65, "b1"],
+                ["c", "a", 60, "c1"],
+                ["c", "b", 60, "c1"],
+                ["d", "a", 40, "d1"],
+                ["d", "c", 40, "d1"],
+                ["e", "d", 35, "e1"],
+                ["f", "c", 38, "f1"],
+                ["f", "d", 38, "f1"],
+                ["g", "c", 10, "g1"],
+                ["h", "g", 6, "h1"],
+            ],
+            columns=["child", "parent", "age", "name"],
+        )
+        dag = dataframe_to_dag(data)
+        assert_dag_structure_root(dag)
+        assert_dag_structure_root_attr(dag)
+
+    @staticmethod
+    def test_dataframe_to_dag_ignore_non_attribute_cols():
+        data = pd.DataFrame(
+            [
+                ["a", None, 90, "a1"],
+                ["b", None, 65, "b1"],
+                ["c", "a", 60, "c1"],
+                ["c", "b", 60, "c1"],
+                ["d", "a", 40, "d1"],
+                ["d", "c", 40, "d1"],
+                ["e", "d", 35, "e1"],
+                ["f", "c", 38, "f1"],
+                ["f", "d", 38, "f1"],
+                ["g", "c", 10, "g1"],
+                ["h", "g", 6, "h1"],
+            ],
+            columns=["child", "parent", "age", "name2"],
+        )
+        dag = dataframe_to_dag(
+            data, child_col="child", parent_col="parent", attribute_cols=["age"]
+        )
+        assert not dag.get_attr("name2")
+        assert_dag_structure_root(dag)
+        assert_dag_structure_root_attr(dag)
+
+    @staticmethod
+    def test_dataframe_to_dag_node_empty_attribute():
+        data = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", None, 65],
+                ["c", "a", 60],
+                ["c", "b", 60],
+                ["d", "a", 40],
+                ["d", "c", 40],
+                ["e", "d", 35],
+                ["f", "c", 38],
+                ["f", "d", 38],
+                ["g", "c", None],
+                ["h", "g", 6],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        dag = dataframe_to_dag(data)
+        assert not dag.get_attr("age")
+        dag.set_attrs({"age": 10})
+        assert_dag_structure_root(dag)
+        assert_dag_structure_root_attr(dag)
 
     @staticmethod
     def test_dataframe_to_dag_duplicate_data():

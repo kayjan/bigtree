@@ -6,6 +6,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.17.0] - 2024-04-04
+### Added
+- Misc: Group tests for benchmark timings to compare the timings by multiplier more effectively.
+### Changed
+- Tree Constructor: `add_dict_to_tree_by_name` and `add_dataframe_to_tree_by_name` modifies tree in-place instead
+of returning new tree, and does not accept `join_type` as argument as pandas dataframe operation is phased out.
+If there are clashing attributes, only those that have values will be replaced.
+**This might not be backwards-compatible!**
+- Tree Constructor: `dataframe_to_tree` no longer relies on `add_dataframe_to_tree_by_path` as it performs
+assertion checks twice. This leads to 5% improvement in timings for a tree with 10000 nodes, averaged across 10 runs.
+- Misc: Abstract out assertion checks for empty dataframe and duplicate attribute.
+- Misc: Abstract out logic for checking null and filtering attributes.
+- Misc: Optimization in dictionary and dataframe operations.
+### Fixed
+- Tree Constructor: `dict_to_tree` no longer uses dataframe operations, leading to 33% improvement in timings for
+a tree with 10000 nodes, averaged across 10 runs. The resulting data type of node follows the dictionary exactly,
+compared to the previous dataframe operations that may change the dtypes for certain columns.
+**This might not be backwards-compatible!**
+- Tree Constructor: `dataframe_to_tree_by_relation` fix root node detection logic, ignore existing name column,
+ignore non-attribute columns, ignore null attribute columns.
+- Tree Constructor: `add_dataframe_to_tree_by_path` ignore existing name column, ignore non-attribute columns,
+ignore null attribute columns.
+- Tree Constructor: `add_dataframe_to_tree_by_name` ignore existing name column, ignore non-attribute columns,
+ignore null attribute columns.
+- Tree Constructor: `dataframe_to_tree` ignore existing name column, ignore non-attribute columns,
+ignore null attribute columns.
+- DAG Constructor: `dataframe_to_dag` ignore existing name column, ignore non-attribute columns,
+ignore null attribute columns.
+
 ## [0.16.4] - 2024-03-14
 ### Fixed
 - [#216] Tree Exporter: Fix nan checker when printing trees.
@@ -511,7 +540,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.16.4...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.17.0...HEAD
+[0.17.0]: https://github.com/kayjan/bigtree/compare/0.16.4...0.17.0
 [0.16.4]: https://github.com/kayjan/bigtree/compare/0.16.3...0.16.4
 [0.16.3]: https://github.com/kayjan/bigtree/compare/0.16.2...0.16.3
 [0.16.2]: https://github.com/kayjan/bigtree/compare/0.16.1...0.16.2

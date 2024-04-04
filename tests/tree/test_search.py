@@ -603,12 +603,12 @@ class TestSearch(unittest.TestCase):
             (),
             (),
         ]
-        for idx, input in enumerate(inputs):
-            actual = find_children(input, lambda node: node.age > 1)
+        for idx, input_ in enumerate(inputs):
+            actual = find_children(input_, lambda node: node.age > 1)
             expected = expected_ans[idx]
             assert (
                 actual == expected
-            ), f"Expected find_children to return {expected}, received {actual} for input {input}"
+            ), f"Expected find_children to return {expected}, received {actual} for input {input_}"
 
     def test_find_children_condition(self):
         inputs = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
@@ -632,7 +632,7 @@ class TestSearch(unittest.TestCase):
             expected = expected_ans[idx]
             assert (
                 actual == expected
-            ), f"Expected find_children to return {expected}, received {actual} for input {input}"
+            ), f"Expected find_children to return {expected}, received {actual} for input {input_}"
 
     def test_find_children_max_count_error(self):
         with pytest.raises(SearchError) as exc_info:
@@ -670,7 +670,7 @@ class TestSearch(unittest.TestCase):
             expected = expected_ans[idx]
             assert (
                 actual == expected
-            ), f"Expected find_children to return {expected}, received {actual} for input {input}"
+            ), f"Expected find_children to return {expected}, received {actual} for input {input_}"
 
     def test_find_child_error(self):
         with pytest.raises(SearchError) as exc_info:

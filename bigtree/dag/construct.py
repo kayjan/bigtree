@@ -3,6 +3,14 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple, Type
 
 from bigtree.node.dagnode import DAGNode
+from bigtree.utils.assertions import (
+    assert_dataframe_no_duplicate_attribute,
+    assert_dataframe_not_empty,
+    assert_dictionary_not_empty,
+    assert_length_not_empty,
+    filter_attributes,
+    isnull,
+)
 from bigtree.utils.exceptions import optional_dependencies_pandas
 
 try:
@@ -35,8 +43,7 @@ def list_to_dag(
     Returns:
         (DAGNode)
     """
-    if not len(relations):
-        raise ValueError("Input list does not contain any data, check `relations`")
+    assert_length_not_empty(relations, "Input list", "relations")
 
     relation_data = pd.DataFrame(relations, columns=["parent", "child"])
     return dataframe_to_dag(
@@ -44,6 +51,7 @@ def list_to_dag(
     )
 
 
+@optional_dependencies_pandas
 def dict_to_dag(
     relation_attrs: Dict[str, Any],
     parent_key: str = "parents",
@@ -75,8 +83,7 @@ def dict_to_dag(
     Returns:
         (DAGNode)
     """
-    if not len(relation_attrs):
-        raise ValueError("Dictionary does not contain any data, check `relation_attrs`")
+    assert_dictionary_not_empty(relation_attrs, "relation_attrs")
 
     # Convert dictionary to dataframe
     data = pd.DataFrame(relation_attrs).T.rename_axis("_tmp_child").reset_index()
@@ -110,6 +117,8 @@ def dataframe_to_dag(
     - If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
         columns are `attribute_cols`.
 
+    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+
     Examples:
         >>> import pandas as pd
         >>> from bigtree import dataframe_to_dag, dag_iterator
@@ -141,12 +150,7 @@ def dataframe_to_dag(
     Returns:
         (DAGNode)
     """
-    data = data.copy()
-
-    if not len(data.columns):
-        raise ValueError("Data does not contain any columns, check `data`")
-    if not len(data):
-        raise ValueError("Data does not contain any rows, check `data`")
+    assert_dataframe_not_empty(data)
 
     if not child_col:
         child_col = data.columns[0]
@@ -160,27 +164,12 @@ def dataframe_to_dag(
         attribute_cols = list(data.columns)
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
-    elif any([col not in data.columns for col in attribute_cols]):
-        raise ValueError(
-            f"One or more attribute column(s) not in data, check `attribute_cols`: {attribute_cols}"
-        )
 
-    data_check = data.copy()[[child_col, parent_col] + attribute_cols].drop_duplicates(
-        subset=[child_col] + attribute_cols
+    data = data[[child_col, parent_col] + attribute_cols].copy()
+
+    assert_dataframe_no_duplicate_attribute(
+        data, "child name", child_col, attribute_cols
     )
-    _duplicate_check = (
-        data_check[child_col]
-        .value_counts()
-        .to_frame("counts")
-        .rename_axis(child_col)
-        .reset_index()
-    )
-    _duplicate_check = _duplicate_check[_duplicate_check["counts"] > 1]
-    if len(_duplicate_check):
-        raise ValueError(
-            f"There exists duplicate child name with different attributes\n"
-            f"Check {_duplicate_check}"
-        )
     if sum(data[child_col].isnull()):
         raise ValueError(f"Child name cannot be empty, check column: {child_col}")
 
@@ -190,15 +179,14 @@ def dataframe_to_dag(
     for row in data.reset_index(drop=True).to_dict(orient="index").values():
         child_name = row[child_col]
         parent_name = row[parent_col]
-        node_attrs = row.copy()
-        del node_attrs[child_col]
-        del node_attrs[parent_col]
-        node_attrs = {k: v for k, v in node_attrs.items() if not pd.isnull(v)}
-        child_node = node_dict.get(child_name, node_type(child_name))
+        node_attrs = filter_attributes(
+            row, omit_keys=["name", child_col, parent_col], omit_null_values=True
+        )
+        child_node = node_dict.get(child_name, node_type(child_name, **node_attrs))
         child_node.set_attrs(node_attrs)
         node_dict[child_name] = child_node
 
-        if not pd.isnull(parent_name):
+        if not isnull(parent_name):
             parent_node = node_dict.get(parent_name, node_type(parent_name))
             node_dict[parent_name] = parent_node
             child_node.parents = [parent_node]

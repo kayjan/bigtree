@@ -4,6 +4,8 @@ from bigtree.node.binarynode import BinaryNode
 
 __all__ = ["list_to_binarytree"]
 
+from bigtree.utils.assertions import assert_length_not_empty
+
 
 def list_to_binarytree(
     heapq_list: List[int], node_type: Type[BinaryNode] = BinaryNode
@@ -37,8 +39,7 @@ def list_to_binarytree(
     Returns:
         (BinaryNode)
     """
-    if not len(heapq_list):
-        raise ValueError("Input list does not contain any data, check `heapq_list`")
+    assert_length_not_empty(heapq_list, "Input list", "heapq_list")
 
     root_node = node_type(heapq_list[0])
     node_list = [root_node]

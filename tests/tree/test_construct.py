@@ -458,10 +458,10 @@ class TestAddDictToTreeByName(unittest.TestCase):
         self.name_dict = None
 
     def test_add_dict_to_tree_by_name(self):
-        root = add_dict_to_tree_by_name(self.root, self.name_dict)
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
+        add_dict_to_tree_by_name(self.root, self.name_dict)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dict_to_tree_by_name_different_dtype(self):
         name_dict = {
@@ -474,11 +474,11 @@ class TestAddDictToTreeByName(unittest.TestCase):
             "g": {"random": -1},
             "h": {"random": [-1]},
         }
-        root = add_dict_to_tree_by_name(self.root, name_dict)
+        add_dict_to_tree_by_name(self.root, name_dict)
         nodes = ["a", "b", "c", "d", "e", "f", "g", "h"]
         expected_list = [[1], [1, 2], [1, None], [None], None, 0, -1, [-1]]
         for node_name, expected in zip(nodes, expected_list):
-            actual = find_name(root, node_name).get_attr("random")
+            actual = find_name(self.root, node_name).get_attr("random")
             assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     def test_add_dict_to_tree_by_name_empty_error(self):
@@ -488,32 +488,6 @@ class TestAddDictToTreeByName(unittest.TestCase):
             parameter="name_attrs"
         )
 
-    def test_add_dict_to_tree_by_name_inner_join_tree(self):
-        dummy = Node("dummy")
-        dummy.parent = self.b
-        root = add_dict_to_tree_by_name(self.root, self.name_dict, join_type="inner")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dict_to_tree_by_name_inner_join_dict(self):
-        self.name_dict["dummy"] = {"age": 100}
-        root = add_dict_to_tree_by_name(self.root, self.name_dict, join_type="inner")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dict_to_tree_by_name_left_join(self):
-        root = add_dict_to_tree_by_name(self.root, self.name_dict, join_type="left")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dict_to_tree_by_name_invalid_join_error(self):
-        with pytest.raises(ValueError) as exc_info:
-            add_dict_to_tree_by_name(self.root, self.name_dict, join_type="something")
-        assert str(exc_info.value) == Constants.ERROR_NODE_JOIN_TYPE
-
     def test_add_dict_to_tree_by_name_sep_tree(self):
         self.root.sep = "\\"
         root = add_dict_to_tree_by_name(self.root, self.name_dict)
@@ -522,11 +496,11 @@ class TestAddDictToTreeByName(unittest.TestCase):
     def test_add_dict_to_tree_by_name_duplicate_name(self):
         hh = Node("h", age=6)
         hh.parent = self.root
-        root = add_dict_to_tree_by_name(self.root, self.name_dict)
+        add_dict_to_tree_by_name(self.root, self.name_dict)
         assert (
-            len(list(find_names(root, "h"))) == 2
+            len(list(find_names(self.root, "h"))) == 2
         ), "There is less node 'h' than expected"
-        for _node in list(find_names(root, "h")):
+        for _node in list(find_names(self.root, "h")):
             assert _node.get_attr("age") == 6
 
     def test_add_dict_to_tree_by_name_node_type(self):
@@ -543,7 +517,7 @@ class TestAddDictToTreeByName(unittest.TestCase):
         f.parent = c
         g.parent = e
         h.parent = e
-        root = add_dict_to_tree_by_name(root, self.name_dict)
+        add_dict_to_tree_by_name(root, self.name_dict)
         assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
@@ -571,7 +545,7 @@ class TestAddDictToTreeByName(unittest.TestCase):
             "g": {"custom_field": 10, "custom_field_str": "g"},
             "h": {"custom_field": 6, "custom_field_str": "h"},
         }
-        root = add_dict_to_tree_by_name(root, name_dict)
+        add_dict_to_tree_by_name(root, name_dict)
         assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
             type="CustomNode"
         )
@@ -588,10 +562,10 @@ class TestAddDictToTreeByName(unittest.TestCase):
             "b": {},
             "c": {"age": 60},
         }
-        root = add_dict_to_tree_by_name(self.root, name_dict)
-        expected_root_str = "a [age=90.0]\n" "├── b\n" "└── c [age=60.0]\n"
+        add_dict_to_tree_by_name(self.root, name_dict)
+        expected_root_str = "a [age=90]\n" "├── b [age=1]\n" "└── c [age=60]\n"
         assert_print_statement(
-            print_tree, expected_root_str, root, all_attrs=True, max_depth=2
+            print_tree, expected_root_str, self.root, all_attrs=True, max_depth=2
         )
 
 
@@ -668,6 +642,75 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         with pytest.raises(ValueError) as exc_info:
             add_dataframe_to_tree_by_path(self.root, data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
+
+    def test_add_dataframe_to_tree_by_path_attribute_cols_error(self):
+        attribute_cols = ["age2"]
+        with pytest.raises(KeyError):
+            add_dataframe_to_tree_by_path(
+                self.root, self.data, attribute_cols=attribute_cols
+            )
+
+    def test_add_dataframe_to_tree_by_path_ignore_name_col(self):
+        data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["a/b", 65, "b1"],
+                ["a/c", 60, "c1"],
+                ["a/b/d", 40, "d1"],
+                ["a/b/e", 35, "e1"],
+                ["a/c/f", 38, "f1"],
+                ["a/b/e/g", 10, "g1"],
+                ["a/b/e/h", 6, "h1"],
+            ],
+            columns=["PATH", "age", "name"],
+        )
+        add_dataframe_to_tree_by_path(self.root, data)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_add_dataframe_to_tree_by_path_ignore_non_attribute_cols(self):
+        data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["a/b", 65, "b1"],
+                ["a/c", 60, "c1"],
+                ["a/b/d", 40, "d1"],
+                ["a/b/e", 35, "e1"],
+                ["a/c/f", 38, "f1"],
+                ["a/b/e/g", 10, "g1"],
+                ["a/b/e/h", 6, "h1"],
+            ],
+            columns=["PATH", "age", "name2"],
+        )
+        add_dataframe_to_tree_by_path(
+            self.root, data, path_col="PATH", attribute_cols=["age"]
+        )
+        assert not self.root.get_attr("name2")
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_add_dataframe_to_tree_by_path_root_node_empty_attribute(self):
+        data = pd.DataFrame(
+            [
+                ["a", None],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            columns=["PATH", "age"],
+        )
+        add_dataframe_to_tree_by_path(self.root, data)
+        assert self.root.get_attr("age") == 1
+        self.root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_no_attribute(self):
         data = pd.DataFrame(
@@ -958,29 +1001,29 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         self.data = None
 
     def test_add_dataframe_to_tree_by_name(self):
-        root = add_dataframe_to_tree_by_name(self.root, self.data)
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
+        add_dataframe_to_tree_by_name(self.root, self.data)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_name_col_name(self):
-        root = add_dataframe_to_tree_by_name(
+        add_dataframe_to_tree_by_name(
             self.root, self.data, name_col="NAME", attribute_cols=["age"]
         )
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_name_col_name_reverse(self):
-        root = add_dataframe_to_tree_by_name(
+        add_dataframe_to_tree_by_name(
             self.root,
             self.data[["age", "NAME"]],
             name_col="NAME",
             attribute_cols=["age"],
         )
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_name_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -999,18 +1042,58 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
             add_dataframe_to_tree_by_name(self.root, data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
-    def test_add_dataframe_to_tree_by_name_inner_join_tree(self):
-        dummy = Node("dummy")
-        dummy.parent = self.b
-        root = add_dataframe_to_tree_by_name(self.root, self.data, join_type="inner")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
+    def test_add_dataframe_to_tree_by_name_attribute_cols_error(self):
+        attribute_cols = ["age2"]
+        with pytest.raises(KeyError):
+            add_dataframe_to_tree_by_name(
+                self.root, self.data, attribute_cols=attribute_cols
+            )
 
-    def test_add_dataframe_to_tree_by_name_inner_join_data(self):
+    def test_add_dataframe_to_tree_by_name_ignore_name_col(self):
         data = pd.DataFrame(
             [
-                ["a", 90],
+                ["a", 90, "a1"],
+                ["b", 65, "b1"],
+                ["c", 60, "c1"],
+                ["d", 40, "d1"],
+                ["e", 35, "e1"],
+                ["f", 38, "f1"],
+                ["g", 10, "g1"],
+                ["h", 6, "h1"],
+            ],
+            columns=["name2", "age", "name"],
+        )
+        add_dataframe_to_tree_by_name(self.root, data, name_col="name2")
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_add_dataframe_to_tree_by_name_ignore_non_attribute_cols(self):
+        data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["b", 65, "b1"],
+                ["c", 60, "c1"],
+                ["d", 40, "d1"],
+                ["e", 35, "e1"],
+                ["f", 38, "f1"],
+                ["g", 10, "g1"],
+                ["h", 6, "h1"],
+            ],
+            columns=["NAME", "age", "name2"],
+        )
+        add_dataframe_to_tree_by_name(
+            self.root, data, name_col="NAME", attribute_cols=["age"]
+        )
+        assert not self.root.get_attr("name2")
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
+
+    def test_add_dataframe_to_tree_by_name_root_node_empty_attribute(self):
+        data = pd.DataFrame(
+            [
+                ["a", None],
                 ["b", 65],
                 ["c", 60],
                 ["d", 40],
@@ -1018,25 +1101,15 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
                 ["f", 38],
                 ["g", 10],
                 ["h", 6],
-                ["dummy", 100],
             ],
             columns=["NAME", "age"],
         )
-        root = add_dataframe_to_tree_by_name(self.root, data, join_type="inner")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dataframe_to_tree_by_name_left_join(self):
-        root = add_dataframe_to_tree_by_name(self.root, self.data, join_type="left")
-        assert_tree_structure_basenode_root(root)
-        assert_tree_structure_basenode_root_attr(root)
-        assert_tree_structure_node_root(root)
-
-    def test_add_dataframe_to_tree_by_name_invalid_join_error(self):
-        with pytest.raises(ValueError) as exc_info:
-            add_dataframe_to_tree_by_name(self.root, self.data, join_type="something")
-        assert str(exc_info.value) == Constants.ERROR_NODE_JOIN_TYPE
+        add_dataframe_to_tree_by_name(self.root, data)
+        assert self.root.get_attr("age") == 1
+        self.root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_basenode_root_attr(self.root)
+        assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_name_sep_tree(self):
         self.root.sep = "\\"
@@ -1087,7 +1160,7 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         f.parent = c
         g.parent = e
         h.parent = e
-        root = add_dataframe_to_tree_by_name(root, self.data)
+        add_dataframe_to_tree_by_name(root, self.data)
         assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(node, NodeA) for node in root.children
@@ -1118,7 +1191,7 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
             ],
             columns=["NAME", "custom_field", "custom_field_str"],
         )
-        root = add_dataframe_to_tree_by_name(root, data)
+        add_dataframe_to_tree_by_name(root, data)
         assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
             type="CustomNode"
         )
@@ -1128,6 +1201,21 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
+
+    def test_add_dataframe_to_tree_by_name_inconsistent_attributes(self):
+        data = pd.DataFrame(
+            [
+                ["a", 90],
+                ["b", None],
+                ["c", 60],
+            ],
+            columns=["NAME", "age"],
+        )
+        add_dataframe_to_tree_by_name(self.root, data)
+        expected_root_str = "a [age=90.0]\n" "├── b [age=1]\n" "└── c [age=60.0]\n"
+        assert_print_statement(
+            print_tree, expected_root_str, self.root, all_attrs=True, max_depth=2
+        )
 
 
 class TestStrToTree(unittest.TestCase):
@@ -1703,7 +1791,7 @@ class TestDictToTree(unittest.TestCase):
             "a/c": {"age": 60},
         }
         root = dict_to_tree(path_dict)
-        expected_root_str = "a [age=90.0]\n" "├── b\n" "└── c [age=60.0]\n"
+        expected_root_str = "a [age=90]\n" "├── b\n" "└── c [age=60]\n"
         assert_print_statement(print_tree, expected_root_str, root, all_attrs=True)
 
 
@@ -2001,6 +2089,74 @@ class TestDataFrameToTree(unittest.TestCase):
             dataframe_to_tree(path_data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
+    def test_dataframe_to_tree_attribute_cols_error(self):
+        attribute_cols = ["age2"]
+        with pytest.raises(KeyError):
+            dataframe_to_tree(self.path_data, attribute_cols=attribute_cols)
+
+    @staticmethod
+    def test_dataframe_to_tree_ignore_name_col():
+        path_data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["a/b", 65, "b1"],
+                ["a/c", 60, "c1"],
+                ["a/b/d", 40, "d1"],
+                ["a/b/e", 35, "e1"],
+                ["a/c/f", 38, "f1"],
+                ["a/b/e/g", 10, "g1"],
+                ["a/b/e/h", 6, "h1"],
+            ],
+            columns=["PATH", "age", "name"],
+        )
+        root = dataframe_to_tree(path_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_dataframe_to_tree_ignore_non_attribute_cols():
+        path_data = pd.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["a/b", 65, "b1"],
+                ["a/c", 60, "c1"],
+                ["a/b/d", 40, "d1"],
+                ["a/b/e", 35, "e1"],
+                ["a/c/f", 38, "f1"],
+                ["a/b/e/g", 10, "g1"],
+                ["a/b/e/h", 6, "h1"],
+            ],
+            columns=["PATH", "age", "name2"],
+        )
+        root = dataframe_to_tree(path_data, path_col="PATH", attribute_cols=["age"])
+        assert not root.get_attr("name2")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_dataframe_to_tree_root_node_empty_attribute():
+        path_data = pd.DataFrame(
+            [
+                ["a", None],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            columns=["PATH", "age"],
+        )
+        root = dataframe_to_tree(path_data)
+        assert not root.get_attr("age")
+        root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
     @staticmethod
     def test_dataframe_to_tree_sep_leading():
         path_data = pd.DataFrame(
@@ -2271,17 +2427,94 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
 
-    def test_dataframe_to_tree_by_relation_empty_row_error(self):
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_empty_row_error():
         relation_data = pd.DataFrame(columns=["child", "parent"])
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree_by_relation(relation_data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
 
-    def test_dataframe_to_tree_by_relation_empty_col_error(self):
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_empty_col_error():
         relation_data = pd.DataFrame()
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_tree_by_relation(relation_data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
+
+    def test_dataframe_to_tree_by_relation_attribute_cols_error(self):
+        attribute_cols = ["age2"]
+        with pytest.raises(KeyError):
+            dataframe_to_tree_by_relation(
+                self.relation_data, attribute_cols=attribute_cols
+            )
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_ignore_name_col():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, 90, "a1"],
+                ["b", "a", 65, "b1"],
+                ["c", "a", 60, "c1"],
+                ["d", "b", 40, "d1"],
+                ["e", "b", 35, "e1"],
+                ["f", "c", 38, "f1"],
+                ["g", "e", 10, "g1"],
+                ["h", "e", 6, "h1"],
+            ],
+            columns=["child", "parent", "age", "name"],
+        )
+        root = dataframe_to_tree_by_relation(relation_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_ignore_non_attribute_cols():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, 90, "a1"],
+                ["b", "a", 65, "b1"],
+                ["c", "a", 60, "c1"],
+                ["d", "b", 40, "d1"],
+                ["e", "b", 35, "e1"],
+                ["f", "c", 38, "f1"],
+                ["g", "e", 10, "g1"],
+                ["h", "e", 6, "h1"],
+            ],
+            columns=["child", "parent", "age", "name2"],
+        )
+        root = dataframe_to_tree_by_relation(
+            relation_data,
+            child_col="child",
+            parent_col="parent",
+            attribute_cols=["age"],
+        )
+        assert not root.get_attr("name2")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_root_node_empty_attribute():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, None],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        root = dataframe_to_tree_by_relation(relation_data)
+        assert not root.get_attr("age")
+        root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_duplicate_leaf_node():
@@ -2292,10 +2525,10 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
                 ["c", "a", 60],
                 ["d", "b", 40],
                 ["e", "b", 35],
-                ["h", "b", 1],
-                ["h", "c", 2],
-                ["g", "e", 10],  # duplicate
-                ["h", "e", 1],  # duplicate
+                ["h", "b", 1],  # duplicate
+                ["h", "c", 2],  # duplicate
+                ["g", "e", 10],
+                ["h", "e", 6],  # duplicate
             ],
             columns=["child", "parent", "age"],
         )
@@ -2315,7 +2548,7 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_duplicate_intermediate_node_error():
-        data = pd.DataFrame(
+        relation_data = pd.DataFrame(
             [
                 ["a", None, 90],
                 ["b", "a", 65],
@@ -2330,28 +2563,28 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
             columns=["child", "parent", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_tree_by_relation(data)
+            dataframe_to_tree_by_relation(relation_data)
         assert str(exc_info.value).startswith(
             Constants.ERROR_NODE_DUPLICATED_INTERMEDIATE_NODE
         )
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_duplicate_intermediate_node():
-        data = pd.DataFrame(
+        relation_data = pd.DataFrame(
             [
                 ["a", None, 90],
                 ["b", "a", 65],
                 ["c", "a", 60],
                 ["d", "b", 40],
                 ["e", "b", 35],
-                ["e", "c", 1],
+                ["e", "c", 1],  # duplicate intermediate node
                 ["f", "c", 38],
                 ["g", "e", 10],
                 ["h", "e", 6],
             ],
             columns=["child", "parent", "age"],
         )
-        root = dataframe_to_tree_by_relation(data, allow_duplicates=True)
+        root = dataframe_to_tree_by_relation(relation_data, allow_duplicates=True)
         actual = len(list(root.descendants))
         assert actual == 10, f"Expected tree to have 10 descendants, received {actual}"
 
@@ -2391,45 +2624,63 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         assert_tree_structure_node_root(root)
 
     @staticmethod
-    def test_dataframe_to_tree_by_relation_different_root_error():
-        data = pd.DataFrame(
+    def test_dataframe_to_tree_by_relation_multiple_root_parent_none_error():
+        relation_data = pd.DataFrame(
             [
                 ["a", None, 90],
                 ["b", None, 65],
                 ["c", "a", 60],
-                ["e", "b", 40],
+                ["d", "b", 40],
                 ["e", "b", 35],
-                ["h", "b", 1],
-                ["h", "c", 2],
+                ["f", "c", 38],
                 ["g", "e", 10],
-                ["h", "e", 1],
+                ["h", "e", 6],
             ],
             columns=["child", "parent", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_tree_by_relation(data)
+            dataframe_to_tree_by_relation(relation_data)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=["a", "b"])
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_multiple_root_error():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            dataframe_to_tree_by_relation(relation_data)
         assert str(
             exc_info.value
         ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=["a", "b"])
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_no_root_error():
-        data = pd.DataFrame(
+        relation_data = pd.DataFrame(
             [
                 ["a", "b", 90],
                 ["b", "a", 65],
                 ["c", "a", 60],
                 ["d", "b", 40],
                 ["e", "b", 35],
-                ["h", "b", 1],
-                ["h", "c", 2],
+                ["f", "c", 38],
                 ["g", "e", 10],
-                ["h", "e", 1],
+                ["h", "e", 6],
             ],
             columns=["child", "parent", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_tree_by_relation(data)
+            dataframe_to_tree_by_relation(relation_data)
         assert str(
             exc_info.value
         ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=[])
