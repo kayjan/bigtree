@@ -6,7 +6,6 @@ from bigtree.node.dagnode import DAGNode
 from bigtree.utils.assertions import (
     assert_dataframe_no_duplicate_attribute,
     assert_dataframe_not_empty,
-    assert_dictionary_not_empty,
     assert_length_not_empty,
     filter_attributes,
     isnull,
@@ -83,7 +82,7 @@ def dict_to_dag(
     Returns:
         (DAGNode)
     """
-    assert_dictionary_not_empty(relation_attrs, "relation_attrs")
+    assert_length_not_empty(relation_attrs, "Dictionary", "relation_attrs")
 
     # Convert dictionary to dataframe
     data = pd.DataFrame(relation_attrs).T.rename_axis("_tmp_child").reset_index()
