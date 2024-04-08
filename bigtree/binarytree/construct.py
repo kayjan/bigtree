@@ -45,10 +45,7 @@ def list_to_binarytree(
     node_list = [root_node]
     for idx, num in enumerate(heapq_list):
         if idx:
-            if idx % 2:
-                parent_idx = int((idx - 1) / 2)
-            else:
-                parent_idx = int((idx - 2) / 2)
+            parent_idx = int((idx + 1) / 2) - 1
             node = node_type(num, parent=node_list[parent_idx])  # type: ignore
             node_list.append(node)
     return root_node
