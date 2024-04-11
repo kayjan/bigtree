@@ -29,10 +29,10 @@ There are 3 segments to Big Tree consisting of Tree, Binary Tree, and Directed A
 
 For **Tree** implementation, there are 9 main components.
 
-1. [**🌺 Node**](https://bigtree.readthedocs.io/en/latest/node.html)
+1. [**🌺 Node**](https://bigtree.readthedocs.io/en/latest/bigtree/node/)
    1. ``BaseNode``, extendable class
    2. ``Node``, BaseNode with node name attribute
-2. [**✨ Constructing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/construct.html)
+2. [**✨ Constructing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/construct/)
    1. From `Node`, using parent and children constructors
    2. From *str*, using tree display or Newick string notation
    3. From *list*, using paths or parent-child tuples
@@ -41,38 +41,38 @@ For **Tree** implementation, there are 9 main components.
    6. Add nodes to existing tree using path string
    7. Add nodes and attributes to existing tree using *dictionary* or *pandas DataFrame*, using path
    8. Add only attributes to existing tree using *dictionary* or *pandas DataFrame*, using node name
-3. [**➰ Traversing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
+3. [**➰ Traversing Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators/)
    1. Pre-Order Traversal
    2. Post-Order Traversal
    3. Level-Order Traversal
    4. Level-Order-Group Traversal
    5. ZigZag Traversal
    6. ZigZag-Group Traversal
-4. [**📝 Modifying Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/modify.html)
+4. [**📝 Modifying Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/modify/)
    1. Copy nodes from location to destination
    2. Shift nodes from location to destination
    3. Shift and replace nodes from location to destination
    4. Copy nodes from one tree to another
    5. Copy and replace nodes from one tree to another
-5. [**🔍 Tree Search**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/search.html)
+5. [**🔍 Tree Search**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/search/)
    1. Find multiple nodes based on name, partial path, relative path, attribute value, user-defined condition
    2. Find single nodes based on name, partial path, relative path, full path, attribute value, user-defined condition
    3. Find multiple child nodes based on user-defined condition
    4. Find single child node based on name, user-defined condition
-6. [**🔧 Helper Function**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/helper.html)
+6. [**🔧 Helper Function**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/helper/)
    1. Cloning tree to another `Node` type
    2. Get subtree (smaller tree with different root)
    3. Prune tree (smaller tree with same root)
    4. Get difference between two trees
-7. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/plot.html)
+7. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/plot/)
    1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
-8. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/export.html)
+8. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/tree/export/)
    1. Print to console, in vertical or horizontal orientation
    2. Export to *Newick string notation*, *dictionary*, *nested dictionary*, or *pandas DataFrame*
    3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
    4. Export tree to *Pillow* (can save to .png, .jpg)
    5. Export tree to *Mermaid Flowchart* (can display on .md)
-9. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/latest/workflows.html)
+9. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/latest/demo/workflow/)
    1. Sample workflows for tree demonstration!
 
 --------
@@ -80,26 +80,26 @@ For **Tree** implementation, there are 9 main components.
 For **Binary Tree** implementation, there are 3 main components.
 Binary Node inherits from Node, so the components in Tree implementation are also available in Binary Tree.
 
-1. [**🌿 Node**](https://bigtree.readthedocs.io/en/latest/node.html)
+1. [**🌿 Node**](https://bigtree.readthedocs.io/en/latest/bigtree/node/)
    1. ``BinaryNode``, Node with binary tree rules
-2. [**✨ Constructing Binary Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/binarytree/construct.html)
+2. [**✨ Constructing Binary Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/binarytree/construct/)
    1. From *list*, using flattened list structure
-3. [**➰ Traversing Binary Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
+3. [**➰ Traversing Binary Tree**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators/)
    1. In-Order Traversal
 
 -----
 
 For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components.
 
-1. [**🌼 Node**](https://bigtree.readthedocs.io/en/latest/node.html)
+1. [**🌼 Node**](https://bigtree.readthedocs.io/en/latest/bigtree/node/)
    1. ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
-2. [**✨ Constructing DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/dag/construct.html)
+2. [**✨ Constructing DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/dag/construct/)
    1. From *list*, containing parent-child tuples
    2. From *nested dictionary*
    3. From *pandas DataFrame*
-3. [**➰ Traversing DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators.html)
+3. [**➰ Traversing DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/utils/iterators/)
    1. Generic traversal method
-4. [**🔨 Exporting DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/dag/export.html)
+4. [**🔨 Exporting DAG**](https://bigtree.readthedocs.io/en/latest/bigtree/dag/export/)
    1. Export to *list*, *dictionary*, or *pandas DataFrame*
    2. Export DAG to *dot* (can save to .dot, .png, .svg, .jpeg files)
 
