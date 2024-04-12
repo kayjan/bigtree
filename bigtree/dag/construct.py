@@ -6,6 +6,7 @@ from bigtree.node.dagnode import DAGNode
 from bigtree.utils.assertions import (
     assert_dataframe_no_duplicate_attribute,
     assert_dataframe_not_empty,
+    assert_key_not_in_dict_or_df,
     assert_length_not_empty,
     filter_attributes,
     isnull,
@@ -20,7 +21,6 @@ except ImportError:  # pragma: no cover
 __all__ = ["list_to_dag", "dict_to_dag", "dataframe_to_dag"]
 
 
-@optional_dependencies_pandas
 def list_to_dag(
     relations: List[Tuple[str, str]],
     node_type: Type[DAGNode] = DAGNode,
@@ -44,13 +44,26 @@ def list_to_dag(
     """
     assert_length_not_empty(relations, "Input list", "relations")
 
-    relation_data = pd.DataFrame(relations, columns=["parent", "child"])
-    return dataframe_to_dag(
-        relation_data, child_col="child", parent_col="parent", node_type=node_type
-    )
+    node_dict: Dict[str, DAGNode] = dict()
+    parent_node = DAGNode()
+
+    for parent_name, child_name in relations:
+        if parent_name not in node_dict:
+            parent_node = node_type(parent_name)
+            node_dict[parent_name] = parent_node
+        else:
+            parent_node = node_dict[parent_name]
+        if child_name not in node_dict:
+            child_node = node_type(child_name)
+            node_dict[child_name] = child_node
+        else:
+            child_node = node_dict[child_name]
+
+        child_node.parents = [parent_node]
+
+    return parent_node
 
 
-@optional_dependencies_pandas
 def dict_to_dag(
     relation_attrs: Dict[str, Any],
     parent_key: str = "parents",
@@ -84,20 +97,34 @@ def dict_to_dag(
     """
     assert_length_not_empty(relation_attrs, "Dictionary", "relation_attrs")
 
-    # Convert dictionary to dataframe
-    data = pd.DataFrame(relation_attrs).T.rename_axis("_tmp_child").reset_index()
-    if parent_key not in data:
+    node_dict: Dict[str, DAGNode] = dict()
+    parent_node: DAGNode | None = None
+
+    for child_name, node_attrs in relation_attrs.items():
+        node_attrs = node_attrs.copy()
+        parent_names: List[str] = []
+        if parent_key in node_attrs:
+            parent_names = node_attrs.pop(parent_key)
+        assert_key_not_in_dict_or_df(node_attrs, ["parent", "parents", "children"])
+
+        if child_name in node_dict:
+            child_node = node_dict[child_name]
+            child_node.set_attrs(node_attrs)
+        else:
+            child_node = node_type(child_name, **node_attrs)
+            node_dict[child_name] = child_node
+
+        for parent_name in parent_names:
+            parent_node = node_dict.get(parent_name, node_type(parent_name))
+            node_dict[parent_name] = parent_node
+            child_node.parents = [parent_node]
+
+    if parent_node is None:
         raise ValueError(
             f"Parent key {parent_key} not in dictionary, check `relation_attrs` and `parent_key`"
         )
 
-    data = data.explode(parent_key)
-    return dataframe_to_dag(
-        data,
-        child_col="_tmp_child",
-        parent_col=parent_key,
-        node_type=node_type,
-    )
+    return parent_node
 
 
 @optional_dependencies_pandas
@@ -163,6 +190,7 @@ def dataframe_to_dag(
         attribute_cols = list(data.columns)
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
+    assert_key_not_in_dict_or_df(attribute_cols, ["parent", "parents", "children"])
 
     data = data[[child_col, parent_col] + attribute_cols].copy()
 

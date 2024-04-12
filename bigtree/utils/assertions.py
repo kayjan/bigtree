@@ -58,6 +58,23 @@ def assert_str_in_list(
         )
 
 
+def assert_key_not_in_dict_or_df(
+    parameter_dict: Union[Dict[str, Any], pd.DataFrame],
+    not_accepted_parameters: List[str],
+) -> None:
+    """Raise ValueError is parameter is in key of dictionary
+
+    Args:
+        parameter_dict (Dict[str, Any]/pd.DataFrame): argument input for parameter
+        not_accepted_parameters (List[str]): list of not accepted parameters
+    """
+    for parameter in parameter_dict:
+        if parameter in not_accepted_parameters:
+            raise ValueError(
+                f"Invalid input, check `{parameter}` is not a valid key as it is a reserved keyword"
+            )
+
+
 def assert_key_in_dict(
     parameter_name: str,
     parameter: Any,

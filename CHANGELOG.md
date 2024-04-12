@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed:
+- DAG Constructor: `list_to_dag` and `dict_to_dag` does not rely on `dataframe_to_dag` as pandas dataframe operation
+is phased out.
+### Fixed:
+- DAG Constructor: Handle cases where reserved keywords are part of attribute upon creation and throw error accordingly.
 
 ## [0.17.0] - 2024-04-04
 ### Added
