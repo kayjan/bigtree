@@ -2665,6 +2665,26 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=["a", "b"])
 
     @staticmethod
+    def test_dataframe_to_tree_by_relation_multiple_root_and_type_error():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["c", "a", 60],
+                ["d", 1, 40],
+                ["e", 1, 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            dataframe_to_tree_by_relation(relation_data)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=[1, "a"])
+
+    @staticmethod
     def test_dataframe_to_tree_by_relation_no_root_error():
         relation_data = pd.DataFrame(
             [
