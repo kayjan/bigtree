@@ -119,7 +119,7 @@ class TestPrintTree:
             "│   └── e\n"
             "│       ├── g [age=10]\n"
             "│       └── h\n"
-            "└── c\n"
+            "└── c [age=0]\n"
             "    └── f\n"
         )
         assert_print_statement(

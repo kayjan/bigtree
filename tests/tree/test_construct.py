@@ -616,6 +616,32 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_col_name_reverse(self):
+        data = pd.DataFrame(
+            [
+                ["a", 0],
+                ["a/b", None],
+                ["a/c", -1],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            columns=["PATH", "value"],
+        )
+        add_dataframe_to_tree_by_path(self.root, data)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_node_root(self.root)
+        assert hasattr(
+            self.root, "value"
+        ), "Check root attribute, expected value attribute"
+        assert self.root.value == 0, "Check root value, expected 0"
+        assert not hasattr(
+            self.root["b"], "value"
+        ), "Check b attribute, expected no value attribute"
+        assert self.root["c"].value == -1, "Check c value, expected -1"
+
+    def test_add_dataframe_to_tree_by_path_zero_attribute(self):
         add_dataframe_to_tree_by_path(
             self.root,
             self.data[["age", "PATH"]],
@@ -1024,6 +1050,32 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         assert_tree_structure_basenode_root(self.root)
         assert_tree_structure_basenode_root_attr(self.root)
         assert_tree_structure_node_root(self.root)
+
+    def test_add_dataframe_to_tree_by_name_zero_attribute(self):
+        data = pd.DataFrame(
+            [
+                ["a", 0],
+                ["b", None],
+                ["c", -1],
+                ["d", 40],
+                ["e", 35],
+                ["f", 38],
+                ["g", 10],
+                ["h", 6],
+            ],
+            columns=["NAME", "value"],
+        )
+        add_dataframe_to_tree_by_name(self.root, data)
+        assert_tree_structure_basenode_root(self.root)
+        assert_tree_structure_node_root(self.root)
+        assert hasattr(
+            self.root, "value"
+        ), "Check root attribute, expected value attribute"
+        assert self.root.value == 0, "Check root value, expected 0"
+        assert not hasattr(
+            self.root["b"], "value"
+        ), "Check b attribute, expected no value attribute"
+        assert self.root["c"].value == -1, "Check c value, expected -1"
 
     def test_add_dataframe_to_tree_by_name_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -2076,6 +2128,30 @@ class TestDataFrameToTree(unittest.TestCase):
         assert_tree_structure_basenode_root(root)
 
     @staticmethod
+    def test_dataframe_to_tree_zero_attribute():
+        path_data = pd.DataFrame(
+            [
+                ["a", 0],
+                ["a/b", None],
+                ["a/c", -1],
+                ["a/b/d", 1],
+                ["a/b/e", 1],
+                ["a/c/f", 1],
+                ["a/b/e/g", 1],
+                ["a/b/e/h", 1],
+            ],
+            columns=["PATH", "value"],
+        )
+        root = dataframe_to_tree(path_data)
+        assert_tree_structure_basenode_root(root)
+        assert hasattr(root, "value"), "Check root attribute, expected value attribute"
+        assert root.value == 0, "Check root value, expected 0"
+        assert not hasattr(
+            root["b"], "value"
+        ), "Check b attribute, expected no value attribute"
+        assert root["c"].value == -1, "Check c value, expected -1"
+
+    @staticmethod
     def test_dataframe_to_tree_empty_row_error():
         path_data = pd.DataFrame(columns=["PATH", "age"])
         with pytest.raises(ValueError) as exc_info:
@@ -2426,6 +2502,31 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_dataframe_to_tree_by_relation_zero_attribute():
+        relation_data = pd.DataFrame(
+            [
+                ["a", None, 0],
+                ["b", "a", None],
+                ["c", "a", -1],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            columns=["child", "parent", "value"],
+        )
+        root = dataframe_to_tree_by_relation(relation_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
+        assert hasattr(root, "value"), "Check root attribute, expected value attribute"
+        assert root.value == 0, "Check root value, expected 0"
+        assert not hasattr(
+            root["b"], "value"
+        ), "Check b attribute, expected no value attribute"
+        assert root["c"].value == -1, "Check c value, expected -1"
 
     @staticmethod
     def test_dataframe_to_tree_by_relation_empty_row_error():

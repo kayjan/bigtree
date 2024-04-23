@@ -180,6 +180,42 @@ class TestDataFrameToDAG(unittest.TestCase):
         assert_dag_structure_root(dag)
         assert_dag_structure_root_attr(dag)
 
+    @staticmethod
+    def test_dataframe_to_dag_zero_attribute():
+        from bigtree.utils.iterators import dag_iterator
+
+        data = pd.DataFrame(
+            [
+                ["a", None, 0],
+                ["b", None, None],
+                ["c", "a", -1],
+                ["c", "b", -1],
+                ["d", "a", 40],
+                ["d", "c", 40],
+                ["e", "d", 35],
+                ["f", "c", 38],
+                ["f", "d", 38],
+                ["g", "c", 10],
+                ["h", "g", 6],
+            ],
+            columns=["child", "parent", "value"],
+        )
+        dag = dataframe_to_dag(data)
+        assert_dag_structure_root(dag)
+        for parent, _ in dag_iterator(dag):
+            match parent.name:
+                case "a":
+                    assert hasattr(
+                        parent, "value"
+                    ), "Check a attribute, expected value attribute"
+                    assert parent.value == 0, "Check a value, expected 0"
+                case "b":
+                    assert not hasattr(
+                        parent, "value"
+                    ), "Check b attribute, expected no value attribute"
+                case "c":
+                    assert parent.value == -1, "Check c value, expected -1"
+
     def test_dataframe_to_dag_empty_row_error(self):
         with pytest.raises(ValueError) as exc_info:
             dataframe_to_dag(pd.DataFrame(columns=["child", "parent", "age"]))
