@@ -1,12 +1,27 @@
 from __future__ import annotations
 
-import math
-from typing import Any, Dict, List, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Sized, Type, Union
 
-try:
+if TYPE_CHECKING:
     import pandas as pd
-except ImportError:  # pragma: no cover
-    pd = None
+
+    from bigtree.node.basenode import BaseNode
+    from bigtree.node.dagnode import DAGNode
+    from bigtree.node.node import Node
+
+
+__all__ = [
+    "assert_style_in_dict",
+    "assert_str_in_list",
+    "assert_key_in_dict",
+    "assert_length_not_empty",
+    "assert_dataframe_not_empty",
+    "assert_dataframe_no_duplicate_attribute",
+    "assert_dataframe_no_duplicate_children",
+    "assert_tree_type",
+    "isnull",
+    "filter_attributes",
+]
 
 
 def assert_style_in_dict(
@@ -43,6 +58,23 @@ def assert_str_in_list(
         )
 
 
+def assert_key_not_in_dict_or_df(
+    parameter_dict: Union[Dict[str, Any], pd.DataFrame],
+    not_accepted_parameters: List[str],
+) -> None:
+    """Raise ValueError is parameter is in key of dictionary
+
+    Args:
+        parameter_dict (Dict[str, Any]/pd.DataFrame): argument input for parameter
+        not_accepted_parameters (List[str]): list of not accepted parameters
+    """
+    for parameter in parameter_dict:
+        if parameter in not_accepted_parameters:
+            raise ValueError(
+                f"Invalid input, check `{parameter}` is not a valid key as it is a reserved keyword"
+            )
+
+
 def assert_key_in_dict(
     parameter_name: str,
     parameter: Any,
@@ -61,13 +93,11 @@ def assert_key_in_dict(
         )
 
 
-def assert_length_not_empty(
-    data: Union[str, List[Any]], argument_name: str, argument: str
-) -> None:
-    """Raise ValueError if data (str, list, or iterable) does not have length
+def assert_length_not_empty(data: Sized, argument_name: str, argument: str) -> None:
+    """Raise ValueError if data does not have length
 
     Args:
-        data (str/List[Any]): data to check
+        data (Sized): data to check
         argument_name: argument name for data, for error message
         argument (str): argument for data, for error message
     """
@@ -75,17 +105,6 @@ def assert_length_not_empty(
         raise ValueError(
             f"{argument_name} does not contain any data, check `{argument}`"
         )
-
-
-def assert_dictionary_not_empty(data_dict: Dict[Any, Any], argument: str) -> None:
-    """Raise ValueError is dictionary is empty
-
-    Args:
-        data_dict (Dict[Any, Any]): dictionary to check
-        argument (str): argument for dictionary, for error message
-    """
-    if not len(data_dict):
-        raise ValueError(f"Dictionary does not contain any data, check `{argument}`")
 
 
 def assert_dataframe_not_empty(data: pd.DataFrame) -> None:
@@ -158,6 +177,24 @@ def assert_dataframe_no_duplicate_children(
         )
 
 
+def assert_tree_type(
+    tree: Union[BaseNode, Node, DAGNode],
+    tree_type: Union[Type[BaseNode], Type[Node], Type[DAGNode]],
+    tree_type_name: str,
+) -> None:
+    """Raise TypeError is tree is not of `tree_type`
+
+    Args:
+        tree (Union["BaseNode", "Node", "DAGNode"]): tree to check
+        tree_type: tree type to assert for
+        tree_type_name (str): tree type name
+    """
+    if not isinstance(tree, tree_type):
+        raise TypeError(
+            f"Tree should be of type `{tree_type_name}`, or inherit from `{tree_type_name}`"
+        )
+
+
 def isnull(value: Any) -> bool:
     """Check if value is null
 
@@ -167,6 +204,8 @@ def isnull(value: Any) -> bool:
     Returns:
         (bool)
     """
+    import math
+
     if not value or (isinstance(value, float) and math.isnan(value)):
         return True
     return False

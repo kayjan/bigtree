@@ -98,9 +98,9 @@ theme:
 plugins:
   - glightbox
   - search
-  - social:
-      cards_layout_options:
-        logo: docs/_static/favicon.svg
+#  - social:
+#      cards_layout_options:
+#        logo: docs/_static/favicon.svg
   - mkdocstrings:
       handlers:
           python:

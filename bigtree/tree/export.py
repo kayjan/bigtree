@@ -8,6 +8,7 @@ from bigtree.utils.assertions import (
     assert_key_in_dict,
     assert_str_in_list,
     assert_style_in_dict,
+    assert_tree_type,
     isnull,
 )
 from bigtree.utils.constants import ExportConstants, MermaidConstants, NewickCharacter
@@ -1223,8 +1224,7 @@ def tree_to_dot(
         tree = [tree]
 
     for _tree in tree:
-        if not isinstance(_tree, Node):
-            raise TypeError("Tree should be of type `Node`, or inherit from `Node`")
+        assert_tree_type(_tree, Node, "Node")
 
         name_dict: Dict[str, List[str]] = collections.defaultdict(list)
 

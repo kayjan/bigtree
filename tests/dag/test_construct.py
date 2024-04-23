@@ -80,10 +80,48 @@ class TestDictToDAG(unittest.TestCase):
             parameter="relation_attrs"
         )
 
-    def test_dict_to_dag_parent_key_error(self):
+    @staticmethod
+    def test_dict_to_dag_parent_key_error():
+        relation_dict = {
+            "a": {"age": 90},
+            "b": {"age": 65},
+            "c": {"parent1": ["a", "b"], "age": 60},
+            "d": {"parent1": ["a", "c"], "age": 40},
+            "e": {"parent1": ["d"], "age": 35},
+            "f": {"parent1": ["c", "d"], "age": 38},
+            "g": {"parent1": ["c"], "age": 10},
+            "h": {"parent1": ["g"], "age": 6},
+        }
+        with pytest.raises(ValueError) as exc_info:
+            dict_to_dag(relation_dict)
+        assert str(exc_info.value) == Constants.ERROR_DAG_DICT_PARENT_KEY.format(
+            parent_key="parents"
+        )
+
+    def test_dict_to_dag_parent_key_reserved_keyword_parents_error(self):
         with pytest.raises(ValueError) as exc_info:
             dict_to_dag(self.relation_dict, parent_key="parent")
-        assert str(exc_info.value) == Constants.ERROR_DAG_DICT_PARENT_KEY
+        assert str(exc_info.value) == Constants.ERROR_DAG_DICT_INVALID_KEY.format(
+            parameter="parents"
+        )
+
+    @staticmethod
+    def test_dict_to_dag_parent_key_reserved_keyword_parent_error():
+        relation_dict = {
+            "a": {"age": 90},
+            "b": {"age": 65},
+            "c": {"parent": ["a", "b"], "age": 60},
+            "d": {"parent": ["a", "c"], "age": 40},
+            "e": {"parent": ["d"], "age": 35},
+            "f": {"parent": ["c", "d"], "age": 38},
+            "g": {"parent": ["c"], "age": 10},
+            "h": {"parent": ["g"], "age": 6},
+        }
+        with pytest.raises(ValueError) as exc_info:
+            dict_to_dag(relation_dict)
+        assert str(exc_info.value) == Constants.ERROR_DAG_DICT_INVALID_KEY.format(
+            parameter="parent"
+        )
 
     def test_dict_to_dag_node_type(self):
         dag = dict_to_dag(self.relation_dict, node_type=DAGNodeA)
@@ -176,6 +214,54 @@ class TestDataFrameToDAG(unittest.TestCase):
             dataframe_to_dag(self.data, parent_col=parent_col)
         assert str(exc_info.value) == Constants.ERROR_DAG_DATAFRAME_PARENT_COL.format(
             parent_col=parent_col
+        )
+
+    @staticmethod
+    def test_dataframe_to_dag_parent_col_reserved_keyword_parents_error():
+        data = pd.DataFrame(
+            [
+                ["h", "g", "a", 6],
+                ["g", "c", "a", 10],
+                ["f", "d", "a", 38],
+                ["f", "c", "a", 38],
+                ["e", "d", "a", 35],
+                ["d", "c", "a", 40],
+                ["d", "a", "a", 40],
+                ["c", "b", "a", 60],
+                ["c", "a", "a", 60],
+                ["a", None, None, 90],
+                ["b", None, None, 65],
+            ],
+            columns=["child", "parent", "parents", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            dataframe_to_dag(data, parent_col="parent")
+        assert str(exc_info.value) == Constants.ERROR_DAG_DICT_INVALID_KEY.format(
+            parameter="parents"
+        )
+
+    @staticmethod
+    def test_dataframe_to_dag_parent_col_reserved_keyword_parent_error():
+        data = pd.DataFrame(
+            [
+                ["h", "g", "a", 6],
+                ["g", "c", "a", 10],
+                ["f", "d", "a", 38],
+                ["f", "c", "a", 38],
+                ["e", "d", "a", 35],
+                ["d", "c", "a", 40],
+                ["d", "a", "a", 40],
+                ["c", "b", "a", 60],
+                ["c", "a", "a", 60],
+                ["a", None, None, 90],
+                ["b", None, None, 65],
+            ],
+            columns=["child", "parent", "parents", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            dataframe_to_dag(data, parent_col="parents")
+        assert str(exc_info.value) == Constants.ERROR_DAG_DICT_INVALID_KEY.format(
+            parameter="parent"
         )
 
     def test_dataframe_to_dag_attribute_cols(self):

@@ -10,7 +10,6 @@ from bigtree.utils.assertions import (
     assert_dataframe_no_duplicate_attribute,
     assert_dataframe_no_duplicate_children,
     assert_dataframe_not_empty,
-    assert_dictionary_not_empty,
     assert_length_not_empty,
     filter_attributes,
     isnull,
@@ -185,7 +184,7 @@ def add_dict_to_tree_by_path(
     Returns:
         (Node)
     """
-    assert_dictionary_not_empty(path_attrs, "path_attrs")
+    assert_length_not_empty(path_attrs, "Dictionary", "path_attrs")
 
     root_node = tree.root
 
@@ -232,7 +231,7 @@ def add_dict_to_tree_by_name(tree: Node, name_attrs: Dict[str, Dict[str, Any]]) 
     """
     from bigtree.tree.search import findall
 
-    assert_dictionary_not_empty(name_attrs, "name_attrs")
+    assert_length_not_empty(name_attrs, "Dictionary", "name_attrs")
 
     attr_dict_names = set(name_attrs.keys())
 
@@ -642,7 +641,7 @@ def dict_to_tree(
     Returns:
         (Node)
     """
-    assert_dictionary_not_empty(path_attrs, "path_attrs")
+    assert_length_not_empty(path_attrs, "Dictionary", "path_attrs")
 
     # Initial tree
     root_name = list(path_attrs.keys())[0].lstrip(sep).rstrip(sep).split(sep)[0]
@@ -724,7 +723,7 @@ def nested_dict_to_tree(
     Returns:
         (Node)
     """
-    assert_dictionary_not_empty(node_attrs, "node_attrs")
+    assert_length_not_empty(node_attrs, "Dictionary", "node_attrs")
 
     def _recursive_add_child(
         child_dict: Dict[str, Any], parent_node: Optional[Node] = None

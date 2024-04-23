@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple, TypeVar, Union
 
 from bigtree.node.dagnode import DAGNode
+from bigtree.utils.assertions import assert_tree_type
 from bigtree.utils.exceptions import (
     optional_dependencies_image,
     optional_dependencies_pandas,
@@ -265,10 +266,7 @@ def dag_to_dot(
         dag = [dag]
 
     for _dag in dag:
-        if not isinstance(_dag, DAGNode):
-            raise TypeError(
-                "Tree should be of type `DAGNode`, or inherit from `DAGNode`"
-            )
+        assert_tree_type(_dag, DAGNode, "DAGNode")
         _dag = _dag.copy()
 
         for parent_node, child_node in dag_iterator(_dag):

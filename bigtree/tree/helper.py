@@ -7,6 +7,7 @@ from bigtree.node.node import Node
 from bigtree.tree.construct import add_dict_to_tree_by_path, dataframe_to_tree
 from bigtree.tree.export import tree_to_dataframe
 from bigtree.tree.search import find_path
+from bigtree.utils.assertions import assert_tree_type
 from bigtree.utils.exceptions import NotFoundError
 from bigtree.utils.iterators import levelordergroup_iter
 
@@ -34,8 +35,7 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
     Returns:
         (BaseNode)
     """
-    if not isinstance(tree, BaseNode):
-        raise TypeError("Tree should be of type `BaseNode`, or inherit from `BaseNode`")
+    assert_tree_type(tree, BaseNode, "BaseNode")
 
     # Start from root
     root_info = dict(tree.root.describe(exclude_prefix="_"))

@@ -20,9 +20,8 @@ class Constants:
     ERROR_CUSTOM_TYPE = "Node type is not `{type}`"
 
     # dag/construct
-    ERROR_DAG_DICT_PARENT_KEY = (
-        "Parent key parent not in dictionary, check `relation_attrs` and `parent_key`"
-    )
+    ERROR_DAG_DICT_INVALID_KEY = "Invalid input, check `{parameter}` is not a valid key as it is a reserved keyword"
+    ERROR_DAG_DICT_PARENT_KEY = "Parent key {parent_key} not in dictionary, check `relation_attrs` and `parent_key`"
     ERROR_DAG_DATAFRAME_EMPTY_CHILD = (
         "Child name cannot be empty, check column: {child_col}"
     )
