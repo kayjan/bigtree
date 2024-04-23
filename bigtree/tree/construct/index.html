@@ -64,32 +64,6 @@
 
     
     
-      
-        <meta  property="og:type"  content="website" >
-      
-        <meta  property="og:title"  content="Tree Construct - bigtree Documentation" >
-      
-        <meta  property="og:description"  content="None" >
-      
-        <meta  property="og:image"  content="https://kayjan.github.io/bigtree/assets/images/social/bigtree/tree/construct.png" >
-      
-        <meta  property="og:image:type"  content="image/png" >
-      
-        <meta  property="og:image:width"  content="1200" >
-      
-        <meta  property="og:image:height"  content="630" >
-      
-        <meta  property="og:url"  content="https://kayjan.github.io/bigtree/bigtree/tree/construct/" >
-      
-        <meta  name="twitter:card"  content="summary_large_image" >
-      
-        <meta  name="twitter:title"  content="Tree Construct - bigtree Documentation" >
-      
-        <meta  name="twitter:description"  content="None" >
-      
-        <meta  name="twitter:image"  content="https://kayjan.github.io/bigtree/assets/images/social/bigtree/tree/construct.png" >
-      
-    
     
    <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
@@ -2663,7 +2637,7 @@ Under the hood, they have the following dependency,</p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">add_path_to_tree</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">add_path_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">path</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
@@ -2689,6 +2663,7 @@ Adds to existing tree from list of path strings.</p>
 <ul>
 <li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc., and should not start with another root node.</li>
 </ul>
+<p>All attributes in <code>node_attrs</code> will be added to the tree, including attributes with null values.</p>
 
 
 
@@ -2827,7 +2802,7 @@ Adds to existing tree from list of path strings.</p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">add_dict_to_tree_by_path</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">add_dict_to_tree_by_path</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">path_attrs</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
@@ -2836,6 +2811,7 @@ Adds to existing tree from list of path strings.</p>
   
       <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
 Adds to existing tree from nested dictionary, <code>key</code>: path, <code>value</code>: dict of attribute name and attribute value.</p>
+<p>All attributes in <code>path_attrs</code> will be added to the tree, including attributes with null values.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
 <li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
@@ -2988,17 +2964,15 @@ key: node path, value: dict of node attribute name and attribute value</p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">add_dict_to_tree_by_name</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">name_attrs</span><span class="p">,</span> <span class="n">join_type</span><span class="o">=</span><span class="s2">&quot;left&quot;</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">add_dict_to_tree_by_name</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">name_attrs</span><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
   
-      <p>Add attributes to tree, return <em>new</em> root of tree.
+      <p>Add attributes to existing tree <em>in-place</em>.
 Adds to existing tree from nested dictionary, <code>key</code>: name, <code>value</code>: dict of attribute name and attribute value.</p>
-<p>Function can return all existing tree nodes or only tree nodes that are in the input dictionary keys depending on join type.
-Input dictionary keys that are not existing node names will be ignored.
+<p>All attributes in <code>name_attrs</code> will be added to the tree, including attributes with null values.</p>
+<p>Input dictionary keys that are not existing node names will be ignored.
 Note that if multiple nodes have the same name, attributes will be added to all nodes sharing the same name.</p>
 
 
@@ -3059,21 +3033,6 @@ key: node name, value: dict of node attribute name and attribute value</p>
               <em>required</em>
           </td>
         </tr>
-        <tr>
-          <td><code>join_type</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>join type with attribute, default of 'left' takes existing tree nodes,
-if join_type is set to 'inner' it will only take tree nodes that are in <code>name_attrs</code> key and drop others</p>
-            </div>
-          </td>
-          <td>
-                <code>&#39;left&#39;</code>
-          </td>
-        </tr>
     </tbody>
   </table>
 
@@ -3115,7 +3074,7 @@ if join_type is set to 'inner' it will only take tree nodes that are in <code>na
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">add_dataframe_to_tree_by_path</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">add_dataframe_to_tree_by_path</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">data</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">path_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -3127,7 +3086,9 @@ if join_type is set to 'inner' it will only take tree nodes that are in <code>na
 
   <div class="doc doc-contents ">
   
-      <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.</p>
+      <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
+Adds to existing tree from pandas DataFrame.</p>
+<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to add to existing tree.
 If columns are not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code></p>
 <p>Path in path column should contain <code>Node</code> name, separated by <code>sep</code>.</p>
@@ -3314,22 +3275,19 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">add_dataframe_to_tree_by_name</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">data</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">name_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">join_type</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">add_dataframe_to_tree_by_name</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">name_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[]</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
   
-      <p>Add attributes to tree, return <em>new</em> root of tree.</p>
+      <p>Add attributes to existing tree <em>in-place</em>.
+Adds to existing tree from pandas DataFrame.</p>
+<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p><code>name_col</code> and <code>attribute_cols</code> specify columns for node name and attributes to add to existing tree.
 If columns are not specified, the first column will be taken as name column and all other columns as attributes.</p>
-<p>Function can return all existing tree nodes or only tree nodes that are in the input data node names.
-Input data node names that are not existing node names will be ignored.
+<p>Input data node names that are not existing node names will be ignored.
 Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.</p>
 
 
@@ -3422,21 +3380,6 @@ if not set, it will take all columns of data except <code>path_col</code></p>
                 <code>[]</code>
           </td>
         </tr>
-        <tr>
-          <td><code>join_type</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>join type with attribute, default of 'left' takes existing tree nodes,
-if join_type is set to 'inner' it will only take tree nodes with attributes and drop the other nodes</p>
-            </div>
-          </td>
-          <td>
-                <code>&#39;left&#39;</code>
-          </td>
-        </tr>
     </tbody>
   </table>
 
@@ -3478,7 +3421,7 @@ if join_type is set to 'inner' it will only take tree nodes with attributes and 
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">str_to_tree</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree_string</span><span class="p">,</span> <span class="n">tree_prefix_list</span><span class="o">=</span><span class="p">[],</span> <span class="n">node_type</span><span class="o">=</span><span class="n">Node</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
@@ -3601,7 +3544,7 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">list_to_tree</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">list_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">paths</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -3658,7 +3601,7 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
         <tr>
           <td><code>paths</code></td>
           <td>
-                <code><span title="typing.Iterable">Iterable</span>[str]</code>
+                <code><span title="typing.List">List</span>[str]</code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -3752,7 +3695,7 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">list_to_tree_by_relation</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">list_to_tree_by_relation</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">relations</span><span class="p">,</span> <span class="n">allow_duplicates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">node_type</span><span class="o">=</span><span class="n">Node</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
@@ -3760,6 +3703,7 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
   <div class="doc doc-contents ">
   
       <p>Construct tree from list of tuple containing parent-child names.</p>
+<p>Root node is inferred when parent is empty, or when name appears as parent but not as child.</p>
 <p>Since tree is created from parent-child names, only names of leaf nodes may be repeated.
 Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
 This error can be ignored by setting <code>allow_duplicates</code> to be True.</p>
@@ -3797,7 +3741,7 @@ This error can be ignored by setting <code>allow_duplicates</code> to be True.</
         <tr>
           <td><code>relations</code></td>
           <td>
-                <code><span title="typing.Iterable">Iterable</span>[<span title="typing.Tuple">Tuple</span>[str, str]]</code>
+                <code><span title="typing.List">List</span>[<span title="typing.Tuple">Tuple</span>[str, str]]</code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -3878,7 +3822,7 @@ be tagged to multiple parent nodes, defaults to False</p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">dict_to_tree</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">dict_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">path_attrs</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -3902,6 +3846,7 @@ be tagged to multiple parent nodes, defaults to False</p>
 <ul>
 <li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.</li>
 </ul>
+<p>All attributes in <code>path_attrs</code> will be added to the tree, including attributes with null values.</p>
 
 
 
@@ -4040,7 +3985,7 @@ key: path, value: dict of tree attribute and attribute value</p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">nested_dict_to_tree</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">nested_dict_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">node_attrs</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">name_key</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">child_key</span><span class="o">=</span><span class="s2">&quot;children&quot;</span><span class="p">,</span>
@@ -4197,7 +4142,7 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">dataframe_to_tree</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">dataframe_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">data</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">path_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
@@ -4212,6 +4157,7 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
       <p>Construct tree from pandas DataFrame using path, return root of tree.</p>
 <p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to construct tree.
 If columns are not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code>.</p>
+<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p>Path in path column can start from root node <code>name</code>, or start with <code>sep</code>.</p>
 <ul>
 <li>For example: Path string can be "/a/b" or "a/b", if sep is "/".</li>
@@ -4394,7 +4340,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">dataframe_to_tree_by_relation</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">dataframe_to_tree_by_relation</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">data</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">child_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -4407,6 +4353,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
   <div class="doc doc-contents ">
   
       <p>Construct tree from pandas DataFrame using parent and child names, return root of tree.</p>
+<p>Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.</p>
 <p>Since tree is created from parent-child names, only names of leaf nodes may be repeated.
 Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
 This error can be ignored by setting <code>allow_duplicates</code> to be True.</p>
@@ -4414,6 +4361,7 @@ This error can be ignored by setting <code>allow_duplicates</code> to be True.</
 <code>attribute_cols</code> specify columns for node attribute for child name.
 If columns are not specified, <code>child_col</code> takes first column, <code>parent_col</code> takes second column, and all other
 columns are <code>attribute_cols</code>.</p>
+<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 
 
 
@@ -4586,7 +4534,7 @@ be tagged to multiple parent nodes, defaults to False</p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">newick_to_tree</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">newick_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree_string</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">length_attr</span><span class="o">=</span><span class="s2">&quot;length&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attr_prefix</span><span class="o">=</span><span class="s2">&quot;&amp;&amp;NHX:&quot;</span><span class="p">,</span>

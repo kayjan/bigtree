@@ -64,32 +64,6 @@
 
     
     
-      
-        <meta  property="og:type"  content="website" >
-      
-        <meta  property="og:title"  content="Contributing - bigtree Documentation" >
-      
-        <meta  property="og:description"  content="None" >
-      
-        <meta  property="og:image"  content="https://kayjan.github.io/bigtree/assets/images/social/contributing.png" >
-      
-        <meta  property="og:image:type"  content="image/png" >
-      
-        <meta  property="og:image:width"  content="1200" >
-      
-        <meta  property="og:image:height"  content="630" >
-      
-        <meta  property="og:url"  content="https://kayjan.github.io/bigtree/contributing/" >
-      
-        <meta  name="twitter:card"  content="summary_large_image" >
-      
-        <meta  name="twitter:title"  content="Contributing - bigtree Documentation" >
-      
-        <meta  name="twitter:description"  content="None" >
-      
-        <meta  name="twitter:image"  content="https://kayjan.github.io/bigtree/assets/images/social/contributing.png" >
-      
-    
     
    <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
@@ -2382,7 +2356,8 @@ Refer to the console log for information on the file location of the reports.</p
 <p>When creating branches, it is recommended to create them in the format <code>type/action</code>. For example,</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feat/add-this
 </span></code></pre></div>
-<p>During pre-commit checks, this project enforces <a href="https://www.conventionalcommits.org/en/v1.0.0/">conventional commits</a> when writing commit messages, and checks and formats code using <code>black</code>, <code>flake8</code>, <code>isort</code>, and <code>mypy</code>.</p>
+<p>During pre-commit checks, this project enforces <a href="https://www.conventionalcommits.org/en/v1.0.0/">conventional commits</a> when writing commit messages, and checks and formats code using <code>black</code>, <code>flake8</code>, <code>isort</code>, and <code>mypy</code>.
+- The regex for conventional commits is as such <code>(?s)(build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert|bump)(\(\S+\))?!?:( [^\n\r]+)((\n\n.*)|(\s*))?$</code>.</p>
 <p>For testing, this project uses <code>pytest</code> and <code>coverage</code> package for testing of codes, and <code>docstr-coverage</code> and <code>doctest</code> package for testing of docstrings.</p>
 <h2 id="consequent-changes">Consequent Changes</h2>
 <p>Please <a href="https://github.com/kayjan/bigtree/issues/new/choose">open an issue</a> to discuss important changes before embarking on an implementation.</p>
