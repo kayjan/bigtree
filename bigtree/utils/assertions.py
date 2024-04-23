@@ -206,7 +206,7 @@ def isnull(value: Any) -> bool:
     """
     import math
 
-    if not value or (isinstance(value, float) and math.isnan(value)):
+    if value is None or (isinstance(value, float) and math.isnan(value)):
         return True
     return False
 
