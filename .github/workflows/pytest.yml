@@ -24,6 +24,10 @@ jobs:
         run: |
           # $CONDA is an environment variable pointing to the root of the miniconda directory
           echo $CONDA/bin >> $GITHUB_PATH
+      - name: Check python version
+        run: |
+          python_version=$(python --version)
+          echo "Python version $python_version"
       - name: Install dependencies
         run: |
           python -m pip install pandas pydot Pillow
