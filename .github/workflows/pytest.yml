@@ -27,8 +27,7 @@ jobs:
       - name: Check python version
         run: |
           python_version=$(python --version)
-          python_location=$(where python)
-          echo "Python version $python_version at $python_location"
+          echo "Python version $python_version"
       - name: Install dependencies
         run: |
           python -m pip install pandas pydot Pillow
