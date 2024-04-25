@@ -185,6 +185,7 @@ class TestDataFrameToDAG(unittest.TestCase):
     @pytest.mark.skipif(
         sys.version_info < (3, 10), reason="requires python3.10 or higher"
     )
+    # flake8: noqa: E999
     def test_dataframe_to_dag_zero_attribute():
         from bigtree.utils.iterators import dag_iterator
 
