@@ -1,3 +1,4 @@
+import sys
 import unittest
 
 import pandas as pd
@@ -181,6 +182,9 @@ class TestDataFrameToDAG(unittest.TestCase):
         assert_dag_structure_root_attr(dag)
 
     @staticmethod
+    @pytest.mark.skipif(
+        sys.version_info < (3, 10), reason="requires python3.10 or higher"
+    )
     def test_dataframe_to_dag_zero_attribute():
         from bigtree.utils.iterators import dag_iterator
 
