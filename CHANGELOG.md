@@ -6,8 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed:
-- Misc: Conditionally skip test due to older python versions not supported.
 - Misc: Documentation to update mkdocs-material version for social plugin.
+- Misc: Update links in README.
 
 ## [0.17.2] - 2024-04-24
 ### Changed:
@@ -23,6 +23,7 @@ This will also affect showing/printing of trees when `attr_omit_null` is set to 
 ### Fixed
 - [#222] Tree Constructor: `dataframe_to_tree_by_relation` duplicate root node name error message to handle
 different data types.
+- Misc: Update links in README.
 
 ## [0.17.0] - 2024-04-04
 ### Added
