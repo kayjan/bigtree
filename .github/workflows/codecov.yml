@@ -83,3 +83,5 @@ jobs:
           fail_ci_if_error: true # optional (default = false)
           name: codecov-umbrella
           verbose: true # optional (default = false)
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
