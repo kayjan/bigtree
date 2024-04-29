@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 import pandas as pd

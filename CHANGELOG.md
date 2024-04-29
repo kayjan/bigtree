@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed:
 - Misc: Documentation to update mkdocs-material version for social plugin.
 - Misc: Update links in README.
+- Misc: Fix mypy typing.
 
 ## [0.17.2] - 2024-04-24
 ### Changed:
