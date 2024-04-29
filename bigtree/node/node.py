@@ -221,7 +221,7 @@ class Node(BaseNode):
 
         hprint_tree(self, **kwargs)
 
-    def __getitem__(self, child_name: str) -> T:
+    def __getitem__(self, child_name: str) -> "Node":
         """Get child by name identifier
 
         Args:
@@ -232,7 +232,7 @@ class Node(BaseNode):
         """
         from bigtree.tree.search import find_child_by_name
 
-        return find_child_by_name(self, child_name)  # type: ignore
+        return find_child_by_name(self, child_name)
 
     def __delitem__(self, child_name: str) -> None:
         """Delete child by name identifier, will not throw error if child does not exist
