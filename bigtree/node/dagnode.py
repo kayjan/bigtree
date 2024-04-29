@@ -594,7 +594,7 @@ class DAGNode:
         obj.__dict__.update(self.__dict__)
         return obj
 
-    def __getitem__(self, child_name: str) -> T:
+    def __getitem__(self, child_name: str) -> "DAGNode":
         """Get child by name identifier
 
         Args:
@@ -605,7 +605,7 @@ class DAGNode:
         """
         from bigtree.tree.search import find_child_by_name
 
-        return find_child_by_name(self, child_name)  # type: ignore
+        return find_child_by_name(self, child_name)
 
     def __delitem__(self, child_name: str) -> None:
         """Delete child by name identifier, will not throw error if child does not exist
