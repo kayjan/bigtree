@@ -11,6 +11,7 @@ from bigtree.utils.assertions import (
     assert_dataframe_no_duplicate_children,
     assert_dataframe_not_empty,
     assert_length_not_empty,
+    assert_polars_no_duplicate_attribute,
     filter_attributes,
     isnull,
 )
@@ -26,6 +27,11 @@ try:
 except ImportError:  # pragma: no cover
     pd = None
 
+try:
+    import polars
+except ImportError:  # pragma: no cover
+    polars = None
+
 __all__ = [
     "add_path_to_tree",
     "add_dict_to_tree_by_path",
@@ -39,6 +45,7 @@ __all__ = [
     "nested_dict_to_tree",
     "dataframe_to_tree",
     "dataframe_to_tree_by_relation",
+    "polars_to_tree",
     "newick_to_tree",
 ]
 
@@ -984,6 +991,113 @@ def dataframe_to_tree_by_relation(
     else:
         root_node = node_type(root_name)
     _recursive_add_child(root_node)
+    return root_node
+
+
+def polars_to_tree(
+    data: polars.DataFrame,
+    path_col: str = "",
+    attribute_cols: List[str] = [],
+    sep: str = "/",
+    duplicate_name_allowed: bool = True,
+    node_type: Type[Node] = Node,
+) -> Node:
+    """Construct tree from polars DataFrame using path, return root of tree.
+
+    `path_col` and `attribute_cols` specify columns for node path and attributes to construct tree.
+    If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`.
+
+    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+
+    Path in path column can start from root node `name`, or start with `sep`.
+
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+
+    Path in path column should contain ``Node`` name, separated by `sep`.
+
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+
+    All paths should start from the same root node.
+
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+
+    Examples:
+        >>> import polars
+        >>> from bigtree import polars_to_tree
+        >>> path_data = polars.DataFrame([
+        ...     ["a", 90],
+        ...     ["a/b", 65],
+        ...     ["a/c", 60],
+        ...     ["a/b/d", 40],
+        ...     ["a/b/e", 35],
+        ...     ["a/c/f", 38],
+        ...     ["a/b/e/g", 10],
+        ...     ["a/b/e/h", 6],
+        ... ],
+        ...     schema=["PATH", "age"]
+        ... )
+        >>> root = polars_to_tree(path_data)
+        >>> root.show(attr_list=["age"])
+        a [age=90]
+        ├── b [age=65]
+        │   ├── d [age=40]
+        │   └── e [age=35]
+        │       ├── g [age=10]
+        │       └── h [age=6]
+        └── c [age=60]
+            └── f [age=38]
+
+    Args:
+        data (polars.DataFrame): data containing path and node attribute information
+        path_col (str): column of data containing `path_name` information,
+            if not set, it will take the first column of data
+        attribute_cols (List[str]): columns of data containing node attribute information,
+            if not set, it will take all columns of data except `path_col`
+        sep (str): path separator of input `path_col` and created tree, defaults to `/`
+        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+
+    Returns:
+        (Node)
+    """
+    assert_dataframe_not_empty(data)
+
+    if not path_col:
+        path_col = data.columns[0]
+    if not len(attribute_cols):
+        attribute_cols = list(data.columns)
+        attribute_cols.remove(path_col)
+
+    data = data[[path_col] + attribute_cols]
+    data = data.with_columns(
+        [data[path_col].str.strip_chars_start(sep).str.strip_chars_end(sep)]
+    )
+    assert_polars_no_duplicate_attribute(data, "path", path_col, attribute_cols)
+
+    root_name = data[path_col][0].split(sep)[0]
+    root_node_data = data.filter(data[path_col] == root_name)
+    if len(root_node_data):
+        root_node_kwargs_list = root_node_data[attribute_cols].to_dicts()
+        root_node_kwargs = root_node_kwargs_list[0] if root_node_kwargs_list else {}
+        root_node_kwargs = filter_attributes(
+            root_node_kwargs, omit_keys=["name", path_col], omit_null_values=True
+        )
+        root_node = node_type(root_name, **root_node_kwargs)
+    else:
+        root_node = node_type(root_name)
+
+    for row in data.to_dicts():
+        node_attrs = filter_attributes(
+            row, omit_keys=["name", path_col], omit_null_values=True
+        )
+        add_path_to_tree(
+            root_node,
+            row[path_col],
+            sep=sep,
+            duplicate_name_allowed=duplicate_name_allowed,
+            node_attrs=node_attrs,
+        )
+    root_node.sep = sep
     return root_node
 
 

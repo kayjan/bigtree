@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "bigtree"
-description = "Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame."
+description = "Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame."
 readme = "README.md"
 requires-python = ">=3.7"
 license = {text = "MIT"}
@@ -38,6 +38,7 @@ Source = "https://github.com/kayjan/bigtree"
 [project.optional-dependencies]
 all = [
   "pandas",
+  "polars",
   "pydot",
   "Pillow",
 ]
@@ -46,6 +47,7 @@ image = [
   "Pillow",
 ]
 pandas = ["pandas"]
+polars = ["polars"]
 
 [tool.hatch.version]
 path = "bigtree/__init__.py"
@@ -57,6 +59,7 @@ dependencies = [
   "mypy",
   "pandas",
   "Pillow",
+  "polars",
   "pydot",
   "pytest",
   "pytest-cov",

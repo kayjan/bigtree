@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Sized, Type, Union
 
 if TYPE_CHECKING:
     import pandas as pd
+    import polars
 
     from bigtree.node.basenode import BaseNode
     from bigtree.node.dagnode import DAGNode
@@ -17,6 +18,7 @@ __all__ = [
     "assert_length_not_empty",
     "assert_dataframe_not_empty",
     "assert_dataframe_no_duplicate_attribute",
+    "assert_polars_no_duplicate_attribute",
     "assert_dataframe_no_duplicate_children",
     "assert_tree_type",
     "isnull",
@@ -139,6 +141,26 @@ def assert_dataframe_no_duplicate_attribute(
         .reset_index()
     )
     duplicate_check = duplicate_check[duplicate_check["counts"] > 1]
+    if len(duplicate_check):
+        raise ValueError(
+            f"There exists duplicate {id_type} with different attributes\nCheck {duplicate_check}"
+        )
+
+
+def assert_polars_no_duplicate_attribute(
+    data: polars.DataFrame, id_type: str, id_col: str, attribute_cols: List[str]
+) -> None:
+    """Raise ValueError is polars dataframe contains different attributes for same path
+
+    Args:
+        data (polars.DataFrame): dataframe to check
+        id_type (str): type of uniqueness to check for, for error message
+        id_col (str): column of data that is unique, can be name or path
+        attribute_cols (List[str]): columns of data containing node attribute information,
+    """
+    data_check = data.filter(~data[[id_col] + attribute_cols].is_duplicated())
+    duplicate_check = data_check[id_col].value_counts()
+    duplicate_check = duplicate_check.filter(duplicate_check["count"] > 1)
     if len(duplicate_check):
         raise ValueError(
             f"There exists duplicate {id_type} with different attributes\nCheck {duplicate_check}"

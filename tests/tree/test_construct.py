@@ -1,6 +1,7 @@
 import unittest
 
 import pandas as pd
+import polars
 import pytest
 
 from bigtree.node.node import Node
@@ -17,6 +18,7 @@ from bigtree.tree.construct import (
     list_to_tree_by_relation,
     nested_dict_to_tree,
     newick_to_tree,
+    polars_to_tree,
     str_to_tree,
 )
 from bigtree.tree.export import print_tree
@@ -2805,6 +2807,401 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         assert str(
             exc_info.value
         ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=[])
+
+
+class TestPolarsToTree(unittest.TestCase):
+    def setUp(self):
+        """
+        Tree should have structure
+        a (age=90)
+        |-- b (age=65)
+        |   |-- d (age=40)
+        |   +-- e (age=35)
+        |       |-- g (age=10)
+        |       +-- h (age=6)
+        +-- c (age=60)
+            +-- f (age=38)
+        """
+        self.path_data = polars.DataFrame(
+            [
+                ["a", 90],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+
+    def tearDown(self):
+        self.path_data = None
+
+    def test_polars_to_tree(self):
+        root = polars_to_tree(self.path_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_polars_to_tree_col_name(self):
+        root = polars_to_tree(self.path_data, path_col="PATH", attribute_cols=["age"])
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_polars_to_tree_col_name_reverse(self):
+        root = polars_to_tree(self.path_data[["age", "PATH"]], path_col="PATH")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_no_attribute():
+        path_data = polars.DataFrame(
+            [
+                ["a"],
+                ["a/b"],
+                ["a/c"],
+                ["a/b/d"],
+                ["a/b/e"],
+                ["a/c/f"],
+                ["a/b/e/g"],
+                ["a/b/e/h"],
+            ],
+            schema=["PATH"],
+        )
+        root = polars_to_tree(path_data)
+        assert_tree_structure_basenode_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_zero_attribute():
+        path_data = polars.DataFrame(
+            [
+                ["a", 0],
+                ["a/b", None],
+                ["a/c", -1],
+                ["a/b/d", 1],
+                ["a/b/e", 1],
+                ["a/c/f", 1],
+                ["a/b/e/g", 1],
+                ["a/b/e/h", 1],
+            ],
+            schema=["PATH", "value"],
+        )
+        root = polars_to_tree(path_data)
+        assert_tree_structure_basenode_root(root)
+        assert hasattr(root, "value"), "Check root attribute, expected value attribute"
+        assert root.value == 0, "Check root value, expected 0"
+        assert not hasattr(
+            root["b"], "value"
+        ), "Check b attribute, expected no value attribute"
+        assert root["c"].value == -1, "Check c value, expected -1"
+
+    @staticmethod
+    def test_polars_to_tree_empty_row_error():
+        path_data = polars.DataFrame(schema=["PATH", "age"])
+        with pytest.raises(ValueError) as exc_info:
+            polars_to_tree(path_data)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
+
+    @staticmethod
+    def test_polars_to_tree_empty_col_error():
+        path_data = polars.DataFrame()
+        with pytest.raises(ValueError) as exc_info:
+            polars_to_tree(path_data)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
+
+    def test_polars_to_tree_attribute_cols_error(self):
+        attribute_cols = ["age2"]
+        with pytest.raises(polars.exceptions.ColumnNotFoundError):
+            polars_to_tree(self.path_data, attribute_cols=attribute_cols)
+
+    @staticmethod
+    def test_polars_to_tree_ignore_name_col():
+        path_data = polars.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["a/b", 65, "b1"],
+                ["a/c", 60, "c1"],
+                ["a/b/d", 40, "d1"],
+                ["a/b/e", 35, "e1"],
+                ["a/c/f", 38, "f1"],
+                ["a/b/e/g", 10, "g1"],
+                ["a/b/e/h", 6, "h1"],
+            ],
+            schema=["PATH", "age", "name"],
+        )
+        root = polars_to_tree(path_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_ignore_non_attribute_cols():
+        path_data = polars.DataFrame(
+            [
+                ["a", 90, "a1"],
+                ["a/b", 65, "b1"],
+                ["a/c", 60, "c1"],
+                ["a/b/d", 40, "d1"],
+                ["a/b/e", 35, "e1"],
+                ["a/c/f", 38, "f1"],
+                ["a/b/e/g", 10, "g1"],
+                ["a/b/e/h", 6, "h1"],
+            ],
+            schema=["PATH", "age", "name2"],
+        )
+        root = polars_to_tree(path_data, path_col="PATH", attribute_cols=["age"])
+        assert not root.get_attr("name2")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_root_node_empty_attribute():
+        path_data = polars.DataFrame(
+            [
+                ["a", None],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+        root = polars_to_tree(path_data)
+        assert not root.get_attr("age")
+        root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_sep_leading():
+        path_data = polars.DataFrame(
+            [
+                ["/a", 90],
+                ["/a/b", 65],
+                ["/a/c", 60],
+                ["/a/b/d", 40],
+                ["/a/b/e", 35],
+                ["/a/c/f", 38],
+                ["/a/b/e/g", 10],
+                ["/a/b/e/h", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+        root = polars_to_tree(path_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_polars_to_tree_sep_trailing(self):
+        path_data = polars.DataFrame(
+            [
+                ["a/", 90],
+                ["a/b/", 65],
+                ["a/c/", 60],
+                ["a/b/d/", 40],
+                ["a/b/e/", 35],
+                ["a/c/f/", 38],
+                ["a/b/e/g/", 10],
+                ["a/b/e/h/", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+        root = polars_to_tree(path_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_polars_to_tree_sep_error(self):
+        root1 = "a"
+        root2 = "a\\b"
+        path_data = polars.DataFrame(
+            [
+                ["a", 90],
+                ["a\\b", 65],
+                ["a\\c", 60],
+                ["a\\b\\d", 40],
+                ["a\\b\\e", 35],
+                ["a\\c\\f", 38],
+                ["a\\b\\e\\g", 10],
+                ["a\\b\\e\\h", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+        with pytest.raises(TreeError) as exc_info:
+            polars_to_tree(path_data)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
+
+    def test_polars_to_tree_sep(self):
+        path_data = polars.DataFrame(
+            [
+                ["a", 90],
+                ["a\\b", 65],
+                ["a\\c", 60],
+                ["a\\b\\d", 40],
+                ["a\\b\\e", 35],
+                ["a\\c\\f", 38],
+                ["a\\b\\e\\g", 10],
+                ["a\\b\\e\\h", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+        root = polars_to_tree(path_data, sep="\\")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root_sep(root)
+
+    @staticmethod
+    def test_polars_to_tree_duplicate_data_error():
+        path_data = polars.DataFrame(
+            [
+                ["a", 90],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+                ["a/b/e/h", 7],  # duplicate
+            ],
+            schema=["PATH", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            polars_to_tree(path_data)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_DATAFRAME_DUPLICATE_PATH
+        )
+
+    @staticmethod
+    def test_polars_to_tree_duplicate_data():
+        path_data = polars.DataFrame(
+            [
+                ["a", 90],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+                ["a/b/e/h", 6],  # duplicate
+            ],
+            schema=["PATH", "age"],
+        )
+        root = polars_to_tree(path_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_duplicate_node_error():
+        path_data = polars.DataFrame(
+            [
+                ["a", 90],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/d", 38],  # duplicate
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+        with pytest.raises(DuplicatedNodeError) as exc_info:
+            polars_to_tree(path_data, duplicate_name_allowed=False)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_NAME.format(
+            name="d"
+        )
+
+    @staticmethod
+    def test_polars_to_tree_duplicate_node():
+        path_data = polars.DataFrame(
+            [
+                ["a", 90],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/d", 38],  # duplicate
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+        root = polars_to_tree(path_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root, f=("d", 38))
+        assert_tree_structure_node_root(root, f="/a/c/d")
+
+    def test_polars_to_tree_node_type(self):
+        root = polars_to_tree(self.path_data, node_type=NodeA)
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_polars_to_tree_custom_node_type(self):
+        path_data = polars.DataFrame(
+            [
+                ["a", 90, "a"],
+                ["a/b", 65, "b"],
+                ["a/c", 60, "c"],
+                ["a/b/d", 40, "d"],
+                ["a/b/e", 35, "e"],
+                ["a/c/f", 38, "f"],
+                ["a/b/e/g", 10, "g"],
+                ["a/b/e/h", 6, "h"],
+            ],
+            schema=["PATH", "custom_field", "custom_field_str"],
+        )
+        root = polars_to_tree(path_data, node_type=CustomNode)
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
+            type="CustomNode"
+        )
+        assert all(
+            isinstance(node, CustomNode) for node in root.children
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="CustomNode")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_customnode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_different_root_error():
+        root1 = "a"
+        root2 = "b"
+        path_data = polars.DataFrame(
+            [
+                ["a", 90],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["b/b/e/h", 6],  # different root
+            ],
+            schema=["PATH", "age"],
+        )
+        with pytest.raises(TreeError) as exc_info:
+            polars_to_tree(path_data)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1=root1, root2=root2
+        )
 
 
 class TestNewickToTree(unittest.TestCase):

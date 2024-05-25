@@ -10,12 +10,13 @@ Construct Tree from list, dictionary, and pandas DataFrame.
 
 To decide which method to use, consider your data type and data values.
 
-| Construct tree from    | Using full path       | Using parent-child relation       | Using notation      | Add node attributes                                       |
-|------------------------|-----------------------|-----------------------------------|---------------------|-----------------------------------------------------------|
-| String                 | ` str_to_tree`        | NA                                | ` newick_to_tree`   | No (for ` str_to_tree `)<br>Yes (for  `newick_to_tree`)   |
-| List                   | ` list_to_tree`       | ` list_to_tree_by_relation`       | NA                  | No                                                        |
-| Dictionary             | ` dict_to_tree`       | ` nested_dict_to_tree`            | NA                  | Yes                                                       |
-| DataFrame              | `dataframe_to_tree`   | `dataframe_to_tree_by_relation`   | NA                  | Yes                                                       |
+| Construct tree from | Using full path     | Using parent-child relation     | Using notation      | Add node attributes                                       |
+|---------------------|---------------------|---------------------------------|---------------------|-----------------------------------------------------------|
+| String              | ` str_to_tree`      | NA                              | ` newick_to_tree`   | No (for ` str_to_tree `)<br>Yes (for  `newick_to_tree`)   |
+| List                | ` list_to_tree`     | ` list_to_tree_by_relation`     | NA                  | No                                                        |
+| Dictionary          | ` dict_to_tree`     | ` nested_dict_to_tree`          | NA                  | Yes                                                       |
+| pandas DataFrame    | `dataframe_to_tree` | `dataframe_to_tree_by_relation` | NA                  | Yes                                                       |
+| polars DataFrame    | `polars_to_tree`    | NA                              | NA                  | Yes                                                       |
 
 ## Tree Add Attributes Methods
 

@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## TODO
+- Tree Constructor: Polars method `polars_to_tree_by_relation`, `add_polars_to_tree_by_path`, `add_polars_to_tree_by_name`
+- Tree Exporter: Polars method `tree_to_polars`
+
 ## [Unreleased]
+### Added:
+- Tree Constructor: Polars method `polars_to_tree`
 ### Fixed:
 - Misc: Documentation to update mkdocs-material version for social plugin.
 - Misc: Update links in README.
