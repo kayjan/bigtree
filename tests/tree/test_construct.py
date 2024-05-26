@@ -19,6 +19,7 @@ from bigtree.tree.construct import (
     nested_dict_to_tree,
     newick_to_tree,
     polars_to_tree,
+    polars_to_tree_by_relation,
     str_to_tree,
 )
 from bigtree.tree.export import print_tree
@@ -2251,6 +2252,7 @@ class TestDataFrameToTree(unittest.TestCase):
             columns=["PATH", "age"],
         )
         root = dataframe_to_tree(path_data)
+        assert path_data["PATH"][0].startswith("/"), "Original dataframe changed"
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -2997,6 +2999,7 @@ class TestPolarsToTree(unittest.TestCase):
             schema=["PATH", "age"],
         )
         root = polars_to_tree(path_data)
+        assert path_data["PATH"][0].startswith("/"), "Original dataframe changed"
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -3202,6 +3205,337 @@ class TestPolarsToTree(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
             root1=root1, root2=root2
         )
+
+
+class TestPolarsToTreeByRelation(unittest.TestCase):
+    def setUp(self):
+        self.relation_data = polars.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            schema=["child", "parent", "age"],
+        )
+
+    def tearDown(self):
+        self.relation_data = None
+
+    def test_polars_to_tree_by_relation(self):
+        root = polars_to_tree_by_relation(self.relation_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_polars_to_tree_by_relation_col_name(self):
+        root = polars_to_tree_by_relation(
+            self.relation_data,
+            child_col="child",
+            parent_col="parent",
+            attribute_cols=["age"],
+        )
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_polars_to_tree_by_relation_col_name_reverse(self):
+        root = polars_to_tree_by_relation(
+            self.relation_data[["age", "parent", "child"]],
+            child_col="child",
+            parent_col="parent",
+            attribute_cols=["age"],
+        )
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_zero_attribute():
+        relation_data = polars.DataFrame(
+            [
+                ["a", None, 0],
+                ["b", "a", None],
+                ["c", "a", -1],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            schema=["child", "parent", "value"],
+        )
+        root = polars_to_tree_by_relation(relation_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
+        assert hasattr(root, "value"), "Check root attribute, expected value attribute"
+        assert root.value == 0, "Check root value, expected 0"
+        assert not hasattr(
+            root["b"], "value"
+        ), "Check b attribute, expected no value attribute"
+        assert root["c"].value == -1, "Check c value, expected -1"
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_empty_row_error():
+        relation_data = polars.DataFrame(schema=["child", "parent"])
+        with pytest.raises(ValueError) as exc_info:
+            polars_to_tree_by_relation(relation_data)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_empty_col_error():
+        relation_data = polars.DataFrame()
+        with pytest.raises(ValueError) as exc_info:
+            polars_to_tree_by_relation(relation_data)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
+
+    def test_polars_to_tree_by_relation_attribute_cols_error(self):
+        attribute_cols = ["age2"]
+        with pytest.raises(polars.exceptions.ColumnNotFoundError):
+            polars_to_tree_by_relation(
+                self.relation_data, attribute_cols=attribute_cols
+            )
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_ignore_name_col():
+        relation_data = polars.DataFrame(
+            [
+                ["a", None, 90, "a1"],
+                ["b", "a", 65, "b1"],
+                ["c", "a", 60, "c1"],
+                ["d", "b", 40, "d1"],
+                ["e", "b", 35, "e1"],
+                ["f", "c", 38, "f1"],
+                ["g", "e", 10, "g1"],
+                ["h", "e", 6, "h1"],
+            ],
+            schema=["child", "parent", "age", "name"],
+        )
+        root = polars_to_tree_by_relation(relation_data)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_ignore_non_attribute_cols():
+        relation_data = polars.DataFrame(
+            [
+                ["a", None, 90, "a1"],
+                ["b", "a", 65, "b1"],
+                ["c", "a", 60, "c1"],
+                ["d", "b", 40, "d1"],
+                ["e", "b", 35, "e1"],
+                ["f", "c", 38, "f1"],
+                ["g", "e", 10, "g1"],
+                ["h", "e", 6, "h1"],
+            ],
+            schema=["child", "parent", "age", "name2"],
+        )
+        root = polars_to_tree_by_relation(
+            relation_data,
+            child_col="child",
+            parent_col="parent",
+            attribute_cols=["age"],
+        )
+        assert not root.get_attr("name2")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_root_node_empty_attribute():
+        relation_data = polars.DataFrame(
+            [
+                ["a", None, None],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            schema=["child", "parent", "age"],
+        )
+        root = polars_to_tree_by_relation(relation_data)
+        assert not root.get_attr("age")
+        root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_duplicate_leaf_node():
+        relation_data = polars.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["h", "b", 1],  # duplicate
+                ["h", "c", 2],  # duplicate
+                ["g", "e", 10],
+                ["h", "e", 6],  # duplicate
+            ],
+            schema=["child", "parent", "age"],
+        )
+        root = polars_to_tree_by_relation(relation_data)
+        expected = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d\n"
+            "│   ├── e\n"
+            "│   │   ├── g\n"
+            "│   │   └── h\n"
+            "│   └── h\n"
+            "└── c\n"
+            "    └── h\n"
+        )
+        assert_print_statement(print_tree, expected, tree=root, style="const")
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_duplicate_intermediate_node_error():
+        relation_data = polars.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["e", "c", 1],  # duplicate parent
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            schema=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            polars_to_tree_by_relation(relation_data)
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_DUPLICATED_INTERMEDIATE_NODE
+        )
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_duplicate_intermediate_node():
+        relation_data = polars.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["e", "c", 1],  # duplicate intermediate node
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            schema=["child", "parent", "age"],
+        )
+        root = polars_to_tree_by_relation(relation_data, allow_duplicates=True)
+        actual = len(list(root.descendants))
+        assert actual == 10, f"Expected tree to have 10 descendants, received {actual}"
+
+    def test_polars_to_tree_by_relation_node_type(self):
+        root = polars_to_tree_by_relation(self.relation_data, node_type=NodeA)
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
+        assert all(
+            isinstance(node, NodeA) for node in root.children
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_polars_to_tree_by_relation_custom_node_type(self):
+        relation_data = polars.DataFrame(
+            [
+                ["a", None, 90, "a"],
+                ["b", "a", 65, "b"],
+                ["c", "a", 60, "c"],
+                ["d", "b", 40, "d"],
+                ["e", "b", 35, "e"],
+                ["f", "c", 38, "f"],
+                ["g", "e", 10, "g"],
+                ["h", "e", 6, "h"],
+            ],
+            schema=["child", "parent", "custom_field", "custom_field_str"],
+        )
+        root = polars_to_tree_by_relation(relation_data, node_type=CustomNode)
+        assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
+            type="CustomNode"
+        )
+        assert all(
+            isinstance(node, CustomNode) for node in root.children
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="CustomNode")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_customnode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_multiple_root_parent_none_error():
+        relation_data = polars.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", None, 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            schema=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            polars_to_tree_by_relation(relation_data)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=["a", "b"])
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_multiple_root_error():
+        relation_data = polars.DataFrame(
+            [
+                ["a", None, 90],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            schema=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            polars_to_tree_by_relation(relation_data)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=["a", "b"])
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_no_root_error():
+        relation_data = polars.DataFrame(
+            [
+                ["a", "b", 90],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            schema=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            polars_to_tree_by_relation(relation_data)
+        assert str(
+            exc_info.value
+        ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=[])
 
 
 class TestNewickToTree(unittest.TestCase):

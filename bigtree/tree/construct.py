@@ -11,7 +11,6 @@ from bigtree.utils.assertions import (
     assert_dataframe_no_duplicate_children,
     assert_dataframe_not_empty,
     assert_length_not_empty,
-    assert_polars_no_duplicate_attribute,
     filter_attributes,
     isnull,
 )
@@ -46,6 +45,7 @@ __all__ = [
     "dataframe_to_tree",
     "dataframe_to_tree_by_relation",
     "polars_to_tree",
+    "polars_to_tree_by_relation",
     "newick_to_tree",
 ]
 
@@ -1072,7 +1072,7 @@ def polars_to_tree(
     data = data.with_columns(
         [data[path_col].str.strip_chars_start(sep).str.strip_chars_end(sep)]
     )
-    assert_polars_no_duplicate_attribute(data, "path", path_col, attribute_cols)
+    assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
 
     root_name = data[path_col][0].split(sep)[0]
     root_node_data = data.filter(data[path_col] == root_name)
@@ -1098,6 +1098,135 @@ def polars_to_tree(
             node_attrs=node_attrs,
         )
     root_node.sep = sep
+    return root_node
+
+
+def polars_to_tree_by_relation(
+    data: polars.DataFrame,
+    child_col: str = "",
+    parent_col: str = "",
+    attribute_cols: List[str] = [],
+    allow_duplicates: bool = False,
+    node_type: Type[Node] = Node,
+) -> Node:
+    """Construct tree from polars DataFrame using parent and child names, return root of tree.
+
+    Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.
+
+    Since tree is created from parent-child names, only names of leaf nodes may be repeated.
+    Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
+    This error can be ignored by setting `allow_duplicates` to be True.
+
+    `child_col` and `parent_col` specify columns for child name and parent name to construct tree.
+    `attribute_cols` specify columns for node attribute for child name.
+    If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
+    columns are `attribute_cols`.
+
+    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+
+    Examples:
+        >>> import pandas as pd
+        >>> from bigtree import polars_to_tree_by_relation
+        >>> relation_data = polars.DataFrame([
+        ...     ["a", None, 90],
+        ...     ["b", "a", 65],
+        ...     ["c", "a", 60],
+        ...     ["d", "b", 40],
+        ...     ["e", "b", 35],
+        ...     ["f", "c", 38],
+        ...     ["g", "e", 10],
+        ...     ["h", "e", 6],
+        ... ],
+        ...     schema=["child", "parent", "age"]
+        ... )
+        >>> root = polars_to_tree_by_relation(relation_data)
+        >>> root.show(attr_list=["age"])
+        a [age=90]
+        ├── b [age=65]
+        │   ├── d [age=40]
+        │   └── e [age=35]
+        │       ├── g [age=10]
+        │       └── h [age=6]
+        └── c [age=60]
+            └── f [age=38]
+
+    Args:
+        data (polars.DataFrame): data containing path and node attribute information
+        child_col (str): column of data containing child name information, defaults to None
+            if not set, it will take the first column of data
+        parent_col (str): column of data containing parent name information, defaults to None
+            if not set, it will take the second column of data
+        attribute_cols (List[str]): columns of data containing node attribute information,
+            if not set, it will take all columns of data except `child_col` and `parent_col`
+        allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
+            be tagged to multiple parent nodes, defaults to False
+        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+
+    Returns:
+        (Node)
+    """
+    assert_dataframe_not_empty(data)
+
+    if not child_col:
+        child_col = data.columns[0]
+    if not parent_col:
+        parent_col = data.columns[1]
+    if not len(attribute_cols):
+        attribute_cols = list(data.columns)
+        attribute_cols.remove(child_col)
+        attribute_cols.remove(parent_col)
+
+    data = data[[child_col, parent_col] + attribute_cols]
+    if not allow_duplicates:
+        assert_dataframe_no_duplicate_children(data, child_col, parent_col)
+
+    # Infer root node
+    root_names = set(data.filter(data[parent_col].is_null())[child_col])
+    root_names.update(set(data[parent_col]) - set(data[child_col]) - {None})
+    if len(root_names) != 1:
+        raise ValueError(
+            f"Unable to determine root node\n"
+            f"Possible root nodes: {sorted(list(root_names), key=lambda v: (isinstance(v, str), v))}"
+        )
+    root_name = list(root_names)[0]
+
+    def _retrieve_attr(_row: Dict[str, Any]) -> Dict[str, Any]:
+        """Retrieve node attributes from dictionary, remove parent and child column from dictionary.
+
+        Args:
+            _row (Dict[str, Any]): node attributes
+
+        Returns:
+            (Dict[str, Any])
+        """
+        node_attrs = filter_attributes(
+            _row, omit_keys=[child_col, parent_col], omit_null_values=True
+        )
+        node_attrs["name"] = _row[child_col]
+        return node_attrs
+
+    def _recursive_add_child(parent_node: Node) -> None:
+        """Recursive add child to tree, given current node.
+
+        Args:
+            parent_node (Node): parent node
+        """
+        child_rows = data.filter(data[parent_col] == parent_node.node_name)
+
+        for row_kwargs in child_rows.to_dicts():
+            child_node = node_type(**_retrieve_attr(row_kwargs))
+            child_node.parent = parent_node
+            _recursive_add_child(child_node)
+
+    # Create root node attributes
+    root_row = data.filter(data[child_col] == root_name)
+    if len(root_row):
+        root_row_kwargs_list = root_row.to_dicts()
+        root_row_kwargs = root_row_kwargs_list[0] if root_row_kwargs_list else {}
+        root_node = node_type(**_retrieve_attr(root_row_kwargs))
+    else:
+        root_node = node_type(root_name)
+    _recursive_add_child(root_node)
     return root_node
 
 
