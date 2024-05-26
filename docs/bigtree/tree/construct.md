@@ -16,7 +16,7 @@ To decide which method to use, consider your data type and data values.
 | List                | ` list_to_tree`     | ` list_to_tree_by_relation`     | NA                  | No                                                        |
 | Dictionary          | ` dict_to_tree`     | ` nested_dict_to_tree`          | NA                  | Yes                                                       |
 | pandas DataFrame    | `dataframe_to_tree` | `dataframe_to_tree_by_relation` | NA                  | Yes                                                       |
-| polars DataFrame    | `polars_to_tree`    | NA                              | NA                  | Yes                                                       |
+| polars DataFrame    | `polars_to_tree`    | `polars_to_tree_by_relation`    | NA                  | Yes                                                       |
 
 ## Tree Add Attributes Methods
 
