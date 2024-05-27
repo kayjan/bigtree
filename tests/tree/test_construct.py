@@ -1,4 +1,3 @@
-import sys
 import unittest
 
 import pandas as pd
@@ -1319,7 +1318,6 @@ class TestAddDataFrameToTreeByName(unittest.TestCase):
         )
 
 
-@unittest.skipIf(sys.version_info <= (3, 7), "polars not supported")
 class TestAddPolarsToTreeByPath(unittest.TestCase):
     def setUp(self):
         """
@@ -1753,7 +1751,6 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
         )
 
 
-@unittest.skipIf(sys.version_info <= (3, 7), "polars not supported")
 class TestAddPolarsToTreeByName(unittest.TestCase):
     def setUp(self):
         """
@@ -3668,7 +3665,6 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
         ) == Constants.ERROR_NODE_DATAFRAME_MULTIPLE_ROOT.format(root_nodes=[])
 
 
-@unittest.skipIf(sys.version_info <= (3, 7), "polars not supported")
 class TestPolarsToTree(unittest.TestCase):
     def setUp(self):
         """
@@ -4109,7 +4105,6 @@ class TestPolarsToTree(unittest.TestCase):
         )
 
 
-@unittest.skipIf(sys.version_info <= (3, 7), "polars not supported")
 class TestPolarsToTreeByRelation(unittest.TestCase):
     def setUp(self):
         self.relation_data = pl.DataFrame(
