@@ -1,3 +1,6 @@
+import sys
+import unittest
+
 import pandas as pd
 import polars as pl
 import pytest
@@ -866,6 +869,7 @@ class TestTreeToDataFrame:
         assert_tree_structure_node_root(tree)
 
 
+@unittest.skipIf(sys.version_info <= (3, 7), "polars not supported")
 class TestTreeToPolars:
     @staticmethod
     def test_tree_to_polars(tree_node):
