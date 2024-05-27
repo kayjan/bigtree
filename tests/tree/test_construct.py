@@ -3838,6 +3838,27 @@ class TestPolarsToTree(unittest.TestCase):
         assert_tree_structure_node_root(root)
 
     @staticmethod
+    def test_polars_to_tree_root_node_missing():
+        path_data = pl.DataFrame(
+            [
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+        root = polars_to_tree(path_data)
+        assert not root.get_attr("age")
+        root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
     def test_polars_to_tree_sep_leading():
         path_data = pl.DataFrame(
             [
@@ -4228,6 +4249,27 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
         relation_data = pl.DataFrame(
             [
                 ["a", None, None],
+                ["b", "a", 65],
+                ["c", "a", 60],
+                ["d", "b", 40],
+                ["e", "b", 35],
+                ["f", "c", 38],
+                ["g", "e", 10],
+                ["h", "e", 6],
+            ],
+            schema=["child", "parent", "age"],
+        )
+        root = polars_to_tree_by_relation(relation_data)
+        assert not root.get_attr("age")
+        root.set_attrs({"age": 90})
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_polars_to_tree_by_relation_root_node_missing():
+        relation_data = pl.DataFrame(
+            [
                 ["b", "a", 65],
                 ["c", "a", 60],
                 ["d", "b", 40],
