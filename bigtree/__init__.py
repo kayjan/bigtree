@@ -13,6 +13,8 @@ from bigtree.tree.construct import (
     add_dict_to_tree_by_name,
     add_dict_to_tree_by_path,
     add_path_to_tree,
+    add_polars_to_tree_by_name,
+    add_polars_to_tree_by_path,
     dataframe_to_tree,
     dataframe_to_tree_by_relation,
     dict_to_tree,

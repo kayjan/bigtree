@@ -27,9 +27,9 @@ except ImportError:  # pragma: no cover
     pd = None
 
 try:
-    import polars
+    import polars as pl
 except ImportError:  # pragma: no cover
-    polars = None
+    pl = None
 
 __all__ = [
     "add_path_to_tree",
@@ -37,6 +37,8 @@ __all__ = [
     "add_dict_to_tree_by_name",
     "add_dataframe_to_tree_by_path",
     "add_dataframe_to_tree_by_name",
+    "add_polars_to_tree_by_path",
+    "add_polars_to_tree_by_name",
     "str_to_tree",
     "list_to_tree",
     "list_to_tree_by_relation",
@@ -409,6 +411,172 @@ def add_dataframe_to_tree_by_name(
     )
     name_attrs = {
         k1: {k2: v2 for k2, v2 in v1.items() if not isnull(v2)}
+        for k1, v1 in name_attrs.items()
+    }
+
+    return add_dict_to_tree_by_name(tree, name_attrs)
+
+
+def add_polars_to_tree_by_path(
+    tree: Node,
+    data: pl.DataFrame,
+    path_col: str = "",
+    attribute_cols: List[str] = [],
+    sep: str = "/",
+    duplicate_name_allowed: bool = True,
+) -> Node:
+    """Add nodes and attributes to tree *in-place*, return root of tree.
+    Adds to existing tree from polars DataFrame.
+
+    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+
+    `path_col` and `attribute_cols` specify columns for node path and attributes to add to existing tree.
+    If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`
+
+    Path in path column should contain ``Node`` name, separated by `sep`.
+
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+    - Path separator `sep` is for the input `path` and can differ from existing tree.
+
+    Path in path column can start from root node `name`, or start with `sep`.
+
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+
+    All paths should start from the same root node.
+
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+
+    Examples:
+        >>> import polars as pl
+        >>> from bigtree import add_polars_to_tree_by_path, Node
+        >>> root = Node("a")
+        >>> path_data = pl.DataFrame([
+        ...     ["a", 90],
+        ...     ["a/b", 65],
+        ...     ["a/c", 60],
+        ...     ["a/b/d", 40],
+        ...     ["a/b/e", 35],
+        ...     ["a/c/f", 38],
+        ...     ["a/b/e/g", 10],
+        ...     ["a/b/e/h", 6],
+        ... ],
+        ...     schema=["PATH", "age"]
+        ... )
+        >>> root = add_polars_to_tree_by_path(root, path_data)
+        >>> root.show(attr_list=["age"])
+        a [age=90]
+        ├── b [age=65]
+        │   ├── d [age=40]
+        │   └── e [age=35]
+        │       ├── g [age=10]
+        │       └── h [age=6]
+        └── c [age=60]
+            └── f [age=38]
+
+    Args:
+        tree (Node): existing tree
+        data (pl.DataFrame): data containing node path and attribute information
+        path_col (str): column of data containing `path_name` information,
+            if not set, it will take the first column of data
+        attribute_cols (List[str]): columns of data containing node attribute information,
+            if not set, it will take all columns of data except `path_col`
+        sep (str): path separator for input `path_col`
+        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
+
+    Returns:
+        (Node)
+    """
+    assert_dataframe_not_empty(data)
+
+    if not path_col:
+        path_col = data.columns[0]
+    if not len(attribute_cols):
+        attribute_cols = list(data.columns)
+        attribute_cols.remove(path_col)
+
+    data = data[[path_col] + attribute_cols]
+    data = data.with_columns(
+        [data[path_col].str.strip_chars_start(sep).str.strip_chars_end(sep)]
+    )
+    assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
+
+    root_node = tree.root
+    for row_kwargs in data.to_dicts():
+        node_attrs = filter_attributes(
+            row_kwargs, omit_keys=["name", path_col], omit_null_values=True
+        )
+        add_path_to_tree(
+            root_node,
+            row_kwargs[path_col],
+            sep=sep,
+            duplicate_name_allowed=duplicate_name_allowed,
+            node_attrs=node_attrs,
+        )
+    return root_node
+
+
+def add_polars_to_tree_by_name(
+    tree: Node,
+    data: pl.DataFrame,
+    name_col: str = "",
+    attribute_cols: List[str] = [],
+) -> Node:
+    """Add attributes to existing tree *in-place*.
+    Adds to existing tree from polars DataFrame.
+
+    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+
+    `name_col` and `attribute_cols` specify columns for node name and attributes to add to existing tree.
+    If columns are not specified, the first column will be taken as name column and all other columns as attributes.
+
+    Input data node names that are not existing node names will be ignored.
+    Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.
+
+    Examples:
+        >>> import polars as pl
+        >>> from bigtree import add_polars_to_tree_by_name, Node
+        >>> root = Node("a")
+        >>> b = Node("b", parent=root)
+        >>> name_data = pl.DataFrame([
+        ...     ["a", 90],
+        ...     ["b", 65],
+        ... ],
+        ...     schema=["NAME", "age"]
+        ... )
+        >>> root = add_polars_to_tree_by_name(root, name_data)
+        >>> root.show(attr_list=["age"])
+        a [age=90]
+        └── b [age=65]
+
+    Args:
+        tree (Node): existing tree
+        data (pl.DataFrame): data containing node name and attribute information
+        name_col (str): column of data containing `name` information,
+            if not set, it will take the first column of data
+        attribute_cols (List[str]): column(s) of data containing node attribute information,
+            if not set, it will take all columns of data except `path_col`
+
+    Returns:
+        (Node)
+    """
+    assert_dataframe_not_empty(data)
+
+    if not name_col:
+        name_col = data.columns[0]
+    if not len(attribute_cols):
+        attribute_cols = list(data.columns)
+        attribute_cols.remove(name_col)
+
+    assert_dataframe_no_duplicate_attribute(data, "name", name_col, attribute_cols)
+
+    # Get attribute dict, remove null attributes
+    name_attrs = dict(
+        data.unique(subset=[name_col])
+        .select([name_col] + attribute_cols)
+        .rows_by_key(key=name_col, named=True)
+    )
+    name_attrs = {
+        k1: {k2: v2 for k2, v2 in v1[0].items() if not isnull(v2)}
         for k1, v1 in name_attrs.items()
     }
 
@@ -995,7 +1163,7 @@ def dataframe_to_tree_by_relation(
 
 
 def polars_to_tree(
-    data: polars.DataFrame,
+    data: pl.DataFrame,
     path_col: str = "",
     attribute_cols: List[str] = [],
     sep: str = "/",
@@ -1022,9 +1190,9 @@ def polars_to_tree(
     - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
 
     Examples:
-        >>> import polars
+        >>> import polars as pl
         >>> from bigtree import polars_to_tree
-        >>> path_data = polars.DataFrame([
+        >>> path_data = pl.DataFrame([
         ...     ["a", 90],
         ...     ["a/b", 65],
         ...     ["a/c", 60],
@@ -1048,7 +1216,7 @@ def polars_to_tree(
             └── f [age=38]
 
     Args:
-        data (polars.DataFrame): data containing path and node attribute information
+        data (pl.DataFrame): data containing path and node attribute information
         path_col (str): column of data containing `path_name` information,
             if not set, it will take the first column of data
         attribute_cols (List[str]): columns of data containing node attribute information,
@@ -1102,7 +1270,7 @@ def polars_to_tree(
 
 
 def polars_to_tree_by_relation(
-    data: polars.DataFrame,
+    data: pl.DataFrame,
     child_col: str = "",
     parent_col: str = "",
     attribute_cols: List[str] = [],
@@ -1125,9 +1293,9 @@ def polars_to_tree_by_relation(
     Only attributes in `attribute_cols` with non-null values will be added to the tree.
 
     Examples:
-        >>> import pandas as pd
+        >>> import polars as pl
         >>> from bigtree import polars_to_tree_by_relation
-        >>> relation_data = polars.DataFrame([
+        >>> relation_data = pl.DataFrame([
         ...     ["a", None, 90],
         ...     ["b", "a", 65],
         ...     ["c", "a", 60],
@@ -1151,7 +1319,7 @@ def polars_to_tree_by_relation(
             └── f [age=38]
 
     Args:
-        data (polars.DataFrame): data containing path and node attribute information
+        data (pl.DataFrame): data containing path and node attribute information
         child_col (str): column of data containing child name information, defaults to None
             if not set, it will take the first column of data
         parent_col (str): column of data containing parent name information, defaults to None

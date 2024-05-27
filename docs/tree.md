@@ -18,8 +18,8 @@ For **Tree** implementation, there are 9 main components.
 - From *pandas DataFrame*, using paths or parent-child columns
 - From *polars DataFrame*, using paths or parent-child columns
 - Add nodes to existing tree using path string
-- Add nodes and attributes to existing tree using *dictionary* or *pandas DataFrame*, using path
-- Add only attributes to existing tree using *dictionary* or *pandas DataFrame*, using node name
+- Add nodes and attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using path
+- Add only attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using node name
 
 ## [**➰ Traversing Tree**](bigtree/utils/iterators.md)
 - Pre-Order Traversal

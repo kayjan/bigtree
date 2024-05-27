@@ -22,11 +22,12 @@ To decide which method to use, consider your data type and data values.
 
 To add attributes to an existing tree,
 
-| Add attributes from         | Using full path                  | Using node name                   |
-|-----------------------------|----------------------------------|-----------------------------------|
-| String                      | ` add_path_to_tree`              | NA                                |
-| Dictionary                  | ` add_dict_to_tree_by_path`      | ` add_dict_to_tree_by_name`       |
-| DataFrame                   | ` add_dataframe_to_tree_by_path` | ` add_dataframe_to_tree_by_name ` |
+| Add attributes from | Using full path                  | Using node name                   |
+|---------------------|----------------------------------|-----------------------------------|
+| String              | ` add_path_to_tree`              | NA                                |
+| Dictionary          | ` add_dict_to_tree_by_path`      | ` add_dict_to_tree_by_name`       |
+| pandas DataFrame    | ` add_dataframe_to_tree_by_path` | ` add_dataframe_to_tree_by_name ` |
+| polars DataFrame    | ` add_polars_to_tree_by_path`    | ` add_polars_to_tree_by_name `    |
 
 !!! note
 
