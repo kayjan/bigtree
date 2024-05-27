@@ -37,6 +37,7 @@ from bigtree.tree.export import (
     tree_to_nested_dict,
     tree_to_newick,
     tree_to_pillow,
+    tree_to_polars,
     yield_tree,
 )
 from bigtree.tree.helper import clone_tree, get_subtree, get_tree_diff, prune_tree

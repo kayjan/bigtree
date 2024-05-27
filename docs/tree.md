@@ -53,7 +53,7 @@ For **Tree** implementation, there are 9 main components.
 
 ## [**🔨 Exporting Tree**](bigtree/tree/export.md)
 - Print to console, in vertical or horizontal orientation
-- Export to *Newick string notation*, *dictionary*, *nested dictionary*, or *pandas DataFrame*
+- Export to *Newick string notation*, *dictionary*, *nested dictionary*, *pandas DataFrame*, or *polars DataFrame*
 - Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
 - Export tree to *Pillow* (can save to .png, .jpg)
 - Export tree to *Mermaid Flowchart* (can display on .md)

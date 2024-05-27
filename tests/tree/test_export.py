@@ -1,7 +1,7 @@
 import pandas as pd
+import polars as pl
 import pytest
 
-from bigtree.tree.construct import dataframe_to_tree, dict_to_tree, nested_dict_to_tree
 from bigtree.tree.export import (
     hprint_tree,
     print_tree,
@@ -12,6 +12,7 @@ from bigtree.tree.export import (
     tree_to_nested_dict,
     tree_to_newick,
     tree_to_pillow,
+    tree_to_polars,
 )
 from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
@@ -856,8 +857,260 @@ class TestTreeToDataFrame:
 
     @staticmethod
     def test_tree_to_dataframe_to_tree(tree_node):
+        from bigtree.tree.construct import dataframe_to_tree
+
         d = tree_to_dataframe(tree_node, all_attrs=True)
         tree = dataframe_to_tree(d)
+        assert_tree_structure_basenode_root(tree)
+        assert_tree_structure_basenode_root_attr(tree)
+        assert_tree_structure_node_root(tree)
+
+
+class TestTreeToPolars:
+    @staticmethod
+    def test_tree_to_polars(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a", "a"],
+                ["/a/b", "b"],
+                ["/a/b/d", "d"],
+                ["/a/b/e", "e"],
+                ["/a/b/e/g", "g"],
+                ["/a/b/e/h", "h"],
+                ["/a/c", "c"],
+                ["/a/c/f", "f"],
+            ],
+            schema=["path", "name"],
+        )
+        actual = tree_to_polars(tree_node)
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_path_col(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a", "a"],
+                ["/a/b", "b"],
+                ["/a/b/d", "d"],
+                ["/a/b/e", "e"],
+                ["/a/b/e/g", "g"],
+                ["/a/b/e/h", "h"],
+                ["/a/c", "c"],
+                ["/a/c/f", "f"],
+            ],
+            schema=["PATH", "name"],
+        )
+        actual = tree_to_polars(tree_node, path_col="PATH")
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_path_col_missing(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["a"],
+                ["b"],
+                ["d"],
+                ["e"],
+                ["g"],
+                ["h"],
+                ["c"],
+                ["f"],
+            ],
+            schema=["name"],
+        )
+        actual = tree_to_polars(tree_node, path_col="")
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_name_col(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a", "a"],
+                ["/a/b", "b"],
+                ["/a/b/d", "d"],
+                ["/a/b/e", "e"],
+                ["/a/b/e/g", "g"],
+                ["/a/b/e/h", "h"],
+                ["/a/c", "c"],
+                ["/a/c/f", "f"],
+            ],
+            schema=["path", "NAME"],
+        )
+        actual = tree_to_polars(tree_node, name_col="NAME")
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_name_col_missing(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a"],
+                ["/a/b"],
+                ["/a/b/d"],
+                ["/a/b/e"],
+                ["/a/b/e/g"],
+                ["/a/b/e/h"],
+                ["/a/c"],
+                ["/a/c/f"],
+            ],
+            schema=["path"],
+        )
+        actual = tree_to_polars(tree_node, name_col="")
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_name_path_col_missing(tree_node):
+        expected = pl.DataFrame()
+        expected.index = range(8)
+        actual = tree_to_polars(tree_node, name_col="", path_col="")
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_parent_col(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a", "a", None],
+                ["/a/b", "b", "a"],
+                ["/a/b/d", "d", "b"],
+                ["/a/b/e", "e", "b"],
+                ["/a/b/e/g", "g", "e"],
+                ["/a/b/e/h", "h", "e"],
+                ["/a/c", "c", "a"],
+                ["/a/c/f", "f", "c"],
+            ],
+            schema=["path", "name", "parent"],
+        )
+        actual = tree_to_polars(tree_node, parent_col="parent")
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_attr_dict(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a", "a", 90],
+                ["/a/b", "b", 65],
+                ["/a/b/d", "d", 40],
+                ["/a/b/e", "e", 35],
+                ["/a/b/e/g", "g", 10],
+                ["/a/b/e/h", "h", 6],
+                ["/a/c", "c", 60],
+                ["/a/c/f", "f", 38],
+            ],
+            schema=["path", "name", "AGE"],
+        )
+        actual = tree_to_polars(tree_node, attr_dict={"age": "AGE"})
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_all_attr(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a", "a", 90],
+                ["/a/b", "b", 65],
+                ["/a/b/d", "d", 40],
+                ["/a/b/e", "e", 35],
+                ["/a/b/e/g", "g", 10],
+                ["/a/b/e/h", "h", 6],
+                ["/a/c", "c", 60],
+                ["/a/c/f", "f", 38],
+            ],
+            schema=["path", "name", "age"],
+        )
+        actual = tree_to_polars(tree_node, all_attrs=True)
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_max_depth(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a", "a"],
+                ["/a/b", "b"],
+                ["/a/c", "c"],
+            ],
+            schema=["path", "name"],
+        )
+        actual = tree_to_polars(tree_node, max_depth=2)
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_skip_depth(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a/b/d", "d"],
+                ["/a/b/e", "e"],
+                ["/a/b/e/g", "g"],
+                ["/a/b/e/h", "h"],
+                ["/a/c/f", "f"],
+            ],
+            schema=["path", "name"],
+        )
+        actual = tree_to_polars(tree_node, skip_depth=2)
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_leaf_only(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a/b/d", "d"],
+                ["/a/b/e/g", "g"],
+                ["/a/b/e/h", "h"],
+                ["/a/c/f", "f"],
+            ],
+            schema=["path", "name"],
+        )
+        actual = tree_to_polars(tree_node, leaf_only=True)
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_multiple_columns(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a", "a", None, 90],
+                ["/a/b", "b", "a", 65],
+                ["/a/b/d", "d", "b", 40],
+                ["/a/b/e", "e", "b", 35],
+                ["/a/b/e/g", "g", "e", 10],
+                ["/a/b/e/h", "h", "e", 6],
+                ["/a/c", "c", "a", 60],
+                ["/a/c/f", "f", "c", 38],
+            ],
+            schema=["PATH", "NAME", "PARENT", "AGE"],
+        )
+        actual = tree_to_polars(
+            tree_node,
+            name_col="NAME",
+            path_col="PATH",
+            parent_col="PARENT",
+            attr_dict={"age": "AGE"},
+        )
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_multiple_cols_subset_tree(tree_node):
+        expected = pl.DataFrame(
+            [
+                ["/a/b", "b", "a", 65],
+                ["/a/b/d", "d", "b", 40],
+                ["/a/b/e", "e", "b", 35],
+                ["/a/b/e/g", "g", "e", 10],
+                ["/a/b/e/h", "h", "e", 6],
+            ],
+            schema=["PATH", "NAME", "PARENT", "AGE"],
+        )
+        actual = tree_to_polars(
+            tree_node.children[0],
+            name_col="NAME",
+            path_col="PATH",
+            parent_col="PARENT",
+            attr_dict={"age": "AGE"},
+        )
+        assert expected.equals(actual)
+
+    @staticmethod
+    def test_tree_to_polars_to_tree(tree_node):
+        from bigtree.tree.construct import polars_to_tree
+
+        d = tree_to_polars(tree_node, all_attrs=True)
+        tree = polars_to_tree(d)
         assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
         assert_tree_structure_node_root(tree)
@@ -1023,6 +1276,8 @@ class TestTreeToDict:
 
     @staticmethod
     def test_tree_to_dict_to_tree(tree_node):
+        from bigtree.tree.construct import dict_to_tree
+
         d = tree_to_dict(tree_node, all_attrs=True)
         tree = dict_to_tree(d)
         assert_tree_structure_basenode_root(tree)
@@ -1198,6 +1453,8 @@ class TestTreeToNestedDict:
 
     @staticmethod
     def test_tree_to_nested_dict_to_tree(tree_node):
+        from bigtree.tree.construct import nested_dict_to_tree
+
         d = tree_to_nested_dict(tree_node, all_attrs=True)
         tree = nested_dict_to_tree(d)
         assert_tree_structure_basenode_root(tree)

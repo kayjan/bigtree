@@ -15,6 +15,7 @@ from bigtree.utils.constants import ExportConstants, MermaidConstants, NewickCha
 from bigtree.utils.exceptions import (
     optional_dependencies_image,
     optional_dependencies_pandas,
+    optional_dependencies_polars,
 )
 from bigtree.utils.iterators import levelordergroup_iter, preorder_iter
 
@@ -22,6 +23,11 @@ try:
     import pandas as pd
 except ImportError:  # pragma: no cover
     pd = None
+
+try:
+    import polars as pl
+except ImportError:  # pragma: no cover
+    pl = None
 
 try:
     import pydot
@@ -39,13 +45,14 @@ __all__ = [
     "yield_tree",
     "hprint_tree",
     "hyield_tree",
-    "tree_to_newick",
+    "tree_to_dataframe",
+    "tree_to_polars",
     "tree_to_dict",
     "tree_to_nested_dict",
-    "tree_to_dataframe",
     "tree_to_dot",
     "tree_to_pillow",
     "tree_to_mermaid",
+    "tree_to_newick",
 ]
 
 T = TypeVar("T", bound=Node)
@@ -724,120 +731,206 @@ def hyield_tree(
     return result
 
 
-def tree_to_newick(
+@optional_dependencies_pandas
+def tree_to_dataframe(
     tree: T,
-    intermediate_node_name: bool = True,
-    length_attr: str = "",
-    length_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
-    attr_list: Iterable[str] = [],
-    attr_prefix: str = "&&NHX:",
-    attr_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
-) -> str:
-    """Export tree to Newick notation. Useful for describing phylogenetic tree.
+    path_col: str = "path",
+    name_col: str = "name",
+    parent_col: str = "",
+    attr_dict: Dict[str, str] = {},
+    all_attrs: bool = False,
+    max_depth: int = 0,
+    skip_depth: int = 0,
+    leaf_only: bool = False,
+) -> pd.DataFrame:
+    """Export tree to pandas DataFrame.
 
-    In the Newick Notation (or New Hampshire Notation),
-      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`.
-      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
-      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`.
-      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`.
-
-    Customizations include:
-      - Omitting names of root and intermediate nodes, default all node names are shown.
-      - Changing length separator to other symbol, default is `:`.
-      - Adding an attribute prefix, default is `&&NHX:`.
-      - Changing the attribute separator to other symbol, default is `:`.
+    All descendants from `tree` will be exported, `tree` can be the root node or child node of tree.
 
     Examples:
-        >>> from bigtree import Node, tree_to_newick
-        >>> root = Node("a", species="human")
-        >>> b = Node("b", age=65, species="human", parent=root)
-        >>> c = Node("c", age=60, species="human", parent=root)
-        >>> d = Node("d", age=40, species="human", parent=b)
-        >>> e = Node("e", age=35, species="human", parent=b)
-        >>> root.show()
-        a
-        ├── b
-        │   ├── d
-        │   └── e
-        └── c
+        >>> from bigtree import Node, tree_to_dataframe
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=b)
+        >>> e = Node("e", age=35, parent=b)
+        >>> tree_to_dataframe(root, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
+             path name parent  person age
+        0      /a    a   None          90
+        1    /a/b    b      a          65
+        2  /a/b/d    d      b          40
+        3  /a/b/e    e      b          35
+        4    /a/c    c      a          60
 
-        >>> tree_to_newick(root)
-        '((d,e)b,c)a'
+        For a subset of a tree.
 
-        >>> tree_to_newick(root, length_attr="age")
-        '((d:40,e:35)b:65,c:60)a'
-
-        >>> tree_to_newick(root, length_attr="age", attr_list=["species"])
-        '((d:40[&&NHX:species=human],e:35[&&NHX:species=human])b:65[&&NHX:species=human],c:60[&&NHX:species=human])a[&&NHX:species=human]'
+        >>> tree_to_dataframe(b, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
+             path name parent  person age
+        0    /a/b    b      a          65
+        1  /a/b/d    d      b          40
+        2  /a/b/e    e      b          35
 
     Args:
         tree (Node): tree to be exported
-        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        length_attr (str): node length attribute to extract to beside name, optional
-        length_sep (str): separator between node name and length, used if length_attr is non-empty, defaults to ":"
-        attr_list (Iterable[str]): list of node attributes to extract into square bracket, optional
-        attr_prefix (str): prefix before all attributes, within square bracket, used if attr_list is non-empty, defaults to "&&NHX:"
-        attr_sep (str): separator between attributes, within square brackets, used if attr_list is non-empty, defaults to ":"
+        path_col (str): column name for `node.path_name`, defaults to 'path'
+        name_col (str): column name for `node.node_name`, defaults to 'name'
+        parent_col (str): column name for `node.parent.node_name`, optional
+        attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
+            key: node attributes, value: corresponding column in dataframe, optional
+        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
+        max_depth (int): maximum depth to export tree, optional
+        skip_depth (int): number of initial depths to skip, optional
+        leaf_only (bool): indicator to retrieve only information from leaf nodes
 
     Returns:
-        (str)
+        (pd.DataFrame)
     """
-    if not tree:
-        return ""
-    if isinstance(length_sep, NewickCharacter):
-        length_sep = length_sep.value
-    if isinstance(attr_sep, NewickCharacter):
-        attr_sep = attr_sep.value
+    tree = tree.copy()
+    data_list = []
 
-    def _serialize(item: Any) -> Any:
-        """Serialize item if it contains special Newick characters.
+    def _recursive_append(node: T) -> None:
+        """Recursively iterate through node and its children to export to dataframe.
 
         Args:
-            item (Any): item to serialize
-
-        Returns:
-            (Any)
+            node (Node): current node
         """
-        if isinstance(item, str) and set(item).intersection(NewickCharacter.values()):
-            item = f"""'{item.replace(NewickCharacter.ATTR_QUOTE, '"')}'"""
-        return item
+        if node:
+            if (
+                (not max_depth or node.depth <= max_depth)
+                and (not skip_depth or node.depth > skip_depth)
+                and (not leaf_only or node.is_leaf)
+            ):
+                data_child: Dict[str, Any] = {}
+                if path_col:
+                    data_child[path_col] = node.path_name
+                if name_col:
+                    data_child[name_col] = node.node_name
+                if parent_col:
+                    parent_name = None
+                    if node.parent:
+                        parent_name = node.parent.node_name
+                    data_child[parent_col] = parent_name
 
-    node_name_str = ""
-    if (intermediate_node_name) or (not intermediate_node_name and tree.is_leaf):
-        node_name_str = _serialize(tree.node_name)
-    if length_attr and not tree.is_root:
-        if not tree.get_attr(length_attr):
-            raise ValueError(f"Length attribute does not exist for node {tree}")
-        node_name_str += f"{length_sep}{tree.get_attr(length_attr)}"
+                if all_attrs:
+                    data_child.update(
+                        node.describe(exclude_attributes=["name"], exclude_prefix="_")
+                    )
+                else:
+                    for k, v in attr_dict.items():
+                        data_child[v] = node.get_attr(k)
+                data_list.append(data_child)
+            for _node in node.children:
+                _recursive_append(_node)
 
-    attr_str = ""
-    if attr_list:
-        attr_str = attr_sep.join(
-            [
-                f"{_serialize(k)}={_serialize(tree.get_attr(k))}"
-                for k in attr_list
-                if tree.get_attr(k)
-            ]
-        )
-        if attr_str:
-            attr_str = f"[{attr_prefix}{attr_str}]"
+    _recursive_append(tree)
+    return pd.DataFrame(data_list)
 
-    if tree.is_leaf:
-        return f"{node_name_str}{attr_str}"
 
-    children_newick = ",".join(
-        tree_to_newick(
-            child,
-            intermediate_node_name=intermediate_node_name,
-            length_attr=length_attr,
-            length_sep=length_sep,
-            attr_list=attr_list,
-            attr_prefix=attr_prefix,
-            attr_sep=attr_sep,
-        )
-        for child in tree.children
-    )
-    return f"({children_newick}){node_name_str}{attr_str}"
+@optional_dependencies_polars
+def tree_to_polars(
+    tree: T,
+    path_col: str = "path",
+    name_col: str = "name",
+    parent_col: str = "",
+    attr_dict: Dict[str, str] = {},
+    all_attrs: bool = False,
+    max_depth: int = 0,
+    skip_depth: int = 0,
+    leaf_only: bool = False,
+) -> pl.DataFrame:
+    """Export tree to polars DataFrame.
+
+    All descendants from `tree` will be exported, `tree` can be the root node or child node of tree.
+
+    Examples:
+        >>> from bigtree import Node, tree_to_polars
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=b)
+        >>> e = Node("e", age=35, parent=b)
+        >>> tree_to_polars(root, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
+        shape: (5, 4)
+        ┌────────┬──────┬────────┬────────────┐
+        │ path   ┆ name ┆ parent ┆ person age │
+        │ ---    ┆ ---  ┆ ---    ┆ ---        │
+        │ str    ┆ str  ┆ str    ┆ i64        │
+        ╞════════╪══════╪════════╪════════════╡
+        │ /a     ┆ a    ┆ null   ┆ 90         │
+        │ /a/b   ┆ b    ┆ a      ┆ 65         │
+        │ /a/b/d ┆ d    ┆ b      ┆ 40         │
+        │ /a/b/e ┆ e    ┆ b      ┆ 35         │
+        │ /a/c   ┆ c    ┆ a      ┆ 60         │
+        └────────┴──────┴────────┴────────────┘
+
+        For a subset of a tree.
+
+        >>> tree_to_polars(b, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
+        shape: (3, 4)
+        ┌────────┬──────┬────────┬────────────┐
+        │ path   ┆ name ┆ parent ┆ person age │
+        │ ---    ┆ ---  ┆ ---    ┆ ---        │
+        │ str    ┆ str  ┆ str    ┆ i64        │
+        ╞════════╪══════╪════════╪════════════╡
+        │ /a/b   ┆ b    ┆ a      ┆ 65         │
+        │ /a/b/d ┆ d    ┆ b      ┆ 40         │
+        │ /a/b/e ┆ e    ┆ b      ┆ 35         │
+        └────────┴──────┴────────┴────────────┘
+
+    Args:
+        tree (Node): tree to be exported
+        path_col (str): column name for `node.path_name`, defaults to 'path'
+        name_col (str): column name for `node.node_name`, defaults to 'name'
+        parent_col (str): column name for `node.parent.node_name`, optional
+        attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
+            key: node attributes, value: corresponding column in dataframe, optional
+        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
+        max_depth (int): maximum depth to export tree, optional
+        skip_depth (int): number of initial depths to skip, optional
+        leaf_only (bool): indicator to retrieve only information from leaf nodes
+
+    Returns:
+        (pl.DataFrame)
+    """
+    tree = tree.copy()
+    data_list = []
+
+    def _recursive_append(node: T) -> None:
+        """Recursively iterate through node and its children to export to dataframe.
+
+        Args:
+            node (Node): current node
+        """
+        if node:
+            if (
+                (not max_depth or node.depth <= max_depth)
+                and (not skip_depth or node.depth > skip_depth)
+                and (not leaf_only or node.is_leaf)
+            ):
+                data_child: Dict[str, Any] = {}
+                if path_col:
+                    data_child[path_col] = node.path_name
+                if name_col:
+                    data_child[name_col] = node.node_name
+                if parent_col:
+                    parent_name = None
+                    if node.parent:
+                        parent_name = node.parent.node_name
+                    data_child[parent_col] = parent_name
+
+                if all_attrs:
+                    data_child.update(
+                        node.describe(exclude_attributes=["name"], exclude_prefix="_")
+                    )
+                else:
+                    for k, v in attr_dict.items():
+                        data_child[v] = node.get_attr(k)
+                data_list.append(data_child)
+            for _node in node.children:
+                _recursive_append(_node)
+
+    _recursive_append(tree)
+    return pl.DataFrame(data_list)
 
 
 def tree_to_dict(
@@ -997,101 +1090,6 @@ def tree_to_nested_dict(
 
     _recursive_append(tree, data_dict)
     return data_dict[child_key][0]
-
-
-@optional_dependencies_pandas
-def tree_to_dataframe(
-    tree: T,
-    path_col: str = "path",
-    name_col: str = "name",
-    parent_col: str = "",
-    attr_dict: Dict[str, str] = {},
-    all_attrs: bool = False,
-    max_depth: int = 0,
-    skip_depth: int = 0,
-    leaf_only: bool = False,
-) -> pd.DataFrame:
-    """Export tree to pandas DataFrame.
-
-    All descendants from `tree` will be exported, `tree` can be the root node or child node of tree.
-
-    Examples:
-        >>> from bigtree import Node, tree_to_dataframe
-        >>> root = Node("a", age=90)
-        >>> b = Node("b", age=65, parent=root)
-        >>> c = Node("c", age=60, parent=root)
-        >>> d = Node("d", age=40, parent=b)
-        >>> e = Node("e", age=35, parent=b)
-        >>> tree_to_dataframe(root, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
-             path name parent  person age
-        0      /a    a   None          90
-        1    /a/b    b      a          65
-        2  /a/b/d    d      b          40
-        3  /a/b/e    e      b          35
-        4    /a/c    c      a          60
-
-        For a subset of a tree.
-
-        >>> tree_to_dataframe(b, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
-             path name parent  person age
-        0    /a/b    b      a          65
-        1  /a/b/d    d      b          40
-        2  /a/b/e    e      b          35
-
-    Args:
-        tree (Node): tree to be exported
-        path_col (str): column name for `node.path_name`, defaults to 'path'
-        name_col (str): column name for `node.node_name`, defaults to 'name'
-        parent_col (str): column name for `node.parent.node_name`, optional
-        attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
-            key: node attributes, value: corresponding column in dataframe, optional
-        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
-        max_depth (int): maximum depth to export tree, optional
-        skip_depth (int): number of initial depths to skip, optional
-        leaf_only (bool): indicator to retrieve only information from leaf nodes
-
-    Returns:
-        (pd.DataFrame)
-    """
-    tree = tree.copy()
-    data_list = []
-
-    def _recursive_append(node: T) -> None:
-        """Recursively iterate through node and its children to export to dataframe.
-
-        Args:
-            node (Node): current node
-        """
-        if node:
-            if (
-                (not max_depth or node.depth <= max_depth)
-                and (not skip_depth or node.depth > skip_depth)
-                and (not leaf_only or node.is_leaf)
-            ):
-                data_child: Dict[str, Any] = {}
-                if path_col:
-                    data_child[path_col] = node.path_name
-                if name_col:
-                    data_child[name_col] = node.node_name
-                if parent_col:
-                    parent_name = None
-                    if node.parent:
-                        parent_name = node.parent.node_name
-                    data_child[parent_col] = parent_name
-
-                if all_attrs:
-                    data_child.update(
-                        node.describe(exclude_attributes=["name"], exclude_prefix="_")
-                    )
-                else:
-                    for k, v in attr_dict.items():
-                        data_child[v] = node.get_attr(k)
-                data_list.append(data_child)
-            for _node in node.children:
-                _recursive_append(_node)
-
-    _recursive_append(tree)
-    return pd.DataFrame(data_list)
 
 
 @optional_dependencies_image("pydot")
@@ -1660,3 +1658,119 @@ def tree_to_mermaid(
         flows="\n".join(flows),
         styles="\n".join(styles),
     )
+
+
+def tree_to_newick(
+    tree: T,
+    intermediate_node_name: bool = True,
+    length_attr: str = "",
+    length_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
+    attr_list: Iterable[str] = [],
+    attr_prefix: str = "&&NHX:",
+    attr_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
+) -> str:
+    """Export tree to Newick notation. Useful for describing phylogenetic tree.
+
+    In the Newick Notation (or New Hampshire Notation),
+      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`.
+      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
+      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`.
+      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`.
+
+    Customizations include:
+      - Omitting names of root and intermediate nodes, default all node names are shown.
+      - Changing length separator to other symbol, default is `:`.
+      - Adding an attribute prefix, default is `&&NHX:`.
+      - Changing the attribute separator to other symbol, default is `:`.
+
+    Examples:
+        >>> from bigtree import Node, tree_to_newick
+        >>> root = Node("a", species="human")
+        >>> b = Node("b", age=65, species="human", parent=root)
+        >>> c = Node("c", age=60, species="human", parent=root)
+        >>> d = Node("d", age=40, species="human", parent=b)
+        >>> e = Node("e", age=35, species="human", parent=b)
+        >>> root.show()
+        a
+        ├── b
+        │   ├── d
+        │   └── e
+        └── c
+
+        >>> tree_to_newick(root)
+        '((d,e)b,c)a'
+
+        >>> tree_to_newick(root, length_attr="age")
+        '((d:40,e:35)b:65,c:60)a'
+
+        >>> tree_to_newick(root, length_attr="age", attr_list=["species"])
+        '((d:40[&&NHX:species=human],e:35[&&NHX:species=human])b:65[&&NHX:species=human],c:60[&&NHX:species=human])a[&&NHX:species=human]'
+
+    Args:
+        tree (Node): tree to be exported
+        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
+        length_attr (str): node length attribute to extract to beside name, optional
+        length_sep (str): separator between node name and length, used if length_attr is non-empty, defaults to ":"
+        attr_list (Iterable[str]): list of node attributes to extract into square bracket, optional
+        attr_prefix (str): prefix before all attributes, within square bracket, used if attr_list is non-empty, defaults to "&&NHX:"
+        attr_sep (str): separator between attributes, within square brackets, used if attr_list is non-empty, defaults to ":"
+
+    Returns:
+        (str)
+    """
+    if not tree:
+        return ""
+    if isinstance(length_sep, NewickCharacter):
+        length_sep = length_sep.value
+    if isinstance(attr_sep, NewickCharacter):
+        attr_sep = attr_sep.value
+
+    def _serialize(item: Any) -> Any:
+        """Serialize item if it contains special Newick characters.
+
+        Args:
+            item (Any): item to serialize
+
+        Returns:
+            (Any)
+        """
+        if isinstance(item, str) and set(item).intersection(NewickCharacter.values()):
+            item = f"""'{item.replace(NewickCharacter.ATTR_QUOTE, '"')}'"""
+        return item
+
+    node_name_str = ""
+    if (intermediate_node_name) or (not intermediate_node_name and tree.is_leaf):
+        node_name_str = _serialize(tree.node_name)
+    if length_attr and not tree.is_root:
+        if not tree.get_attr(length_attr):
+            raise ValueError(f"Length attribute does not exist for node {tree}")
+        node_name_str += f"{length_sep}{tree.get_attr(length_attr)}"
+
+    attr_str = ""
+    if attr_list:
+        attr_str = attr_sep.join(
+            [
+                f"{_serialize(k)}={_serialize(tree.get_attr(k))}"
+                for k in attr_list
+                if tree.get_attr(k)
+            ]
+        )
+        if attr_str:
+            attr_str = f"[{attr_prefix}{attr_str}]"
+
+    if tree.is_leaf:
+        return f"{node_name_str}{attr_str}"
+
+    children_newick = ",".join(
+        tree_to_newick(
+            child,
+            intermediate_node_name=intermediate_node_name,
+            length_attr=length_attr,
+            length_sep=length_sep,
+            attr_list=attr_list,
+            attr_prefix=attr_prefix,
+            attr_sep=attr_sep,
+        )
+        for child in tree.children
+    )
+    return f"({children_newick}){node_name_str}{attr_str}"
