@@ -118,11 +118,12 @@ To install `bigtree`, run the following line in command prompt:
 $ pip install bigtree
 ```
 
-If tree needs to use pandas methods, it requires additional dependencies.
-Run the following line in command prompt:
+If tree needs to use pandas or polars methods, it requires additional dependencies.
+Run the following lines in command prompt:
 
 ```console
 $ pip install 'bigtree[pandas]'
+$ pip install 'bigtree[polars]'
 ```
 
 If tree needs to be exported to image, it requires additional dependencies.
