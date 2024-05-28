@@ -38,9 +38,10 @@ For **Tree** implementation, there are 9 main components.
    3. From *list*, using paths or parent-child tuples
    4. From *nested dictionary*, using path-attribute key-value pairs or recursive structure
    5. From *pandas DataFrame*, using paths or parent-child columns
-   6. Add nodes to existing tree using path string
-   7. Add nodes and attributes to existing tree using *dictionary* or *pandas DataFrame*, using path
-   8. Add only attributes to existing tree using *dictionary* or *pandas DataFrame*, using node name
+   6. From *polars DataFrame*, using paths or parent-child columns
+   7. Add nodes to existing tree using path string
+   8. Add nodes and attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using path
+   9. Add only attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using node name
 3. [**➰ Traversing Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/utils/iterators/)
    1. Pre-Order Traversal
    2. Post-Order Traversal
@@ -68,7 +69,7 @@ For **Tree** implementation, there are 9 main components.
    1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
 8. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/export/)
    1. Print to console, in vertical or horizontal orientation
-   2. Export to *Newick string notation*, *dictionary*, *nested dictionary*, or *pandas DataFrame*
+   2. Export to *Newick string notation*, *dictionary*, *nested dictionary*, *pandas DataFrame*, or *polars DataFrame*
    3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
    4. Export tree to *Pillow* (can save to .png, .jpg)
    5. Export tree to *Mermaid Flowchart* (can display on .md)
