@@ -1,4 +1,5 @@
 import pandas as pd
+import polars as pl
 
 from bigtree.tree.export import (
     print_tree,
@@ -7,6 +8,7 @@ from bigtree.tree.export import (
     tree_to_dot,
     tree_to_nested_dict,
     tree_to_newick,
+    tree_to_polars,
 )
 from tests.conftest import assert_print_statement
 from tests.test_constants import Constants
@@ -39,6 +41,26 @@ class TestTreeToDataFrame:
         )
         actual = tree_to_dataframe(binarytree_node)
         pd.testing.assert_frame_equal(expected, actual)
+
+
+class TestTreeToPolars:
+    @staticmethod
+    def test_tree_to_polars(binarytree_node):
+        expected = pl.DataFrame(
+            [
+                ["/1", "1"],
+                ["/1/2", "2"],
+                ["/1/2/4", "4"],
+                ["/1/2/4/8", "8"],
+                ["/1/2/5", "5"],
+                ["/1/3", "3"],
+                ["/1/3/6", "6"],
+                ["/1/3/7", "7"],
+            ],
+            schema=["path", "name"],
+        )
+        actual = tree_to_polars(binarytree_node)
+        assert expected.equals(actual)
 
 
 class TestTreeToDict:

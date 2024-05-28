@@ -1,6 +1,7 @@
 import unittest
 
 import pandas as pd
+import polars as pl
 import pytest
 
 from bigtree.binarytree.construct import list_to_binarytree
@@ -12,6 +13,8 @@ from bigtree.tree.construct import (
     list_to_tree,
     list_to_tree_by_relation,
     nested_dict_to_tree,
+    polars_to_tree,
+    polars_to_tree_by_relation,
 )
 from tests.node.test_binarynode import assert_binarytree_structure_root2
 from tests.test_constants import Constants
@@ -233,4 +236,63 @@ class TestDataFrameToTreeByRelation(unittest.TestCase):
 
     def test_dataframe_to_tree_by_relation(self):
         root = dataframe_to_tree_by_relation(self.relation_data, node_type=BinaryNode)
+        assert_binarytree_structure_root2(root)
+
+
+class TestPolarsToTree(unittest.TestCase):
+    def setUp(self):
+        """
+        Binary Tree should have structure
+        1
+        ├── 2
+        │   ├── 4
+        │   │   └── 8
+        │   └── 5
+        └── 3
+            ├── 6
+            └── 7
+        """
+        self.path_data = pl.DataFrame(
+            [
+                ["1", 90],
+                ["1/2", 65],
+                ["1/3", 60],
+                ["1/2/4", 40],
+                ["1/2/5", 35],
+                ["1/3/6", 38],
+                ["1/3/7", 10],
+                ["1/2/4/8", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+
+    def tearDown(self):
+        self.path_data = None
+
+    def test_polars_to_tree(self):
+        root = polars_to_tree(self.path_data, node_type=BinaryNode)
+        assert_binarytree_structure_root2(root)
+
+
+class TestPolarsToTreeByRelation(unittest.TestCase):
+    def setUp(self):
+        self.relation_data = pl.DataFrame(
+            [
+                ["1", None, 90],
+                ["2", "1", 65],
+                ["3", "1", 60],
+                ["4", "2", 40],
+                ["5", "2", 35],
+                ["6", "3", 38],
+                ["7", "3", 10],
+                ["8", "4", 6],
+            ],
+            schema=["child", "parent", "age"],
+        )
+
+    def tearDown(self):
+        self.relation_data = None
+
+    def test_polars_to_tree_by_relation(self):
+        root = polars_to_tree_by_relation(self.relation_data, node_type=BinaryNode)
         assert_binarytree_structure_root2(root)
