@@ -8,7 +8,7 @@ Here are some codes to get started.
 
 ## Construct Tree
 
-Nodes can have attributes if they are initialized from `Node`, *dictionary*, or *pandas DataFrame*.
+Nodes can have attributes if they are initialized from `Node`, *dictionary*, *pandas DataFrame*, or *polars DataFrame*.
 
 ### 1. From Node
 
@@ -269,10 +269,63 @@ Construct nodes with attributes. *Pandas DataFrame* can contain either <mark>pat
     # └── c [age=60]
     ```
 
+### 6. From polars DataFrame
+
+Construct nodes with attributes. *Polars DataFrame* can contain either <mark>path column</mark> or
+<mark>parent-child columns</mark>. Other columns can be used to specify attributes.
+
+=== "Path column"
+    ```python hl_lines="14"
+    import polars as pl
+
+    from bigtree import polars_to_tree
+
+    data = pl.DataFrame(
+       [
+          ["a", 90],
+          ["a/b", 65],
+          ["a/c", 60],
+          ["a/b/d", 40],
+       ],
+       schema=["path", "age"],
+    )
+    root = polars_to_tree(data)
+
+    root.show(attr_list=["age"])
+    # a [age=90]
+    # ├── b [age=65]
+    # │   └── d [age=40]
+    # └── c [age=60]
+    ```
+
+=== "Parent-child columns"
+    ```python hl_lines="14"
+    import polars as pl
+
+    from bigtree import polars_to_tree_by_relation
+
+    data = pl.DataFrame(
+       [
+          ["a", None, 90],
+          ["b", "a", 65],
+          ["c", "a", 60],
+          ["d", "b", 40],
+       ],
+       schema=["child", "parent", "age"],
+    )
+    root = polars_to_tree_by_relation(data)
+
+    root.show(attr_list=["age"])
+    # a [age=90]
+    # ├── b [age=65]
+    # │   └── d [age=40]
+    # └── c [age=60]
+    ```
+
 !!! note
 
-    If tree is already created, nodes can still be added using path string, dictionary, and pandas DataFrame!<br>
-    Attributes can be added to existing nodes using a dictionary or pandas DataFrame.
+    If tree is already created, nodes can still be added using path string, dictionary, and pandas/polars DataFrame!<br>
+    Attributes can be added to existing nodes using a dictionary or pandas/polars DataFrame.
 
 ## Print Tree
 
@@ -860,9 +913,10 @@ Tree can be exported to other data types:
 1. Newick string notation
 2. Nested dictionary (flat structure and recursive structure)
 3. pandas DataFrame
-4. Dot (can save to .dot, .png, .svg, .jpeg files)
-5. Pillow (can save to .png, .jpg)
-6. Mermaid Flowchart (can display on .md)
+4. polars DataFrame
+5. Dot (can save to .dot, .png, .svg, .jpeg files)
+6. Pillow (can save to .png, .jpg)
+7. Mermaid Flowchart (can display on .md)
 
 ```python
 from bigtree import Node
@@ -958,6 +1012,31 @@ root.show()
     # 2  /a/b/d    d      b          40
     # 3  /a/b/e    e      b          35
     # 4    /a/c    c      a          60
+    ```
+
+=== "polars DataFrame"
+    ```python hl_lines="3-9"
+    from bigtree import tree_to_polars
+
+    tree_to_polars(
+       root,
+       name_col="name",
+       parent_col="parent",
+       path_col="path",
+       attr_dict={"age": "person age"}
+    )
+    # shape: (5, 4)
+    # ┌────────┬──────┬────────┬────────────┐
+    # │ path   ┆ name ┆ parent ┆ person age │
+    # │ ---    ┆ ---  ┆ ---    ┆ ---        │
+    # │ str    ┆ str  ┆ str    ┆ i64        │
+    # ╞════════╪══════╪════════╪════════════╡
+    # │ /a     ┆ a    ┆ null   ┆ 90         │
+    # │ /a/b   ┆ b    ┆ a      ┆ 65         │
+    # │ /a/b/d ┆ d    ┆ b      ┆ 40         │
+    # │ /a/b/e ┆ e    ┆ b      ┆ 35         │
+    # │ /a/c   ┆ c    ┆ a      ┆ 60         │
+    # └────────┴──────┴────────┴────────────┘
     ```
 
 === "Dot"

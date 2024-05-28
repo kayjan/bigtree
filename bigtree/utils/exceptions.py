@@ -92,6 +92,28 @@ def optional_dependencies_pandas(
     return wrapper
 
 
+def optional_dependencies_polars(
+    func: Callable[..., T]
+) -> Callable[..., T]:  # pragma: no cover
+    """
+    This is a decorator which can be used to import optional polars dependency.
+    It will raise a ImportError if the module is not found.
+    """
+
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> T:
+        try:
+            import polars as pl  # noqa: F401
+        except ImportError:
+            raise ImportError(
+                "polars not available. Please perform a\n\n"
+                "pip install 'bigtree[polars]'\n\nto install required dependencies"
+            ) from None
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
 def optional_dependencies_image(
     package_name: str = "",
 ) -> Callable[[Callable[..., T]], Callable[..., T]]:

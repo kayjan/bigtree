@@ -2,9 +2,18 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, List, Sized, Type, Union
 
-if TYPE_CHECKING:
+try:
     import pandas as pd
+except ImportError:  # pragma: no cover
+    pd = None
 
+try:
+    import polars as pl
+except ImportError:  # pragma: no cover
+    pl = None
+
+
+if TYPE_CHECKING:
     from bigtree.node.basenode import BaseNode
     from bigtree.node.dagnode import DAGNode
     from bigtree.node.node import Node
@@ -120,25 +129,33 @@ def assert_dataframe_not_empty(data: pd.DataFrame) -> None:
 
 
 def assert_dataframe_no_duplicate_attribute(
-    data: pd.DataFrame, id_type: str, id_col: str, attribute_cols: List[str]
+    data: Union[pd.DataFrame, pl.DataFrame],
+    id_type: str,
+    id_col: str,
+    attribute_cols: List[str],
 ) -> None:
     """Raise ValueError is dataframe contains different attributes for same path
 
     Args:
-        data (pd.DataFrame): dataframe to check
+        data (Union[pd.DataFrame, pl.DataFrame]): dataframe to check
         id_type (str): type of uniqueness to check for, for error message
         id_col (str): column of data that is unique, can be name or path
         attribute_cols (List[str]): columns of data containing node attribute information,
     """
-    data_check = data[[id_col] + attribute_cols].astype(str).drop_duplicates()
-    duplicate_check = (
-        data_check[id_col]
-        .value_counts()
-        .to_frame("counts")
-        .rename_axis(id_col)
-        .reset_index()
-    )
-    duplicate_check = duplicate_check[duplicate_check["counts"] > 1]
+    if isinstance(data, pd.DataFrame):
+        data_check = data[[id_col] + attribute_cols].astype(str).drop_duplicates()
+        duplicate_check = (
+            data_check[id_col]
+            .value_counts()
+            .to_frame("count")
+            .rename_axis(id_col)
+            .reset_index()
+        )
+        duplicate_check = duplicate_check[duplicate_check["count"] > 1]
+    else:
+        data_check = data.unique(subset=[id_col] + attribute_cols)
+        duplicate_check = data_check[id_col].value_counts()
+        duplicate_check = duplicate_check.filter(duplicate_check["count"] > 1)
     if len(duplicate_check):
         raise ValueError(
             f"There exists duplicate {id_type} with different attributes\nCheck {duplicate_check}"
@@ -146,29 +163,36 @@ def assert_dataframe_no_duplicate_attribute(
 
 
 def assert_dataframe_no_duplicate_children(
-    data: pd.DataFrame,
+    data: Union[pd.DataFrame, pl.DataFrame],
     child_col: str,
     parent_col: str,
 ) -> None:
     """Raise ValueError is dataframe contains different duplicated parent tagged to different grandparents
 
     Args:
-        data (pd.DataFrame): dataframe to check
+        data (Union[pd.DataFrame, pl.DataFrame]): dataframe to check
         child_col (str): column of data containing child name information
         parent_col (str): column of data containing parent name information
     """
     # Filter for child nodes that are parent of other nodes
-    data_check = data[[child_col, parent_col]].drop_duplicates()
-    data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
-
-    duplicate_check = (
-        data_check[child_col]
-        .value_counts()
-        .to_frame("counts")
-        .rename_axis(child_col)
-        .reset_index()
-    )
-    duplicate_check = duplicate_check[duplicate_check["counts"] > 1]
+    if isinstance(data, pd.DataFrame):
+        data_check = data[[child_col, parent_col]].drop_duplicates()
+        data_check = data_check[data_check[child_col].isin(data_check[parent_col])]
+        duplicate_check = (
+            data_check[child_col]
+            .value_counts()
+            .to_frame("count")
+            .rename_axis(child_col)
+            .reset_index()
+        )
+        duplicate_check = duplicate_check[duplicate_check["count"] > 1]
+    else:
+        data_check = data.unique(subset=[child_col, parent_col])
+        data_check = data_check.filter(
+            data_check[child_col].is_in(data_check[parent_col])
+        )
+        duplicate_check = data_check[child_col].value_counts()
+        duplicate_check = duplicate_check.filter(duplicate_check["count"] > 1)
     if len(duplicate_check):
         raise ValueError(
             f"There exists duplicate child with different parent where the child is also a parent node.\n"

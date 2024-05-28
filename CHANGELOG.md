@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.18.0] - 2024-05-28
+### Added:
+- Tree Constructor: Polars method `polars_to_tree`, `polars_to_tree_by_relation`, `add_polars_to_tree_by_path`,
+and `add_polars_to_tree_by_name`.
+- Tree Exporter: Polars method `tree_to_polars`.
 ### Fixed:
 - Misc: Documentation to update mkdocs-material version for social plugin.
 - Misc: Update links in README.
@@ -560,7 +566,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.17.2...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.18.0...HEAD
+[0.18.0]: https://github.com/kayjan/bigtree/compare/0.17.2...0.18.0
 [0.17.2]: https://github.com/kayjan/bigtree/compare/0.17.1...0.17.2
 [0.17.1]: https://github.com/kayjan/bigtree/compare/0.17.0...0.17.1
 [0.17.0]: https://github.com/kayjan/bigtree/compare/0.16.4...0.17.0

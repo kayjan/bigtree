@@ -16,9 +16,10 @@ For **Tree** implementation, there are 9 main components.
 - From *list*, using paths or parent-child tuples
 - From *nested dictionary*, using path-attribute key-value pairs or recursive structure
 - From *pandas DataFrame*, using paths or parent-child columns
+- From *polars DataFrame*, using paths or parent-child columns
 - Add nodes to existing tree using path string
-- Add nodes and attributes to existing tree using *dictionary* or *pandas DataFrame*, using path
-- Add only attributes to existing tree using *dictionary* or *pandas DataFrame*, using node name
+- Add nodes and attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using path
+- Add only attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using node name
 
 ## [**➰ Traversing Tree**](bigtree/utils/iterators.md)
 - Pre-Order Traversal
@@ -52,7 +53,7 @@ For **Tree** implementation, there are 9 main components.
 
 ## [**🔨 Exporting Tree**](bigtree/tree/export.md)
 - Print to console, in vertical or horizontal orientation
-- Export to *Newick string notation*, *dictionary*, *nested dictionary*, or *pandas DataFrame*
+- Export to *Newick string notation*, *dictionary*, *nested dictionary*, *pandas DataFrame*, or *polars DataFrame*
 - Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
 - Export tree to *Pillow* (can save to .png, .jpg)
 - Export tree to *Mermaid Flowchart* (can display on .md)

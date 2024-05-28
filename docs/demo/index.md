@@ -1,5 +1,0 @@
----
-title: Demonstration
----
-
-# 📋 Demonstration
