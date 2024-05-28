@@ -1,6 +1,6 @@
 ---
 title: bigtree
-description: Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.
+description: Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame.
 hide:
   - toc
 ---
@@ -15,7 +15,7 @@ hide:
 ![license](https://img.shields.io/static/v1?label=license&message=MIT&color=blue "license")
 ![black](https://img.shields.io/static/v1?label=style&message=black&color=black "black")
 
-Tree Implementation and Methods for Python, integrated with Python list, dictionary, and pandas DataFrame.
+Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame.
 
 It is pythonic, making it easy to learn and extendable to many types of workflows.
 
