@@ -289,7 +289,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../demo/" class="md-tabs__link">
+        <a href="../demo/tree/" class="md-tabs__link">
           
   
     
@@ -1009,10 +1009,6 @@
     
       
         
-          
-        
-      
-        
       
         
       
@@ -1035,24 +1031,16 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../demo/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Demonstration
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1">
@@ -1060,8 +1048,6 @@
             Demonstration
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
             
               
                 
@@ -1165,10 +1151,6 @@
     
       
         
-          
-        
-      
-        
       
     
     
@@ -1185,24 +1167,16 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../resources/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Resources
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_2">
@@ -1210,8 +1184,6 @@
             Resources
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
             
               
                 
@@ -2431,9 +2403,10 @@
 <li>From <em>list</em>, using paths or parent-child tuples</li>
 <li>From <em>nested dictionary</em>, using path-attribute key-value pairs or recursive structure</li>
 <li>From <em>pandas DataFrame</em>, using paths or parent-child columns</li>
+<li>From <em>polars DataFrame</em>, using paths or parent-child columns</li>
 <li>Add nodes to existing tree using path string</li>
-<li>Add nodes and attributes to existing tree using <em>dictionary</em> or <em>pandas DataFrame</em>, using path</li>
-<li>Add only attributes to existing tree using <em>dictionary</em> or <em>pandas DataFrame</em>, using node name</li>
+<li>Add nodes and attributes to existing tree using <em>dictionary</em>, <em>pandas DataFrame</em>, or <em>polars DataFrame</em>, using path</li>
+<li>Add only attributes to existing tree using <em>dictionary</em>, <em>pandas DataFrame</em>, or <em>polars DataFrame</em>, using node name</li>
 </ul>
 <h2 id="traversing-tree"><a href="../bigtree/utils/iterators/"><strong>➰ Traversing Tree</strong></a></h2>
 <ul>
@@ -2473,7 +2446,7 @@
 <h2 id="exporting-tree"><a href="../bigtree/tree/export/"><strong>🔨 Exporting Tree</strong></a></h2>
 <ul>
 <li>Print to console, in vertical or horizontal orientation</li>
-<li>Export to <em>Newick string notation</em>, <em>dictionary</em>, <em>nested dictionary</em>, or <em>pandas DataFrame</em></li>
+<li>Export to <em>Newick string notation</em>, <em>dictionary</em>, <em>nested dictionary</em>, <em>pandas DataFrame</em>, or <em>polars DataFrame</em></li>
 <li>Export tree to <em>dot</em> (can save to .dot, .png, .svg, .jpeg files)</li>
 <li>Export tree to <em>Pillow</em> (can save to .png, .jpg)</li>
 <li>Export tree to <em>Mermaid Flowchart</em> (can display on .md)</li>
