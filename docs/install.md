@@ -4,9 +4,11 @@ title: Installation
 
 # 💻 Installation
 
-There are two ways to install `bigtree`, with pip (recommended) or conda.
+`bigtree` requires Python 3.8+. There are two ways to install `bigtree`, with pip (recommended) or conda.
 
 ## Installation with pip
+
+### Basic Installation
 
 To install `bigtree`, run the following line in command prompt:
 
@@ -17,31 +19,30 @@ $ pip install bigtree
 Installed
 ```
 
-If tree needs to use pandas or polars methods, it requires additional dependencies.
-Run the following lines in command prompt:
+### Installing optional dependencies
+
+`bigtree` have a number of optional dependencies, which can be installed using "extras" syntax.
 
 <!-- termynal -->
 ```console
-$ pip install 'bigtree[pandas]'
-$ pip install 'bigtree[polars]'
+$ pip install 'bigtree[extra_1, extra_2]'
 ```
 
-If tree needs to be exported to image, it requires additional dependencies.
-Run the following lines in command prompt:
+Examples of extra packages include:
+
+- `all`: include all optional dependencies
+- `image`: for exporting tree to image
+- `pandas`: for pandas methods
+- `polars`: for polars methods
+
+For `image` extra dependency, you may need to install more plugins.
 
 <!-- termynal -->
 ```console
-$ pip install 'bigtree[image]'
 $ brew install gprof2dot  # for MacOS
 $ conda install graphviz  # for Windows
 ```
 
-Alternatively, install all optional dependencies with the following line in command prompt:
-
-<!-- termynal -->
-```console
-$ pip install 'bigtree[all]'
-```
 
 ## Installation with conda
 
