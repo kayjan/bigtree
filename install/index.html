@@ -564,6 +564,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Installation with pip">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-optional-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing optional dependencies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2232,6 +2256,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Installation with pip">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-optional-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing optional dependencies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2262,21 +2310,25 @@
 
 
 <h1 id="installation">💻 Installation</h1>
-<p>There are two ways to install <code>bigtree</code>, with pip (recommended) or conda.</p>
+<p><code>bigtree</code> requires Python 3.8+. There are two ways to install <code>bigtree</code>, with pip (recommended) or conda.</p>
 <h2 id="installation-with-pip">Installation with pip</h2>
+<h3 id="basic-installation">Basic Installation</h3>
 <p>To install <code>bigtree</code>, run the following line in command prompt:</p>
 <div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">pip install bigtree</span><span data-ty="progress"></span><span data-ty>Installed<br></span></div>
 
-<p>If tree needs to use pandas or polars methods, it requires additional dependencies.
-Run the following lines in command prompt:</p>
-<div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">pip install 'bigtree[pandas]'</span><span data-ty="input" data-ty-prompt="$">pip install 'bigtree[polars]'</span><span data-ty></span></div>
+<h3 id="installing-optional-dependencies">Installing optional dependencies</h3>
+<p><code>bigtree</code> have a number of optional dependencies, which can be installed using "extras" syntax.</p>
+<div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">pip install 'bigtree[extra_1, extra_2]'</span><span data-ty></span></div>
 
-<p>If tree needs to be exported to image, it requires additional dependencies.
-Run the following lines in command prompt:</p>
-<div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">pip install 'bigtree[image]'</span><span data-ty="input" data-ty-prompt="$">brew install gprof2dot  # for MacOS</span><span data-ty="input" data-ty-prompt="$">conda install graphviz  # for Windows</span><span data-ty></span></div>
-
-<p>Alternatively, install all optional dependencies with the following line in command prompt:</p>
-<div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">pip install 'bigtree[all]'</span><span data-ty></span></div>
+<p>Examples of extra packages include:</p>
+<ul>
+<li><code>all</code>: include all optional dependencies</li>
+<li><code>image</code>: for exporting tree to image</li>
+<li><code>pandas</code>: for pandas methods</li>
+<li><code>polars</code>: for polars methods</li>
+</ul>
+<p>For <code>image</code> extra dependency, you may need to install more plugins.</p>
+<div class="termy" data-termynal data-ty-macos data-ty-title="bash"><span data-ty="input" data-ty-prompt="$">brew install gprof2dot  # for MacOS</span><span data-ty="input" data-ty-prompt="$">conda install graphviz  # for Windows</span><span data-ty></span></div>
 
 <h2 id="installation-with-conda">Installation with conda</h2>
 <p>To install <code>bigtree</code> with conda, run the following line in command prompt:</p>
