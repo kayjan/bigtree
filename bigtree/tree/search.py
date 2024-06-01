@@ -177,7 +177,7 @@ def find_relative_path(tree: NodeT, path_name: str) -> NodeT:
     - If path name starts with leading separator symbol, it will start at root node.
 
     Examples:
-        >>> from bigtree import find_relative_path, str_to_tree
+        >>> from bigtree import Node, find_relative_path
         >>> root = Node("a", age=90)
         >>> b = Node("b", age=65, parent=root)
         >>> c = Node("c", age=60, parent=root)
