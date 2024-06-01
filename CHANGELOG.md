@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.18.2] - 2024-06-01
+### Changed:
+- Tree Search: Standardize handling of singular and plural search.
+- Tree Search: Added `find_relative_path` that return a single node from search and
+rename existing `find_relative_path` to `find_relative_paths`.
+**This might not be backwards-compatible!**
+
 ## [0.18.1] - 2024-05-30
 ### Changed:
 - Misc: Remove support of Python 3.7 due to incompatibility with polars.
@@ -572,7 +579,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.18.1...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.18.2...HEAD
+[0.18.2]: https://github.com/kayjan/bigtree/compare/0.18.1...0.18.2
 [0.18.1]: https://github.com/kayjan/bigtree/compare/0.18.0...0.18.1
 [0.18.0]: https://github.com/kayjan/bigtree/compare/0.17.2...0.18.0
 [0.17.2]: https://github.com/kayjan/bigtree/compare/0.17.1...0.17.2

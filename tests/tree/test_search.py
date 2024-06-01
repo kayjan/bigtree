@@ -16,6 +16,7 @@ from bigtree.tree.search import (
     find_path,
     find_paths,
     find_relative_path,
+    find_relative_paths,
     findall,
 )
 from bigtree.utils.exceptions import SearchError
@@ -173,29 +174,48 @@ class TestSearch(unittest.TestCase):
         for node in nodes:
             expected = node
             actual = find_relative_path(node, ".")
-            assert actual == (
-                expected,
+            assert (
+                actual == expected
             ), f"Expected find_relative_path to return {expected}, received {actual}"
 
-    def test_find_relative_path_current_position_multiple(self):
+    def test_find_relative_path_max_count_error(self):
+        with pytest.raises(SearchError) as exc_info:
+            find_relative_path(self.a, "*")
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_SEARCH_LESS_THAN_N_ELEMENT.format(count=1)
+        )
+
+    def test_find_relative_path_no_results(self):
+        assert not find_relative_path(self.a, "b/d/*")
+
+    def test_find_relative_paths_current_position(self):
         nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         for node in nodes:
             expected = node
-            actual = find_relative_path(node, "./././././.")
+            actual = find_relative_paths(node, ".")
             assert actual == (
                 expected,
-            ), f"Expected find_relative_path to return {expected}, received {actual}"
+            ), f"Expected find_relative_paths to return {expected}, received {actual}"
 
-    def test_find_relative_path_parent_position(self):
+    def test_find_relative_paths_current_position_multiple(self):
+        nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        for node in nodes:
+            expected = node
+            actual = find_relative_paths(node, "./././././.")
+            assert actual == (
+                expected,
+            ), f"Expected find_relative_paths to return {expected}, received {actual}"
+
+    def test_find_relative_paths_parent_position(self):
         inputs = [self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         expected_ans = [self.a, self.a, self.b, self.b, self.c, self.e, self.e]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_relative_path(input_, "..")
+            actual = find_relative_paths(input_, "..")
             assert actual == (
                 expected,
-            ), f"Expected find_relative_path to return {expected}, received {actual}"
+            ), f"Expected find_relative_paths to return {expected}, received {actual}"
 
-    def test_find_relative_path_wildcard(self):
+    def test_find_relative_paths_wildcard(self):
         inputs = ["*", "b/*", "c/*", "b/e/*"]
         expected_ans = [
             (self.b, self.c),
@@ -204,12 +224,12 @@ class TestSearch(unittest.TestCase):
             (self.g, self.h),
         ]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_relative_path(self.a, input_)
+            actual = find_relative_paths(self.a, input_)
             assert (
                 actual == expected
-            ), f"Expected find_relative_path to return {expected}, received {actual}"
+            ), f"Expected find_relative_paths to return {expected}, received {actual}"
 
-    def test_find_relative_path_wildcard_parent_path(self):
+    def test_find_relative_paths_wildcard_parent_path(self):
         h2 = self.h.copy()
         h2.parent = self.f
         inputs_list = [
@@ -223,12 +243,12 @@ class TestSearch(unittest.TestCase):
         ]
         for inputs in inputs_list:
             for input_, expected in zip(inputs[1], expected_ans):
-                actual = find_relative_path(inputs[0], input_)
+                actual = find_relative_paths(inputs[0], input_)
                 assert (
                     actual == expected
-                ), f"Expected find_relative_path to return {expected}, received {actual}"
+                ), f"Expected find_relative_paths to return {expected}, received {actual}"
 
-    def test_find_relative_path_sep_leading(self):
+    def test_find_relative_paths_sep_leading(self):
         inputs = [
             "/a",
             "/a/b",
@@ -241,21 +261,21 @@ class TestSearch(unittest.TestCase):
         ]
         expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_relative_path(self.b, input_)
+            actual = find_relative_paths(self.b, input_)
             assert actual == (
                 expected,
-            ), f"Expected find_relative_path to return {expected}, received {actual}"
+            ), f"Expected find_relative_paths to return {expected}, received {actual}"
 
-    def test_find_relative_path_sep_trailing(self):
+    def test_find_relative_paths_sep_trailing(self):
         inputs = [self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         expected_ans = [self.a, self.a, self.b, self.b, self.c, self.e, self.e]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_relative_path(input_, "../")
+            actual = find_relative_paths(input_, "../")
             assert actual == (
                 expected,
-            ), f"Expected find_relative_path to return {expected}, received {actual}"
+            ), f"Expected find_relative_paths to return {expected}, received {actual}"
 
-    def test_find_relative_path_wrong_node_error(self):
+    def test_find_relative_paths_wrong_node_error(self):
         inputs = [
             ("a/e", "a"),
             ("b/f", "f"),
@@ -263,19 +283,19 @@ class TestSearch(unittest.TestCase):
         ]
         for input_, component_ in inputs:
             with pytest.raises(SearchError) as exc_info:
-                find_relative_path(self.a, input_)
+                find_relative_paths(self.a, input_)
             assert str(
                 exc_info.value
             ) == Constants.ERROR_SEARCH_RELATIVE_INVALID_NODE.format(
                 component=component_
             )
 
-    def test_find_relative_path_wrong_path_error(self):
+    def test_find_relative_paths_wrong_path_error(self):
         inputs_list = [(self.a, ["../"]), (self.b, ["../../"])]
         for inputs in inputs_list:
             for input_ in inputs[1]:
                 with pytest.raises(SearchError) as exc_info:
-                    find_relative_path(inputs[0], input_)
+                    find_relative_paths(inputs[0], input_)
         assert str(exc_info.value) == Constants.ERROR_SEARCH_RELATIVE_INVALID_PATH
 
     def test_find_full_path(self):

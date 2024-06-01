@@ -12,6 +12,7 @@ __all__ = [
     "find_name",
     "find_names",
     "find_relative_path",
+    "find_relative_paths",
     "find_full_path",
     "find_path",
     "find_paths",
@@ -28,6 +29,28 @@ NodeT = TypeVar("NodeT", bound=Node)
 DAGNodeT = TypeVar("DAGNodeT", bound=DAGNode)
 
 
+def __check_result_count(
+    result: Tuple[Any, ...], min_count: int, max_count: int
+) -> None:
+    """Check result fulfil min_count and max_count requirements
+
+    Args:
+        result (Tuple[Any]): result of search
+        min_count (int): checks for minimum number of occurrences,
+            raise SearchError if the number of results do not meet min_count, defaults to None
+        max_count (int): checks for maximum number of occurrences,
+            raise SearchError if the number of results do not meet min_count, defaults to None
+    """
+    if min_count and len(result) < min_count:
+        raise SearchError(
+            f"Expected more than or equal to {min_count} element(s), found {len(result)} elements\n{result}"
+        )
+    if max_count and len(result) > max_count:
+        raise SearchError(
+            f"Expected less than or equal to {max_count} element(s), found {len(result)} elements\n{result}"
+        )
+
+
 def findall(
     tree: T,
     condition: Callable[[T], bool],
@@ -36,7 +59,7 @@ def findall(
     max_count: int = 0,
 ) -> Tuple[T, ...]:
     """
-    Search tree for nodes matching condition (callable function).
+    Search tree for one or more nodes matching condition (callable function).
 
     Examples:
         >>> from bigtree import Node, findall
@@ -60,20 +83,13 @@ def findall(
         (Tuple[BaseNode, ...])
     """
     result = tuple(preorder_iter(tree, filter_condition=condition, max_depth=max_depth))
-    if min_count and len(result) < min_count:
-        raise SearchError(
-            f"Expected more than {min_count} element(s), found {len(result)} elements\n{result}"
-        )
-    if max_count and len(result) > max_count:
-        raise SearchError(
-            f"Expected less than {max_count} element(s), found {len(result)} elements\n{result}"
-        )
+    __check_result_count(result, min_count, max_count)
     return result
 
 
 def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
     """
-    Search tree for *single node* matching condition (callable function).
+    Search tree for a single node matching condition (callable function).
 
     Examples:
         >>> from bigtree import Node, find
@@ -86,7 +102,7 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
         >>> find(root, lambda node: node.age > 5)
         Traceback (most recent call last):
             ...
-        bigtree.utils.exceptions.SearchError: Expected less than 1 element(s), found 4 elements
+        bigtree.utils.exceptions.SearchError: Expected less than or equal to 1 element(s), found 4 elements
         (Node(/a, age=90), Node(/a/b, age=65), Node(/a/c, age=60), Node(/a/c/d, age=40))
 
     Args:
@@ -104,7 +120,7 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
 
 def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT:
     """
-    Search tree for single node matching name attribute.
+    Search tree for a single node matching name attribute.
 
     Examples:
         >>> from bigtree import Node, find_name
@@ -128,7 +144,7 @@ def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT:
 
 def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
     """
-    Search tree for multiple node(s) matching name attribute.
+    Search tree for one or more nodes matching name attribute.
 
     Examples:
         >>> from bigtree import Node, find_names
@@ -152,9 +168,9 @@ def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
     return findall(tree, lambda node: node.node_name == name, max_depth)
 
 
-def find_relative_path(tree: NodeT, path_name: str) -> Iterable[NodeT]:
+def find_relative_path(tree: NodeT, path_name: str) -> NodeT:
     r"""
-    Search tree for single node matching relative path attribute.
+    Search tree for a single node matching relative path attribute.
 
     - Supports unix folder expression for relative path, i.e., '../../node_name'
     - Supports wildcards, i.e., '\*/node_name'
@@ -167,10 +183,13 @@ def find_relative_path(tree: NodeT, path_name: str) -> Iterable[NodeT]:
         >>> c = Node("c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=c)
         >>> find_relative_path(d, "..")
-        (Node(/a/c, age=60),)
+        Node(/a/c, age=60)
         >>> find_relative_path(d, "../../b")
-        (Node(/a/b, age=65),)
+        Node(/a/b, age=65)
         >>> find_relative_path(d, "../../*")
+        Traceback (most recent call last):
+            ...
+        bigtree.utils.exceptions.SearchError: Expected less than or equal to 1 element(s), found 2 elements
         (Node(/a/b, age=65), Node(/a/c, age=60))
 
     Args:
@@ -178,7 +197,50 @@ def find_relative_path(tree: NodeT, path_name: str) -> Iterable[NodeT]:
         path_name (str): value to match (relative path) of path_name attribute
 
     Returns:
-        (Iterable[Node])
+        (Node)
+    """
+    result = find_relative_paths(tree, path_name, max_count=1)
+
+    if result:
+        return result[0]
+
+
+def find_relative_paths(
+    tree: NodeT,
+    path_name: str,
+    min_count: int = 0,
+    max_count: int = 0,
+) -> Tuple[NodeT, ...]:
+    r"""
+    Search tree for one or more nodes matching relative path attribute.
+
+    - Supports unix folder expression for relative path, i.e., '../../node_name'
+    - Supports wildcards, i.e., '\*/node_name'
+    - If path name starts with leading separator symbol, it will start at root node.
+
+    Examples:
+        >>> from bigtree import Node, find_relative_paths
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=c)
+        >>> find_relative_paths(d, "..")
+        (Node(/a/c, age=60),)
+        >>> find_relative_paths(d, "../../b")
+        (Node(/a/b, age=65),)
+        >>> find_relative_paths(d, "../../*")
+        (Node(/a/b, age=65), Node(/a/c, age=60))
+
+    Args:
+        tree (Node): tree to search
+        path_name (str): value to match (relative path) of path_name attribute
+        min_count (int): checks for minimum number of occurrences,
+            raise SearchError if the number of results do not meet min_count, defaults to None
+        max_count (int): checks for maximum number of occurrences,
+            raise SearchError if the number of results do not meet min_count, defaults to None
+
+    Returns:
+        (Tuple[Node, ...])
     """
     sep = tree.sep
     if path_name.startswith(sep):
@@ -220,13 +282,14 @@ def find_relative_path(tree: NodeT, path_name: str) -> Iterable[NodeT]:
                     resolve(node, path_idx + 1)
 
     resolve(tree, 0)
-
-    return tuple(resolved_nodes)
+    result = tuple(resolved_nodes)
+    __check_result_count(result, min_count, max_count)
+    return result
 
 
 def find_full_path(tree: NodeT, path_name: str) -> NodeT:
     """
-    Search tree for single node matching path attribute.
+    Search tree for a single node matching path attribute.
 
     - Path name can be with or without leading tree path separator symbol.
     - Path name must be full path, works similar to `find_path` but faster.
@@ -265,7 +328,7 @@ def find_full_path(tree: NodeT, path_name: str) -> NodeT:
 
 def find_path(tree: NodeT, path_name: str) -> NodeT:
     """
-    Search tree for single node matching path attribute.
+    Search tree for a single node matching path attribute.
 
     - Path name can be with or without leading tree path separator symbol.
     - Path name can be full path or partial path (trailing part of path) or node name.
@@ -292,9 +355,9 @@ def find_path(tree: NodeT, path_name: str) -> NodeT:
     return find(tree, lambda node: node.path_name.endswith(path_name))
 
 
-def find_paths(tree: NodeT, path_name: str) -> Tuple[NodeT, ...]:
+def find_paths(tree: NodeT, path_name: str) -> Iterable[NodeT]:
     """
-    Search tree for multiple nodes matching path attribute.
+    Search tree for one or more nodes matching path attribute.
 
     - Path name can be with or without leading tree path separator symbol.
     - Path name can be partial path (trailing part of path) or node name.
@@ -315,7 +378,7 @@ def find_paths(tree: NodeT, path_name: str) -> Tuple[NodeT, ...]:
         path_name (str): value to match (full path) or trailing part (partial path) of path_name attribute
 
     Returns:
-        (Tuple[Node, ...])
+        (Iterable[Node])
     """
     path_name = path_name.rstrip(tree.sep)
     return findall(tree, lambda node: node.path_name.endswith(path_name))
@@ -325,7 +388,7 @@ def find_attr(
     tree: BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
 ) -> BaseNode:
     """
-    Search tree for single node matching custom attribute.
+    Search tree for a single node matching custom attribute.
 
     Examples:
         >>> from bigtree import Node, find_attr
@@ -354,9 +417,9 @@ def find_attr(
 
 def find_attrs(
     tree: BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
-) -> Tuple[BaseNode, ...]:
+) -> Iterable[BaseNode]:
     """
-    Search tree for node(s) matching custom attribute.
+    Search tree for one or more nodes matching custom attribute.
 
     Examples:
         >>> from bigtree import Node, find_attrs
@@ -374,7 +437,7 @@ def find_attrs(
         max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
 
     Returns:
-        (Tuple[BaseNode, ...])
+        (Iterable[BaseNode])
     """
     return findall(
         tree,
@@ -390,7 +453,7 @@ def find_children(
     max_count: int = 0,
 ) -> Tuple[Union[T, DAGNodeT], ...]:
     """
-    Search children for nodes matching condition (callable function).
+    Search children for one or more nodes matching condition (callable function).
 
     Examples:
         >>> from bigtree import Node, find_children
@@ -410,17 +473,10 @@ def find_children(
             raise SearchError if the number of results do not meet min_count, defaults to None
 
     Returns:
-        (BaseNode/DAGNode)
+        (Tuple[Union[BaseNode, DAGNode], ...])
     """
     result = tuple([node for node in tree.children if node and condition(node)])
-    if min_count and len(result) < min_count:
-        raise SearchError(
-            f"Expected more than {min_count} element(s), found {len(result)} elements\n{result}"
-        )
-    if max_count and len(result) > max_count:
-        raise SearchError(
-            f"Expected less than {max_count} element(s), found {len(result)} elements\n{result}"
-        )
+    __check_result_count(result, min_count, max_count)
     return result
 
 
@@ -429,7 +485,7 @@ def find_child(
     condition: Callable[[Union[T, DAGNodeT]], bool],
 ) -> Union[T, DAGNodeT]:
     """
-    Search children for *single node* matching condition (callable function).
+    Search children for a single node matching condition (callable function).
 
     Examples:
         >>> from bigtree import Node, find_child
@@ -456,7 +512,7 @@ def find_child_by_name(
     tree: Union[NodeT, DAGNodeT], name: str
 ) -> Union[NodeT, DAGNodeT]:
     """
-    Search tree for single node matching name attribute.
+    Search tree for a single node matching name attribute.
 
     Examples:
         >>> from bigtree import Node, find_child_by_name
