@@ -729,7 +729,7 @@ it does not require traversing the whole tree to find the node(s).
     # Node(/a/c/d, age=40)
 
     find_relative_path(c, "../b")  # relative path
-    # (Node(/a/b, age=65),)
+    # Node(/a/b, age=65)
 
     find_path(root, "/c/d")  # partial path
     # Node(/a/c/d, age=40)
@@ -743,7 +743,7 @@ it does not require traversing the whole tree to find the node(s).
 
 === "Find multiple nodes"
     ```python hl_lines="12 15 18 21 24"
-    from bigtree import Node, findall, find_names, find_relative_path, find_paths, find_attrs
+    from bigtree import Node, findall, find_names, find_relative_paths, find_paths, find_attrs
     root = Node("a", age=90)
     b = Node("b", age=65, parent=root)
     c = Node("c", age=60, parent=root)
@@ -760,7 +760,7 @@ it does not require traversing the whole tree to find the node(s).
     find_names(root, "c")
     # (Node(/a/c, age=60), Node(/a/c/c, age=40))
 
-    find_relative_path(c, "../*")  # relative path
+    find_relative_paths(c, "../*")  # relative path
     # (Node(/a/b, age=65), Node(/a/c, age=60))
 
     find_paths(root, "/c")  # partial path
