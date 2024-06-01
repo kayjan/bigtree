@@ -1770,6 +1770,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.search.find_relative_paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;find_relative_paths
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.search.find_full_path" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;find_full_path
@@ -2408,6 +2417,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.search.find_relative_paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;find_relative_paths
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.search.find_full_path" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;find_full_path
@@ -2526,7 +2544,7 @@
 <tr>
 <td>Node path</td>
 <td><code>find_path</code>, <code>find_full_path</code>, <code>find_relative_path</code></td>
-<td><code>find_paths</code>, <code>find_relative_path</code></td>
+<td><code>find_paths</code>, <code>find_relative_paths</code></td>
 </tr>
 <tr>
 <td>Node attributes</td>
@@ -2579,7 +2597,7 @@
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for nodes matching condition (callable function).</p>
+      <p>Search tree for one or more nodes matching condition (callable function).</p>
 
 
 
@@ -2724,7 +2742,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for <em>single node</em> matching condition (callable function).</p>
+      <p>Search tree for a single node matching condition (callable function).</p>
 
 
 
@@ -2739,7 +2757,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">find</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gt">Traceback (most recent call last):</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="o">...</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gr">bigtree.utils.exceptions.SearchError</span>: <span class="n">Expected less than 1 element(s), found 4 elements</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gr">bigtree.utils.exceptions.SearchError</span>: <span class="n">Expected less than or equal to 1 element(s), found 4 elements</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="x">(Node(/a, age=90), Node(/a/b, age=65), Node(/a/c, age=60), Node(/a/c/d, age=40))</span>
 </span></code></pre></div>
 
@@ -2844,7 +2862,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for single node matching name attribute.</p>
+      <p>Search tree for a single node matching name attribute.</p>
 
 
 
@@ -2959,7 +2977,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for multiple node(s) matching name attribute.</p>
+      <p>Search tree for one or more nodes matching name attribute.</p>
 
 
 
@@ -3076,7 +3094,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for single node matching relative path attribute.</p>
+      <p>Search tree for a single node matching relative path attribute.</p>
 <ul>
 <li>Supports unix folder expression for relative path, i.e., '../../node_name'</li>
 <li>Supports wildcards, i.e., '*/node_name'</li>
@@ -3092,11 +3110,14 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">find_relative_path</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">(Node(/a/c, age=60),)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">Node(/a/c, age=60)</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">find_relative_path</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s2">&quot;../../b&quot;</span><span class="p">)</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">(Node(/a/b, age=65),)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">Node(/a/b, age=65)</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">find_relative_path</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s2">&quot;../../*&quot;</span><span class="p">)</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">(Node(/a/b, age=65), Node(/a/c, age=60))</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gt">Traceback (most recent call last):</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="o">...</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="gr">bigtree.utils.exceptions.SearchError</span>: <span class="n">Expected less than or equal to 1 element(s), found 2 elements</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="x">(Node(/a/b, age=65), Node(/a/c, age=60))</span>
 </span></code></pre></div>
 
 
@@ -3156,11 +3177,153 @@ raise SearchError if the number of results do not meet min_count, defaults to No
     <tbody>
         <tr>
           <td>
-                <code><span title="typing.Iterable">Iterable</span>[<span title="bigtree.tree.search.NodeT">NodeT</span>]</code>
+                <code><span title="bigtree.tree.search.NodeT">NodeT</span></code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>(Iterable[Node])</p>
+              <p>(Node)</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="bigtree.tree.search.find_relative_paths" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>          <span class="doc doc-object-name doc-function-name">find_relative_paths</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">find_relative_paths</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">path_name</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_count</span><span class="o">=</span><span class="mi">0</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
+</span></code></pre></div>
+
+  <div class="doc doc-contents ">
+  
+      <p>Search tree for one or more nodes matching relative path attribute.</p>
+<ul>
+<li>Supports unix folder expression for relative path, i.e., '../../node_name'</li>
+<li>Supports wildcards, i.e., '*/node_name'</li>
+<li>If path name starts with leading separator symbol, it will start at root node.</li>
+</ul>
+
+
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">find_relative_paths</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">find_relative_paths</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">(Node(/a/c, age=60),)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">find_relative_paths</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s2">&quot;../../b&quot;</span><span class="p">)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">(Node(/a/b, age=65),)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">find_relative_paths</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s2">&quot;../../*&quot;</span><span class="p">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">(Node(/a/b, age=65), Node(/a/c, age=60))</span>
+</span></code></pre></div>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>tree</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>tree to search</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>path_name</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>value to match (relative path) of path_name attribute</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>min_count</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>checks for minimum number of occurrences,
+raise SearchError if the number of results do not meet min_count, defaults to None</p>
+            </div>
+          </td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>max_count</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>checks for maximum number of occurrences,
+raise SearchError if the number of results do not meet min_count, defaults to None</p>
+            </div>
+          </td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Tuple">Tuple</span>[<span title="bigtree.tree.search.NodeT">NodeT</span>, ...]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>(Tuple[Node, ...])</p>
             </div>
           </td>
         </tr>
@@ -3186,7 +3349,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for single node matching path attribute.</p>
+      <p>Search tree for a single node matching path attribute.</p>
 <ul>
 <li>Path name can be with or without leading tree path separator symbol.</li>
 <li>Path name must be full path, works similar to <code>find_path</code> but faster.</li>
@@ -3291,7 +3454,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for single node matching path attribute.</p>
+      <p>Search tree for a single node matching path attribute.</p>
 <ul>
 <li>Path name can be with or without leading tree path separator symbol.</li>
 <li>Path name can be full path or partial path (trailing part of path) or node name.</li>
@@ -3398,7 +3561,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for multiple nodes matching path attribute.</p>
+      <p>Search tree for one or more nodes matching path attribute.</p>
 <ul>
 <li>Path name can be with or without leading tree path separator symbol.</li>
 <li>Path name can be partial path (trailing part of path) or node name.</li>
@@ -3475,11 +3638,11 @@ raise SearchError if the number of results do not meet min_count, defaults to No
     <tbody>
         <tr>
           <td>
-                <code><span title="typing.Tuple">Tuple</span>[<span title="bigtree.tree.search.NodeT">NodeT</span>, ...]</code>
+                <code><span title="typing.Iterable">Iterable</span>[<span title="bigtree.tree.search.NodeT">NodeT</span>]</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>(Tuple[Node, ...])</p>
+              <p>(Iterable[Node])</p>
             </div>
           </td>
         </tr>
@@ -3505,7 +3668,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for single node matching custom attribute.</p>
+      <p>Search tree for a single node matching custom attribute.</p>
 
 
 
@@ -3634,7 +3797,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for node(s) matching custom attribute.</p>
+      <p>Search tree for one or more nodes matching custom attribute.</p>
 
 
 
@@ -3733,11 +3896,11 @@ raise SearchError if the number of results do not meet min_count, defaults to No
     <tbody>
         <tr>
           <td>
-                <code><span title="typing.Tuple">Tuple</span>[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>, ...]</code>
+                <code><span title="typing.Iterable">Iterable</span>[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>]</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>(Tuple[BaseNode, ...])</p>
+              <p>(Iterable[BaseNode])</p>
             </div>
           </td>
         </tr>
@@ -3763,7 +3926,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search children for nodes matching condition (callable function).</p>
+      <p>Search children for one or more nodes matching condition (callable function).</p>
 
 
 
@@ -3868,7 +4031,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
           </td>
           <td>
             <div class="doc-md-description">
-              <p>(BaseNode/DAGNode)</p>
+              <p>(Tuple[Union[BaseNode, DAGNode], ...])</p>
             </div>
           </td>
         </tr>
@@ -3894,7 +4057,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search children for <em>single node</em> matching condition (callable function).</p>
+      <p>Search children for a single node matching condition (callable function).</p>
 
 
 
@@ -3995,7 +4158,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 
   <div class="doc doc-contents ">
   
-      <p>Search tree for single node matching name attribute.</p>
+      <p>Search tree for a single node matching name attribute.</p>
 
 
 
