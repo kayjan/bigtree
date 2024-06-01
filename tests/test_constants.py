@@ -212,8 +212,12 @@ class Constants:
         "Path {path_name} does not match the root node name {root_name}"
     )
 
-    ERROR_SEARCH_LESS_THAN_N_ELEMENT = "Expected less than {count} element(s), found "
-    ERROR_SEARCH_MORE_THAN_N_ELEMENT = "Expected more than {count} element(s), found "
+    ERROR_SEARCH_LESS_THAN_N_ELEMENT = (
+        "Expected less than or equal to {count} element(s), found "
+    )
+    ERROR_SEARCH_MORE_THAN_N_ELEMENT = (
+        "Expected more than or equal to {count} element(s), found "
+    )
 
     # workflow/todo
     ERROR_WORKFLOW_TODO_TYPE = "Invalid data type for item"

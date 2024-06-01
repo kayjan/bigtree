@@ -63,6 +63,7 @@ from bigtree.tree.search import (
     find_path,
     find_paths,
     find_relative_path,
+    find_relative_paths,
     findall,
 )
 from bigtree.utils.groot import speak_like_groot, whoami
