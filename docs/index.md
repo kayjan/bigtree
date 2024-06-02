@@ -34,7 +34,7 @@ It is pythonic, making it easy to learn and extendable to many types of workflow
     ---
     View demonstration on how to use [`bigtree`](#)
 
-    [:octicons-arrow-right-24: Reference](demo/index.md)
+    [:octicons-arrow-right-24: Reference](demo/tree.md)
 
 - :material-newspaper-variant-outline:{ .lg .middle } __Resources__
 
