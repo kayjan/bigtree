@@ -51,7 +51,6 @@ __all__ = [
     "newick_to_tree",
 ]
 
-
 T = TypeVar("T", bound=Node)
 
 
