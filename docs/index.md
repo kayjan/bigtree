@@ -27,7 +27,7 @@ It is pythonic, making it easy to learn and extendable to many types of workflow
     Install [`bigtree`](#) with `pip` or `conda` and get up
     and running in minutes
 
-    [:octicons-arrow-right-24: Getting started](install.md)
+    [:octicons-arrow-right-24: Getting started](home/install.md)
 
 - :material-map:{ .lg .middle } __Getting started__
 
