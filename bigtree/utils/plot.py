@@ -2,11 +2,11 @@ from typing import Optional, TypeVar
 
 from bigtree.node.basenode import BaseNode
 
-T = TypeVar("T", bound=BaseNode)
-
 __all__ = [
     "reingold_tilford",
 ]
+
+T = TypeVar("T", bound=BaseNode)
 
 
 def reingold_tilford(
