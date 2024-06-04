@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from collections import OrderedDict, defaultdict
-from typing import Any, Dict, List, Optional, Tuple, Type
+from typing import Any, Dict, List, Optional, Tuple, Type, TypeVar
 
 from bigtree.node.node import Node
 from bigtree.tree.search import find_child_by_name, find_name
@@ -51,14 +51,16 @@ __all__ = [
     "newick_to_tree",
 ]
 
+T = TypeVar("T", bound=Node)
+
 
 def add_path_to_tree(
-    tree: Node,
+    tree: T,
     path: str,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_attrs: Dict[str, Any] = {},
-) -> Node:
+) -> T:
     """Add nodes and attributes to existing tree *in-place*, return node of path added.
     Adds to existing tree from list of path strings.
 
@@ -136,11 +138,11 @@ def add_path_to_tree(
 
 
 def add_dict_to_tree_by_path(
-    tree: Node,
+    tree: T,
     path_attrs: Dict[str, Dict[str, Any]],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-) -> Node:
+) -> T:
     """Add nodes and attributes to tree *in-place*, return root of tree.
     Adds to existing tree from nested dictionary, ``key``: path, ``value``: dict of attribute name and attribute value.
 
@@ -208,7 +210,7 @@ def add_dict_to_tree_by_path(
     return root_node
 
 
-def add_dict_to_tree_by_name(tree: Node, name_attrs: Dict[str, Dict[str, Any]]) -> Node:
+def add_dict_to_tree_by_name(tree: T, name_attrs: Dict[str, Dict[str, Any]]) -> T:
     """Add attributes to existing tree *in-place*.
     Adds to existing tree from nested dictionary, ``key``: name, ``value``: dict of attribute name and attribute value.
 
@@ -254,13 +256,13 @@ def add_dict_to_tree_by_name(tree: Node, name_attrs: Dict[str, Dict[str, Any]]) 
 
 
 def add_dataframe_to_tree_by_path(
-    tree: Node,
+    tree: T,
     data: pd.DataFrame,
     path_col: str = "",
     attribute_cols: List[str] = [],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-) -> Node:
+) -> T:
     """Add nodes and attributes to tree *in-place*, return root of tree.
     Adds to existing tree from pandas DataFrame.
 
@@ -350,11 +352,11 @@ def add_dataframe_to_tree_by_path(
 
 
 def add_dataframe_to_tree_by_name(
-    tree: Node,
+    tree: T,
     data: pd.DataFrame,
     name_col: str = "",
     attribute_cols: List[str] = [],
-) -> Node:
+) -> T:
     """Add attributes to existing tree *in-place*.
     Adds to existing tree from pandas DataFrame.
 
@@ -418,13 +420,13 @@ def add_dataframe_to_tree_by_name(
 
 
 def add_polars_to_tree_by_path(
-    tree: Node,
+    tree: T,
     data: pl.DataFrame,
     path_col: str = "",
     attribute_cols: List[str] = [],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-) -> Node:
+) -> T:
     """Add nodes and attributes to tree *in-place*, return root of tree.
     Adds to existing tree from polars DataFrame.
 
@@ -516,11 +518,11 @@ def add_polars_to_tree_by_path(
 
 
 def add_polars_to_tree_by_name(
-    tree: Node,
+    tree: T,
     data: pl.DataFrame,
     name_col: str = "",
     attribute_cols: List[str] = [],
-) -> Node:
+) -> T:
     """Add attributes to existing tree *in-place*.
     Adds to existing tree from polars DataFrame.
 
