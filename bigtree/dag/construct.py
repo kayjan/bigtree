@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple, Type
+from typing import Any, Dict, List, Tuple, Type, TypeVar
 
 from bigtree.node.dagnode import DAGNode
 from bigtree.utils.assertions import (
@@ -20,11 +20,13 @@ except ImportError:  # pragma: no cover
 
 __all__ = ["list_to_dag", "dict_to_dag", "dataframe_to_dag"]
 
+T = TypeVar("T", bound=DAGNode)
+
 
 def list_to_dag(
     relations: List[Tuple[str, str]],
-    node_type: Type[DAGNode] = DAGNode,
-) -> DAGNode:
+    node_type: Type[T] = DAGNode,  # type: ignore[assignment]
+) -> T:
     """Construct DAG from list of tuples containing parent-child names.
     Note that node names must be unique.
 
@@ -44,8 +46,8 @@ def list_to_dag(
     """
     assert_length_not_empty(relations, "Input list", "relations")
 
-    node_dict: Dict[str, DAGNode] = dict()
-    parent_node = DAGNode()
+    node_dict: Dict[str, T] = dict()
+    parent_node: T = DAGNode()  # type: ignore[assignment]
 
     for parent_name, child_name in relations:
         if parent_name not in node_dict:
@@ -67,8 +69,8 @@ def list_to_dag(
 def dict_to_dag(
     relation_attrs: Dict[str, Any],
     parent_key: str = "parents",
-    node_type: Type[DAGNode] = DAGNode,
-) -> DAGNode:
+    node_type: Type[T] = DAGNode,  # type: ignore[assignment]
+) -> T:
     """Construct DAG from nested dictionary, ``key``: child name, ``value``: dictionary of parent names, attribute
     name, and attribute value.
     Note that node names must be unique.
@@ -97,8 +99,8 @@ def dict_to_dag(
     """
     assert_length_not_empty(relation_attrs, "Dictionary", "relation_attrs")
 
-    node_dict: Dict[str, DAGNode] = dict()
-    parent_node: DAGNode | None = None
+    node_dict: Dict[str, T] = dict()
+    parent_node: T | None = None
 
     for child_name, node_attrs in relation_attrs.items():
         node_attrs = node_attrs.copy()
@@ -133,8 +135,8 @@ def dataframe_to_dag(
     child_col: str = "",
     parent_col: str = "",
     attribute_cols: List[str] = [],
-    node_type: Type[DAGNode] = DAGNode,
-) -> DAGNode:
+    node_type: Type[T] = DAGNode,  # type: ignore[assignment]
+) -> T:
     """Construct DAG from pandas DataFrame.
     Note that node names must be unique.
 
@@ -200,8 +202,8 @@ def dataframe_to_dag(
     if sum(data[child_col].isnull()):
         raise ValueError(f"Child name cannot be empty, check column: {child_col}")
 
-    node_dict: Dict[str, DAGNode] = dict()
-    parent_node = DAGNode()
+    node_dict: Dict[str, T] = dict()
+    parent_node: T = DAGNode()  # type: ignore[assignment]
 
     for row in data.reset_index(drop=True).to_dict(orient="index").values():
         child_name = row[child_col]
