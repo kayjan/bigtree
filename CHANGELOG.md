@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Binary Tree Constructor: Type hints to return more generic TypeVar for use with subclasses.
 - DAG Constructor: Type hints to return more generic TypeVar for use with subclasses.
 - [#247] Tree Construct: Type hints to return more generic TypeVar for use with subclasses.
+- Tree Modifier: Type hints to return more generic TypeVar for use with subclasses.
 - Misc: Documentation to include more contribution information and guidelines.
 
 ## [0.18.2] - 2024-06-01

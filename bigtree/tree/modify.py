@@ -1,5 +1,5 @@
 import logging
-from typing import List, Optional
+from typing import List, Optional, TypeVar
 
 from bigtree.node.node import Node
 from bigtree.tree.construct import add_path_to_tree
@@ -18,9 +18,11 @@ __all__ = [
     "replace_logic",
 ]
 
+T = TypeVar("T", bound=Node)
+
 
 def shift_nodes(
-    tree: Node,
+    tree: T,
     from_paths: List[str],
     to_paths: List[str],
     sep: str = "/",
@@ -279,7 +281,7 @@ def shift_nodes(
 
 
 def copy_nodes(
-    tree: Node,
+    tree: T,
     from_paths: List[str],
     to_paths: List[str],
     sep: str = "/",
@@ -537,7 +539,7 @@ def copy_nodes(
 
 
 def shift_and_replace_nodes(
-    tree: Node,
+    tree: T,
     from_paths: List[str],
     to_paths: List[str],
     sep: str = "/",
@@ -635,8 +637,8 @@ def shift_and_replace_nodes(
 
 
 def copy_nodes_from_tree_to_tree(
-    from_tree: Node,
-    to_tree: Node,
+    from_tree: T,
+    to_tree: T,
     from_paths: List[str],
     to_paths: List[str],
     sep: str = "/",
@@ -851,8 +853,8 @@ def copy_nodes_from_tree_to_tree(
 
 
 def copy_and_replace_nodes_from_tree_to_tree(
-    from_tree: Node,
-    to_tree: Node,
+    from_tree: T,
+    to_tree: T,
     from_paths: List[str],
     to_paths: List[str],
     sep: str = "/",
@@ -980,7 +982,7 @@ def copy_and_replace_nodes_from_tree_to_tree(
 
 
 def copy_or_shift_logic(
-    tree: Node,
+    tree: T,
     from_paths: List[str],
     to_paths: List[str],
     sep: str = "/",
@@ -990,7 +992,7 @@ def copy_or_shift_logic(
     merge_children: bool = False,
     merge_leaves: bool = False,
     delete_children: bool = False,
-    to_tree: Optional[Node] = None,
+    to_tree: Optional[T] = None,
     with_full_path: bool = False,
 ) -> None:
     """Shift or copy nodes from `from_paths` to `to_paths` *in-place*.
@@ -1218,14 +1220,14 @@ def copy_or_shift_logic(
 
 
 def replace_logic(
-    tree: Node,
+    tree: T,
     from_paths: List[str],
     to_paths: List[str],
     sep: str = "/",
     copy: bool = False,
     skippable: bool = False,
     delete_children: bool = False,
-    to_tree: Optional[Node] = None,
+    to_tree: Optional[T] = None,
     with_full_path: bool = False,
 ) -> None:
     """Shift or copy nodes from `from_paths` to *replace* `to_paths` *in-place*.
