@@ -6,16 +6,18 @@ nav:
   - Home:
     - index.md
     - home.md
-    - install.md
+    - home/install.md
     - Components:
-      - tree.md
-      - binarytree.md
-      - dag.md
-    - Contributing:
-      - contributing.md
+      - home/tree.md
+      - home/binarytree.md
+      - home/dag.md
+    - Community:
+      - home/community.md
+      - home/contributing.md
+      - home/convention.md
     - Changes:
-      - benchmarks.md
-      - changelog.md
+      - home/benchmarks.md
+      - home/changelog.md
   - Getting Started:
     - Demonstration:
       - demo/tree.md
