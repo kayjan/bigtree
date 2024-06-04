@@ -1483,14 +1483,14 @@ def newick_to_tree(
         """Create node at checkpoint.
 
         Args:
-            _new_node (Optional[T]): existing node (to add length attribute), or nothing (to create a node)
+            _new_node (Optional[Node]): existing node (to add length attribute), or nothing (to create a node)
             _cumulative_string (str): cumulative string, contains either node name or length attribute
             _unlabelled_node_counter (int): number of unlabelled nodes, updates and returns counter
-            _depth_nodes (Dict[int, List[T]]): list of nodes at each depth
+            _depth_nodes (Dict[int, List[Node]]): list of nodes at each depth
             _current_depth (int): depth of current node or node to be created
 
         Returns:
-            (Tuple[T, int])
+            (Tuple[Node, int])
         """
         if not _new_node:
             if not _cumulative_string:
