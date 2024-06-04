@@ -13,7 +13,7 @@ Related Links:
   - [Issues](https://github.com/kayjan/bigtree/issues)
   / [Discussions](https://github.com/kayjan/bigtree/discussions)
   / [Changelog](https://github.com/kayjan/bigtree/blob/master/CHANGELOG.md)
-  / [Contributing](https://bigtree.readthedocs.io/en/stable/contributing/)
+  / [Contributing](https://bigtree.readthedocs.io/en/stable/home/contributing/)
 - Package
   - [PyPI](https://pypi.org/project/bigtree/)
   / [Conda](https://anaconda.org/conda-forge/bigtree)
