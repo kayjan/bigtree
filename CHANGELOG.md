@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed:
+- Tree Construct: Type hints to return more generic TypeVar.
 - Misc: Documentation to include more contribution information and guidelines.
 
 ## [0.18.2] - 2024-06-01
