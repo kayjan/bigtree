@@ -250,6 +250,66 @@ class TestPrintTree:
             Constants.ERROR_NODE_EXPORT_PRINT_INVALID_STYLE
         )
 
+    # custom_style - BasePrintStyle
+    @staticmethod
+    def test_print_tree_style_ansi_class(tree_node):
+        from bigtree.utils.constants import ANSIPrintStyle
+
+        expected_str = (
+            "a\n"
+            "|-- b\n"
+            "|   |-- d\n"
+            "|   `-- e\n"
+            "|       |-- g\n"
+            "|       `-- h\n"
+            "`-- c\n"
+            "    `-- f\n"
+        )
+        assert_print_statement(
+            print_tree,
+            expected_str,
+            tree=tree_node,
+            style="custom",
+            custom_style=ANSIPrintStyle,
+        )
+
+    @staticmethod
+    def test_print_tree_style_ascii_class(tree_node):
+        from bigtree.utils.constants import ASCIIPrintStyle
+
+        expected_str = (
+            "a\n"
+            "|-- b\n"
+            "|   |-- d\n"
+            "|   +-- e\n"
+            "|       |-- g\n"
+            "|       +-- h\n"
+            "+-- c\n"
+            "    +-- f\n"
+        )
+        assert_print_statement(
+            print_tree,
+            expected_str,
+            tree=tree_node,
+            style="custom",
+            custom_style=ASCIIPrintStyle,
+        )
+
+    @staticmethod
+    def test_print_tree_style_class_error(tree_node):
+        from bigtree.utils.constants import BasePrintStyle
+
+        with pytest.raises(ValueError) as exc_info:
+            print_tree(
+                tree_node,
+                style="custom",
+                custom_style=BasePrintStyle("", "", " "),
+            )
+        assert (
+            str(exc_info.value)
+            == Constants.ERROR_NODE_EXPORT_PRINT_CUSTOM_STYLE_DIFFERENT_LENGTH
+        )
+
     # custom_style
     @staticmethod
     def test_print_tree_custom_style(tree_node):
@@ -473,6 +533,7 @@ class TestHPrintTree:
             intermediate_node_name=False,
         )
 
+    # style
     @staticmethod
     def test_hprint_tree_style_ansi(tree_node):
         expected_str = (
@@ -577,6 +638,61 @@ class TestHPrintTree:
             Constants.ERROR_NODE_EXPORT_PRINT_INVALID_STYLE
         )
 
+    # custom_style - BaseHPrintStyle
+    @staticmethod
+    def test_hprint_tree_style_ansi_class(tree_node):
+        from bigtree.utils.constants import ANSIHPrintStyle
+
+        expected_str = (
+            "           /- d\n"
+            "     /- b -+     /- g\n"
+            "- a -+     \\- e -+\n"
+            "     |           \\- h\n"
+            "     \\- c --- f\n"
+        )
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="custom",
+            custom_style=ANSIHPrintStyle,
+        )
+
+    @staticmethod
+    def test_hprint_tree_style_ascii_class(tree_node):
+        from bigtree.utils.constants import ASCIIHPrintStyle
+
+        expected_str = (
+            "           +- d\n"
+            "     +- b -+     +- g\n"
+            "- a -+     +- e -+\n"
+            "     |           +- h\n"
+            "     +- c --- f\n"
+        )
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="custom",
+            custom_style=ASCIIHPrintStyle,
+        )
+
+    @staticmethod
+    def test_hprint_tree_style_class_error(tree_node):
+        from bigtree.utils.constants import BaseHPrintStyle
+
+        with pytest.raises(ValueError) as exc_info:
+            hprint_tree(
+                tree_node,
+                style="custom",
+                custom_style=BaseHPrintStyle("- ", "-", "+", "+", "|", "-", "="),
+            )
+        assert (
+            str(exc_info.value)
+            == Constants.ERROR_NODE_EXPORT_HPRINT_CUSTOM_STYLE_DIFFERENT_LENGTH
+        )
+
+    # custom_style
     @staticmethod
     def test_hprint_tree_custom_style(tree_node):
         expected_str = (

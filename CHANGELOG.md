@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed:
+- Tree Exporter: Print functions to accept custom style that is implemented as dataclass, this is a more
+object-oriented way of parsing arguments. This affects `print_tree`, `yield_tree`, `hprint_tree`, and `hyield_tree`.
 
 ## [0.18.3] - 2024-06-05
 ### Changed:
