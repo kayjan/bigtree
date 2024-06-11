@@ -112,7 +112,7 @@ class BasePrintStyle:
     def __post_init__(self) -> None:
         if not len(self.stem) == len(self.branch) == len(self.stem_final):
             raise ValueError(
-                "`style_stem`, `style_branch`, and `style_stem_final` are of different length"
+                "`stem`, `branch`, and `stem_final` are of different length"
             )
 
 
@@ -152,7 +152,7 @@ class BaseHPrintStyle:
             == len(self.branch)
             == 1
         ):
-            raise ValueError("For custom style, all style icons must have length 1")
+            raise ValueError("All style icons must have length 1")
 
 
 ANSIPrintStyle = BasePrintStyle(*ExportConstants.PRINT_STYLES["ansi"])

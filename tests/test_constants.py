@@ -138,15 +138,17 @@ class Constants:
     ERROR_NODE_EXPORT_PRINT_ATTR_BRACKET = (
         "Expect open and close brackets in `attr_bracket`, received {attr_bracket}"
     )
-    ERROR_NODE_EXPORT_PRINT_STYLE_SELECT = "Custom style selected, please specify the style of stem, branch, and final stem in `custom_style`"
+    ERROR_NODE_EXPORT_PRINT_STYLE_SELECT = (
+        "Please specify the style of stem, branch, and final stem in `style`"
+    )
     ERROR_NODE_EXPORT_HPRINT_STYLE_SELECT = (
-        "Custom style selected, please specify the style of 7 icons in `custom_style`"
+        "Please specify the style of 7 icons in `style`"
     )
     ERROR_NODE_EXPORT_PRINT_CUSTOM_STYLE_DIFFERENT_LENGTH = (
-        "`style_stem`, `style_branch`, and `style_stem_final` are of different length"
+        "`stem`, `branch`, and `stem_final` are of different length"
     )
     ERROR_NODE_EXPORT_HPRINT_CUSTOM_STYLE_DIFFERENT_LENGTH = (
-        "For custom style, all style icons must have length 1"
+        "All style icons must have length 1"
     )
     ERROR_NODE_EXPORT_PRINT_INVALID_PATH = (
         "Node name or path {node_name_or_path} not found"

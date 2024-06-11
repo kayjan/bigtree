@@ -72,8 +72,7 @@ def print_tree(
     attr_list: Iterable[str] = [],
     attr_omit_null: bool = False,
     attr_bracket: List[str] = ["[", "]"],
-    style: str = "const",
-    custom_style: Union[Iterable[str], BasePrintStyle] = [],
+    style: Union[str, Iterable[str], BasePrintStyle] = "const",
 ) -> None:
     """Print tree to console, starting from `tree`.
 
@@ -82,10 +81,10 @@ def print_tree(
     - Able to choose which attributes to show or show all attributes, using `attr_name_filter` and `all_attrs`
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
     - Able to customize open and close brackets if attributes are shown, using `attr_bracket`
-    - Able to customize style, to choose from `ansi`, `ascii`, `const`, `const_bold`, `rounded`, `double`, and `custom` style
-        - Default style is `const` style
-        - If style is set to custom, user can choose their own style for stem, branch and final stem icons
-        - Stem, branch, and final stem symbol should have the same number of characters
+    - Able to customize style, to choose from
+        - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+        - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
+        - (BasePrintStyle): Inherit from BasePrintStyle class
 
     Examples:
         **Printing tree**
@@ -183,15 +182,13 @@ def print_tree(
         attr_list (Iterable[str]): list of node attributes to print, optional
         attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to False
         attr_bracket (List[str]): open and close bracket for `all_attrs` or `attr_list`
-        style (str): style of print, defaults to const style
-        custom_style (Union[Iterable[str], BasePrintStyle]): style of stem, branch and final stem, used when `style` is set to 'custom'
+        style (Union[str, Iterable[str], BasePrintStyle]): style of print, defaults to const
     """
     for pre_str, fill_str, _node in yield_tree(
         tree=tree,
         node_name_or_path=node_name_or_path,
         max_depth=max_depth,
         style=style,
-        custom_style=custom_style,
     ):
         # Get node_str (node name and attributes)
         attr_str = ""
@@ -228,17 +225,16 @@ def yield_tree(
     tree: T,
     node_name_or_path: str = "",
     max_depth: int = 0,
-    style: str = "const",
-    custom_style: Union[Iterable[str], BasePrintStyle] = [],
+    style: Union[str, Iterable[str], BasePrintStyle] = "const",
 ) -> Iterable[Tuple[str, str, T]]:
     """Generator method for customizing printing of tree, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from `ansi`, `ascii`, `const`, `const_bold`, `rounded`, `double`, and `custom` style
-        - Default style is `const` style
-        - If style is set to custom, user can choose their own style for stem, branch and final stem icons
-        - Stem, branch, and final stem symbol should have the same number of characters
+    - Able to customize style, to choose from
+        - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+        - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
+        - (BasePrintStyle): Inherit from BasePrintStyle class
 
     Examples:
         **Yield tree**
@@ -335,30 +331,26 @@ def yield_tree(
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing, optional
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        style (str): style of print, defaults to const
-        custom_style (Union[Iterable[str], BasePrintStyle]): style of stem, branch and final stem, used when `style` is set to 'custom'
+        style (Union[str, Iterable[str], BasePrintStyle]): style of print, defaults to const
     """
     from bigtree.tree.helper import get_subtree
-
-    available_styles = ExportConstants.PRINT_STYLES
-    assert_style_in_dict(style, available_styles)
 
     tree = get_subtree(tree, node_name_or_path, max_depth)
 
     # Set style
-    if style == "custom":
-        if isinstance(custom_style, list) and len(list(custom_style)) != 3:
-            raise ValueError(
-                "Custom style selected, please specify the style of stem, branch, and final stem in `custom_style`"
-            )
-        style_stem, style_branch, style_stem_final = custom_style  # type: ignore[misc]
-    else:
+    if isinstance(style, str):
+        available_styles = ExportConstants.PRINT_STYLES
+        assert_style_in_dict(style, available_styles)
         style_stem, style_branch, style_stem_final = available_styles[style]
+    elif isinstance(style, list) and len(list(style)) != 3:
+        raise ValueError(
+            "Please specify the style of stem, branch, and final stem in `style`"
+        )
+    else:
+        style_stem, style_branch, style_stem_final = style  # type: ignore[misc]
 
     if not len(style_stem) == len(style_branch) == len(style_stem_final):
-        raise ValueError(
-            "`style_stem`, `style_branch`, and `style_stem_final` are of different length"
-        )
+        raise ValueError("`stem`, `branch`, and `stem_final` are of different length")
 
     gap_str = " " * len(style_stem)
     unclosed_depth = set()
@@ -394,17 +386,16 @@ def hprint_tree(
     node_name_or_path: str = "",
     max_depth: int = 0,
     intermediate_node_name: bool = True,
-    style: str = "const",
-    custom_style: Union[Iterable[str], BaseHPrintStyle] = [],
+    style: Union[str, Iterable[str], BaseHPrintStyle] = "const",
 ) -> None:
     """Print tree in horizontal orientation to console, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from `ansi`, `ascii`, `const`, `const_bold`, `rounded`, `double`, and `custom` style
-        - Default style is `const` style
-        - If style is set to custom, user can choose their own style icons
-        - Style icons should have the same number of characters
+    - Able to customize style, to choose from
+        - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+        - (List[str]): Choose own style icons, they must have the same number of characters
+        - (BasePrintStyle): Inherit from BasePrintStyle class
 
     Examples:
         **Printing tree**
@@ -476,8 +467,7 @@ def hprint_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        style (str): style of print, defaults to const style
-        custom_style (Union[Iterable[str], BaseHPrintStyle]): style of icons, used when `style` is set to 'custom'
+        style (Union[str, Iterable[str], BaseHPrintStyle]): style of print, defaults to const
     """
     result = hyield_tree(
         tree,
@@ -485,7 +475,6 @@ def hprint_tree(
         intermediate_node_name=intermediate_node_name,
         max_depth=max_depth,
         style=style,
-        custom_style=custom_style,
     )
     print("\n".join(result))
 
@@ -495,17 +484,16 @@ def hyield_tree(
     node_name_or_path: str = "",
     max_depth: int = 0,
     intermediate_node_name: bool = True,
-    style: str = "const",
-    custom_style: Union[Iterable[str], BaseHPrintStyle] = [],
+    style: Union[str, Iterable[str], BaseHPrintStyle] = "const",
 ) -> List[str]:
     """Yield tree in horizontal orientation to console, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from `ansi`, `ascii`, `const`, `const_bold`, `rounded`, `double`, and `custom` style
-        - Default style is `const` style
-        - If style is set to custom, user can choose their own style icons
-        - Style icons should have the same number of characters
+    - Able to customize style, to choose from
+        - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+        - (List[str]): Choose own style icons, they must have the same number of characters
+        - (BasePrintStyle): Inherit from BasePrintStyle class
 
     Examples:
         **Printing tree**
@@ -578,8 +566,7 @@ def hyield_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        style (str): style of print, defaults to const style
-        custom_style (Union[Iterable[str], BaseHPrintStyle]): style of icons, used when `style` is set to 'custom'
+        style (Union[str, Iterable[str], BaseHPrintStyle]): style of print, defaults to const
 
     Returns:
         (List[str])
@@ -588,27 +575,12 @@ def hyield_tree(
 
     from bigtree.tree.helper import get_subtree
 
-    available_styles = ExportConstants.HPRINT_STYLES
-    assert_style_in_dict(style, available_styles)
-
     tree = get_subtree(tree, node_name_or_path, max_depth)
 
     # Set style
-    if style == "custom":
-        if isinstance(custom_style, list) and len(list(custom_style)) != 7:
-            raise ValueError(
-                "Custom style selected, please specify the style of 7 icons in `custom_style`"
-            )
-        (
-            style_first_child,
-            style_subsequent_child,
-            style_split_branch,
-            style_middle_child,
-            style_last_child,
-            style_stem,
-            style_branch,
-        ) = custom_style  # type: ignore[misc]
-    else:
+    if isinstance(style, str):
+        available_styles = ExportConstants.HPRINT_STYLES
+        assert_style_in_dict(style, available_styles)
         (
             style_first_child,
             style_subsequent_child,
@@ -618,6 +590,19 @@ def hyield_tree(
             style_stem,
             style_branch,
         ) = available_styles[style]
+    elif isinstance(style, list) and len(list(style)) != 7:
+        raise ValueError("Please specify the style of 7 icons in `style`")
+    else:
+        (
+            style_first_child,
+            style_subsequent_child,
+            style_split_branch,
+            style_middle_child,
+            style_last_child,
+            style_stem,
+            style_branch,
+        ) = style  # type: ignore[misc]
+
     if (
         not len(style_first_child)
         == len(style_subsequent_child)
@@ -628,7 +613,7 @@ def hyield_tree(
         == len(style_branch)
         == 1
     ):
-        raise ValueError("For custom style, all style icons must have length 1")
+        raise ValueError("All style icons must have length 1")
 
     # Calculate padding
     space = " "

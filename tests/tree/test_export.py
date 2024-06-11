@@ -269,8 +269,7 @@ class TestPrintTree:
             print_tree,
             expected_str,
             tree=tree_node,
-            style="custom",
-            custom_style=ANSIPrintStyle,
+            style=ANSIPrintStyle,
         )
 
     @staticmethod
@@ -291,8 +290,19 @@ class TestPrintTree:
             print_tree,
             expected_str,
             tree=tree_node,
-            style="custom",
-            custom_style=ASCIIPrintStyle,
+            style=ASCIIPrintStyle,
+        )
+
+    @staticmethod
+    def test_print_tree_style_custom_class(tree_node):
+        from bigtree.utils.constants import BasePrintStyle
+
+        expected_str = "a\nb\nd\ne\ng\nh\nc\nf\n"
+        assert_print_statement(
+            print_tree,
+            expected_str,
+            tree=tree_node,
+            style=BasePrintStyle("", "", ""),
         )
 
     @staticmethod
@@ -302,8 +312,7 @@ class TestPrintTree:
         with pytest.raises(ValueError) as exc_info:
             print_tree(
                 tree_node,
-                style="custom",
-                custom_style=BasePrintStyle("", "", " "),
+                style=BasePrintStyle("", "", " "),
             )
         assert (
             str(exc_info.value)
@@ -318,8 +327,7 @@ class TestPrintTree:
             print_tree,
             expected_str,
             tree=tree_node,
-            style="custom",
-            custom_style=["", "", ""],
+            style=["", "", ""],
         )
 
     @staticmethod
@@ -327,8 +335,7 @@ class TestPrintTree:
         with pytest.raises(ValueError) as exc_info:
             print_tree(
                 tree_node,
-                style="custom",
-                custom_style=["", " ", ""],
+                style=["", " ", ""],
             )
         assert (
             str(exc_info.value)
@@ -340,8 +347,7 @@ class TestPrintTree:
         with pytest.raises(ValueError) as exc_info:
             print_tree(
                 tree_node,
-                style="custom",
-                custom_style=["", ""],
+                style=["", ""],
             )
         assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_PRINT_STYLE_SELECT
 
@@ -654,8 +660,7 @@ class TestHPrintTree:
             hprint_tree,
             expected_str,
             tree=tree_node,
-            style="custom",
-            custom_style=ANSIHPrintStyle,
+            style=ANSIHPrintStyle,
         )
 
     @staticmethod
@@ -673,8 +678,25 @@ class TestHPrintTree:
             hprint_tree,
             expected_str,
             tree=tree_node,
-            style="custom",
-            custom_style=ASCIIHPrintStyle,
+            style=ASCIIHPrintStyle,
+        )
+
+    @staticmethod
+    def test_hprint_tree_style_custom_class(tree_node):
+        from bigtree.utils.constants import BaseHPrintStyle
+
+        expected_str = (
+            "           -= d\n"
+            "     -= b =+     -= g\n"
+            "= a =+     |= e =+\n"
+            "     -           |= h\n"
+            "     |= c === f\n"
+        )
+        assert_print_statement(
+            hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style=BaseHPrintStyle("-", "-", "+", "+", "|", "-", "="),
         )
 
     @staticmethod
@@ -684,8 +706,7 @@ class TestHPrintTree:
         with pytest.raises(ValueError) as exc_info:
             hprint_tree(
                 tree_node,
-                style="custom",
-                custom_style=BaseHPrintStyle("- ", "-", "+", "+", "|", "-", "="),
+                style=BaseHPrintStyle("- ", "-", "+", "+", "|", "-", "="),
             )
         assert (
             str(exc_info.value)
@@ -706,8 +727,7 @@ class TestHPrintTree:
             hprint_tree,
             expected_str,
             tree=tree_node,
-            style="custom",
-            custom_style=["-", "-", "+", "+", "|", "-", "="],
+            style=["-", "-", "+", "+", "|", "-", "="],
         )
 
     @staticmethod
@@ -715,8 +735,7 @@ class TestHPrintTree:
         with pytest.raises(ValueError) as exc_info:
             hprint_tree(
                 tree_node,
-                style="custom",
-                custom_style=["- ", "-", "+", "+", "|", "-", "="],
+                style=["- ", "-", "+", "+", "|", "-", "="],
             )
         assert (
             str(exc_info.value)
@@ -726,9 +745,7 @@ class TestHPrintTree:
     @staticmethod
     def test_hprint_tree_custom_style_missing_style_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            hprint_tree(
-                tree_node, style="custom", custom_style=["-", "+", "+", "|", "-", "="]
-            )
+            hprint_tree(tree_node, style=["-", "+", "+", "|", "-", "="])
         assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_HPRINT_STYLE_SELECT
 
 
