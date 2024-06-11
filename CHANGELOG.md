@@ -11,6 +11,7 @@ object-oriented way of parsing arguments.
 This affects functions `print_tree`, `yield_tree`, `hprint_tree`, and `hyield_tree`.
 The argument `custom_style` is deprecated, and argument `style` is used instead.
 **This might not be backwards-compatible!**
+- Misc: Updated docstrings to be more comprehensive for tree constructor and tree exporter.
 
 ## [0.18.3] - 2024-06-05
 ### Changed:
