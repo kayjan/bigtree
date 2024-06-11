@@ -178,6 +178,16 @@ def print_tree(
         ║   ╚══ e
         ╚══ c
 
+        **Custom Styles**
+
+        >>> from bigtree import ANSIPrintStyle
+        >>> print_tree(root, style=ANSIPrintStyle)
+        a
+        |-- b
+        |   |-- d
+        |   `-- e
+        `-- c
+
     Args:
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing
@@ -324,6 +334,17 @@ def yield_tree(
         ║   ╠══ d
         ║   ╚══ e
         ╚══ c
+
+        **Custom Styles**
+
+        >>> from bigtree import ANSIPrintStyle
+        >>> for branch, stem, node in yield_tree(root, style=ANSIPrintStyle):
+        ...     print(f"{branch}{stem}{node.node_name}")
+        a
+        |-- b
+        |   |-- d
+        |   `-- e
+        `-- c
 
         **Printing Attributes**
 
@@ -474,6 +495,15 @@ def hprint_tree(
         ═ a ═╣     ╚═ e
              ╚═ c
 
+        **Custom Styles**
+
+        >>> from bigtree import ANSIHPrintStyle
+        >>> hprint_tree(root, style=ANSIHPrintStyle)
+                   /- d
+             /- b -+
+        - a -+     \\- e
+             \\- c
+
     Args:
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing
@@ -576,6 +606,15 @@ def hyield_tree(
              ╔═ b ═╣
         ═ a ═╣     ╚═ e
              ╚═ c
+
+        **Custom Styles**
+
+        >>> from bigtree import ANSIHPrintStyle
+        >>> hprint_tree(root, style=ANSIHPrintStyle)
+                   /- d
+             /- b -+
+        - a -+     \\- e
+             \\- c
 
     Args:
         tree (Node): tree to print
