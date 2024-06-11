@@ -1719,15 +1719,15 @@ def tree_to_newick(
 
     In the Newick Notation (or New Hampshire Notation),
       - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`.
-      - If there are nested tree, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
+      - If there are nested trees, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
       - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`.
       - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`.
 
     Customizations include:
       - Omitting names of root and intermediate nodes, default all node names are shown.
-      - Changing length separator to other symbol, default is `:`.
+      - Changing length separator to another symbol, default is `:`.
       - Adding an attribute prefix, default is `&&NHX:`.
-      - Changing the attribute separator to other symbol, default is `:`.
+      - Changing the attribute separator to another symbol, default is `:`.
 
     Examples:
         >>> from bigtree import Node, tree_to_newick

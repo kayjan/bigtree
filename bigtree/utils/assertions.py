@@ -43,9 +43,9 @@ def assert_style_in_dict(
         parameter (Any): argument input for parameter
         accepted_parameters (List[Any]): list of accepted parameters
     """
-    if parameter not in accepted_parameters and parameter != "custom":
+    if parameter not in accepted_parameters:
         raise ValueError(
-            f"Choose one of {accepted_parameters.keys()} style, use `custom` to define own style"
+            f"Choose one of {accepted_parameters.keys()} style, alternatively you can define own style"
         )
 
 
