@@ -87,8 +87,8 @@ def print_tree(
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
-    - (BasePrintStyle): ANSIPrintStyle, ASCIIPrintStyle, ConstPrintStyle, ConstBoldPrintStyle, RoundedPrintStyle,
-    DoublePrintStyle style or inherit from BasePrintStyle
+    - (BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
+    `DoublePrintStyle` style or inherit from `BasePrintStyle`
 
     Examples:
         **Printing tree**
@@ -251,8 +251,8 @@ def yield_tree(
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
-    - (BasePrintStyle): ANSIPrintStyle, ASCIIPrintStyle, ConstPrintStyle, ConstBoldPrintStyle, RoundedPrintStyle,
-    DoublePrintStyle style or inherit from BasePrintStyle
+    - (BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
+    `DoublePrintStyle` style or inherit from `BasePrintStyle`
 
     Examples:
         **Yield tree**
@@ -427,8 +427,8 @@ def hprint_tree(
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style icons, they must have the same number of characters
-    - (BaseHPrintStyle): ANSIHPrintStyle, ASCIIHPrintStyle, ConstHPrintStyle, ConstBoldHPrintStyle, RoundedHPrintStyle,
-    DoubleHPrintStyle style or inherit from BaseHPrintStyle
+    - (BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
+    `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from BaseHPrintStyle
 
     Examples:
         **Printing tree**
@@ -538,8 +538,8 @@ def hyield_tree(
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style icons, they must have the same number of characters
-    - (BaseHPrintStyle): ANSIHPrintStyle, ASCIIHPrintStyle, ConstHPrintStyle, ConstBoldHPrintStyle, RoundedHPrintStyle,
-    DoubleHPrintStyle style or inherit from BaseHPrintStyle
+    - (BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
+    `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from BaseHPrintStyle
 
     Examples:
         **Printing tree**
