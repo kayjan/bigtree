@@ -81,10 +81,14 @@ def print_tree(
     - Able to choose which attributes to show or show all attributes, using `attr_name_filter` and `all_attrs`
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
     - Able to customize open and close brackets if attributes are shown, using `attr_bracket`
-    - Able to customize style, to choose from
-        - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
-        - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
-        - (BasePrintStyle): Inherit from BasePrintStyle class
+    - Able to customize style, to choose from str, List[str], or inherit from BasePrintStyle, using `style`
+
+    For style,
+
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
+    - (BasePrintStyle): ANSIPrintStyle, ASCIIPrintStyle, ConstPrintStyle, ConstBoldPrintStyle, RoundedPrintStyle,
+    DoublePrintStyle style or inherit from BasePrintStyle
 
     Examples:
         **Printing tree**
@@ -231,10 +235,14 @@ def yield_tree(
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from
-        - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
-        - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
-        - (BasePrintStyle): Inherit from BasePrintStyle class
+    - Able to customize style, to choose from str, List[str], or inherit from BasePrintStyle, using `style`
+
+    For style,
+
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
+    - (BasePrintStyle): ANSIPrintStyle, ASCIIPrintStyle, ConstPrintStyle, ConstBoldPrintStyle, RoundedPrintStyle,
+    DoublePrintStyle style or inherit from BasePrintStyle
 
     Examples:
         **Yield tree**
@@ -392,10 +400,14 @@ def hprint_tree(
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from
-        - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
-        - (List[str]): Choose own style icons, they must have the same number of characters
-        - (BasePrintStyle): Inherit from BasePrintStyle class
+    - Able to customize style, to choose from str, List[str], or inherit from BaseHPrintStyle, using `style`
+
+    For style,
+
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (List[str]): Choose own style icons, they must have the same number of characters
+    - (BaseHPrintStyle): ANSIHPrintStyle, ASCIIHPrintStyle, ConstHPrintStyle, ConstBoldHPrintStyle, RoundedHPrintStyle,
+    DoubleHPrintStyle style or inherit from BaseHPrintStyle
 
     Examples:
         **Printing tree**
@@ -490,10 +502,14 @@ def hyield_tree(
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from
-        - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
-        - (List[str]): Choose own style icons, they must have the same number of characters
-        - (BasePrintStyle): Inherit from BasePrintStyle class
+    - Able to customize style, to choose from str, List[str], or inherit from BaseHPrintStyle, using `style`
+
+    For style,
+
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (List[str]): Choose own style icons, they must have the same number of characters
+    - (BaseHPrintStyle): ANSIHPrintStyle, ASCIIHPrintStyle, ConstHPrintStyle, ConstBoldHPrintStyle, RoundedHPrintStyle,
+    DoubleHPrintStyle style or inherit from BaseHPrintStyle
 
     Examples:
         **Printing tree**
