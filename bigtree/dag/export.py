@@ -240,23 +240,10 @@ def dag_to_dot(
         (pydot.Dot)
     """
     # Get style
-    if bg_colour:
-        graph_style = dict(bgcolor=bg_colour)
-    else:
-        graph_style = dict()
-
-    if node_colour:
-        node_style = dict(style="filled", fillcolor=node_colour)
-    else:
-        node_style = dict()
-
-    if node_shape:
-        node_style["shape"] = node_shape
-
-    if edge_colour:
-        edge_style = dict(color=edge_colour)
-    else:
-        edge_style = dict()
+    graph_style = dict(bgcolor=bg_colour) if bg_colour else {}
+    node_style = dict(style="filled", fillcolor=node_colour) if node_colour else {}
+    node_style.update({"shape": node_shape} if node_shape else {})
+    edge_style = dict(color=edge_colour) if edge_colour else {}
 
     _graph = pydot.Dot(
         graph_type="digraph", strict=True, rankdir=rankdir, **graph_style

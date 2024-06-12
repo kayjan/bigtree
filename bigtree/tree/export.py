@@ -1251,11 +1251,10 @@ def tree_to_dot(
         (pydot.Dot)
     """
     # Get style
-    graph_style = dict(bgcolor=bg_colour) if bg_colour else dict()
-    node_style = dict(style="filled", fillcolor=node_colour) if node_colour else dict()
-    if node_shape:
-        node_style["shape"] = node_shape
-    edge_style = dict(color=edge_colour) if edge_colour else dict()
+    graph_style = dict(bgcolor=bg_colour) if bg_colour else {}
+    node_style = dict(style="filled", fillcolor=node_colour) if node_colour else {}
+    node_style.update({"shape": node_shape} if node_shape else {})
+    edge_style = dict(color=edge_colour) if edge_colour else {}
 
     tree = tree.copy()
     _graph = (
@@ -1785,7 +1784,7 @@ def tree_to_newick(
         return item
 
     node_name_str = ""
-    if (intermediate_node_name) or (not intermediate_node_name and tree.is_leaf):
+    if intermediate_node_name or (not intermediate_node_name and tree.is_leaf):
         node_name_str = _serialize(tree.node_name)
     if length_attr and not tree.is_root:
         if not tree.get_attr(length_attr):
