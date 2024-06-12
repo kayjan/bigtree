@@ -1785,7 +1785,7 @@ def tree_to_newick(
         return item
 
     node_name_str = ""
-    if (intermediate_node_name) or (not intermediate_node_name and tree.is_leaf):
+    if intermediate_node_name or (not intermediate_node_name and tree.is_leaf):
         node_name_str = _serialize(tree.node_name)
     if length_attr and not tree.is_root:
         if not tree.get_attr(length_attr):
