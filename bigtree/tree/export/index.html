@@ -2749,8 +2749,7 @@
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">attr_omit_null</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">attr_bracket</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">],</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">custom_style</span><span class="o">=</span><span class="p">[],</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2762,10 +2761,14 @@
 <li>Able to choose which attributes to show or show all attributes, using <code>attr_name_filter</code> and <code>all_attrs</code></li>
 <li>Able to omit showing of attributes if it is null, using <code>attr_omit_null</code></li>
 <li>Able to customize open and close brackets if attributes are shown, using <code>attr_bracket</code></li>
-<li>Able to customize style, to choose from <code>ansi</code>, <code>ascii</code>, <code>const</code>, <code>const_bold</code>, <code>rounded</code>, <code>double</code>, and <code>custom</code> style
-    - Default style is <code>const</code> style
-    - If style is set to custom, user can choose their own style for stem, branch and final stem icons
-    - Stem, branch, and final stem symbol should have the same number of characters</li>
+<li>Able to customize style, to choose from str, List[str], or inherit from BasePrintStyle, using <code>style</code></li>
+</ul>
+<p>For style,</p>
+<ul>
+<li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
+<li>(List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters</li>
+<li>(BasePrintStyle): <code>ANSIPrintStyle</code>, <code>ASCIIPrintStyle</code>, <code>ConstPrintStyle</code>, <code>ConstBoldPrintStyle</code>, <code>RoundedPrintStyle</code>,
+<code>DoublePrintStyle</code> style or inherit from <code>BasePrintStyle</code></li>
 </ul>
 
 
@@ -2853,6 +2856,15 @@
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">║   ╠══ d</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">║   ╚══ e</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">╚══ c</span>
+</span></code></pre></div>
+    <p><strong>Custom Styles</strong></p>
+    <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">ANSIPrintStyle</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ANSIPrintStyle</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">a</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">|-- b</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">|   |-- d</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">|   `-- e</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">`-- c</span>
 </span></code></pre></div>
 
 
@@ -2969,29 +2981,15 @@
         <tr>
           <td><code>style</code></td>
           <td>
-                <code>str</code>
+                <code><span title="typing.Union">Union</span>[str, <span title="typing.Iterable">Iterable</span>[str], <span title="bigtree.utils.constants.BasePrintStyle">BasePrintStyle</span>]</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>style of print, defaults to const style</p>
+              <p>style of print, defaults to const</p>
             </div>
           </td>
           <td>
                 <code>&#39;const&#39;</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>custom_style</code></td>
-          <td>
-                <code><span title="typing.Iterable">Iterable</span>[str]</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>style of stem, branch and final stem, used when <code>style</code> is set to 'custom'</p>
-            </div>
-          </td>
-          <td>
-                <code>[]</code>
           </td>
         </tr>
     </tbody>
@@ -3012,12 +3010,8 @@
 
 </h3>
 <div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">yield_tree</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">custom_style</span><span class="o">=</span><span class="p">[],</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -3026,10 +3020,14 @@
 <ul>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
-<li>Able to customize style, to choose from <code>ansi</code>, <code>ascii</code>, <code>const</code>, <code>const_bold</code>, <code>rounded</code>, <code>double</code>, and <code>custom</code> style
-    - Default style is <code>const</code> style
-    - If style is set to custom, user can choose their own style for stem, branch and final stem icons
-    - Stem, branch, and final stem symbol should have the same number of characters</li>
+<li>Able to customize style, to choose from str, List[str], or inherit from BasePrintStyle, using <code>style</code></li>
+</ul>
+<p>For style,</p>
+<ul>
+<li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
+<li>(List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters</li>
+<li>(BasePrintStyle): <code>ANSIPrintStyle</code>, <code>ASCIIPrintStyle</code>, <code>ConstPrintStyle</code>, <code>ConstBoldPrintStyle</code>, <code>RoundedPrintStyle</code>,
+<code>DoublePrintStyle</code> style or inherit from <code>BasePrintStyle</code></li>
 </ul>
 
 
@@ -3112,6 +3110,16 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">║   ╚══ e</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">╚══ c</span>
 </span></code></pre></div>
+    <p><strong>Custom Styles</strong></p>
+    <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">ANSIPrintStyle</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ANSIPrintStyle</span><span class="p">):</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">a</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">|-- b</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">|   |-- d</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">|   `-- e</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">`-- c</span>
+</span></code></pre></div>
     <p><strong>Printing Attributes</strong></p>
     <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">branch</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">yield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">):</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">branch</span><span class="si">}{</span><span class="n">stem</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">node_name</span><span class="si">}</span><span class="s2"> [age=</span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">age</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
@@ -3180,7 +3188,7 @@
         <tr>
           <td><code>style</code></td>
           <td>
-                <code>str</code>
+                <code><span title="typing.Union">Union</span>[str, <span title="typing.Iterable">Iterable</span>[str], <span title="bigtree.utils.constants.BasePrintStyle">BasePrintStyle</span>]</code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -3189,20 +3197,6 @@
           </td>
           <td>
                 <code>&#39;const&#39;</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>custom_style</code></td>
-          <td>
-                <code><span title="typing.Iterable">Iterable</span>[str]</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>style of stem, branch and final stem, used when <code>style</code> is set to 'custom'</p>
-            </div>
-          </td>
-          <td>
-                <code>[]</code>
           </td>
         </tr>
     </tbody>
@@ -3228,8 +3222,7 @@
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">custom_style</span><span class="o">=</span><span class="p">[],</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -3238,10 +3231,14 @@
 <ul>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
-<li>Able to customize style, to choose from <code>ansi</code>, <code>ascii</code>, <code>const</code>, <code>const_bold</code>, <code>rounded</code>, <code>double</code>, and <code>custom</code> style
-    - Default style is <code>const</code> style
-    - If style is set to custom, user can choose their own style icons
-    - Style icons should have the same number of characters</li>
+<li>Able to customize style, to choose from str, List[str], or inherit from BaseHPrintStyle, using <code>style</code></li>
+</ul>
+<p>For style,</p>
+<ul>
+<li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
+<li>(List[str]): Choose own style icons, they must have the same number of characters</li>
+<li>(BaseHPrintStyle): <code>ANSIHPrintStyle</code>, <code>ASCIIHPrintStyle</code>, <code>ConstHPrintStyle</code>, <code>ConstBoldHPrintStyle</code>,
+<code>RoundedHPrintStyle</code>, <code>DoubleHPrintStyle</code> style or inherit from BaseHPrintStyle</li>
 </ul>
 
 
@@ -3307,6 +3304,14 @@
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">     ╔═ b ═╣</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">═ a ═╣     ╚═ e</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     ╚═ c</span>
+</span></code></pre></div>
+    <p><strong>Custom Styles</strong></p>
+    <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">ANSIHPrintStyle</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ANSIHPrintStyle</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">           /- d</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">     /- b -+</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">- a -+     \- e</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     \- c</span>
 </span></code></pre></div>
 
 
@@ -3381,29 +3386,15 @@
         <tr>
           <td><code>style</code></td>
           <td>
-                <code>str</code>
+                <code><span title="typing.Union">Union</span>[str, <span title="typing.Iterable">Iterable</span>[str], <span title="bigtree.utils.constants.BaseHPrintStyle">BaseHPrintStyle</span>]</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>style of print, defaults to const style</p>
+              <p>style of print, defaults to const</p>
             </div>
           </td>
           <td>
                 <code>&#39;const&#39;</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>custom_style</code></td>
-          <td>
-                <code><span title="typing.Iterable">Iterable</span>[str]</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>style of icons, used when <code>style</code> is set to 'custom'</p>
-            </div>
-          </td>
-          <td>
-                <code>[]</code>
           </td>
         </tr>
     </tbody>
@@ -3429,8 +3420,7 @@
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">custom_style</span><span class="o">=</span><span class="p">[],</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -3439,10 +3429,14 @@
 <ul>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
-<li>Able to customize style, to choose from <code>ansi</code>, <code>ascii</code>, <code>const</code>, <code>const_bold</code>, <code>rounded</code>, <code>double</code>, and <code>custom</code> style
-    - Default style is <code>const</code> style
-    - If style is set to custom, user can choose their own style icons
-    - Style icons should have the same number of characters</li>
+<li>Able to customize style, to choose from str, List[str], or inherit from BaseHPrintStyle, using <code>style</code></li>
+</ul>
+<p>For style,</p>
+<ul>
+<li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
+<li>(List[str]): Choose own style icons, they must have the same number of characters</li>
+<li>(BaseHPrintStyle): <code>ANSIHPrintStyle</code>, <code>ASCIIHPrintStyle</code>, <code>ConstHPrintStyle</code>, <code>ConstBoldHPrintStyle</code>,
+<code>RoundedHPrintStyle</code>, <code>DoubleHPrintStyle</code> style or inherit from BaseHPrintStyle</li>
 </ul>
 
 
@@ -3510,6 +3504,14 @@
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">═ a ═╣     ╚═ e</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     ╚═ c</span>
 </span></code></pre></div>
+    <p><strong>Custom Styles</strong></p>
+    <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">ANSIHPrintStyle</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ANSIHPrintStyle</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">           /- d</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">     /- b -+</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">- a -+     \- e</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     \- c</span>
+</span></code></pre></div>
 
 
 
@@ -3583,29 +3585,15 @@
         <tr>
           <td><code>style</code></td>
           <td>
-                <code>str</code>
+                <code><span title="typing.Union">Union</span>[str, <span title="typing.Iterable">Iterable</span>[str], <span title="bigtree.utils.constants.BaseHPrintStyle">BaseHPrintStyle</span>]</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>style of print, defaults to const style</p>
+              <p>style of print, defaults to const</p>
             </div>
           </td>
           <td>
                 <code>&#39;const&#39;</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>custom_style</code></td>
-          <td>
-                <code><span title="typing.Iterable">Iterable</span>[str]</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>style of icons, used when <code>style</code> is set to 'custom'</p>
-            </div>
-          </td>
-          <td>
-                <code>[]</code>
           </td>
         </tr>
     </tbody>
@@ -5366,7 +5354,7 @@ This overrides <code>node_colour</code>, <code>node_border_colour</code>, and <c
       <p>Export tree to Newick notation. Useful for describing phylogenetic tree.</p>
 <p>In the Newick Notation (or New Hampshire Notation),
   - Tree is represented in round brackets i.e., <code>(child1,child2,child3)parent</code>.
-  - If there are nested tree, they will be in nested round brackets i.e., <code>((grandchild1)child1,(grandchild2,grandchild3)child2)parent</code>.
+  - If there are nested trees, they will be in nested round brackets i.e., <code>((grandchild1)child1,(grandchild2,grandchild3)child2)parent</code>.
   - If there is length attribute, they will be beside the name i.e., <code>(child1:0.5,child2:0.1)parent</code>.
   - If there are other attributes, attributes are represented in square brackets i.e., <code>(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]</code>.</p>
 
@@ -5374,9 +5362,9 @@ This overrides <code>node_colour</code>, <code>node_border_colour</code>, and <c
   <summary>Customizations include</summary>
   <ul>
 <li>Omitting names of root and intermediate nodes, default all node names are shown.</li>
-<li>Changing length separator to other symbol, default is <code>:</code>.</li>
+<li>Changing length separator to another symbol, default is <code>:</code>.</li>
 <li>Adding an attribute prefix, default is <code>&amp;&amp;NHX:</code>.</li>
-<li>Changing the attribute separator to other symbol, default is <code>:</code>.</li>
+<li>Changing the attribute separator to another symbol, default is <code>:</code>.</li>
 </ul>
 </details>
 
