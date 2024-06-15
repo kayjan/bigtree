@@ -80,10 +80,10 @@ html_theme_options = {
     "localtoc_label_text": "Contents",
     "nav_next_text": "Next",
     "nav_previous_text": "Previous",
-    "version_info": {
-        version: f"https://bigtree.readthedocs.io/en/{version}"
-        for version in bigtree.sphinx_versions
-    },
+    # "version_info": {
+    #     version: f"https://bigtree.readthedocs.io/en/{version}"
+    #     for version in bigtree.sphinx_versions
+    # },
 }
 
 html_static_path = ["_static"]
