@@ -7,13 +7,16 @@ hide:
 
 # 🌳 Documentation
 
-[![python-version](https://badge.fury.io/py/bigtree.svg "python-version")](https://badge.fury.io/py/bigtree)
-[![python-compatibility](https://img.shields.io/pypi/pyversions/bigtree.svg "python-compatibility")](https://pypi.python.org/pypi/bigtree)
-[![Documentation Status](https://readthedocs.org/projects/bigtree/badge/?version=latest "Documentation Status")](https://bigtree.readthedocs.io/en/latest/?badge=latest)
+[![pypi-python-version](https://badge.fury.io/py/bigtree.svg "pypi-python-version")](https://badge.fury.io/py/bigtree/)
+[![conda-python-version](https://anaconda.org/conda-forge/bigtree/badges/version.svg "conda-python-version")](https://anaconda.org/conda-forge/bigtree)
+[![documentation-status](https://readthedocs.org/projects/bigtree/badge/?version=latest "documentation-status")](https://bigtree.readthedocs.io/en/latest/?badge=latest)
 [![code-coverage](https://codecov.io/github/kayjan/bigtree/branch/master/graph/badge.svg?token=O5gyTsGIiw "code-coverage")](https://codecov.io/gh/kayjan/bigtree)
-[![github-workflows](https://github.com/kayjan/bigtree/actions/workflows/pytest.yml/badge.svg "github-workflows")](https://github.com/kayjan/bigtree/actions/workflows/pytest.yml)
-![license](https://img.shields.io/static/v1?label=license&message=MIT&color=blue "license")
-![black](https://img.shields.io/static/v1?label=style&message=black&color=black "black")
+[![pytest-github-workflows](https://github.com/kayjan/bigtree/actions/workflows/pytest.yml/badge.svg "pytest-github-workflows")](https://github.com/kayjan/bigtree/actions/workflows/pytest.yml)
+
+[![python-compatibility](https://img.shields.io/pypi/pyversions/bigtree.svg "python-compatibility")](https://pypi.python.org/pypi/bigtree)
+[![package-downloads](https://static.pepy.tech/badge/bigtree "package-downloads")](https://pepy.tech/project/bigtree)
+[![license](https://img.shields.io/static/v1?label=license&message=MIT&color=blue "license")](#)
+[![style](https://img.shields.io/static/v1?label=style&message=black&color=black "style")](#)
 
 Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame.
 
