@@ -19,13 +19,15 @@ nav:
       - home/benchmarks.md
       - home/changelog.md
   - Getting Started:
+    - Glossary:
+      - gettingstarted/glossary/glossary.md
     - Demonstration:
-      - demo/tree.md
-      - demo/binarytree.md
-      - demo/dag.md
-      - demo/workflow.md
+      - gettingstarted/demo/tree.md
+      - gettingstarted/demo/binarytree.md
+      - gettingstarted/demo/dag.md
+      - gettingstarted/demo/workflow.md
     - Resources:
-      - resources/articles.md
+      - gettingstarted/resources/articles.md
   - Code Documentation:
     - Node:
         - bigtree/node/index.md
@@ -96,7 +98,7 @@ theme:
     - content.tooltips
 
 plugins:
-  - glightbox
+  - glightbox  # expand images
   - search
   - social:
       cards_layout_options:
@@ -137,25 +139,25 @@ extra:
     provider: mike
 
 markdown_extensions:
-  - admonition
-  - attr_list
-  - md_in_html
-  - mdx_truly_sane_lists
+  - admonition             # !!! note
+  - attr_list              # default
+  - md_in_html             # default
+  - mdx_truly_sane_lists   # nested bullet points
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - pymdownx.highlight:
+  - pymdownx.highlight:    # code snippet highlight
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.superfences:
+  - pymdownx.inlinehilite  # code snippet highlight
+  - pymdownx.snippets      # code snippet highlight
+  - pymdownx.superfences:  # default
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
-  - pymdownx.tabbed:
+  - pymdownx.tabbed:       # code snippet with tabs
       alternate_style: true
 
 extra_css:

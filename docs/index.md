@@ -37,14 +37,14 @@ It is pythonic, making it easy to learn and extendable to many types of workflow
     ---
     View demonstration on how to use [`bigtree`](#)
 
-    [:octicons-arrow-right-24: Reference](demo/tree.md)
+    [:octicons-arrow-right-24: Reference](gettingstarted/demo/tree.md)
 
 - :material-newspaper-variant-outline:{ .lg .middle } __Resources__
 
     ---
     Articles relating to trees and [`bigtree`](#)
 
-    [:octicons-arrow-right-24: View articles](resources/articles.md)
+    [:octicons-arrow-right-24: View articles](gettingstarted/resources/articles.md)
 
 - :material-heart-outline:{ .lg .middle } __Support bigtree__
 
