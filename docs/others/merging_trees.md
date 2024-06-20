@@ -6,30 +6,22 @@ In this example, we are merging two trees that have similar node `Pictures`.
 Children of node `Pictures` from both trees are retained as long as `merge_children=True` is set.
 If only children of the other tree are desired, set `overriding=True` instead.
 
-```python hl_lines="26-32"
-from bigtree import Node, copy_nodes_from_tree_to_tree
+```python hl_lines="18-24"
+from bigtree import copy_nodes_from_tree_to_tree, str_to_tree
 
 # Construct trees
-downloads_folder = Node("Downloads")
-pictures_folder = Node("Pictures", parent=downloads_folder)
-photo1 = Node("photo1.jpg", parent=pictures_folder)
-file1 = Node("file1.doc", parent=downloads_folder)
+downloads_folder = str_to_tree("""
+Downloads
+├── Pictures
+│   └── photo1.jpg
+└── file1.doc
+""")
 
-documents_folder = Node("Documents")
-pictures_folder = Node("Pictures", parent=documents_folder)
-photo2 = Node("photo2.jpg", parent=pictures_folder)
-
-# Validate tree structure
-downloads_folder.show()
-# Downloads
-# ├── Pictures
-# │   └── photo1.jpg
-# └── file1.doc
-
-documents_folder.show()
-# Documents
-# └── Pictures
-#     └── photo2.jpg
+documents_folder = str_to_tree("""
+Documents
+└── Pictures
+    └── photo2.jpg
+""")
 
 # Merge trees
 copy_nodes_from_tree_to_tree(

@@ -83,7 +83,7 @@ Nodes can be linked to each other in the following ways:
     b.append(d)
     ```
 
-![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/tree.png)
+![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/tree.png "Sample Tree Output")
 
 ### 2. From str
 
@@ -216,12 +216,12 @@ names and `value` is node attribute values, and list of children (recursive).
     # └── c [age=60]
     ```
 
-### 5. From pandas DataFrame
+### 5. From pandas/polars DataFrame
 
-Construct nodes with attributes. *Pandas DataFrame* can contain either <mark>path column</mark> or
+Construct nodes with attributes. *DataFrame* can contain either <mark>path column</mark> or
 <mark>parent-child columns</mark>. Other columns can be used to specify attributes.
 
-=== "Path column"
+=== "pandas - Path column"
     ```python hl_lines="14"
     import pandas as pd
 
@@ -245,7 +245,7 @@ Construct nodes with attributes. *Pandas DataFrame* can contain either <mark>pat
     # └── c [age=60]
     ```
 
-=== "Parent-child columns"
+=== "pandas - Parent-child columns"
     ```python hl_lines="14"
     import pandas as pd
 
@@ -269,12 +269,7 @@ Construct nodes with attributes. *Pandas DataFrame* can contain either <mark>pat
     # └── c [age=60]
     ```
 
-### 6. From polars DataFrame
-
-Construct nodes with attributes. *Polars DataFrame* can contain either <mark>path column</mark> or
-<mark>parent-child columns</mark>. Other columns can be used to specify attributes.
-
-=== "Path column"
+=== "polars - Path column"
     ```python hl_lines="14"
     import polars as pl
 
@@ -298,7 +293,7 @@ Construct nodes with attributes. *Polars DataFrame* can contain either <mark>pat
     # └── c [age=60]
     ```
 
-=== "Parent-child columns"
+=== "polars - Parent-child columns"
     ```python hl_lines="14"
     import polars as pl
 
@@ -333,7 +328,7 @@ After tree is constructed, it can be viewed by printing to console using `show` 
 for vertical and horizontal orientation respectively.
 Alternatively, the `print_tree` or `hprint_tree` method can be used.
 
-```python hl_lines="8 15 22 27 33 40 47 55 62 69 76 83 90 97-101"
+```python hl_lines="8 15"
 from bigtree import Node, print_tree, hprint_tree
 
 root = Node("a", age=90, gender="F")
@@ -353,97 +348,115 @@ hprint_tree(root) # (2)!
 #      ┌─ b ─┤
 # ─ a ─┤     └─ e
 #      └─ c
-
-# Print subtree
-print_tree(root, node_name_or_path="b")
-# b
-# ├── d
-# └── e
-
-print_tree(root, max_depth=2)
-# a
-# ├── b
-# └── c
-
-# Print attributes
-print_tree(root, attr_list=["age"])
-# a [age=90]
-# ├── b [age=65]
-# │   ├── d [age=40]
-# │   └── e [age=35]
-# └── c [age=60]
-
-print_tree(root, attr_list=["age"], attr_bracket=["*(", ")"])
-# a *(age=90)
-# ├── b *(age=65)
-# │   ├── d *(age=40)
-# │   └── e *(age=35)
-# └── c *(age=60)
-
-print_tree(root, all_attrs=True)
-# a [age=90, gender=F]
-# ├── b [age=65, gender=M]
-# │   ├── d [age=40, gender=F]
-# │   └── e [age=35, gender=M]
-# └── c [age=60, gender=M]
-
-# Available styles
-print_tree(root, style="ansi")
-# a
-# |-- b
-# |   |-- d
-# |   `-- e
-# `-- c
-
-print_tree(root, style="ascii")
-# a
-# |-- b
-# |   |-- d
-# |   +-- e
-# +-- c
-
-print_tree(root, style="const")
-# a
-# ├── b
-# │   ├── d
-# │   └── e
-# └── c
-
-print_tree(root, style="const_bold")
-# a
-# ┣━━ b
-# ┃   ┣━━ d
-# ┃   ┗━━ e
-# ┗━━ c
-
-print_tree(root, style="rounded")
-# a
-# ├── b
-# │   ├── d
-# │   ╰── e
-# ╰── c
-
-print_tree(root, style="double")
-# a
-# ╠══ b
-# ║   ╠══ d
-# ║   ╚══ e
-# ╚══ c
-
-print_tree(
-    root,
-    style="custom",
-    custom_style=("│  ", "├→ ", "╰→ "),
-)
-# a
-# ├→ b
-# │  ├→ d
-# │  ╰→ e
-# ╰→ c
 ```
 
 1. Alternatively, `root.show()` can be used
 2. Alternatively, `root.hshow()` can be used
+
+Other customizations for printing are also available, such as:
+
+- Printing subtree
+- Printing tree with attributes
+- Different built-in or custom style
+
+=== "Subtree"
+    ```python hl_lines="1 6"
+    print_tree(root, node_name_or_path="b")
+    # b
+    # ├── d
+    # └── e
+
+    print_tree(root, max_depth=2)
+    # a
+    # ├── b
+    # └── c
+    ```
+=== "Tree with attributes"
+    ```python hl_lines="1 8 15"
+    print_tree(root, attr_list=["age"])
+    # a [age=90]
+    # ├── b [age=65]
+    # │   ├── d [age=40]
+    # │   └── e [age=35]
+    # └── c [age=60]
+
+    print_tree(root, attr_list=["age"], attr_bracket=["*(", ")"])
+    # a *(age=90)
+    # ├── b *(age=65)
+    # │   ├── d *(age=40)
+    # │   └── e *(age=35)
+    # └── c *(age=60)
+
+    print_tree(root, all_attrs=True)
+    # a [age=90, gender=F]
+    # ├── b [age=65, gender=M]
+    # │   ├── d [age=40, gender=F]
+    # │   └── e [age=35, gender=M]
+    # └── c [age=60, gender=M]
+    ```
+=== "Style - ansi"
+    ```python
+    print_tree(root, style="ansi")
+    # a
+    # |-- b
+    # |   |-- d
+    # |   `-- e
+    # `-- c
+    ```
+=== "Style - ascii"
+    ```python
+    print_tree(root, style="ascii")
+    # a
+    # |-- b
+    # |   |-- d
+    # |   +-- e
+    # +-- c
+    ```
+=== "Style - const"
+    ```python
+    print_tree(root, style="const")
+    # a
+    # ├── b
+    # │   ├── d
+    # │   └── e
+    # └── c
+    ```
+=== "Style - const_bold"
+    ```python
+    print_tree(root, style="const_bold")
+    # a
+    # ┣━━ b
+    # ┃   ┣━━ d
+    # ┃   ┗━━ e
+    # ┗━━ c
+    ```
+=== "Style - rounded"
+    ```python
+    print_tree(root, style="rounded")
+    # a
+    # ├── b
+    # │   ├── d
+    # │   ╰── e
+    # ╰── c
+    ```
+=== "Style - double"
+    ```python
+    print_tree(root, style="double")
+    # a
+    # ╠══ b
+    # ║   ╠══ d
+    # ║   ╚══ e
+    # ╚══ c
+    ```
+=== "Style - custom style"
+    ```python
+    print_tree(root, style=("│  ", "├→ ", "╰→ "))
+    # a
+    # ├→ b
+    # │  ├→ d
+    # │  ╰→ e
+    # ╰→ c
+    ```
 
 ## Tree Attributes and Operations
 
@@ -516,30 +529,26 @@ Below is the table of operations available to `BaseNode` and `Node` classes.
 
 Tree can be traversed using the following traversal methods.
 
-```python hl_lines="23 26 29 32 35 38"
+```python hl_lines="19 22 25 28 31 34"
 from bigtree import (
-    Node,
     levelorder_iter,
     levelordergroup_iter,
     postorder_iter,
     preorder_iter,
+    str_to_tree,
     zigzag_iter,
     zigzaggroup_iter,
 )
 
-root = Node("a")
-b = Node("b", parent=root)
-c = Node("c", parent=root)
-d = Node("d", parent=b)
-e = Node("e", parent=b)
-root.show()
-# a
-# ├── b
-# │   ├── d
-# │   └── e
-# └── c
+root = str_to_tree("""
+a
+├── b
+│   ├── d
+│   └── e
+└── c
+""")
 
-[node.name for node in preorder_iter(root)]
+[node.node_name for node in preorder_iter(root)]
 # ['a', 'b', 'd', 'e', 'c']
 
 [node.name for node in postorder_iter(root)]
@@ -639,12 +648,13 @@ root.show()
 4. Original `file1.doc` still remains
 
 === "Copy nodes between two trees"
-```python hl_lines="18-27 45-50"
+```python hl_lines="19-28 43-48"
 from bigtree import (
     Node,
     copy_nodes_from_tree_to_tree,
     copy_and_replace_nodes_from_tree_to_tree,
     list_to_tree,
+    str_to_tree,
 )
 
 root = list_to_tree(
@@ -674,15 +684,12 @@ root_other.show()
 # └── Files
 #     └── file1.doc (3)
 
-root_other = Node("Documents")
-picture_folder = Node("Pictures", parent=root_other)
-photo2 = Node("photo2.jpg", parent=picture_folder)
-file2 = Node("file2.doc", parent=root_other)
-root_other.show()
-# Documents
-# ├── Pictures
-# │   └── photo2.jpg
-# └── file2.doc
+root_other = str_to_tree("""
+Documents
+├── Pictures
+│   └── photo2.jpg
+└── file2.doc
+""")
 
 copy_and_replace_nodes_from_tree_to_tree(
     from_tree=root,
@@ -798,23 +805,25 @@ it does not require traversing the whole tree to find the node(s).
 
 ## Helper Utility
 
-There following are helper functions for
+### 1. Clone tree
 
-### 1. Cloning tree to another Node type
+Trees can be cloned to another Node type. If the same type is desired, use `tree.copy()` instead.
 
-```python hl_lines="4"
+```python hl_lines="6"
 from bigtree import BaseNode, Node, clone_tree
 
-# Cloning tree from `BaseNode` to `Node` type
 root = BaseNode(name="a")
 b = BaseNode(name="b", parent=root)
-clone_tree(root, Node)
+
+clone_tree(root, Node)  # clone from `BaseNode` to `Node` type
 # Node(/a, )
 ```
 
-### 2. Getting subtree (smaller tree with different root)
+### 2. Get subtree
 
-```python hl_lines="13"
+Subtree refers to a smaller tree with a different tree root.
+
+```python hl_lines="12"
 from bigtree import str_to_tree, get_subtree
 
 root = str_to_tree("""
@@ -826,7 +835,6 @@ a
     └── f
 """)
 
-# Getting subtree with root b
 root_subtree = get_subtree(root, "b")
 root_subtree.show()
 # b
@@ -834,77 +842,179 @@ root_subtree.show()
 # └── e
 ```
 
-### 3. Pruning tree (smaller tree with same root)
+### 3. Prune tree
 
-```python hl_lines="13 21"
-from bigtree import str_to_tree, prune_tree
+Pruned tree refers to a smaller tree with the same tree root.
+Trees can be pruned by one or more of the following filters:
 
-root = str_to_tree("""
-a
-├── b
-│   ├── d
-│   └── e
-└── c
-    └── f
-""")
+- Path: keep all descendants by default, set `exact=True` to prune the path exactly
+- Depth: prune tree by depth
 
-# Prune tree to only path a/b
-root_pruned = prune_tree(root, "a/b")
-root_pruned.show()
-# a
-# └── b
-#     ├── d
-#     └── e
+=== "Prune by path"
+    ```python hl_lines="12"
+    from bigtree import str_to_tree, prune_tree
 
-# Prune tree to exactly path a/b
-root_pruned = prune_tree(root, "a/b", exact=True)
-root_pruned.show()
-# a
-# └── b
-```
+    root = str_to_tree("""
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
+        └── f
+    """)
 
-### 4. Getting difference between two trees
+    root_pruned = prune_tree(root, "a/b")
+    root_pruned.show()
+    # a
+    # └── b
+    #     ├── d
+    #     └── e
+    ```
+=== "Prune by exact path"
+    ```python hl_lines="12"
+    from bigtree import str_to_tree, prune_tree
 
-```python hl_lines="22 31"
-from bigtree import str_to_tree, get_tree_diff
+    root = str_to_tree("""
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
+        └── f
+    """)
 
-root = str_to_tree("""
-a
-├── b
-│   ├── d
-│   └── e
-└── c
-    └── f
-""")
+    root_pruned = prune_tree(root, "a/b", exact=True)
+    root_pruned.show()
+    # a
+    # └── b
+    ```
+=== "Prune by depth"
+    ```python hl_lines="12"
+    from bigtree import str_to_tree, prune_tree
 
-# Get difference between two trees
-root_other = str_to_tree("""
-a
-├── b
-│   └── d
-└── c
-    └── g
-""")
+    root = str_to_tree("""
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
+        └── f
+    """)
 
-tree_diff = get_tree_diff(root, root_other)
-tree_diff.show()
-# a
-# ├── b
-# │   └── e (-)
-# └── c
-#     ├── f (-)
-#     └── g (+)
+    root_pruned = prune_tree(root, "c", max_depth=2)
+    root_pruned.show()
+    # a
+    # └── c
+    ```
 
-tree_diff = get_tree_diff(root, root_other, only_diff=False)
-tree_diff.show()
-# a
-# ├── b
-# │   ├── d
-# │   └── e (-)
-# └── c
-#     ├── f (-)
-#     └── g (+)
-```
+### 4. Get tree differences
+
+View the differences in structure and/or attributes between two trees.
+The changes reflected are relative to the first tree.
+By default, only the differences are shown.
+It is possible to view the full original tree with the differences.
+
+To compare tree attributes:
+
+- `(+)`: Node is added in second tree
+- `(-)`: Node is removed in second tree
+- `(~)`: Node has different attributes, only available when comparing attributes
+
+=== "Only differences"
+    ```python hl_lines="20 29"
+    from bigtree import str_to_tree, get_tree_diff
+
+    root = str_to_tree("""
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
+        └── f
+    """)
+
+    root_other = str_to_tree("""
+    a
+    ├── b
+    │   └── d
+    └── c
+        └── g
+    """)
+
+    tree_diff = get_tree_diff(root, root_other)
+    tree_diff.show()
+    # a
+    # ├── b
+    # │   └── e (-)
+    # └── c
+    #     ├── f (-)
+    #     └── g (+)
+    ```
+=== "Full original tree"
+    ```python hl_lines="20"
+    from bigtree import str_to_tree, get_tree_diff
+
+    root = str_to_tree("""
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
+        └── f
+    """)
+
+    root_other = str_to_tree("""
+    a
+    ├── b
+    │   └── d
+    └── c
+        └── g
+    """)
+
+    tree_diff = get_tree_diff(root, root_other, only_diff=False)
+    tree_diff.show()
+    # a
+    # ├── b
+    # │   ├── d
+    # │   └── e (-)
+    # └── c
+    #     ├── f (-)
+    #     └── g (+)
+    ```
+=== "Attribute difference"
+    ```python hl_lines="25"
+    from bigtree import Node, get_tree_diff
+
+    root = Node("a")
+    b = Node("b", parent=root)
+    c = Node("c", tags="original c", parent=b)
+    d = Node("d", tags="original d", parent=root)
+    root.show(attr_list=["tags"])
+    # a
+    # ├── b
+    # │   └── c [tags=original c]
+    # └── d [tags=original d]
+
+    root_other = Node("a")
+    b = Node("b", parent=root_other)
+    c = Node("c", tags="new c", parent=b)
+    e = Node("e", tags="new e", parent=b)
+    d = Node("d", tags="new d", parent=root_other)
+    root_other.show(attr_list=["tags"])
+    # a
+    # ├── b
+    # │   ├── c [tags=new c]
+    # │   └── e [tags=new e]
+    # └── d [tags=new d]
+
+    tree_diff = get_tree_diff(root, root_other, attr_list=["tags"])
+    tree_diff.show(attr_list=["tags"])
+    # a
+    # ├── b
+    # │   ├── c (~) [tags=('original c', 'new c')]
+    # │   └── e (+)
+    # └── d (~) [tags=('original d', 'new d')]
+    ```
 
 ## Export Tree
 
@@ -1065,11 +1175,11 @@ root.show()
 
 - dot.png
 
-![Sample Dot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/dot.png)
+![Dot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/dot.png "Dot Image Output")
 
 - pillow.png
 
-![Sample Pillow Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/pillow.png)
+![Pillow Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/pillow.png "Pillow Image Output")
 
 - Mermaid flowchart
 ```mermaid

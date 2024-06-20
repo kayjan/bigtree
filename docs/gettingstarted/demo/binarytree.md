@@ -31,7 +31,7 @@ graph = tree_to_dot(a, node_colour="gold")
 graph.write_png("assets/demo/binarytree.png")
 ```
 
-![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/binarytree.png)
+![Sample Binary Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/binarytree.png "Sample Binary Tree Output")
 
 ### 2. From list
 

@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed:
+- Docs: Add glossary section to documentation.
 
 ## [0.19.0] - 2024-06-15
 ### Changed:
@@ -13,7 +15,7 @@ object-oriented way of parsing arguments.
 This affects functions `print_tree`, `yield_tree`, `hprint_tree`, and `hyield_tree`.
 The argument `custom_style` is deprecated, and argument `style` is used instead.
 **This might not be backwards-compatible!**
-- Misc: Updated docstrings to be more comprehensive for tree constructor and tree exporter.
+- Misc: Update docstrings to be more comprehensive for tree constructor and tree exporter.
 - Misc: Update documentation badges and conda information.
 
 ## [0.18.3] - 2024-06-05
@@ -27,7 +29,7 @@ The argument `custom_style` is deprecated, and argument `style` is used instead.
 ## [0.18.2] - 2024-06-01
 ### Changed:
 - Tree Search: Standardize handling of singular and plural search.
-- Tree Search: Added `find_relative_path` that return a single node from search and
+- Tree Search: Add `find_relative_path` that return a single node from search and
 rename existing `find_relative_path` to `find_relative_paths`.
 **This might not be backwards-compatible!**
 
@@ -99,7 +101,7 @@ ignore null attribute columns.
 ## [0.16.3] - 2024-03-14
 ### Added
 - BaseNode: Add diameter property.
-- Misc: Testing to include benchmark timings for tree creation, compare benchmark tests across commits, reject pull request if benchmark tests fails.
+- Misc: Tests to include benchmark timings for tree creation, compare benchmark tests across commits, reject pull request if benchmark tests fails.
 - Misc: Documentation to include benchmark results.
 ### Changed
 - Misc: Documentation to enable zooming in of images, add navigation section headers, remove some meta tags.
@@ -172,7 +174,7 @@ ignore null attribute columns.
 ## [0.15.2] - 2024-01-08
 ### Added
 - Tree Exporter: `hprint_tree` and `hyield_tree` to print and retrieve results for tree in horizontal orientation.
-- Node: Added `hshow` method to print tree in horizontal orientation to console.
+- Node: Add `hshow` method to print tree in horizontal orientation to console.
 
 ## [0.15.1] - 2024-01-05
 ### Added
@@ -180,7 +182,7 @@ ignore null attribute columns.
 ### Changed
 - Tree Exporter: `tree_to_newick` to accept more parameters to parse length and attributes.
 ### Fixed
-- Misc: Automated doctest setup to use os operations instead of string operations.
+- Misc: Automate doctest setup to use os operations instead of string operations.
 
 ## [0.15.0] - 2024-01-02
 ### Added
@@ -196,11 +198,11 @@ ignore null attribute columns.
 - Misc: Organize assets folder based on whether it originated from README, docstrings, or sphinx documentation.
 - Misc: Rename functions in `plot.py` utils file for coverage report.
 ### Fixed
-- Misc: Fixed doctests and automate doctest checks.
+- Misc: Fix doctests and automate doctest checks.
 
 ## [0.14.7] - 2023-12-22
 ### Changed
-- Tree Helper: `get_tree_diff` enhanced to compare tree attributes by taking in `attr_list` parameter, and indicates difference with `(~)`.
+- Tree Helper: Enhance `get_tree_diff` to compare tree attributes by taking in `attr_list` parameter, and indicates difference with `(~)`.
 ### Fixed
 - Tree Helper: `get_tree_diff` compare tree structure by considering all nodes (previously only consider leaf nodes).
 
@@ -220,7 +222,7 @@ ignore null attribute columns.
 ## [0.14.5] - 2023-11-24
 ### Changed
 - Misc: Update SECURITY file.
-- Misc: Documentation enhancement to add more emoji, and highlight code blocks.
+- Misc: Enhance documentation to add more emoji and highlight code blocks.
 
 ## [0.14.4] - 2023-11-04
 ### Changed
@@ -238,7 +240,7 @@ ignore null attribute columns.
 
 ## [0.14.1] - 2023-10-18
 ### Added
-- Misc: Changes to main branch checks if the latest version exists (using git tag) before publishing package and building documentation.
+- Misc: Change main branch checks if the latest version exists (using git tag) before publishing package and building documentation.
 
 ## [0.14.0] - 2023-10-18
 ### Added
@@ -280,8 +282,8 @@ ignore null attribute columns.
 
 ## [0.12.3] - 2023-09-17
 ### Changed
-- Clearer documentation, fixed docstring phrasing and spelling.
-- Clearer error messages, standardized error messages.
+- Clearer documentation, fix docstring phrasing and spelling.
+- Clearer error messages, standardize error messages.
 
 ## [0.12.2] - 2023-09-12
 ### Changed
@@ -295,12 +297,12 @@ ignore null attribute columns.
 ### Changed
 - Tree/DAG Constructor, Tree/DAG Exporter: Make `pandas` optional dependency.
 ### Fixed
-- Misc: Fixed Calendar workflow to throw error when `to_dataframe` method is called on empty calendar.
+- Misc: Fix Calendar workflow to throw error when `to_dataframe` method is called on empty calendar.
 - Tree/DAGNode Exporter, Tree Helper, Tree Search: Relax type hinting using TypeVar.
 
 ## [0.11.0] - 2023-09-08
 ### Added
-- Tree Helper: Pruning tree to allow pruning by `prune_path` and `max_depth`.
+- Tree Helper: `prune_tree` to allow pruning by `prune_path` and `max_depth`.
 - Tree Plot: Implement Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure.
 ### Changed
 - BaseNode/DAGNode: `get_attr` method to allow default return value.
@@ -328,21 +330,21 @@ ignore null attribute columns.
 
 ## [0.9.5] - 2023-07-13
 ### Added
-- Misc: Added init files, add link to discussions to README and pyproject, add sphinx coverage shortcuts.
+- Misc: Add init files, add link to discussions to README and pyproject, add sphinx coverage shortcuts.
 ### Fixed
-- [#66] DAGNode/Node: Children constructor to allow Iterable types, fixed issue of lists being mutable.
+- [#66] DAGNode/Node: Children constructor to allow Iterable types, fix issue of lists being mutable.
 - [#67] Node: `path_name` to reduce number of recursive calls to root node for `sep`.
 
 ## [0.9.4] - 2023-06-18
 ### Added
 - Tree Constructor: `list_to_tree_by_relation` and `dataframe_to_tree_by_relation` method to allow duplicate intermediate nodes (default is false).
-- DAG Exporter: Added `node_shape` parameter in `dag_to_dot` export function for easier way to customize node shape.
+- DAG Exporter: Add `node_shape` parameter in `dag_to_dot` export function for easier way to customize node shape.
 - Misc: More test cases.
-- Misc: Added security instructions on how to raise vulnerabilities.
-- Misc: Added Calendar workflow to documentation.
+- Misc: Add security instructions on how to raise vulnerabilities.
+- Misc: Add Calendar workflow to documentation.
 ### Changed
 - Tree Constructor: `add_dict_to_tree_by_name` method rename argument from `path_attrs` to `name_attrs`.
-- Misc: Modified contributing instructions.
+- Misc: Modify contributing instructions.
 ### Fixed
 - Tree Exporter: `tree_to_dot` to handle cases when not all nodes have `edge_attr`.
 - DAG Exporter: `dag_to_dot` to perform dictionary copy to prevent style from being overridden for child nodes.
@@ -356,18 +358,18 @@ ignore null attribute columns.
 
 ## [0.9.2] - 2023-04-09
 ### Added
-- Node: Added `show` method to print tree to console.
+- Node: Add `show` method to print tree to console.
 - Workflow Calendar: Tree use case with calendar implementation.
 
 ## [0.9.1] - 2023-03-30
 ### Changed
-- Node: Added `sep` parameter to constructor instead of using getter and setter methods to set `sep`.
+- Node: Add `sep` parameter to constructor instead of using getter and setter methods to set `sep`.
 
 ## [0.9.0] - 2023-03-29
 ### Added
-- Tree Modifier: Ability to copy/shift nodes with full path in `from_paths` for faster search performance, added `with_full_path` parameter.
+- Tree Modifier: Ability to copy/shift nodes with full path in `from_paths` for faster search performance, add `with_full_path` parameter.
 ### Changed
-- Tree Modifier: Enforced paths in `to_paths` to be full path for faster search performance.
+- Tree Modifier: Enforce paths in `to_paths` to be full path for faster search performance.
 - Tree Modifier: Faster creation of intermediate parent nodes in `to_paths`.
 - Tree Modifier: Better handling of `sep` in paths by performing string replacement at the start.
 - Tree Modifier: Check and throw error for invalid parameters, case when node is meant to be deleted but `copy=True`.
@@ -380,7 +382,7 @@ ignore null attribute columns.
 ### Changed
 - Tree and DAG Constructor: Reduce reliance on `numpy` package, only reject `None` attributes when creating tree from DataFrame (previously it rejects `[None]`).
 - Tree Helper: Get difference between two trees reduce reliance on `numpy` package, enhance test cases.
-- Tree Search: Renamed `find_children` to `find_child_by_name` for clarity.
+- Tree Search: Rename `find_children` to `find_child_by_name` for clarity.
 - Misc: Fix README for Windows installation.
 
 ## [0.8.3] - 2023-03-16
@@ -399,7 +401,7 @@ ignore null attribute columns.
 
 ## [0.8.0] - 2023-03-10
 ### Added
-- Misc: Type checking with `mypy`, added type checks to pre-commit hooks.
+- Misc: Type checking with `mypy`, add type checks to pre-commit hooks.
 ### Changed
 - DAGNode: `go_to` method to be consistent with `List[List[DAGNode]]` type.
 ### Fixed
@@ -409,21 +411,21 @@ ignore null attribute columns.
 
 ## [0.7.4] - 2023-02-27
 ### Fixed
-- Tree Constructor: Fixed pandas SettingwithCopyWarning when performing dataframe operations.
+- Tree Constructor: Fix pandas SettingwithCopyWarning when performing dataframe operations.
 
 ## [0.7.3] - 2023-02-25
 ### Added
-- Tree Exporter: Fixed `print_tree` checking attributes with `hasattr` to handle cases of null or 0 value attributes, add more test cases.
-- Misc: Added more description to Contributing.
+- Tree Exporter: Fix `print_tree` checking attributes with `hasattr` to handle cases of null or 0 value attributes, add more test cases.
+- Misc: Add more description to Contributing.
 
 ## [0.7.2] - 2023-02-18
 ### Added
-- Tree Exporter: Added `node_shape` parameter in `tree_to_dot` export function for easier way to customize node shape.
+- Tree Exporter: Add `node_shape` parameter in `tree_to_dot` export function for easier way to customize node shape.
 
 ## [0.7.1] - 2023-02-18
 ### Added
-- BaseNode/Node: Added `go_to` BaseNode method to travel from one node to another node from the same tree.
-- DAGNode: Added `go_to` DAGNode method to travel from one node to another node from the same DAG.
+- BaseNode/Node: Add `go_to` BaseNode method to travel from one node to another node from the same tree.
+- DAGNode: Add `go_to` DAGNode method to travel from one node to another node from the same DAG.
 
 ## [0.7.0] - 2023-02-18
 ### Added
@@ -443,7 +445,7 @@ ignore null attribute columns.
 
 ## [0.6.7] - 2023-01-09
 ### Changed
-- Binary Tree: Changed `BNode` to `BinaryNode`, and construct method `list_to_btree` to `list_to_binarytree`.
+- Binary Tree: Change `BNode` to `BinaryNode`, and construct method `list_to_btree` to `list_to_binarytree`.
 
 ## [0.6.6] - 2022-12-15
 ### Added
@@ -495,7 +497,7 @@ ignore null attribute columns.
 ## [0.5.4] - 2022-11-12
 ### Added
 - BaseNode: Add sort() to sort children.
-- Node: Made more extendable with pre-/post-assign checks.
+- Node: Make class more extendable with pre-/post-assign checks.
 - Misc: Add Tips and Tricks to documentation (Extending Nodes).
 - Misc: More test cases.
 ### Fixed
@@ -504,7 +506,7 @@ ignore null attribute columns.
 ## [0.5.3] - 2022-11-11
 ### Added
 - DAG and Tree Exporter: More customizations allowed on edges.
-- Add Tips and Tricks to documentation (Weighted Trees, Merging Trees).
+- Misc: Add Tips and Tricks to documentation (Weighted Trees, Merging Trees).
 ### Fixed
 - Tree Modifier: Fix issue with `merge_children` argument not working as expected.
 
@@ -520,14 +522,14 @@ ignore null attribute columns.
 ### Added
 - Misc: Clean codes and documentation.
 ### Changed
-- Tree Exporter: Printing tree to group multiple arguments together.
+- Tree Exporter: Print tree to group multiple arguments together.
 - DAG and Tree Exporter: Export to dot able to plot multiple disjointed trees/dags, rename `bgcolor` to `bg_colour`.
 
 ## [0.4.6] - 2022-11-09
 ### Added
 - Tree Constructor: From DataFrame of parent-child columns.
 ### Changed
-- Tree Exporter: Printing tree to define node name or path, and default to const style.
+- Tree Exporter: Print tree to define node name or path, and default to const style.
 - Tree Constructor: Rename `list_to_tree_tuples` to `list_to_tree_by_relation`.
 - Tree Constructor: Remove parameter `sep` for `nested_dict_to_tree`.
 
@@ -591,7 +593,7 @@ ignore null attribute columns.
 - Node: Node and BaseNode.
 - Tree Constructor: From list, nested dictionary, pandas DataFrame.
 - Tree Exporter: To list, nested dictionary, pandas DataFrame.
-- Tree Helper: Cloning, pruning trees, get difference between two trees.
+- Tree Helper: Clone, prune trees, get difference between two trees.
 - Tree Modifier: Shift and copy nodes within tree and between trees.
 - Tree Search: Find single or multiple nodes based on name, attribute, or custom criteria.
 - Utility Iterator: Tree traversal methods.
