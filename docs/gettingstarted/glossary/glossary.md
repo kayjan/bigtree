@@ -40,9 +40,9 @@ The height of the tree is 3.
 
 There are two types of tree traversal, Depth-First Search (DFS) and Breadth-First Search (BFS).
 
-- **Depth-First Search* starts at the root and explores each branch to its leaf node before
+- **Depth-First Search** starts at the root and explores each branch to its leaf node before
 moving to the next branch
-- **Breadth-First Search* starts at the root and explores every child node, and recursively
+- **Breadth-First Search** starts at the root and explores every child node, and recursively
 does so for every node
 
 ### Pre-Order Traversal
