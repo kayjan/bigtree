@@ -8,6 +8,9 @@ hide:
 # 🎡️ Playground
 
 ```py play
-from coloraide import Color
-Color.steps(['lch(75% 50 0)', 'lch(75% 50 300)'], steps=8, space='lch', hue='longer')
+print("hello world!!!")
+
+from bigtree import Node
+print(Node("a", parent=Node("b")))
+Node("a", children=[Node("b"), Node("c")]).show()
 ```
