@@ -74,6 +74,18 @@ template = """<div class="playground" id="__playground_{el_id}">
 code_id = 0
 
 
+class Ramp(list):
+    """Create a gradient from a list of colors."""
+
+
+class Steps(list):
+    """Create a special display of steps from a list of colors."""
+
+
+class Row(list):
+    """Restrict only the provided colors to a row."""
+
+
 class AtomicString(str):
     """Atomic string."""
 
@@ -84,6 +96,12 @@ class Break(Exception):
 
 class Continue(Exception):
     """Continue exception."""
+
+
+# Legacy names
+HtmlGradient = Ramp
+HtmlSteps = Steps
+HtmlRow = Row
 
 
 def _escape(txt):
@@ -364,6 +382,15 @@ def execute(cmd, no_except=True, inline=False, init="", g=None):
     console = ""
 
     # Setup global initialization
+    if g is None:
+        g = {
+            "Ramp": Ramp,
+            "Steps": Steps,
+            "Row": Row,
+            "HtmlRow": HtmlRow,
+            "HtmlSteps": HtmlSteps,
+            "HtmlGradient": HtmlGradient,
+        }
     if init:
         execute(init.strip(), g=g)
 
