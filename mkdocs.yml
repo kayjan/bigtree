@@ -171,10 +171,10 @@ markdown_extensions:
 
 extra_css:
   - _static/custom.css
-  - _static/playground.css
+  - playground.css
 
 extra_javascript:
   - _static/custom.js
-  - _static/playground-config.js
-  - _static/playground.js
+  - playground-config.js
+  - playground.js
   - https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js
