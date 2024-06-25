@@ -13,3 +13,4 @@ site/
 
 *.tar.gz
 *.whl
+docs/_static/playground-config*.js
