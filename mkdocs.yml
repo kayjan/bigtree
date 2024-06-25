@@ -28,6 +28,8 @@ nav:
       - gettingstarted/demo/workflow.md
     - Resources:
       - gettingstarted/resources/articles.md
+  - Playground:
+      - playground/index.md
   - Code Documentation:
     - Node:
         - bigtree/node/index.md
@@ -157,11 +159,22 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: py
+          class: 'highlight'
+          format: !!python/object/apply:docs._static.playground.color_command_formatter
+            kwds:
+              init: |
+                from bigtree import *
+          validator: !!python/name:docs._static.playground.color_command_validator
   - pymdownx.tabbed:       # code snippet with tabs
       alternate_style: true
 
 extra_css:
   - _static/custom.css
+  - _static/playground.css
 
 extra_javascript:
   - _static/custom.js
+  - _static/playground-config.js
+  - _static/playground.js
+  - https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js
