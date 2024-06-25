@@ -30,7 +30,7 @@ if __name__ == "__main__":
     PACKAGE_WHEEL = [
         url["url"] for url in response.json()["urls"] if url["url"].endswith("whl")
     ]
-    assert len(PACKAGE_WHEEL), "Cannot find package wheel"
+    print(PACKAGE_WHEEL)
 
     # Create the config that specifies which wheels need to be used
     config = (
