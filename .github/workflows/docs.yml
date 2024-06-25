@@ -35,4 +35,4 @@ jobs:
           python docs/_static/playground_whl.py
           git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
       - name: Deploy to GH Pages
-        run: mkdocs gh-deploy
+        run: python -m mkdocs gh-deploy
