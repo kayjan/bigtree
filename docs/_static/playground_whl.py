@@ -8,14 +8,28 @@ import urllib.error
 import urllib.request
 
 # Output files
-OUTPUT_WHL = "docs/playground/"
+OUTPUT_WHL = "docs/_static/"
 OUTPUT_JS = "docs/_static/"
 
 # Build message output
-BUILD_WHL_MESSAGE = f"{OUTPUT_WHL}(.*whl)"
-BUILD_WHL_COMMAND = [sys.executable, "-m", "hatch", "build", OUTPUT_WHL]
+# BUILD_WHL_MESSAGE = f"{OUTPUT_WHL}(.*whl)"
+# BUILD_WHL_COMMAND = [sys.executable, "-m", "hatch", "build", OUTPUT_WHL]
+BUILD_WHL_MESSAGE = r"Successfully built ([-_0-9.a-zA-Z]+?\.whl)"
+BUILD_WHL_COMMAND = [sys.executable, "-m", "build", "--wheel", "-o", OUTPUT_WHL]
 
-DEFAULT_COMMANDS = ["print('hello world')"]
+DEFAULT_COMMANDS = [""]
+
+PLAYGROUND_WHEELS = [
+    "https://files.pythonhosted.org/packages/97/9c/372fef8377a6e340b1704768d20daaded98bf13282b5327beb2e2fe2c7ef/pygments-2.17.2-py3-none-any.whl"
+]
+
+CONFIG = """\
+var colorNotebook = {{
+    "playgroundWheels": {},
+    "notebookWheels": [],
+    "defaultPlayground": "{}"
+}}
+"""
 
 
 def build_package():
@@ -39,7 +53,9 @@ def build_package():
             env=os.environ.copy(),
         )
     out, _ = process.communicate()
-    m = re.compile(BUILD_WHL_MESSAGE).search(out.decode("utf-8"))
+    build_message = out.decode("utf-8")
+    m = re.compile(BUILD_WHL_MESSAGE).search(build_message)
+    print(build_message)
 
     return process.returncode, m.group(1) if m else ""
 
@@ -66,18 +82,6 @@ def download_wheel(url, dest):
 
 
 if __name__ == "__main__":
-
-    PLAYGROUND_WHEELS = [
-        "https://files.pythonhosted.org/packages/97/9c/372fef8377a6e340b1704768d20daaded98bf13282b5327beb2e2fe2c7ef/pygments-2.17.2-py3-none-any.whl"
-    ]
-
-    CONFIG = """\
-    var colorNotebook = {{
-        "playgroundWheels": {},
-        "notebookWheels": [],
-        "defaultPlayground": "{}"
-    }}
-    """
 
     PLAYGROUND = {}
     for url in PLAYGROUND_WHEELS:

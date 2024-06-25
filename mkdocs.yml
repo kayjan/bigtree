@@ -29,7 +29,7 @@ nav:
     - Resources:
       - gettingstarted/resources/articles.md
   - Playground:
-      - playground/playground.md
+      - playground/index.md
   - Code Documentation:
     - Node:
         - bigtree/node/index.md

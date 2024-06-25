@@ -2,9 +2,6 @@
 Execute Python code in code blocks (Adapted from ColorAide).
 
 This can be executed in either a Pyodide environment of a normal Python environment.
-3rd party libraries (that are not available directly from Pyodide) are only loaded
-when needed so that Pyodide will have a chance to load them if necessary.
-
 Transform Python code by executing it, transforming to a Python console output,
 and finding and outputting color previews.
 """
@@ -19,8 +16,6 @@ from io import StringIO
 from pygments import highlight
 from pygments.formatters import find_formatter_class
 from pygments.lexers import get_lexer_by_name
-
-from bigtree import *  # noqa
 
 PY310 = (3, 10) <= sys.version_info
 PY311 = (3, 11) <= sys.version_info
@@ -63,7 +58,7 @@ template = """<div class="playground" id="__playground_{el_id}">
 </div>
 <div class="playground-footer" data-search-exclude>
 <hr>
-<button id="__playground-edit_{el_id}" class="playground-edit" title="Edit the current snippet">Edit</button>
+<button id="__playground-edit_{el_id}" class="playground-edit" title="Edit the code snippet">Edit</button>
 <button id="__playground-share_{el_id}" class="playground-share" title="Copy URL to current snippet">Share</button>
 <button id="__playground-run_{el_id}" class="playground-run hidden" title="Run code (Ctrl + Enter)">Run</button>
 <button id="__playground-cancel_{el_id}" class="playground-cancel hidden" title="Cancel edit (Escape)">Cancel</button>
