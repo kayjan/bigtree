@@ -796,7 +796,7 @@ function _typeof(t) {
                                     t.next = 14;
                                     break
                                 }
-                                o = "".concat(window.location.origin, "/").concat(window.location.pathname.split("/")[1], "/wheels/"), a = n ? window.colorNotebook.notebookWheels : window.colorNotebook.playgroundWheels, s = [], n ? y = !0 : v = !0, l = r(a);
+                                o = "", a = n ? window.colorNotebook.notebookWheels : window.colorNotebook.playgroundWheels, s = [], n ? y = !0 : v = !0, l = r(a);
                                 try {
                                     for (l.s(); !(c = l.n()).done;)(u = c.value).endsWith(".whl") ? s.push(o + u) : s.push(u)
                                 } catch (t) {
