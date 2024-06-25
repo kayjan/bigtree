@@ -20,7 +20,8 @@ BUILD_WHL_COMMAND = [sys.executable, "-m", "build", "--wheel", "-o", OUTPUT_WHL]
 DEFAULT_COMMANDS = [""]
 
 PLAYGROUND_WHEELS = [
-    "https://files.pythonhosted.org/packages/97/9c/372fef8377a6e340b1704768d20daaded98bf13282b5327beb2e2fe2c7ef/pygments-2.17.2-py3-none-any.whl"
+    "https://files.pythonhosted.org/packages/97/9c/372fef8377a6e340b1704768d20daaded98bf13282b5327beb2e2fe2c7ef/pygments-2.17.2-py3-none-any.whl",
+    "https://files.pythonhosted.org/packages/d3/58/7d2dd906add6bd3481ee80beafb00af292866ed4ce3fa18cd168cb7bab74/bigtree-0.19.0-py3-none-any.whl",
 ]
 
 CONFIG = """\
@@ -103,26 +104,26 @@ if __name__ == "__main__":
         os.mkdir("docs/wheels")
 
     # Build wheel
-    status, package = build_package()
-    if not status:
-        for file, url in PLAYGROUND.items():
-            if os.path.exists(file):
-                print("Skipping: {}".format(file))
-                continue
-            status = download_wheel(url, file)
-            if status:
-                break
+    status = 0
+    # status, package = build_package()
+    # if not status:
+    #     for file, url in PLAYGROUND.items():
+    #         if os.path.exists(file):
+    #             print("Skipping: {}".format(file))
+    #             continue
+    #         status = download_wheel(url, file)
+    #         if status:
+    #             break
 
     if not status:
         # Build up a list of wheels needed for playgrounds and notebooks
-        playground = [
-            os.path.basename(file_path) for file_path in PLAYGROUND.keys()
-        ] + [package]
-        notebook = playground
+        # playground = [
+        #     os.path.basename(file_path) for file_path in PLAYGROUND.keys()
+        # ] + [package]
 
         # Create the config that specifies which wheels need to be used
         config = (
-            CONFIG.format(str(playground), "\n".join(DEFAULT_COMMANDS))
+            CONFIG.format(str(PLAYGROUND_WHEELS), "\n".join(DEFAULT_COMMANDS))
             .replace("\r", "")
             .encode("utf-8")
         )
