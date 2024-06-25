@@ -12,7 +12,7 @@ build:
     python: "3.8"
   jobs:
     pre_create_environment:
-      - python docs/_static/playground2.py
+      - python docs/_static/playground_whl.py
 
 # Build documentation in the docs/ directory with Sphinx
 mkdocs:

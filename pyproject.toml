@@ -97,11 +97,11 @@ dependencies = [
   "docstr-coverage",
   "IPython",
   "mkdocs==1.5.3",
-  "mkdocs-material[imaging]==9.5.5",
-  "mdx_truly_sane_lists",
-  "mkdocstrings[python]",
+  "mkdocs-material[imaging]==9.5.17",
+  "mdx_truly_sane_lists==1.3",
+  "mkdocstrings[python]==0.24.0",
   "mkdocs-glightbox",
-  "termynal",
+  "termynal==0.11.1",
 ]
 
 [tool.hatch.envs.mkdocs.scripts]

@@ -164,17 +164,17 @@ markdown_extensions:
           format: !!python/object/apply:docs._static.playground.color_command_formatter
             kwds:
               init: |
-                import bigtree
+                from bigtree import *
           validator: !!python/name:docs._static.playground.color_command_validator
   - pymdownx.tabbed:       # code snippet with tabs
       alternate_style: true
 
 extra_css:
   - _static/custom.css
-  - playground.css
+  - _static/playground.css
 
 extra_javascript:
   - _static/custom.js
-  - playground-config.js
-  - playground.js
+  - _static/playground-config.js
+  - _static/playground.js
   - https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js
