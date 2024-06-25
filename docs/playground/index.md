@@ -8,7 +8,7 @@ hide:
 # 🎡️ Playground
 
 ```py play
-# from bigtree import dict_to_tree
+from bigtree import dict_to_tree
 
 path_dict = {
    "a": {"age": 90},
