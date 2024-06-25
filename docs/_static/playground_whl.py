@@ -8,7 +8,7 @@ import urllib.error
 import urllib.request
 
 # Output files
-OUTPUT_WHL = "docs/_static/"
+OUTPUT_WHL = "docs/wheels/"
 OUTPUT_JS = "docs/_static/"
 
 # Build message output
@@ -98,6 +98,9 @@ if __name__ == "__main__":
     # Clean up build directory
     if os.path.exists("build"):
         shutil.rmtree("build")
+
+    if not os.path.exists("docs/wheels"):
+        os.mkdir("docs/wheels")
 
     # Build wheel
     status, package = build_package()
