@@ -59,10 +59,10 @@ template = """<div class="playground" id="__playground_{el_id}">
 <div class="playground-footer" data-search-exclude>
 <hr>
 <button id="__playground-edit_{el_id}" class="playground-edit" title="Edit the code snippet">Edit</button>
-<button id="__playground-share_{el_id}" class="playground-share" title="Copy URL to current snippet">Share</button>
-<button id="__playground-run_{el_id}" class="playground-run hidden" title="Run code (Ctrl + Enter)">Run</button>
-<button id="__playground-cancel_{el_id}" class="playground-cancel hidden" title="Cancel edit (Escape)">Cancel</button>
-<span class='gamut'>Gamut: {gamut}</span>
+<button id="__playground-share_{el_id}" style="display:none" class="playground-share" title="Copy code snippet">Share</button>
+<button id="__playground-run_{el_id}" class="playground-run hidden" title="Run code">Run</button>
+<button id="__playground-cancel_{el_id}" class="playground-cancel hidden" title="Cancel edit">Cancel</button>
+<span class='gamut'>Adapted from Coloraide. Gamut: {gamut}.</span>
 </div>
 </div>"""
 

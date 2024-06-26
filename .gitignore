@@ -11,6 +11,4 @@ site/
 .cache
 .benchmarks
 
-*.tar.gz
-*.whl
-docs/_static/playground-config*.js
+*docs/_static/playground-config.js
