@@ -1020,7 +1020,7 @@ function _typeof(t) {
                     return t().wrap((function(e) {
                         for (;;) switch (e.prev = e.next) {
                             case 0:
-                                if (c = {}, !window.location.pathname.endsWith("/")) {
+                                if (c = {}, !window.location.pathname.endsWith("/_static")) {
                                     e.next = 32;
                                     break
                                 }
