@@ -32,7 +32,7 @@ if __name__ == "__main__":
             url["url"] for url in response.json()["urls"] if url["url"].endswith("whl")
         ]
         PACKAGE_WHEELS.extend(package_wheel)
-    print(PACKAGE_WHEELS)
+    print("Fetched whls:", PACKAGE_WHEELS)
 
     # Create the config that specifies which wheels need to be used
     config = (
