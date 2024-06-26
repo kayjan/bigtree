@@ -949,7 +949,7 @@ function _typeof(t) {
                                         return t().wrap((function(e) {
                                             for (;;) switch (e.prev = e.next) {
                                                 case 0:
-                                                    o = window.location.pathname.split("/")[1], i = b(r.value), a = window.location, s = "/_static/", a.pathname.startsWith("/".concat(o, "/")) && (s = "/".concat(o, "/_static/")), (l = "".concat(a.protocol, "//").concat(a.host).concat(s, "?code=").concat(i)).length > 2e3 ? alert("Code must be small enough to generate a shareable URL under 2000 characters!") : navigator.clipboard.writeText(l).then(n(t().mark((function e() {
+                                                    o = window.location.pathname.split("/")[1], i = b(r.value), a = window.location, s = "/", a.pathname.startsWith("/".concat(o, "/")) && (s = "/".concat(o, /")), (l = "".concat(a.protocol, "//").concat(a.host).concat(s, "?code=").concat(i)).length > 2e3 ? alert("Code must be small enough to generate a shareable URL under 2000 characters!") : navigator.clipboard.writeText(l).then(n(t().mark((function e() {
                                                         return t().wrap((function(t) {
                                                             for (;;) switch (t.prev = t.next) {
                                                                 case 0:
@@ -1020,7 +1020,7 @@ function _typeof(t) {
                     return t().wrap((function(e) {
                         for (;;) switch (e.prev = e.next) {
                             case 0:
-                                if (c = {}, !window.location.pathname.endsWith("/_static/")) {
+                                if (c = {}, !window.location.pathname.endsWith("/")) {
                                     e.next = 32;
                                     break
                                 }
@@ -1076,14 +1076,14 @@ function _typeof(t) {
         document.addEventListener("click", (function(t) {
             var e = window.location.pathname.split("/")[1],
                 n = t.target || t.srcElement;
-            if ("A" === n.tagName && I && n.getAttribute("href") && n.host === window.location.host && window.location.pathname === "/".concat(e, "/_static/") && window.location.pathname === n.pathname && window.location.search !== n.search) {
+            if ("A" === n.tagName && I && n.getAttribute("href") && n.host === window.location.host && window.location.pathname === "/".concat(e, "/") && window.location.pathname === n.pathname && window.location.search !== n.search) {
                 t.preventDefault();
                 var o = new URLSearchParams(n.search);
                 I(!1, o)
             }
         }), !0), window.addEventListener("popstate", (function() {
             var t = window.location.pathname.split("/")[1];
-            window.location.pathname === "/".concat(t, "/_static/") && (decodeURIComponent(new URLSearchParams(window.location.search).toString()) !== p && I(!1))
+            window.location.pathname === "/".concat(t, "/") && (decodeURIComponent(new URLSearchParams(window.location.search).toString()) !== p && I(!1))
         })), window.addEventListener("unload", (function() {
             f = !1
         })), window.document$.subscribe((function() {
