@@ -1076,14 +1076,14 @@ function _typeof(t) {
         document.addEventListener("click", (function(t) {
             var e = window.location.pathname.split("/")[1],
                 n = t.target || t.srcElement;
-            if ("A" === n.tagName && I && n.getAttribute("href") && n.host === window.location.host && window.location.pathname === "/".concat(e, "/") && window.location.pathname === n.pathname && window.location.search !== n.search) {
+            if ("A" === n.tagName && I && n.getAttribute("href") && n.host === window.location.host && window.location.pathname === "/".concat(e, "/_static/") && window.location.pathname === n.pathname && window.location.search !== n.search) {
                 t.preventDefault();
                 var o = new URLSearchParams(n.search);
                 I(!1, o)
             }
         }), !0), window.addEventListener("popstate", (function() {
             var t = window.location.pathname.split("/")[1];
-            window.location.pathname === "/".concat(t, "/") && (decodeURIComponent(new URLSearchParams(window.location.search).toString()) !== p && I(!1))
+            window.location.pathname === "/".concat(t, "/_static/") && (decodeURIComponent(new URLSearchParams(window.location.search).toString()) !== p && I(!1))
         })), window.addEventListener("unload", (function() {
             f = !1
         })), window.document$.subscribe((function() {
