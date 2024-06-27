@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added:
+- Docs: Add description and credits to playground.
+- Misc: Add template for asking question in Discussions.
+### Changed:
+- Docs: Homepage to include links to playground, modify emoji location.
+- Docs: Playground modify code and code snippet layout.
 
 ## [0.19.1] - 2024-06-26
 ### Changed:

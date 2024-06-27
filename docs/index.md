@@ -27,10 +27,9 @@ It is pythonic, making it easy to learn and extendable to many types of workflow
 - :material-clock-fast:{ .lg .middle } __Set up in 2 minutes__
 
     ---
-    Install [`bigtree`](#) with `pip` or `conda` and get up
-    and running in minutes
+    Install [`bigtree`](#) and get up and running in minutes
 
-    [:octicons-arrow-right-24: Getting started](home/install.md)
+    [:octicons-arrow-right-24: Installation](home/install.md)
 
 - :material-map:{ .lg .middle } __Getting started__
 
@@ -39,19 +38,19 @@ It is pythonic, making it easy to learn and extendable to many types of workflow
 
     [:octicons-arrow-right-24: Reference](gettingstarted/demo/tree.md)
 
-- :material-newspaper-variant-outline:{ .lg .middle } __Resources__
+- :material-slide:{ .lg .middle } __Playground__
 
     ---
-    Articles relating to trees and [`bigtree`](#)
+    Get some hands-on with [`bigtree`](#)!
 
-    [:octicons-arrow-right-24: View articles](gettingstarted/resources/articles.md)
+    [:octicons-arrow-right-24: Play](playground/index.md)
 
 - :material-heart-outline:{ .lg .middle } __Support bigtree__
 
     ---
     Do support if you like this project!
 
-    [:octicons-arrow-right-24: Support me](https://www.buymeacoffee.com/kayjan)
+    [:octicons-arrow-right-24: Support](https://www.buymeacoffee.com/kayjan)
 
 </div>
 
