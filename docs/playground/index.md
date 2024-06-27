@@ -7,15 +7,11 @@ hide:
 
 # 🎡️ Playground
 
-```py play
-from bigtree import dict_to_tree
+This playground is pre-installed with `bigtree` and the Python standard libraries. Play around with the codes. Have fun!
 
-path_dict = {
-   "a": {"age": 90},
-   "a/b": {"age": 65},
-   "a/c": {"age": 60},
-   "a/b/d": {"age": 40},
-}
-root = dict_to_tree(path_dict)
+```py play
+from bigtree import list_to_tree
+
+root = list_to_tree(["a/b", "a/c", "a/b/d", "a/b/e", "a/c/f", "a/b/e/g", "a/b/e/h"])
 root.show()
 ```

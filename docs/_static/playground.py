@@ -62,7 +62,7 @@ template = """<div class="playground" id="__playground_{el_id}">
 <button id="__playground-share_{el_id}" style="display:none" class="playground-share" title="Copy code snippet">Share</button>
 <button id="__playground-run_{el_id}" class="playground-run hidden" title="Run code">Run</button>
 <button id="__playground-cancel_{el_id}" class="playground-cancel hidden" title="Cancel edit">Cancel</button>
-<span class='gamut'>Adapted from Coloraide. Gamut: {gamut}.</span>
+<span class='gamut'>Powered by Pyodide. Gamut: {gamut}.</span>
 </div>
 </div>"""
 

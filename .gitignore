@@ -11,4 +11,4 @@ site/
 .cache
 .benchmarks
 
-*docs/_static/playground-config.js
+docs/_static/playground-config.js

@@ -31,6 +31,10 @@ if __name__ == "__main__":
         package_wheel = [
             url["url"] for url in response.json()["urls"] if url["url"].endswith("whl")
         ]
+        if len(package_wheel) > 1:
+            package_wheel = sorted([url for url in package_wheel if "macos" in url])[
+                -1:
+            ]
         PACKAGE_WHEELS.extend(package_wheel)
     print("Fetched whls:", PACKAGE_WHEELS)
 

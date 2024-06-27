@@ -19,8 +19,6 @@ nav:
       - home/benchmarks.md
       - home/changelog.md
   - Getting Started:
-    - Glossary:
-      - gettingstarted/glossary/glossary.md
     - Demonstration:
       - gettingstarted/demo/tree.md
       - gettingstarted/demo/binarytree.md
@@ -28,40 +26,34 @@ nav:
       - gettingstarted/demo/workflow.md
     - Resources:
       - gettingstarted/resources/articles.md
+      - gettingstarted/resources/glossary.md
   - Playground:
       - playground/index.md
   - Code Documentation:
-    - Node:
-        - bigtree/node/index.md
+    - 🌿 Node:
         - bigtree/node/basenode.md
         - bigtree/node/node.md
         - bigtree/node/binarynode.md
         - bigtree/node/dagnode.md
-    - Binary Tree:
-        - bigtree/binarytree/index.md
+    - 🌵 Binary Tree:
         - bigtree/binarytree/construct.md
-    - DAG:
-        - bigtree/dag/index.md
+    - 🌴 DAG:
         - bigtree/dag/construct.md
         - bigtree/dag/export.md
-    - Tree:
-      - bigtree/tree/index.md
+    - 🌲 Tree:
       - bigtree/tree/construct.md
       - bigtree/tree/export.md
       - bigtree/tree/helper.md
       - bigtree/tree/modify.md
       - bigtree/tree/search.md
-    - Utils:
-        - bigtree/utils/index.md
+    - 🔧 Utils:
         - bigtree/utils/iterators.md
         - bigtree/utils/plot.md
-    - Workflows:
-        - bigtree/workflows/index.md
+    - 👷 Workflows:
         - bigtree/workflows/app_todo.md
         - bigtree/workflows/app_calendar.md
   - Others:
-    - Tips and Tricks:
-      - others/index.md
+    - 💡 Tips and Tricks:
       - others/remove_checks.md
       - others/list_dir.md
       - others/nodes.md
