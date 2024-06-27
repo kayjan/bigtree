@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added:
-- Docs: Add description and credits to playground
+- Docs: Add description and credits to playground.
+- Misc: Add template for asking question in Discussions.
 ### Changed:
 - Docs: Homepage to include links to playground, modify emoji location.
 - Docs: Playground modify code and code snippet layout.
