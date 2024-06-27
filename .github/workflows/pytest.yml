@@ -44,5 +44,5 @@ jobs:
           isort --profile black . --check
       - name: Test with pytest
         run: |
-          python -m pip install pytest pytest-cov pytest-benchmark coverage
+          python -m pip install coverage pytest pytest-benchmark pytest-cov
           pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree
