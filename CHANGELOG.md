@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.19.2] - 2024-06-28
 ### Added:
 - Docs: Add description and credits to playground.
 - Misc: Add template for asking question in Discussions.
@@ -607,7 +609,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.19.1...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.19.2...HEAD
+[0.19.2]: https://github.com/kayjan/bigtree/compare/0.19.1...0.19.2
 [0.19.1]: https://github.com/kayjan/bigtree/compare/0.19.0...0.19.1
 [0.19.0]: https://github.com/kayjan/bigtree/compare/0.18.3...0.19.0
 [0.18.3]: https://github.com/kayjan/bigtree/compare/0.18.2...0.18.3
