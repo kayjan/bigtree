@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed:
 - Docs: Homepage to include links to playground, modify emoji location.
 - Docs: Playground modify code and code snippet layout.
+### Fixed:
+- Misc: Skip codecov github action for PR from other users.
 
 ## [0.19.1] - 2024-06-26
 ### Changed:
