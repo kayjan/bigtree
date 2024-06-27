@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize]
 
 jobs:
@@ -46,6 +46,7 @@ jobs:
           header: Code coverage report
           recreate: true
           path: code-coverage-results.md
+          GITHUB_TOKEN: ${{ secrets.BENCHMARK_TOKEN }}
       - name: Clear previous benchmark report
         if: ${{ github.event_name == 'push' }}
         env:
