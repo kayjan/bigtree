@@ -10,6 +10,7 @@ on:
 jobs:
   codecov:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       actions: write
       contents: write
@@ -46,7 +47,6 @@ jobs:
           header: Code coverage report
           recreate: true
           path: code-coverage-results.md
-          GITHUB_TOKEN: ${{ secrets.BENCHMARK_TOKEN }}
       - name: Clear previous benchmark report
         if: ${{ github.event_name == 'push' }}
         env:
