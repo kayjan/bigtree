@@ -40,13 +40,12 @@ jobs:
           indicators: true
           output: both
       - name: Upload coverage to PR comment
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: Code coverage report
           recreate: true
           path: code-coverage-results.md
-          GITHUB_TOKEN: ${{ secrets.BENCHMARK_TOKEN }}
       - name: Clear previous benchmark report
         if: ${{ github.event_name == 'push' }}
         env:
