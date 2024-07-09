@@ -6,7 +6,7 @@ title: Directed Acyclic Graph (DAG)
 
 For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components.
 
-## [**🌼 Node**](../bigtree/node/index.md)
+## [**🌼 Node**](../bigtree/node/dagnode.md)
 - ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
 
 ## [**✨ Constructing DAG**](../bigtree/dag/construct.md)
