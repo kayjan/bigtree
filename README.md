@@ -73,7 +73,7 @@ For **Tree** implementation, there are 9 main components.
    3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
    4. Export tree to *Pillow* (can save to .png, .jpg)
    5. Export tree to *Mermaid Flowchart* (can display on .md)
-9. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/stable/demo/workflow/app_todo)
+9. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/stable/bigtree/workflows/app_todo)
    1. Sample workflows for tree demonstration!
 
 --------
