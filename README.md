@@ -29,7 +29,7 @@ There are 3 segments to Big Tree consisting of Tree, Binary Tree, and Directed A
 
 For **Tree** implementation, there are 9 main components.
 
-1. [**🌺 Node**](https://bigtree.readthedocs.io/en/stable/bigtree/node/)
+1. [**🌺 Node**](https://bigtree.readthedocs.io/en/stable/bigtree/node/node)
    1. ``BaseNode``, extendable class
    2. ``Node``, BaseNode with node name attribute
 2. [**✨ Constructing Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/construct/)
@@ -73,7 +73,7 @@ For **Tree** implementation, there are 9 main components.
    3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
    4. Export tree to *Pillow* (can save to .png, .jpg)
    5. Export tree to *Mermaid Flowchart* (can display on .md)
-9. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/stable/demo/workflow/)
+9. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/stable/demo/workflow/app_todo)
    1. Sample workflows for tree demonstration!
 
 --------
@@ -81,7 +81,7 @@ For **Tree** implementation, there are 9 main components.
 For **Binary Tree** implementation, there are 3 main components.
 Binary Node inherits from Node, so the components in Tree implementation are also available in Binary Tree.
 
-1. [**🌿 Node**](https://bigtree.readthedocs.io/en/stable/bigtree/node/)
+1. [**🌿 Node**](https://bigtree.readthedocs.io/en/stable/bigtree/node/binarynode)
    1. ``BinaryNode``, Node with binary tree rules
 2. [**✨ Constructing Binary Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/binarytree/construct/)
    1. From *list*, using flattened list structure
@@ -92,7 +92,7 @@ Binary Node inherits from Node, so the components in Tree implementation are als
 
 For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components.
 
-1. [**🌼 Node**](https://bigtree.readthedocs.io/en/stable/bigtree/node/)
+1. [**🌼 Node**](https://bigtree.readthedocs.io/en/stable/bigtree/node/dagnode)
    1. ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
 2. [**✨ Constructing DAG**](https://bigtree.readthedocs.io/en/stable/bigtree/dag/construct/)
    1. From *list*, containing parent-child tuples
