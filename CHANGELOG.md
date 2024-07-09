@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.3] - 2024-07-09
+### Fixed:
+- Docs: Update links in README and rtd docs.
+
 ## [0.19.2] - 2024-06-28
 ### Added:
 - Docs: Add description and credits to playground.
@@ -611,7 +615,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.19.2...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.19.3...HEAD
+[0.19.3]: https://github.com/kayjan/bigtree/compare/0.19.2...0.19.3
 [0.19.2]: https://github.com/kayjan/bigtree/compare/0.19.1...0.19.2
 [0.19.1]: https://github.com/kayjan/bigtree/compare/0.19.0...0.19.1
 [0.19.0]: https://github.com/kayjan/bigtree/compare/0.18.3...0.19.0
