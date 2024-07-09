@@ -6,7 +6,7 @@ title: Tree
 
 For **Tree** implementation, there are 9 main components.
 
-## [**🌺 Node**](../bigtree/node/index.md)
+## [**🌺 Node**](../bigtree/node/node.md)
 - ``BaseNode``, extendable class
 - ``Node``, BaseNode with node name attribute
 
@@ -58,5 +58,5 @@ For **Tree** implementation, there are 9 main components.
 - Export tree to *Pillow* (can save to .png, .jpg)
 - Export tree to *Mermaid Flowchart* (can display on .md)
 
-## [**✔️ Workflows**](../bigtree/workflows/index.md)
+## [**✔️ Workflows**](../bigtree/workflows/app_todo.md)
 - Sample workflows for tree demonstration!
