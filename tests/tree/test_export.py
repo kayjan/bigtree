@@ -2197,7 +2197,20 @@ class TestTreeToMermaid:
         mermaid_md = tree_to_mermaid(
             tree_node_mermaid_style, node_shape_attr="node_shape"
         )
-        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0{"a"} --> 0-0(["b"])\n0-0 --> 0-0-0("d")\n0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("h")\n0{"a"} --> 0-1(["c"])\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```"""
+        expected_str = (
+            """```mermaid\n"""
+            """%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\n"""
+            """flowchart TB\n"""
+            """0{"a"} --> 0-0(["b"])\n"""
+            """0-0 --> 0-0-0("d")\n"""
+            """0-0-0 --> 0-0-0-0("g")\n"""
+            """0-0 --> 0-0-1("e")\n"""
+            """0-0-1 --> 0-0-1-0("h")\n"""
+            """0{"a"} --> 0-1(["c"])\n"""
+            """0-1 --> 0-1-0("f")\n"""
+            """classDef default stroke-width:1\n"""
+            """```"""
+        )
         assert mermaid_md == expected_str
 
     @staticmethod
@@ -2212,7 +2225,20 @@ class TestTreeToMermaid:
         mermaid_md = tree_to_mermaid(
             tree_node_mermaid_style_callable, node_shape_attr=get_node_shape
         )
-        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0{"a"} --> 0-0(["b"])\n0-0 --> 0-0-0("d")\n0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("h")\n0{"a"} --> 0-1(["c"])\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```"""
+        expected_str = (
+            """```mermaid\n"""
+            """%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\n"""
+            """flowchart TB\n"""
+            """0{"a"} --> 0-0(["b"])\n"""
+            """0-0 --> 0-0-0("d")\n"""
+            """0-0-0 --> 0-0-0-0("g")\n"""
+            """0-0 --> 0-0-1("e")\n"""
+            """0-0-1 --> 0-0-1-0("h")\n"""
+            """0{"a"} --> 0-1(["c"])\n"""
+            """0-1 --> 0-1-0("f")\n"""
+            """classDef default stroke-width:1\n"""
+            """```"""
+        )
         assert mermaid_md == expected_str
 
     @staticmethod
@@ -2220,7 +2246,20 @@ class TestTreeToMermaid:
         mermaid_md = tree_to_mermaid(
             tree_node_mermaid_style, edge_arrow_attr="edge_arrow"
         )
-        expected_str = """```mermaid\n%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\nflowchart TB\n0("a") -.-> 0-0("b")\n0-0 --> 0-0-0("d")\n0-0-0 --> 0-0-0-0("g")\n0-0 --> 0-0-1("e")\n0-0-1 --> 0-0-1-0("h")\n0("a") -.- 0-1("c")\n0-1 --> 0-1-0("f")\nclassDef default stroke-width:1\n```"""
+        expected_str = (
+            """```mermaid\n"""
+            """%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\n"""
+            """flowchart TB\n"""
+            """0("a") -.-> 0-0("b")\n"""
+            """0-0 --> 0-0-0("d")\n"""
+            """0-0-0 --> 0-0-0-0("g")\n"""
+            """0-0 --> 0-0-1("e")\n"""
+            """0-0-1 --> 0-0-1-0("h")\n"""
+            """0("a") -.- 0-1("c")\n"""
+            """0-1 --> 0-1-0("f")\n"""
+            """classDef default stroke-width:1\n"""
+            """```"""
+        )
         assert mermaid_md == expected_str
 
     @staticmethod
