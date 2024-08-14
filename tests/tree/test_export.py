@@ -1925,19 +1925,19 @@ class TestTreeToMermaid:
         )
 
     @staticmethod
-    def test_tree_to_mermaid_invalid_node_shape_error(tree_node):
-        with pytest.raises(ValueError) as exc_info:
-            tree_to_mermaid(tree_node, node_shape="invalid")
-        assert str(exc_info.value).startswith(
-            Constants.ERROR_NODE_MERMAID_INVALID_ARGUMENT.format(parameter="node_shape")
-        )
-
-    @staticmethod
     def test_tree_to_mermaid_invalid_line_shape_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
             tree_to_mermaid(tree_node, line_shape="invalid")
         assert str(exc_info.value).startswith(
             Constants.ERROR_NODE_MERMAID_INVALID_ARGUMENT.format(parameter="line_shape")
+        )
+
+    @staticmethod
+    def test_tree_to_mermaid_invalid_node_shape_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            tree_to_mermaid(tree_node, node_shape="invalid")
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_MERMAID_INVALID_ARGUMENT.format(parameter="node_shape")
         )
 
     @staticmethod
@@ -2198,6 +2198,23 @@ class TestTreeToMermaid:
         ):
             assert mermaid_md == expected_str, f"Check node_shape {node_shape}"
 
+    def test_tree_to_mermaid_node_shape_attr(self, tree_node_mermaid_style):
+        mermaid_md = tree_to_mermaid(
+            tree_node_mermaid_style, node_shape_attr="node_shape"
+        )
+        assert mermaid_md == self.MERMAID_STR_NODE_SHAPE
+
+    def test_tree_to_mermaid_node_shape_attr_callable(self, tree_node_no_attr):
+        def get_node_shape(node):
+            if node.node_name == "a":
+                return "rhombus"
+            elif node.depth == 2:
+                return "stadium"
+            return "rounded_edge"
+
+        mermaid_md = tree_to_mermaid(tree_node_no_attr, node_shape_attr=get_node_shape)
+        assert mermaid_md == self.MERMAID_STR_NODE_SHAPE
+
     @staticmethod
     def test_tree_to_mermaid_edge_arrow(tree_node):
         edge_arrows = [
@@ -2235,23 +2252,6 @@ class TestTreeToMermaid:
             edge_arrows, mermaid_mds, expected_strs
         ):
             assert mermaid_md == expected_str, f"Check edge_arrow {edge_arrow}"
-
-    def test_tree_to_mermaid_node_shape_attr(self, tree_node_mermaid_style):
-        mermaid_md = tree_to_mermaid(
-            tree_node_mermaid_style, node_shape_attr="node_shape"
-        )
-        assert mermaid_md == self.MERMAID_STR_NODE_SHAPE
-
-    def test_tree_to_mermaid_node_shape_attr_callable(self, tree_node_no_attr):
-        def get_node_shape(node):
-            if node.node_name == "a":
-                return "rhombus"
-            elif node.depth == 2:
-                return "stadium"
-            return "rounded_edge"
-
-        mermaid_md = tree_to_mermaid(tree_node_no_attr, node_shape_attr=get_node_shape)
-        assert mermaid_md == self.MERMAID_STR_NODE_SHAPE
 
     def test_tree_to_mermaid_edge_arrow_attr(self, tree_node_mermaid_style):
         mermaid_md = tree_to_mermaid(
