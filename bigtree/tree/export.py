@@ -1422,7 +1422,7 @@ def tree_to_mermaid(
 ) -> str:
     r"""Export tree to mermaid Markdown text. Accepts additional keyword arguments as input to `yield_tree`.
 
-    Parameters for customizations that applies to entire flowchart include:
+    Parameters for customizations that apply to entire flowchart include:
         - Title, `title`
         - Layout direction, `rankdir`
         - Line shape or curvature, `line_shape`

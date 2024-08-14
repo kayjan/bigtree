@@ -2214,7 +2214,7 @@ class TestTreeToMermaid:
         assert mermaid_md == expected_str
 
     @staticmethod
-    def test_tree_to_mermaid_node_shape_attr_callable(tree_node_mermaid_style_callable):
+    def test_tree_to_mermaid_node_shape_attr_callable(tree_node_no_attr):
         def get_node_shape(node):
             if node.node_name == "a":
                 return "rhombus"
@@ -2222,18 +2222,16 @@ class TestTreeToMermaid:
                 return "stadium"
             return "rounded_edge"
 
-        mermaid_md = tree_to_mermaid(
-            tree_node_mermaid_style_callable, node_shape_attr=get_node_shape
-        )
+        mermaid_md = tree_to_mermaid(tree_node_no_attr, node_shape_attr=get_node_shape)
         expected_str = (
             """```mermaid\n"""
             """%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\n"""
             """flowchart TB\n"""
             """0{"a"} --> 0-0(["b"])\n"""
             """0-0 --> 0-0-0("d")\n"""
-            """0-0-0 --> 0-0-0-0("g")\n"""
             """0-0 --> 0-0-1("e")\n"""
-            """0-0-1 --> 0-0-1-0("h")\n"""
+            """0-0-1 --> 0-0-1-0("g")\n"""
+            """0-0-1 --> 0-0-1-1("h")\n"""
             """0{"a"} --> 0-1(["c"])\n"""
             """0-1 --> 0-1-0("f")\n"""
             """classDef default stroke-width:1\n"""
@@ -2263,7 +2261,7 @@ class TestTreeToMermaid:
         assert mermaid_md == expected_str
 
     @staticmethod
-    def test_tree_to_mermaid_edge_arrow_attr_callable(tree_node_mermaid_style_callable):
+    def test_tree_to_mermaid_edge_arrow_attr_callable(tree_node_no_attr):
         def get_edge_arrow_attr(node):
             if node.node_name == "b":
                 return "dotted"
@@ -2272,7 +2270,7 @@ class TestTreeToMermaid:
             return "normal"
 
         mermaid_md = tree_to_mermaid(
-            tree_node_mermaid_style_callable, edge_arrow_attr=get_edge_arrow_attr
+            tree_node_no_attr, edge_arrow_attr=get_edge_arrow_attr
         )
         expected_str = (
             """```mermaid\n"""
@@ -2280,9 +2278,9 @@ class TestTreeToMermaid:
             """flowchart TB\n"""
             """0("a") -.-> 0-0("b")\n"""
             """0-0 --> 0-0-0("d")\n"""
-            """0-0-0 --> 0-0-0-0("g")\n"""
             """0-0 --> 0-0-1("e")\n"""
-            """0-0-1 --> 0-0-1-0("h")\n"""
+            """0-0-1 --> 0-0-1-0("g")\n"""
+            """0-0-1 --> 0-0-1-1("h")\n"""
             """0("a") -.- 0-1("c")\n"""
             """0-1 --> 0-1-0("f")\n"""
             """classDef default stroke-width:1\n```"""
@@ -2329,29 +2327,27 @@ class TestTreeToMermaid:
         assert mermaid_md == expected_str
 
     @staticmethod
-    def test_tree_to_mermaid_node_attr_callable(tree_node_mermaid_style_callable):
+    def test_tree_to_mermaid_node_attr_callable(tree_node_no_attr):
         def get_node_attr(node):
             if node.node_name in ["g", "h"]:
                 return "fill:red,stroke:black,stroke-width:2"
             return ""
 
-        mermaid_md = tree_to_mermaid(
-            tree_node_mermaid_style_callable, node_attr=get_node_attr
-        )
+        mermaid_md = tree_to_mermaid(tree_node_no_attr, node_attr=get_node_attr)
         expected_str = (
             """```mermaid\n"""
             """%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\n"""
             """flowchart TB\n"""
             """0("a") --> 0-0("b")\n"""
             """0-0 --> 0-0-0("d")\n"""
-            """0-0-0:::class0-0-0-0 --> 0-0-0-0("g")\n"""
             """0-0 --> 0-0-1("e")\n"""
-            """0-0-1:::class0-0-1-0 --> 0-0-1-0("h")\n"""
+            """0-0-1:::class0-0-1-0 --> 0-0-1-0("g")\n"""
+            """0-0-1:::class0-0-1-1 --> 0-0-1-1("h")\n"""
             """0("a") --> 0-1("c")\n"""
             """0-1 --> 0-1-0("f")\n"""
             """classDef default stroke-width:1\n"""
-            """classDef class0-0-0-0 fill:red,stroke:black,stroke-width:2\n"""
-            """classDef class0-0-1-0 fill:red,stroke:black,stroke-width:2\n```"""
+            """classDef class0-0-1-0 fill:red,stroke:black,stroke-width:2\n"""
+            """classDef class0-0-1-1 fill:red,stroke:black,stroke-width:2\n```"""
         )
 
         assert mermaid_md == expected_str

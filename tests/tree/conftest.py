@@ -236,38 +236,6 @@ def tree_node_mermaid_style():
 
 
 @pytest.fixture
-def tree_node_mermaid_style_callable():
-    """
-    Tree should have structure
-    a
-    |-- b
-    |   |-- d
-    |   +-- e
-    |       |-- g
-    |       +-- h
-    +-- c
-        +-- f
-    """
-    a = Node("a")
-    b = Node("b")
-    c = Node("c")
-    d = Node("d", label="c-d link")
-    e = Node("e", label="c-e link")
-    f = Node("f")
-    g = Node("g")
-    h = Node("h")
-
-    b.parent = a
-    c.parent = a
-    d.parent = b
-    e.parent = b
-    f.parent = c
-    g.parent = d
-    h.parent = e
-    return a
-
-
-@pytest.fixture
 def phylogenetic_tree():
     """
     Example taken from: https://www.cs.mcgill.ca/~birch/doc/forester/NHX.pdf
