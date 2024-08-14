@@ -230,7 +230,7 @@ def tree_node_mermaid_style():
     d.parent = b
     e.parent = b
     f.parent = c
-    g.parent = d
+    g.parent = e
     h.parent = e
     return a
 
