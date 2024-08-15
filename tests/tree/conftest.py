@@ -217,7 +217,9 @@ def tree_node_mermaid_style():
         +-- f
     """
     a = Node("a", node_shape="rhombus")
-    b = Node("b", node_shape="stadium", edge_arrow="dotted")
+    b = Node(
+        "b", node_shape="stadium", edge_arrow="dotted", attr="fill:green,stroke:black"
+    )
     c = Node("c", node_shape="stadium", edge_arrow="dotted_open")
     d = Node("d", label="c-d link")
     e = Node("e", label="c-e link")

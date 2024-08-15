@@ -1885,14 +1885,15 @@ class TestTreeToMermaid:
         """```mermaid\n"""
         """%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\n"""
         """flowchart TB\n"""
-        """0("a") --> 0-0("b")\n"""
+        """0("a") --> 0-0("b"):::class0-0\n"""
         """0-0 --> 0-0-0("d")\n"""
         """0-0 --> 0-0-1("e")\n"""
-        """0-0-1:::class0-0-1-0 --> 0-0-1-0("g")\n"""
-        """0-0-1:::class0-0-1-1 --> 0-0-1-1("h")\n"""
+        """0-0-1 --> 0-0-1-0("g"):::class0-0-1-0\n"""
+        """0-0-1 --> 0-0-1-1("h"):::class0-0-1-1\n"""
         """0("a") --> 0-1("c")\n"""
         """0-1 --> 0-1-0("f")\n"""
         """classDef default stroke-width:1\n"""
+        """classDef class0-0 fill:green,stroke:black\n"""
         """classDef class0-0-1-0 fill:red,stroke:black,stroke-width:2\n"""
         """classDef class0-0-1-1 fill:red,stroke:black,stroke-width:2\n```"""
     )
@@ -2296,7 +2297,9 @@ class TestTreeToMermaid:
 
     def test_tree_to_mermaid_node_attr_callable(self, tree_node_no_attr):
         def get_node_attr(node):
-            if node.node_name in ["g", "h"]:
+            if node.node_name == "b":
+                return "fill:green,stroke:black"
+            elif node.node_name in ["g", "h"]:
                 return "fill:red,stroke:black,stroke-width:2"
             return ""
 
