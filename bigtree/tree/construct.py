@@ -539,12 +539,10 @@ def add_polars_to_tree_by_name(
         >>> from bigtree import add_polars_to_tree_by_name, Node
         >>> root = Node("a")
         >>> b = Node("b", parent=root)
-        >>> name_data = pl.DataFrame([
-        ...     ["a", 90],
-        ...     ["b", 65],
-        ... ],
-        ...     schema=["NAME", "age"]
-        ... )
+        >>> name_data = pl.DataFrame({
+        ...     "NAME": ["a", "b"],
+        ...     "age": [90, 65],
+        ... })
         >>> root = add_polars_to_tree_by_name(root, name_data)
         >>> root.show(attr_list=["age"])
         a [age=90]
