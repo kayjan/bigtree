@@ -146,3 +146,4 @@ ignore_missing_imports = true
 strict = true
 strict_optional = false
 warn_no_return = false
+disallow_untyped_calls = false
