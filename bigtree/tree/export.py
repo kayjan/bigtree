@@ -1422,7 +1422,7 @@ def tree_to_mermaid(
 ) -> str:
     r"""Export tree to mermaid Markdown text. Accepts additional keyword arguments as input to `yield_tree`.
 
-    Parameters for customizations that applies to entire flowchart include:
+    Parameters for customizations that apply to entire flowchart include:
         - Title, `title`
         - Layout direction, `rankdir`
         - Line shape or curvature, `line_shape`
@@ -1526,7 +1526,7 @@ def tree_to_mermaid(
         %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
         flowchart TB
         0{"a"} ==>|Child 1| 0-0("b")
-        0-0:::class0-0-0 --> 0-0-0("d")
+        0-0 --> 0-0-0("d"):::class0-0-0
         0-0 --> 0-0-1("e")
         0{"a"} -.->|Child 2| 0-1("c")
         classDef default stroke-width:1
@@ -1572,7 +1572,9 @@ def tree_to_mermaid(
     assert_key_in_dict("edge_arrow", edge_arrow, edge_arrows)
 
     mermaid_template = """```mermaid\n{title}{line_style}\nflowchart {rankdir}\n{flows}\n{styles}\n```"""
-    flowchart_template = "{from_node_ref}{from_node_name}{flow_style} {arrow}{arrow_label} {to_node_ref}{to_node_name}"
+    flowchart_template = (
+        "{from_ref}{from_name} {arrow}{arrow_label} {to_ref}{to_name}{to_style}"
+    )
     style_template = "classDef {style_name} {style}"
 
     # Content
@@ -1629,8 +1631,8 @@ def tree_to_mermaid(
             return f"{self.parent.mermaid_name}-{self.parent.children.index(self)}"
 
     def _get_attr(
-        _node: MermaidNode,
-        attr_parameter: str | Callable[[MermaidNode], str],
+        _node: T,
+        attr_parameter: str | Callable[[T], str],
         default_parameter: str,
     ) -> str:
         """Get custom attribute if available, otherwise return default parameter.
@@ -1651,30 +1653,30 @@ def tree_to_mermaid(
                 _choice = attr_parameter(_node)
         return _choice
 
-    tree_mermaid = clone_tree(tree, MermaidNode)
+    tree_mermaid: T = clone_tree(tree, MermaidNode)  # type: ignore
     for _, _, node in yield_tree(tree_mermaid, **kwargs):
         if not node.is_root:
             # Get custom style (node_shape_attr)
             _parent_node_name = ""
             if node.parent.is_root:
                 _parent_node_shape_choice = _get_attr(
-                    node.parent, node_shape_attr, node_shape  # type: ignore
+                    node.parent, node_shape_attr, node_shape
                 )
                 _parent_node_shape = node_shapes[_parent_node_shape_choice]
                 _parent_node_name = _parent_node_shape.format(label=node.parent.name)
-            _node_shape_choice = _get_attr(node, node_shape_attr, node_shape)  # type: ignore
+            _node_shape_choice = _get_attr(node, node_shape_attr, node_shape)
             _node_shape = node_shapes[_node_shape_choice]
             _node_name = _node_shape.format(label=node.name)
 
             # Get custom style (edge_arrow_attr, edge_label)
-            _arrow_choice = _get_attr(node, edge_arrow_attr, edge_arrow)  # type: ignore
+            _arrow_choice = _get_attr(node, edge_arrow_attr, edge_arrow)
             _arrow = edge_arrows[_arrow_choice]
             _arrow_label = (
                 f"|{node.get_attr(edge_label)}|" if node.get_attr(edge_label) else ""
             )
 
             # Get custom style (node_attr)
-            _flow_style = _get_attr(node, node_attr, "")  # type: ignore
+            _flow_style = _get_attr(node, node_attr, "")
             if _flow_style:
                 _flow_style_class = f"""class{node.get_attr("mermaid_name")}"""
                 styles.append(
@@ -1686,13 +1688,13 @@ def tree_to_mermaid(
 
             flows.append(
                 flowchart_template.format(
-                    from_node_ref=node.parent.get_attr("mermaid_name"),
-                    from_node_name=_parent_node_name,
-                    flow_style=_flow_style,
+                    from_ref=node.parent.get_attr("mermaid_name"),
+                    from_name=_parent_node_name,
                     arrow=_arrow,
                     arrow_label=_arrow_label,
-                    to_node_ref=node.get_attr("mermaid_name"),
-                    to_node_name=_node_name,
+                    to_ref=node.get_attr("mermaid_name"),
+                    to_name=_node_name,
+                    to_style=_flow_style,
                 )
             )
 

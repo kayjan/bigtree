@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.4] - 2024-08-15
+### Changed:
+- Docs: Clean CSS for playground.
+- Misc: Refactor tests for tree_to_mermaid`.
+- Misc: Allow untyped calls in mypy type checking due to ImageFont.truetype call.
+### Fixed:
+- Tree Exporter: `tree_to_mermaid` fix where the node colour is added wrongly to the wrong node.
+- Misc: Fix and update code examples in docstring.
+
 ## [0.19.3] - 2024-07-09
 ### Fixed:
 - Docs: Update links in README and rtd docs.
@@ -615,7 +624,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.19.3...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.19.4...HEAD
+[0.19.4]: https://github.com/kayjan/bigtree/compare/0.19.3...0.19.4
 [0.19.3]: https://github.com/kayjan/bigtree/compare/0.19.2...0.19.3
 [0.19.2]: https://github.com/kayjan/bigtree/compare/0.19.1...0.19.2
 [0.19.1]: https://github.com/kayjan/bigtree/compare/0.19.0...0.19.1

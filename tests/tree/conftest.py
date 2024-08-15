@@ -217,7 +217,9 @@ def tree_node_mermaid_style():
         +-- f
     """
     a = Node("a", node_shape="rhombus")
-    b = Node("b", node_shape="stadium", edge_arrow="dotted")
+    b = Node(
+        "b", node_shape="stadium", edge_arrow="dotted", attr="fill:green,stroke:black"
+    )
     c = Node("c", node_shape="stadium", edge_arrow="dotted_open")
     d = Node("d", label="c-d link")
     e = Node("e", label="c-e link")
@@ -230,39 +232,7 @@ def tree_node_mermaid_style():
     d.parent = b
     e.parent = b
     f.parent = c
-    g.parent = d
-    h.parent = e
-    return a
-
-
-@pytest.fixture
-def tree_node_mermaid_style_callable():
-    """
-    Tree should have structure
-    a
-    |-- b
-    |   |-- d
-    |   +-- e
-    |       |-- g
-    |       +-- h
-    +-- c
-        +-- f
-    """
-    a = Node("a")
-    b = Node("b")
-    c = Node("c")
-    d = Node("d", label="c-d link")
-    e = Node("e", label="c-e link")
-    f = Node("f")
-    g = Node("g")
-    h = Node("h")
-
-    b.parent = a
-    c.parent = a
-    d.parent = b
-    e.parent = b
-    f.parent = c
-    g.parent = d
+    g.parent = e
     h.parent = e
     return a
 
