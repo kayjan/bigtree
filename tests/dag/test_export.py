@@ -199,11 +199,43 @@ class TestDAGToDot:
 
     @staticmethod
     @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_dag_to_dot_fill_colour2(dag_node):
+        graph = dag_to_dot(dag_node, node_colour="gold")
+        expected = """strict digraph G {\nrankdir=TB;\nc [label=c, style=filled, fillcolor=gold];\na [label=a, style=filled, fillcolor=gold];\na -> c;\nd [label=d, style=filled, fillcolor=gold];\na [label=a, style=filled, fillcolor=gold];\na -> d;\nc [label=c, style=filled, fillcolor=gold];\nb [label=b, style=filled, fillcolor=gold];\nb -> c;\nd [label=d, style=filled, fillcolor=gold];\nc [label=c, style=filled, fillcolor=gold];\nc -> d;\nf [label=f, style=filled, fillcolor=gold];\nc [label=c, style=filled, fillcolor=gold];\nc -> f;\ng [label=g, style=filled, fillcolor=gold];\nc [label=c, style=filled, fillcolor=gold];\nc -> g;\ne [label=e, style=filled, fillcolor=gold];\nd [label=d, style=filled, fillcolor=gold];\nd -> e;\nf [label=f, style=filled, fillcolor=gold];\nd [label=d, style=filled, fillcolor=gold];\nd -> f;\nh [label=h, style=filled, fillcolor=gold];\ng [label=g, style=filled, fillcolor=gold];\ng -> h;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/dag_fill_colour.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    @pytest.mark.skipif(
         pydot.__version__ >= "3.0.0", reason="Results have different ordering"
     )
     def test_dag_to_dot_edge_colour(dag_node):
         graph = dag_to_dot(dag_node, edge_colour="red")
         expected = """strict digraph G {\na [label=a];\nc [label=c];\na -> c  [color=red];\nd [label=d];\na -> d  [color=red];\nc [label=c];\na [label=a];\na -> c  [color=red];\nb [label=b];\nb -> c  [color=red];\nd [label=d];\nc -> d  [color=red];\nf [label=f];\nc -> f  [color=red];\ng [label=g];\nc -> g  [color=red];\nd [label=d];\na [label=a];\na -> d  [color=red];\nc [label=c];\nc -> d  [color=red];\ne [label=e];\nd -> e  [color=red];\nf [label=f];\nd -> f  [color=red];\ne [label=e];\nd [label=d];\nd -> e  [color=red];\nf [label=f];\nc [label=c];\nc -> f  [color=red];\nd [label=d];\nd -> f  [color=red];\ng [label=g];\nc [label=c];\nc -> g  [color=red];\nh [label=h];\ng -> h  [color=red];\nh [label=h];\ng [label=g];\ng -> h  [color=red];\nb [label=b];\nc [label=c];\nb -> c  [color=red];\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/dag_edge_colour.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_dag_to_dot_edge_colour2(dag_node):
+        graph = dag_to_dot(dag_node, edge_colour="red")
+        expected = """strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c [color=red];\nd [label=d];\na [label=a];\na -> d [color=red];\nc [label=c];\nb [label=b];\nb -> c [color=red];\nd [label=d];\nc [label=c];\nc -> d [color=red];\nf [label=f];\nc [label=c];\nc -> f [color=red];\ng [label=g];\nc [label=c];\nc -> g [color=red];\ne [label=e];\nd [label=d];\nd -> e [color=red];\nf [label=f];\nd [label=d];\nd -> f [color=red];\nh [label=h];\ng [label=g];\ng -> h [color=red];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/dag_edge_colour.png")
@@ -241,11 +273,43 @@ class TestDAGToDot:
 
     @staticmethod
     @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_dag_to_dot_node_attr2(dag_node_style):
+        graph = dag_to_dot(dag_node_style, node_attr="node_style")
+        expected = """strict digraph G {\nrankdir=TB;\nc [label=c, style=filled, fillcolor=blue];\na [label=a, style=filled, fillcolor=gold];\na -> c;\nd [label=d, style=filled, fillcolor=green];\na [label=a, style=filled, fillcolor=gold];\na -> d;\nc [label=c, style=filled, fillcolor=blue];\nb [label=b, style=filled, fillcolor=blue];\nb -> c;\nd [label=d, style=filled, fillcolor=green];\nc [label=c, style=filled, fillcolor=blue];\nc -> d;\nf [label=f, style=filled, fillcolor=green];\nc [label=c, style=filled, fillcolor=blue];\nc -> f;\ng [label=g, style=filled, fillcolor=red];\nc [label=c, style=filled, fillcolor=blue];\nc -> g;\ne [label=e, style=filled, fillcolor=green];\nd [label=d, style=filled, fillcolor=green];\nd -> e;\nf [label=f, style=filled, fillcolor=green];\nd [label=d, style=filled, fillcolor=green];\nd -> f;\nh [label=h, style=filled, fillcolor=red];\ng [label=g, style=filled, fillcolor=red];\ng -> h;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/dag_node_attr.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    @pytest.mark.skipif(
         pydot.__version__ >= "3.0.0", reason="Results have different ordering"
     )
     def test_dag_to_dot_edge_attr(dag_node_style):
         graph = dag_to_dot(dag_node_style, edge_attr="edge_style")
         expected = """strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c  [label=c, style=bold];\nd [label=d];\na [label=a];\na -> d  [label=1, style=bold];\nc [label=c];\nb [label=b];\nb -> c  [label=c, style=bold];\nd [label=d];\nc [label=c];\nc -> d  [label=1, style=bold];\nf [label=f];\nc [label=c];\nc -> f  [label=3, style=bold];\ng [label=g];\nc [label=c];\nc -> g  [label=4, style=bold];\ne [label=e];\nd [label=d];\nd -> e  [label=2, style=bold];\nf [label=f];\nd [label=d];\nd -> f  [label=3, style=bold];\nh [label=h];\ng [label=g];\ng -> h  [label=5, style=bold];\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/dag_edge_attr.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_dag_to_dot_edge_attr2(dag_node_style):
+        graph = dag_to_dot(dag_node_style, edge_attr="edge_style")
+        expected = """strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c [style=bold, label=c];\nd [label=d];\na [label=a];\na -> d [style=bold, label=1];\nc [label=c];\nb [label=b];\nb -> c [style=bold, label=c];\nd [label=d];\nc [label=c];\nc -> d [style=bold, label=1];\nf [label=f];\nc [label=c];\nc -> f [style=bold, label=3];\ng [label=g];\nc [label=c];\nc -> g [style=bold, label=4];\ne [label=e];\nd [label=d];\nd -> e [style=bold, label=2];\nf [label=f];\nd [label=d];\nd -> f [style=bold, label=3];\nh [label=h];\ng [label=g];\ng -> h [style=bold, label=5];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/dag_edge_attr.png")
@@ -267,6 +331,28 @@ class TestDAGToDot:
         )
         graph = dag_to_dot(dag_node, node_attr="node_style", edge_attr="edge_style")
         expected = """strict digraph G {\nrankdir=TB;\nc [fillcolor=blue, label=c, style=filled];\na [label=a];\na -> c  [style=bold];\nd [label=d];\na [label=a];\na -> d;\nc [fillcolor=blue, label=c, style=filled];\nb [label=b];\nb -> c  [style=bold];\nd [label=d];\nc [fillcolor=blue, label=c, style=filled];\nc -> d;\nf [label=f];\nc [fillcolor=blue, label=c, style=filled];\nc -> f;\ng [label=g];\nc [fillcolor=blue, label=c, style=filled];\nc -> g;\ne [label=e];\nd [label=d];\nd -> e;\nf [label=f];\nd [label=d];\nd -> f;\nh [label=h];\ng [label=g];\ng -> h;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/dag_attr_override.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_dag_to_dot_attr_override2(dag_node):
+        dag_node.children[0].set_attrs(
+            {
+                "node_style": {"style": "filled", "fillcolor": "blue"},
+                "edge_style": {"style": "bold"},
+            }
+        )
+        graph = dag_to_dot(dag_node, node_attr="node_style", edge_attr="edge_style")
+        expected = """strict digraph G {\nrankdir=TB;\nc [label=c, style=filled, fillcolor=blue];\na [label=a];\na -> c [style=bold];\nd [label=d];\na [label=a];\na -> d;\nc [label=c, style=filled, fillcolor=blue];\nb [label=b];\nb -> c [style=bold];\nd [label=d];\nc [label=c, style=filled, fillcolor=blue];\nc -> d;\nf [label=f];\nc [label=c, style=filled, fillcolor=blue];\nc -> f;\ng [label=g];\nc [label=c, style=filled, fillcolor=blue];\nc -> g;\ne [label=e];\nd [label=d];\nd -> e;\nf [label=f];\nd [label=d];\nd -> f;\nh [label=h];\ng [label=g];\ng -> h;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/dag_attr_override.png")

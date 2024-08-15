@@ -9,11 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.19.4] - 2024-08-15
 ### Changed:
 - Docs: Clean CSS for playground.
-- Misc: Refactor tests for tree_to_mermaid`.
+- Misc: Refactor tests for `tree_to_mermaid`.
 - Misc: Allow untyped calls in mypy type checking due to ImageFont.truetype call.
 ### Fixed:
 - Tree Exporter: `tree_to_mermaid` fix where the node colour is added wrongly to the wrong node.
 - Misc: Fix and update code examples in docstring.
+- Misc: Fix test cases for pydot due to code upgrade.
 
 ## [0.19.3] - 2024-07-09
 ### Fixed:

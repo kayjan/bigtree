@@ -1679,6 +1679,22 @@ class TestTreeToDot:
             ), f"Expected {expected_str} not in actual string"
 
     @staticmethod
+    @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_tree_to_dot_fill_colour2(tree_node):
+        graph = tree_to_dot(tree_node, node_colour="gold")
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, style=filled, fillcolor=gold];\nb0 [label=b, style=filled, fillcolor=gold];\na0 -> b0;\nd0 [label=d, style=filled, fillcolor=gold];\nb0 -> d0;\ne0 [label=e, style=filled, fillcolor=gold];\nb0 -> e0;\ng0 [label=g, style=filled, fillcolor=gold];\ne0 -> g0;\nh0 [label=h, style=filled, fillcolor=gold];\ne0 -> h0;\nc0 [label=c, style=filled, fillcolor=gold];\na0 -> c0;\nf0 [label=f, style=filled, fillcolor=gold];\nc0 -> f0;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_fill_colour.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
     def test_tree_to_dot_edge_colour(tree_node):
         graph = tree_to_dot(tree_node, edge_colour="red")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [color=red];\nd0 [label=d];\nb0 -> d0  [color=red];\ne0 [label=e];\nb0 -> e0  [color=red];\ng0 [label=g];\ne0 -> g0  [color=red];\nh0 [label=h];\ne0 -> h0  [color=red];\nc0 [label=c];\na0 -> c0  [color=red];\nf0 [label=f];\nc0 -> f0  [color=red];\n}\n"""
@@ -1719,6 +1735,22 @@ class TestTreeToDot:
 
     @staticmethod
     @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_tree_to_dot_node_attr2(tree_node_style):
+        graph = tree_to_dot(tree_node_style, node_attr="node_style")
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, style=filled, fillcolor=gold];\nb0 [label=b, style=filled, fillcolor=blue];\na0 -> b0;\nd0 [label=d, style=filled, fillcolor=green];\nb0 -> d0;\ng0 [label=g, style=filled, fillcolor=red];\nd0 -> g0;\ne0 [label=e, style=filled, fillcolor=green];\nb0 -> e0;\nh0 [label=h, style=filled, fillcolor=red];\ne0 -> h0;\nc0 [label=c, style=filled, fillcolor=blue];\na0 -> c0;\nf0 [label=f, style=filled, fillcolor=green];\nc0 -> f0;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_node_attr.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    @pytest.mark.skipif(
         pydot.__version__ >= "3.0.0", reason="Results have different ordering"
     )
     def test_tree_to_dot_node_attr_callable(tree_node_style_callable):
@@ -1743,11 +1775,52 @@ class TestTreeToDot:
 
     @staticmethod
     @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_tree_to_dot_node_attr_callable2(tree_node_style_callable):
+        def get_node_attr(node):
+            if node.get_attr("style") and node.style == 1:
+                return {"style": "filled", "fillcolor": "gold"}
+            elif node.get_attr("style") and node.style == "two":
+                return {"style": "filled", "fillcolor": "blue"}
+            elif node.node_name in ["d", "e", "f"]:
+                return {"style": "filled", "fillcolor": "green"}
+            return {"style": "filled", "fillcolor": "red"}
+
+        graph = tree_to_dot(tree_node_style_callable, node_attr=get_node_attr)
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, style=filled, fillcolor=gold];\nb0 [label=b, style=filled, fillcolor=blue];\na0 -> b0;\nd0 [label=d, style=filled, fillcolor=green];\nb0 -> d0;\ng0 [label=g, style=filled, fillcolor=red];\nd0 -> g0;\ne0 [label=e, style=filled, fillcolor=green];\nb0 -> e0;\nh0 [label=h, style=filled, fillcolor=red];\ne0 -> h0;\nc0 [label=c, style=filled, fillcolor=red];\na0 -> c0;\nf0 [label=f, style=filled, fillcolor=green];\nc0 -> f0;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_node_attr_callable.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    @pytest.mark.skipif(
         pydot.__version__ >= "3.0.0", reason="Results have different ordering"
     )
     def test_tree_to_dot_edge_attr(tree_node_style):
         graph = tree_to_dot(tree_node_style, edge_attr="edge_style")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [label=b, style=bold];\nd0 [label=d];\nb0 -> d0  [label=1, style=bold];\ng0 [label=g];\nd0 -> g0  [label=4, style=bold];\ne0 [label=e];\nb0 -> e0  [label=2, style=bold];\nh0 [label=h];\ne0 -> h0  [label=5, style=bold];\nc0 [label=c];\na0 -> c0  [label=c, style=bold];\nf0 [label=f];\nc0 -> f0  [label=3, style=bold];\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_edge_attr.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_tree_to_dot_edge_attr2(tree_node_style):
+        graph = tree_to_dot(tree_node_style, edge_attr="edge_style")
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0 [style=bold, label=b];\nd0 [label=d];\nb0 -> d0 [style=bold, label=1];\ng0 [label=g];\nd0 -> g0 [style=bold, label=4];\ne0 [label=e];\nb0 -> e0 [style=bold, label=2];\nh0 [label=h];\ne0 -> h0 [style=bold, label=5];\nc0 [label=c];\na0 -> c0 [style=bold, label=c];\nf0 [label=f];\nc0 -> f0 [style=bold, label=3];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_edge_attr.png")
@@ -1787,6 +1860,36 @@ class TestTreeToDot:
 
     @staticmethod
     @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_tree_to_dot_edge_attr_callable2(tree_node_style_callable):
+        def get_edge_attr(node):
+            if node.get_attr("style") and node.style == 1:
+                return {"style": "bold", "label": "a"}
+            elif node.get_attr("style") and node.style == "two":
+                return {"style": "bold", "label": "b"}
+            elif node.get_attr("style") and node.style == ("three"):
+                return {"style": "bold", "label": "c"}
+            elif node.node_name in ["d", "e", "f", "g", "h"]:
+                return {
+                    "style": "bold",
+                    "label": ["d", "e", "f", "g", "h"].index(node.node_name) + 1,
+                }
+            raise Exception("Node with invalid edge_attr not covered")
+
+        graph = tree_to_dot(tree_node_style_callable, edge_attr=get_edge_attr)
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0 [style=bold, label=b];\nd0 [label=d];\nb0 -> d0 [style=bold, label=1];\ng0 [label=g];\nd0 -> g0 [style=bold, label=4];\ne0 [label=e];\nb0 -> e0 [style=bold, label=2];\nh0 [label=h];\ne0 -> h0 [style=bold, label=5];\nc0 [label=c];\na0 -> c0 [style=bold, label=c];\nf0 [label=f];\nc0 -> f0 [style=bold, label=3];\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_edge_attr_callable.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    @pytest.mark.skipif(
         pydot.__version__ >= "3.0.0", reason="Results have different ordering"
     )
     def test_tree_to_dot_attr_override(tree_node):
@@ -1798,6 +1901,28 @@ class TestTreeToDot:
         )
         graph = tree_to_dot(tree_node, node_attr="node_style", edge_attr="edge_style")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0  [style=bold];\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
+        actual = graph.to_string()
+        if LOCAL:
+            graph.write_png("tests/tree_attr_override.png")
+        for expected_str in expected.split():
+            assert (
+                expected_str in actual
+            ), f"Expected {expected_str} not in actual string"
+
+    @staticmethod
+    @pytest.mark.skipif(
+        pydot.__version__ < "3.0.0",
+        reason="Results have different ordering (new pydot)",
+    )
+    def test_tree_to_dot_attr_override2(tree_node):
+        tree_node.children[0].set_attrs(
+            {
+                "node_style": {"style": "filled", "fillcolor": "blue"},
+                "edge_style": {"style": "bold"},
+            }
+        )
+        graph = tree_to_dot(tree_node, node_attr="node_style", edge_attr="edge_style")
+        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b, style=filled, fillcolor=blue];\na0 -> b0 [style=bold];\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_attr_override.png")
