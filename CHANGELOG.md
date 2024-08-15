@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed:
+- Tree Exporter: `tree_to_mermaid` fix for root node to have node attribute.
 
 ## [0.19.4] - 2024-08-15
 ### Changed:
@@ -12,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: Refactor tests for `tree_to_mermaid`.
 - Misc: Allow untyped calls in mypy type checking due to ImageFont.truetype call.
 ### Fixed:
-- Tree Exporter: `tree_to_mermaid` fix where the node colour is added wrongly to the wrong node.
+- Tree Exporter: `tree_to_mermaid` fix where the node attribute is added wrongly to the wrong node.
 - Misc: Fix and update code examples in docstring.
 - Misc: Fix test cases for pydot due to code upgrade.
 

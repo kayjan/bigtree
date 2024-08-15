@@ -1572,9 +1572,7 @@ def tree_to_mermaid(
     assert_key_in_dict("edge_arrow", edge_arrow, edge_arrows)
 
     mermaid_template = """```mermaid\n{title}{line_style}\nflowchart {rankdir}\n{flows}\n{styles}\n```"""
-    flowchart_template = (
-        "{from_ref}{from_name} {arrow}{arrow_label} {to_ref}{to_name}{to_style}"
-    )
+    flowchart_template = "{from_ref}{from_name}{from_style} {arrow}{arrow_label} {to_ref}{to_name}{to_style}"
     style_template = "classDef {style_name} {style}"
 
     # Content
@@ -1658,43 +1656,53 @@ def tree_to_mermaid(
         if not node.is_root:
             # Get custom style (node_shape_attr)
             _parent_node_name = ""
+            _from_style = ""
             if node.parent.is_root:
-                _parent_node_shape_choice = _get_attr(
-                    node.parent, node_shape_attr, node_shape
-                )
-                _parent_node_shape = node_shapes[_parent_node_shape_choice]
-                _parent_node_name = _parent_node_shape.format(label=node.parent.name)
-            _node_shape_choice = _get_attr(node, node_shape_attr, node_shape)
-            _node_shape = node_shapes[_node_shape_choice]
-            _node_name = _node_shape.format(label=node.name)
+                # Get custom style for root (node_shape_attr, node_attr)
+                _parent_node_name = node_shapes[
+                    _get_attr(node.parent, node_shape_attr, node_shape)
+                ].format(label=node.parent.name)
+
+                if _get_attr(node.parent, node_attr, "") and len(styles) < 2:
+                    _from_style = _get_attr(node.parent, node_attr, "")
+                    _from_style_class = (
+                        f"""class{node.parent.get_attr("mermaid_name")}"""
+                    )
+                    styles.append(
+                        style_template.format(
+                            style_name=_from_style_class, style=_from_style
+                        )
+                    )
+                    _from_style = f":::{_from_style_class}"
+            _node_name = node_shapes[
+                _get_attr(node, node_shape_attr, node_shape)
+            ].format(label=node.name)
 
             # Get custom style (edge_arrow_attr, edge_label)
-            _arrow_choice = _get_attr(node, edge_arrow_attr, edge_arrow)
-            _arrow = edge_arrows[_arrow_choice]
+            _arrow = edge_arrows[_get_attr(node, edge_arrow_attr, edge_arrow)]
             _arrow_label = (
                 f"|{node.get_attr(edge_label)}|" if node.get_attr(edge_label) else ""
             )
 
             # Get custom style (node_attr)
-            _flow_style = _get_attr(node, node_attr, "")
-            if _flow_style:
-                _flow_style_class = f"""class{node.get_attr("mermaid_name")}"""
+            _to_style = _get_attr(node, node_attr, "")
+            if _to_style:
+                _to_style_class = f"""class{node.get_attr("mermaid_name")}"""
                 styles.append(
-                    style_template.format(
-                        style_name=_flow_style_class, style=_flow_style
-                    )
+                    style_template.format(style_name=_to_style_class, style=_to_style)
                 )
-                _flow_style = f":::{_flow_style_class}"
+                _to_style = f":::{_to_style_class}"
 
             flows.append(
                 flowchart_template.format(
                     from_ref=node.parent.get_attr("mermaid_name"),
                     from_name=_parent_node_name,
+                    from_style=_from_style,
                     arrow=_arrow,
                     arrow_label=_arrow_label,
                     to_ref=node.get_attr("mermaid_name"),
                     to_name=_node_name,
-                    to_style=_flow_style,
+                    to_style=_to_style,
                 )
             )
 
