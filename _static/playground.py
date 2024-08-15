@@ -85,11 +85,11 @@ class AtomicString(str):
     """Atomic string."""
 
 
-class Break(Exception):
+class BreakException(Exception):
     """Break exception."""
 
 
-class Continue(Exception):
+class ContinueException(Exception):
     """Continue exception."""
 
 
@@ -271,10 +271,10 @@ def evaluate(node, g, loop=False):
     """Evaluate."""
 
     if loop and isinstance(node, ast.Break):
-        raise Break
+        raise BreakException
 
     if loop and isinstance(node, ast.Continue):
-        raise Continue
+        raise ContinueException
 
     if isinstance(node, ast.Expr):
         _eval = ast.Expression(node.value)
@@ -291,9 +291,9 @@ def evaluate(node, g, loop=False):
             try:
                 for n in node.body:
                     yield from evaluate(n, g, True)
-            except Break:  # noqa
+            except BreakException:  # noqa
                 break
-            except Continue:
+            except ContinueException:
                 continue
         else:
             for n in node.orelse:
@@ -308,9 +308,9 @@ def evaluate(node, g, loop=False):
             try:
                 for n in node.body:
                     yield from evaluate(n, g, True)
-            except Break:  # noqa
+            except BreakException:  # noqa
                 break
-            except Continue:
+            except ContinueException:
                 continue
         else:
             for n in node.orelse:
@@ -422,11 +422,10 @@ def execute(cmd, no_except=True, inline=False, init="", g=None):
         end = node.end_lineno
         stmt = lines[start - 1 : end]  # noqa
         command = ""
-        for i, line in enumerate(stmt, 0):
-            if i == 0:
-                stmt[i] = ">>> " + line
-            else:
-                stmt[i] = "... " + line
+        stmt = [
+            f">>> {_stmt}" if not idx else f"... {_stmt}"
+            for idx, _stmt in enumerate(stmt)
+        ]
         command += "\n".join(stmt)
         if isinstance(node, AST_BLOCKS):
             command += "\n... "
