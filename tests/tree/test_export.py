@@ -2431,6 +2431,33 @@ class TestTreeToMermaid:
         mermaid_md = tree_to_mermaid(tree_node_no_attr, node_attr=get_node_attr)
         assert mermaid_md == self.MERMAID_STR_NODE_ATTR
 
+    def test_tree_to_mermaid_node_attr_root(self, tree_node_no_attr):
+        def get_node_attr(node):
+            if node.node_name == "a":
+                return "fill:green,stroke:black"
+            elif node.node_name in ["g", "h"]:
+                return "fill:red,stroke:black,stroke-width:2"
+            return ""
+
+        mermaid_md = tree_to_mermaid(tree_node_no_attr, node_attr=get_node_attr)
+        expected_str = (
+            """```mermaid\n"""
+            """%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\n"""
+            """flowchart TB\n"""
+            """0("a"):::class0 --> 0-0("b")\n"""
+            """0-0 --> 0-0-0("d")\n"""
+            """0-0 --> 0-0-1("e")\n"""
+            """0-0-1 --> 0-0-1-0("g"):::class0-0-1-0\n"""
+            """0-0-1 --> 0-0-1-1("h"):::class0-0-1-1\n"""
+            """0("a") --> 0-1("c")\n"""
+            """0-1 --> 0-1-0("f")\n"""
+            """classDef default stroke-width:1\n"""
+            """classDef class0 fill:green,stroke:black\n"""
+            """classDef class0-0-1-0 fill:red,stroke:black,stroke-width:2\n"""
+            """classDef class0-0-1-1 fill:red,stroke:black,stroke-width:2\n```"""
+        )
+        assert mermaid_md == expected_str
+
 
 class TestTreeToNewick:
     @staticmethod
