@@ -12,23 +12,29 @@ body:
     attributes:
       label: Environment
       description: Describe your environment.
-      placeholder: >
+      placeholder: |
         - Platform: [Windows / MacOS / Ubuntu]
         - Python version:
-        - `bigtree`  version:
+        - `bigtree` version:
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: To Reproduce
       description: Steps or code to reproduce the behaviour.
-      placeholder: >
+      placeholder: |
         1. Go to '...'
         2. Click on '....'
         3. Scroll down to '....'
         4. See error
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Expected behaviour
       description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Screenshots
