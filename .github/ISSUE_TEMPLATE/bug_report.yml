@@ -35,5 +35,5 @@ body:
       description: If applicable, add screenshots to help explain your problem.
   - type: textarea
     attributes:
-      label: Expected behaviour
+      label: Additional context
       description: Add any other context about the problem here.
