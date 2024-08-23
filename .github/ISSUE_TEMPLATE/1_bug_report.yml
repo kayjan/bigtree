@@ -13,6 +13,8 @@ body:
       label: Environment
       description: Describe your environment.
       placeholder: |
+        - Platform, Python version and bigtree version
+      value: |
         - Platform: [Windows / MacOS / Ubuntu]
         - Python version:
         - `bigtree` version:
