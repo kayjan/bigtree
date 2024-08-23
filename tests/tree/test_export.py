@@ -1,3 +1,5 @@
+import io
+
 import pandas as pd
 import polars as pl
 import pydot
@@ -23,17 +25,56 @@ from tests.node.test_basenode import (
 from tests.node.test_node import assert_tree_structure_node_root
 from tests.test_constants import Constants
 
-tree_node_str = """a [age=90]\n├── b [age=65]\n│   ├── d [age=40]\n│   └── e [age=35]\n│       ├── g [age=10]
-│       └── h [age=6]\n└── c [age=60]\n    └── f [age=38]\n"""
-tree_node_no_attr_str = """a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f\n"""
-
+tree_node_str = (
+    "a [age=90]\n"
+    "├── b [age=65]\n"
+    "│   ├── d [age=40]\n"
+    "│   └── e [age=35]\n"
+    "│       ├── g [age=10]\n"
+    "│       └── h [age=6]\n"
+    "└── c [age=60]\n"
+    "    └── f [age=38]\n"
+)
+tree_node_no_attr_str = (
+    "a\n"
+    "├── b\n"
+    "│   ├── d\n"
+    "│   └── e\n"
+    "│       ├── g\n"
+    "│       └── h\n"
+    "└── c\n"
+    "    └── f\n"
+)
+tree_node_hstr = (
+    "           ┌─ d\n"
+    "     ┌─ b ─┤     ┌─ g\n"
+    "─ a ─┤     └─ e ─┤\n"
+    "     │           └─ h\n"
+    "     └─ c ─── f\n"
+)
+# fmt: off
+tree_node_branch_hstr = (
+    "     ┌─ d\n"
+    "─ b ─┤     ┌─ g\n"
+    "     └─ e ─┤\n"
+    "           └─ h\n"
+)
+# fmt: on
 LOCAL = Constants.LOCAL
 
 
 class TestPrintTree:
     @staticmethod
     def test_print_tree_child_node_name(tree_node):
-        expected_str = "b\n" "├── d\n" "└── e\n" "    ├── g\n" "    └── h\n"
+        # fmt: off
+        expected_str = (
+            "b\n"
+            "├── d\n"
+            "└── e\n"
+            "    ├── g\n"
+            "    └── h\n"
+        )
+        # fmt: on
         assert_print_statement(
             print_tree,
             expected_str,
@@ -54,7 +95,15 @@ class TestPrintTree:
 
     @staticmethod
     def test_print_tree_child_node_path(tree_node):
-        expected_str = "b\n" "├── d\n" "└── e\n" "    ├── g\n" "    └── h\n"
+        # fmt: off
+        expected_str = (
+            "b\n"
+            "├── d\n"
+            "└── e\n"
+            "    ├── g\n"
+            "    └── h\n"
+        )
+        # fmt: on
         assert_print_statement(
             print_tree,
             expected_str,
@@ -352,20 +401,19 @@ class TestPrintTree:
             )
         assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_PRINT_STYLE_SELECT
 
+    @staticmethod
+    def test_print_tree_print_kwargs(tree_node):
+        output = io.StringIO()
+        print_tree(tree_node, file=output)
+        assert output.getvalue() == tree_node_no_attr_str
+
 
 class TestHPrintTree:
     @staticmethod
     def test_hprint_tree(tree_node):
-        expected_str = (
-            "           ┌─ d\n"
-            "     ┌─ b ─┤     ┌─ g\n"
-            "─ a ─┤     └─ e ─┤\n"
-            "     │           └─ h\n"
-            "     └─ c ─── f\n"
-        )
         assert_print_statement(
             hprint_tree,
-            expected_str,
+            tree_node_hstr,
             tree=tree_node,
         )
 
@@ -473,12 +521,9 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_child_node_name(tree_node):
-        expected_str = (
-            "     ┌─ d\n" "─ b ─┤     ┌─ g\n" "     └─ e ─┤\n" "           └─ h\n"
-        )
         assert_print_statement(
             hprint_tree,
-            expected_str,
+            tree_node_branch_hstr,
             tree=tree_node,
             node_name_or_path="b",
         )
@@ -496,12 +541,9 @@ class TestHPrintTree:
 
     @staticmethod
     def test_hprint_tree_child_node_path(tree_node):
-        expected_str = (
-            "     ┌─ d\n" "─ b ─┤     ┌─ g\n" "     └─ e ─┤\n" "           └─ h\n"
-        )
         assert_print_statement(
             hprint_tree,
-            expected_str,
+            tree_node_branch_hstr,
             tree=tree_node,
             node_name_or_path="a/b",
         )
@@ -748,6 +790,12 @@ class TestHPrintTree:
         with pytest.raises(ValueError) as exc_info:
             hprint_tree(tree_node, style=["-", "+", "+", "|", "-", "="])
         assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_HPRINT_STYLE_SELECT
+
+    @staticmethod
+    def test_hprint_tree_print_kwargs(tree_node):
+        output = io.StringIO()
+        hprint_tree(tree_node, file=output)
+        assert output.getvalue() == tree_node_hstr
 
 
 class TestTreeToDataFrame:
