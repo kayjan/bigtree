@@ -73,6 +73,7 @@ def print_tree(
     attr_omit_null: bool = False,
     attr_bracket: List[str] = ["[", "]"],
     style: Union[str, Iterable[str], BasePrintStyle] = "const",
+    **print_kwargs,
 ) -> None:
     """Print tree to console, starting from `tree`.
 
@@ -89,6 +90,8 @@ def print_tree(
     - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
     - (BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
     `DoublePrintStyle` style or inherit from `BasePrintStyle`
+
+    Remaining kwargs are passed without modification to python's `print` function.
 
     Examples:
         **Printing tree**
@@ -188,6 +191,19 @@ def print_tree(
         |   `-- e
         `-- c
 
+        **Printing to a file**
+
+        >>> import io
+        >>> output = io.StringIO()
+        >>> print_tree(root, file=output)
+        >>> string = output.getvalue()
+        >>> print(string)
+        a
+        ├── b
+        │   ├── d
+        │   └── e
+        └── c
+
     Args:
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing
@@ -232,7 +248,7 @@ def print_tree(
             if attr_str:
                 attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
         node_str = f"{_node.node_name}{attr_str}"
-        print(f"{pre_str}{fill_str}{node_str}")
+        print(f"{pre_str}{fill_str}{node_str}", **print_kwargs)
 
 
 def yield_tree(
@@ -416,6 +432,7 @@ def hprint_tree(
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     style: Union[str, Iterable[str], BaseHPrintStyle] = "const",
+    **print_kwargs,
 ) -> None:
     """Print tree in horizontal orientation to console, starting from `tree`.
 
@@ -429,6 +446,8 @@ def hprint_tree(
     - (List[str]): Choose own style icons, they must have the same number of characters
     - (BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
     `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from BaseHPrintStyle
+
+    Remaining kwargs are passed without modification to python's `print` function.
 
     Examples:
         **Printing tree**
@@ -504,6 +523,17 @@ def hprint_tree(
         - a -+     \\- e
              \\- c
 
+        **Printing to a file**
+        >>> import io
+        >>> output = io.StringIO()
+        >>> hprint_tree(root, file=output)
+        >>> string = output.getvalue()
+        >>> print(string)
+                   ┌─ d
+             ┌─ b ─┤
+        ─ a ─┤     └─ e
+             └─ c
+
     Args:
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing
@@ -518,7 +548,7 @@ def hprint_tree(
         max_depth=max_depth,
         style=style,
     )
-    print("\n".join(result))
+    print("\n".join(result), **print_kwargs)
 
 
 def hyield_tree(
