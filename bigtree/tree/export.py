@@ -73,7 +73,7 @@ def print_tree(
     attr_omit_null: bool = False,
     attr_bracket: List[str] = ["[", "]"],
     style: Union[str, Iterable[str], BasePrintStyle] = "const",
-    **print_kwargs,
+    **print_kwargs: Any,
 ) -> None:
     """Print tree to console, starting from `tree`.
 
@@ -196,13 +196,14 @@ def print_tree(
         >>> import io
         >>> output = io.StringIO()
         >>> print_tree(root, file=output)
-        >>> string = output.getvalue()
-        >>> print(string)
+        >>> tree_string = output.getvalue()
+        >>> print(tree_string)
         a
         ├── b
         │   ├── d
         │   └── e
         └── c
+        <BLANKLINE>
 
     Args:
         tree (Node): tree to print
@@ -432,7 +433,7 @@ def hprint_tree(
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     style: Union[str, Iterable[str], BaseHPrintStyle] = "const",
-    **print_kwargs,
+    **print_kwargs: Any,
 ) -> None:
     """Print tree in horizontal orientation to console, starting from `tree`.
 
@@ -527,8 +528,8 @@ def hprint_tree(
         >>> import io
         >>> output = io.StringIO()
         >>> hprint_tree(root, file=output)
-        >>> string = output.getvalue()
-        >>> print(string)
+        >>> tree_string = output.getvalue()
+        >>> print(tree_string)
                    ┌─ d
              ┌─ b ─┤
         ─ a ─┤     └─ e
