@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.20.0] - 2024-08-24
+### Added:
+- [#285] Tree Exporter: `print_tree` and `hprint_tree` to accept keyword arguments for printing.
+- Misc: Template for release notes.
+### Changed:
+- Misc: Enhanced template for issues (bugfix/feature release).
 ### Fixed:
 - Tree Exporter: `tree_to_mermaid` fix for root node to have node attribute.
 
@@ -627,7 +634,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.19.4...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.20.0...HEAD
+[0.20.0]: https://github.com/kayjan/bigtree/compare/0.19.4...0.20.0
 [0.19.4]: https://github.com/kayjan/bigtree/compare/0.19.3...0.19.4
 [0.19.3]: https://github.com/kayjan/bigtree/compare/0.19.2...0.19.3
 [0.19.2]: https://github.com/kayjan/bigtree/compare/0.19.1...0.19.2
