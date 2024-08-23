@@ -77,8 +77,8 @@ Run the following lines of code and ensure the <mark>unit tests pass</mark> and 
 <mark>code coverage is 100%</mark>.
 
 ```console
-$ python -m pip install hatch
-$ hatch run cov
+$ python -m pip install pytest pytest-benchmark pytest-cov coverage
+$ pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree
 ```
 
 ## Documentation
