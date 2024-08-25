@@ -1,9 +1,18 @@
-from typing import Optional, TypeVar
+from typing import Any, Optional, TypeVar
 
 from bigtree.node.basenode import BaseNode
+from bigtree.utils.exceptions import optional_dependencies_matplotlib
+from bigtree.utils.iterators import preorder_iter
+
+try:
+    import matplotlib.pyplot as plt
+except ImportError:  # pragma: no cover
+    plt = None
+
 
 __all__ = [
     "reingold_tilford",
+    "plot_tree",
 ]
 
 T = TypeVar("T", bound=BaseNode)
@@ -71,6 +80,32 @@ def reingold_tilford(
     _first_pass(tree_node, sibling_separation, subtree_separation)
     x_adjustment = _second_pass(tree_node, level_separation, x_offset, y_offset)
     _third_pass(tree_node, x_adjustment)
+
+
+@optional_dependencies_matplotlib
+def plot_tree(tree_node: T, save_path: str = "", **kwargs: Any) -> plt.Figure:
+    """Plot tree in line form. Tree should have `x` and `y` attribute.
+    Accepts args and kwargs for matplotlib.pyplot.plot() function.
+
+    Examples:
+        >>> from bigtree import Node, list_to_tree, plot_tree, reingold_tilford
+        >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
+        >>> root = list_to_tree(path_list)
+        >>> reingold_tilford(root)
+        >>> plot_tree(root)
+
+    Args:
+        tree_node (BaseNode): tree to plot
+        save_path (str): save path of plot
+    """
+
+    for node in preorder_iter(tree_node):
+        if node.is_root:
+            pass
+        plt.plot(node.get_attr("x"), node.get_attr("y"), **kwargs)
+    if save_path:
+        plt.savefig(save_path)
+    return plt.figure()
 
 
 def _first_pass(

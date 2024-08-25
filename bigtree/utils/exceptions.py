@@ -114,6 +114,28 @@ def optional_dependencies_polars(
     return wrapper
 
 
+def optional_dependencies_matplotlib(
+    func: Callable[..., T]
+) -> Callable[..., T]:  # pragma: no cover
+    """
+    This is a decorator which can be used to import optional matplotlib dependency.
+    It will raise a ImportError if the module is not found.
+    """
+
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> T:
+        try:
+            import matplotlib.pyplot as plt  # noqa: F401
+        except ImportError:
+            raise ImportError(
+                "matplotlib not available. Please perform a\n\n"
+                "pip install 'bigtree[matplotlib]'\n\nto install required dependencies"
+            ) from None
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
 def optional_dependencies_image(
     package_name: str = "",
 ) -> Callable[[Callable[..., T]], Callable[..., T]]:
