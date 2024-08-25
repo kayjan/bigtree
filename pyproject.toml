@@ -58,6 +58,7 @@ path = "bigtree/__init__.py"
 dependencies = [
   "black",
   "coverage",
+  "matplotlib",
   "mypy",
   "pandas",
   "Pillow",
