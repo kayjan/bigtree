@@ -524,6 +524,7 @@ Below is the table of operations available to `BaseNode` and `Node` classes.
 | Get attribute                                   | `root.get_attr("description")`                             | 'root-tag'                                 |
 | Copy tree                                       | `root.copy()`                                              | None                                       |
 | Sort children                                   | `root.sort(key=lambda node: node.node_name, reverse=True)` | None                                       |
+| Plot tree                                       | `root.plot("-ok")`                                         | plt.Figure()                               |
 
 ## Traverse Tree
 
