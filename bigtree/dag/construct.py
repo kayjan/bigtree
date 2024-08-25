@@ -6,8 +6,8 @@ from bigtree.node.dagnode import DAGNode
 from bigtree.utils.assertions import (
     assert_dataframe_no_duplicate_attribute,
     assert_dataframe_not_empty,
-    assert_key_not_in_dict_or_df,
     assert_length_not_empty,
+    assert_not_reserved_keywords,
     filter_attributes,
     isnull,
 )
@@ -109,7 +109,7 @@ def dict_to_dag(
         parent_names: List[str] = []
         if parent_key in node_attrs:
             parent_names = node_attrs.pop(parent_key)
-        assert_key_not_in_dict_or_df(node_attrs, ["parent", "parents", "children"])
+        assert_not_reserved_keywords(node_attrs, ["parent", "parents", "children"])
 
         if child_name in node_dict:
             child_node = node_dict[child_name]
@@ -194,7 +194,7 @@ def dataframe_to_dag(
         attribute_cols = list(data.columns)
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
-    assert_key_not_in_dict_or_df(attribute_cols, ["parent", "parents", "children"])
+    assert_not_reserved_keywords(attribute_cols, ["parent", "parents", "children"])
 
     data = data[[child_col, parent_col] + attribute_cols].copy()
 

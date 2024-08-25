@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tree Plot: Plot tree using matplotlib library, added matplotlib as optional dependency.
 - BaseNode: Add plot method.
 ### Changed:
+- Misc: Rename assertion function.
 - Misc: Optional dependencies imported as MagicMock
 
 ## [0.20.1] - 2024-08-24
