@@ -50,6 +50,7 @@ For **Tree** implementation, there are 9 main components.
 
 ## [**📊 Plotting Tree**](../bigtree/utils/plot.md)
 - Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
+- Plot tree using matplotlib (optional dependency)
 
 ## [**🔨 Exporting Tree**](../bigtree/tree/export.md)
 - Print to console, in vertical or horizontal orientation

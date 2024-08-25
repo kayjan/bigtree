@@ -1,6 +1,7 @@
 import copy
 import unittest
 
+import matplotlib.pyplot as plt
 import pytest
 
 from bigtree.node.basenode import BaseNode
@@ -667,6 +668,19 @@ class TestBaseNode(unittest.TestCase):
                     assert (
                         child.parent == parent
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
+
+    def test_plot(self):
+        self.a.children = [self.b, self.c]
+        fig = self.a.plot()
+        assert isinstance(fig, plt.Figure)
+
+    def test_plot_with_reingold_tilford(self):
+        from bigtree.utils.plot import reingold_tilford
+
+        self.a.children = [self.b, self.c]
+        reingold_tilford(self.a)
+        fig = self.a.plot()
+        assert isinstance(fig, plt.Figure)
 
 
 def assert_tree_structure_basenode_root(root):

@@ -8,6 +8,11 @@ from bigtree.globals import ASSERTIONS
 from bigtree.utils.exceptions import CorruptedTreeError, LoopError, TreeError
 from bigtree.utils.iterators import preorder_iter
 
+try:
+    import matplotlib.pyplot as plt
+except ImportError:  # pragma: no cover
+    plt = None
+
 
 class BaseNode:
     """
@@ -115,6 +120,7 @@ class BaseNode:
     6. ``extend(nodes: List[Self])``: Add multiple children to node
     7. ``copy()``: Deep copy self
     8. ``sort()``: Sort child nodes
+    9. ``plot()``: Plot tree in line form
 
     ----
 
@@ -727,6 +733,7 @@ class BaseNode:
 
     def sort(self: T, **kwargs: Any) -> None:
         """Sort children, possible keyword arguments include ``key=lambda node: node.name``, ``reverse=True``
+        Accepts kwargs for sort() function.
 
         Examples:
             >>> from bigtree import Node, print_tree
@@ -746,6 +753,24 @@ class BaseNode:
         children = list(self.children)
         children.sort(**kwargs)
         self.__children = children
+
+    def plot(self, *args: Any, **kwargs: Any) -> plt.Figure:
+        """Plot tree in line form.
+        Accepts args and kwargs for matplotlib.pyplot.plot() function.
+
+        Examples:
+            >>> import matplotlib.pyplot as plt
+            >>> from bigtree import list_to_tree
+            >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
+            >>> root = list_to_tree(path_list)
+            >>> root.plot("-ok")
+            <Figure size 1280x960 with 1 Axes>
+        """
+        from bigtree.utils.plot import plot_tree, reingold_tilford
+
+        if self.get_attr("x") is None or self.get_attr("y") is None:
+            reingold_tilford(self)
+        return plot_tree(self, *args, **kwargs)
 
     def __copy__(self: T) -> T:
         """Shallow copy self

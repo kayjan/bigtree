@@ -93,6 +93,6 @@ from bigtree.utils.iterators import (
     zigzag_iter,
     zigzaggroup_iter,
 )
-from bigtree.utils.plot import reingold_tilford
+from bigtree.utils.plot import plot_tree, reingold_tilford
 from bigtree.workflows.app_calendar import Calendar
 from bigtree.workflows.app_todo import AppToDo

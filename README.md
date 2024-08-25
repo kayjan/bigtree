@@ -67,6 +67,7 @@ For **Tree** implementation, there are 9 main components.
    4. Get difference between two trees
 7. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/utils/plot/)
    1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
+   2. Plot tree using matplotlib (optional dependency)
 8. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/export/)
    1. Print to console, in vertical or horizontal orientation
    2. Export to *Newick string notation*, *dictionary*, *nested dictionary*, *pandas DataFrame*, or *polars DataFrame*

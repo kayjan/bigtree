@@ -37,6 +37,7 @@ Source = "https://github.com/kayjan/bigtree"
 
 [project.optional-dependencies]
 all = [
+  "matplotlib",
   "pandas",
   "polars",
   "pydot",
@@ -46,6 +47,7 @@ image = [
   "pydot",
   "Pillow",
 ]
+matplotlib = ["matplotlib"]
 pandas = ["pandas"]
 polars = ["polars"]
 
@@ -56,6 +58,7 @@ path = "bigtree/__init__.py"
 dependencies = [
   "black",
   "coverage",
+  "matplotlib",
   "mypy",
   "pandas",
   "Pillow",

@@ -1,11 +1,45 @@
 import unittest
 
+import matplotlib.pyplot as plt
 import pytest
 
 from bigtree.node.node import Node
 from bigtree.tree.construct import list_to_tree
 from bigtree.utils.iterators import postorder_iter
-from bigtree.utils.plot import _first_pass, reingold_tilford
+from bigtree.utils.plot import _first_pass, plot_tree, reingold_tilford
+from tests.test_constants import Constants
+
+LOCAL = Constants.LOCAL
+
+
+class TestPlotTree(unittest.TestCase):
+    def test_plot_tree_runtime_error(self):
+        root = Node("a", children=[Node("b")])
+        with pytest.raises(RuntimeError) as exc_info:
+            plot_tree(root)
+        assert str(exc_info.value) == Constants.ERROR_PLOT
+
+    def test_plot_tree_with_fig(self):
+        root = Node("a", children=[Node("b"), Node("c")])
+        reingold_tilford(root)
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        fig = plot_tree(root, ax=ax)
+        if LOCAL:
+            fig.savefig("tests/plot_tree_fig.png")
+        assert isinstance(fig, plt.Figure)
+
+    def test_plot_tree_with_fig_and_args(self):
+        root = Node("a", children=[Node("b"), Node("c")])
+        reingold_tilford(root)
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        fig = plot_tree(root, "-ok", ax=ax)
+        if LOCAL:
+            fig.savefig("tests/plot_tree_fig_and_args.png")
+        assert isinstance(fig, plt.Figure)
 
 
 class TestPlotNoChildren(unittest.TestCase):

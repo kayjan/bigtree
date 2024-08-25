@@ -13,12 +13,16 @@ from bigtree.utils.iterators import dag_iterator
 try:
     import pandas as pd
 except ImportError:  # pragma: no cover
-    pd = None
+    from unittest.mock import MagicMock
+
+    pd = MagicMock()
 
 try:
     import pydot
 except ImportError:  # pragma: no cover
-    pydot = None
+    from unittest.mock import MagicMock
+
+    pydot = MagicMock()
 
 __all__ = ["dag_to_list", "dag_to_dict", "dag_to_dataframe", "dag_to_dot"]
 

@@ -11,7 +11,9 @@ from bigtree.tree.search import find_full_path, findall
 try:
     import pandas as pd
 except ImportError:  # pragma: no cover
-    pd = None
+    from unittest.mock import MagicMock
+
+    pydot = MagicMock()
 
 
 class Calendar:

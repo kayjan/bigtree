@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.21.0] - TBD
+### Added:
+- Tree Plot: Plot tree using matplotlib library, added matplotlib as optional dependency.
+- BaseNode: Add plot method.
+### Changed:
+- Misc: Optional dependencies imported as MagicMock
+
 ## [0.20.1] - 2024-08-24
 ### Changed:
 - Misc: Documentation update contributing instructions.
@@ -638,7 +645,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.20.1...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.21.0...HEAD
+[0.21.0]: https://github.com/kayjan/bigtree/compare/0.20.1...0.21.0
 [0.20.1]: https://github.com/kayjan/bigtree/compare/0.20.0...0.20.1
 [0.20.0]: https://github.com/kayjan/bigtree/compare/0.19.4...0.20.0
 [0.19.4]: https://github.com/kayjan/bigtree/compare/0.19.3...0.19.4

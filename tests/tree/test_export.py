@@ -402,7 +402,7 @@ class TestPrintTree:
         assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_PRINT_STYLE_SELECT
 
     @staticmethod
-    def test_print_tree_print_kwargs(tree_node):
+    def test_print_tree_kwargs(tree_node):
         output = io.StringIO()
         print_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_no_attr_str
@@ -792,7 +792,7 @@ class TestHPrintTree:
         assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_HPRINT_STYLE_SELECT
 
     @staticmethod
-    def test_hprint_tree_print_kwargs(tree_node):
+    def test_hprint_tree_kwargs(tree_node):
         output = io.StringIO()
         hprint_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_hstr
