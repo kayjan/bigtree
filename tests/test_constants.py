@@ -221,5 +221,11 @@ class Constants:
         "Expected more than or equal to {count} element(s), found "
     )
 
+    # tree/utils
+    ERROR_PLOT = (
+        "No x or y coordinates detected. "
+        "Please run reingold_tilford algorithm to retrieve coordinates."
+    )
+
     # workflow/todo
     ERROR_WORKFLOW_TODO_TYPE = "Invalid data type for item"

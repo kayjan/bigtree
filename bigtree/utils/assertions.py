@@ -5,12 +5,16 @@ from typing import TYPE_CHECKING, Any, Dict, List, Sized, Type, Union
 try:
     import pandas as pd
 except ImportError:  # pragma: no cover
-    pd = None
+    from unittest.mock import MagicMock
+
+    pd = MagicMock()
 
 try:
     import polars as pl
 except ImportError:  # pragma: no cover
-    pl = None
+    from unittest.mock import MagicMock
+
+    pl = MagicMock()
 
 
 if TYPE_CHECKING:

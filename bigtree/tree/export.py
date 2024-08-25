@@ -28,22 +28,30 @@ from bigtree.utils.iterators import levelordergroup_iter, preorder_iter
 try:
     import pandas as pd
 except ImportError:  # pragma: no cover
-    pd = None
+    from unittest.mock import MagicMock
+
+    pd = MagicMock()
 
 try:
     import polars as pl
 except ImportError:  # pragma: no cover
-    pl = None
+    from unittest.mock import MagicMock
+
+    pl = MagicMock()
 
 try:
     import pydot
 except ImportError:  # pragma: no cover
-    pydot = None
+    from unittest.mock import MagicMock
+
+    pydot = MagicMock()
 
 try:
     from PIL import Image, ImageDraw, ImageFont
 except ImportError:  # pragma: no cover
-    Image = ImageDraw = ImageFont = None
+    from unittest.mock import MagicMock
+
+    Image = ImageDraw = ImageFont = MagicMock()
 
 
 __all__ = [

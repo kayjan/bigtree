@@ -7,7 +7,9 @@ from bigtree.utils.iterators import preorder_iter
 try:
     import matplotlib.pyplot as plt
 except ImportError:  # pragma: no cover
-    plt = None
+    from unittest.mock import MagicMock
+
+    plt = MagicMock()
 
 
 __all__ = [
@@ -84,35 +86,45 @@ def reingold_tilford(
 
 @optional_dependencies_matplotlib
 def plot_tree(
-    tree_node: T, *args: Any, save_path: str = "", **kwargs: Any
+    tree_node: T, *args: Any, ax: Optional[plt.Axes] = None, **kwargs: Any
 ) -> plt.Figure:
-    """Plot tree in line form. Tree should have `x` and `y` attribute.
-    Accepts args and kwargs for matplotlib.pyplot.plot() function.
+    """Plot tree in line form. Tree should have `x` and `y` attribute from Reingold Tilford.
+    Accepts existing matplotlib Axes. Accepts args and kwargs for matplotlib.pyplot.plot() function.
 
     Examples:
+        >>> import matplotlib.pyplot as plt
         >>> from bigtree import list_to_tree, plot_tree, reingold_tilford
         >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
         >>> root = list_to_tree(path_list)
         >>> reingold_tilford(root)
-        >>> plot_tree(root, "-ok", save_path="tree.png")
-        <Figure size 1280x960 with 0 Axes>
+        >>> plot_tree(root, "-ok")
+        <Figure size 1280x960 with 1 Axes>
 
     Args:
         tree_node (BaseNode): tree to plot
-        save_path (str): save path of plot
+        ax (plt.Axes): axes to add Figure to
     """
+    if ax:
+        fig = ax.get_figure()
+    else:
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
 
     for node in preorder_iter(tree_node):
         if not node.is_root:
-            plt.plot(
-                [node.get_attr("x"), node.parent.get_attr("x")],
-                [node.get_attr("y"), node.parent.get_attr("y")],
-                *args,
-                **kwargs,
-            )
-    if save_path:
-        plt.savefig(save_path)
-    return plt.figure()
+            try:
+                ax.plot(
+                    [node.x, node.parent.x],  # type: ignore
+                    [node.y, node.parent.y],  # type: ignore
+                    *args,
+                    **kwargs,
+                )
+            except AttributeError:
+                raise RuntimeError(
+                    "No x or y coordinates detected. "
+                    "Please run reingold_tilford algorithm to retrieve coordinates."
+                )
+    return fig
 
 
 def _first_pass(

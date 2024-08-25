@@ -754,25 +754,23 @@ class BaseNode:
         children.sort(**kwargs)
         self.__children = children
 
-    def plot(self, *args: Any, save_path: str = "", **kwargs: Any) -> plt.Figure:
+    def plot(self, *args: Any, **kwargs: Any) -> plt.Figure:
         """Plot tree in line form.
         Accepts args and kwargs for matplotlib.pyplot.plot() function.
 
         Examples:
+            >>> import matplotlib.pyplot as plt
             >>> from bigtree import list_to_tree
             >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
             >>> root = list_to_tree(path_list)
-            >>> root.plot("-ok", save_path="tree.png")
-            <Figure size 1280x960 with 0 Axes>
-
-        Args:
-            save_path (str): save path of plot
+            >>> root.plot("-ok")
+            <Figure size 1280x960 with 1 Axes>
         """
         from bigtree.utils.plot import plot_tree, reingold_tilford
 
-        if not self.get_attr("x") or self.get_attr("y"):
+        if self.get_attr("x") is None or self.get_attr("y") is None:
             reingold_tilford(self)
-        return plot_tree(self, *args, save_path, **kwargs)
+        return plot_tree(self, *args, **kwargs)
 
     def __copy__(self: T) -> T:
         """Shallow copy self

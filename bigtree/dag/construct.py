@@ -16,7 +16,9 @@ from bigtree.utils.exceptions import optional_dependencies_pandas
 try:
     import pandas as pd
 except ImportError:  # pragma: no cover
-    pd = None
+    from unittest.mock import MagicMock
+
+    pd = MagicMock()
 
 __all__ = ["list_to_dag", "dict_to_dag", "dataframe_to_dag"]
 
