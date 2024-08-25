@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.21.0] - TBD
+## [0.21.0] - 2024-08-26
 ### Added:
 - Tree Plot: Plot tree using matplotlib library, added matplotlib as optional dependency.
 - BaseNode: Add plot method.
