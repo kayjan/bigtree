@@ -26,6 +26,7 @@ if TYPE_CHECKING:
 __all__ = [
     "assert_style_in_dict",
     "assert_str_in_list",
+    "assert_not_reserved_keywords",
     "assert_key_in_dict",
     "assert_length_not_empty",
     "assert_dataframe_not_empty",
@@ -71,18 +72,18 @@ def assert_str_in_list(
         )
 
 
-def assert_key_not_in_dict_or_df(
-    parameter_dict: Union[Dict[str, Any], pd.DataFrame],
-    not_accepted_parameters: List[str],
+def assert_not_reserved_keywords(
+    parameter_dict_or_df: Union[Dict[str, Any], pd.DataFrame],
+    reserved_keywords: List[str],
 ) -> None:
     """Raise ValueError is parameter is in key of dictionary
 
     Args:
-        parameter_dict (Dict[str, Any]/pd.DataFrame): argument input for parameter
-        not_accepted_parameters (List[str]): list of not accepted parameters
+        parameter_dict_or_df (Dict[str, Any]/pd.DataFrame): argument input for parameter
+        reserved_keywords (List[str]): list of not accepted parameters
     """
-    for parameter in parameter_dict:
-        if parameter in not_accepted_parameters:
+    for parameter in parameter_dict_or_df:
+        if parameter in reserved_keywords:
             raise ValueError(
                 f"Invalid input, check `{parameter}` is not a valid key as it is a reserved keyword"
             )
