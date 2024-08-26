@@ -3,8 +3,8 @@ import unittest
 import pandas as pd
 import pytest
 
-from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
-from bigtree.node.dagnode import DAGNode
+from bigtree.dag import construct
+from bigtree.node import dagnode
 from tests.node.test_dagnode import (
     assert_dag_structure_root,
     assert_dag_structure_root_attr,
@@ -12,7 +12,7 @@ from tests.node.test_dagnode import (
 from tests.test_constants import Constants
 
 
-class DAGNodeA(DAGNode):
+class DAGNodeA(dagnode.DAGNode):
     pass
 
 
@@ -34,18 +34,18 @@ class TestListToDAG(unittest.TestCase):
         self.relations = None
 
     def test_list_to_dag(self):
-        dag = list_to_dag(self.relations)
+        dag = construct.list_to_dag(self.relations)
         assert_dag_structure_root(dag)
 
     def test_list_to_dag_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
-            list_to_dag([])
+            construct.list_to_dag([])
         assert str(exc_info.value) == Constants.ERROR_BINARY_DAG_LIST_EMPTY.format(
             parameter="relations"
         )
 
     def test_list_to_dag_node_type(self):
-        dag = list_to_dag(self.relations, node_type=DAGNodeA)
+        dag = construct.list_to_dag(self.relations, node_type=DAGNodeA)
         assert isinstance(dag, DAGNodeA), Constants.ERROR_CUSTOM_TYPE.format(
             type="DAGNodeA"
         )
@@ -69,13 +69,13 @@ class TestDictToDAG(unittest.TestCase):
         self.relation_dict = None
 
     def test_dict_to_dag(self):
-        dag = dict_to_dag(self.relation_dict)
+        dag = construct.dict_to_dag(self.relation_dict)
         assert_dag_structure_root(dag)
         assert_dag_structure_root_attr(dag)
 
     def test_dict_to_dag_empty_error(self):
         with pytest.raises(ValueError) as exc_info:
-            dict_to_dag({})
+            construct.dict_to_dag({})
         assert str(exc_info.value) == Constants.ERROR_NODE_DICT_EMPTY.format(
             parameter="relation_attrs"
         )
@@ -93,14 +93,14 @@ class TestDictToDAG(unittest.TestCase):
             "h": {"parent1": ["g"], "age": 6},
         }
         with pytest.raises(ValueError) as exc_info:
-            dict_to_dag(relation_dict)
+            construct.dict_to_dag(relation_dict)
         assert str(exc_info.value) == Constants.ERROR_DAG_DICT_PARENT_KEY.format(
             parent_key="parents"
         )
 
     def test_dict_to_dag_parent_key_reserved_keyword_parents_error(self):
         with pytest.raises(ValueError) as exc_info:
-            dict_to_dag(self.relation_dict, parent_key="parent")
+            construct.dict_to_dag(self.relation_dict, parent_key="parent")
         assert str(exc_info.value) == Constants.ERROR_DAG_DICT_INVALID_KEY.format(
             parameter="parents"
         )
@@ -118,13 +118,13 @@ class TestDictToDAG(unittest.TestCase):
             "h": {"parent": ["g"], "age": 6},
         }
         with pytest.raises(ValueError) as exc_info:
-            dict_to_dag(relation_dict)
+            construct.dict_to_dag(relation_dict)
         assert str(exc_info.value) == Constants.ERROR_DAG_DICT_INVALID_KEY.format(
             parameter="parent"
         )
 
     def test_dict_to_dag_node_type(self):
-        dag = dict_to_dag(self.relation_dict, node_type=DAGNodeA)
+        dag = construct.dict_to_dag(self.relation_dict, node_type=DAGNodeA)
         assert isinstance(dag, DAGNodeA), Constants.ERROR_CUSTOM_TYPE.format(
             type="DAGNodeA"
         )
@@ -154,7 +154,7 @@ class TestDataFrameToDAG(unittest.TestCase):
         self.data = None
 
     def test_dataframe_to_dag(self):
-        dag = dataframe_to_dag(self.data)
+        dag = construct.dataframe_to_dag(self.data)
         assert_dag_structure_root(dag)
         assert_dag_structure_root_attr(dag)
 
@@ -176,7 +176,7 @@ class TestDataFrameToDAG(unittest.TestCase):
             ],
             columns=["child", "parent", "age"],
         )
-        dag = dataframe_to_dag(data)
+        dag = construct.dataframe_to_dag(data)
         assert_dag_structure_root(dag)
         assert_dag_structure_root_attr(dag)
 
@@ -200,7 +200,7 @@ class TestDataFrameToDAG(unittest.TestCase):
             ],
             columns=["child", "parent", "value"],
         )
-        dag = dataframe_to_dag(data)
+        dag = construct.dataframe_to_dag(data)
         assert_dag_structure_root(dag)
         for parent, _ in dag_iterator(dag):
             if parent.name == "a":
@@ -217,36 +217,36 @@ class TestDataFrameToDAG(unittest.TestCase):
 
     def test_dataframe_to_dag_empty_row_error(self):
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_dag(pd.DataFrame(columns=["child", "parent", "age"]))
+            construct.dataframe_to_dag(pd.DataFrame(columns=["child", "parent", "age"]))
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
 
     def test_dataframe_to_dag_empty_col_error(self):
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_dag(pd.DataFrame())
+            construct.dataframe_to_dag(pd.DataFrame())
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     def test_dataframe_to_dag_child_col(self):
-        dag = dataframe_to_dag(self.data, child_col="child")
+        dag = construct.dataframe_to_dag(self.data, child_col="child")
         assert_dag_structure_root(dag)
         assert_dag_structure_root_attr(dag)
 
     def test_dataframe_to_dag_child_col_error(self):
         child_col = "child2"
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_dag(self.data, child_col=child_col)
+            construct.dataframe_to_dag(self.data, child_col=child_col)
         assert str(exc_info.value) == Constants.ERROR_DAG_DATAFRAME_CHILD_COL.format(
             child_col=child_col
         )
 
     def test_dataframe_to_dag_parent_col(self):
-        dag = dataframe_to_dag(self.data, parent_col="parent")
+        dag = construct.dataframe_to_dag(self.data, parent_col="parent")
         assert_dag_structure_root(dag)
         assert_dag_structure_root_attr(dag)
 
     def test_dataframe_to_dag_parent_col_error(self):
         parent_col = "parent2"
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_dag(self.data, parent_col=parent_col)
+            construct.dataframe_to_dag(self.data, parent_col=parent_col)
         assert str(exc_info.value) == Constants.ERROR_DAG_DATAFRAME_PARENT_COL.format(
             parent_col=parent_col
         )
@@ -270,7 +270,7 @@ class TestDataFrameToDAG(unittest.TestCase):
             columns=["child", "parent", "parents", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_dag(data, parent_col="parent")
+            construct.dataframe_to_dag(data, parent_col="parent")
         assert str(exc_info.value) == Constants.ERROR_DAG_DICT_INVALID_KEY.format(
             parameter="parents"
         )
@@ -294,20 +294,20 @@ class TestDataFrameToDAG(unittest.TestCase):
             columns=["child", "parent", "parents", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_dag(data, parent_col="parents")
+            construct.dataframe_to_dag(data, parent_col="parents")
         assert str(exc_info.value) == Constants.ERROR_DAG_DICT_INVALID_KEY.format(
             parameter="parent"
         )
 
     def test_dataframe_to_dag_attribute_cols(self):
-        dag = dataframe_to_dag(self.data, attribute_cols=["age"])
+        dag = construct.dataframe_to_dag(self.data, attribute_cols=["age"])
         assert_dag_structure_root(dag)
         assert_dag_structure_root_attr(dag)
 
     def test_dataframe_to_dag_attribute_cols_error(self):
         attribute_cols = ["age2"]
         with pytest.raises(KeyError):
-            dataframe_to_dag(self.data, attribute_cols=attribute_cols)
+            construct.dataframe_to_dag(self.data, attribute_cols=attribute_cols)
 
     @staticmethod
     def test_dataframe_to_dag_empty_child_error():
@@ -329,7 +329,7 @@ class TestDataFrameToDAG(unittest.TestCase):
             columns=[child_col, "parent", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_dag(data)
+            construct.dataframe_to_dag(data)
         assert str(exc_info.value) == Constants.ERROR_DAG_DATAFRAME_EMPTY_CHILD.format(
             child_col=child_col
         )
@@ -352,7 +352,7 @@ class TestDataFrameToDAG(unittest.TestCase):
             ],
             columns=["child", "parent", "age", "name"],
         )
-        dag = dataframe_to_dag(data)
+        dag = construct.dataframe_to_dag(data)
         assert_dag_structure_root(dag)
         assert_dag_structure_root_attr(dag)
 
@@ -374,7 +374,7 @@ class TestDataFrameToDAG(unittest.TestCase):
             ],
             columns=["child", "parent", "age", "name2"],
         )
-        dag = dataframe_to_dag(
+        dag = construct.dataframe_to_dag(
             data, child_col="child", parent_col="parent", attribute_cols=["age"]
         )
         assert not dag.get_attr("name2")
@@ -399,7 +399,7 @@ class TestDataFrameToDAG(unittest.TestCase):
             ],
             columns=["child", "parent", "age"],
         )
-        dag = dataframe_to_dag(data)
+        dag = construct.dataframe_to_dag(data)
         assert not dag.get_attr("age")
         dag.set_attrs({"age": 10})
         assert_dag_structure_root(dag)
@@ -424,7 +424,7 @@ class TestDataFrameToDAG(unittest.TestCase):
             ],
             columns=["child", "parent", "age"],
         )
-        dag = dataframe_to_dag(data)
+        dag = construct.dataframe_to_dag(data)
         assert_dag_structure_root(dag)
         assert_dag_structure_root_attr(dag)
 
@@ -447,7 +447,7 @@ class TestDataFrameToDAG(unittest.TestCase):
             columns=["child", "parent", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_dag(data)
+            construct.dataframe_to_dag(data)
         assert str(exc_info.value).startswith(
             Constants.ERROR_DAG_DATAFRAME_DUPLICATE_PARENT
         )
@@ -471,13 +471,13 @@ class TestDataFrameToDAG(unittest.TestCase):
             columns=["child", "parent", "age"],
         )
         with pytest.raises(ValueError) as exc_info:
-            dataframe_to_dag(data)
+            construct.dataframe_to_dag(data)
         assert str(exc_info.value).startswith(
             Constants.ERROR_DAG_DATAFRAME_DUPLICATE_PARENT
         )
 
     def test_dataframe_to_dag_node_type(self):
-        dag = dataframe_to_dag(self.data, node_type=DAGNodeA)
+        dag = construct.dataframe_to_dag(self.data, node_type=DAGNodeA)
         assert isinstance(dag, DAGNodeA), Constants.ERROR_CUSTOM_TYPE.format(
             type="DAGNodeA"
         )

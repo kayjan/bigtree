@@ -1,18 +1,7 @@
 import unittest
 
-from bigtree.node.binarynode import BinaryNode
-from bigtree.tree.search import (
-    find,
-    find_attr,
-    find_attrs,
-    find_child_by_name,
-    find_full_path,
-    find_name,
-    find_names,
-    find_path,
-    find_paths,
-    findall,
-)
+from bigtree.node import binarynode
+from bigtree.tree import search
 
 
 class TestSearch(unittest.TestCase):
@@ -28,14 +17,14 @@ class TestSearch(unittest.TestCase):
             ├── 6
             └── 7
         """
-        self.a = BinaryNode(1)
-        self.b = BinaryNode(2, parent=self.a)
-        self.c = BinaryNode(3, parent=self.a)
-        self.d = BinaryNode(4, parent=self.b)
-        self.e = BinaryNode(5)
-        self.f = BinaryNode(6)
-        self.g = BinaryNode(7)
-        self.h = BinaryNode(8)
+        self.a = binarynode.BinaryNode(1)
+        self.b = binarynode.BinaryNode(2, parent=self.a)
+        self.c = binarynode.BinaryNode(3, parent=self.a)
+        self.d = binarynode.BinaryNode(4, parent=self.b)
+        self.e = binarynode.BinaryNode(5)
+        self.f = binarynode.BinaryNode(6)
+        self.g = binarynode.BinaryNode(7)
+        self.h = binarynode.BinaryNode(8)
         self.d.children = [None, self.h]
         self.e.parent = self.b
         self.f.parent = self.c
@@ -51,21 +40,21 @@ class TestSearch(unittest.TestCase):
         self.g = None
         self.h = None
 
-    def test_find_all(self):
-        actual = findall(self.a, lambda node: node.val <= 3)
+    def test_findall(self):
+        actual = search.findall(self.a, lambda node: node.val <= 3)
         expected = (self.a, self.b, self.c)
         assert (
             actual == expected
         ), f"Expected find_all to return {expected}, received {actual}"
 
     def test_find(self):
-        actual = find(self.a, lambda node: node.val == 5)
+        actual = search.find(self.a, lambda node: node.val == 5)
         expected = self.e
         assert (
             actual == expected
         ), f"Expected find to return {expected}, received {actual}"
 
-        actual = find(self.a, lambda node: node.val == 5, max_depth=2)
+        actual = search.find(self.a, lambda node: node.val == 5, max_depth=2)
         assert not actual, f"Expected find to return None, received {actual}"
 
     def test_find_name(self):
@@ -82,7 +71,7 @@ class TestSearch(unittest.TestCase):
             None,
         ]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_name(self.a, input_)
+            actual = search.find_name(self.a, input_)
             assert (
                 actual == expected
             ), f"Expected find_name to return {expected}, received {actual}"
@@ -101,7 +90,7 @@ class TestSearch(unittest.TestCase):
             (),
         ]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_names(self.a, input_)
+            actual = search.find_names(self.a, input_)
             assert (
                 actual == expected
             ), f"Expected find_name to return {expected}, received {actual}"
@@ -119,7 +108,7 @@ class TestSearch(unittest.TestCase):
         ]
         expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_full_path(self.a, input_)
+            actual = search.find_full_path(self.a, input_)
             assert (
                 actual == expected
             ), f"Expected find_name to return {expected}, received {actual}"
@@ -138,7 +127,7 @@ class TestSearch(unittest.TestCase):
             None,
         ]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_path(self.a, input_)
+            actual = search.find_path(self.a, input_)
             assert (
                 actual == expected
             ), f"Expected find_path to return {expected}, received {actual}"
@@ -156,7 +145,7 @@ class TestSearch(unittest.TestCase):
         ]
         expected_ans = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_paths(self.a, input_)
+            actual = search.find_paths(self.a, input_)
             assert actual == (
                 expected,
             ), f"Expected find_paths to return {expected}, received {actual}"
@@ -175,7 +164,7 @@ class TestSearch(unittest.TestCase):
             None,
         ]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_attr(self.a, "val", input_)
+            actual = search.find_attr(self.a, "val", input_)
             assert (
                 actual == expected
             ), f"Expected find_attr to return {expected}, received {actual}"
@@ -194,7 +183,7 @@ class TestSearch(unittest.TestCase):
             (),
         ]
         for input_, expected in zip(inputs, expected_ans):
-            actual = find_attrs(self.a, "val", input_)
+            actual = search.find_attrs(self.a, "val", input_)
             assert (
                 actual == expected
             ), f"Expected find_attrs to return {expected}, received {actual}"
@@ -214,7 +203,7 @@ class TestSearch(unittest.TestCase):
         ]
         for idx1, input_1 in enumerate(inputs1):
             for idx2, input_2 in enumerate(inputs2):
-                actual = find_child_by_name(input_1, str(input_2))
+                actual = search.find_child_by_name(input_1, str(input_2))
                 expected = expected_ans[idx1][idx2]
                 assert (
                     actual == expected

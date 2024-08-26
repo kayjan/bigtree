@@ -1,10 +1,10 @@
 import pytest
 
-from bigtree.utils.groot import speak_like_groot, whoami
+from bigtree.utils import groot
 
 
 def test_whoami():
-    assert whoami() == "I am Groot!"
+    assert groot.whoami() == "I am Groot!"
 
 
 @pytest.mark.parametrize(
@@ -12,4 +12,4 @@ def test_whoami():
     [("Hi!", "I am Groot!"), ("Hi there!", "I am Groot! I am Groot!")],
 )
 def test_speak_like_groot(sentence, expected_output):
-    assert speak_like_groot(sentence) == expected_output
+    assert groot.speak_like_groot(sentence) == expected_output

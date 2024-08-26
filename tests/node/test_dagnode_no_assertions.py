@@ -3,9 +3,7 @@ from unittest.mock import patch
 
 import pytest
 
-from bigtree.node.basenode import BaseNode
-from bigtree.node.dagnode import DAGNode
-from bigtree.node.node import Node
+from bigtree.node import basenode, dagnode, node
 
 
 @patch("bigtree.node.dagnode.ASSERTIONS", "")
@@ -22,14 +20,14 @@ class TestDAGNodeNoAssertions(unittest.TestCase):
         f >> g
         d >> e
         """
-        self.a = DAGNode(name="a", age=90)
-        self.b = DAGNode(name="b", age=65)
-        self.c = DAGNode(name="c", age=60)
-        self.d = DAGNode(name="d", age=40)
-        self.e = DAGNode(name="e", age=35)
-        self.f = DAGNode(name="f", age=38)
-        self.g = DAGNode(name="g", age=10)
-        self.h = DAGNode(name="h", age=6)
+        self.a = dagnode.DAGNode(name="a", age=90)
+        self.b = dagnode.DAGNode(name="b", age=65)
+        self.c = dagnode.DAGNode(name="c", age=60)
+        self.d = dagnode.DAGNode(name="d", age=40)
+        self.e = dagnode.DAGNode(name="e", age=35)
+        self.f = dagnode.DAGNode(name="f", age=38)
+        self.g = dagnode.DAGNode(name="g", age=10)
+        self.h = dagnode.DAGNode(name="h", age=6)
 
         self.nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g]
 
@@ -68,12 +66,12 @@ class TestDAGNodeNoAssertions(unittest.TestCase):
             self.a.parents = [parent]
 
         # AttributeError: 'BaseNode' object has no attribute '_DAGNode__parents'
-        parent = BaseNode()
+        parent = basenode.BaseNode()
         with pytest.raises(AttributeError):
             self.a.parents = [parent]
 
         # AttributeError: 'Node' object has no attribute '_DAGNode__parents'
-        parent = Node("a")
+        parent = node.Node("a")
         with pytest.raises(AttributeError):
             self.a.parents = [parent]
 
@@ -102,12 +100,12 @@ class TestDAGNodeNoAssertions(unittest.TestCase):
             self.a.children = [self.b, children]
 
         # AttributeError: 'BaseNode' object has no attribute '_DAGNode__parents'
-        children = BaseNode()
+        children = basenode.BaseNode()
         with pytest.raises(AttributeError):
             self.a.children = [children]
 
         # AttributeError: 'Node' object has no attribute '_DAGNode__parents'
-        children = Node("a")
+        children = node.Node("a")
         with pytest.raises(AttributeError):
             self.a.children = [children]
 

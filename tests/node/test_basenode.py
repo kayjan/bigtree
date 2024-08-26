@@ -4,15 +4,14 @@ import unittest
 import matplotlib.pyplot as plt
 import pytest
 
-from bigtree.node.basenode import BaseNode
-from bigtree.tree.helper import clone_tree
-from bigtree.utils.exceptions import LoopError, TreeError
-from bigtree.utils.iterators import preorder_iter
+from bigtree.node import basenode
+from bigtree.tree import helper
+from bigtree.utils import exceptions, iterators
 from tests.conftest import assert_print_statement
 from tests.test_constants import Constants
 
 
-class BaseNode2(BaseNode):
+class BaseNode2(basenode.BaseNode):
     def _BaseNode__post_assign_parent(self, new_parent):
         if new_parent is not None:
             if new_parent.get_attr("val"):
@@ -23,7 +22,7 @@ class BaseNode2(BaseNode):
             raise Exception("Custom error assigning parent")
 
 
-class BaseNode3(BaseNode):
+class BaseNode3(basenode.BaseNode):
     def _BaseNode__post_assign_children(self, new_children):
         if self.get_attr("val"):
             raise Exception("Custom error assigning children")
@@ -47,14 +46,14 @@ class TestBaseNode(unittest.TestCase):
         +-- c (age=60)
             +-- f (age=38)
         """
-        self.a = BaseNode(name="a", age=90)
-        self.b = BaseNode(name="b", age=65)
-        self.c = BaseNode(name="c", age=60)
-        self.d = BaseNode(name="d", age=40)
-        self.e = BaseNode(name="e", age=35)
-        self.f = BaseNode(name="f", age=38)
-        self.g = BaseNode(name="g", age=10)
-        self.h = BaseNode(name="h", age=6)
+        self.a = basenode.BaseNode(name="a", age=90)
+        self.b = basenode.BaseNode(name="b", age=65)
+        self.c = basenode.BaseNode(name="c", age=60)
+        self.d = basenode.BaseNode(name="d", age=40)
+        self.e = basenode.BaseNode(name="e", age=35)
+        self.f = basenode.BaseNode(name="f", age=38)
+        self.g = basenode.BaseNode(name="g", age=10)
+        self.h = basenode.BaseNode(name="h", age=6)
 
     def tearDown(self):
         self.a = None
@@ -67,14 +66,14 @@ class TestBaseNode(unittest.TestCase):
         self.h = None
 
     def test_from_dict(self):
-        self.a = BaseNode.from_dict({"name": "a", "age": 90})
-        self.b = BaseNode.from_dict({"name": "b", "age": 65})
-        self.c = BaseNode.from_dict({"name": "c", "age": 60})
-        self.d = BaseNode.from_dict({"name": "d", "age": 40})
-        self.e = BaseNode.from_dict({"name": "e", "age": 35})
-        self.f = BaseNode.from_dict({"name": "f", "age": 38})
-        self.g = BaseNode.from_dict({"name": "g", "age": 10})
-        self.h = BaseNode.from_dict({"name": "h", "age": 6})
+        self.a = basenode.BaseNode.from_dict({"name": "a", "age": 90})
+        self.b = basenode.BaseNode.from_dict({"name": "b", "age": 65})
+        self.c = basenode.BaseNode.from_dict({"name": "c", "age": 60})
+        self.d = basenode.BaseNode.from_dict({"name": "d", "age": 40})
+        self.e = basenode.BaseNode.from_dict({"name": "e", "age": 35})
+        self.f = basenode.BaseNode.from_dict({"name": "f", "age": 38})
+        self.g = basenode.BaseNode.from_dict({"name": "g", "age": 10})
+        self.h = basenode.BaseNode.from_dict({"name": "h", "age": 6})
 
         self.b.parent = self.a
         self.c.parent = self.a
@@ -95,7 +94,7 @@ class TestBaseNode(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_NODE_SET_PARENTS_ATTR
 
         with pytest.raises(AttributeError) as exc_info:
-            self.b = BaseNode(parents=[self.a])
+            self.b = basenode.BaseNode(parents=[self.a])
         assert str(exc_info.value) == Constants.ERROR_NODE_SET_PARENTS_ATTR
 
         with pytest.raises(AttributeError) as exc_info:
@@ -158,14 +157,14 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_self(self)
 
     def test_set_parent_constructor(self):
-        self.a = BaseNode(name="a", age=90)
-        self.b = BaseNode(name="b", age=65, parent=self.a)
-        self.c = BaseNode(name="c", age=60, parent=self.a)
-        self.d = BaseNode(name="d", age=40, parent=self.b)
-        self.e = BaseNode(name="e", age=35, parent=self.b)
-        self.f = BaseNode(name="f", age=38, parent=self.c)
-        self.g = BaseNode(name="g", age=10, parent=self.e)
-        self.h = BaseNode(name="h", age=6, parent=self.e)
+        self.a = basenode.BaseNode(name="a", age=90)
+        self.b = basenode.BaseNode(name="b", age=65, parent=self.a)
+        self.c = basenode.BaseNode(name="c", age=60, parent=self.a)
+        self.d = basenode.BaseNode(name="d", age=40, parent=self.b)
+        self.e = basenode.BaseNode(name="e", age=35, parent=self.b)
+        self.f = basenode.BaseNode(name="f", age=38, parent=self.c)
+        self.g = basenode.BaseNode(name="g", age=10, parent=self.e)
+        self.h = basenode.BaseNode(name="h", age=6, parent=self.e)
 
         assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
@@ -180,7 +179,7 @@ class TestBaseNode(unittest.TestCase):
         self.g.parent = self.e
         self.h.parent = self.e
 
-        dummy = BaseNode()
+        dummy = basenode.BaseNode()
         dummy.parent = self.h
         assert list(self.h.children) == [dummy]
 
@@ -213,8 +212,8 @@ class TestBaseNode(unittest.TestCase):
         assert self.b.parent == self.a
 
     def test_set_parent_duplicate_constructor(self):
-        self.a = BaseNode(name="a", age=90)
-        self.b = BaseNode(name="b", age=65, parent=self.a)
+        self.a = basenode.BaseNode(name="a", age=90)
+        self.b = basenode.BaseNode(name="b", age=65, parent=self.a)
         self.b.parent = self.a
         assert list(self.a.children) == [self.b]
         assert self.b.parent == self.a
@@ -268,14 +267,14 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_self(self)
 
     def test_set_children_constructor(self):
-        self.h = BaseNode(name="h", age=6)
-        self.g = BaseNode(name="g", age=10)
-        self.f = BaseNode(name="f", age=38)
-        self.e = BaseNode(name="e", age=35, children=[self.g, self.h])
-        self.d = BaseNode(name="d", age=40)
-        self.c = BaseNode(name="c", age=60, children=[self.f])
-        self.b = BaseNode(name="b", age=65, children=[self.d, self.e])
-        self.a = BaseNode(name="a", age=90, children=[self.b, self.c])
+        self.h = basenode.BaseNode(name="h", age=6)
+        self.g = basenode.BaseNode(name="g", age=10)
+        self.f = basenode.BaseNode(name="f", age=38)
+        self.e = basenode.BaseNode(name="e", age=35, children=[self.g, self.h])
+        self.d = basenode.BaseNode(name="d", age=40)
+        self.c = basenode.BaseNode(name="c", age=60, children=[self.f])
+        self.b = basenode.BaseNode(name="b", age=65, children=[self.d, self.e])
+        self.a = basenode.BaseNode(name="a", age=90, children=[self.b, self.c])
 
         assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
@@ -287,7 +286,7 @@ class TestBaseNode(unittest.TestCase):
         self.c.children = [self.f]
         self.e.children = [self.g, self.h]
 
-        dummy = BaseNode()
+        dummy = basenode.BaseNode()
         self.h.children = [dummy]
         assert dummy.parent == self.h
         self.h.children = []
@@ -302,7 +301,7 @@ class TestBaseNode(unittest.TestCase):
         self.c.children = [self.f]
         self.e.children = [self.g, self.h]
 
-        dummy = BaseNode()
+        dummy = basenode.BaseNode()
         self.h.children = [dummy]
         assert dummy.parent == self.h
         dummy.parent.children = []
@@ -341,7 +340,7 @@ class TestBaseNode(unittest.TestCase):
         assert self.b.parent == self.a
 
     def test_set_children_duplicate_constructor(self):
-        self.a = BaseNode(children=[self.b])
+        self.a = basenode.BaseNode(children=[self.b])
         self.a.children = [self.b]
         assert list(self.a.children) == [self.b]
         assert self.b.parent == self.a
@@ -389,11 +388,11 @@ class TestBaseNode(unittest.TestCase):
         )
 
     def test_set_parent_loop_error(self):
-        with pytest.raises(LoopError) as exc_info:
+        with pytest.raises(exceptions.LoopError) as exc_info:
             self.a.parent = self.a
         assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_PARENT
 
-        with pytest.raises(LoopError) as exc_info:
+        with pytest.raises(exceptions.LoopError) as exc_info:
             self.b.parent = self.a
             self.c.parent = self.b
             self.a.parent = self.c
@@ -435,36 +434,36 @@ class TestBaseNode(unittest.TestCase):
         )
 
     def test_set_children_loop_error(self):
-        with pytest.raises(LoopError) as exc_info:
+        with pytest.raises(exceptions.LoopError) as exc_info:
             self.a.children = [self.b, self.a]
         assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_CHILD
 
-        with pytest.raises(LoopError) as exc_info:
+        with pytest.raises(exceptions.LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e, self.f]
             self.f.children = [self.a]
         assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_DESCENDANT
 
     def test_set_duplicate_children_error(self):
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             self.a.children = [self.b, self.b]
         assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_CHILD
 
     def test_rollback_set_parent(self):
-        a = clone_tree(self.a, BaseNode2)
-        b = clone_tree(self.b, BaseNode2)
-        c = clone_tree(self.c, BaseNode2)
-        d = clone_tree(self.d, BaseNode2)
-        e = clone_tree(self.e, BaseNode2)
-        f = clone_tree(self.f, BaseNode2)
-        g = clone_tree(self.g, BaseNode2)
-        h = clone_tree(self.h, BaseNode2)
+        a = helper.clone_tree(self.a, BaseNode2)
+        b = helper.clone_tree(self.b, BaseNode2)
+        c = helper.clone_tree(self.c, BaseNode2)
+        d = helper.clone_tree(self.d, BaseNode2)
+        e = helper.clone_tree(self.e, BaseNode2)
+        f = helper.clone_tree(self.f, BaseNode2)
+        g = helper.clone_tree(self.g, BaseNode2)
+        h = helper.clone_tree(self.h, BaseNode2)
         expected_a_children = [b, c]
         expected_h_children = [e, f, g]
         a.children = expected_a_children
         h.children = expected_h_children
         a.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             f.parent = a
         assert str(exc_info.value).startswith("Custom error assigning parent, ")
 
@@ -482,20 +481,20 @@ class TestBaseNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_parent_no_parent(self):
-        a = clone_tree(self.a, BaseNode2)
-        b = clone_tree(self.b, BaseNode2)
-        c = clone_tree(self.c, BaseNode2)
-        d = clone_tree(self.d, BaseNode2)
-        e = clone_tree(self.e, BaseNode2)
-        f = clone_tree(self.f, BaseNode2)
-        g = clone_tree(self.g, BaseNode2)
-        h = clone_tree(self.h, BaseNode2)
+        a = helper.clone_tree(self.a, BaseNode2)
+        b = helper.clone_tree(self.b, BaseNode2)
+        c = helper.clone_tree(self.c, BaseNode2)
+        d = helper.clone_tree(self.d, BaseNode2)
+        e = helper.clone_tree(self.e, BaseNode2)
+        f = helper.clone_tree(self.f, BaseNode2)
+        g = helper.clone_tree(self.g, BaseNode2)
+        h = helper.clone_tree(self.h, BaseNode2)
         expected_a_children = [b, c]
         expected_h_children = [e, f, g]
         a.children = expected_a_children
         h.children = expected_h_children
         a.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             d.parent = a
         assert str(exc_info.value).startswith("Custom error assigning parent, ")
 
@@ -513,20 +512,20 @@ class TestBaseNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_parent_null_parent(self):
-        a = clone_tree(self.a, BaseNode2)
-        b = clone_tree(self.b, BaseNode2)
-        c = clone_tree(self.c, BaseNode2)
-        d = clone_tree(self.d, BaseNode2)
-        e = clone_tree(self.e, BaseNode2)
-        f = clone_tree(self.f, BaseNode2)
-        g = clone_tree(self.g, BaseNode2)
-        h = clone_tree(self.h, BaseNode2)
+        a = helper.clone_tree(self.a, BaseNode2)
+        b = helper.clone_tree(self.b, BaseNode2)
+        c = helper.clone_tree(self.c, BaseNode2)
+        d = helper.clone_tree(self.d, BaseNode2)
+        e = helper.clone_tree(self.e, BaseNode2)
+        f = helper.clone_tree(self.f, BaseNode2)
+        g = helper.clone_tree(self.g, BaseNode2)
+        h = helper.clone_tree(self.h, BaseNode2)
         expected_a_children = [b, c]
         expected_h_children = [e, f, g]
         a.children = expected_a_children
         h.children = expected_h_children
         d.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             d.parent = None
         assert str(exc_info.value) == "Custom error assigning parent"
 
@@ -544,20 +543,20 @@ class TestBaseNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_parent_reassign(self):
-        a = clone_tree(self.a, BaseNode2)
-        b = clone_tree(self.b, BaseNode2)
-        c = clone_tree(self.c, BaseNode2)
-        d = clone_tree(self.d, BaseNode2)
-        e = clone_tree(self.e, BaseNode2)
-        f = clone_tree(self.f, BaseNode2)
-        g = clone_tree(self.g, BaseNode2)
-        h = clone_tree(self.h, BaseNode2)
+        a = helper.clone_tree(self.a, BaseNode2)
+        b = helper.clone_tree(self.b, BaseNode2)
+        c = helper.clone_tree(self.c, BaseNode2)
+        d = helper.clone_tree(self.d, BaseNode2)
+        e = helper.clone_tree(self.e, BaseNode2)
+        f = helper.clone_tree(self.f, BaseNode2)
+        g = helper.clone_tree(self.g, BaseNode2)
+        h = helper.clone_tree(self.h, BaseNode2)
         expected_a_children = [b, c, d]
         expected_h_children = [e, f, g]
         a.children = expected_a_children
         h.children = expected_h_children
         a.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             b.parent = a
         assert str(exc_info.value).startswith("Custom error assigning parent, ")
 
@@ -574,21 +573,21 @@ class TestBaseNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_children(self):
-        a = clone_tree(self.a, BaseNode3)
-        b = clone_tree(self.b, BaseNode3)
-        c = clone_tree(self.c, BaseNode3)
-        d = clone_tree(self.d, BaseNode3)
-        e = clone_tree(self.e, BaseNode3)
-        f = clone_tree(self.f, BaseNode3)
-        g = clone_tree(self.g, BaseNode3)
-        h = clone_tree(self.h, BaseNode3)
+        a = helper.clone_tree(self.a, BaseNode3)
+        b = helper.clone_tree(self.b, BaseNode3)
+        c = helper.clone_tree(self.c, BaseNode3)
+        d = helper.clone_tree(self.d, BaseNode3)
+        e = helper.clone_tree(self.e, BaseNode3)
+        f = helper.clone_tree(self.f, BaseNode3)
+        g = helper.clone_tree(self.g, BaseNode3)
+        h = helper.clone_tree(self.h, BaseNode3)
         i = BaseNode3(name="i")
         expected_a_children = [b, c, d]
         expected_h_children = [e, f, g]
         a.children = expected_a_children
         h.children = expected_h_children
         g.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             a.children = [b, c, d, g, i, f]
         assert str(exc_info.value).startswith("Custom error assigning children, ")
         assert not i.parent, f"Node i parent, expected {None}, received {i.parent}"
@@ -606,21 +605,21 @@ class TestBaseNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_children_null_children(self):
-        a = clone_tree(self.a, BaseNode3)
-        b = clone_tree(self.b, BaseNode3)
-        c = clone_tree(self.c, BaseNode3)
-        d = clone_tree(self.d, BaseNode3)
-        e = clone_tree(self.e, BaseNode3)
-        f = clone_tree(self.f, BaseNode3)
-        g = clone_tree(self.g, BaseNode3)
-        h = clone_tree(self.h, BaseNode3)
+        a = helper.clone_tree(self.a, BaseNode3)
+        b = helper.clone_tree(self.b, BaseNode3)
+        c = helper.clone_tree(self.c, BaseNode3)
+        d = helper.clone_tree(self.d, BaseNode3)
+        e = helper.clone_tree(self.e, BaseNode3)
+        f = helper.clone_tree(self.f, BaseNode3)
+        g = helper.clone_tree(self.g, BaseNode3)
+        h = helper.clone_tree(self.h, BaseNode3)
         i = BaseNode3(name="i")
         expected_a_children = [b, c, d]
         expected_h_children = [e, f, g]
         a.children = expected_a_children
         h.children = expected_h_children
         a.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             a.children = []
         assert str(exc_info.value) == "Custom error assigning children"
         assert not i.parent, f"Node i parent, expected {None}, received {i.parent}"
@@ -638,21 +637,21 @@ class TestBaseNode(unittest.TestCase):
                     ), f"Node {child} parent, expected {parent}, received {child.parent}"
 
     def test_rollback_set_children_reassign(self):
-        a = clone_tree(self.a, BaseNode3)
-        b = clone_tree(self.b, BaseNode3)
-        c = clone_tree(self.c, BaseNode3)
-        d = clone_tree(self.d, BaseNode3)
-        e = clone_tree(self.e, BaseNode3)
-        f = clone_tree(self.f, BaseNode3)
-        g = clone_tree(self.g, BaseNode3)
-        h = clone_tree(self.h, BaseNode3)
+        a = helper.clone_tree(self.a, BaseNode3)
+        b = helper.clone_tree(self.b, BaseNode3)
+        c = helper.clone_tree(self.c, BaseNode3)
+        d = helper.clone_tree(self.d, BaseNode3)
+        e = helper.clone_tree(self.e, BaseNode3)
+        f = helper.clone_tree(self.f, BaseNode3)
+        g = helper.clone_tree(self.g, BaseNode3)
+        h = helper.clone_tree(self.h, BaseNode3)
         i = BaseNode3(name="i")
         expected_a_children = [b, c, d]
         expected_h_children = [e, f, g]
         a.children = expected_a_children
         h.children = expected_h_children
         b.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             a.children = [b, c, d]
         assert str(exc_info.value).startswith("Custom error assigning children, ")
         assert not i.parent, f"Node i parent, expected {None}, received {i.parent}"
@@ -804,7 +803,7 @@ def assert_tree_structure_basenode_root_attr(
 
     # Test age attribute
     expected_attrs = [a, b, d, e, g, h, c, f]
-    for node, expected in zip(preorder_iter(root), expected_attrs):
+    for node, expected in zip(iterators.preorder_iter(root), expected_attrs):
         actual = node.get_attr("name"), node.get_attr("age")
         assert (
             actual == expected
@@ -832,7 +831,7 @@ def assert_tree_structure_customnode_root_attr(
 
     # Test age attribute
     expected_attrs = [a, b, d, e, g, h, c, f]
-    for node, expected in zip(preorder_iter(root), expected_attrs):
+    for node, expected in zip(iterators.preorder_iter(root), expected_attrs):
         actual = node.get_attr("custom_field_str"), node.get_attr("custom_field")
         assert (
             actual == expected

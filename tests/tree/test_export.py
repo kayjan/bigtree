@@ -5,18 +5,7 @@ import polars as pl
 import pydot
 import pytest
 
-from bigtree.tree.export import (
-    hprint_tree,
-    print_tree,
-    tree_to_dataframe,
-    tree_to_dict,
-    tree_to_dot,
-    tree_to_mermaid,
-    tree_to_nested_dict,
-    tree_to_newick,
-    tree_to_pillow,
-    tree_to_polars,
-)
+from bigtree.tree import export
 from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root,
@@ -76,7 +65,7 @@ class TestPrintTree:
         )
         # fmt: on
         assert_print_statement(
-            print_tree,
+            export.print_tree,
             expected_str,
             tree=tree_node,
             node_name_or_path="b",
@@ -86,7 +75,7 @@ class TestPrintTree:
     def test_print_tree_child_node_name_error(tree_node):
         node_name_or_path = "z"
         with pytest.raises(ValueError) as exc_info:
-            print_tree(tree_node, node_name_or_path=node_name_or_path)
+            export.print_tree(tree_node, node_name_or_path=node_name_or_path)
         assert str(
             exc_info.value
         ) == Constants.ERROR_NODE_EXPORT_PRINT_INVALID_PATH.format(
@@ -105,7 +94,7 @@ class TestPrintTree:
         )
         # fmt: on
         assert_print_statement(
-            print_tree,
+            export.print_tree,
             expected_str,
             tree=tree_node,
             node_name_or_path="a/b",
@@ -115,13 +104,13 @@ class TestPrintTree:
     @staticmethod
     def test_print_tree_all_attr(tree_node):
         assert_print_statement(
-            print_tree, tree_node_str, tree=tree_node, all_attrs=True
+            export.print_tree, tree_node_str, tree=tree_node, all_attrs=True
         )
 
     @staticmethod
     def test_print_tree_all_attr_empty(tree_node_no_attr):
         assert_print_statement(
-            print_tree,
+            export.print_tree,
             tree_node_no_attr_str,
             tree=tree_node_no_attr,
             all_attrs=True,
@@ -131,13 +120,16 @@ class TestPrintTree:
     @staticmethod
     def test_print_tree_attr_list(tree_node):
         assert_print_statement(
-            print_tree, tree_node_str, tree=tree_node, attr_list=["age"]
+            export.print_tree, tree_node_str, tree=tree_node, attr_list=["age"]
         )
 
     @staticmethod
     def test_print_tree_invalid_attr(tree_node):
         assert_print_statement(
-            print_tree, tree_node_no_attr_str, tree=tree_node, attr_list=["random"]
+            export.print_tree,
+            tree_node_no_attr_str,
+            tree=tree_node,
+            attr_list=["random"],
         )
 
     # attr_list, attr_omit_null
@@ -154,7 +146,7 @@ class TestPrintTree:
             "    └── f [age=nan]\n"
         )
         assert_print_statement(
-            print_tree,
+            export.print_tree,
             expected_str,
             tree=tree_node_negative_null_attr,
             attr_list=["age"],
@@ -174,7 +166,7 @@ class TestPrintTree:
             "    └── f\n"
         )
         assert_print_statement(
-            print_tree,
+            export.print_tree,
             expected_str,
             tree=tree_node_negative_null_attr,
             attr_list=["age"],
@@ -185,7 +177,7 @@ class TestPrintTree:
     @staticmethod
     def test_print_tree_attr_bracket(tree_node):
         assert_print_statement(
-            print_tree,
+            export.print_tree,
             tree_node_str.replace("[", "(").replace("]", ")"),
             tree=tree_node,
             all_attrs=True,
@@ -196,7 +188,7 @@ class TestPrintTree:
     def test_print_tree_attr_bracket_missing_error(tree_node):
         attr_bracket = [""]
         with pytest.raises(ValueError) as exc_info:
-            print_tree(tree_node, all_attrs=True, attr_bracket=attr_bracket)
+            export.print_tree(tree_node, all_attrs=True, attr_bracket=attr_bracket)
         assert str(
             exc_info.value
         ) == Constants.ERROR_NODE_EXPORT_PRINT_ATTR_BRACKET.format(
@@ -216,7 +208,9 @@ class TestPrintTree:
             "`-- c\n"
             "    `-- f\n"
         )
-        assert_print_statement(print_tree, expected_str, tree=tree_node, style="ansi")
+        assert_print_statement(
+            export.print_tree, expected_str, tree=tree_node, style="ansi"
+        )
 
     @staticmethod
     def test_print_tree_style_ascii(tree_node):
@@ -230,7 +224,9 @@ class TestPrintTree:
             "+-- c\n"
             "    +-- f\n"
         )
-        assert_print_statement(print_tree, expected_str, tree=tree_node, style="ascii")
+        assert_print_statement(
+            export.print_tree, expected_str, tree=tree_node, style="ascii"
+        )
 
     @staticmethod
     def test_print_tree_style_const(tree_node):
@@ -244,7 +240,9 @@ class TestPrintTree:
             "└── c\n"
             "    └── f\n"
         )
-        assert_print_statement(print_tree, expected_str, tree=tree_node, style="const")
+        assert_print_statement(
+            export.print_tree, expected_str, tree=tree_node, style="const"
+        )
 
     @staticmethod
     def test_print_tree_style_const_bold(tree_node):
@@ -259,7 +257,7 @@ class TestPrintTree:
             "    ┗━━ f\n"
         )
         assert_print_statement(
-            print_tree, expected_str, tree=tree_node, style="const_bold"
+            export.print_tree, expected_str, tree=tree_node, style="const_bold"
         )
 
     @staticmethod
@@ -275,7 +273,7 @@ class TestPrintTree:
             "    ╰── f\n"
         )
         assert_print_statement(
-            print_tree, expected_str, tree=tree_node, style="rounded"
+            export.print_tree, expected_str, tree=tree_node, style="rounded"
         )
 
     @staticmethod
@@ -290,12 +288,14 @@ class TestPrintTree:
             "╚══ c\n"
             "    ╚══ f\n"
         )
-        assert_print_statement(print_tree, expected_str, tree=tree_node, style="double")
+        assert_print_statement(
+            export.print_tree, expected_str, tree=tree_node, style="double"
+        )
 
     @staticmethod
     def test_print_tree_style_unknown_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            print_tree(tree_node, style="something")
+            export.print_tree(tree_node, style="something")
         assert str(exc_info.value).startswith(
             Constants.ERROR_NODE_EXPORT_PRINT_INVALID_STYLE
         )
@@ -316,7 +316,7 @@ class TestPrintTree:
             "    `-- f\n"
         )
         assert_print_statement(
-            print_tree,
+            export.print_tree,
             expected_str,
             tree=tree_node,
             style=ANSIPrintStyle,
@@ -337,7 +337,7 @@ class TestPrintTree:
             "    +-- f\n"
         )
         assert_print_statement(
-            print_tree,
+            export.print_tree,
             expected_str,
             tree=tree_node,
             style=ASCIIPrintStyle,
@@ -349,7 +349,7 @@ class TestPrintTree:
 
         expected_str = "a\nb\nd\ne\ng\nh\nc\nf\n"
         assert_print_statement(
-            print_tree,
+            export.print_tree,
             expected_str,
             tree=tree_node,
             style=BasePrintStyle("", "", ""),
@@ -360,7 +360,7 @@ class TestPrintTree:
         from bigtree.utils.constants import BasePrintStyle
 
         with pytest.raises(ValueError) as exc_info:
-            print_tree(
+            export.print_tree(
                 tree_node,
                 style=BasePrintStyle("", "", " "),
             )
@@ -374,7 +374,7 @@ class TestPrintTree:
     def test_print_tree_custom_style(tree_node):
         expected_str = "a\nb\nd\ne\ng\nh\nc\nf\n"
         assert_print_statement(
-            print_tree,
+            export.print_tree,
             expected_str,
             tree=tree_node,
             style=["", "", ""],
@@ -383,7 +383,7 @@ class TestPrintTree:
     @staticmethod
     def test_print_tree_custom_style_unequal_char_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            print_tree(
+            export.print_tree(
                 tree_node,
                 style=["", " ", ""],
             )
@@ -395,7 +395,7 @@ class TestPrintTree:
     @staticmethod
     def test_print_tree_custom_style_missing_style_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            print_tree(
+            export.print_tree(
                 tree_node,
                 style=["", ""],
             )
@@ -404,7 +404,7 @@ class TestPrintTree:
     @staticmethod
     def test_print_tree_kwargs(tree_node):
         output = io.StringIO()
-        print_tree(tree_node, file=output)
+        export.print_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_no_attr_str
 
 
@@ -412,7 +412,7 @@ class TestHPrintTree:
     @staticmethod
     def test_hprint_tree(tree_node):
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             tree_node_hstr,
             tree=tree_node,
         )
@@ -481,7 +481,7 @@ class TestHPrintTree:
             "                  └─ e313\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
         )
@@ -497,7 +497,7 @@ class TestHPrintTree:
             "                └─ c ─── f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
         )
@@ -514,7 +514,7 @@ class TestHPrintTree:
             "     └─  c   ─── fghijk\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
         )
@@ -522,7 +522,7 @@ class TestHPrintTree:
     @staticmethod
     def test_hprint_tree_child_node_name(tree_node):
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             tree_node_branch_hstr,
             tree=tree_node,
             node_name_or_path="b",
@@ -532,7 +532,7 @@ class TestHPrintTree:
     def test_hprint_tree_child_node_name_error(tree_node):
         node_name_or_path = "bb"
         with pytest.raises(ValueError) as exc_info:
-            hprint_tree(tree_node, node_name_or_path=node_name_or_path)
+            export.hprint_tree(tree_node, node_name_or_path=node_name_or_path)
         assert str(
             exc_info.value
         ) == Constants.ERROR_NODE_EXPORT_PRINT_INVALID_PATH.format(
@@ -542,7 +542,7 @@ class TestHPrintTree:
     @staticmethod
     def test_hprint_tree_child_node_path(tree_node):
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             tree_node_branch_hstr,
             tree=tree_node,
             node_name_or_path="a/b",
@@ -558,7 +558,7 @@ class TestHPrintTree:
             "   └───── f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             intermediate_node_name=False,
@@ -576,7 +576,7 @@ class TestHPrintTree:
             "   └───── fghijk\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             intermediate_node_name=False,
@@ -593,7 +593,7 @@ class TestHPrintTree:
             "     \\- c --- f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             style="ansi",
@@ -609,7 +609,7 @@ class TestHPrintTree:
             "     +- c --- f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             style="ascii",
@@ -625,7 +625,7 @@ class TestHPrintTree:
             "     └─ c ─── f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             style="const",
@@ -641,7 +641,7 @@ class TestHPrintTree:
             "     ┗━ c ━━━ f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             style="const_bold",
@@ -657,7 +657,7 @@ class TestHPrintTree:
             "     ╰─ c ─── f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             style="rounded",
@@ -673,7 +673,7 @@ class TestHPrintTree:
             "     ╚═ c ═══ f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             style="double",
@@ -682,7 +682,7 @@ class TestHPrintTree:
     @staticmethod
     def test_hprint_tree_style_unknown_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            hprint_tree(tree_node, style="something")
+            export.hprint_tree(tree_node, style="something")
         assert str(exc_info.value).startswith(
             Constants.ERROR_NODE_EXPORT_PRINT_INVALID_STYLE
         )
@@ -700,7 +700,7 @@ class TestHPrintTree:
             "     \\- c --- f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             style=ANSIHPrintStyle,
@@ -718,7 +718,7 @@ class TestHPrintTree:
             "     +- c --- f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             style=ASCIIHPrintStyle,
@@ -736,7 +736,7 @@ class TestHPrintTree:
             "     |= c === f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             style=BaseHPrintStyle("-", "-", "+", "+", "|", "-", "="),
@@ -747,7 +747,7 @@ class TestHPrintTree:
         from bigtree.utils.constants import BaseHPrintStyle
 
         with pytest.raises(ValueError) as exc_info:
-            hprint_tree(
+            export.hprint_tree(
                 tree_node,
                 style=BaseHPrintStyle("- ", "-", "+", "+", "|", "-", "="),
             )
@@ -767,7 +767,7 @@ class TestHPrintTree:
             "     |= c === f\n"
         )
         assert_print_statement(
-            hprint_tree,
+            export.hprint_tree,
             expected_str,
             tree=tree_node,
             style=["-", "-", "+", "+", "|", "-", "="],
@@ -776,7 +776,7 @@ class TestHPrintTree:
     @staticmethod
     def test_hprint_tree_custom_style_unequal_char_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            hprint_tree(
+            export.hprint_tree(
                 tree_node,
                 style=["- ", "-", "+", "+", "|", "-", "="],
             )
@@ -788,13 +788,13 @@ class TestHPrintTree:
     @staticmethod
     def test_hprint_tree_custom_style_missing_style_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            hprint_tree(tree_node, style=["-", "+", "+", "|", "-", "="])
+            export.hprint_tree(tree_node, style=["-", "+", "+", "|", "-", "="])
         assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_HPRINT_STYLE_SELECT
 
     @staticmethod
     def test_hprint_tree_kwargs(tree_node):
         output = io.StringIO()
-        hprint_tree(tree_node, file=output)
+        export.hprint_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_hstr
 
 
@@ -814,7 +814,7 @@ class TestTreeToDataFrame:
             ],
             columns=["path", "name"],
         )
-        actual = tree_to_dataframe(tree_node)
+        actual = export.tree_to_dataframe(tree_node)
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
@@ -832,7 +832,7 @@ class TestTreeToDataFrame:
             ],
             columns=["PATH", "name"],
         )
-        actual = tree_to_dataframe(tree_node, path_col="PATH")
+        actual = export.tree_to_dataframe(tree_node, path_col="PATH")
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
@@ -850,7 +850,7 @@ class TestTreeToDataFrame:
             ],
             columns=["name"],
         )
-        actual = tree_to_dataframe(tree_node, path_col="")
+        actual = export.tree_to_dataframe(tree_node, path_col="")
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
@@ -868,7 +868,7 @@ class TestTreeToDataFrame:
             ],
             columns=["path", "NAME"],
         )
-        actual = tree_to_dataframe(tree_node, name_col="NAME")
+        actual = export.tree_to_dataframe(tree_node, name_col="NAME")
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
@@ -886,14 +886,14 @@ class TestTreeToDataFrame:
             ],
             columns=["path"],
         )
-        actual = tree_to_dataframe(tree_node, name_col="")
+        actual = export.tree_to_dataframe(tree_node, name_col="")
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
     def test_tree_to_dataframe_name_path_col_missing(tree_node):
         expected = pd.DataFrame()
         expected.index = range(8)
-        actual = tree_to_dataframe(tree_node, name_col="", path_col="")
+        actual = export.tree_to_dataframe(tree_node, name_col="", path_col="")
         pd.testing.assert_frame_equal(expected, actual, check_column_type=False)
 
     @staticmethod
@@ -911,7 +911,7 @@ class TestTreeToDataFrame:
             ],
             columns=["path", "name", "parent"],
         )
-        actual = tree_to_dataframe(tree_node, parent_col="parent")
+        actual = export.tree_to_dataframe(tree_node, parent_col="parent")
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
@@ -929,7 +929,7 @@ class TestTreeToDataFrame:
             ],
             columns=["path", "name", "AGE"],
         )
-        actual = tree_to_dataframe(tree_node, attr_dict={"age": "AGE"})
+        actual = export.tree_to_dataframe(tree_node, attr_dict={"age": "AGE"})
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
@@ -947,7 +947,7 @@ class TestTreeToDataFrame:
             ],
             columns=["path", "name", "age"],
         )
-        actual = tree_to_dataframe(tree_node, all_attrs=True)
+        actual = export.tree_to_dataframe(tree_node, all_attrs=True)
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
@@ -960,7 +960,7 @@ class TestTreeToDataFrame:
             ],
             columns=["path", "name"],
         )
-        actual = tree_to_dataframe(tree_node, max_depth=2)
+        actual = export.tree_to_dataframe(tree_node, max_depth=2)
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
@@ -975,7 +975,7 @@ class TestTreeToDataFrame:
             ],
             columns=["path", "name"],
         )
-        actual = tree_to_dataframe(tree_node, skip_depth=2)
+        actual = export.tree_to_dataframe(tree_node, skip_depth=2)
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
@@ -989,7 +989,7 @@ class TestTreeToDataFrame:
             ],
             columns=["path", "name"],
         )
-        actual = tree_to_dataframe(tree_node, leaf_only=True)
+        actual = export.tree_to_dataframe(tree_node, leaf_only=True)
         pd.testing.assert_frame_equal(expected, actual)
 
     @staticmethod
@@ -1007,7 +1007,7 @@ class TestTreeToDataFrame:
             ],
             columns=["PATH", "NAME", "PARENT", "AGE"],
         )
-        actual = tree_to_dataframe(
+        actual = export.tree_to_dataframe(
             tree_node,
             name_col="NAME",
             path_col="PATH",
@@ -1028,7 +1028,7 @@ class TestTreeToDataFrame:
             ],
             columns=["PATH", "NAME", "PARENT", "AGE"],
         )
-        actual = tree_to_dataframe(
+        actual = export.tree_to_dataframe(
             tree_node.children[0],
             name_col="NAME",
             path_col="PATH",
@@ -1041,7 +1041,7 @@ class TestTreeToDataFrame:
     def test_tree_to_dataframe_to_tree(tree_node):
         from bigtree.tree.construct import dataframe_to_tree
 
-        d = tree_to_dataframe(tree_node, all_attrs=True)
+        d = export.tree_to_dataframe(tree_node, all_attrs=True)
         tree = dataframe_to_tree(d)
         assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
@@ -1064,7 +1064,7 @@ class TestTreeToPolars:
             ],
             schema=["path", "name"],
         )
-        actual = tree_to_polars(tree_node)
+        actual = export.tree_to_polars(tree_node)
         assert expected.equals(actual)
 
     @staticmethod
@@ -1082,7 +1082,7 @@ class TestTreeToPolars:
             ],
             schema=["PATH", "name"],
         )
-        actual = tree_to_polars(tree_node, path_col="PATH")
+        actual = export.tree_to_polars(tree_node, path_col="PATH")
         assert expected.equals(actual)
 
     @staticmethod
@@ -1100,7 +1100,7 @@ class TestTreeToPolars:
             ],
             schema=["name"],
         )
-        actual = tree_to_polars(tree_node, path_col="")
+        actual = export.tree_to_polars(tree_node, path_col="")
         assert expected.equals(actual)
 
     @staticmethod
@@ -1118,7 +1118,7 @@ class TestTreeToPolars:
             ],
             schema=["path", "NAME"],
         )
-        actual = tree_to_polars(tree_node, name_col="NAME")
+        actual = export.tree_to_polars(tree_node, name_col="NAME")
         assert expected.equals(actual)
 
     @staticmethod
@@ -1136,14 +1136,14 @@ class TestTreeToPolars:
             ],
             schema=["path"],
         )
-        actual = tree_to_polars(tree_node, name_col="")
+        actual = export.tree_to_polars(tree_node, name_col="")
         assert expected.equals(actual)
 
     @staticmethod
     def test_tree_to_polars_name_path_col_missing(tree_node):
         expected = pl.DataFrame()
         expected.index = range(8)
-        actual = tree_to_polars(tree_node, name_col="", path_col="")
+        actual = export.tree_to_polars(tree_node, name_col="", path_col="")
         assert expected.equals(actual)
 
     @staticmethod
@@ -1161,7 +1161,7 @@ class TestTreeToPolars:
             ],
             schema=["path", "name", "parent"],
         )
-        actual = tree_to_polars(tree_node, parent_col="parent")
+        actual = export.tree_to_polars(tree_node, parent_col="parent")
         assert expected.equals(actual)
 
     @staticmethod
@@ -1179,7 +1179,7 @@ class TestTreeToPolars:
             ],
             schema=["path", "name", "AGE"],
         )
-        actual = tree_to_polars(tree_node, attr_dict={"age": "AGE"})
+        actual = export.tree_to_polars(tree_node, attr_dict={"age": "AGE"})
         assert expected.equals(actual)
 
     @staticmethod
@@ -1197,7 +1197,7 @@ class TestTreeToPolars:
             ],
             schema=["path", "name", "age"],
         )
-        actual = tree_to_polars(tree_node, all_attrs=True)
+        actual = export.tree_to_polars(tree_node, all_attrs=True)
         assert expected.equals(actual)
 
     @staticmethod
@@ -1210,7 +1210,7 @@ class TestTreeToPolars:
             ],
             schema=["path", "name"],
         )
-        actual = tree_to_polars(tree_node, max_depth=2)
+        actual = export.tree_to_polars(tree_node, max_depth=2)
         assert expected.equals(actual)
 
     @staticmethod
@@ -1225,7 +1225,7 @@ class TestTreeToPolars:
             ],
             schema=["path", "name"],
         )
-        actual = tree_to_polars(tree_node, skip_depth=2)
+        actual = export.tree_to_polars(tree_node, skip_depth=2)
         assert expected.equals(actual)
 
     @staticmethod
@@ -1239,7 +1239,7 @@ class TestTreeToPolars:
             ],
             schema=["path", "name"],
         )
-        actual = tree_to_polars(tree_node, leaf_only=True)
+        actual = export.tree_to_polars(tree_node, leaf_only=True)
         assert expected.equals(actual)
 
     @staticmethod
@@ -1257,7 +1257,7 @@ class TestTreeToPolars:
             ],
             schema=["PATH", "NAME", "PARENT", "AGE"],
         )
-        actual = tree_to_polars(
+        actual = export.tree_to_polars(
             tree_node,
             name_col="NAME",
             path_col="PATH",
@@ -1278,7 +1278,7 @@ class TestTreeToPolars:
             ],
             schema=["PATH", "NAME", "PARENT", "AGE"],
         )
-        actual = tree_to_polars(
+        actual = export.tree_to_polars(
             tree_node.children[0],
             name_col="NAME",
             path_col="PATH",
@@ -1291,7 +1291,7 @@ class TestTreeToPolars:
     def test_tree_to_polars_to_tree(tree_node):
         from bigtree.tree.construct import polars_to_tree
 
-        d = tree_to_polars(tree_node, all_attrs=True)
+        d = export.tree_to_polars(tree_node, all_attrs=True)
         tree = polars_to_tree(d)
         assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
@@ -1311,7 +1311,7 @@ class TestTreeToDict:
             "/a/c": {"name": "c"},
             "/a/c/f": {"name": "f"},
         }
-        actual = tree_to_dict(tree_node)
+        actual = export.tree_to_dict(tree_node)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1326,7 +1326,7 @@ class TestTreeToDict:
             "/a/c": {},
             "/a/c/f": {},
         }
-        actual = tree_to_dict(tree_node, name_key="")
+        actual = export.tree_to_dict(tree_node, name_key="")
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1341,7 +1341,7 @@ class TestTreeToDict:
             "/a/c": {"NAME": "c"},
             "/a/c/f": {"NAME": "f"},
         }
-        actual = tree_to_dict(tree_node, name_key="NAME")
+        actual = export.tree_to_dict(tree_node, name_key="NAME")
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1356,7 +1356,7 @@ class TestTreeToDict:
             "/a/c": {"name": "c", "PARENT": "a"},
             "/a/c/f": {"name": "f", "PARENT": "c"},
         }
-        actual = tree_to_dict(tree_node, parent_key="PARENT")
+        actual = export.tree_to_dict(tree_node, parent_key="PARENT")
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1371,7 +1371,7 @@ class TestTreeToDict:
             "/a/c": {"name": "c", "AGE": 60},
             "/a/c/f": {"name": "f", "AGE": 38},
         }
-        actual = tree_to_dict(tree_node, attr_dict={"age": "AGE"})
+        actual = export.tree_to_dict(tree_node, attr_dict={"age": "AGE"})
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1386,7 +1386,7 @@ class TestTreeToDict:
             "/a/c": {"name": "c", "age": 60},
             "/a/c/f": {"name": "f", "age": 38},
         }
-        actual = tree_to_dict(tree_node, all_attrs=True)
+        actual = export.tree_to_dict(tree_node, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1396,7 +1396,7 @@ class TestTreeToDict:
             "/a/b": {"name": "b"},
             "/a/c": {"name": "c"},
         }
-        actual = tree_to_dict(tree_node, max_depth=2)
+        actual = export.tree_to_dict(tree_node, max_depth=2)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1408,7 +1408,7 @@ class TestTreeToDict:
             "/a/b/e/h": {"name": "h"},
             "/a/c/f": {"name": "f"},
         }
-        actual = tree_to_dict(tree_node, skip_depth=2)
+        actual = export.tree_to_dict(tree_node, skip_depth=2)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1419,7 +1419,7 @@ class TestTreeToDict:
             "/a/b/e/h": {"name": "h"},
             "/a/c/f": {"name": "f"},
         }
-        actual = tree_to_dict(tree_node, leaf_only=True)
+        actual = export.tree_to_dict(tree_node, leaf_only=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1434,7 +1434,7 @@ class TestTreeToDict:
             "/a/c": {"NAME": "c", "PARENT": "a", "AGE": 60},
             "/a/c/f": {"NAME": "f", "PARENT": "c", "AGE": 38},
         }
-        actual = tree_to_dict(
+        actual = export.tree_to_dict(
             tree_node, name_key="NAME", parent_key="PARENT", attr_dict={"age": "AGE"}
         )
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
@@ -1448,7 +1448,7 @@ class TestTreeToDict:
             "/a/b/e/g": {"NAME": "g", "PARENT": "e", "AGE": 10},
             "/a/b/e/h": {"NAME": "h", "PARENT": "e", "AGE": 6},
         }
-        actual = tree_to_dict(
+        actual = export.tree_to_dict(
             tree_node.children[0],
             name_key="NAME",
             parent_key="PARENT",
@@ -1460,7 +1460,7 @@ class TestTreeToDict:
     def test_tree_to_dict_to_tree(tree_node):
         from bigtree.tree.construct import dict_to_tree
 
-        d = tree_to_dict(tree_node, all_attrs=True)
+        d = export.tree_to_dict(tree_node, all_attrs=True)
         tree = dict_to_tree(d)
         assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
@@ -1483,7 +1483,7 @@ class TestTreeToNestedDict:
                 {"name": "c", "children": [{"name": "f"}]},
             ],
         }
-        actual = tree_to_nested_dict(tree_node)
+        actual = export.tree_to_nested_dict(tree_node)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1501,7 +1501,7 @@ class TestTreeToNestedDict:
                 {"NAME": "c", "children": [{"NAME": "f"}]},
             ],
         }
-        actual = tree_to_nested_dict(tree_node, name_key="NAME")
+        actual = export.tree_to_nested_dict(tree_node, name_key="NAME")
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1519,7 +1519,7 @@ class TestTreeToNestedDict:
                 {"name": "c", "CHILDREN": [{"name": "f"}]},
             ],
         }
-        actual = tree_to_nested_dict(tree_node, child_key="CHILDREN")
+        actual = export.tree_to_nested_dict(tree_node, child_key="CHILDREN")
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1546,7 +1546,7 @@ class TestTreeToNestedDict:
                 {"name": "c", "AGE": 60, "children": [{"name": "f", "AGE": 38}]},
             ],
         }
-        actual = tree_to_nested_dict(tree_node, attr_dict={"age": "AGE"})
+        actual = export.tree_to_nested_dict(tree_node, attr_dict={"age": "AGE"})
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1573,13 +1573,13 @@ class TestTreeToNestedDict:
                 {"name": "c", "age": 60, "children": [{"name": "f", "age": 38}]},
             ],
         }
-        actual = tree_to_nested_dict(tree_node, all_attrs=True)
+        actual = export.tree_to_nested_dict(tree_node, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_nested_dict_max_depth(tree_node):
         expected = {"name": "a", "children": [{"name": "b"}, {"name": "c"}]}
-        actual = tree_to_nested_dict(tree_node, max_depth=2)
+        actual = export.tree_to_nested_dict(tree_node, max_depth=2)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -1606,7 +1606,7 @@ class TestTreeToNestedDict:
                 {"NAME": "c", "AGE": 60, "CHILDREN": [{"NAME": "f", "AGE": 38}]},
             ],
         }
-        actual = tree_to_nested_dict(
+        actual = export.tree_to_nested_dict(
             tree_node, name_key="NAME", child_key="CHILDREN", attr_dict={"age": "AGE"}
         )
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
@@ -1625,7 +1625,7 @@ class TestTreeToNestedDict:
                 },
             ],
         }
-        actual = tree_to_nested_dict(
+        actual = export.tree_to_nested_dict(
             tree_node.children[0],
             name_key="NAME",
             child_key="CHILDREN",
@@ -1637,7 +1637,7 @@ class TestTreeToNestedDict:
     def test_tree_to_nested_dict_to_tree(tree_node):
         from bigtree.tree.construct import nested_dict_to_tree
 
-        d = tree_to_nested_dict(tree_node, all_attrs=True)
+        d = export.tree_to_nested_dict(tree_node, all_attrs=True)
         tree = nested_dict_to_tree(d)
         assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
@@ -1647,7 +1647,7 @@ class TestTreeToNestedDict:
 class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot(tree_node):
-        graph = tree_to_dot(tree_node)
+        graph = export.tree_to_dot(tree_node)
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1659,7 +1659,7 @@ class TestTreeToDot:
 
     @staticmethod
     def test_tree_to_dot_multiple(tree_node, tree_node_plot):
-        graph = tree_to_dot([tree_node, tree_node_plot])
+        graph = export.tree_to_dot([tree_node, tree_node_plot])
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\nz0 [label=z];\ny0 [label=y];\nz0 -> y0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1671,7 +1671,7 @@ class TestTreeToDot:
 
     @staticmethod
     def test_tree_to_dot_duplicate_names(tree_node_duplicate_names):
-        graph = tree_to_dot(tree_node_duplicate_names)
+        graph = export.tree_to_dot(tree_node_duplicate_names)
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\na1 [label=a];\na0 -> a1;\na2 [label=a];\na1 -> a2;\nb0 [label=b];\na1 -> b0;\na3 [label=a];\nb0 -> a3;\nb1 [label=b];\nb0 -> b1;\nb2 [label=b];\na0 -> b2;\na4 [label=a];\nb2 -> a4;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1684,12 +1684,12 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_type_error(dag_node):
         with pytest.raises(TypeError) as exc_info:
-            tree_to_dot(dag_node)
+            export.tree_to_dot(dag_node)
         assert str(exc_info.value) == Constants.ERROR_NODE_TYPE.format(type="Node")
 
     @staticmethod
     def test_tree_to_dot_directed(tree_node):
-        graph = tree_to_dot(tree_node, directed=False)
+        graph = export.tree_to_dot(tree_node, directed=False)
         expected = """strict graph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -- b0;\nd0 [label=d];\nb0 -- d0;\ne0 [label=e];\nb0 -- e0;\ng0 [label=g];\ne0 -- g0;\nh0 [label=h];\ne0 -- h0;\nc0 [label=c];\na0 -- c0;\nf0 [label=f];\nc0 -- f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1701,7 +1701,7 @@ class TestTreeToDot:
 
     @staticmethod
     def test_tree_to_dot_bg_colour(tree_node):
-        graph = tree_to_dot(tree_node, bg_colour="blue")
+        graph = export.tree_to_dot(tree_node, bg_colour="blue")
         expected = """strict digraph G {\nbgcolor=blue;\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1716,7 +1716,7 @@ class TestTreeToDot:
         pydot.__version__ >= "3.0.0", reason="Results have different ordering"
     )
     def test_tree_to_dot_fill_colour(tree_node):
-        graph = tree_to_dot(tree_node, node_colour="gold")
+        graph = export.tree_to_dot(tree_node, node_colour="gold")
         expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=gold, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=gold, label=d, style=filled];\nb0 -> d0;\ne0 [fillcolor=gold, label=e, style=filled];\nb0 -> e0;\ng0 [fillcolor=gold, label=g, style=filled];\ne0 -> g0;\nh0 [fillcolor=gold, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=gold, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=gold, label=f, style=filled];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1732,7 +1732,7 @@ class TestTreeToDot:
         reason="Results have different ordering (new pydot)",
     )
     def test_tree_to_dot_fill_colour2(tree_node):
-        graph = tree_to_dot(tree_node, node_colour="gold")
+        graph = export.tree_to_dot(tree_node, node_colour="gold")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, style=filled, fillcolor=gold];\nb0 [label=b, style=filled, fillcolor=gold];\na0 -> b0;\nd0 [label=d, style=filled, fillcolor=gold];\nb0 -> d0;\ne0 [label=e, style=filled, fillcolor=gold];\nb0 -> e0;\ng0 [label=g, style=filled, fillcolor=gold];\ne0 -> g0;\nh0 [label=h, style=filled, fillcolor=gold];\ne0 -> h0;\nc0 [label=c, style=filled, fillcolor=gold];\na0 -> c0;\nf0 [label=f, style=filled, fillcolor=gold];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1744,7 +1744,7 @@ class TestTreeToDot:
 
     @staticmethod
     def test_tree_to_dot_edge_colour(tree_node):
-        graph = tree_to_dot(tree_node, edge_colour="red")
+        graph = export.tree_to_dot(tree_node, edge_colour="red")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [color=red];\nd0 [label=d];\nb0 -> d0  [color=red];\ne0 [label=e];\nb0 -> e0  [color=red];\ng0 [label=g];\ne0 -> g0  [color=red];\nh0 [label=h];\ne0 -> h0  [color=red];\nc0 [label=c];\na0 -> c0  [color=red];\nf0 [label=f];\nc0 -> f0  [color=red];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1756,7 +1756,7 @@ class TestTreeToDot:
 
     @staticmethod
     def test_tree_to_dot_node_shape(tree_node):
-        graph = tree_to_dot(tree_node, node_shape="triangle")
+        graph = export.tree_to_dot(tree_node, node_shape="triangle")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, shape=triangle];\nb0 [label=b, shape=triangle];\na0 -> b0;\nd0 [label=d, shape=triangle];\nb0 -> d0;\ne0 [label=e, shape=triangle];\nb0 -> e0;\ng0 [label=g, shape=triangle];\ne0 -> g0;\nh0 [label=h, shape=triangle];\ne0 -> h0;\nc0 [label=c, shape=triangle];\na0 -> c0;\nf0 [label=f, shape=triangle];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1771,7 +1771,7 @@ class TestTreeToDot:
         pydot.__version__ >= "3.0.0", reason="Results have different ordering"
     )
     def test_tree_to_dot_node_attr(tree_node_style):
-        graph = tree_to_dot(tree_node_style, node_attr="node_style")
+        graph = export.tree_to_dot(tree_node_style, node_attr="node_style")
         expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=green, label=d, style=filled];\nb0 -> d0;\ng0 [fillcolor=red, label=g, style=filled];\nd0 -> g0;\ne0 [fillcolor=green, label=e, style=filled];\nb0 -> e0;\nh0 [fillcolor=red, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=blue, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=green, label=f, style=filled];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1787,7 +1787,7 @@ class TestTreeToDot:
         reason="Results have different ordering (new pydot)",
     )
     def test_tree_to_dot_node_attr2(tree_node_style):
-        graph = tree_to_dot(tree_node_style, node_attr="node_style")
+        graph = export.tree_to_dot(tree_node_style, node_attr="node_style")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, style=filled, fillcolor=gold];\nb0 [label=b, style=filled, fillcolor=blue];\na0 -> b0;\nd0 [label=d, style=filled, fillcolor=green];\nb0 -> d0;\ng0 [label=g, style=filled, fillcolor=red];\nd0 -> g0;\ne0 [label=e, style=filled, fillcolor=green];\nb0 -> e0;\nh0 [label=h, style=filled, fillcolor=red];\ne0 -> h0;\nc0 [label=c, style=filled, fillcolor=blue];\na0 -> c0;\nf0 [label=f, style=filled, fillcolor=green];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1811,7 +1811,7 @@ class TestTreeToDot:
                 return {"style": "filled", "fillcolor": "green"}
             return {"style": "filled", "fillcolor": "red"}
 
-        graph = tree_to_dot(tree_node_style_callable, node_attr=get_node_attr)
+        graph = export.tree_to_dot(tree_node_style_callable, node_attr=get_node_attr)
         expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=green, label=d, style=filled];\nb0 -> d0;\ng0 [fillcolor=red, label=g, style=filled];\nd0 -> g0;\ne0 [fillcolor=green, label=e, style=filled];\nb0 -> e0;\nh0 [fillcolor=red, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=blue, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=green, label=f, style=filled];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1836,7 +1836,7 @@ class TestTreeToDot:
                 return {"style": "filled", "fillcolor": "green"}
             return {"style": "filled", "fillcolor": "red"}
 
-        graph = tree_to_dot(tree_node_style_callable, node_attr=get_node_attr)
+        graph = export.tree_to_dot(tree_node_style_callable, node_attr=get_node_attr)
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, style=filled, fillcolor=gold];\nb0 [label=b, style=filled, fillcolor=blue];\na0 -> b0;\nd0 [label=d, style=filled, fillcolor=green];\nb0 -> d0;\ng0 [label=g, style=filled, fillcolor=red];\nd0 -> g0;\ne0 [label=e, style=filled, fillcolor=green];\nb0 -> e0;\nh0 [label=h, style=filled, fillcolor=red];\ne0 -> h0;\nc0 [label=c, style=filled, fillcolor=red];\na0 -> c0;\nf0 [label=f, style=filled, fillcolor=green];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1851,7 +1851,7 @@ class TestTreeToDot:
         pydot.__version__ >= "3.0.0", reason="Results have different ordering"
     )
     def test_tree_to_dot_edge_attr(tree_node_style):
-        graph = tree_to_dot(tree_node_style, edge_attr="edge_style")
+        graph = export.tree_to_dot(tree_node_style, edge_attr="edge_style")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [label=b, style=bold];\nd0 [label=d];\nb0 -> d0  [label=1, style=bold];\ng0 [label=g];\nd0 -> g0  [label=4, style=bold];\ne0 [label=e];\nb0 -> e0  [label=2, style=bold];\nh0 [label=h];\ne0 -> h0  [label=5, style=bold];\nc0 [label=c];\na0 -> c0  [label=c, style=bold];\nf0 [label=f];\nc0 -> f0  [label=3, style=bold];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1867,7 +1867,7 @@ class TestTreeToDot:
         reason="Results have different ordering (new pydot)",
     )
     def test_tree_to_dot_edge_attr2(tree_node_style):
-        graph = tree_to_dot(tree_node_style, edge_attr="edge_style")
+        graph = export.tree_to_dot(tree_node_style, edge_attr="edge_style")
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0 [style=bold, label=b];\nd0 [label=d];\nb0 -> d0 [style=bold, label=1];\ng0 [label=g];\nd0 -> g0 [style=bold, label=4];\ne0 [label=e];\nb0 -> e0 [style=bold, label=2];\nh0 [label=h];\ne0 -> h0 [style=bold, label=5];\nc0 [label=c];\na0 -> c0 [style=bold, label=c];\nf0 [label=f];\nc0 -> f0 [style=bold, label=3];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1896,7 +1896,7 @@ class TestTreeToDot:
                 }
             raise Exception("Node with invalid edge_attr not covered")
 
-        graph = tree_to_dot(tree_node_style_callable, edge_attr=get_edge_attr)
+        graph = export.tree_to_dot(tree_node_style_callable, edge_attr=get_edge_attr)
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [label=b, style=bold];\nd0 [label=d];\nb0 -> d0  [label=1, style=bold];\ng0 [label=g];\nd0 -> g0  [label=4, style=bold];\ne0 [label=e];\nb0 -> e0  [label=2, style=bold];\nh0 [label=h];\ne0 -> h0  [label=5, style=bold];\nc0 [label=c];\na0 -> c0  [label=c, style=bold];\nf0 [label=f];\nc0 -> f0  [label=3, style=bold];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1926,7 +1926,7 @@ class TestTreeToDot:
                 }
             raise Exception("Node with invalid edge_attr not covered")
 
-        graph = tree_to_dot(tree_node_style_callable, edge_attr=get_edge_attr)
+        graph = export.tree_to_dot(tree_node_style_callable, edge_attr=get_edge_attr)
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0 [style=bold, label=b];\nd0 [label=d];\nb0 -> d0 [style=bold, label=1];\ng0 [label=g];\nd0 -> g0 [style=bold, label=4];\ne0 [label=e];\nb0 -> e0 [style=bold, label=2];\nh0 [label=h];\ne0 -> h0 [style=bold, label=5];\nc0 [label=c];\na0 -> c0 [style=bold, label=c];\nf0 [label=f];\nc0 -> f0 [style=bold, label=3];\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1947,7 +1947,9 @@ class TestTreeToDot:
                 "edge_style": {"style": "bold"},
             }
         )
-        graph = tree_to_dot(tree_node, node_attr="node_style", edge_attr="edge_style")
+        graph = export.tree_to_dot(
+            tree_node, node_attr="node_style", edge_attr="edge_style"
+        )
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0  [style=bold];\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1969,7 +1971,9 @@ class TestTreeToDot:
                 "edge_style": {"style": "bold"},
             }
         )
-        graph = tree_to_dot(tree_node, node_attr="node_style", edge_attr="edge_style")
+        graph = export.tree_to_dot(
+            tree_node, node_attr="node_style", edge_attr="edge_style"
+        )
         expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b, style=filled, fillcolor=blue];\na0 -> b0 [style=bold];\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
         actual = graph.to_string()
         if LOCAL:
@@ -1983,25 +1987,25 @@ class TestTreeToDot:
 class TestTreeToPillow:
     @staticmethod
     def test_tree_to_pillow(tree_node):
-        pillow_image = tree_to_pillow(tree_node)
+        pillow_image = export.tree_to_pillow(tree_node)
         if LOCAL:
             pillow_image.save("tests/tree_pillow.png")
 
     @staticmethod
     def test_tree_to_pillow_start_pos(tree_node):
-        pillow_image = tree_to_pillow(tree_node, start_pos=(100, 50))
+        pillow_image = export.tree_to_pillow(tree_node, start_pos=(100, 50))
         if LOCAL:
             pillow_image.save("tests/tree_pillow_start_pos.png")
 
     @staticmethod
     def test_tree_to_pillow_start_pos_small(tree_node):
-        pillow_image = tree_to_pillow(tree_node, start_pos=(0, 0))
+        pillow_image = export.tree_to_pillow(tree_node, start_pos=(0, 0))
         if LOCAL:
             pillow_image.save("tests/tree_pillow_start_pos_small.png")
 
     @staticmethod
     def test_tree_to_pillow_font(tree_node):
-        pillow_image = tree_to_pillow(
+        pillow_image = export.tree_to_pillow(
             tree_node, font_size=20, font_colour="red", bg_colour="lightblue"
         )
         if LOCAL:
@@ -2009,7 +2013,7 @@ class TestTreeToPillow:
 
     @staticmethod
     def test_tree_to_pillow_kwargs(tree_node):
-        pillow_image = tree_to_pillow(tree_node, max_depth=2, style="const_bold")
+        pillow_image = export.tree_to_pillow(tree_node, max_depth=2, style="const_bold")
         if LOCAL:
             pillow_image.save("tests/tree_pillow_style.png")
 
@@ -2017,7 +2021,7 @@ class TestTreeToPillow:
     def test_tree_to_pillow_font_family(tree_node):
         font_family = "invalid.ttf"
         with pytest.raises(ValueError) as exc_info:
-            tree_to_pillow(tree_node, font_family=font_family)
+            export.tree_to_pillow(tree_node, font_family=font_family)
         assert str(
             exc_info.value
         ) == Constants.ERROR_NODE_EXPORT_PILLOW_FONT_FAMILY.format(
@@ -2073,7 +2077,7 @@ class TestTreeToMermaid:
 
     @staticmethod
     def test_tree_to_mermaid(tree_node):
-        mermaid_md = tree_to_mermaid(tree_node)
+        mermaid_md = export.tree_to_mermaid(tree_node)
         expected_str = (
             """```mermaid\n"""
             """%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\n"""
@@ -2093,7 +2097,7 @@ class TestTreeToMermaid:
     @staticmethod
     def test_tree_to_mermaid_invalid_rankdir_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            tree_to_mermaid(tree_node, rankdir="invalid")
+            export.tree_to_mermaid(tree_node, rankdir="invalid")
         assert str(exc_info.value).startswith(
             Constants.ERROR_NODE_MERMAID_INVALID_ARGUMENT.format(parameter="rankdir")
         )
@@ -2101,7 +2105,7 @@ class TestTreeToMermaid:
     @staticmethod
     def test_tree_to_mermaid_invalid_line_shape_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            tree_to_mermaid(tree_node, line_shape="invalid")
+            export.tree_to_mermaid(tree_node, line_shape="invalid")
         assert str(exc_info.value).startswith(
             Constants.ERROR_NODE_MERMAID_INVALID_ARGUMENT.format(parameter="line_shape")
         )
@@ -2109,7 +2113,7 @@ class TestTreeToMermaid:
     @staticmethod
     def test_tree_to_mermaid_invalid_node_shape_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            tree_to_mermaid(tree_node, node_shape="invalid")
+            export.tree_to_mermaid(tree_node, node_shape="invalid")
         assert str(exc_info.value).startswith(
             Constants.ERROR_NODE_MERMAID_INVALID_ARGUMENT.format(parameter="node_shape")
         )
@@ -2117,7 +2121,7 @@ class TestTreeToMermaid:
     @staticmethod
     def test_tree_to_mermaid_invalid_edge_arrow_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            tree_to_mermaid(tree_node, edge_arrow="invalid")
+            export.tree_to_mermaid(tree_node, edge_arrow="invalid")
         assert str(exc_info.value).startswith(
             Constants.ERROR_NODE_MERMAID_INVALID_ARGUMENT.format(parameter="edge_arrow")
         )
@@ -2125,14 +2129,14 @@ class TestTreeToMermaid:
     @staticmethod
     def test_tree_to_mermaid_invalid_style_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            tree_to_mermaid(tree_node, node_border_width=0)
+            export.tree_to_mermaid(tree_node, node_border_width=0)
         assert str(exc_info.value) == Constants.ERROR_NODE_MERMAID_INVALID_STYLE
 
     @staticmethod
     def test_tree_to_mermaid_rankdir(tree_node):
         rankdirs = ["TB", "BT", "LR", "RL"]
         mermaid_mds = [
-            tree_to_mermaid(tree_node, rankdir=rankdir) for rankdir in rankdirs
+            export.tree_to_mermaid(tree_node, rankdir=rankdir) for rankdir in rankdirs
         ]
         expected_graph = (
             """0("a") --> 0-0("b")\n"""
@@ -2172,7 +2176,7 @@ class TestTreeToMermaid:
             "stepBefore",
         ]
         mermaid_mds = [
-            tree_to_mermaid(tree_node, line_shape=line_shape)
+            export.tree_to_mermaid(tree_node, line_shape=line_shape)
             for line_shape in line_shapes
         ]
         expected_graph = (
@@ -2209,7 +2213,7 @@ class TestTreeToMermaid:
     def test_tree_to_mermaid_node_colour(tree_node):
         node_colours = ["yellow", "blue", "#000", "#ff0000"]
         mermaid_mds = [
-            tree_to_mermaid(tree_node, node_colour=node_colour)
+            export.tree_to_mermaid(tree_node, node_colour=node_colour)
             for node_colour in node_colours
         ]
         expected_graph = (
@@ -2239,7 +2243,7 @@ class TestTreeToMermaid:
     def test_tree_to_mermaid_node_border_colour(tree_node):
         node_border_colours = ["yellow", "blue", "#000", "#ff0000"]
         mermaid_mds = [
-            tree_to_mermaid(tree_node, node_border_colour=node_border_colour)
+            export.tree_to_mermaid(tree_node, node_border_colour=node_border_colour)
             for node_border_colour in node_border_colours
         ]
         expected_graph = (
@@ -2271,7 +2275,7 @@ class TestTreeToMermaid:
     def test_tree_to_mermaid_node_border_width(tree_node):
         node_border_widths = [1, 1.5, 2, 10.5]
         mermaid_mds = [
-            tree_to_mermaid(tree_node, node_border_width=node_border_width)
+            export.tree_to_mermaid(tree_node, node_border_width=node_border_width)
             for node_border_width in node_border_widths
         ]
         expected_graph = (
@@ -2302,7 +2306,7 @@ class TestTreeToMermaid:
     def test_tree_to_mermaid_node_colour_border_colour_border_width(tree_node):
         node_styles = [("yellow", "#ff0", 0), ("#ff0000", "#000", 2)]
         mermaid_mds = [
-            tree_to_mermaid(
+            export.tree_to_mermaid(
                 tree_node,
                 node_colour=node_colour,
                 node_border_colour=node_border_colour,
@@ -2349,7 +2353,7 @@ class TestTreeToMermaid:
             "double_circle",
         ]
         mermaid_mds = [
-            tree_to_mermaid(tree_node, node_shape=node_shape)
+            export.tree_to_mermaid(tree_node, node_shape=node_shape)
             for node_shape in node_shapes
         ]
         expected_strs = [
@@ -2373,7 +2377,7 @@ class TestTreeToMermaid:
             assert mermaid_md == expected_str, f"Check node_shape {node_shape}"
 
     def test_tree_to_mermaid_node_shape_attr(self, tree_node_mermaid_style):
-        mermaid_md = tree_to_mermaid(
+        mermaid_md = export.tree_to_mermaid(
             tree_node_mermaid_style, node_shape_attr="node_shape"
         )
         assert mermaid_md == self.MERMAID_STR_NODE_SHAPE
@@ -2386,7 +2390,9 @@ class TestTreeToMermaid:
                 return "stadium"
             return "rounded_edge"
 
-        mermaid_md = tree_to_mermaid(tree_node_no_attr, node_shape_attr=get_node_shape)
+        mermaid_md = export.tree_to_mermaid(
+            tree_node_no_attr, node_shape_attr=get_node_shape
+        )
         assert mermaid_md == self.MERMAID_STR_NODE_SHAPE
 
     @staticmethod
@@ -2406,7 +2412,7 @@ class TestTreeToMermaid:
             "double_cross",
         ]
         mermaid_mds = [
-            tree_to_mermaid(tree_node, edge_arrow=edge_arrow)
+            export.tree_to_mermaid(tree_node, edge_arrow=edge_arrow)
             for edge_arrow in edge_arrows
         ]
         expected_strs = [
@@ -2428,7 +2434,7 @@ class TestTreeToMermaid:
             assert mermaid_md == expected_str, f"Check edge_arrow {edge_arrow}"
 
     def test_tree_to_mermaid_edge_arrow_attr(self, tree_node_mermaid_style):
-        mermaid_md = tree_to_mermaid(
+        mermaid_md = export.tree_to_mermaid(
             tree_node_mermaid_style, edge_arrow_attr="edge_arrow"
         )
         assert mermaid_md == self.MERMAID_STR_EDGE_ARROW
@@ -2441,14 +2447,14 @@ class TestTreeToMermaid:
                 return "dotted_open"
             return "normal"
 
-        mermaid_md = tree_to_mermaid(
+        mermaid_md = export.tree_to_mermaid(
             tree_node_no_attr, edge_arrow_attr=get_edge_arrow_attr
         )
         assert mermaid_md == self.MERMAID_STR_EDGE_ARROW
 
     @staticmethod
     def test_tree_to_mermaid_edge_label(tree_node_mermaid_style):
-        mermaid_md = tree_to_mermaid(tree_node_mermaid_style, edge_label="label")
+        mermaid_md = export.tree_to_mermaid(tree_node_mermaid_style, edge_label="label")
         expected_str = (
             """```mermaid\n"""
             """%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\n"""
@@ -2465,7 +2471,7 @@ class TestTreeToMermaid:
         assert mermaid_md == expected_str
 
     def test_tree_to_mermaid_node_attr(self, tree_node_mermaid_style):
-        mermaid_md = tree_to_mermaid(tree_node_mermaid_style, node_attr="attr")
+        mermaid_md = export.tree_to_mermaid(tree_node_mermaid_style, node_attr="attr")
         assert mermaid_md == self.MERMAID_STR_NODE_ATTR
 
     def test_tree_to_mermaid_node_attr_callable(self, tree_node_no_attr):
@@ -2476,7 +2482,7 @@ class TestTreeToMermaid:
                 return "fill:red,stroke:black,stroke-width:2"
             return ""
 
-        mermaid_md = tree_to_mermaid(tree_node_no_attr, node_attr=get_node_attr)
+        mermaid_md = export.tree_to_mermaid(tree_node_no_attr, node_attr=get_node_attr)
         assert mermaid_md == self.MERMAID_STR_NODE_ATTR
 
     def test_tree_to_mermaid_node_attr_root(self, tree_node_no_attr):
@@ -2487,7 +2493,7 @@ class TestTreeToMermaid:
                 return "fill:red,stroke:black,stroke-width:2"
             return ""
 
-        mermaid_md = tree_to_mermaid(tree_node_no_attr, node_attr=get_node_attr)
+        mermaid_md = export.tree_to_mermaid(tree_node_no_attr, node_attr=get_node_attr)
         expected_str = (
             """```mermaid\n"""
             """%%{ init: { \'flowchart\': { \'curve\': \'basis\' } } }%%\n"""
@@ -2510,49 +2516,49 @@ class TestTreeToMermaid:
 class TestTreeToNewick:
     @staticmethod
     def test_tree_to_newick(tree_node):
-        newick_str = tree_to_newick(tree_node)
+        newick_str = export.tree_to_newick(tree_node)
         expected_str = "((d,(g,h)e)b,(f)c)a"
         assert newick_str == expected_str
 
     @staticmethod
     def test_tree_to_newick_length(tree_node):
-        newick_str = tree_to_newick(tree_node, length_attr="age")
+        newick_str = export.tree_to_newick(tree_node, length_attr="age")
         expected_str = "((d:40,(g:10,h:6)e:35)b:65,(f:38)c:60)a"
         assert newick_str == expected_str
 
     @staticmethod
     def test_tree_to_newick_length_invalid_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            tree_to_newick(tree_node, length_attr="age2")
+            export.tree_to_newick(tree_node, length_attr="age2")
         assert str(exc_info.value).startswith(Constants.ERROR_NODE_NEWICK_ATTR_INVALID)
 
     @staticmethod
     def test_tree_to_newick_length_sep(tree_node):
-        newick_str = tree_to_newick(tree_node, length_attr="age", length_sep=";")
+        newick_str = export.tree_to_newick(tree_node, length_attr="age", length_sep=";")
         expected_str = "((d;40,(g;10,h;6)e;35)b;65,(f;38)c;60)a"
         assert newick_str == expected_str
 
     @staticmethod
     def test_tree_to_newick_attr_list(tree_node):
-        newick_str = tree_to_newick(tree_node, attr_list=["age"])
+        newick_str = export.tree_to_newick(tree_node, attr_list=["age"])
         expected_str = "((d[&&NHX:age=40],(g[&&NHX:age=10],h[&&NHX:age=6])e[&&NHX:age=35])b[&&NHX:age=65],(f[&&NHX:age=38])c[&&NHX:age=60])a[&&NHX:age=90]"
         assert newick_str == expected_str
 
     @staticmethod
     def test_tree_to_newick_attr_list_invalid(tree_node):
-        newick_str = tree_to_newick(tree_node, attr_list=["age2"])
+        newick_str = export.tree_to_newick(tree_node, attr_list=["age2"])
         expected_str = """((d,(g,h)e)b,(f)c)a"""
         assert newick_str == expected_str
 
     @staticmethod
     def test_tree_to_newick_attr_prefix(tree_node):
-        newick_str = tree_to_newick(tree_node, attr_list=["age"], attr_prefix="")
+        newick_str = export.tree_to_newick(tree_node, attr_list=["age"], attr_prefix="")
         expected_str = "((d[age=40],(g[age=10],h[age=6])e[age=35])b[age=65],(f[age=38])c[age=60])a[age=90]"
         assert newick_str == expected_str
 
     @staticmethod
     def test_tree_to_newick_intermediate_node_name(tree_node):
-        newick_str = tree_to_newick(
+        newick_str = export.tree_to_newick(
             tree_node, intermediate_node_name=False, attr_list=["age"]
         )
         expected_str = "((d[&&NHX:age=40],(g[&&NHX:age=10],h[&&NHX:age=6])[&&NHX:age=35])[&&NHX:age=65],(f[&&NHX:age=38])[&&NHX:age=60])[&&NHX:age=90]"
@@ -2571,13 +2577,13 @@ class TestTreeToNewick:
         _ = Node('"g"', parent=e)
         _ = Node("'h'", parent=e)
 
-        newick_str = tree_to_newick(root)
+        newick_str = export.tree_to_newick(root)
         expected_str = """(('d,',("g",'"h"')':e')'[b]',('f=')'c:')'(root)'"""
         assert newick_str == expected_str
 
     @staticmethod
     def test_tree_to_newick_phylogenetic(phylogenetic_tree):
-        newick_str = tree_to_newick(
+        newick_str = export.tree_to_newick(
             phylogenetic_tree,
             intermediate_node_name=False,
             length_attr="length",
@@ -2588,7 +2594,7 @@ class TestTreeToNewick:
 
     @staticmethod
     def test_tree_to_newick_phylogenetic_attr_sep(phylogenetic_tree):
-        newick_str = tree_to_newick(
+        newick_str = export.tree_to_newick(
             phylogenetic_tree,
             intermediate_node_name=False,
             length_attr="length",
