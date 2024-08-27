@@ -1,16 +1,16 @@
 from typing import List, Type, TypeVar
 
-from bigtree.node.binarynode import BinaryNode
-from bigtree.utils.assertions import assert_length_not_empty
+from bigtree.node import binarynode
+from bigtree.utils import assertions
 
 __all__ = ["list_to_binarytree"]
 
-T = TypeVar("T", bound=BinaryNode)
+T = TypeVar("T", bound=binarynode.BinaryNode)
 
 
 def list_to_binarytree(
     heapq_list: List[int],
-    node_type: Type[T] = BinaryNode,  # type: ignore[assignment]
+    node_type: Type[T] = binarynode.BinaryNode,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from a list of numbers (int or float) in heapq format.
 
@@ -41,7 +41,7 @@ def list_to_binarytree(
     Returns:
         (BinaryNode)
     """
-    assert_length_not_empty(heapq_list, "Input list", "heapq_list")
+    assertions.assert_length_not_empty(heapq_list, "Input list", "heapq_list")
 
     root_node = node_type(heapq_list[0])
     node_list = [root_node]

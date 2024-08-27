@@ -1,12 +1,12 @@
 import unittest
+from typing import Any, List
 
 import matplotlib.pyplot as plt
 import pytest
 
-from bigtree.node.node import Node
-from bigtree.tree.construct import list_to_tree
-from bigtree.utils.iterators import postorder_iter
-from bigtree.utils.plot import _first_pass, plot_tree, reingold_tilford
+from bigtree.node import node
+from bigtree.tree import construct
+from bigtree.utils import iterators, plot
 from tests.test_constants import Constants
 
 LOCAL = Constants.LOCAL
@@ -14,31 +14,31 @@ LOCAL = Constants.LOCAL
 
 class TestPlotTree(unittest.TestCase):
     def test_plot_tree_runtime_error(self):
-        root = Node("a", children=[Node("b")])
+        root = node.Node("a", children=[node.Node("b")])
         with pytest.raises(RuntimeError) as exc_info:
-            plot_tree(root)
+            plot.plot_tree(root)
         assert str(exc_info.value) == Constants.ERROR_PLOT
 
     def test_plot_tree_with_fig(self):
-        root = Node("a", children=[Node("b"), Node("c")])
-        reingold_tilford(root)
+        root = node.Node("a", children=[node.Node("b"), node.Node("c")])
+        plot.reingold_tilford(root)
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        fig = plot_tree(root, ax=ax)
+        fig = plot.plot_tree(root, ax=ax)
         if LOCAL:
-            fig.savefig("tests/plot_tree_fig.png")
+            fig.savefig("tests/plot.plot_tree_fig.png")
         assert isinstance(fig, plt.Figure)
 
     def test_plot_tree_with_fig_and_args(self):
-        root = Node("a", children=[Node("b"), Node("c")])
-        reingold_tilford(root)
+        root = node.Node("a", children=[node.Node("b"), node.Node("c")])
+        plot.reingold_tilford(root)
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        fig = plot_tree(root, "-ok", ax=ax)
+        fig = plot.plot_tree(root, "-ok", ax=ax)
         if LOCAL:
-            fig.savefig("tests/plot_tree_fig_and_args.png")
+            fig.savefig("tests/plot.plot_tree_fig_and_args.png")
         assert isinstance(fig, plt.Figure)
 
 
@@ -50,7 +50,7 @@ class TestPlotNoChildren(unittest.TestCase):
         Tree should have structure
         a
         """
-        self.root = Node("a")
+        self.root = node.Node("a")
 
     def tearDown(self):
         self.root = None
@@ -59,17 +59,8 @@ class TestPlotNoChildren(unittest.TestCase):
         expected = [
             ("a", 0, 0, 0),
         ]
-        reingold_tilford(self.root)
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("mod"),
-                node.get_attr("shift"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+        plot.reingold_tilford(self.root)
+        assert_x_mod_shift(self.root, expected)
 
 
 class TestPlotShiftLeftSibling(unittest.TestCase):
@@ -106,7 +97,7 @@ class TestPlotShiftLeftSibling(unittest.TestCase):
             "o/n/m/k",
             "o/n/m/l",
         ]
-        root = list_to_tree(path_list)
+        root = construct.list_to_tree(path_list)
         self.root = root
 
     def tearDown(self):
@@ -133,21 +124,12 @@ class TestPlotShiftLeftSibling(unittest.TestCase):
             ("n", 15, 12, 9),
             ("o", 13.5, 0, 0),
         ]
-        _first_pass(
+        plot._first_pass(
             self.root,
             sibling_separation=sibling_separation,
             subtree_separation=subtree_separation,
         )
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("mod"),
-                node.get_attr("shift"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+        assert_x_mod_shift(self.root, expected)
 
     def test_reingold_tilford(self):
         expected = [
@@ -167,16 +149,8 @@ class TestPlotShiftLeftSibling(unittest.TestCase):
             ("n", 4, 2),
             ("o", 2.25, 3),
         ]
-        reingold_tilford(self.root)
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("y"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+        plot.reingold_tilford(self.root)
+        assert_x_y_coordinate(self.root, expected)
 
     def test_reingold_tilford_with_separation(self):
         sibling_separation = 6
@@ -199,20 +173,12 @@ class TestPlotShiftLeftSibling(unittest.TestCase):
             ("n", 15 + 9, 2),
             ("o", 13.5, 3),
         ]
-        reingold_tilford(
+        plot.reingold_tilford(
             self.root,
             sibling_separation=sibling_separation,
             subtree_separation=subtree_separation,
         )
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("y"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+        assert_x_y_coordinate(self.root, expected)
 
     def test_reingold_tilford_with_separation_and_offset(self):
         sibling_separation = 6
@@ -237,22 +203,14 @@ class TestPlotShiftLeftSibling(unittest.TestCase):
             ("n", 24 + x_offset, 2 + y_offset),
             ("o", 13.5 + x_offset, 3 + y_offset),
         ]
-        reingold_tilford(
+        plot.reingold_tilford(
             self.root,
             sibling_separation=sibling_separation,
             subtree_separation=subtree_separation,
             x_offset=x_offset,
             y_offset=y_offset,
         )
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("y"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+        assert_x_y_coordinate(self.root, expected)
 
     def test_reingold_tilford_with_separation_and_level_separation(self):
         sibling_separation = 6
@@ -276,21 +234,13 @@ class TestPlotShiftLeftSibling(unittest.TestCase):
             ("n", 24, 2 * level_separation),
             ("o", 13.5, 3 * level_separation),
         ]
-        reingold_tilford(
+        plot.reingold_tilford(
             self.root,
             sibling_separation=sibling_separation,
             subtree_separation=subtree_separation,
             level_separation=level_separation,
         )
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("y"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+        assert_x_y_coordinate(self.root, expected)
 
     def test_reingold_tilford_with_separation_and_offset_and_level_separation(self):
         sibling_separation = 6
@@ -316,7 +266,7 @@ class TestPlotShiftLeftSibling(unittest.TestCase):
             ("n", 24 + x_offset, 2 * level_separation + y_offset),
             ("o", 13.5 + x_offset, 3 * level_separation + y_offset),
         ]
-        reingold_tilford(
+        plot.reingold_tilford(
             self.root,
             sibling_separation=sibling_separation,
             subtree_separation=subtree_separation,
@@ -324,15 +274,7 @@ class TestPlotShiftLeftSibling(unittest.TestCase):
             x_offset=x_offset,
             y_offset=y_offset,
         )
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("y"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+        assert_x_y_coordinate(self.root, expected)
 
 
 class TestPlotShiftRightSibling(unittest.TestCase):
@@ -388,7 +330,7 @@ class TestPlotShiftRightSibling(unittest.TestCase):
             "z/x/w",
             "z/y",
         ]
-        root = list_to_tree(path_list)
+        root = construct.list_to_tree(path_list)
         self.root = root
 
     def tearDown(self):
@@ -425,21 +367,12 @@ class TestPlotShiftRightSibling(unittest.TestCase):
             ("y", 5 + 1.75, 0, 4 * 5.75),
             ("z", 16.25, 0, 0),
         ]
-        _first_pass(
+        plot._first_pass(
             self.root,
             sibling_separation=sibling_separation,
             subtree_separation=subtree_separation,
         )
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("mod"),
-                node.get_attr("shift"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+        assert_x_mod_shift(self.root, expected)
 
     def test_reingold_tilford_with_separation_and_offset_and_level_separation(self):
         sibling_separation = 1
@@ -476,7 +409,7 @@ class TestPlotShiftRightSibling(unittest.TestCase):
             ("y", 29.75 + x_offset, 2 * level_separation + y_offset),
             ("z", 16.25 + x_offset, 3 * level_separation + y_offset),
         ]
-        reingold_tilford(
+        plot.reingold_tilford(
             self.root,
             sibling_separation=sibling_separation,
             subtree_separation=subtree_separation,
@@ -484,15 +417,7 @@ class TestPlotShiftRightSibling(unittest.TestCase):
             x_offset=x_offset,
             y_offset=y_offset,
         )
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("y"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+        assert_x_y_coordinate(self.root, expected)
 
 
 class TestPlotRelativeShift(unittest.TestCase):
@@ -549,7 +474,7 @@ class TestPlotRelativeShift(unittest.TestCase):
             "z/x/w",
             "z/y",
         ]
-        root = list_to_tree(path_list)
+        root = construct.list_to_tree(path_list)
         self.root = root
 
     def tearDown(self):
@@ -584,20 +509,8 @@ class TestPlotRelativeShift(unittest.TestCase):
             ("y", 5.5, 0, (1.5 + 1.5) + (4.5 + 4.5)),  # 9 shift
             ("z", 9.5, 0, 0),  # 8 x
         ]
-        _first_pass(self.root, sibling_separation=1, subtree_separation=1)
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("mod"),
-                node.get_attr("shift"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        for _actual, _expected in zip(actual, expected):
-            assert _actual == pytest.approx(
-                _expected, abs=0.1
-            ), f"Expected\n{_expected}\nReceived\n{_actual}"
+        plot._first_pass(self.root, sibling_separation=1, subtree_separation=1)
+        assert_x_mod_shift(self.root, expected, approx=True)
 
     def test_reingold_tilford(self):
         expected = [
@@ -628,19 +541,8 @@ class TestPlotRelativeShift(unittest.TestCase):
             ("y", 17.5, 2),
             ("z", 9.5, 3),
         ]
-        reingold_tilford(self.root)
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("y"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        for _actual, _expected in zip(actual, expected):
-            assert _actual == pytest.approx(
-                _expected, abs=0.1
-            ), f"Expected\n{_expected}\nReceived\n{_actual}"
+        plot.reingold_tilford(self.root)
+        assert_x_y_coordinate(self.root, expected, approx=True)
 
 
 class TestPlotShiftLeftRightSibling(unittest.TestCase):
@@ -682,7 +584,7 @@ class TestPlotShiftLeftRightSibling(unittest.TestCase):
             "r/q/o",
             "r/q/p",
         ]
-        root = list_to_tree(path_list)
+        root = construct.list_to_tree(path_list)
         self.root = root
 
     def tearDown(self):
@@ -709,20 +611,8 @@ class TestPlotShiftLeftRightSibling(unittest.TestCase):
             ("q", 4.5, 4, (1.5 + 1.5 / 2) + 2.25),
             ("r", 5.25, 0, 0),
         ]
-        _first_pass(self.root, sibling_separation=1, subtree_separation=1)
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("mod"),
-                node.get_attr("shift"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        for _actual, _expected in zip(actual, expected):
-            assert _actual == pytest.approx(
-                _expected, abs=0.1
-            ), f"Expected\n{_expected}\nReceived\n{_actual}"
+        plot._first_pass(self.root, sibling_separation=1, subtree_separation=1)
+        assert_x_mod_shift(self.root, expected, approx=True)
 
     def test_reingold_tilford(self):
         expected = [
@@ -745,19 +635,8 @@ class TestPlotShiftLeftRightSibling(unittest.TestCase):
             ("q", 9, 2),
             ("r", 5.25, 3),
         ]
-        reingold_tilford(self.root)
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("y"),
-            )
-            for node in postorder_iter(self.root)
-        ]
-        for _actual, _expected in zip(actual, expected):
-            assert _actual == pytest.approx(
-                _expected, abs=0.1
-            ), f"Expected\n{_expected}\nReceived\n{_actual}"
+        plot.reingold_tilford(self.root)
+        assert_x_y_coordinate(self.root, expected, approx=True)
 
 
 class TestPlotNonNegative(unittest.TestCase):
@@ -792,7 +671,7 @@ class TestPlotNonNegative(unittest.TestCase):
             "m/k/j",
             "m/l",
         ]
-        root = list_to_tree(path_list)
+        root = construct.list_to_tree(path_list)
         self.root = root
 
     def tearDown(self):
@@ -814,7 +693,7 @@ class TestPlotNonNegative(unittest.TestCase):
             ("l", 3, 0, 0),
             ("m", 1.5, 0, 0),
         ]
-        _first_pass(self.root, sibling_separation=1, subtree_separation=1)
+        plot._first_pass(self.root, sibling_separation=1, subtree_separation=1)
         actual = [
             (
                 node.node_name,
@@ -822,7 +701,7 @@ class TestPlotNonNegative(unittest.TestCase):
                 node.get_attr("mod"),
                 node.get_attr("shift"),
             )
-            for node in postorder_iter(self.root)
+            for node in iterators.postorder_iter(self.root)
         ]
         for _actual, _expected in zip(actual, expected):
             assert _actual == pytest.approx(
@@ -845,16 +724,42 @@ class TestPlotNonNegative(unittest.TestCase):
             ("l", 3 + 0.5, 2),
             ("m", 1.5 + 0.5, 3),
         ]
-        reingold_tilford(self.root)
-        actual = [
-            (
-                node.node_name,
-                node.get_attr("x"),
-                node.get_attr("y"),
-            )
-            for node in postorder_iter(self.root)
-        ]
+        plot.reingold_tilford(self.root)
+        assert_x_y_coordinate(self.root, expected, approx=True)
+
+
+def assert_x_y_coordinate(tree: node.Node, expected: List[Any], approx: bool = False):
+    actual = [
+        (
+            _node.node_name,
+            _node.get_attr("x"),
+            _node.get_attr("y"),
+        )
+        for _node in iterators.postorder_iter(tree)
+    ]
+    if approx:
         for _actual, _expected in zip(actual, expected):
             assert _actual == pytest.approx(
                 _expected, abs=0.1
             ), f"Expected\n{_expected}\nReceived\n{_actual}"
+    else:
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+
+def assert_x_mod_shift(tree: node.Node, expected: List[Any], approx: bool = False):
+    actual = [
+        (
+            _node.node_name,
+            _node.get_attr("x"),
+            _node.get_attr("mod"),
+            _node.get_attr("shift"),
+        )
+        for _node in iterators.postorder_iter(tree)
+    ]
+    if approx:
+        for _actual, _expected in zip(actual, expected):
+            assert _actual == pytest.approx(
+                _expected, abs=0.1
+            ), f"Expected\n{_expected}\nReceived\n{_actual}"
+    else:
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"

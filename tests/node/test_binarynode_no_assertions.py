@@ -3,23 +3,21 @@ from unittest.mock import patch
 
 import pytest
 
-from bigtree.node.basenode import BaseNode
-from bigtree.node.binarynode import BinaryNode
-from bigtree.node.node import Node
+from bigtree.node import basenode, binarynode, node
 from bigtree.utils.exceptions import TreeError
 
 
 @patch("bigtree.node.binarynode.ASSERTIONS", "")
 class TestBinaryNodeNoAssertions(unittest.TestCase):
     def setUp(self):
-        self.a = BinaryNode(1)
-        self.b = BinaryNode(2)
-        self.c = BinaryNode(3)
-        self.d = BinaryNode(4)
-        self.e = BinaryNode(5)
-        self.f = BinaryNode(6)
-        self.g = BinaryNode(7)
-        self.h = BinaryNode(8)
+        self.a = binarynode.BinaryNode(1)
+        self.b = binarynode.BinaryNode(2)
+        self.c = binarynode.BinaryNode(3)
+        self.d = binarynode.BinaryNode(4)
+        self.e = binarynode.BinaryNode(5)
+        self.f = binarynode.BinaryNode(6)
+        self.g = binarynode.BinaryNode(7)
+        self.h = binarynode.BinaryNode(8)
 
     def tearDown(self):
         self.a = None
@@ -38,12 +36,12 @@ class TestBinaryNodeNoAssertions(unittest.TestCase):
             self.a.parent = parent
 
         # AttributeError: 'BaseNode' object has no attribute '_BinaryNode__children'
-        parent = BaseNode()
+        parent = basenode.BaseNode()
         with pytest.raises(AttributeError):
             self.a.parent = parent
 
         # AttributeError: 'Node' object has no attribute '_BinaryNode__children'
-        parent = Node("a")
+        parent = node.Node("a")
         with pytest.raises(AttributeError):
             self.a.parent = parent
 
@@ -63,11 +61,11 @@ class TestBinaryNodeNoAssertions(unittest.TestCase):
             self.a.children = [self.b, children]
 
         # No error without assertion
-        children = BaseNode()
+        children = basenode.BaseNode()
         self.a.children = [children, None]
 
         # bigtree.utils.exceptions.TreeError: 'NoneType' object has no attribute '_BinaryNode__children'
-        children = Node("a")
+        children = node.Node("a")
         with pytest.raises(TreeError):
             self.a.children = [children, None]
 

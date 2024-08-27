@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pytest
 
-from bigtree.node.basenode import BaseNode
+from bigtree.node import basenode
 
 
 @patch("bigtree.node.basenode.ASSERTIONS", "")
@@ -20,14 +20,14 @@ class TestBaseNodeNoAssertions(unittest.TestCase):
         +-- c (age=60)
             +-- f (age=38)
         """
-        self.a = BaseNode(name="a", age=90)
-        self.b = BaseNode(name="b", age=65)
-        self.c = BaseNode(name="c", age=60)
-        self.d = BaseNode(name="d", age=40)
-        self.e = BaseNode(name="e", age=35)
-        self.f = BaseNode(name="f", age=38)
-        self.g = BaseNode(name="g", age=10)
-        self.h = BaseNode(name="h", age=6)
+        self.a = basenode.BaseNode(name="a", age=90)
+        self.b = basenode.BaseNode(name="b", age=65)
+        self.c = basenode.BaseNode(name="c", age=60)
+        self.d = basenode.BaseNode(name="d", age=40)
+        self.e = basenode.BaseNode(name="e", age=35)
+        self.f = basenode.BaseNode(name="f", age=38)
+        self.g = basenode.BaseNode(name="g", age=10)
+        self.h = basenode.BaseNode(name="h", age=6)
 
     def tearDown(self):
         self.a = None

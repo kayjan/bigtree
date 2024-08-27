@@ -2,22 +2,22 @@ import unittest
 
 import pytest
 
-from bigtree import AppToDo
-from bigtree.utils.exceptions import SearchError
+from bigtree.utils import exceptions
+from bigtree.workflows import app_todo
 from tests.conftest import assert_console_output
 from tests.test_constants import Constants
 
 
 class TestAppToDo(unittest.TestCase):
     def setUp(self):
-        self.todoapp = AppToDo("To Do Items")
+        self.todoapp = app_todo.AppToDo("To Do Items")
 
     def tearDown(self):
         self.todoapp = None
 
     @staticmethod
     def test_creation():
-        todoapp = AppToDo("To Do Items")
+        todoapp = app_todo.AppToDo("To Do Items")
         assert todoapp._root.name == "To Do Items"
 
     def test_add_list(self):
@@ -261,7 +261,7 @@ class TestAppToDo(unittest.TestCase):
     def test_remove_duplicate_item_error(self):
         self.todoapp.add_item("Item 1")
         self.todoapp.add_item("Item 1", "List 1")
-        with pytest.raises(SearchError) as exc_info:
+        with pytest.raises(exceptions.SearchError) as exc_info:
             self.todoapp.remove_item("Item 1")
         assert str(exc_info.value).startswith(
             Constants.ERROR_SEARCH_LESS_THAN_N_ELEMENT.format(count=1)
@@ -351,38 +351,38 @@ class TestAppToDo(unittest.TestCase):
 
 @assert_console_output("Created list List 1")
 def test_add_list_verbose():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_list("List 1")
 
 
 @assert_console_output("Created list List 1")
 def test_add_list_duplicate_verbose():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_list("List 1")
     todoapp.add_list("List 1")
 
 
 @assert_console_output(["Created list General", "Created item(s) Item 1"])
 def test_add_item_single_verbose():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_item("Item 1")
 
 
 @assert_console_output(["Created list List 1", "Created item(s) Item 1"])
 def test_add_item_single_list():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_item("Item 1", "List 1")
 
 
 @assert_console_output(["Created list General", "Created item(s) Item 1, Item 2"])
 def test_add_item_multiple():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_item(["Item 1", "Item 2"])
 
 
 @assert_console_output(["Created list List 1", "Created item(s) Item 1, Item 2"])
 def test_add_item_multiple_list_verbose():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_item(["Item 1", "Item 2"], "List 1")
 
 
@@ -395,7 +395,7 @@ def test_add_item_multiple_list_verbose():
     ]
 )
 def test_remove_item_single_verbose():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_item("Item 1")
     todoapp.remove_item("Item 1")
 
@@ -409,7 +409,7 @@ def test_remove_item_single_verbose():
     ]
 )
 def test_remove_item_single_list_verbose():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_item("Item 1")
     todoapp.remove_item(["Item 1"], "General")
 
@@ -425,7 +425,7 @@ def test_remove_item_single_list_verbose():
     ]
 )
 def test_remove_duplicate_item():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_item("Item 1")
     todoapp.add_item("Item 1", "List 1")
     todoapp.remove_item("Item 1", "List 1")
@@ -440,7 +440,7 @@ def test_remove_duplicate_item():
     ]
 )
 def test_remove_item_multiple():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_item(["Item 1", "Item 2"])
     todoapp.remove_item(["Item 1", "Item 2"])
 
@@ -454,6 +454,6 @@ def test_remove_item_multiple():
     ]
 )
 def test_remove_item_multiple_list():
-    todoapp = AppToDo("To Do Items")
+    todoapp = app_todo.AppToDo("To Do Items")
     todoapp.add_item(["Item 1", "Item 2"])
     todoapp.remove_item(["Item 1", "Item 2"], "General")

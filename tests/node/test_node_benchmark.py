@@ -3,12 +3,14 @@ from unittest.mock import patch
 
 import pytest
 
-from bigtree.node.node import Node
+from bigtree.node import node
 
 sys.setrecursionlimit(2000)
 
 
-def run_construct_node(depth: int, width: int = 1, parent_node: Node = None) -> Node:
+def run_construct_node(
+    depth: int, width: int = 1, parent_node: node.Node = None
+) -> node.Node:
     """Create a balanced tree of depth `depth` and width `width`
 
     Args:
@@ -21,7 +23,7 @@ def run_construct_node(depth: int, width: int = 1, parent_node: Node = None) -> 
     """
     if depth > 0:
         for _width in range(width):
-            new_node = Node(f"{depth}.{_width}", parent=parent_node)
+            new_node = node.Node(f"{depth}.{_width}", parent=parent_node)
             run_construct_node(depth - 1, width, new_node)
         return new_node
 

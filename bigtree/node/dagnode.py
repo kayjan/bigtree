@@ -4,8 +4,7 @@ import copy
 from typing import Any, Dict, Generator, Iterable, List, Optional, Tuple, TypeVar
 
 from bigtree.globals import ASSERTIONS
-from bigtree.utils.exceptions import LoopError, TreeError
-from bigtree.utils.iterators import preorder_iter
+from bigtree.utils import exceptions, iterators
 
 
 class DAGNode:
@@ -178,16 +177,18 @@ class DAGNode:
 
             # Check for loop and tree structure
             if new_parent is self:
-                raise LoopError("Error setting parent: Node cannot be parent of itself")
+                raise exceptions.LoopError(
+                    "Error setting parent: Node cannot be parent of itself"
+                )
             if new_parent.ancestors:
                 if any(ancestor is self for ancestor in new_parent.ancestors):
-                    raise LoopError(
+                    raise exceptions.LoopError(
                         "Error setting parent: Node cannot be ancestor of itself"
                     )
 
             # Check for duplicate children
             if id(new_parent) in seen_parent:
-                raise TreeError(
+                raise exceptions.TreeError(
                     "Error setting parent: Node cannot be added multiple times as a parent"
                 )
             else:
@@ -231,7 +232,7 @@ class DAGNode:
                 if new_parent not in current_parents:
                     self.__parents.remove(new_parent)
                     new_parent.__children.remove(self)
-            raise TreeError(exc_info)
+            raise exceptions.TreeError(exc_info)
 
     def __pre_assign_parents(self: T, new_parents: List[T]) -> None:
         """Custom method to check before attaching parent
@@ -278,15 +279,17 @@ class DAGNode:
 
             # Check for loop and tree structure
             if new_child is self:
-                raise LoopError("Error setting child: Node cannot be child of itself")
+                raise exceptions.LoopError(
+                    "Error setting child: Node cannot be child of itself"
+                )
             if any(child is new_child for child in self.ancestors):
-                raise LoopError(
+                raise exceptions.LoopError(
                     "Error setting child: Node cannot be ancestor of itself"
                 )
 
             # Check for duplicate children
             if id(new_child) in seen_children:
-                raise TreeError(
+                raise exceptions.TreeError(
                     "Error setting child: Node cannot be added multiple times as a child"
                 )
             else:
@@ -329,7 +332,7 @@ class DAGNode:
                 if new_child not in current_children:
                     new_child.__parents.remove(self)
                     self.__children.remove(new_child)
-            raise TreeError(exc_info)
+            raise exceptions.TreeError(exc_info)
 
     @children.deleter
     def children(self) -> None:
@@ -389,7 +392,9 @@ class DAGNode:
         Returns:
             (Iterable[Self])
         """
-        descendants = preorder_iter(self, filter_condition=lambda _node: _node != self)
+        descendants = iterators.preorder_iter(
+            self, filter_condition=lambda _node: _node != self
+        )
         return list(dict.fromkeys(descendants))
 
     @property
@@ -523,7 +528,7 @@ class DAGNode:
             >>> a.go_to(b)
             Traceback (most recent call last):
                 ...
-            bigtree.utils.exceptions.TreeError: It is not possible to go to DAGNode(b, )
+            bigtree.utils.exceptions.exceptions.TreeError: It is not possible to go to DAGNode(b, )
 
         Args:
             node (Self): node to travel to from current node, inclusive of start and end node
@@ -538,7 +543,7 @@ class DAGNode:
         if self == node:
             return [[self]]
         if node not in self.descendants:
-            raise TreeError(f"It is not possible to go to {node}")
+            raise exceptions.TreeError(f"It is not possible to go to {node}")
 
         self.__path: List[List[T]] = []
 

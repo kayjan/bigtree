@@ -2,11 +2,9 @@ import math
 
 import pytest
 
-from bigtree import print_tree, tree_to_dict
-from bigtree.node.basenode import BaseNode
-from bigtree.node.node import Node
-from bigtree.tree.helper import clone_tree, get_tree_diff, prune_tree
-from bigtree.utils.exceptions import NotFoundError, SearchError
+from bigtree.node import basenode, node
+from bigtree.tree import export, helper
+from bigtree.utils import exceptions
 from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root,
@@ -19,29 +17,29 @@ class TestCloneTree:
     @staticmethod
     def test_clone_tree_wrong_type_error():
         with pytest.raises(TypeError) as exc_info:
-            clone_tree({}, Node)
+            helper.clone_tree({}, node.Node)
         assert str(exc_info.value) == Constants.ERROR_NODE_TYPE.format(type="BaseNode")
 
     @staticmethod
     def test_clone_tree_basenode_node(tree_basenode):
-        root_clone = clone_tree(tree_basenode, node_type=Node)
-        assert isinstance(root_clone, Node), "Wrong type returned"
+        root_clone = helper.clone_tree(tree_basenode, node_type=node.Node)
+        assert isinstance(root_clone, node.Node), "Wrong type returned"
         assert_tree_structure_basenode_root(root_clone)
         assert_tree_structure_basenode_root_attr(root_clone)
 
     @staticmethod
     def test_clone_tree_node_basenode(tree_node):
-        root_clone = clone_tree(tree_node, node_type=BaseNode)
-        assert isinstance(root_clone, BaseNode), "Wrong type returned"
+        root_clone = helper.clone_tree(tree_node, node_type=basenode.BaseNode)
+        assert isinstance(root_clone, basenode.BaseNode), "Wrong type returned"
         assert_tree_structure_basenode_root(root_clone)
         assert_tree_structure_basenode_root_attr(root_clone)
 
     @staticmethod
     def test_clone_tree_basenode_custom(tree_basenode):
-        class NodeA(Node):
+        class NodeA(node.Node):
             pass
 
-        root_clone = clone_tree(tree_basenode, node_type=NodeA)
+        root_clone = helper.clone_tree(tree_basenode, node_type=NodeA)
         assert isinstance(root_clone, NodeA), Constants.ERROR_CUSTOM_TYPE.format(
             type="NodeA"
         )
@@ -53,7 +51,7 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree(tree_node):
         # Pruned tree is a/b/d, a/b/e/g, a/b/e/h
-        tree_prune = prune_tree(tree_node, "a/b")
+        tree_prune = helper.prune_tree(tree_node, "a/b")
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
@@ -65,7 +63,7 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_exact(tree_node):
         # Pruned tree is a/b/e/g
-        tree_prune = prune_tree(tree_node, "a/b/e/g", exact=True)
+        tree_prune = helper.prune_tree(tree_node, "a/b/e/g", exact=True)
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
@@ -76,7 +74,7 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_list(tree_node):
         # Pruned tree is a/b/d, a/b/e/g, a/b/e/h
-        tree_prune = prune_tree(tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"])
+        tree_prune = helper.prune_tree(tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"])
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
@@ -88,7 +86,7 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_path_and_depth(tree_node):
         # Pruned tree is a/b/d, a/b/e (a/b/e/g, a/b/e/h pruned away)
-        tree_prune = prune_tree(tree_node, "a/b", max_depth=3)
+        tree_prune = helper.prune_tree(tree_node, "a/b", max_depth=3)
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
@@ -102,7 +100,9 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_path_and_depth_and_list(tree_node):
         # Pruned tree is a/b/d, a/b/e (a/b/e/g, a/b/e/h pruned away)
-        tree_prune = prune_tree(tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"], max_depth=3)
+        tree_prune = helper.prune_tree(
+            tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"], max_depth=3
+        )
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
@@ -116,7 +116,7 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_path_and_depth_and_list_and_exact(tree_node):
         # Pruned tree is a/b/d, a/b/e (a/b/e/g, a/b/e/h pruned away)
-        tree_prune = prune_tree(
+        tree_prune = helper.prune_tree(
             tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"], exact=True, max_depth=3
         )
 
@@ -132,7 +132,7 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_only_depth(tree_node):
         # Pruned tree is a/b, a/c (a/b/e/g, a/b/e/h, a/c/f pruned away)
-        tree_prune = prune_tree(tree_node, max_depth=2)
+        tree_prune = helper.prune_tree(tree_node, max_depth=2)
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
@@ -147,7 +147,7 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_second_child(tree_node):
         # Pruned tree is a/c/f
-        tree_prune = prune_tree(tree_node, "a/c")
+        tree_prune = helper.prune_tree(tree_node, "a/c")
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
@@ -156,10 +156,10 @@ class TestPruneTree:
 
     @staticmethod
     def test_prune_tree_multiple_path_error(tree_node):
-        dd = Node("d")
+        dd = node.Node("d")
         dd.parent = tree_node.children[-1]
-        with pytest.raises(SearchError) as exc_info:
-            prune_tree(tree_node, "d")
+        with pytest.raises(exceptions.SearchError) as exc_info:
+            helper.prune_tree(tree_node, "d")
         assert str(exc_info.value).startswith(
             Constants.ERROR_SEARCH_LESS_THAN_N_ELEMENT.format(count=1)
         )
@@ -167,8 +167,8 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_nonexistant_path_error(tree_node):
         prune_path = "i"
-        with pytest.raises(NotFoundError) as exc_info:
-            prune_tree(tree_node, prune_path)
+        with pytest.raises(exceptions.NotFoundError) as exc_info:
+            helper.prune_tree(tree_node, prune_path)
         assert str(exc_info.value) == Constants.ERROR_NODE_PRUNE_NOT_FOUND.format(
             prune_path=prune_path
         )
@@ -176,7 +176,7 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_sep(tree_node):
         # Pruned tree is a/c/f
-        tree_prune = prune_tree(tree_node, "a\\c", sep="\\")
+        tree_prune = helper.prune_tree(tree_node, "a\\c", sep="\\")
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
@@ -186,8 +186,8 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_sep_error(tree_node):
         prune_path = "a\\c"
-        with pytest.raises(NotFoundError) as exc_info:
-            prune_tree(tree_node, prune_path)
+        with pytest.raises(exceptions.NotFoundError) as exc_info:
+            helper.prune_tree(tree_node, prune_path)
         assert str(exc_info.value) == Constants.ERROR_NODE_PRUNE_NOT_FOUND.format(
             prune_path=prune_path
         )
@@ -195,16 +195,16 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_no_arg_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
-            prune_tree(tree_node)
+            helper.prune_tree(tree_node)
         assert str(exc_info.value) == Constants.ERROR_NODE_PRUNE_ARGUMENT
 
 
 class TestTreeDiff:
     @staticmethod
     def test_tree_diff(tree_node):
-        other_tree_node = prune_tree(tree_node, "a/c")
-        _ = Node("d", parent=other_tree_node)
-        tree_only_diff = get_tree_diff(tree_node, other_tree_node)
+        other_tree_node = helper.prune_tree(tree_node, "a/c")
+        _ = node.Node("d", parent=other_tree_node)
+        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
         expected_str = (
             "a\n"
             "├── b (-)\n"
@@ -214,14 +214,14 @@ class TestTreeDiff:
             "│       └── h (-)\n"
             "└── d (+)\n"
         )
-        assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
     def test_tree_diff_diff_sep(tree_node):
-        other_tree_node = prune_tree(tree_node, "a/c")
-        _ = Node("d", parent=other_tree_node)
+        other_tree_node = helper.prune_tree(tree_node, "a/c")
+        _ = node.Node("d", parent=other_tree_node)
         other_tree_node.sep = "-"
-        tree_only_diff = get_tree_diff(tree_node, other_tree_node)
+        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
         expected_str = (
             "a\n"
             "├── b (-)\n"
@@ -231,13 +231,13 @@ class TestTreeDiff:
             "│       └── h (-)\n"
             "└── d (+)\n"
         )
-        assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
     def test_tree_diff_all_diff(tree_node):
-        other_tree_node = prune_tree(tree_node, "a/c")
-        _ = Node("d", parent=other_tree_node)
-        tree_diff = get_tree_diff(tree_node, other_tree_node, only_diff=False)
+        other_tree_node = helper.prune_tree(tree_node, "a/c")
+        _ = node.Node("d", parent=other_tree_node)
+        tree_diff = helper.get_tree_diff(tree_node, other_tree_node, only_diff=False)
         expected_str = (
             "a\n"
             "├── b (-)\n"
@@ -249,23 +249,25 @@ class TestTreeDiff:
             "│   └── f\n"
             "└── d (+)\n"
         )
-        assert_print_statement(print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
 
     @staticmethod
     def test_tree_diff_new_leaf(tree_node):
         other_tree_node = tree_node.copy()
         tree_node_new_parent = other_tree_node["c"]["f"]
-        _ = Node("i", parent=tree_node_new_parent)
-        tree_only_diff = get_tree_diff(tree_node, other_tree_node)
+        _ = node.Node("i", parent=tree_node_new_parent)
+        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
         expected_str = "a\n" "└── c\n" "    └── f\n" "        └── i (+)\n"
-        assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
     def test_tree_diff_new_leaf_all_diff(tree_node):
         other_tree_node = tree_node.copy()
         tree_node_new_parent = other_tree_node["c"]["f"]
-        _ = Node("i", parent=tree_node_new_parent)
-        tree_only_diff = get_tree_diff(tree_node, other_tree_node, only_diff=False)
+        _ = node.Node("i", parent=tree_node_new_parent)
+        tree_only_diff = helper.get_tree_diff(
+            tree_node, other_tree_node, only_diff=False
+        )
         expected_str = (
             "a\n"
             "├── b\n"
@@ -277,19 +279,19 @@ class TestTreeDiff:
             "    └── f\n"
             "        └── i (+)\n"
         )
-        assert_print_statement(print_tree, expected_str, tree=tree_only_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
     def test_tree_diff_same_tree(tree_node):
         expected = None
-        actual = get_tree_diff(tree_node, tree_node)
+        actual = helper.get_tree_diff(tree_node, tree_node)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_diff_same_tree_all_diff(tree_node):
-        expected = tree_to_dict(tree_node)
-        tree_diff = get_tree_diff(tree_node, tree_node, only_diff=False)
-        actual = tree_to_dict(tree_diff)
+        expected = export.tree_to_dict(tree_node)
+        tree_diff = helper.get_tree_diff(tree_node, tree_node, only_diff=False)
+        actual = export.tree_to_dict(tree_diff)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -300,7 +302,7 @@ class TestTreeDiff:
 
         # Without attributes
         expected = None
-        actual = get_tree_diff(tree_node, tree_node_copy)
+        actual = helper.get_tree_diff(tree_node, tree_node_copy)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
         # With attributes
@@ -311,8 +313,8 @@ class TestTreeDiff:
             "/a/c/f (~)": {"name": "f (~)", "age": (38, 48)},
         }
 
-        tree_diff = get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
-        actual = tree_to_dict(tree_diff, all_attrs=True)
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
+        actual = export.tree_to_dict(tree_diff, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -324,9 +326,9 @@ class TestTreeDiff:
         tree_node_copy["b"].age += 10
 
         # Without attributes
-        expected = tree_to_dict(tree_node)
-        tree_diff = get_tree_diff(tree_node, tree_node_copy, only_diff=False)
-        actual = tree_to_dict(tree_diff)
+        expected = export.tree_to_dict(tree_node)
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, only_diff=False)
+        actual = export.tree_to_dict(tree_diff)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
         # With attributes
@@ -341,10 +343,10 @@ class TestTreeDiff:
             "/a/c/f (~)": {"name": "f (~)", "age": (38, 48)},
         }
 
-        tree_diff = get_tree_diff(
+        tree_diff = helper.get_tree_diff(
             tree_node, tree_node_copy, attr_list=["age"], only_diff=False
         )
-        actual = tree_to_dict(tree_diff, all_attrs=True)
+        actual = export.tree_to_dict(tree_diff, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -359,7 +361,7 @@ class TestTreeDiff:
 
         # Without attributes
         expected = None
-        actual = get_tree_diff(tree_node, tree_node_copy)
+        actual = helper.get_tree_diff(tree_node, tree_node_copy)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
         # With attributes
@@ -372,8 +374,10 @@ class TestTreeDiff:
             "/a/c/f (~)": {"name": "f (~)", "age": (38, 48), "age2": (1, None)},
         }
 
-        tree_diff = get_tree_diff(tree_node, tree_node_copy, attr_list=["age", "age2"])
-        actual = tree_to_dict(tree_diff, all_attrs=True)
+        tree_diff = helper.get_tree_diff(
+            tree_node, tree_node_copy, attr_list=["age", "age2"]
+        )
+        actual = export.tree_to_dict(tree_diff, all_attrs=True)
         assert (
             actual.keys() == expected.keys()
         ), f"Expected\n{expected.keys()}\nReceived\n{actual.keys()}"
@@ -404,9 +408,9 @@ class TestTreeDiff:
         tree_node["b"]["e"]["g"].age2 = 3  # attribute to change
 
         # Without attributes
-        expected = tree_to_dict(tree_node)
-        tree_diff = get_tree_diff(tree_node, tree_node_copy, only_diff=False)
-        actual = tree_to_dict(tree_diff)
+        expected = export.tree_to_dict(tree_node)
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, only_diff=False)
+        actual = export.tree_to_dict(tree_diff)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
         # With attributes
@@ -421,10 +425,10 @@ class TestTreeDiff:
             "/a/c/f (~)": {"name": "f (~)", "age": (38, 48), "age2": (1, None)},
         }
 
-        tree_diff = get_tree_diff(
+        tree_diff = helper.get_tree_diff(
             tree_node, tree_node_copy, attr_list=["age", "age2"], only_diff=False
         )
-        actual = tree_to_dict(tree_diff, all_attrs=True)
+        actual = export.tree_to_dict(tree_diff, all_attrs=True)
         assert (
             actual.keys() == expected.keys()
         ), f"Expected\n{expected.keys()}\nReceived\n{actual.keys()}"
@@ -456,8 +460,8 @@ class TestTreeDiff:
 
         # Without attributes
         expected_str = "a\n" "└── b\n" "    └── d (-)\n"
-        tree_diff = get_tree_diff(tree_node, tree_node_copy)
-        assert_print_statement(print_tree, expected_str, tree=tree_diff)
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
 
         # With attributes
         expected = {
@@ -467,8 +471,8 @@ class TestTreeDiff:
             "/a/c (~)": {"age": (60, 70.0), "name": "c (~)"},
             "/a/c (~)/f (~)": {"age": (38, 48.0), "name": "f (~)"},
         }
-        tree_diff = get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
-        actual = tree_to_dict(tree_diff, all_attrs=True)
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
+        actual = export.tree_to_dict(tree_diff, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -496,8 +500,8 @@ class TestTreeDiff:
             "└── c\n"
             "    └── f\n"
         )
-        tree_diff = get_tree_diff(tree_node, tree_node_copy, only_diff=False)
-        assert_print_statement(print_tree, expected_str, tree=tree_diff)
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, only_diff=False)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
 
         # With attributes
         expected = {
@@ -510,10 +514,10 @@ class TestTreeDiff:
             "/a/c (~)": {"age": (60, 70.0), "name": "c (~)"},
             "/a/c (~)/f (~)": {"age": (38, 48.0), "name": "f (~)"},
         }
-        tree_diff = get_tree_diff(
+        tree_diff = helper.get_tree_diff(
             tree_node, tree_node_copy, only_diff=False, attr_list=["age"]
         )
-        actual = tree_to_dict(tree_diff, all_attrs=True)
+        actual = export.tree_to_dict(tree_diff, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -539,8 +543,8 @@ class TestTreeDiff:
             "/a/c": {"name": "c"},
             "/a/c/f": {"name": "f"},
         }
-        tree_diff = get_tree_diff(
+        tree_diff = helper.get_tree_diff(
             tree_node, tree_node_copy, only_diff=False, attr_list=["age2"]
         )
-        actual = tree_to_dict(tree_diff)
+        actual = export.tree_to_dict(tree_diff)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"

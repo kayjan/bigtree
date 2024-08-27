@@ -1,10 +1,7 @@
 from typing import Any, Callable, Iterable, List, Tuple, TypeVar, Union
 
-from bigtree.node.basenode import BaseNode
-from bigtree.node.dagnode import DAGNode
-from bigtree.node.node import Node
-from bigtree.utils.exceptions import SearchError
-from bigtree.utils.iterators import preorder_iter
+from bigtree.node import basenode, dagnode, node
+from bigtree.utils import exceptions, iterators
 
 __all__ = [
     "findall",
@@ -24,9 +21,9 @@ __all__ = [
 ]
 
 
-T = TypeVar("T", bound=BaseNode)
-NodeT = TypeVar("NodeT", bound=Node)
-DAGNodeT = TypeVar("DAGNodeT", bound=DAGNode)
+T = TypeVar("T", bound=basenode.BaseNode)
+NodeT = TypeVar("NodeT", bound=node.Node)
+DAGNodeT = TypeVar("DAGNodeT", bound=dagnode.DAGNode)
 
 
 def __check_result_count(
@@ -37,16 +34,16 @@ def __check_result_count(
     Args:
         result (Tuple[Any]): result of search
         min_count (int): checks for minimum number of occurrences,
-            raise SearchError if the number of results do not meet min_count, defaults to None
+            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
         max_count (int): checks for maximum number of occurrences,
-            raise SearchError if the number of results do not meet min_count, defaults to None
+            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
     """
     if min_count and len(result) < min_count:
-        raise SearchError(
+        raise exceptions.SearchError(
             f"Expected more than or equal to {min_count} element(s), found {len(result)} elements\n{result}"
         )
     if max_count and len(result) > max_count:
-        raise SearchError(
+        raise exceptions.SearchError(
             f"Expected less than or equal to {max_count} element(s), found {len(result)} elements\n{result}"
         )
 
@@ -75,14 +72,16 @@ def findall(
         condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
         max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
         min_count (int): checks for minimum number of occurrences,
-            raise SearchError if the number of results do not meet min_count, defaults to None
+            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
         max_count (int): checks for maximum number of occurrences,
-            raise SearchError if the number of results do not meet min_count, defaults to None
+            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
 
     Returns:
         (Tuple[BaseNode, ...])
     """
-    result = tuple(preorder_iter(tree, filter_condition=condition, max_depth=max_depth))
+    result = tuple(
+        iterators.preorder_iter(tree, filter_condition=condition, max_depth=max_depth)
+    )
     __check_result_count(result, min_count, max_count)
     return result
 
@@ -102,7 +101,7 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
         >>> find(root, lambda node: node.age > 5)
         Traceback (most recent call last):
             ...
-        bigtree.utils.exceptions.SearchError: Expected less than or equal to 1 element(s), found 4 elements
+        bigtree.utils.exceptions.exceptions.SearchError: Expected less than or equal to 1 element(s), found 4 elements
         (Node(/a, age=90), Node(/a/b, age=65), Node(/a/c, age=60), Node(/a/c/d, age=40))
 
     Args:
@@ -139,7 +138,7 @@ def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT:
     Returns:
         (Node)
     """
-    return find(tree, lambda node: node.node_name == name, max_depth)
+    return find(tree, lambda _node: _node.node_name == name, max_depth)
 
 
 def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
@@ -165,7 +164,7 @@ def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
     Returns:
         (Iterable[Node])
     """
-    return findall(tree, lambda node: node.node_name == name, max_depth)
+    return findall(tree, lambda _node: _node.node_name == name, max_depth)
 
 
 def find_relative_path(tree: NodeT, path_name: str) -> NodeT:
@@ -189,7 +188,7 @@ def find_relative_path(tree: NodeT, path_name: str) -> NodeT:
         >>> find_relative_path(d, "../../*")
         Traceback (most recent call last):
             ...
-        bigtree.utils.exceptions.SearchError: Expected less than or equal to 1 element(s), found 2 elements
+        bigtree.utils.exceptions.exceptions.SearchError: Expected less than or equal to 1 element(s), found 2 elements
         (Node(/a/b, age=65), Node(/a/c, age=60))
 
     Args:
@@ -235,9 +234,9 @@ def find_relative_paths(
         tree (Node): tree to search
         path_name (str): value to match (relative path) of path_name attribute
         min_count (int): checks for minimum number of occurrences,
-            raise SearchError if the number of results do not meet min_count, defaults to None
+            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
         max_count (int): checks for maximum number of occurrences,
-            raise SearchError if the number of results do not meet min_count, defaults to None
+            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
 
     Returns:
         (Tuple[Node, ...])
@@ -266,7 +265,9 @@ def find_relative_paths(
                 resolve(node, path_idx + 1)
             elif path_component == "..":
                 if node.is_root:
-                    raise SearchError("Invalid path name. Path goes beyond root node.")
+                    raise exceptions.SearchError(
+                        "Invalid path name. Path goes beyond root node."
+                    )
                 resolve(node.parent, path_idx + 1)
             elif path_component == "*":
                 for child in node.children:
@@ -275,7 +276,7 @@ def find_relative_paths(
                 node = find_child_by_name(node, path_component)
                 if not node:
                     if not wildcard_indicator:
-                        raise SearchError(
+                        raise exceptions.SearchError(
                             f"Invalid path name. Node {path_component} cannot be found."
                         )
                 else:
@@ -352,7 +353,7 @@ def find_path(tree: NodeT, path_name: str) -> NodeT:
         (Node)
     """
     path_name = path_name.rstrip(tree.sep)
-    return find(tree, lambda node: node.path_name.endswith(path_name))
+    return find(tree, lambda _node: _node.path_name.endswith(path_name))
 
 
 def find_paths(tree: NodeT, path_name: str) -> Iterable[NodeT]:
@@ -381,12 +382,12 @@ def find_paths(tree: NodeT, path_name: str) -> Iterable[NodeT]:
         (Iterable[Node])
     """
     path_name = path_name.rstrip(tree.sep)
-    return findall(tree, lambda node: node.path_name.endswith(path_name))
+    return findall(tree, lambda _node: _node.path_name.endswith(path_name))
 
 
 def find_attr(
-    tree: BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
-) -> BaseNode:
+    tree: basenode.BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
+) -> basenode.BaseNode:
     """
     Search tree for a single node matching custom attribute.
 
@@ -410,14 +411,14 @@ def find_attr(
     """
     return find(
         tree,
-        lambda node: bool(node.get_attr(attr_name) == attr_value),
+        lambda _node: bool(_node.get_attr(attr_name) == attr_value),
         max_depth,
     )
 
 
 def find_attrs(
-    tree: BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
-) -> Iterable[BaseNode]:
+    tree: basenode.BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
+) -> Iterable[basenode.BaseNode]:
     """
     Search tree for one or more nodes matching custom attribute.
 
@@ -441,7 +442,7 @@ def find_attrs(
     """
     return findall(
         tree,
-        lambda node: bool(node.get_attr(attr_name) == attr_value),
+        lambda _node: bool(_node.get_attr(attr_name) == attr_value),
         max_depth,
     )
 
@@ -468,14 +469,14 @@ def find_children(
         tree (BaseNode/DAGNode): tree to search for its children
         condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
         min_count (int): checks for minimum number of occurrences,
-            raise SearchError if the number of results do not meet min_count, defaults to None
+            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
         max_count (int): checks for maximum number of occurrences,
-            raise SearchError if the number of results do not meet min_count, defaults to None
+            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
 
     Returns:
         (Tuple[Union[BaseNode, DAGNode], ...])
     """
-    result = tuple([node for node in tree.children if node and condition(node)])
+    result = tuple([_node for _node in tree.children if _node and condition(_node)])
     __check_result_count(result, min_count, max_count)
     return result
 
@@ -532,4 +533,4 @@ def find_child_by_name(
     Returns:
         (Node/DAGNode)
     """
-    return find_child(tree, lambda node: node.node_name == name)
+    return find_child(tree, lambda _node: _node.node_name == name)

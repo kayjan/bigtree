@@ -4,10 +4,8 @@ import json
 import logging
 from typing import Any, List, Union
 
-from bigtree.node.node import Node
-from bigtree.tree.construct import nested_dict_to_tree
-from bigtree.tree.export import print_tree, tree_to_nested_dict
-from bigtree.tree.search import find_child_by_name, find_name
+from bigtree.node import node
+from bigtree.tree import construct, export, search
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
@@ -93,9 +91,9 @@ class AppToDo:
         Args:
             app_name (str): name of to-do app, optional
         """
-        self._root = Node(app_name)
+        self._root = node.Node(app_name)
 
-    def add_list(self, list_name: str, **kwargs: Any) -> Node:
+    def add_list(self, list_name: str, **kwargs: Any) -> node.Node:
         """Add list to app
 
         If list is present, return list node, else a new list will be created
@@ -106,9 +104,9 @@ class AppToDo:
         Returns:
             (Node)
         """
-        list_node = find_child_by_name(self._root, list_name)
+        list_node = search.find_child_by_name(self._root, list_name)
         if not list_node:
-            list_node = Node(list_name, parent=self._root, **kwargs)
+            list_node = node.Node(list_name, parent=self._root, **kwargs)
             logging.info(f"Created list {list_name}")
         return list_node
 
@@ -118,7 +116,7 @@ class AppToDo:
         Args:
             list_name (str): name of list
         """
-        list_node = find_child_by_name(self._root, list_name)
+        list_node = search.find_child_by_name(self._root, list_name)
         if not list_node:
             raise ValueError(f"List {list_name} not found")
         current_children = list(self._root.children)
@@ -148,7 +146,7 @@ class AppToDo:
 
         # Add items to list
         for _item in item_name:
-            _ = Node(_item, parent=list_node, **kwargs)
+            _ = node.Node(_item, parent=list_node, **kwargs)
         logging.info(f"Created item(s) {', '.join(item_name)}")
 
     def remove_item(
@@ -167,24 +165,24 @@ class AppToDo:
 
         # Check if items can be found
         items_to_remove = []
-        parent_to_check: set[Node] = set()
+        parent_to_check: set[node.Node] = set()
         if list_name:
-            list_node = find_child_by_name(self._root, list_name)
+            list_node = search.find_child_by_name(self._root, list_name)
             if not list_node:
                 raise ValueError(f"List {list_name} does not exist!")
             for _item in item_name:
-                item_node = find_child_by_name(list_node, _item)
+                item_node = search.find_child_by_name(list_node, _item)
                 if not item_node:
                     raise ValueError(f"Item {_item} does not exist!")
-                assert isinstance(item_node.parent, Node)  # for mypy type checking
+                assert isinstance(item_node.parent, node.Node)  # for mypy type checking
                 items_to_remove.append(item_node)
                 parent_to_check.add(item_node.parent)
         else:
             for _item in item_name:
-                item_node = find_name(self._root, _item)
+                item_node = search.find_name(self._root, _item)
                 if not item_node:
                     raise ValueError(f"Item {_item} does not exist!")
-                assert isinstance(item_node.parent, Node)  # for mypy type checking
+                assert isinstance(item_node.parent, node.Node)  # for mypy type checking
                 items_to_remove.append(item_node)
                 parent_to_check.add(item_node.parent)
 
@@ -211,12 +209,12 @@ class AppToDo:
         Args:
             item_name (str): name of item
         """
-        item_node = find_name(self._root, item_name)
+        item_node = search.find_name(self._root, item_name)
         if not item_node:
             raise ValueError(f"Item {item_name} not found")
         if item_node.depth != 3:
             raise ValueError(f"{item_name} is not an item")
-        assert isinstance(item_node.parent, Node)  # for mypy type checking
+        assert isinstance(item_node.parent, node.Node)  # for mypy type checking
         current_parent = item_node.parent
         current_children = list(current_parent.children)
         current_children.remove(item_node)
@@ -225,7 +223,7 @@ class AppToDo:
 
     def show(self, **kwargs: Any) -> None:
         """Print tree to console"""
-        print_tree(self._root, all_attrs=True, **kwargs)
+        export.print_tree(self._root, all_attrs=True, **kwargs)
 
     @staticmethod
     def load(json_path: str) -> AppToDo:
@@ -243,7 +241,9 @@ class AppToDo:
         with open(json_path, "r") as fp:
             app_dict = json.load(fp)
         _app = AppToDo("dummy")
-        AppToDo.__setattr__(_app, "_root", nested_dict_to_tree(app_dict["root"]))
+        AppToDo.__setattr__(
+            _app, "_root", construct.nested_dict_to_tree(app_dict["root"])
+        )
         return _app
 
     def save(self, json_path: str) -> None:
@@ -255,7 +255,7 @@ class AppToDo:
         if not json_path.endswith(".json"):
             raise ValueError("Path should end with .json")
 
-        node_dict = tree_to_nested_dict(self._root, all_attrs=True)
+        node_dict = export.tree_to_nested_dict(self._root, all_attrs=True)
         app_dict = {"root": node_dict}
         with open(json_path, "w") as fp:
             json.dump(app_dict, fp)

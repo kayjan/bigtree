@@ -5,16 +5,13 @@ from itertools import combinations
 import pandas as pd
 import pytest
 
-from bigtree.node.basenode import BaseNode
-from bigtree.node.dagnode import DAGNode
-from bigtree.node.node import Node
-from bigtree.utils.exceptions import LoopError, TreeError
-from bigtree.utils.iterators import dag_iterator
+from bigtree.node import basenode, dagnode, node
+from bigtree.utils import exceptions, iterators
 from tests.conftest import assert_print_statement
 from tests.test_constants import Constants
 
 
-class DAGNode2(DAGNode):
+class DAGNode2(dagnode.DAGNode):
     def _DAGNode__post_assign_parents(self, new_parents):
         if self.get_attr("val"):
             raise Exception("Custom error assigning parent")
@@ -25,7 +22,7 @@ class DAGNode2(DAGNode):
                 )
 
 
-class DAGNode3(DAGNode):
+class DAGNode3(dagnode.DAGNode):
     def _DAGNode__post_assign_children(self, new_children):
         if self.get_attr("val"):
             raise Exception("Custom error assigning children")
@@ -49,14 +46,14 @@ class TestDAGNode(unittest.TestCase):
         f >> g
         d >> e
         """
-        self.a = DAGNode(name="a", age=90)
-        self.b = DAGNode(name="b", age=65)
-        self.c = DAGNode(name="c", age=60)
-        self.d = DAGNode(name="d", age=40)
-        self.e = DAGNode(name="e", age=35)
-        self.f = DAGNode(name="f", age=38)
-        self.g = DAGNode(name="g", age=10)
-        self.h = DAGNode(name="h", age=6)
+        self.a = dagnode.DAGNode(name="a", age=90)
+        self.b = dagnode.DAGNode(name="b", age=65)
+        self.c = dagnode.DAGNode(name="c", age=60)
+        self.d = dagnode.DAGNode(name="d", age=40)
+        self.e = dagnode.DAGNode(name="e", age=35)
+        self.f = dagnode.DAGNode(name="f", age=38)
+        self.g = dagnode.DAGNode(name="g", age=10)
+        self.h = dagnode.DAGNode(name="h", age=6)
 
         self.nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g]
 
@@ -71,14 +68,14 @@ class TestDAGNode(unittest.TestCase):
         self.h = None
 
     def test_from_dict(self):
-        self.a = DAGNode.from_dict({"name": "a", "age": 90})
-        self.b = DAGNode.from_dict({"name": "b", "age": 65})
-        self.c = DAGNode.from_dict({"name": "c", "age": 60})
-        self.d = DAGNode.from_dict({"name": "d", "age": 40})
-        self.e = DAGNode.from_dict({"name": "e", "age": 35})
-        self.f = DAGNode.from_dict({"name": "f", "age": 38})
-        self.g = DAGNode.from_dict({"name": "g", "age": 10})
-        self.h = DAGNode.from_dict({"name": "h", "age": 6})
+        self.a = dagnode.DAGNode.from_dict({"name": "a", "age": 90})
+        self.b = dagnode.DAGNode.from_dict({"name": "b", "age": 65})
+        self.c = dagnode.DAGNode.from_dict({"name": "c", "age": 60})
+        self.d = dagnode.DAGNode.from_dict({"name": "d", "age": 40})
+        self.e = dagnode.DAGNode.from_dict({"name": "e", "age": 35})
+        self.f = dagnode.DAGNode.from_dict({"name": "f", "age": 38})
+        self.g = dagnode.DAGNode.from_dict({"name": "g", "age": 10})
+        self.h = dagnode.DAGNode.from_dict({"name": "h", "age": 6})
 
         self.c.parents = [self.a, self.b]
         self.d.parents = [self.a, self.c]
@@ -96,7 +93,7 @@ class TestDAGNode(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_NODE_SET_PARENT_ATTR
 
         with pytest.raises(AttributeError) as exc_info:
-            self.c = DAGNode("b", parent=self.a)
+            self.c = dagnode.DAGNode("b", parent=self.a)
         assert str(exc_info.value) == Constants.ERROR_NODE_SET_PARENT_ATTR
 
         with pytest.raises(AttributeError) as exc_info:
@@ -140,14 +137,14 @@ class TestDAGNode(unittest.TestCase):
         self.h << self.g
 
     def test_set_parents_constructor(self):
-        self.a = DAGNode(name="a", age=90)
-        self.b = DAGNode(name="b", age=65)
-        self.c = DAGNode(name="c", age=60, parents=[self.a, self.b])
-        self.d = DAGNode(name="d", age=40, parents=[self.a, self.c])
-        self.e = DAGNode(name="e", age=35, parents=[self.d])
-        self.f = DAGNode(name="f", age=38, parents=[self.c, self.d])
-        self.g = DAGNode(name="g", age=10, parents=[self.c])
-        self.h = DAGNode(name="h", age=6, parents=[self.g])
+        self.a = dagnode.DAGNode(name="a", age=90)
+        self.b = dagnode.DAGNode(name="b", age=65)
+        self.c = dagnode.DAGNode(name="c", age=60, parents=[self.a, self.b])
+        self.d = dagnode.DAGNode(name="d", age=40, parents=[self.a, self.c])
+        self.e = dagnode.DAGNode(name="e", age=35, parents=[self.d])
+        self.f = dagnode.DAGNode(name="f", age=38, parents=[self.c, self.d])
+        self.g = dagnode.DAGNode(name="g", age=10, parents=[self.c])
+        self.h = dagnode.DAGNode(name="h", age=6, parents=[self.g])
 
         assert_dag_structure_self(self)
         assert_dag_structure_root(self.a)
@@ -185,8 +182,8 @@ class TestDAGNode(unittest.TestCase):
         assert list(self.c.parents) == [self.a]
 
     def test_set_parent_duplicate_constructor(self):
-        self.a = DAGNode(name="a", age=90)
-        self.c = DAGNode(name="c", age=60, parents=[self.a])
+        self.a = dagnode.DAGNode(name="a", age=90)
+        self.c = dagnode.DAGNode(name="c", age=60, parents=[self.a])
         self.c.parents = [self.a]
         assert list(self.a.children) == [self.c]
         assert list(self.c.parents) == [self.a]
@@ -202,14 +199,14 @@ class TestDAGNode(unittest.TestCase):
         assert_dag_structure_root(self.a)
 
     def test_set_children_constructor(self):
-        self.h = DAGNode(name="h", age=6)
-        self.g = DAGNode(name="g", age=10, children=[self.h])
-        self.f = DAGNode(name="f", age=38)
-        self.e = DAGNode(name="e", age=35)
-        self.d = DAGNode(name="d", age=40)
-        self.c = DAGNode(name="c", age=60)
-        self.b = DAGNode(name="b", age=65)
-        self.a = DAGNode(name="a", age=90, children=[self.c, self.d])
+        self.h = dagnode.DAGNode(name="h", age=6)
+        self.g = dagnode.DAGNode(name="g", age=10, children=[self.h])
+        self.f = dagnode.DAGNode(name="f", age=38)
+        self.e = dagnode.DAGNode(name="e", age=35)
+        self.d = dagnode.DAGNode(name="d", age=40)
+        self.c = dagnode.DAGNode(name="c", age=60)
+        self.b = dagnode.DAGNode(name="b", age=65)
+        self.a = dagnode.DAGNode(name="a", age=90, children=[self.c, self.d])
         self.c.children = [self.d, self.f, self.g]
         self.b.children = [self.c]
         self.d.children = [self.e, self.f]
@@ -247,7 +244,7 @@ class TestDAGNode(unittest.TestCase):
         self.a.children = [self.c]
 
     def test_set_children_duplicate_constructor(self):
-        self.a = DAGNode(children=[self.c])
+        self.a = dagnode.DAGNode(children=[self.c])
         self.a.children = [self.c]
 
     def test_deep_copy_set_children(self):
@@ -293,14 +290,14 @@ class TestDAGNode(unittest.TestCase):
             type="DAGNode", input_type=type(parent)
         )
 
-        parent = BaseNode()
+        parent = basenode.BaseNode()
         with pytest.raises(TypeError) as exc_info:
             self.a.parents = [parent]
         assert str(exc_info.value) == Constants.ERROR_NODE_PARENT_TYPE.format(
             type="DAGNode", input_type=type(parent)
         )
 
-        parent = Node("a")
+        parent = node.Node("a")
         with pytest.raises(TypeError) as exc_info:
             self.a.parents = [parent]
         assert str(exc_info.value) == Constants.ERROR_NODE_PARENT_TYPE.format(
@@ -308,18 +305,18 @@ class TestDAGNode(unittest.TestCase):
         )
 
     def test_set_parents_loop_error(self):
-        with pytest.raises(LoopError) as exc_info:
+        with pytest.raises(exceptions.LoopError) as exc_info:
             self.a.parents = [self.a]
         assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_PARENT
 
-        with pytest.raises(LoopError) as exc_info:
+        with pytest.raises(exceptions.LoopError) as exc_info:
             self.b.parents = [self.a]
             self.c.parents = [self.b]
             self.a.parents = [self.c]
         assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_ANCESTOR
 
     def test_set_duplicate_parent_error(self):
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             self.a.parents = [self.b, self.b]
         assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_PARENT
 
@@ -358,14 +355,14 @@ class TestDAGNode(unittest.TestCase):
             type="DAGNode", input_type=type(children)
         )
 
-        children = BaseNode()
+        children = basenode.BaseNode()
         with pytest.raises(TypeError) as exc_info:
             self.a.children = [children]
         assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
             type="DAGNode", input_type=type(children)
         )
 
-        children = Node("a")
+        children = node.Node("a")
         with pytest.raises(TypeError) as exc_info:
             self.a.children = [children]
         assert str(exc_info.value) == Constants.ERROR_NODE_CHILDREN_TYPE.format(
@@ -373,18 +370,18 @@ class TestDAGNode(unittest.TestCase):
         )
 
     def test_set_children_loop_error(self):
-        with pytest.raises(LoopError) as exc_info:
+        with pytest.raises(exceptions.LoopError) as exc_info:
             self.a.children = [self.b, self.a]
         assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_CHILD
 
-        with pytest.raises(LoopError) as exc_info:
+        with pytest.raises(exceptions.LoopError) as exc_info:
             self.a.children = [self.b, self.c]
             self.c.children = [self.d, self.e, self.f]
             self.f.children = [self.a]
         assert str(exc_info.value) == Constants.ERROR_NODE_LOOP_DESCENDANT
 
     def test_set_duplicate_children_error(self):
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             self.a.children = [self.b, self.b]
         assert str(exc_info.value) == Constants.ERROR_NODE_DUPLICATE_CHILD
 
@@ -403,7 +400,7 @@ class TestDAGNode(unittest.TestCase):
         a.children = expected_a_children
         h.children = expected_h_children
         f.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             f.parents = [a, h]
         assert str(exc_info.value) == "Custom error assigning parent"
 
@@ -435,7 +432,7 @@ class TestDAGNode(unittest.TestCase):
         a.children = expected_a_children
         h.children = expected_h_children
         d.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             d.parents = [a, h]
         assert str(exc_info.value) == "Custom error assigning parent"
 
@@ -467,7 +464,7 @@ class TestDAGNode(unittest.TestCase):
         a.children = expected_a_children
         h.children = expected_h_children
         f.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             f.parents = []
         assert str(exc_info.value) == "Custom error assigning parent"
 
@@ -499,7 +496,7 @@ class TestDAGNode(unittest.TestCase):
         a.children = expected_a_children
         h.children = expected_h_children
         f.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             f.parents = [h]
         assert str(exc_info.value) == "Custom error assigning parent"
 
@@ -532,7 +529,7 @@ class TestDAGNode(unittest.TestCase):
         a.children = expected_a_children
         h.children = expected_h_children
         b.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             a.children = [b, c, d, g, i, f]
         assert str(exc_info.value).startswith("Custom error assigning children, ")
         assert not len(
@@ -567,7 +564,7 @@ class TestDAGNode(unittest.TestCase):
         a.children = expected_a_children
         h.children = expected_h_children
         a.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             a.children = []
         assert str(exc_info.value) == "Custom error assigning children"
         assert not len(
@@ -602,7 +599,7 @@ class TestDAGNode(unittest.TestCase):
         a.children = expected_a_children
         h.children = expected_h_children
         b.set_attrs({"val": 1})
-        with pytest.raises(TreeError) as exc_info:
+        with pytest.raises(exceptions.TreeError) as exc_info:
             a.children = [b, c, d]
         assert str(exc_info.value).startswith("Custom error assigning children, ")
         assert not len(
@@ -670,7 +667,7 @@ class TestDAGNode(unittest.TestCase):
             combinations(self.nodes, 2), expected_paths
         ):
             if not expected_path:
-                with pytest.raises(TreeError) as exc_info:
+                with pytest.raises(exceptions.TreeError) as exc_info:
                     node_pair[0].go_to(node_pair[1])
                 assert str(exc_info.value) == Constants.ERROR_NODE_GOTO.format(
                     node=node_pair[1]
@@ -694,14 +691,14 @@ class TestDAGNode(unittest.TestCase):
         self.f >> self.g
         self.d >> self.e
 
-        for node in self.nodes:
+        for _node in self.nodes:
             actual_path = [
-                [_node2.name for _node2 in _node] for _node in node.go_to(node)
+                [_node2.name for _node2 in _node1] for _node1 in _node.go_to(_node)
             ]
-            expected_path = [[node.name]]
+            expected_path = [[_node.name]]
             assert (
                 actual_path == expected_path
-            ), f"Wrong path for {node}, expected {expected_path}, received {actual_path}"
+            ), f"Wrong path for {_node}, expected {expected_path}, received {actual_path}"
 
     def test_go_to_type_error(self):
         destination = 2
@@ -712,8 +709,8 @@ class TestDAGNode(unittest.TestCase):
         )
 
     def test_go_to_different_tree_error(self):
-        a = DAGNode("a")
-        with pytest.raises(TreeError) as exc_info:
+        a = dagnode.DAGNode("a")
+        with pytest.raises(exceptions.TreeError) as exc_info:
             a.go_to(self.a)
         assert str(exc_info.value) == Constants.ERROR_NODE_GOTO.format(node=self.a)
 
@@ -732,7 +729,8 @@ def assert_dag_structure_root(dag):
         ("g", "h"),
     ]
     actual = [
-        (parent.node_name, child.node_name) for parent, child in dag_iterator(dag)
+        (parent.node_name, child.node_name)
+        for parent, child in iterators.dag_iterator(dag)
     ]
     len_expected = 9
     len_actual = len(actual)
@@ -759,7 +757,7 @@ def assert_dag_structure_root_attr(dag):
         "g": 10,
         "h": 6,
     }
-    for parent, child in dag_iterator(dag):
+    for parent, child in iterators.dag_iterator(dag):
         expected = expected_dict[parent.node_name]
         actual = parent.age
         assert (
@@ -798,11 +796,11 @@ def assert_dag_structure_self(self):
         [self.c],
         [self.g],
     ]
-    for node, expected in zip(nodes, expected_ans):
-        actual = list(node.parents)
-        assert set(id(_node) for _node in actual) == set(
-            id(_node) for _node in expected
-        ), f"Parents of {node} is wrong, expected {expected}, received {actual}"
+    for _node, expected in zip(nodes, expected_ans):
+        actual = list(_node.parents)
+        assert set(id(_node1) for _node1 in actual) == set(
+            id(_node1) for _node1 in expected
+        ), f"Parents of {_node} is wrong, expected {expected}, received {actual}"
 
     # Test children
     expected_ans = [
@@ -815,11 +813,11 @@ def assert_dag_structure_self(self):
         [self.h],
         [],
     ]
-    for node, expected in zip(nodes, expected_ans):
-        actual = list(node.children)
-        assert set(id(_node) for _node in actual) == set(
-            id(_node) for _node in expected
-        ), f"Children of {node} is wrong, expected {expected}, received {actual}"
+    for _node, expected in zip(nodes, expected_ans):
+        actual = list(_node.children)
+        assert set(id(_node1) for _node1 in actual) == set(
+            id(_node1) for _node1 in expected
+        ), f"Children of {_node} is wrong, expected {expected}, received {actual}"
 
     # Test ancestors
     expected_ans = [
@@ -832,11 +830,11 @@ def assert_dag_structure_self(self):
         [self.a, self.b, self.c],
         [self.a, self.b, self.c, self.g],
     ]
-    for node, expected in zip(nodes, expected_ans):
-        actual = list(node.ancestors)
-        assert set(id(_node) for _node in actual) == set(
-            id(_node) for _node in expected
-        ), f"Ancestors of {node} is wrong, expected {expected}, received {actual}"
+    for _node, expected in zip(nodes, expected_ans):
+        actual = list(_node.ancestors)
+        assert set(id(_node1) for _node1 in actual) == set(
+            id(_node1) for _node1 in expected
+        ), f"Ancestors of {_node} is wrong, expected {expected}, received {actual}"
 
     # Test descendants
     expected_ans = [
@@ -849,11 +847,11 @@ def assert_dag_structure_self(self):
         [self.h],
         [],
     ]
-    for node, expected in zip(nodes, expected_ans):
-        actual = list(node.descendants)
+    for _node, expected in zip(nodes, expected_ans):
+        actual = list(_node.descendants)
         assert (
             actual == expected
-        ), f"Descendants of {node} is wrong, expected {expected}, received {actual}"
+        ), f"Descendants of {_node} is wrong, expected {expected}, received {actual}"
 
     # Test siblings
     expected_ans = [
@@ -866,35 +864,35 @@ def assert_dag_structure_self(self):
         (self.d, self.f),
         (),
     ]
-    for node, expected in zip(nodes, expected_ans):
-        actual = node.siblings
+    for _node, expected in zip(nodes, expected_ans):
+        actual = _node.siblings
         assert (
             actual == expected
-        ), f"Siblings of {node} is wrong, expected {expected}, received {actual}"
+        ), f"Siblings of {_node} is wrong, expected {expected}, received {actual}"
 
     # Test node_name
     expected_ans = ["a", "b", "c", "d", "e", "f", "g", "h"]
-    for node, expected in zip(nodes, expected_ans):
-        actual = node.node_name
+    for _node, expected in zip(nodes, expected_ans):
+        actual = _node.node_name
         assert (
             actual == expected
-        ), f"node_name of {node} is wrong, expected {expected}, received {actual}"
+        ), f"node_name of {_node} is wrong, expected {expected}, received {actual}"
 
     # Test is_root
     expected_ans = [True, True, False, False, False, False, False, False]
-    for node, expected in zip(nodes, expected_ans):
-        actual = node.is_root
+    for _node, expected in zip(nodes, expected_ans):
+        actual = _node.is_root
         assert (
             actual == expected
-        ), f"is_root of {node} is wrong, expected {expected}, received {actual}"
+        ), f"is_root of {_node} is wrong, expected {expected}, received {actual}"
 
     # Test is_leaf
     expected_ans = [False, False, False, False, True, True, False, True]
-    for node, expected in zip(nodes, expected_ans):
-        actual = node.is_leaf
+    for _node, expected in zip(nodes, expected_ans):
+        actual = _node.is_leaf
         assert (
             actual == expected
-        ), f"is_leaf of {node} is wrong, expected {expected}, received {actual}"
+        ), f"is_leaf of {_node} is wrong, expected {expected}, received {actual}"
 
     # Test describe()
     expected_ans = [
@@ -907,23 +905,23 @@ def assert_dag_structure_self(self):
         [("age", 10), ("name", "g")],
         [("age", 6), ("name", "h")],
     ]
-    for node, expected in zip(nodes, expected_ans):
-        actual = node.describe(exclude_prefix="_")
+    for _node, expected in zip(nodes, expected_ans):
+        actual = _node.describe(exclude_prefix="_")
         assert (
             actual == expected
         ), f"Node description should be {expected}, but it is {actual}"
 
     # Test get_attr()
     expected_ans = ["a", "b", "c", "d", "e", "f", "g", "h"]
-    for node, expected in zip(nodes, expected_ans):
-        actual = node.get_attr("name")
+    for _node, expected in zip(nodes, expected_ans):
+        actual = _node.get_attr("name")
         assert (
             actual == expected
         ), f"Node attribute should be {expected}, but it is {actual}"
 
     expected = None
-    for node in nodes:
-        actual = node.get_attr("something")
+    for _node in nodes:
+        actual = _node.get_attr("something")
         assert (
             actual == expected
         ), f"Node attribute should be {expected}, but it is {actual}"
@@ -939,14 +937,14 @@ def assert_dag_structure_self(self):
         "DAGNode(g, age=10)\n",
         "DAGNode(h, age=6)\n",
     ]
-    for node, expected in zip(nodes, expected_ans):
-        assert_print_statement(print, expected, node)
+    for _node, expected in zip(nodes, expected_ans):
+        assert_print_statement(print, expected, _node)
 
     # Test set_attrs()
     attrs = [1, 2, 3, 4, 5, 6, 7, 8]
-    for node, expected in zip(nodes, attrs):
-        node.set_attrs({"index": expected})
-        actual = node.get_attr("index")
+    for _node, expected in zip(nodes, attrs):
+        _node.set_attrs({"index": expected})
+        actual = _node.get_attr("index")
         assert (
             actual == expected
         ), f"Node attribute should be {expected}, but it is {actual}"
@@ -1004,7 +1002,7 @@ def assert_dag_structure_self(self):
 
 def assert_dag_child_attr(dag, parent_name, child_name, child_attr, child_value):
     """Test tree attributes"""
-    for parent, child in dag_iterator(dag):
+    for parent, child in iterators.dag_iterator(dag):
         if parent.name == parent_name and child.name == child_name:
             expected = child_value
             actual = child.get_attr(child_attr)

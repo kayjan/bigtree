@@ -4,22 +4,9 @@ import re
 from collections import OrderedDict, defaultdict
 from typing import Any, Dict, List, Optional, Tuple, Type, TypeVar
 
-from bigtree.node.node import Node
-from bigtree.tree.search import find_child_by_name, find_name
-from bigtree.utils.assertions import (
-    assert_dataframe_no_duplicate_attribute,
-    assert_dataframe_no_duplicate_children,
-    assert_dataframe_not_empty,
-    assert_length_not_empty,
-    filter_attributes,
-    isnull,
-)
-from bigtree.utils.constants import NewickCharacter, NewickState
-from bigtree.utils.exceptions import (
-    DuplicatedNodeError,
-    TreeError,
-    optional_dependencies_pandas,
-)
+from bigtree.node import node
+from bigtree.tree import search
+from bigtree.utils import assertions, constants, exceptions
 
 try:
     import pandas as pd
@@ -55,7 +42,7 @@ __all__ = [
     "newick_to_tree",
 ]
 
-T = TypeVar("T", bound=Node)
+T = TypeVar("T", bound=node.Node)
 
 
 def add_path_to_tree(
@@ -103,14 +90,14 @@ def add_path_to_tree(
     Returns:
         (Node)
     """
-    assert_length_not_empty(path, "Path", "path")
+    assertions.assert_length_not_empty(path, "Path", "path")
 
     root_node = tree.root
     tree_sep = root_node.sep
     node_type = root_node.__class__
     branch = path.lstrip(sep).rstrip(sep).split(sep)
     if branch[0] != root_node.node_name:
-        raise TreeError(
+        raise exceptions.TreeError(
             f"Path does not have same root node, expected {root_node.node_name}, received {branch[0]}\n"
             f"Check your input paths or verify that path separator `sep` is set correctly"
         )
@@ -122,14 +109,14 @@ def add_path_to_tree(
         node_name = branch[idx]
         node_path = tree_sep.join(branch[: idx + 1])
         if not duplicate_name_allowed:
-            node = find_name(root_node, node_name)
+            node = search.find_name(root_node, node_name)
             if node and not node.path_name.endswith(node_path):
-                raise DuplicatedNodeError(
+                raise exceptions.DuplicatedNodeError(
                     f"Node {node_name} already exists, try setting `duplicate_name_allowed` to True "
                     f"to allow `Node` with same node name"
                 )
         else:
-            node = find_child_by_name(parent_node, node_name)
+            node = search.find_child_by_name(parent_node, node_name)
         if not node:
             if idx == len(branch) - 1:
                 node = node_type(node_name, **node_attrs)
@@ -199,7 +186,7 @@ def add_dict_to_tree_by_path(
     Returns:
         (Node)
     """
-    assert_length_not_empty(path_attrs, "Dictionary", "path_attrs")
+    assertions.assert_length_not_empty(path_attrs, "Dictionary", "path_attrs")
 
     root_node = tree.root
 
@@ -246,15 +233,15 @@ def add_dict_to_tree_by_name(tree: T, name_attrs: Dict[str, Dict[str, Any]]) -> 
     """
     from bigtree.tree.search import findall
 
-    assert_length_not_empty(name_attrs, "Dictionary", "name_attrs")
+    assertions.assert_length_not_empty(name_attrs, "Dictionary", "name_attrs")
 
     attr_dict_names = set(name_attrs.keys())
 
-    for node in findall(tree, lambda _node: _node.node_name in attr_dict_names):
-        node_attrs = filter_attributes(
-            name_attrs[node.node_name], omit_keys=["name"], omit_null_values=False
+    for _node in findall(tree, lambda _node1: _node1.node_name in attr_dict_names):
+        node_attrs = assertions.filter_attributes(
+            name_attrs[_node.node_name], omit_keys=["name"], omit_null_values=False
         )
-        node.set_attrs(node_attrs)
+        _node.set_attrs(node_attrs)
 
     return tree
 
@@ -328,7 +315,7 @@ def add_dataframe_to_tree_by_path(
     Returns:
         (Node)
     """
-    assert_dataframe_not_empty(data)
+    assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
         path_col = data.columns[0]
@@ -338,11 +325,13 @@ def add_dataframe_to_tree_by_path(
 
     data = data[[path_col] + attribute_cols].copy()
     data[path_col] = data[path_col].str.lstrip(sep).str.rstrip(sep)
-    assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
+    assertions.assert_dataframe_no_duplicate_attribute(
+        data, "path", path_col, attribute_cols
+    )
 
     root_node = tree.root
     for row in data.to_dict(orient="index").values():
-        node_attrs = filter_attributes(
+        node_attrs = assertions.filter_attributes(
             row, omit_keys=["name", path_col], omit_null_values=True
         )
         add_path_to_tree(
@@ -399,7 +388,7 @@ def add_dataframe_to_tree_by_name(
     Returns:
         (Node)
     """
-    assert_dataframe_not_empty(data)
+    assertions.assert_dataframe_not_empty(data)
 
     if not name_col:
         name_col = data.columns[0]
@@ -407,7 +396,9 @@ def add_dataframe_to_tree_by_name(
         attribute_cols = list(data.columns)
         attribute_cols.remove(name_col)
 
-    assert_dataframe_no_duplicate_attribute(data, "name", name_col, attribute_cols)
+    assertions.assert_dataframe_no_duplicate_attribute(
+        data, "name", name_col, attribute_cols
+    )
 
     # Get attribute dict, remove null attributes
     name_attrs = (
@@ -416,7 +407,7 @@ def add_dataframe_to_tree_by_name(
         .to_dict(orient="index")
     )
     name_attrs = {
-        k1: {k2: v2 for k2, v2 in v1.items() if not isnull(v2)}
+        k1: {k2: v2 for k2, v2 in v1.items() if not assertions.isnull(v2)}
         for k1, v1 in name_attrs.items()
     }
 
@@ -492,7 +483,7 @@ def add_polars_to_tree_by_path(
     Returns:
         (Node)
     """
-    assert_dataframe_not_empty(data)
+    assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
         path_col = data.columns[0]
@@ -504,11 +495,13 @@ def add_polars_to_tree_by_path(
     data = data.with_columns(
         [data[path_col].str.strip_chars_start(sep).str.strip_chars_end(sep)]
     )
-    assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
+    assertions.assert_dataframe_no_duplicate_attribute(
+        data, "path", path_col, attribute_cols
+    )
 
     root_node = tree.root
     for row_kwargs in data.to_dicts():
-        node_attrs = filter_attributes(
+        node_attrs = assertions.filter_attributes(
             row_kwargs, omit_keys=["name", path_col], omit_null_values=True
         )
         add_path_to_tree(
@@ -563,7 +556,7 @@ def add_polars_to_tree_by_name(
     Returns:
         (Node)
     """
-    assert_dataframe_not_empty(data)
+    assertions.assert_dataframe_not_empty(data)
 
     if not name_col:
         name_col = data.columns[0]
@@ -571,7 +564,9 @@ def add_polars_to_tree_by_name(
         attribute_cols = list(data.columns)
         attribute_cols.remove(name_col)
 
-    assert_dataframe_no_duplicate_attribute(data, "name", name_col, attribute_cols)
+    assertions.assert_dataframe_no_duplicate_attribute(
+        data, "name", name_col, attribute_cols
+    )
 
     # Get attribute dict, remove null attributes
     name_attrs = dict(
@@ -580,7 +575,7 @@ def add_polars_to_tree_by_name(
         .rows_by_key(key=name_col, named=True)
     )
     name_attrs = {
-        k1: {k2: v2 for k2, v2 in v1[0].items() if not isnull(v2)}
+        k1: {k2: v2 for k2, v2 in v1[0].items() if not assertions.isnull(v2)}
         for k1, v1 in name_attrs.items()
     }
 
@@ -590,7 +585,7 @@ def add_polars_to_tree_by_name(
 def str_to_tree(
     tree_string: str,
     tree_prefix_list: List[str] = [],
-    node_type: Type[T] = Node,  # type: ignore[assignment]
+    node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     r"""Construct tree from tree string
 
@@ -618,7 +613,7 @@ def str_to_tree(
         (Node)
     """
     tree_string = tree_string.strip("\n")
-    assert_length_not_empty(tree_string, "Tree string", "tree_string")
+    assertions.assert_length_not_empty(tree_string, "Tree string", "tree_string")
     tree_list = tree_string.split("\n")
     root_node = node_type(tree_list[0])
 
@@ -659,7 +654,7 @@ def list_to_tree(
     paths: List[str],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_type: Type[T] = Node,  # type: ignore[assignment]
+    node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from list of path strings.
 
@@ -698,7 +693,7 @@ def list_to_tree(
     Returns:
         (Node)
     """
-    assert_length_not_empty(paths, "Path list", "paths")
+    assertions.assert_length_not_empty(paths, "Path list", "paths")
 
     # Remove duplicates
     paths = list(OrderedDict.fromkeys(paths))
@@ -715,11 +710,11 @@ def list_to_tree(
     return root_node
 
 
-@optional_dependencies_pandas
+@exceptions.optional_dependencies_pandas
 def list_to_tree_by_relation(
     relations: List[Tuple[str, str]],
     allow_duplicates: bool = False,
-    node_type: Type[T] = Node,  # type: ignore[assignment]
+    node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from list of tuple containing parent-child names.
 
@@ -752,7 +747,7 @@ def list_to_tree_by_relation(
     Returns:
         (Node)
     """
-    assert_length_not_empty(relations, "Path list", "relations")
+    assertions.assert_length_not_empty(relations, "Path list", "relations")
 
     relation_data = pd.DataFrame(relations, columns=["parent", "child"])
     return dataframe_to_tree_by_relation(
@@ -768,7 +763,7 @@ def dict_to_tree(
     path_attrs: Dict[str, Any],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_type: Type[T] = Node,  # type: ignore[assignment]
+    node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from nested dictionary using path,
     ``key``: path, ``value``: dict of attribute name and attribute value.
@@ -820,7 +815,7 @@ def dict_to_tree(
     Returns:
         (Node)
     """
-    assert_length_not_empty(path_attrs, "Dictionary", "path_attrs")
+    assertions.assert_length_not_empty(path_attrs, "Dictionary", "path_attrs")
 
     # Initial tree
     root_name = list(path_attrs.keys())[0].lstrip(sep).rstrip(sep).split(sep)[0]
@@ -830,7 +825,7 @@ def dict_to_tree(
         or path_attrs.get(root_name + sep, {})
         or path_attrs.get(sep + root_name + sep, {})
     )
-    root_node_attrs = filter_attributes(
+    root_node_attrs = assertions.filter_attributes(
         root_node_attrs, omit_keys=["name"], omit_null_values=False
     )
     root_node = node_type(
@@ -841,7 +836,7 @@ def dict_to_tree(
 
     # Convert dictionary to dataframe
     for node_path, node_attrs in path_attrs.items():
-        node_attrs = filter_attributes(
+        node_attrs = assertions.filter_attributes(
             node_attrs, omit_keys=["name"], omit_null_values=False
         )
         add_path_to_tree(
@@ -858,7 +853,7 @@ def nested_dict_to_tree(
     node_attrs: Dict[str, Any],
     name_key: str = "name",
     child_key: str = "children",
-    node_type: Type[T] = Node,  # type: ignore[assignment]
+    node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from nested recursive dictionary.
 
@@ -902,7 +897,7 @@ def nested_dict_to_tree(
     Returns:
         (Node)
     """
-    assert_length_not_empty(node_attrs, "Dictionary", "node_attrs")
+    assertions.assert_length_not_empty(node_attrs, "Dictionary", "node_attrs")
 
     def _recursive_add_child(
         child_dict: Dict[str, Any], parent_node: Optional[T] = None
@@ -923,10 +918,10 @@ def nested_dict_to_tree(
             raise TypeError(
                 f"child_key {child_key} should be List type, received {node_children}"
             )
-        node = node_type(node_name, parent=parent_node, **child_dict)
+        root = node_type(node_name, parent=parent_node, **child_dict)
         for _child in node_children:
-            _recursive_add_child(_child, parent_node=node)
-        return node
+            _recursive_add_child(_child, parent_node=root)
+        return root
 
     root_node = _recursive_add_child(node_attrs)
     return root_node
@@ -938,7 +933,7 @@ def dataframe_to_tree(
     attribute_cols: List[str] = [],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_type: Type[T] = Node,  # type: ignore[assignment]
+    node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from pandas DataFrame using path, return root of tree.
 
@@ -998,7 +993,7 @@ def dataframe_to_tree(
     Returns:
         (Node)
     """
-    assert_dataframe_not_empty(data)
+    assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
         path_col = data.columns[0]
@@ -1008,7 +1003,9 @@ def dataframe_to_tree(
 
     data = data[[path_col] + attribute_cols].copy()
     data[path_col] = data[path_col].str.lstrip(sep).str.rstrip(sep)
-    assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
+    assertions.assert_dataframe_no_duplicate_attribute(
+        data, "path", path_col, attribute_cols
+    )
 
     root_name = data[path_col].values[0].split(sep)[0]
     root_node_data = data[data[path_col] == root_name]
@@ -1016,7 +1013,7 @@ def dataframe_to_tree(
         root_node_kwargs = list(
             root_node_data[attribute_cols].to_dict(orient="index").values()
         )[0]
-        root_node_kwargs = filter_attributes(
+        root_node_kwargs = assertions.filter_attributes(
             root_node_kwargs, omit_keys=["name", path_col], omit_null_values=True
         )
         root_node = node_type(root_name, **root_node_kwargs)
@@ -1024,7 +1021,7 @@ def dataframe_to_tree(
         root_node = node_type(root_name)
 
     for row in data.to_dict(orient="index").values():
-        node_attrs = filter_attributes(
+        node_attrs = assertions.filter_attributes(
             row, omit_keys=["name", path_col], omit_null_values=True
         )
         add_path_to_tree(
@@ -1044,7 +1041,7 @@ def dataframe_to_tree_by_relation(
     parent_col: str = "",
     attribute_cols: List[str] = [],
     allow_duplicates: bool = False,
-    node_type: Type[T] = Node,  # type: ignore[assignment]
+    node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from pandas DataFrame using parent and child names, return root of tree.
 
@@ -1102,7 +1099,7 @@ def dataframe_to_tree_by_relation(
     Returns:
         (Node)
     """
-    assert_dataframe_not_empty(data)
+    assertions.assert_dataframe_not_empty(data)
 
     if not child_col:
         child_col = data.columns[0]
@@ -1115,7 +1112,7 @@ def dataframe_to_tree_by_relation(
 
     data = data[[child_col, parent_col] + attribute_cols].copy()
     if not allow_duplicates:
-        assert_dataframe_no_duplicate_children(data, child_col, parent_col)
+        assertions.assert_dataframe_no_duplicate_children(data, child_col, parent_col)
 
     # Infer root node
     root_names = set(data[data[parent_col].isnull()][child_col])
@@ -1136,7 +1133,7 @@ def dataframe_to_tree_by_relation(
         Returns:
             (Dict[str, Any])
         """
-        node_attrs = filter_attributes(
+        node_attrs = assertions.filter_attributes(
             _row, omit_keys=[child_col, parent_col], omit_null_values=True
         )
         node_attrs["name"] = _row[child_col]
@@ -1172,7 +1169,7 @@ def polars_to_tree(
     attribute_cols: List[str] = [],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_type: Type[T] = Node,  # type: ignore[assignment]
+    node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from polars DataFrame using path, return root of tree.
 
@@ -1232,7 +1229,7 @@ def polars_to_tree(
     Returns:
         (Node)
     """
-    assert_dataframe_not_empty(data)
+    assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
         path_col = data.columns[0]
@@ -1244,14 +1241,16 @@ def polars_to_tree(
     data = data.with_columns(
         [data[path_col].str.strip_chars_start(sep).str.strip_chars_end(sep)]
     )
-    assert_dataframe_no_duplicate_attribute(data, "path", path_col, attribute_cols)
+    assertions.assert_dataframe_no_duplicate_attribute(
+        data, "path", path_col, attribute_cols
+    )
 
     root_name = data[path_col][0].split(sep)[0]
     root_node_data = data.filter(data[path_col] == root_name)
     if len(root_node_data):
         root_node_kwargs_list = root_node_data[attribute_cols].to_dicts()
         root_node_kwargs = root_node_kwargs_list[0] if root_node_kwargs_list else {}
-        root_node_kwargs = filter_attributes(
+        root_node_kwargs = assertions.filter_attributes(
             root_node_kwargs, omit_keys=["name", path_col], omit_null_values=True
         )
         root_node = node_type(root_name, **root_node_kwargs)
@@ -1259,7 +1258,7 @@ def polars_to_tree(
         root_node = node_type(root_name)
 
     for row in data.to_dicts():
-        node_attrs = filter_attributes(
+        node_attrs = assertions.filter_attributes(
             row, omit_keys=["name", path_col], omit_null_values=True
         )
         add_path_to_tree(
@@ -1279,7 +1278,7 @@ def polars_to_tree_by_relation(
     parent_col: str = "",
     attribute_cols: List[str] = [],
     allow_duplicates: bool = False,
-    node_type: Type[T] = Node,  # type: ignore[assignment]
+    node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from polars DataFrame using parent and child names, return root of tree.
 
@@ -1337,7 +1336,7 @@ def polars_to_tree_by_relation(
     Returns:
         (Node)
     """
-    assert_dataframe_not_empty(data)
+    assertions.assert_dataframe_not_empty(data)
 
     if not child_col:
         child_col = data.columns[0]
@@ -1350,7 +1349,7 @@ def polars_to_tree_by_relation(
 
     data = data[[child_col, parent_col] + attribute_cols]
     if not allow_duplicates:
-        assert_dataframe_no_duplicate_children(data, child_col, parent_col)
+        assertions.assert_dataframe_no_duplicate_children(data, child_col, parent_col)
 
     # Infer root node
     root_names = set(data.filter(data[parent_col].is_null())[child_col])
@@ -1371,7 +1370,7 @@ def polars_to_tree_by_relation(
         Returns:
             (Dict[str, Any])
         """
-        node_attrs = filter_attributes(
+        node_attrs = assertions.filter_attributes(
             _row, omit_keys=[child_col, parent_col], omit_null_values=True
         )
         node_attrs["name"] = _row[child_col]
@@ -1406,7 +1405,7 @@ def newick_to_tree(
     tree_string: str,
     length_attr: str = "length",
     attr_prefix: str = "&&NHX:",
-    node_type: Type[T] = Node,  # type: ignore[assignment]
+    node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from Newick notation, return root of tree.
 
@@ -1461,7 +1460,7 @@ def newick_to_tree(
     Returns:
         (Node)
     """
-    assert_length_not_empty(tree_string, "Tree string", "tree_string")
+    assertions.assert_length_not_empty(tree_string, "Tree string", "tree_string")
 
     # Store results (for tracking)
     depth_nodes: Dict[int, List[T]] = defaultdict(list)
@@ -1470,7 +1469,7 @@ def newick_to_tree(
     tree_string_idx: int = 0
 
     # Store states (for assertions and checks)
-    current_state: NewickState = NewickState.PARSE_STRING
+    current_state: constants.NewickState = constants.NewickState.PARSE_STRING
     current_node: Optional[T] = None
     cumulative_string: str = ""
     cumulative_string_value: str = ""
@@ -1528,10 +1527,10 @@ def newick_to_tree(
 
     while tree_string_idx < len(tree_string):
         character = tree_string[tree_string_idx]
-        if character == NewickCharacter.OPEN_BRACKET:
+        if character == constants.NewickCharacter.OPEN_BRACKET:
             # Check and/or change state
             state_title = "Node creation start"
-            if current_state not in [NewickState.PARSE_STRING]:
+            if current_state not in [constants.NewickState.PARSE_STRING]:
                 _raise_value_error(tree_string_idx)
             # Logic
             current_depth += 1
@@ -1546,20 +1545,20 @@ def newick_to_tree(
             continue
 
         if character in [
-            NewickCharacter.CLOSE_BRACKET,
-            NewickCharacter.ATTR_START,
-            NewickCharacter.NODE_SEP,
+            constants.NewickCharacter.CLOSE_BRACKET,
+            constants.NewickCharacter.ATTR_START,
+            constants.NewickCharacter.NODE_SEP,
         ]:
             # Check and/or change state
             state_title = "Node creation end / Node attribute start"
             if current_state not in [
-                NewickState.PARSE_STRING,
-                NewickState.PARSE_ATTRIBUTE_NAME,
+                constants.NewickState.PARSE_STRING,
+                constants.NewickState.PARSE_ATTRIBUTE_NAME,
             ]:
                 _raise_value_error(tree_string_idx)
             # Logic
-            if character == NewickCharacter.ATTR_START:
-                current_state = NewickState.PARSE_ATTRIBUTE_NAME
+            if character == constants.NewickCharacter.ATTR_START:
+                current_state = constants.NewickState.PARSE_ATTRIBUTE_NAME
                 if tree_string[tree_string_idx + 1 :].startswith(  # noqa: E203
                     attr_prefix
                 ):
@@ -1571,10 +1570,10 @@ def newick_to_tree(
                 depth_nodes,
                 current_depth,
             )
-            if character == NewickCharacter.CLOSE_BRACKET:
+            if character == constants.NewickCharacter.CLOSE_BRACKET:
                 current_depth -= 1
                 current_node = None
-            if character == NewickCharacter.NODE_SEP:
+            if character == constants.NewickCharacter.NODE_SEP:
                 current_node = None
             cumulative_string = ""
             assert (
@@ -1583,12 +1582,12 @@ def newick_to_tree(
             tree_string_idx += 1
             continue
 
-        if character == NewickCharacter.ATTR_END:
+        if character == constants.NewickCharacter.ATTR_END:
             # Check and/or change state
             state_title = "Node attribute end"
-            if current_state not in [NewickState.PARSE_ATTRIBUTE_VALUE]:
+            if current_state not in [constants.NewickState.PARSE_ATTRIBUTE_VALUE]:
                 _raise_value_error(tree_string_idx)
-            current_state = NewickState.PARSE_STRING
+            current_state = constants.NewickState.PARSE_STRING
             # Logic
             assert current_node, f"{state_title}, should have current_node"
             current_node.set_attrs({cumulative_string: cumulative_string_value})
@@ -1597,12 +1596,12 @@ def newick_to_tree(
             tree_string_idx += 1
             continue
 
-        if character == NewickCharacter.ATTR_KEY_VALUE:
+        if character == constants.NewickCharacter.ATTR_KEY_VALUE:
             # Check and/or change state
             state_title = "Node attribute creation"
-            if current_state not in [NewickState.PARSE_ATTRIBUTE_NAME]:
+            if current_state not in [constants.NewickState.PARSE_ATTRIBUTE_NAME]:
                 _raise_value_error(tree_string_idx)
-            current_state = NewickState.PARSE_ATTRIBUTE_VALUE
+            current_state = constants.NewickState.PARSE_ATTRIBUTE_VALUE
             # Logic
             assert current_node, f"{state_title}, should have current_node"
             if not cumulative_string:
@@ -1613,16 +1612,16 @@ def newick_to_tree(
             tree_string_idx += 1
             continue
 
-        if character == NewickCharacter.ATTR_QUOTE:
+        if character == constants.NewickCharacter.ATTR_QUOTE:
             # Logic
             quote_end_idx = tree_string.find(
-                NewickCharacter.ATTR_QUOTE, tree_string_idx + 1
+                constants.NewickCharacter.ATTR_QUOTE, tree_string_idx + 1
             )
             if quote_end_idx == -1:
                 _raise_value_error(tree_string_idx)
             if current_state in [
-                NewickState.PARSE_STRING,
-                NewickState.PARSE_ATTRIBUTE_NAME,
+                constants.NewickState.PARSE_STRING,
+                constants.NewickState.PARSE_ATTRIBUTE_NAME,
             ]:
                 if cumulative_string:
                     _raise_value_error(tree_string_idx)
@@ -1638,16 +1637,16 @@ def newick_to_tree(
             tree_string_idx = quote_end_idx + 1
             continue
 
-        if character == NewickCharacter.SEP:
+        if character == constants.NewickCharacter.SEP:
             # Check and/or change state
             state_title = "Node length creation / Node attribute creation"
             if current_state not in [
-                NewickState.PARSE_STRING,
-                NewickState.PARSE_ATTRIBUTE_VALUE,
+                constants.NewickState.PARSE_STRING,
+                constants.NewickState.PARSE_ATTRIBUTE_VALUE,
             ]:
                 _raise_value_error(tree_string_idx)
             # Logic
-            if current_state == NewickState.PARSE_STRING:
+            if current_state == constants.NewickState.PARSE_STRING:
                 if current_node:
                     _raise_value_error(tree_string_idx)
                 current_node, unlabelled_node_counter = _create_node(
@@ -1664,7 +1663,7 @@ def newick_to_tree(
                 tree_string_idx += 1
                 continue
             else:
-                current_state = NewickState.PARSE_ATTRIBUTE_NAME
+                current_state = constants.NewickState.PARSE_ATTRIBUTE_NAME
                 assert current_node, f"{state_title}, should not have current_node"
                 current_node.set_attrs({cumulative_string: cumulative_string_value})
                 cumulative_string = ""
@@ -1672,7 +1671,7 @@ def newick_to_tree(
                 tree_string_idx += 1
                 continue
 
-        if current_state == NewickState.PARSE_ATTRIBUTE_VALUE:
+        if current_state == constants.NewickState.PARSE_ATTRIBUTE_VALUE:
             cumulative_string_value += character
         else:
             cumulative_string += character

@@ -2,13 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Tuple, TypeVar, Union
 
-from bigtree.node.dagnode import DAGNode
-from bigtree.utils.assertions import assert_tree_type
-from bigtree.utils.exceptions import (
-    optional_dependencies_image,
-    optional_dependencies_pandas,
-)
-from bigtree.utils.iterators import dag_iterator
+from bigtree.node import dagnode
+from bigtree.utils import assertions, exceptions, iterators
 
 try:
     import pandas as pd
@@ -27,7 +22,7 @@ except ImportError:  # pragma: no cover
 __all__ = ["dag_to_list", "dag_to_dict", "dag_to_dataframe", "dag_to_dot"]
 
 
-T = TypeVar("T", bound=DAGNode)
+T = TypeVar("T", bound=dagnode.DAGNode)
 
 
 def dag_to_list(
@@ -52,7 +47,7 @@ def dag_to_list(
         (List[Tuple[str, str]])
     """
     relations = []
-    for parent_node, child_node in dag_iterator(dag):
+    for parent_node, child_node in iterators.dag_iterator(dag):
         relations.append((parent_node.node_name, child_node.node_name))
     return relations
 
@@ -90,7 +85,7 @@ def dag_to_dict(
     dag = dag.copy()
     data_dict = {}
 
-    for parent_node, child_node in dag_iterator(dag):
+    for parent_node, child_node in iterators.dag_iterator(dag):
         if parent_node.is_root:
             data_parent: Dict[str, Any] = {}
             if all_attrs:
@@ -119,7 +114,7 @@ def dag_to_dict(
     return data_dict
 
 
-@optional_dependencies_pandas
+@exceptions.optional_dependencies_pandas
 def dag_to_dataframe(
     dag: T,
     name_col: str = "name",
@@ -160,7 +155,7 @@ def dag_to_dataframe(
     dag = dag.copy()
     data_list: List[Dict[str, Any]] = []
 
-    for parent_node, child_node in dag_iterator(dag):
+    for parent_node, child_node in iterators.dag_iterator(dag):
         if parent_node.is_root:
             data_parent = {name_col: parent_node.node_name, parent_col: None}
             if all_attrs:
@@ -186,7 +181,7 @@ def dag_to_dataframe(
     return pd.DataFrame(data_list).drop_duplicates().reset_index(drop=True)
 
 
-@optional_dependencies_image("pydot")
+@exceptions.optional_dependencies_image("pydot")
 def dag_to_dot(
     dag: Union[T, List[T]],
     rankdir: str = "TB",
@@ -257,10 +252,10 @@ def dag_to_dot(
         dag = [dag]
 
     for _dag in dag:
-        assert_tree_type(_dag, DAGNode, "DAGNode")
+        assertions.assert_tree_type(_dag, dagnode.DAGNode, "DAGNode")
         _dag = _dag.copy()
 
-        for parent_node, child_node in dag_iterator(_dag):
+        for parent_node, child_node in iterators.dag_iterator(_dag):
             _node_style = node_style.copy()
             _edge_style = edge_style.copy()
 
