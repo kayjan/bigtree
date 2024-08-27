@@ -3,11 +3,11 @@ from __future__ import annotations
 from typing import Any, List, Optional, Tuple, TypeVar, Union
 
 from bigtree.globals import ASSERTIONS
-from bigtree.node.node import Node
-from bigtree.utils.exceptions import CorruptedTreeError, LoopError, TreeError
+from bigtree.node import node
+from bigtree.utils import exceptions
 
 
-class BinaryNode(Node):
+class BinaryNode(node.Node):
     """
     BinaryNode is an extension of Node, and is able to extend to any Python class for Binary Tree implementation.
     Nodes can have attributes if they are initialized from `BinaryNode`, *dictionary*, or *pandas DataFrame*.
@@ -181,7 +181,7 @@ class BinaryNode(Node):
                 if not any(
                     child is self for child in current_parent.children
                 ):  # pragma: no cover
-                    raise CorruptedTreeError(
+                    raise exceptions.CorruptedTreeError(
                         "Error setting parent: Node does not exist as children of its parent"
                     )
                 current_child_idx = current_parent.__children.index(self)
@@ -196,7 +196,9 @@ class BinaryNode(Node):
                         new_parent.__children[child_idx] = self
                         inserted = True
                 if not inserted:
-                    raise TreeError(f"Parent {new_parent} already has 2 children")
+                    raise exceptions.TreeError(
+                        f"Parent {new_parent} already has 2 children"
+                    )
 
             self.__post_assign_parent(new_parent)
 
@@ -210,7 +212,7 @@ class BinaryNode(Node):
             self.__parent = current_parent
             if current_child_idx is not None:
                 current_parent.__children[current_child_idx] = self
-            raise TreeError(exc_info)
+            raise exceptions.TreeError(exc_info)
 
     def __pre_assign_parent(self: T, new_parent: Optional[T]) -> None:
         """Custom method to check before attaching parent
@@ -263,16 +265,18 @@ class BinaryNode(Node):
 
             # Check for loop and tree structure
             if new_child is self:
-                raise LoopError("Error setting child: Node cannot be child of itself")
+                raise exceptions.LoopError(
+                    "Error setting child: Node cannot be child of itself"
+                )
             if any(child is new_child for child in self.ancestors):
-                raise LoopError(
+                raise exceptions.LoopError(
                     "Error setting child: Node cannot be ancestor of itself"
                 )
 
             # Check for duplicate children
             if new_child is not None:
                 if id(new_child) in seen_children:
-                    raise TreeError(
+                    raise exceptions.TreeError(
                         "Error setting child: Node cannot be added multiple times as a child"
                     )
                 else:
@@ -343,7 +347,7 @@ class BinaryNode(Node):
             for child in current_children:
                 if child:
                     child.__parent = self
-            raise TreeError(exc_info)
+            raise exceptions.TreeError(exc_info)
 
     @children.deleter
     def children(self) -> None:

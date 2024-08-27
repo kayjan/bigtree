@@ -1,8 +1,7 @@
 from typing import Any, Optional, TypeVar
 
-from bigtree.node.basenode import BaseNode
-from bigtree.utils.exceptions import optional_dependencies_matplotlib
-from bigtree.utils.iterators import preorder_iter
+from bigtree.node import basenode
+from bigtree.utils import exceptions, iterators
 
 try:
     import matplotlib.pyplot as plt
@@ -17,7 +16,7 @@ __all__ = [
     "plot_tree",
 ]
 
-T = TypeVar("T", bound=BaseNode)
+T = TypeVar("T", bound=basenode.BaseNode)
 
 
 def reingold_tilford(
@@ -84,7 +83,7 @@ def reingold_tilford(
     _third_pass(tree_node, x_adjustment)
 
 
-@optional_dependencies_matplotlib
+@exceptions.optional_dependencies_matplotlib
 def plot_tree(
     tree_node: T, *args: Any, ax: Optional[plt.Axes] = None, **kwargs: Any
 ) -> plt.Figure:
@@ -110,7 +109,7 @@ def plot_tree(
         fig = plt.figure()
         ax = fig.add_subplot(111)
 
-    for node in preorder_iter(tree_node):
+    for node in iterators.preorder_iter(tree_node):
         if not node.is_root:
             try:
                 ax.plot(
@@ -231,7 +230,7 @@ def _first_pass(
                 )
 
 
-def _get_midpoint_of_children(tree_node: BaseNode) -> float:
+def _get_midpoint_of_children(tree_node: basenode.BaseNode) -> float:
     """Get midpoint of children of a node
 
     Args:
@@ -392,7 +391,7 @@ def _second_pass(
     return max(x_adjustment, -final_x)
 
 
-def _third_pass(tree_node: BaseNode, x_adjustment: float) -> None:
+def _third_pass(tree_node: basenode.BaseNode, x_adjustment: float) -> None:
     """Adjust all x-coordinates by an adjustment value so that every x-coordinate is greater than or equal to 0.
     Modifies tree in-place.
 

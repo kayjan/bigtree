@@ -5,8 +5,7 @@ import heapq
 from typing import Any, Dict, Generator, Iterable, List, Optional, Set, Tuple, TypeVar
 
 from bigtree.globals import ASSERTIONS
-from bigtree.utils.exceptions import CorruptedTreeError, LoopError, TreeError
-from bigtree.utils.iterators import preorder_iter
+from bigtree.utils import exceptions, iterators
 
 try:
     import matplotlib.pyplot as plt
@@ -164,13 +163,15 @@ class BaseNode:
         """
         if new_parent is not None:
             if new_parent is self:
-                raise LoopError("Error setting parent: Node cannot be parent of itself")
+                raise exceptions.LoopError(
+                    "Error setting parent: Node cannot be parent of itself"
+                )
             if any(
                 ancestor is self
                 for ancestor in new_parent.ancestors
                 if new_parent.ancestors
             ):
-                raise LoopError(
+                raise exceptions.LoopError(
                     "Error setting parent: Node cannot be ancestor of itself"
                 )
 
@@ -205,7 +206,7 @@ class BaseNode:
                 if not any(
                     child is self for child in current_parent.children
                 ):  # pragma: no cover
-                    raise CorruptedTreeError(
+                    raise exceptions.CorruptedTreeError(
                         "Error setting parent: Node does not exist as children of its parent"
                     )
                 current_child_idx = current_parent.__children.index(self)
@@ -227,7 +228,7 @@ class BaseNode:
             self.__parent = current_parent
             if current_child_idx is not None:
                 current_parent.__children.insert(current_child_idx, self)
-            raise TreeError(exc_info)
+            raise exceptions.TreeError(exc_info)
 
     def __pre_assign_parent(self, new_parent: T) -> None:
         """Custom method to check before attaching parent
@@ -305,15 +306,17 @@ class BaseNode:
 
             # Check for loop and tree structure
             if new_child is self:
-                raise LoopError("Error setting child: Node cannot be child of itself")
+                raise exceptions.LoopError(
+                    "Error setting child: Node cannot be child of itself"
+                )
             if any(child is new_child for child in self.ancestors):
-                raise LoopError(
+                raise exceptions.LoopError(
                     "Error setting child: Node cannot be ancestor of itself"
                 )
 
             # Check for duplicate children
             if id(new_child) in seen_children:
-                raise TreeError(
+                raise exceptions.TreeError(
                     "Error setting child: Node cannot be added multiple times as a child"
                 )
             else:
@@ -376,7 +379,7 @@ class BaseNode:
             self.__children = current_children
             for child in current_children:
                 child.__parent = self
-            raise TreeError(exc_info)
+            raise exceptions.TreeError(exc_info)
 
     @children.deleter
     def children(self) -> None:
@@ -422,7 +425,9 @@ class BaseNode:
         Returns:
             (Iterable[Self])
         """
-        yield from preorder_iter(self, filter_condition=lambda _node: _node != self)
+        yield from iterators.preorder_iter(
+            self, filter_condition=lambda _node: _node != self
+        )
 
     @property
     def leaves(self: T) -> Iterable[T]:
@@ -431,7 +436,9 @@ class BaseNode:
         Returns:
             (Iterable[Self])
         """
-        yield from preorder_iter(self, filter_condition=lambda _node: _node.is_leaf)
+        yield from iterators.preorder_iter(
+            self, filter_condition=lambda _node: _node.is_leaf
+        )
 
     @property
     def siblings(self: T) -> Iterable[T]:
@@ -687,7 +694,7 @@ class BaseNode:
                 f"Expect node to be BaseNode type, received input type {type(node)}"
             )
         if self.root != node.root:
-            raise TreeError(
+            raise exceptions.TreeError(
                 f"Nodes are not from the same tree. Check {self} and {node}"
             )
         if self == node:

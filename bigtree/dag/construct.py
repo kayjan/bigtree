@@ -2,16 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Tuple, Type, TypeVar
 
-from bigtree.node.dagnode import DAGNode
-from bigtree.utils.assertions import (
-    assert_dataframe_no_duplicate_attribute,
-    assert_dataframe_not_empty,
-    assert_length_not_empty,
-    assert_not_reserved_keywords,
-    filter_attributes,
-    isnull,
-)
-from bigtree.utils.exceptions import optional_dependencies_pandas
+from bigtree.node import dagnode
+from bigtree.utils import assertions, exceptions
 
 try:
     import pandas as pd
@@ -22,12 +14,12 @@ except ImportError:  # pragma: no cover
 
 __all__ = ["list_to_dag", "dict_to_dag", "dataframe_to_dag"]
 
-T = TypeVar("T", bound=DAGNode)
+T = TypeVar("T", bound=dagnode.DAGNode)
 
 
 def list_to_dag(
     relations: List[Tuple[str, str]],
-    node_type: Type[T] = DAGNode,  # type: ignore[assignment]
+    node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
     """Construct DAG from list of tuples containing parent-child names.
     Note that node names must be unique.
@@ -46,10 +38,10 @@ def list_to_dag(
     Returns:
         (DAGNode)
     """
-    assert_length_not_empty(relations, "Input list", "relations")
+    assertions.assert_length_not_empty(relations, "Input list", "relations")
 
     node_dict: Dict[str, T] = dict()
-    parent_node: T = DAGNode()  # type: ignore[assignment]
+    parent_node: T = dagnode.DAGNode()  # type: ignore[assignment]
 
     for parent_name, child_name in relations:
         if parent_name not in node_dict:
@@ -71,7 +63,7 @@ def list_to_dag(
 def dict_to_dag(
     relation_attrs: Dict[str, Any],
     parent_key: str = "parents",
-    node_type: Type[T] = DAGNode,  # type: ignore[assignment]
+    node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
     """Construct DAG from nested dictionary, ``key``: child name, ``value``: dictionary of parent names, attribute
     name, and attribute value.
@@ -99,7 +91,7 @@ def dict_to_dag(
     Returns:
         (DAGNode)
     """
-    assert_length_not_empty(relation_attrs, "Dictionary", "relation_attrs")
+    assertions.assert_length_not_empty(relation_attrs, "Dictionary", "relation_attrs")
 
     node_dict: Dict[str, T] = dict()
     parent_node: T | None = None
@@ -109,7 +101,9 @@ def dict_to_dag(
         parent_names: List[str] = []
         if parent_key in node_attrs:
             parent_names = node_attrs.pop(parent_key)
-        assert_not_reserved_keywords(node_attrs, ["parent", "parents", "children"])
+        assertions.assert_not_reserved_keywords(
+            node_attrs, ["parent", "parents", "children"]
+        )
 
         if child_name in node_dict:
             child_node = node_dict[child_name]
@@ -131,13 +125,13 @@ def dict_to_dag(
     return parent_node
 
 
-@optional_dependencies_pandas
+@exceptions.optional_dependencies_pandas
 def dataframe_to_dag(
     data: pd.DataFrame,
     child_col: str = "",
     parent_col: str = "",
     attribute_cols: List[str] = [],
-    node_type: Type[T] = DAGNode,  # type: ignore[assignment]
+    node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
     """Construct DAG from pandas DataFrame.
     Note that node names must be unique.
@@ -180,7 +174,7 @@ def dataframe_to_dag(
     Returns:
         (DAGNode)
     """
-    assert_dataframe_not_empty(data)
+    assertions.assert_dataframe_not_empty(data)
 
     if not child_col:
         child_col = data.columns[0]
@@ -194,30 +188,32 @@ def dataframe_to_dag(
         attribute_cols = list(data.columns)
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
-    assert_not_reserved_keywords(attribute_cols, ["parent", "parents", "children"])
+    assertions.assert_not_reserved_keywords(
+        attribute_cols, ["parent", "parents", "children"]
+    )
 
     data = data[[child_col, parent_col] + attribute_cols].copy()
 
-    assert_dataframe_no_duplicate_attribute(
+    assertions.assert_dataframe_no_duplicate_attribute(
         data, "child name", child_col, attribute_cols
     )
     if sum(data[child_col].isnull()):
         raise ValueError(f"Child name cannot be empty, check column: {child_col}")
 
     node_dict: Dict[str, T] = dict()
-    parent_node: T = DAGNode()  # type: ignore[assignment]
+    parent_node: T = dagnode.DAGNode()  # type: ignore[assignment]
 
     for row in data.reset_index(drop=True).to_dict(orient="index").values():
         child_name = row[child_col]
         parent_name = row[parent_col]
-        node_attrs = filter_attributes(
+        node_attrs = assertions.filter_attributes(
             row, omit_keys=["name", child_col, parent_col], omit_null_values=True
         )
         child_node = node_dict.get(child_name, node_type(child_name, **node_attrs))
         child_node.set_attrs(node_attrs)
         node_dict[child_name] = child_node
 
-        if not isnull(parent_name):
+        if not assertions.isnull(parent_name):
             parent_node = node_dict.get(parent_name, node_type(parent_name))
             node_dict[parent_name] = parent_node
             child_node.parents = [parent_node]

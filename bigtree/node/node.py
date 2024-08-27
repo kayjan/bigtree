@@ -3,11 +3,11 @@ from __future__ import annotations
 from collections import Counter
 from typing import Any, List, TypeVar
 
-from bigtree.node.basenode import BaseNode
-from bigtree.utils.exceptions import TreeError
+from bigtree.node import basenode
+from bigtree.utils import exceptions
 
 
-class Node(BaseNode):
+class Node(basenode.BaseNode):
     """
     Node is an extension of BaseNode, and is able to extend to any Python class.
     Nodes can have attributes if they are initialized from `Node`, *dictionary*, or *pandas DataFrame*.
@@ -78,7 +78,7 @@ class Node(BaseNode):
         self._sep = sep
         super().__init__(**kwargs)
         if not self.node_name:
-            raise TreeError("Node must have a `name` attribute")
+            raise exceptions.TreeError("Node must have a `name` attribute")
 
     @property
     def sep(self) -> str:
@@ -168,7 +168,7 @@ class Node(BaseNode):
                 child.node_name == self.node_name and child is not self
                 for child in new_parent.children
             ):
-                raise TreeError(
+                raise exceptions.TreeError(
                     f"Duplicate node with same path\n"
                     f"There exist a node with same path {new_parent.path_name}{new_parent.sep}{self.node_name}"
                 )
@@ -196,7 +196,7 @@ class Node(BaseNode):
             duplicate_names_str = " and ".join(
                 [f"{self.path_name}{self.sep}{name}" for name in duplicate_names]
             )
-            raise TreeError(
+            raise exceptions.TreeError(
                 f"Duplicate node with same path\n"
                 f"Attempting to add nodes with same path {duplicate_names_str}"
             )

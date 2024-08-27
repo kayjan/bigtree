@@ -3,27 +3,8 @@ from __future__ import annotations
 import collections
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, TypeVar, Union
 
-from bigtree.node.node import Node
-from bigtree.utils.assertions import (
-    assert_key_in_dict,
-    assert_str_in_list,
-    assert_style_in_dict,
-    assert_tree_type,
-    isnull,
-)
-from bigtree.utils.constants import (
-    BaseHPrintStyle,
-    BasePrintStyle,
-    ExportConstants,
-    MermaidConstants,
-    NewickCharacter,
-)
-from bigtree.utils.exceptions import (
-    optional_dependencies_image,
-    optional_dependencies_pandas,
-    optional_dependencies_polars,
-)
-from bigtree.utils.iterators import levelordergroup_iter, preorder_iter
+from bigtree.node import node
+from bigtree.utils import assertions, constants, exceptions, iterators
 
 try:
     import pandas as pd
@@ -69,7 +50,7 @@ __all__ = [
     "tree_to_newick",
 ]
 
-T = TypeVar("T", bound=Node)
+T = TypeVar("T", bound=node.Node)
 
 
 def print_tree(
@@ -80,7 +61,7 @@ def print_tree(
     attr_list: Iterable[str] = [],
     attr_omit_null: bool = False,
     attr_bracket: List[str] = ["[", "]"],
-    style: Union[str, Iterable[str], BasePrintStyle] = "const",
+    style: Union[str, Iterable[str], constants.BasePrintStyle] = "const",
     **kwargs: Any,
 ) -> None:
     """Print tree to console, starting from `tree`.
@@ -91,14 +72,14 @@ def print_tree(
     - Able to choose which attributes to show or show all attributes, using `attr_name_filter` and `all_attrs`
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
     - Able to customize open and close brackets if attributes are shown, using `attr_bracket`
-    - Able to customize style, to choose from str, List[str], or inherit from BasePrintStyle, using `style`
+    - Able to customize style, to choose from str, List[str], or inherit from constants.BasePrintStyle, using `style`
 
     For style,
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
-    - (BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
-    `DoublePrintStyle` style or inherit from `BasePrintStyle`
+    - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
+    `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
 
     Examples:
         **Printing tree**
@@ -220,7 +201,7 @@ def print_tree(
         attr_list (Iterable[str]): list of node attributes to print, optional
         attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to False
         attr_bracket (List[str]): open and close bracket for `all_attrs` or `attr_list`
-        style (Union[str, Iterable[str], BasePrintStyle]): style of print, defaults to const
+        style (Union[str, Iterable[str], constants.BasePrintStyle]): style of print, defaults to const
     """
     for pre_str, fill_str, _node in yield_tree(
         tree=tree,
@@ -244,7 +225,7 @@ def print_tree(
                     attr_str_list = [
                         f"{attr_name}={_node.get_attr(attr_name)}"
                         for attr_name in attr_list
-                        if not isnull(_node.get_attr(attr_name))
+                        if not assertions.isnull(_node.get_attr(attr_name))
                     ]
                 else:
                     attr_str_list = [
@@ -263,20 +244,20 @@ def yield_tree(
     tree: T,
     node_name_or_path: str = "",
     max_depth: int = 0,
-    style: Union[str, Iterable[str], BasePrintStyle] = "const",
+    style: Union[str, Iterable[str], constants.BasePrintStyle] = "const",
 ) -> Iterable[Tuple[str, str, T]]:
     """Generator method for customizing printing of tree, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from str, List[str], or inherit from BasePrintStyle, using `style`
+    - Able to customize style, to choose from str, List[str], or inherit from constants.BasePrintStyle, using `style`
 
     For style,
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
-    - (BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
-    `DoublePrintStyle` style or inherit from `BasePrintStyle`
+    - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
+    `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
 
     Examples:
         **Yield tree**
@@ -384,7 +365,7 @@ def yield_tree(
         tree (Node): tree to print
         node_name_or_path (str): node to print from, becomes the root node of printing, optional
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        style (Union[str, Iterable[str], BasePrintStyle]): style of print, defaults to const
+        style (Union[str, Iterable[str], constants.BasePrintStyle]): style of print, defaults to const
     """
     from bigtree.tree.helper import get_subtree
 
@@ -392,8 +373,8 @@ def yield_tree(
 
     # Set style
     if isinstance(style, str):
-        available_styles = ExportConstants.PRINT_STYLES
-        assert_style_in_dict(style, available_styles)
+        available_styles = constants.ExportConstants.PRINT_STYLES
+        assertions.assert_style_in_dict(style, available_styles)
         style_stem, style_branch, style_stem_final = available_styles[style]
     elif isinstance(style, list) and len(list(style)) != 3:
         raise ValueError(
@@ -408,7 +389,7 @@ def yield_tree(
     gap_str = " " * len(style_stem)
     unclosed_depth = set()
     initial_depth = tree.depth
-    for _node in preorder_iter(tree, max_depth=max_depth):
+    for _node in iterators.preorder_iter(tree, max_depth=max_depth):
         pre_str = ""
         fill_str = ""
         if not _node.is_root:
@@ -439,7 +420,7 @@ def hprint_tree(
     node_name_or_path: str = "",
     max_depth: int = 0,
     intermediate_node_name: bool = True,
-    style: Union[str, Iterable[str], BaseHPrintStyle] = "const",
+    style: Union[str, Iterable[str], constants.BaseHPrintStyle] = "const",
     **kwargs: Any,
 ) -> None:
     """Print tree in horizontal orientation to console, starting from `tree`.
@@ -447,14 +428,14 @@ def hprint_tree(
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from str, List[str], or inherit from BaseHPrintStyle, using `style`
+    - Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using `style`
 
     For style,
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style icons, they must have the same number of characters
-    - (BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
-    `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from BaseHPrintStyle
+    - (constants.BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
+    `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from constants.BaseHPrintStyle
 
     Examples:
         **Printing tree**
@@ -546,7 +527,7 @@ def hprint_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        style (Union[str, Iterable[str], BaseHPrintStyle]): style of print, defaults to const
+        style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
     """
     result = hyield_tree(
         tree,
@@ -563,20 +544,20 @@ def hyield_tree(
     node_name_or_path: str = "",
     max_depth: int = 0,
     intermediate_node_name: bool = True,
-    style: Union[str, Iterable[str], BaseHPrintStyle] = "const",
+    style: Union[str, Iterable[str], constants.BaseHPrintStyle] = "const",
 ) -> List[str]:
     """Yield tree in horizontal orientation to console, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from str, List[str], or inherit from BaseHPrintStyle, using `style`
+    - Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using `style`
 
     For style,
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style icons, they must have the same number of characters
-    - (BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
-    `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from BaseHPrintStyle
+    - (constants.BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
+    `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from constants.BaseHPrintStyle
 
     Examples:
         **Printing tree**
@@ -658,7 +639,7 @@ def hyield_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        style (Union[str, Iterable[str], BaseHPrintStyle]): style of print, defaults to const
+        style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
 
     Returns:
         (List[str])
@@ -671,8 +652,8 @@ def hyield_tree(
 
     # Set style
     if isinstance(style, str):
-        available_styles = ExportConstants.HPRINT_STYLES
-        assert_style_in_dict(style, available_styles)
+        available_styles = constants.ExportConstants.HPRINT_STYLES
+        assertions.assert_style_in_dict(style, available_styles)
         (
             style_first_child,
             style_subsequent_child,
@@ -711,10 +692,14 @@ def hyield_tree(
     space = " "
     padding_depths = collections.defaultdict(int)
     if intermediate_node_name:
-        for _idx, _children in enumerate(levelordergroup_iter(tree)):
-            padding_depths[_idx + 1] = max([len(node.node_name) for node in _children])
+        for _idx, _children in enumerate(iterators.levelordergroup_iter(tree)):
+            padding_depths[_idx + 1] = max(
+                [len(_node.node_name) for _node in _children]
+            )
 
-    def _hprint_branch(_node: Union[T, Node], _cur_depth: int) -> Tuple[List[str], int]:
+    def _hprint_branch(
+        _node: Union[T, node.Node], _cur_depth: int
+    ) -> Tuple[List[str], int]:
         """Get string for tree horizontally.
         Recursively iterate the nodes in post-order traversal manner.
 
@@ -726,7 +711,7 @@ def hyield_tree(
             (Tuple[List[str], int]): Intermediate/final result for node, index of branch
         """
         if not _node:
-            _node = Node("  ")
+            _node = node.Node("  ")
         node_name_centered = _node.node_name.center(padding_depths[_cur_depth])
 
         children = list(_node.children) if any(list(_node.children)) else []
@@ -814,7 +799,7 @@ def hyield_tree(
     return result
 
 
-@optional_dependencies_pandas
+@exceptions.optional_dependencies_pandas
 def tree_to_dataframe(
     tree: T,
     path_col: str = "path",
@@ -909,7 +894,7 @@ def tree_to_dataframe(
     return pd.DataFrame(data_list)
 
 
-@optional_dependencies_polars
+@exceptions.optional_dependencies_polars
 def tree_to_polars(
     tree: T,
     path_col: str = "path",
@@ -1175,7 +1160,7 @@ def tree_to_nested_dict(
     return data_dict[child_key][0]
 
 
-@optional_dependencies_image("pydot")
+@exceptions.optional_dependencies_image("pydot")
 def tree_to_dot(
     tree: Union[T, List[T]],
     directed: bool = True,
@@ -1304,7 +1289,7 @@ def tree_to_dot(
         tree = [tree]
 
     for _tree in tree:
-        assert_tree_type(_tree, Node, "Node")
+        assertions.assert_tree_type(_tree, node.Node, "Node")
 
         name_dict: Dict[str, List[str]] = collections.defaultdict(list)
 
@@ -1347,7 +1332,7 @@ def tree_to_dot(
     return _graph
 
 
-@optional_dependencies_image("Pillow")
+@exceptions.optional_dependencies_image("Pillow")
 def tree_to_pillow(
     tree: T,
     width: int = 0,
@@ -1404,8 +1389,8 @@ def tree_to_pillow(
 
     # Initialize text
     image_text = []
-    for branch, stem, node in yield_tree(tree, **kwargs):
-        image_text.append(f"{branch}{stem}{node.node_name}\n")
+    for branch, stem, _node in yield_tree(tree, **kwargs):
+        image_text.append(f"{branch}{stem}{_node.node_name}\n")
 
     # Calculate image dimension from text, otherwise override with argument
     def get_list_of_text_dimensions(
@@ -1597,16 +1582,16 @@ def tree_to_mermaid(
     """
     from bigtree.tree.helper import clone_tree
 
-    rankdirs = MermaidConstants.RANK_DIR
-    line_shapes = MermaidConstants.LINE_SHAPES
-    node_shapes = MermaidConstants.NODE_SHAPES
-    edge_arrows = MermaidConstants.EDGE_ARROWS
+    rankdirs = constants.MermaidConstants.RANK_DIR
+    line_shapes = constants.MermaidConstants.LINE_SHAPES
+    node_shapes = constants.MermaidConstants.NODE_SHAPES
+    edge_arrows = constants.MermaidConstants.EDGE_ARROWS
 
     # Assertions
-    assert_str_in_list("rankdir", rankdir, rankdirs)
-    assert_key_in_dict("node_shape", node_shape, node_shapes)
-    assert_str_in_list("line_shape", line_shape, line_shapes)
-    assert_key_in_dict("edge_arrow", edge_arrow, edge_arrows)
+    assertions.assert_str_in_list("rankdir", rankdir, rankdirs)
+    assertions.assert_key_in_dict("node_shape", node_shape, node_shapes)
+    assertions.assert_str_in_list("line_shape", line_shape, line_shapes)
+    assertions.assert_key_in_dict("edge_arrow", edge_arrow, edge_arrows)
 
     mermaid_template = """```mermaid\n{title}{line_style}\nflowchart {rankdir}\n{flows}\n{styles}\n```"""
     flowchart_template = "{from_ref}{from_name}{from_style} {arrow}{arrow_label} {to_ref}{to_name}{to_style}"
@@ -1651,7 +1636,7 @@ def tree_to_mermaid(
     )
     styles.append(default_style)
 
-    class MermaidNode(Node):
+    class MermaidNode(node.Node):
         """Mermaid Node, adds property `mermaid_name`"""
 
         @property
@@ -1689,21 +1674,21 @@ def tree_to_mermaid(
         return _choice
 
     tree_mermaid: T = clone_tree(tree, MermaidNode)  # type: ignore
-    for _, _, node in yield_tree(tree_mermaid, **kwargs):
-        if not node.is_root:
+    for _, _, _node in yield_tree(tree_mermaid, **kwargs):
+        if not _node.is_root:
             # Get custom style (node_shape_attr)
             _parent_node_name = ""
             _from_style = ""
-            if node.parent.is_root:
+            if _node.parent.is_root:
                 # Get custom style for root (node_shape_attr, node_attr)
                 _parent_node_name = node_shapes[
-                    _get_attr(node.parent, node_shape_attr, node_shape)
-                ].format(label=node.parent.name)
+                    _get_attr(_node.parent, node_shape_attr, node_shape)
+                ].format(label=_node.parent.name)
 
-                if _get_attr(node.parent, node_attr, "") and len(styles) < 2:
-                    _from_style = _get_attr(node.parent, node_attr, "")
+                if _get_attr(_node.parent, node_attr, "") and len(styles) < 2:
+                    _from_style = _get_attr(_node.parent, node_attr, "")
                     _from_style_class = (
-                        f"""class{node.parent.get_attr("mermaid_name")}"""
+                        f"""class{_node.parent.get_attr("mermaid_name")}"""
                     )
                     styles.append(
                         style_template.format(
@@ -1712,19 +1697,19 @@ def tree_to_mermaid(
                     )
                     _from_style = f":::{_from_style_class}"
             _node_name = node_shapes[
-                _get_attr(node, node_shape_attr, node_shape)
-            ].format(label=node.name)
+                _get_attr(_node, node_shape_attr, node_shape)
+            ].format(label=_node.name)
 
             # Get custom style (edge_arrow_attr, edge_label)
-            _arrow = edge_arrows[_get_attr(node, edge_arrow_attr, edge_arrow)]
+            _arrow = edge_arrows[_get_attr(_node, edge_arrow_attr, edge_arrow)]
             _arrow_label = (
-                f"|{node.get_attr(edge_label)}|" if node.get_attr(edge_label) else ""
+                f"|{_node.get_attr(edge_label)}|" if _node.get_attr(edge_label) else ""
             )
 
             # Get custom style (node_attr)
-            _to_style = _get_attr(node, node_attr, "")
+            _to_style = _get_attr(_node, node_attr, "")
             if _to_style:
-                _to_style_class = f"""class{node.get_attr("mermaid_name")}"""
+                _to_style_class = f"""class{_node.get_attr("mermaid_name")}"""
                 styles.append(
                     style_template.format(style_name=_to_style_class, style=_to_style)
                 )
@@ -1732,12 +1717,12 @@ def tree_to_mermaid(
 
             flows.append(
                 flowchart_template.format(
-                    from_ref=node.parent.get_attr("mermaid_name"),
+                    from_ref=_node.parent.get_attr("mermaid_name"),
                     from_name=_parent_node_name,
                     from_style=_from_style,
                     arrow=_arrow,
                     arrow_label=_arrow_label,
-                    to_ref=node.get_attr("mermaid_name"),
+                    to_ref=_node.get_attr("mermaid_name"),
                     to_name=_node_name,
                     to_style=_to_style,
                 )
@@ -1756,10 +1741,10 @@ def tree_to_newick(
     tree: T,
     intermediate_node_name: bool = True,
     length_attr: str = "",
-    length_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
+    length_sep: Union[str, constants.NewickCharacter] = constants.NewickCharacter.SEP,
     attr_list: Iterable[str] = [],
     attr_prefix: str = "&&NHX:",
-    attr_sep: Union[str, NewickCharacter] = NewickCharacter.SEP,
+    attr_sep: Union[str, constants.NewickCharacter] = constants.NewickCharacter.SEP,
 ) -> str:
     """Export tree to Newick notation. Useful for describing phylogenetic tree.
 
@@ -1812,9 +1797,9 @@ def tree_to_newick(
     """
     if not tree:
         return ""
-    if isinstance(length_sep, NewickCharacter):
+    if isinstance(length_sep, constants.NewickCharacter):
         length_sep = length_sep.value
-    if isinstance(attr_sep, NewickCharacter):
+    if isinstance(attr_sep, constants.NewickCharacter):
         attr_sep = attr_sep.value
 
     def _serialize(item: Any) -> Any:
@@ -1826,8 +1811,10 @@ def tree_to_newick(
         Returns:
             (Any)
         """
-        if isinstance(item, str) and set(item).intersection(NewickCharacter.values()):
-            item = f"""'{item.replace(NewickCharacter.ATTR_QUOTE, '"')}'"""
+        if isinstance(item, str) and set(item).intersection(
+            constants.NewickCharacter.values()
+        ):
+            item = f"""'{item.replace(constants.NewickCharacter.ATTR_QUOTE, '"')}'"""
         return item
 
     node_name_str = ""

@@ -1,23 +1,17 @@
 from collections import deque
 from typing import Any, Deque, Dict, List, Set, Type, TypeVar, Union
 
-from bigtree.node.basenode import BaseNode
-from bigtree.node.binarynode import BinaryNode
-from bigtree.node.node import Node
-from bigtree.tree.construct import add_dict_to_tree_by_path, dataframe_to_tree
-from bigtree.tree.export import tree_to_dataframe
-from bigtree.tree.search import find_path
-from bigtree.utils.assertions import assert_tree_type
-from bigtree.utils.exceptions import NotFoundError
-from bigtree.utils.iterators import levelordergroup_iter
+from bigtree.node import basenode, binarynode, node
+from bigtree.tree import construct, export, search
+from bigtree.utils import assertions, exceptions, iterators
 
 __all__ = ["clone_tree", "get_subtree", "prune_tree", "get_tree_diff"]
-BaseNodeT = TypeVar("BaseNodeT", bound=BaseNode)
-BinaryNodeT = TypeVar("BinaryNodeT", bound=BinaryNode)
-NodeT = TypeVar("NodeT", bound=Node)
+BaseNodeT = TypeVar("BaseNodeT", bound=basenode.BaseNode)
+BinaryNodeT = TypeVar("BinaryNodeT", bound=binarynode.BinaryNode)
+NodeT = TypeVar("NodeT", bound=node.Node)
 
 
-def clone_tree(tree: BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
+def clone_tree(tree: basenode.BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
     """Clone tree to another ``Node`` type.
     If the same type is needed, simply do a tree.copy().
 
@@ -35,14 +29,14 @@ def clone_tree(tree: BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
     Returns:
         (BaseNode)
     """
-    assert_tree_type(tree, BaseNode, "BaseNode")
+    assertions.assert_tree_type(tree, basenode.BaseNode, "BaseNode")
 
     # Start from root
     root_info = dict(tree.root.describe(exclude_prefix="_"))
     root_node = node_type(**root_info)
 
     def _recursive_add_child(
-        _new_parent_node: BaseNodeT, _parent_node: BaseNode
+        _new_parent_node: BaseNodeT, _parent_node: basenode.BaseNode
     ) -> None:
         """Recursively clone current node
 
@@ -101,7 +95,7 @@ def get_subtree(
     tree = tree.copy()
 
     if node_name_or_path:
-        tree = find_path(tree, node_name_or_path)
+        tree = search.find_path(tree, node_name_or_path)
         if not tree:
             raise ValueError(f"Node name or path {node_name_or_path} not found")
 
@@ -208,9 +202,9 @@ def prune_tree(
         nodes_to_prune: Set[Union[BinaryNodeT, NodeT]] = set()
         for path in prune_path:
             path = path.replace(sep, tree.sep)
-            child = find_path(tree_copy, path)
+            child = search.find_path(tree_copy, path)
             if not child:
-                raise NotFoundError(
+                raise exceptions.NotFoundError(
                     f"Cannot find any node matching path_name ending with {path}"
                 )
             nodes_to_prune.add(child)
@@ -219,8 +213,8 @@ def prune_tree(
         if exact:
             ancestors_to_prune.update(nodes_to_prune)
 
-        for node in ancestors_to_prune:
-            for child in node.children:
+        for _node in ancestors_to_prune:
+            for child in _node.children:
                 if (
                     child
                     and child not in ancestors_to_prune
@@ -230,7 +224,9 @@ def prune_tree(
 
     # Prune by depth (prune top-down)
     if max_depth:
-        for depth, level_nodes in enumerate(levelordergroup_iter(tree_copy), 1):
+        for depth, level_nodes in enumerate(
+            iterators.levelordergroup_iter(tree_copy), 1
+        ):
             if depth == max_depth:
                 for level_node in level_nodes:
                     del level_node.children
@@ -238,8 +234,11 @@ def prune_tree(
 
 
 def get_tree_diff(
-    tree: Node, other_tree: Node, only_diff: bool = True, attr_list: List[str] = []
-) -> Node:
+    tree: node.Node,
+    other_tree: node.Node,
+    only_diff: bool = True,
+    attr_list: List[str] = [],
+) -> node.Node:
     """Get difference of `tree` to `other_tree`, changes are relative to `tree`.
 
     Compares the difference in tree structure (default), but can also compare tree attributes using `attr_list`.
@@ -340,7 +339,7 @@ def get_tree_diff(
     indicator_col = "Exists"
 
     data, data_other = (
-        tree_to_dataframe(
+        export.tree_to_dataframe(
             _tree,
             name_col=name_col,
             path_col=path_col,
@@ -402,7 +401,7 @@ def get_tree_diff(
         ]
     data_both = data_both[[path_col]]
     if len(data_both):
-        tree_diff = dataframe_to_tree(data_both, node_type=tree.__class__)
+        tree_diff = construct.dataframe_to_tree(data_both, node_type=tree.__class__)
         # Handle tree attribute difference
         if len(path_changes_deque):
             path_changes_list = sorted(path_changes_deque, reverse=True)
@@ -411,5 +410,7 @@ def get_tree_diff(
             ]
             path_changes_list_of_dict.extend(name_changes_list)
             for attr_change_dict in path_changes_list_of_dict:
-                tree_diff = add_dict_to_tree_by_path(tree_diff, attr_change_dict)
+                tree_diff = construct.add_dict_to_tree_by_path(
+                    tree_diff, attr_change_dict
+                )
         return tree_diff

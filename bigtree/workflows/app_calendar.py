@@ -3,10 +3,8 @@ from __future__ import annotations
 import datetime as dt
 from typing import Any, Optional, Union
 
-from bigtree.node.node import Node
-from bigtree.tree.construct import add_path_to_tree
-from bigtree.tree.export import tree_to_dataframe
-from bigtree.tree.search import find_full_path, findall
+from bigtree.node import node
+from bigtree.tree import construct, export, search
 
 try:
     import pandas as pd
@@ -59,7 +57,7 @@ class Calendar:
     """
 
     def __init__(self, name: str):
-        self.calendar = Node(name)
+        self.calendar = node.Node(name)
         self.__sorted = True
 
     def add_event(
@@ -87,11 +85,11 @@ class Calendar:
         )
         event_path = f"{self.calendar.node_name}/{year}/{month}/{day}/{event_name}"
         event_attr = {"date": date, "time": time, **kwargs}
-        if find_full_path(self.calendar, event_path):
+        if search.find_full_path(self.calendar, event_path):
             print(
                 f"Event {event_name} exists on {date}, overwriting information for {event_name}"
             )
-        add_path_to_tree(
+        construct.add_path_to_tree(
             tree=self.calendar,
             path=event_path,
             node_attrs=event_attr,
@@ -114,13 +112,13 @@ class Calendar:
                 str(event_date.day).zfill(2),
             )
             event_path = f"{self.calendar.node_name}/{year}/{month}/{day}/{event_name}"
-            event = find_full_path(self.calendar, event_path)
+            event = search.find_full_path(self.calendar, event_path)
             if event:
                 self._delete_event(event)
             else:
                 print(f"Event {event_name} does not exist on {event_date}")
         else:
-            for event in findall(
+            for event in search.findall(
                 self.calendar, lambda node: node.node_name == event_name
             ):
                 self._delete_event(event)
@@ -133,7 +131,9 @@ class Calendar:
         """
         if not self.__sorted:
             self._sort()
-        for event in findall(self.calendar, lambda node: node.node_name == event_name):
+        for event in search.findall(
+            self.calendar, lambda node: node.node_name == event_name
+        ):
             self._show(event)
 
     def show(self) -> None:
@@ -155,12 +155,12 @@ class Calendar:
         """
         if not len(self.calendar.children):
             raise Exception("Calendar is empty!")
-        data = tree_to_dataframe(self.calendar, all_attrs=True, leaf_only=True)
+        data = export.tree_to_dataframe(self.calendar, all_attrs=True, leaf_only=True)
         compulsory_cols = ["path", "name", "date", "time"]
         other_cols = list(set(data.columns) - set(compulsory_cols))
         return data[compulsory_cols + other_cols]
 
-    def _delete_event(self, event: Node) -> None:
+    def _delete_event(self, event: node.Node) -> None:
         """Private method to delete event, delete parent node as well
 
         Args:
@@ -175,7 +175,7 @@ class Calendar:
 
     def _sort(self) -> None:
         """Private method to sort calendar by event date, followed by event time"""
-        for day_event in findall(self.calendar, lambda node: node.depth <= 4):
+        for day_event in search.findall(self.calendar, lambda node: node.depth <= 4):
             if day_event.depth < 4:
                 day_event.sort(key=lambda attr: attr.node_name)
             else:
@@ -183,7 +183,7 @@ class Calendar:
         self.__sorted = True
 
     @staticmethod
-    def _show(event: Node) -> None:
+    def _show(event: node.Node) -> None:
         """Private method to show event, handles the formatting of event
         Prints result to console
 

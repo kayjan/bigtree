@@ -1,10 +1,9 @@
 import logging
 from typing import List, Optional, TypeVar
 
-from bigtree.node.node import Node
-from bigtree.tree.construct import add_path_to_tree
-from bigtree.tree.search import find_full_path, find_path
-from bigtree.utils.exceptions import NotFoundError, TreeError
+from bigtree.node import node
+from bigtree.tree import construct, search
+from bigtree.utils import exceptions
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
@@ -18,7 +17,7 @@ __all__ = [
     "replace_logic",
 ]
 
-T = TypeVar("T", bound=Node)
+T = TypeVar("T", bound=node.Node)
 
 
 def shift_nodes(
@@ -1111,14 +1110,14 @@ def copy_or_shift_logic(
     # Perform shifting/copying
     for from_path, to_path in zip(from_paths, to_paths):
         if with_full_path:
-            from_node = find_full_path(tree, from_path)
+            from_node = search.find_full_path(tree, from_path)
         else:
-            from_node = find_path(tree, from_path)
+            from_node = search.find_path(tree, from_path)
 
         # From node not found
         if not from_node:
             if not skippable:
-                raise NotFoundError(
+                raise exceptions.NotFoundError(
                     f"Unable to find from_path {from_path}\n"
                     f"Set `skippable` to True to skip shifting for nodes not found"
                 )
@@ -1132,7 +1131,7 @@ def copy_or_shift_logic(
                 to_node = None
             # Node to be copied/shifted
             else:
-                to_node = find_full_path(to_tree, to_path)
+                to_node = search.find_full_path(to_tree, to_path)
 
                 # To node found
                 if to_node:
@@ -1144,7 +1143,7 @@ def copy_or_shift_logic(
                         elif merge_leaves:
                             to_node = to_node.parent
                         else:
-                            raise TreeError(
+                            raise exceptions.TreeError(
                                 f"Attempting to shift the same node {from_node.node_name} back to the same position\n"
                                 f"Check from path {from_path} and to path {to_path}\n"
                                 f"Alternatively, set `merge_children` or `merge_leaves` to True if intermediate node is to be removed"
@@ -1176,7 +1175,7 @@ def copy_or_shift_logic(
                             del to_node.children
                     else:
                         if not overriding:
-                            raise TreeError(
+                            raise exceptions.TreeError(
                                 f"Path {to_path} already exists and unable to override\n"
                                 f"Set `overriding` to True to perform overrides\n"
                                 f"Alternatively, set `merge_children` to True if nodes are to be merged"
@@ -1192,7 +1191,9 @@ def copy_or_shift_logic(
                 else:
                     # Find parent node, create intermediate parent node if applicable
                     to_path_parent = tree_sep.join(to_path.split(tree_sep)[:-1])
-                    to_node = add_path_to_tree(to_tree, to_path_parent, sep=tree_sep)
+                    to_node = construct.add_path_to_tree(
+                        to_tree, to_path_parent, sep=tree_sep
+                    )
 
             # Reassign from_node to new parent
             if copy:
@@ -1310,14 +1311,14 @@ def replace_logic(
     # Perform shifting/copying to replace destination node
     for from_path, to_path in zip(from_paths, to_paths):
         if with_full_path:
-            from_node = find_full_path(tree, from_path)
+            from_node = search.find_full_path(tree, from_path)
         else:
-            from_node = find_path(tree, from_path)
+            from_node = search.find_path(tree, from_path)
 
         # From node not found
         if not from_node:
             if not skippable:
-                raise NotFoundError(
+                raise exceptions.NotFoundError(
                     f"Unable to find from_path {from_path}\n"
                     f"Set `skippable` to True to skip shifting for nodes not found"
                 )
@@ -1326,19 +1327,19 @@ def replace_logic(
 
         # From node found
         else:
-            to_node = find_full_path(to_tree, to_path)
+            to_node = search.find_full_path(to_tree, to_path)
 
             # To node found
             if to_node:
                 if from_node == to_node:
-                    raise TreeError(
+                    raise exceptions.TreeError(
                         f"Attempting to replace the same node {from_node.node_name}\n"
                         f"Check from path {from_path} and to path {to_path}"
                     )
 
             # To node not found
             else:
-                raise NotFoundError(f"Unable to find to_path {to_path}")
+                raise exceptions.NotFoundError(f"Unable to find to_path {to_path}")
 
             # Replace to_node with from_node
             if copy:
@@ -1349,10 +1350,10 @@ def replace_logic(
             parent = to_node.parent
             to_node_siblings = parent.children
             to_node_idx = to_node_siblings.index(to_node)
-            for node in to_node_siblings[to_node_idx:]:
-                if node == to_node:
+            for _node in to_node_siblings[to_node_idx:]:
+                if _node == to_node:
                     to_node.parent = None
                     from_node.parent = parent
                 else:
-                    node.parent = None
-                    node.parent = parent
+                    _node.parent = None
+                    _node.parent = parent

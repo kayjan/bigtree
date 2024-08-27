@@ -12,14 +12,12 @@ from typing import (
 )
 
 if TYPE_CHECKING:
-    from bigtree.node.basenode import BaseNode
-    from bigtree.node.binarynode import BinaryNode
-    from bigtree.node.dagnode import DAGNode
+    from bigtree.node import basenode, binarynode, dagnode
 
-    BaseNodeT = TypeVar("BaseNodeT", bound=BaseNode)
-    BinaryNodeT = TypeVar("BinaryNodeT", bound=BinaryNode)
-    DAGNodeT = TypeVar("DAGNodeT", bound=DAGNode)
-    T = TypeVar("T", bound=Union[BaseNode, DAGNode])
+    BaseNodeT = TypeVar("BaseNodeT", bound=basenode.BaseNode)
+    BinaryNodeT = TypeVar("BinaryNodeT", bound=binarynode.BinaryNode)
+    DAGNodeT = TypeVar("DAGNodeT", bound=dagnode.DAGNode)
+    T = TypeVar("T", bound=Union[basenode.BaseNode, dagnode.DAGNode])
 
 __all__ = [
     "inorder_iter",
