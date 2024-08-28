@@ -322,7 +322,9 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
     If tree is already created, nodes can still be added using path string, dictionary, and pandas/polars DataFrame!<br>
     Attributes can be added to existing nodes using a dictionary or pandas/polars DataFrame.
 
-## Print Tree
+## View Tree
+
+### 1. Print Tree
 
 After tree is constructed, it can be viewed by printing to console using `show` or `hshow` method directly,
 for vertical and horizontal orientation respectively.
@@ -361,33 +363,33 @@ Other customizations for printing are also available, such as:
 
 === "Subtree"
     ```python hl_lines="1 6"
-    print_tree(root, node_name_or_path="b")
+    root.show(node_name_or_path="b")
     # b
     # ├── d
     # └── e
 
-    print_tree(root, max_depth=2)
+    root.show(max_depth=2)
     # a
     # ├── b
     # └── c
     ```
 === "Tree with attributes"
     ```python hl_lines="1 8 15"
-    print_tree(root, attr_list=["age"])
+    root.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # │   ├── d [age=40]
     # │   └── e [age=35]
     # └── c [age=60]
 
-    print_tree(root, attr_list=["age"], attr_bracket=["*(", ")"])
+    root.show(attr_list=["age"], attr_bracket=["*(", ")"])
     # a *(age=90)
     # ├── b *(age=65)
     # │   ├── d *(age=40)
     # │   └── e *(age=35)
     # └── c *(age=60)
 
-    print_tree(root, all_attrs=True)
+    root.show(all_attrs=True)
     # a [age=90, gender=F]
     # ├── b [age=65, gender=M]
     # │   ├── d [age=40, gender=F]
@@ -396,7 +398,7 @@ Other customizations for printing are also available, such as:
     ```
 === "Style - ansi"
     ```python
-    print_tree(root, style="ansi")
+    root.show(style="ansi")
     # a
     # |-- b
     # |   |-- d
@@ -405,7 +407,7 @@ Other customizations for printing are also available, such as:
     ```
 === "Style - ascii"
     ```python
-    print_tree(root, style="ascii")
+    root.show(style="ascii")
     # a
     # |-- b
     # |   |-- d
@@ -414,7 +416,7 @@ Other customizations for printing are also available, such as:
     ```
 === "Style - const"
     ```python
-    print_tree(root, style="const")
+    root.show(style="const")
     # a
     # ├── b
     # │   ├── d
@@ -423,7 +425,7 @@ Other customizations for printing are also available, such as:
     ```
 === "Style - const_bold"
     ```python
-    print_tree(root, style="const_bold")
+    root.show(style="const_bold")
     # a
     # ┣━━ b
     # ┃   ┣━━ d
@@ -432,7 +434,7 @@ Other customizations for printing are also available, such as:
     ```
 === "Style - rounded"
     ```python
-    print_tree(root, style="rounded")
+    root.show(style="rounded")
     # a
     # ├── b
     # │   ├── d
@@ -441,7 +443,7 @@ Other customizations for printing are also available, such as:
     ```
 === "Style - double"
     ```python
-    print_tree(root, style="double")
+    root.show(style="double")
     # a
     # ╠══ b
     # ║   ╠══ d
@@ -450,13 +452,44 @@ Other customizations for printing are also available, such as:
     ```
 === "Style - custom style"
     ```python
-    print_tree(root, style=("│  ", "├→ ", "╰→ "))
+    root.show(style=("│  ", "├→ ", "╰→ "))
     # a
     # ├→ b
     # │  ├→ d
     # │  ╰→ e
     # ╰→ c
     ```
+
+### 2. Plot Tree
+
+Tree can also be plotted using `plot` method directly with the help of `matplotlib` library.
+Alternatively, the `plot_tree` method can be used, but remember to run the `reingold_tilford` algorithm
+first to retrieve the *x* and *y* coordinates.
+
+Arguments and keyword arguments can be passed in as long as they are compatible with the `plt.plot()`
+function. A *plt.Figure* object is returned if you want to do further customizations such as add title or
+save the figure to image.
+
+```python hl_lines="9-10"
+from bigtree import Node, reingold_tilford, plot_tree
+
+root = Node("a", age=90, gender="F")
+b = Node("b", age=65, gender="M", parent=root)
+c = Node("c", age=60, gender="M", parent=root)
+d = Node("d", age=40, gender="F", parent=b)
+e = Node("e", age=35, gender="M", parent=b)
+
+reingold_tilford(root)
+fig = plot_tree(root, "-ok") # (1)!
+fig.axes[0].set_title("Tree Plot Demonstration")
+
+fig.show()  # Show figure
+fig.savefig("assets/demo/tree_plot.png")  # Save figure
+```
+
+1. Alternatively, `root.plot("-ok")` can be used
+
+![Tree Plot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/tree_plot.png "Tree Plot Image Output")
 
 ## Tree Attributes and Operations
 
