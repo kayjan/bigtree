@@ -2721,7 +2721,7 @@
             <td>
               <div class="doc-md-description">
                 <p>checks for minimum number of occurrences,
-raise SearchError if the number of results do not meet min_count, defaults to None</p>
+raise exceptions.SearchError if the number of results do not meet min_count, defaults to None</p>
               </div>
             </td>
             <td>
@@ -2736,7 +2736,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
             <td>
               <div class="doc-md-description">
                 <p>checks for maximum number of occurrences,
-raise SearchError if the number of results do not meet min_count, defaults to None</p>
+raise exceptions.SearchError if the number of results do not meet min_count, defaults to None</p>
               </div>
             </td>
             <td>
@@ -2800,7 +2800,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">find</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gt">Traceback (most recent call last):</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="o">...</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gr">bigtree.utils.exceptions.SearchError</span>: <span class="n">Expected less than or equal to 1 element(s), found 4 elements</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gr">bigtree.utils.exceptions.exceptions.SearchError</span>: <span class="n">Expected less than or equal to 1 element(s), found 4 elements</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="x">(Node(/a, age=90), Node(/a/b, age=65), Node(/a/c, age=60), Node(/a/c/d, age=40))</span>
 </span></code></pre></div>
 
@@ -3144,7 +3144,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">find_relative_path</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s2">&quot;../../*&quot;</span><span class="p">)</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gt">Traceback (most recent call last):</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="o">...</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="gr">bigtree.utils.exceptions.SearchError</span>: <span class="n">Expected less than or equal to 1 element(s), found 2 elements</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="gr">bigtree.utils.exceptions.exceptions.SearchError</span>: <span class="n">Expected less than or equal to 1 element(s), found 2 elements</span>
 </span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="x">(Node(/a/b, age=65), Node(/a/c, age=60))</span>
 </span></code></pre></div>
 
@@ -3303,7 +3303,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
             <td>
               <div class="doc-md-description">
                 <p>checks for minimum number of occurrences,
-raise SearchError if the number of results do not meet min_count, defaults to None</p>
+raise exceptions.SearchError if the number of results do not meet min_count, defaults to None</p>
               </div>
             </td>
             <td>
@@ -3318,7 +3318,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
             <td>
               <div class="doc-md-description">
                 <p>checks for maximum number of occurrences,
-raise SearchError if the number of results do not meet min_count, defaults to None</p>
+raise exceptions.SearchError if the number of results do not meet min_count, defaults to None</p>
               </div>
             </td>
             <td>
@@ -3981,7 +3981,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
             <td>
               <div class="doc-md-description">
                 <p>checks for minimum number of occurrences,
-raise SearchError if the number of results do not meet min_count, defaults to None</p>
+raise exceptions.SearchError if the number of results do not meet min_count, defaults to None</p>
               </div>
             </td>
             <td>
@@ -3996,7 +3996,7 @@ raise SearchError if the number of results do not meet min_count, defaults to No
             <td>
               <div class="doc-md-description">
                 <p>checks for maximum number of occurrences,
-raise SearchError if the number of results do not meet min_count, defaults to None</p>
+raise exceptions.SearchError if the number of results do not meet min_count, defaults to None</p>
               </div>
             </td>
             <td>
