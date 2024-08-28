@@ -71,8 +71,8 @@ dependencies = [
 
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree {args} --benchmark-autosave --benchmark-histogram=.benchmarks/histogram --benchmark-json .benchmarks/output.json"
-cov2 = "no-cov && coverage report --show-missing --omit='*/workflows/*' {args} --benchmark-autosave --benchmark-histogram=.benchmarks/histogram --benchmark-json .benchmarks/output.json"
-no-cov = "pytest . {args}"
+no-cov = "test && coverage report --show-missing --omit='*/workflows/*' --benchmark-autosave --benchmark-histogram=.benchmarks/histogram --benchmark-json .benchmarks/output.json"
+test = "pytest . {args}"
 lint = "black -l 88 ."
 sort = "isort --profile black ."
 mypy-type = "mypy bigtree"
