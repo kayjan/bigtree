@@ -21,3 +21,16 @@ body:
     attributes:
       label: Additional context
       description: Add any other context or screenshots about the feature request here.
+  - type: checkboxes
+    attributes:
+      label: Final Check
+      description: Please confirm and check all the following options.
+      options:
+        - label: >
+            I will watch this issue to stay updated with any comments or requests for additional information.
+            I understand that timely responses will help in the evaluation and potential implementation of the feature.
+          required: true
+        - label: >
+            I have reviewed the documentation and existing feature requests to ensure that my request is unique
+            and hasn't been previously proposed.
+          required: true

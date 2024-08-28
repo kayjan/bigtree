@@ -51,7 +51,7 @@ body:
       description: Please confirm and check all the following options.
       options:
         - label: >
-            I agree to watch this issue to stay updated with any comments or requests for additional information.
+            I will watch this issue to stay updated with any comments or requests for additional information.
             I understand that timely responses will help in resolving the issue more quickly.
           required: true
         - label: >
