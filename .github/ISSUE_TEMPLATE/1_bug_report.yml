@@ -45,3 +45,16 @@ body:
     attributes:
       label: Additional context
       description: Add any other context about the problem here.
+  - type: checkboxes
+    attributes:
+      label: Final Check
+      description: Please confirm and check all the following options.
+      options:
+        - label: >
+            I agree to watch this issue to stay updated with any comments or requests for additional information.
+            I understand that timely responses will help in resolving the issue more quickly.
+          required: true
+        - label: >
+            I have thoroughly searched the documentation, and I have also checked for existing solutions or
+            similar issues before submitting this issue.
+          required: true
