@@ -133,6 +133,7 @@ Examples of extra packages include:
 
 - `all`: include all optional dependencies
 - `image`: for exporting tree to image
+- `matplotlib`: for plotting trees
 - `pandas`: for pandas methods
 - `polars`: for polars methods
 
