@@ -11,8 +11,8 @@
 I have read through the [contributing guidelines](https://bigtree.readthedocs.io/en/stable/home/contributing/) and ensured that
 - [ ] I have added a descriptive title for this pull request.
 - [ ] I have followed the convention and standards, and my code is checked for style and correctness.
-- [ ] I have added test cases and ensured unit tests passed and code coverage is 100%.
-- [ ] I have ensured documentation and code docstrings are up-to-date.
+- [ ] I have added test cases, and unit tests pass with 100% code coverage.
+- [ ] I have updated the documentation and code docstrings.
 
 ## Checklist (for reviewer)
 - [ ] I have added label (breaking / enhancement / bug / documentation) to this pull request, if applicable.
