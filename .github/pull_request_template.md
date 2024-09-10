@@ -12,3 +12,7 @@ I have read through the [contributing guidelines](https://bigtree.readthedocs.io
 - [ ] I have followed the convention and standards, and my code is checked for style and correctness.
 - [ ] I have added test cases and ensured unit tests passed and code coverage is 100%.
 - [ ] I have ensured documentation and code docstrings are up-to-date.
+
+## Checklist (for reviewer)
+- [ ] I have added label (breaking / enhancement / bug / documentation) for this pull request, if applicable.
+- [ ] I will ensure this change is captured in *CHANGELOG.md* file.
