@@ -2960,6 +2960,11 @@
 
 
 
+
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -2993,7 +2998,7 @@
               Bases: <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../node/#bigtree.node.node.Node">Node</a></code></p>
 
 
-      <p>BinaryNode is an extension of Node, and is able to extend to any Python class for Binary Tree implementation.
+        <p>BinaryNode is an extension of Node, and is able to extend to any Python class for Binary Tree implementation.
 Nodes can have attributes if they are initialized from <code>BinaryNode</code>, <em>dictionary</em>, or <em>pandas DataFrame</em>.</p>
 <p>BinaryNode can be linked to each other with <code>children</code>, <code>left</code>, or <code>right</code> setter methods.
 If initialized with <code>children</code>, it must be length 2, denoting left and right child.</p>
@@ -3028,7 +3033,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">BinaryNode(name=1, val=1)</span>
 </span></code></pre></div>
-      <p><strong>BinaryNode Attributes</strong></p>
+        <p><strong>BinaryNode Attributes</strong></p>
 <p>These are node attributes that have getter and/or setter methods.</p>
 <p>Get <code>BinaryNode</code> configuration</p>
 <ol>
@@ -3036,6 +3041,11 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 <li><code>right</code>: Get right children</li>
 </ol>
 <hr />
+
+
+
+
+
 
 
 
@@ -3067,7 +3077,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Do not allow <code>parents</code> attribute to be accessed</p>
+        <p>Do not allow <code>parents</code> attribute to be accessed</p>
 
 
 <p><span class="doc-section-title">Raises:</span></p>
@@ -3113,7 +3123,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get iterator to yield all ancestors of self, does not include self</p>
+        <p>Get iterator to yield all ancestors of self, does not include self</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3159,7 +3169,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get iterator to yield all descendants of self, does not include self</p>
+        <p>Get iterator to yield all descendants of self, does not include self</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3205,7 +3215,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get iterator to yield all leaf nodes from self</p>
+        <p>Get iterator to yield all leaf nodes from self</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3251,7 +3261,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get siblings of self</p>
+        <p>Get siblings of self</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3297,7 +3307,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get sibling left of self</p>
+        <p>Get sibling left of self</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3343,7 +3353,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get sibling right of self</p>
+        <p>Get sibling right of self</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3389,7 +3399,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get tuple of nodes starting from root</p>
+        <p>Get tuple of nodes starting from root</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3435,7 +3445,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get indicator if self is root node</p>
+        <p>Get indicator if self is root node</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3481,7 +3491,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get root node of tree</p>
+        <p>Get root node of tree</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3527,7 +3537,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get diameter of tree or subtree, the length of longest path between any two nodes</p>
+        <p>Get diameter of tree or subtree, the length of longest path between any two nodes</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3573,7 +3583,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get depth of self, indexing starts from 1</p>
+        <p>Get depth of self, indexing starts from 1</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3619,7 +3629,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get maximum depth from root to leaf node</p>
+        <p>Get maximum depth from root to leaf node</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3666,7 +3676,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get separator, gets from root node</p>
+        <p>Get separator, gets from root node</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3712,7 +3722,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get node name</p>
+        <p>Get node name</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3758,7 +3768,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get path name, separated by self.sep</p>
+        <p>Get path name, separated by self.sep</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3805,7 +3815,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get left children</p>
+        <p>Get left children</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3852,7 +3862,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get right children</p>
+        <p>Get right children</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3899,7 +3909,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get parent node</p>
+        <p>Get parent node</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3947,7 +3957,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get child nodes</p>
+        <p>Get child nodes</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -3993,7 +4003,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Get indicator if self is leaf node</p>
+        <p>Get indicator if self is leaf node</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -4040,7 +4050,7 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 
     <div class="doc doc-contents ">
 
-      <p>Construct node from dictionary, all keys of dictionary will be stored as class attributes
+        <p>Construct node from dictionary, all keys of dictionary will be stored as class attributes
 Input dictionary must have key <code>name</code> if not <code>Node</code> will not have any name</p>
 
 
@@ -4062,7 +4072,9 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>input_dict</code></td>
+            <td>
+                <code>input_dict</code>
+            </td>
             <td>
                   <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -4118,7 +4130,7 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
 
     <div class="doc doc-contents ">
 
-      <p>Get node information sorted by attribute name, returns list of tuples</p>
+        <p>Get node information sorted by attribute name, returns list of tuples</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -4145,7 +4157,9 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>exclude_attributes</code></td>
+            <td>
+                <code>exclude_attributes</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -4159,7 +4173,9 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>exclude_prefix</code></td>
+            <td>
+                <code>exclude_prefix</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -4215,7 +4231,7 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
 
     <div class="doc doc-contents ">
 
-      <p>Get value of node attribute
+        <p>Get value of node attribute
 Returns default value if attribute name does not exist</p>
 
 
@@ -4239,7 +4255,9 @@ Returns default value if attribute name does not exist</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>attr_name</code></td>
+            <td>
+                <code>attr_name</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -4253,7 +4271,9 @@ Returns default value if attribute name does not exist</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>default_value</code></td>
+            <td>
+                <code>default_value</code>
+            </td>
             <td>
                   <code><span title="typing.Any">Any</span></code>
             </td>
@@ -4309,7 +4329,7 @@ Returns default value if attribute name does not exist</p>
 
     <div class="doc doc-contents ">
 
-      <p>Set node attributes</p>
+        <p>Set node attributes</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -4333,7 +4353,9 @@ Returns default value if attribute name does not exist</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>attrs</code></td>
+            <td>
+                <code>attrs</code>
+            </td>
             <td>
                   <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -4367,7 +4389,7 @@ key: attribute name, value: attribute value</p>
 
     <div class="doc doc-contents ">
 
-      <p>Get path from current node to specified node from same tree</p>
+        <p>Get path from current node to specified node from same tree</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -4410,7 +4432,9 @@ key: attribute name, value: attribute value</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>node</code></td>
+            <td>
+                <code>node</code>
+            </td>
             <td>
                   <code>Self</code>
             </td>
@@ -4466,7 +4490,7 @@ key: attribute name, value: attribute value</p>
 
     <div class="doc doc-contents ">
 
-      <p>Add other as child of self</p>
+        <p>Add other as child of self</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4481,7 +4505,9 @@ key: attribute name, value: attribute value</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>other</code></td>
+            <td>
+                <code>other</code>
+            </td>
             <td>
                   <code>Self</code>
             </td>
@@ -4514,7 +4540,7 @@ key: attribute name, value: attribute value</p>
 
     <div class="doc doc-contents ">
 
-      <p>Add others as children of self</p>
+        <p>Add others as children of self</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4529,7 +4555,9 @@ key: attribute name, value: attribute value</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>others</code></td>
+            <td>
+                <code>others</code>
+            </td>
             <td>
                   <code>Self</code>
             </td>
@@ -4562,7 +4590,7 @@ key: attribute name, value: attribute value</p>
 
     <div class="doc doc-contents ">
 
-      <p>Deep copy self; clone self</p>
+        <p>Deep copy self; clone self</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -4611,7 +4639,7 @@ key: attribute name, value: attribute value</p>
 
     <div class="doc doc-contents ">
 
-      <p>Plot tree in line form.
+        <p>Plot tree in line form.
 Accepts args and kwargs for matplotlib.pyplot.plot() function.</p>
 
 
@@ -4641,7 +4669,7 @@ Accepts args and kwargs for matplotlib.pyplot.plot() function.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Print tree to console, takes in same keyword arguments as <code>print_tree</code> function</p>
+        <p>Print tree to console, takes in same keyword arguments as <code>print_tree</code> function</p>
 
     </div>
 
@@ -4660,7 +4688,7 @@ Accepts args and kwargs for matplotlib.pyplot.plot() function.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Print tree in horizontal orientation to console, takes in same keyword arguments as <code>hprint_tree</code> function</p>
+        <p>Print tree in horizontal orientation to console, takes in same keyword arguments as <code>hprint_tree</code> function</p>
 
     </div>
 
@@ -4679,7 +4707,7 @@ Accepts args and kwargs for matplotlib.pyplot.plot() function.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Sort children, possible keyword arguments include <code>key=lambda node: node.val</code>, <code>reverse=True</code></p>
+        <p>Sort children, possible keyword arguments include <code>key=lambda node: node.val</code>, <code>reverse=True</code></p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>

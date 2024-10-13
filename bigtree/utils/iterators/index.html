@@ -2547,6 +2547,11 @@
 
 
 
+
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -2570,7 +2575,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Iterate through all children of a tree.</p>
+        <p>Iterate through all children of a tree.</p>
 <p>In-Order Iteration Algorithm, LNR
     1. Recursively traverse the current node's left subtree.
     2. Visit the current node.
@@ -2614,7 +2619,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.binarynode.BinaryNode" href="../../node/binarynode/#bigtree.node.binarynode.BinaryNode">BinaryNode</a></code>
             </td>
@@ -2628,7 +2635,9 @@
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>filter_condition</code></td>
+            <td>
+                <code>filter_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.binarynode.BinaryNode" href="../../node/binarynode/#bigtree.node.binarynode.BinaryNode">BinaryNode</a>], bool]]</code>
             </td>
@@ -2643,7 +2652,9 @@ Return node if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>max_depth</code></td>
+            <td>
+                <code>max_depth</code>
+            </td>
             <td>
                   <code>int</code>
             </td>
@@ -2704,7 +2715,7 @@ Return node if condition evaluates to <code>True</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Iterate through all children of a tree.</p>
+        <p>Iterate through all children of a tree.</p>
 <p>Pre-Order Iteration Algorithm, NLR
     1. Visit the current node.
     2. Recursively traverse the current node's left subtree.
@@ -2752,7 +2763,9 @@ Return node if condition evaluates to <code>True</code></p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><span title="typing.Union">Union</span>[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>, <a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a>]</code>
             </td>
@@ -2766,7 +2779,9 @@ Return node if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>filter_condition</code></td>
+            <td>
+                <code>filter_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<span title="bigtree.utils.iterators.T">T</span>], bool]]</code>
             </td>
@@ -2781,7 +2796,9 @@ Return node if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>stop_condition</code></td>
+            <td>
+                <code>stop_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<span title="bigtree.utils.iterators.T">T</span>], bool]]</code>
             </td>
@@ -2796,7 +2813,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>max_depth</code></td>
+            <td>
+                <code>max_depth</code>
+            </td>
             <td>
                   <code>int</code>
             </td>
@@ -2857,7 +2876,7 @@ Stops iteration if condition evaluates to <code>True</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Iterate through all children of a tree.</p>
+        <p>Iterate through all children of a tree.</p>
 <p>Post-Order Iteration Algorithm, LRN
     1. Recursively traverse the current node's left subtree.
     2. Recursively traverse the current node's right subtree.
@@ -2904,7 +2923,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a></code>
             </td>
@@ -2918,7 +2939,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>filter_condition</code></td>
+            <td>
+                <code>filter_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>], bool]]</code>
             </td>
@@ -2933,7 +2956,9 @@ Return node if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>stop_condition</code></td>
+            <td>
+                <code>stop_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>], bool]]</code>
             </td>
@@ -2948,7 +2973,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>max_depth</code></td>
+            <td>
+                <code>max_depth</code>
+            </td>
             <td>
                   <code>int</code>
             </td>
@@ -3009,7 +3036,7 @@ Stops iteration if condition evaluates to <code>True</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Iterate through all children of a tree.</p>
+        <p>Iterate through all children of a tree.</p>
 <p>Level-Order Iteration Algorithm
     1. Recursively traverse the nodes on same level.</p>
 
@@ -3054,7 +3081,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a></code>
             </td>
@@ -3068,7 +3097,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>filter_condition</code></td>
+            <td>
+                <code>filter_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>], bool]]</code>
             </td>
@@ -3083,7 +3114,9 @@ Return node if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>stop_condition</code></td>
+            <td>
+                <code>stop_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>], bool]]</code>
             </td>
@@ -3098,7 +3131,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>max_depth</code></td>
+            <td>
+                <code>max_depth</code>
+            </td>
             <td>
                   <code>int</code>
             </td>
@@ -3159,7 +3194,7 @@ Stops iteration if condition evaluates to <code>True</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Iterate through all children of a tree.</p>
+        <p>Iterate through all children of a tree.</p>
 <p>Level-Order Group Iteration Algorithm
     1. Recursively traverse the nodes on same level, returns nodes level by level in a nested list.</p>
 
@@ -3204,7 +3239,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a></code>
             </td>
@@ -3218,7 +3255,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>filter_condition</code></td>
+            <td>
+                <code>filter_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>], bool]]</code>
             </td>
@@ -3233,7 +3272,9 @@ Return node if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>stop_condition</code></td>
+            <td>
+                <code>stop_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>], bool]]</code>
             </td>
@@ -3248,7 +3289,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>max_depth</code></td>
+            <td>
+                <code>max_depth</code>
+            </td>
             <td>
                   <code>int</code>
             </td>
@@ -3309,7 +3352,7 @@ Stops iteration if condition evaluates to <code>True</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Iterate through all children of a tree.</p>
+        <p>Iterate through all children of a tree.</p>
 <p>ZigZag Iteration Algorithm
     1. Recursively traverse the nodes on same level, in a zigzag manner across different levels.</p>
 
@@ -3354,7 +3397,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a></code>
             </td>
@@ -3368,7 +3413,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>filter_condition</code></td>
+            <td>
+                <code>filter_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>], bool]]</code>
             </td>
@@ -3383,7 +3430,9 @@ Return node if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>stop_condition</code></td>
+            <td>
+                <code>stop_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>], bool]]</code>
             </td>
@@ -3398,7 +3447,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>max_depth</code></td>
+            <td>
+                <code>max_depth</code>
+            </td>
             <td>
                   <code>int</code>
             </td>
@@ -3459,7 +3510,7 @@ Stops iteration if condition evaluates to <code>True</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Iterate through all children of a tree.</p>
+        <p>Iterate through all children of a tree.</p>
 <p>ZigZag Group Iteration Algorithm
     1. Recursively traverse the nodes on same level, in a zigzag manner across different levels,
         returns nodes level by level in a nested list.</p>
@@ -3505,7 +3556,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a></code>
             </td>
@@ -3519,7 +3572,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>filter_condition</code></td>
+            <td>
+                <code>filter_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>], bool]]</code>
             </td>
@@ -3534,7 +3589,9 @@ Return node if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>stop_condition</code></td>
+            <td>
+                <code>stop_condition</code>
+            </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>], bool]]</code>
             </td>
@@ -3549,7 +3606,9 @@ Stops iteration if condition evaluates to <code>True</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>max_depth</code></td>
+            <td>
+                <code>max_depth</code>
+            </td>
             <td>
                   <code>int</code>
             </td>
@@ -3605,7 +3664,7 @@ Stops iteration if condition evaluates to <code>True</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Iterate through all nodes of a Directed Acyclic Graph (DAG).
+        <p>Iterate through all nodes of a Directed Acyclic Graph (DAG).
 Note that node names must be unique.
 Note that DAG must at least have two nodes to be shown on graph.</p>
 <ol>
@@ -3639,7 +3698,9 @@ Note that DAG must at least have two nodes to be shown on graph.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>dag</code></td>
+            <td>
+                <code>dag</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a></code>
             </td>

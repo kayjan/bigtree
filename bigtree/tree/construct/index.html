@@ -2771,6 +2771,11 @@ Under the hood, they have the following dependency,</p>
 
 
 
+
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -2800,7 +2805,7 @@ Under the hood, they have the following dependency,</p>
 
     <div class="doc doc-contents ">
 
-      <p>Add nodes and attributes to existing tree <em>in-place</em>, return node of path added.
+        <p>Add nodes and attributes to existing tree <em>in-place</em>, return node of path added.
 Adds to existing tree from list of path strings.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
@@ -2842,7 +2847,9 @@ Adds to existing tree from list of path strings.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
@@ -2856,7 +2863,9 @@ Adds to existing tree from list of path strings.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>path</code></td>
+            <td>
+                <code>path</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2870,7 +2879,9 @@ Adds to existing tree from list of path strings.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>sep</code></td>
+            <td>
+                <code>sep</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2884,7 +2895,9 @@ Adds to existing tree from list of path strings.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>duplicate_name_allowed</code></td>
+            <td>
+                <code>duplicate_name_allowed</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -2898,7 +2911,9 @@ Adds to existing tree from list of path strings.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_attrs</code></td>
+            <td>
+                <code>node_attrs</code>
+            </td>
             <td>
                   <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -2956,7 +2971,7 @@ Adds to existing tree from list of path strings.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
+        <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
 Adds to existing tree from nested dictionary, <code>key</code>: path, <code>value</code>: dict of attribute name and attribute value.</p>
 <p>All attributes in <code>path_attrs</code> will be added to the tree, including attributes with null values.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
@@ -3012,7 +3027,9 @@ Adds to existing tree from nested dictionary, <code>key</code>: path, <code>valu
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
@@ -3026,7 +3043,9 @@ Adds to existing tree from nested dictionary, <code>key</code>: path, <code>valu
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>path_attrs</code></td>
+            <td>
+                <code>path_attrs</code>
+            </td>
             <td>
                   <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
@@ -3041,7 +3060,9 @@ key: node path, value: dict of node attribute name and attribute value</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>sep</code></td>
+            <td>
+                <code>sep</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -3055,7 +3076,9 @@ key: node path, value: dict of node attribute name and attribute value</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>duplicate_name_allowed</code></td>
+            <td>
+                <code>duplicate_name_allowed</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -3111,7 +3134,7 @@ key: node path, value: dict of node attribute name and attribute value</p>
 
     <div class="doc doc-contents ">
 
-      <p>Add attributes to existing tree <em>in-place</em>.
+        <p>Add attributes to existing tree <em>in-place</em>.
 Adds to existing tree from nested dictionary, <code>key</code>: name, <code>value</code>: dict of attribute name and attribute value.</p>
 <p>All attributes in <code>name_attrs</code> will be added to the tree, including attributes with null values.</p>
 <p>Input dictionary keys that are not existing node names will be ignored.
@@ -3145,7 +3168,9 @@ Note that if multiple nodes have the same name, attributes will be added to all 
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
@@ -3159,7 +3184,9 @@ Note that if multiple nodes have the same name, attributes will be added to all 
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>name_attrs</code></td>
+            <td>
+                <code>name_attrs</code>
+            </td>
             <td>
                   <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
@@ -3223,7 +3250,7 @@ key: node name, value: dict of node attribute name and attribute value</p>
 
     <div class="doc doc-contents ">
 
-      <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
+        <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
 Adds to existing tree from pandas DataFrame.</p>
 <p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to add to existing tree.
@@ -3284,7 +3311,9 @@ If columns are not specified, <code>path_col</code> takes first column and all o
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
@@ -3298,7 +3327,9 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>data</code></td>
+            <td>
+                <code>data</code>
+            </td>
             <td>
                   <code><span title="pandas.DataFrame">DataFrame</span></code>
             </td>
@@ -3312,7 +3343,9 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>path_col</code></td>
+            <td>
+                <code>path_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -3327,7 +3360,9 @@ if not set, it will take the first column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attribute_cols</code></td>
+            <td>
+                <code>attribute_cols</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -3342,7 +3377,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>sep</code></td>
+            <td>
+                <code>sep</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -3356,7 +3393,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>duplicate_name_allowed</code></td>
+            <td>
+                <code>duplicate_name_allowed</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -3414,7 +3453,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Add attributes to existing tree <em>in-place</em>.
+        <p>Add attributes to existing tree <em>in-place</em>.
 Adds to existing tree from pandas DataFrame.</p>
 <p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p><code>name_col</code> and <code>attribute_cols</code> specify columns for node name and attributes to add to existing tree.
@@ -3453,7 +3492,9 @@ Note that if multiple nodes have the same name, attributes will be added to all 
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
@@ -3467,7 +3508,9 @@ Note that if multiple nodes have the same name, attributes will be added to all 
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>data</code></td>
+            <td>
+                <code>data</code>
+            </td>
             <td>
                   <code><span title="pandas.DataFrame">DataFrame</span></code>
             </td>
@@ -3481,7 +3524,9 @@ Note that if multiple nodes have the same name, attributes will be added to all 
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>name_col</code></td>
+            <td>
+                <code>name_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -3496,7 +3541,9 @@ if not set, it will take the first column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attribute_cols</code></td>
+            <td>
+                <code>attribute_cols</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -3560,7 +3607,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
+        <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
 Adds to existing tree from polars DataFrame.</p>
 <p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to add to existing tree.
@@ -3621,7 +3668,9 @@ If columns are not specified, <code>path_col</code> takes first column and all o
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
@@ -3635,7 +3684,9 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>data</code></td>
+            <td>
+                <code>data</code>
+            </td>
             <td>
                   <code><span title="polars.DataFrame">DataFrame</span></code>
             </td>
@@ -3649,7 +3700,9 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>path_col</code></td>
+            <td>
+                <code>path_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -3664,7 +3717,9 @@ if not set, it will take the first column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attribute_cols</code></td>
+            <td>
+                <code>attribute_cols</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -3679,7 +3734,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>sep</code></td>
+            <td>
+                <code>sep</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -3693,7 +3750,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>duplicate_name_allowed</code></td>
+            <td>
+                <code>duplicate_name_allowed</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -3751,7 +3810,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Add attributes to existing tree <em>in-place</em>.
+        <p>Add attributes to existing tree <em>in-place</em>.
 Adds to existing tree from polars DataFrame.</p>
 <p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p><code>name_col</code> and <code>attribute_cols</code> specify columns for node name and attributes to add to existing tree.
@@ -3788,7 +3847,9 @@ Note that if multiple nodes have the same name, attributes will be added to all 
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
@@ -3802,7 +3863,9 @@ Note that if multiple nodes have the same name, attributes will be added to all 
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>data</code></td>
+            <td>
+                <code>data</code>
+            </td>
             <td>
                   <code><span title="polars.DataFrame">DataFrame</span></code>
             </td>
@@ -3816,7 +3879,9 @@ Note that if multiple nodes have the same name, attributes will be added to all 
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>name_col</code></td>
+            <td>
+                <code>name_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -3831,7 +3896,9 @@ if not set, it will take the first column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attribute_cols</code></td>
+            <td>
+                <code>attribute_cols</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -3884,13 +3951,13 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">str_to_tree</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree_string</span><span class="p">,</span> <span class="n">tree_prefix_list</span><span class="o">=</span><span class="p">[],</span> <span class="n">node_type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree_string</span><span class="p">,</span> <span class="n">tree_prefix_list</span><span class="o">=</span><span class="p">[],</span> <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct tree from tree string</p>
+        <p>Construct tree from tree string</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -3921,7 +3988,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree_string</code></td>
+            <td>
+                <code>tree_string</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -3935,7 +4004,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>tree_prefix_list</code></td>
+            <td>
+                <code>tree_prefix_list</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -3950,7 +4021,9 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
@@ -4005,13 +4078,13 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">paths</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct tree from list of path strings.</p>
+        <p>Construct tree from list of path strings.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
 <li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
@@ -4054,7 +4127,9 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>paths</code></td>
+            <td>
+                <code>paths</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -4068,7 +4143,9 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>sep</code></td>
+            <td>
+                <code>sep</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -4082,7 +4159,9 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>duplicate_name_allowed</code></td>
+            <td>
+                <code>duplicate_name_allowed</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -4096,7 +4175,9 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
@@ -4148,13 +4229,13 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">list_to_tree_by_relation</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">relations</span><span class="p">,</span> <span class="n">allow_duplicates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">node_type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">relations</span><span class="p">,</span> <span class="n">allow_duplicates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct tree from list of tuple containing parent-child names.</p>
+        <p>Construct tree from list of tuple containing parent-child names.</p>
 <p>Root node is inferred when parent is empty, or when name appears as parent but not as child.</p>
 <p>Since tree is created from parent-child names, only names of leaf nodes may be repeated.
 Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
@@ -4189,7 +4270,9 @@ This error can be ignored by setting <code>allow_duplicates</code> to be True.</
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>relations</code></td>
+            <td>
+                <code>relations</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[<span title="typing.Tuple">Tuple</span>[str, str]]</code>
             </td>
@@ -4203,7 +4286,9 @@ This error can be ignored by setting <code>allow_duplicates</code> to be True.</
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>allow_duplicates</code></td>
+            <td>
+                <code>allow_duplicates</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -4218,7 +4303,9 @@ be tagged to multiple parent nodes, defaults to False</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
@@ -4273,13 +4360,13 @@ be tagged to multiple parent nodes, defaults to False</p>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">path_attrs</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct tree from nested dictionary using path,
+        <p>Construct tree from nested dictionary using path,
 <code>key</code>: path, <code>value</code>: dict of attribute name and attribute value.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
@@ -4333,7 +4420,9 @@ be tagged to multiple parent nodes, defaults to False</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>path_attrs</code></td>
+            <td>
+                <code>path_attrs</code>
+            </td>
             <td>
                   <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -4348,7 +4437,9 @@ key: path, value: dict of tree attribute and attribute value</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>sep</code></td>
+            <td>
+                <code>sep</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -4362,7 +4453,9 @@ key: path, value: dict of tree attribute and attribute value</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>duplicate_name_allowed</code></td>
+            <td>
+                <code>duplicate_name_allowed</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -4376,7 +4469,9 @@ key: path, value: dict of tree attribute and attribute value</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
@@ -4431,13 +4526,13 @@ key: path, value: dict of tree attribute and attribute value</p>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">node_attrs</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">name_key</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">child_key</span><span class="o">=</span><span class="s2">&quot;children&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct tree from nested recursive dictionary.</p>
+        <p>Construct tree from nested recursive dictionary.</p>
 <ul>
 <li><code>key</code>: <code>name_key</code>, <code>child_key</code>, or any attributes key.</li>
 <li><code>value</code> of <code>name_key</code> (str): node name.</li>
@@ -4483,7 +4578,9 @@ key: path, value: dict of tree attribute and attribute value</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>node_attrs</code></td>
+            <td>
+                <code>node_attrs</code>
+            </td>
             <td>
                   <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -4500,7 +4597,9 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>name_key</code></td>
+            <td>
+                <code>name_key</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -4514,7 +4613,9 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>child_key</code></td>
+            <td>
+                <code>child_key</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -4528,7 +4629,9 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
@@ -4585,13 +4688,13 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct tree from pandas DataFrame using path, return root of tree.</p>
+        <p>Construct tree from pandas DataFrame using path, return root of tree.</p>
 <p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to construct tree.
 If columns are not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code>.</p>
 <p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
@@ -4649,7 +4752,9 @@ If columns are not specified, <code>path_col</code> takes first column and all o
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>data</code></td>
+            <td>
+                <code>data</code>
+            </td>
             <td>
                   <code><span title="pandas.DataFrame">DataFrame</span></code>
             </td>
@@ -4663,7 +4768,9 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>path_col</code></td>
+            <td>
+                <code>path_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -4678,7 +4785,9 @@ if not set, it will take the first column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attribute_cols</code></td>
+            <td>
+                <code>attribute_cols</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -4693,7 +4802,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>sep</code></td>
+            <td>
+                <code>sep</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -4707,7 +4818,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>duplicate_name_allowed</code></td>
+            <td>
+                <code>duplicate_name_allowed</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -4721,7 +4834,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
@@ -4778,13 +4893,13 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">allow_duplicates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct tree from pandas DataFrame using parent and child names, return root of tree.</p>
+        <p>Construct tree from pandas DataFrame using parent and child names, return root of tree.</p>
 <p>Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.</p>
 <p>Since tree is created from parent-child names, only names of leaf nodes may be repeated.
 Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
@@ -4836,7 +4951,9 @@ columns are <code>attribute_cols</code>.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>data</code></td>
+            <td>
+                <code>data</code>
+            </td>
             <td>
                   <code><span title="pandas.DataFrame">DataFrame</span></code>
             </td>
@@ -4850,7 +4967,9 @@ columns are <code>attribute_cols</code>.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>child_col</code></td>
+            <td>
+                <code>child_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -4865,7 +4984,9 @@ if not set, it will take the first column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>parent_col</code></td>
+            <td>
+                <code>parent_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -4880,7 +5001,9 @@ if not set, it will take the second column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attribute_cols</code></td>
+            <td>
+                <code>attribute_cols</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -4895,7 +5018,9 @@ if not set, it will take all columns of data except <code>child_col</code> and <
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>allow_duplicates</code></td>
+            <td>
+                <code>allow_duplicates</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -4910,7 +5035,9 @@ be tagged to multiple parent nodes, defaults to False</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
@@ -4967,13 +5094,13 @@ be tagged to multiple parent nodes, defaults to False</p>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct tree from polars DataFrame using path, return root of tree.</p>
+        <p>Construct tree from polars DataFrame using path, return root of tree.</p>
 <p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to construct tree.
 If columns are not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code>.</p>
 <p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
@@ -5031,7 +5158,9 @@ If columns are not specified, <code>path_col</code> takes first column and all o
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>data</code></td>
+            <td>
+                <code>data</code>
+            </td>
             <td>
                   <code><span title="polars.DataFrame">DataFrame</span></code>
             </td>
@@ -5045,7 +5174,9 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>path_col</code></td>
+            <td>
+                <code>path_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -5060,7 +5191,9 @@ if not set, it will take the first column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attribute_cols</code></td>
+            <td>
+                <code>attribute_cols</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -5075,7 +5208,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>sep</code></td>
+            <td>
+                <code>sep</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -5089,7 +5224,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>duplicate_name_allowed</code></td>
+            <td>
+                <code>duplicate_name_allowed</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -5103,7 +5240,9 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
@@ -5160,13 +5299,13 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">allow_duplicates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct tree from polars DataFrame using parent and child names, return root of tree.</p>
+        <p>Construct tree from polars DataFrame using parent and child names, return root of tree.</p>
 <p>Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.</p>
 <p>Since tree is created from parent-child names, only names of leaf nodes may be repeated.
 Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
@@ -5218,7 +5357,9 @@ columns are <code>attribute_cols</code>.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>data</code></td>
+            <td>
+                <code>data</code>
+            </td>
             <td>
                   <code><span title="polars.DataFrame">DataFrame</span></code>
             </td>
@@ -5232,7 +5373,9 @@ columns are <code>attribute_cols</code>.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>child_col</code></td>
+            <td>
+                <code>child_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -5247,7 +5390,9 @@ if not set, it will take the first column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>parent_col</code></td>
+            <td>
+                <code>parent_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -5262,7 +5407,9 @@ if not set, it will take the second column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attribute_cols</code></td>
+            <td>
+                <code>attribute_cols</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -5277,7 +5424,9 @@ if not set, it will take all columns of data except <code>child_col</code> and <
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>allow_duplicates</code></td>
+            <td>
+                <code>allow_duplicates</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -5292,7 +5441,9 @@ be tagged to multiple parent nodes, defaults to False</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
@@ -5347,13 +5498,13 @@ be tagged to multiple parent nodes, defaults to False</p>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree_string</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">length_attr</span><span class="o">=</span><span class="s2">&quot;length&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attr_prefix</span><span class="o">=</span><span class="s2">&quot;&amp;&amp;NHX:&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct tree from Newick notation, return root of tree.</p>
+        <p>Construct tree from Newick notation, return root of tree.</p>
 <p>In the Newick Notation (or New Hampshire Notation)</p>
 <ul>
 <li>Tree is represented in round brackets i.e., <code>(child1,child2,child3)parent</code>.</li>
@@ -5412,7 +5563,9 @@ be tagged to multiple parent nodes, defaults to False</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree_string</code></td>
+            <td>
+                <code>tree_string</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -5426,7 +5579,9 @@ be tagged to multiple parent nodes, defaults to False</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>length_attr</code></td>
+            <td>
+                <code>length_attr</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -5440,7 +5595,9 @@ be tagged to multiple parent nodes, defaults to False</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attr_prefix</code></td>
+            <td>
+                <code>attr_prefix</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -5454,7 +5611,9 @@ be tagged to multiple parent nodes, defaults to False</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>

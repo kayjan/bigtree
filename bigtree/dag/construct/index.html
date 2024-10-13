@@ -2439,6 +2439,11 @@
 
 
 
+
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -2457,12 +2462,12 @@
 
 
 </h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">list_to_dag</span><span class="p">(</span><span class="n">relations</span><span class="p">,</span> <span class="n">node_type</span><span class="o">=</span><span class="n">dagnode</span><span class="o">.</span><span class="n">DAGNode</span><span class="p">)</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">list_to_dag</span><span class="p">(</span><span class="n">relations</span><span class="p">,</span> <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a></span><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct DAG from list of tuples containing parent-child names.
+        <p>Construct DAG from list of tuples containing parent-child names.
 Note that node names must be unique.</p>
 
 
@@ -2487,7 +2492,9 @@ Note that node names must be unique.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>relations</code></td>
+            <td>
+                <code>relations</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[<span title="typing.Tuple">Tuple</span>[str, str]]</code>
             </td>
@@ -2501,7 +2508,9 @@ Note that node names must be unique.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a>]</code>
             </td>
@@ -2553,15 +2562,13 @@ Note that node names must be unique.</p>
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">dict_to_dag</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">relation_attrs</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">parent_key</span><span class="o">=</span><span class="s2">&quot;parents&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n">dagnode</span><span class="o">.</span><span class="n">DAGNode</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">relation_attrs</span><span class="p">,</span> <span class="n">parent_key</span><span class="o">=</span><span class="s2">&quot;parents&quot;</span><span class="p">,</span> <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a></span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct DAG from nested dictionary, <code>key</code>: child name, <code>value</code>: dictionary of parent names, attribute
+        <p>Construct DAG from nested dictionary, <code>key</code>: child name, <code>value</code>: dictionary of parent names, attribute
 name, and attribute value.
 Note that node names must be unique.</p>
 
@@ -2593,7 +2600,9 @@ Note that node names must be unique.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>relation_attrs</code></td>
+            <td>
+                <code>relation_attrs</code>
+            </td>
             <td>
                   <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -2608,7 +2617,9 @@ key: child name, value: dictionary of parent names, node attribute, and attribut
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>parent_key</code></td>
+            <td>
+                <code>parent_key</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2622,7 +2633,9 @@ key: child name, value: dictionary of parent names, node attribute, and attribut
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a>]</code>
             </td>
@@ -2678,13 +2691,13 @@ key: child name, value: dictionary of parent names, node attribute, and attribut
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">child_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n">dagnode</span><span class="o">.</span><span class="n">DAGNode</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a></span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Construct DAG from pandas DataFrame.
+        <p>Construct DAG from pandas DataFrame.
 Note that node names must be unique.</p>
 <ul>
 <li><code>child_col</code> and <code>parent_col</code> specify columns for child name and parent name to construct DAG.</li>
@@ -2727,7 +2740,9 @@ Note that node names must be unique.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>data</code></td>
+            <td>
+                <code>data</code>
+            </td>
             <td>
                   <code><span title="pandas.DataFrame">DataFrame</span></code>
             </td>
@@ -2741,7 +2756,9 @@ Note that node names must be unique.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>child_col</code></td>
+            <td>
+                <code>child_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2756,7 +2773,9 @@ if not set, it will take the first column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>parent_col</code></td>
+            <td>
+                <code>parent_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2771,7 +2790,9 @@ if not set, it will take the second column of data</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attribute_cols</code></td>
+            <td>
+                <code>attribute_cols</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>
@@ -2786,7 +2807,9 @@ if not set, it will take all columns of data except <code>child_col</code> and <
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a>]</code>
             </td>

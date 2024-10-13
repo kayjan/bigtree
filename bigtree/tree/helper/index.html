@@ -2410,6 +2410,11 @@
 
 
 
+
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -2433,7 +2438,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Clone tree to another <code>Node</code> type.
+        <p>Clone tree to another <code>Node</code> type.
 If the same type is needed, simply do a tree.copy().</p>
 
 
@@ -2458,7 +2463,9 @@ If the same type is needed, simply do a tree.copy().</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a></code>
             </td>
@@ -2472,7 +2479,9 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_type</code></td>
+            <td>
+                <code>node_type</code>
+            </td>
             <td>
                   <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="bigtree.node.basenode.BaseNode" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>]</code>
             </td>
@@ -2528,7 +2537,7 @@ If the same type is needed, simply do a tree.copy().</p>
 
     <div class="doc doc-contents ">
 
-      <p>Get subtree based on node name or node path, and/or maximum depth of tree.</p>
+        <p>Get subtree based on node name or node path, and/or maximum depth of tree.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -2566,7 +2575,9 @@ If the same type is needed, simply do a tree.copy().</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
@@ -2580,7 +2591,9 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_name_or_path</code></td>
+            <td>
+                <code>node_name_or_path</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2594,7 +2607,9 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>max_depth</code></td>
+            <td>
+                <code>max_depth</code>
+            </td>
             <td>
                   <code>int</code>
             </td>
@@ -2652,7 +2667,7 @@ If the same type is needed, simply do a tree.copy().</p>
 
     <div class="doc doc-contents ">
 
-      <p>Prune tree by path or depth, returns the root of a <em>copy</em> of the original tree.</p>
+        <p>Prune tree by path or depth, returns the root of a <em>copy</em> of the original tree.</p>
 <p>For pruning by <code>prune_path</code>,</p>
 <ul>
 <li>All siblings along the prune path will be removed.</li>
@@ -2727,7 +2742,9 @@ If the same type is needed, simply do a tree.copy().</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><span title="typing.Union">Union</span>[<a class="autorefs autorefs-internal" title="bigtree.node.binarynode.BinaryNode" href="../../node/binarynode/#bigtree.node.binarynode.BinaryNode">BinaryNode</a>, <a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
@@ -2741,7 +2758,9 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>prune_path</code></td>
+            <td>
+                <code>prune_path</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str] | str</code>
             </td>
@@ -2755,7 +2774,9 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>exact</code></td>
+            <td>
+                <code>exact</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -2769,7 +2790,9 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>sep</code></td>
+            <td>
+                <code>sep</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2783,7 +2806,9 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>max_depth</code></td>
+            <td>
+                <code>max_depth</code>
+            </td>
             <td>
                   <code>int</code>
             </td>
@@ -2841,7 +2866,7 @@ If the same type is needed, simply do a tree.copy().</p>
 
     <div class="doc doc-contents ">
 
-      <p>Get difference of <code>tree</code> to <code>other_tree</code>, changes are relative to <code>tree</code>.</p>
+        <p>Get difference of <code>tree</code> to <code>other_tree</code>, changes are relative to <code>tree</code>.</p>
 <p>Compares the difference in tree structure (default), but can also compare tree attributes using <code>attr_list</code>.
 Function can return only the differences (default), or all original tree nodes and differences.</p>
 <p>Comparing tree structure:</p>
@@ -2940,7 +2965,9 @@ Function can return only the differences (default), or all original tree nodes a
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>tree</code></td>
+            <td>
+                <code>tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
@@ -2954,7 +2981,9 @@ Function can return only the differences (default), or all original tree nodes a
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>other_tree</code></td>
+            <td>
+                <code>other_tree</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
@@ -2968,7 +2997,9 @@ Function can return only the differences (default), or all original tree nodes a
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>only_diff</code></td>
+            <td>
+                <code>only_diff</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -2982,7 +3013,9 @@ Function can return only the differences (default), or all original tree nodes a
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attr_list</code></td>
+            <td>
+                <code>attr_list</code>
+            </td>
             <td>
                   <code><span title="typing.List">List</span>[str]</code>
             </td>

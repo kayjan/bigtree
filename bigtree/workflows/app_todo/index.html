@@ -2511,6 +2511,11 @@
 
 
 
+
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -2535,7 +2540,7 @@
     <div class="doc doc-contents ">
 
 
-      <p>To-Do List Implementation with Big Tree.
+        <p>To-Do List Implementation with Big Tree.
   - To-Do List has three levels - app name, list name, and item name.
   - If list name is not given, item will be assigned to a <code>General</code> list.</p>
 
@@ -2602,7 +2607,7 @@
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">    └── Milk [description=Urgent]</span>
 </span></code></pre></div>
 
-      <p>Initialize To-Do app</p>
+        <p>Initialize To-Do app</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2617,7 +2622,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>app_name</code></td>
+            <td>
+                <code>app_name</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2632,6 +2639,11 @@
           </tr>
       </tbody>
     </table>
+
+
+
+
+
 
 
 
@@ -2659,7 +2671,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Add list to app</p>
+        <p>Add list to app</p>
 <p>If list is present, return list node, else a new list will be created</p>
 
 
@@ -2675,7 +2687,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>list_name</code></td>
+            <td>
+                <code>list_name</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2731,7 +2745,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Prioritize list in app, shift it to be the first list</p>
+        <p>Prioritize list in app, shift it to be the first list</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2746,7 +2760,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>list_name</code></td>
+            <td>
+                <code>list_name</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2779,7 +2795,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Add items to list</p>
+        <p>Add items to list</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2794,7 +2810,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>item_name</code></td>
+            <td>
+                <code>item_name</code>
+            </td>
             <td>
                   <code>str / <span title="typing.List">List</span>[str]</code>
             </td>
@@ -2808,7 +2826,9 @@
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>list_name</code></td>
+            <td>
+                <code>list_name</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2841,7 +2861,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Remove items from list</p>
+        <p>Remove items from list</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2856,7 +2876,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>item_name</code></td>
+            <td>
+                <code>item_name</code>
+            </td>
             <td>
                   <code>str / <span title="typing.List">List</span>[str]</code>
             </td>
@@ -2870,7 +2892,9 @@
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>list_name</code></td>
+            <td>
+                <code>list_name</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2903,7 +2927,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Prioritize item in list, shift it to be the first item in list</p>
+        <p>Prioritize item in list, shift it to be the first item in list</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2918,7 +2942,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>item_name</code></td>
+            <td>
+                <code>item_name</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2951,7 +2977,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Print tree to console</p>
+        <p>Print tree to console</p>
 
     </div>
 
@@ -2974,7 +3000,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Load To-Do app from json</p>
+        <p>Load To-Do app from json</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2989,7 +3015,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>json_path</code></td>
+            <td>
+                <code>json_path</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -3045,7 +3073,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Save To-Do app as json</p>
+        <p>Save To-Do app as json</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -3060,7 +3088,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>json_path</code></td>
+            <td>
+                <code>json_path</code>
+            </td>
             <td>
                   <code>str</code>
             </td>

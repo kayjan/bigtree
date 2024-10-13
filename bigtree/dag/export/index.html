@@ -2460,6 +2460,11 @@
 
 
 
+
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -2483,7 +2488,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Export DAG to list of tuples containing parent-child names</p>
+        <p>Export DAG to list of tuples containing parent-child names</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -2510,7 +2515,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>dag</code></td>
+            <td>
+                <code>dag</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a></code>
             </td>
@@ -2568,7 +2575,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Export DAG to dictionary.</p>
+        <p>Export DAG to dictionary.</p>
 <p>Exported dictionary will have key as child name, and parent names and node attributes as a nested dictionary.</p>
 
 
@@ -2596,7 +2603,9 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>dag</code></td>
+            <td>
+                <code>dag</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a></code>
             </td>
@@ -2610,7 +2619,9 @@
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>parent_key</code></td>
+            <td>
+                <code>parent_key</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2624,7 +2635,9 @@
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attr_dict</code></td>
+            <td>
+                <code>attr_dict</code>
+            </td>
             <td>
                   <code><span title="typing.Dict">Dict</span>[str, str]</code>
             </td>
@@ -2639,7 +2652,9 @@ key: node attributes, value: corresponding dictionary key, optional</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>all_attrs</code></td>
+            <td>
+                <code>all_attrs</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -2701,7 +2716,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
 
     <div class="doc doc-contents ">
 
-      <p>Export DAG to pandas DataFrame.</p>
+        <p>Export DAG to pandas DataFrame.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -2735,7 +2750,9 @@ key: node attributes, value: corresponding dictionary key, optional</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>dag</code></td>
+            <td>
+                <code>dag</code>
+            </td>
             <td>
                   <code><a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a></code>
             </td>
@@ -2749,7 +2766,9 @@ key: node attributes, value: corresponding dictionary key, optional</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>name_col</code></td>
+            <td>
+                <code>name_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2763,7 +2782,9 @@ key: node attributes, value: corresponding dictionary key, optional</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>parent_col</code></td>
+            <td>
+                <code>parent_col</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2777,7 +2798,9 @@ key: node attributes, value: corresponding dictionary key, optional</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>attr_dict</code></td>
+            <td>
+                <code>attr_dict</code>
+            </td>
             <td>
                   <code><span title="typing.Dict">Dict</span>[str, str]</code>
             </td>
@@ -2792,7 +2815,9 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>all_attrs</code></td>
+            <td>
+                <code>all_attrs</code>
+            </td>
             <td>
                   <code>bool</code>
             </td>
@@ -2857,7 +2882,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
 
     <div class="doc doc-contents ">
 
-      <p>Export DAG or list of DAGs to image.
+        <p>Export DAG or list of DAGs to image.
 Note that node names must be unique.
 Possible node attributes include style, fillcolor, shape.</p>
 
@@ -2899,7 +2924,9 @@ Possible node attributes include style, fillcolor, shape.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>dag</code></td>
+            <td>
+                <code>dag</code>
+            </td>
             <td>
                   <code><span title="typing.Union">Union</span>[<a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a>, <span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="bigtree.node.dagnode.DAGNode" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a>]]</code>
             </td>
@@ -2913,7 +2940,9 @@ Possible node attributes include style, fillcolor, shape.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>rankdir</code></td>
+            <td>
+                <code>rankdir</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2927,7 +2956,9 @@ Possible node attributes include style, fillcolor, shape.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>bg_colour</code></td>
+            <td>
+                <code>bg_colour</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2941,7 +2972,9 @@ Possible node attributes include style, fillcolor, shape.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_colour</code></td>
+            <td>
+                <code>node_colour</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2955,7 +2988,9 @@ Possible node attributes include style, fillcolor, shape.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_shape</code></td>
+            <td>
+                <code>node_shape</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2970,7 +3005,9 @@ Possible node_shape include "circle", "square", "diamond", "triangle"</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>edge_colour</code></td>
+            <td>
+                <code>edge_colour</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2984,7 +3021,9 @@ Possible node_shape include "circle", "square", "diamond", "triangle"</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>node_attr</code></td>
+            <td>
+                <code>node_attr</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
@@ -2999,7 +3038,9 @@ Possible node attributes include {"style": "filled", "fillcolor": "gold"}</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>edge_attr</code></td>
+            <td>
+                <code>edge_attr</code>
+            </td>
             <td>
                   <code>str</code>
             </td>
