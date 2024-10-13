@@ -92,6 +92,7 @@ def get_subtree(
     Returns:
         (Node)
     """
+    tree_sep = tree.sep
     tree = tree.copy()
 
     if node_name_or_path:
@@ -104,6 +105,9 @@ def get_subtree(
 
     if max_depth:
         tree = prune_tree(tree, max_depth=max_depth)
+
+    # Assign original tree's sep to subtree
+    tree.sep = tree_sep
     return tree
 
 

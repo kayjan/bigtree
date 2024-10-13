@@ -47,6 +47,25 @@ class TestCloneTree:
         assert_tree_structure_basenode_root_attr(root_clone)
 
 
+class TestGetSubtree:
+    @staticmethod
+    def test_get_subtree(tree_node):
+        # Subtree is b/d, b/e/g, b/e/h
+        tree_subtree = helper.get_subtree(tree_node, "a/b")
+        assert tree_subtree.node_name == "b"
+        assert len(tree_subtree.children) == 2
+        assert not len(tree_subtree.children[0].children)
+        assert len(tree_subtree.children[1].children) == 2
+
+    @staticmethod
+    def test_get_subtree_sep(tree_node):
+        # Subtree is b/d, b/e/g, b/e/h
+        tree_node.sep = "."
+        tree_subtree = helper.get_subtree(tree_node, "a.b")
+        assert tree_subtree.children[0].path_name == ".b.d"
+        assert tree_subtree.children[1].path_name == ".b.e"
+
+
 class TestPruneTree:
     @staticmethod
     def test_prune_tree(tree_node):

@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added:
-- Misc: Pull request template
+- Misc: Pull request template.
+### Fixed:
+- Tree Helper: Subtree to inherit `sep` property from root node.
 
 ## [0.21.1] - 2024-08-29
 ### Changed:
