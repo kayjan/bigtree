@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed:
 - Tree Helper: Get tree diff to handle `sep` that are different for tree and other_tree, this will throw error now.
 - Tree Helper: Get tree diff to handle `sep` that contains forbidden symbols, this will change the `sep` to a fallback sep.
+- Tree Helper: Get tree diff to sort tree before returning the tree diff.
 ### Fixed:
 - [#306] Tree Helper: Get tree diff to handle `sep` that is different from default.
 
