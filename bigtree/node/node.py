@@ -12,6 +12,10 @@ class Node(basenode.BaseNode):
     Node is an extension of BaseNode, and is able to extend to any Python class.
     Nodes can have attributes if they are initialized from `Node`, *dictionary*, or *pandas DataFrame*.
 
+    !!! note
+        Node names cannot contain separator symbol! This will not throw error, but you might run into issues
+        when performing certain functions such as export-then-import of tree.
+
     Nodes can be linked to each other with `parent` and `children` setter methods.
 
     Examples:
@@ -39,10 +43,10 @@ class Node(basenode.BaseNode):
         >>> b = Node("b", children=[c, d])
         >>> a = Node("a", children=[b])
 
-        **Node Creation**
+    **Node Creation**
 
-        Node can be created by instantiating a `Node` class or by using a *dictionary*.
-        If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+    Node can be created by instantiating a `Node` class or by using a *dictionary*.
+    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
         >>> from bigtree import Node
         >>> a = Node.from_dict({"name": "a", "age": 90})
