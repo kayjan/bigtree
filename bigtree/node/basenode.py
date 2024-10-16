@@ -65,10 +65,10 @@ class BaseNode:
         >>> b = Node("b", children=[d])
         >>> a = Node("a", children=[b, c])
 
-        **BaseNode Creation**
+    **BaseNode Creation**
 
-        Node can be created by instantiating a `BaseNode` class or by using a *dictionary*.
-        If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+    Node can be created by instantiating a `BaseNode` class or by using a *dictionary*.
+    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
         >>> from bigtree import Node
         >>> root = Node.from_dict({"name": "a", "age": 90})

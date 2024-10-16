@@ -37,10 +37,10 @@ class BinaryNode(node.Node):
         >>> b = BinaryNode(2, right=d)
         >>> a = BinaryNode(1, children=[b, c])
 
-        **BinaryNode Creation**
+    **BinaryNode Creation**
 
-        Node can be created by instantiating a `BinaryNode` class or by using a *dictionary*.
-        If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+    Node can be created by instantiating a `BinaryNode` class or by using a *dictionary*.
+    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
         >>> from bigtree import BinaryNode
         >>> a = BinaryNode.from_dict({"name": "1"})

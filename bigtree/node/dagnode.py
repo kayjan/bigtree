@@ -53,10 +53,10 @@ class DAGNode:
         >>> b = DAGNode("b", children=[c])
         >>> a = DAGNode("a", children=[c])
 
-        **DAGNode Creation**
+    **DAGNode Creation**
 
-        Node can be created by instantiating a `DAGNode` class or by using a *dictionary*.
-        If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+    Node can be created by instantiating a `DAGNode` class or by using a *dictionary*.
+    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
 
         >>> from bigtree import DAGNode
         >>> a = DAGNode.from_dict({"name": "a", "age": 90})
