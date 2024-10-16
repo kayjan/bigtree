@@ -255,6 +255,12 @@ def get_tree_diff(
     - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
     - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
 
+    !!! note
+
+        - tree and other_tree must have the same `sep` symbol, otherwise this will raise ValueError
+        - If the `sep` symbol contains one of `+` / `-` / `~` character, a fallback sep will be used
+        - Node names in tree and other_tree must not contain the `sep` (or fallback sep) symbol
+
     Examples:
         >>> # Create original tree
         >>> from bigtree import Node, get_tree_diff, list_to_tree
