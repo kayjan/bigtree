@@ -236,21 +236,57 @@ class TestTreeDiff:
         assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
-    def test_tree_diff_diff_sep(tree_node):
+    def test_tree_diff_diff_sep_error(tree_node):
         other_tree_node = helper.prune_tree(tree_node, "a/c")
-        _ = node.Node("d", parent=other_tree_node)
         other_tree_node.sep = "-"
+        with pytest.raises(ValueError) as exc_info:
+            helper.get_tree_diff(tree_node, other_tree_node)
+        assert str(exc_info.value) == Constants.ERROR_NODE_TREE_DIFF_DIFF_SEP
+
+    @staticmethod
+    def test_tree_diff_sep_clash_with_node_name_error(tree_node):
+        other_tree_node = helper.prune_tree(tree_node, "a/c")
+        _ = node.Node("/d", parent=other_tree_node)
+        with pytest.raises(exceptions.TreeError) as exc_info:
+            helper.get_tree_diff(tree_node, other_tree_node)
+        assert str(exc_info.value) == Constants.ERROR_NODE_NAME
+
+    @staticmethod
+    def test_tree_diff_sep_clash_with_node_name(tree_node):
+        other_tree_node = helper.prune_tree(tree_node, "a/c")
+        _ = node.Node("/d", parent=other_tree_node)
+        tree_node.sep = "."
+        other_tree_node.sep = "."
         tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
         expected_str = (
             "a\n"
-            "├── b (-)\n"
-            "│   ├── d (-)\n"
-            "│   └── e (-)\n"
-            "│       ├── g (-)\n"
-            "│       └── h (-)\n"
-            "└── d (+)\n"
+            "├── /d (+)\n"
+            "└── b (-)\n"
+            "    ├── d (-)\n"
+            "    └── e (-)\n"
+            "        ├── g (-)\n"
+            "        └── h (-)\n"
         )
         assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
+
+    @staticmethod
+    def test_tree_diff_forbidden_sep(tree_node):
+        other_tree_node = helper.prune_tree(tree_node, "a/c")
+        _ = node.Node("d", parent=other_tree_node)
+        for symbol in [".", "-", "+", "~"]:
+            tree_node.sep = symbol
+            other_tree_node.sep = symbol
+            tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
+            expected_str = (
+                "a\n"
+                "├── b (-)\n"
+                "│   ├── d (-)\n"
+                "│   └── e (-)\n"
+                "│       ├── g (-)\n"
+                "│       └── h (-)\n"
+                "└── d (+)\n"
+            )
+            assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
     def test_tree_diff_all_diff(tree_node):
