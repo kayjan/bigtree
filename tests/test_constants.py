@@ -169,6 +169,7 @@ class Constants:
     ERROR_NODE_PRUNE_NOT_FOUND = (
         "Cannot find any node matching path_name ending with {prune_path}"
     )
+    ERROR_NODE_TREE_DIFF_DIFF_SEP = "`sep` must be the same for tree and other_tree"
 
     # tree/modify
     ERROR_MODIFY_PARAM_TYPE = (

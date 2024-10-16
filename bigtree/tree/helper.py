@@ -242,6 +242,7 @@ def get_tree_diff(
     other_tree: node.Node,
     only_diff: bool = True,
     attr_list: List[str] = [],
+    fallback_sep: str = "/",
 ) -> node.Node:
     """Get difference of `tree` to `other_tree`, changes are relative to `tree`.
 
@@ -333,11 +334,25 @@ def get_tree_diff(
         other_tree (Node): tree to be compared with
         only_diff (bool): indicator to show all nodes or only nodes that are different (+/-), defaults to True
         attr_list (List[str]): tree attributes to check for difference, defaults to empty list
+        fallback_sep (str): sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
+            All node names in tree and other_tree should not contain this fallback_sep, defaults to "/"
 
     Returns:
         (Node)
     """
-    other_tree.sep = tree.sep
+    if tree.sep != other_tree.sep:
+        raise ValueError("`sep` must be the same for tree and other_tree")
+
+    forbidden_sep_symbols = ["+", "-", "~"]
+    if any(
+        forbidden_sep_symbol in tree.sep
+        for forbidden_sep_symbol in forbidden_sep_symbols
+    ):
+        tree = tree.copy()
+        other_tree = other_tree.copy()
+        tree.sep = fallback_sep
+        other_tree.sep = fallback_sep
+
     name_col = "name"
     path_col = "PATH"
     indicator_col = "Exists"
@@ -405,7 +420,9 @@ def get_tree_diff(
         ]
     data_both = data_both[[path_col]]
     if len(data_both):
-        tree_diff = construct.dataframe_to_tree(data_both, node_type=tree.__class__)
+        tree_diff = construct.dataframe_to_tree(
+            data_both, node_type=tree.__class__, sep=tree.sep
+        )
         # Handle tree attribute difference
         if len(path_changes_deque):
             path_changes_list = sorted(path_changes_deque, reverse=True)
