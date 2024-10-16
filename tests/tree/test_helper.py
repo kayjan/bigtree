@@ -260,12 +260,12 @@ class TestTreeDiff:
         tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
         expected_str = (
             "a\n"
-            "├── b (-)\n"
-            "│   ├── d (-)\n"
-            "│   └── e (-)\n"
-            "│       ├── g (-)\n"
-            "│       └── h (-)\n"
-            "└── /d (+)\n"
+            "├── /d (+)\n"
+            "└── b (-)\n"
+            "    ├── d (-)\n"
+            "    └── e (-)\n"
+            "        ├── g (-)\n"
+            "        └── h (-)\n"
         )
         assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 

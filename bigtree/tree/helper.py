@@ -418,7 +418,7 @@ def get_tree_diff(
             (data_both[indicator_col] != "both")
             | (data_both[path_col].isin(path_changes_deque))
         ]
-    data_both = data_both[[path_col]]
+    data_both = data_both[[path_col]].sort_values(path_col)
     if len(data_both):
         tree_diff = construct.dataframe_to_tree(
             data_both, node_type=tree.__class__, sep=tree.sep
