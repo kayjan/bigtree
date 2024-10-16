@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.21.3] - 2024-10-16
+### Added:
+- Tree Node: Docstring indentation and additional information for Node creation.
+- Misc: GitHub star diagram to README file.
+### Changed:
+- Tree Helper: Get tree diff to handle `sep` that are different for tree and other_tree, this will throw error now.
+- Tree Helper: Get tree diff to handle `sep` that contains forbidden symbols, this will change the `sep` to a fallback sep.
+### Fixed:
+- [#306] Tree Helper: Get tree diff to handle `sep` that is different from default.
+
 ## [0.21.2] - 2024-10-14
 ### Added:
 - Misc: Pull request template.
@@ -657,7 +667,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.21.2...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.21.3...HEAD
+[0.21.3]: https://github.com/kayjan/bigtree/compare/0.21.2...0.21.3
 [0.21.2]: https://github.com/kayjan/bigtree/compare/0.21.1...0.21.2
 [0.21.1]: https://github.com/kayjan/bigtree/compare/0.21.0...0.21.1
 [0.21.0]: https://github.com/kayjan/bigtree/compare/0.20.1...0.21.0

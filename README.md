@@ -151,3 +151,9 @@ To install `bigtree` with conda, run the following line in command prompt:
 ```console
 $ conda install -c conda-forge bigtree
 ```
+
+-----
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kayjan/bigtree&type=Date)](https://star-history.com/#kayjan/bigtree&Date)
