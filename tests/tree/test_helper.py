@@ -3,7 +3,7 @@ import math
 import pytest
 
 from bigtree.node import basenode, node
-from bigtree.tree import export, helper
+from bigtree.tree import export, helper, modify
 from bigtree.utils import exceptions
 from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
@@ -289,6 +289,22 @@ class TestTreeDiff:
             assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
+    def test_tree_diff_detail(tree_node):
+        other_tree_node = helper.prune_tree(tree_node, "a/c")
+        _ = node.Node("i", parent=other_tree_node)
+        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node, detail=True)
+        expected_str = (
+            "a\n"
+            "├── b (removed)\n"
+            "│   ├── d (removed)\n"
+            "│   └── e (removed)\n"
+            "│       ├── g (removed)\n"
+            "│       └── h (removed)\n"
+            "└── i (added)\n"
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
+
+    @staticmethod
     def test_tree_diff_all_diff(tree_node):
         other_tree_node = helper.prune_tree(tree_node, "a/c")
         _ = node.Node("d", parent=other_tree_node)
@@ -305,6 +321,50 @@ class TestTreeDiff:
             "└── d (+)\n"
         )
         assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+
+    @staticmethod
+    def test_tree_diff_all_diff_detail(tree_node):
+        other_tree_node = helper.prune_tree(tree_node, "a/c")
+        _ = node.Node("i", parent=other_tree_node)
+        tree_diff = helper.get_tree_diff(
+            tree_node, other_tree_node, only_diff=False, detail=True
+        )
+        expected_str = (
+            "a\n"
+            "├── b (removed)\n"
+            "│   ├── d (removed)\n"
+            "│   └── e (removed)\n"
+            "│       ├── g (removed)\n"
+            "│       └── h (removed)\n"
+            "├── c\n"
+            "│   └── f\n"
+            "└── i (added)\n"
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+
+    @staticmethod
+    def test_tree_diff_detail_move(tree_node):
+        other_tree_node = tree_node.copy()
+        modify.shift_nodes(
+            other_tree_node, from_paths=["a/b/d", "a/b"], to_paths=[None, "a/c/b"]
+        )
+        _ = node.Node("i", parent=other_tree_node)
+        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node, detail=True)
+        expected_str = (
+            "a\n"
+            "├── b (moved from)\n"
+            "│   ├── d (removed)\n"
+            "│   └── e (moved from)\n"
+            "│       ├── g (moved from)\n"
+            "│       └── h (moved from)\n"
+            "├── c\n"
+            "│   └── b (moved to)\n"
+            "│       └── e (moved to)\n"
+            "│           ├── g (moved to)\n"
+            "│           └── h (moved to)\n"
+            "└── i (added)\n"
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
     def test_tree_diff_new_leaf(tree_node):
@@ -571,6 +631,53 @@ class TestTreeDiff:
         }
         tree_diff = helper.get_tree_diff(
             tree_node, tree_node_copy, only_diff=False, attr_list=["age"]
+        )
+        actual = export.tree_to_dict(tree_diff, all_attrs=True)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_diff_attributes_different_structure_different_attributes_all_diff_detail(
+        tree_node,
+    ):
+        from bigtree import find_name
+
+        tree_node_copy = tree_node.copy()
+        for node_name_to_remove in ["d"]:
+            node_to_remove = find_name(tree_node_copy, node_name_to_remove)
+            node_to_remove.parent = None
+        for node_name_to_change in ["c", "f"]:
+            node_to_change = find_name(tree_node_copy, node_name_to_change)
+            node_to_change.age += 10
+
+        # Without attributes
+        expected_str = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d (removed)\n"
+            "│   └── e\n"
+            "│       ├── g\n"
+            "│       └── h\n"
+            "└── c\n"
+            "    └── f\n"
+        )
+        tree_diff = helper.get_tree_diff(
+            tree_node, tree_node_copy, only_diff=False, detail=True
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+
+        # With attributes
+        expected = {
+            "/a": {"name": "a"},
+            "/a/b": {"name": "b"},
+            "/a/b/d (removed)": {"name": "d (removed)"},
+            "/a/b/e": {"name": "e"},
+            "/a/b/e/g": {"name": "g"},
+            "/a/b/e/h": {"name": "h"},
+            "/a/c (~)": {"age": (60, 70.0), "name": "c (~)"},
+            "/a/c (~)/f (~)": {"age": (38, 48.0), "name": "f (~)"},
+        }
+        tree_diff = helper.get_tree_diff(
+            tree_node, tree_node_copy, only_diff=False, detail=True, attr_list=["age"]
         )
         actual = export.tree_to_dict(tree_diff, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"

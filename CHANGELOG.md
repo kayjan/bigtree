@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.22.0] - 2024-11-03
+### Added:
+- Tree Helper: Accept parameter `detail` to show the different types of shift e.g., moved / added / removed. By default it is false.
+
 ## [0.21.3] - 2024-10-16
 ### Added:
 - Tree Node: Docstring indentation and additional information for Node creation.
@@ -668,7 +672,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.21.3...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.22.0...HEAD
+[0.22.0]: https://github.com/kayjan/bigtree/compare/0.21.3...0.22.0
 [0.21.3]: https://github.com/kayjan/bigtree/compare/0.21.2...0.21.3
 [0.21.2]: https://github.com/kayjan/bigtree/compare/0.21.1...0.21.2
 [0.21.1]: https://github.com/kayjan/bigtree/compare/0.21.0...0.21.1

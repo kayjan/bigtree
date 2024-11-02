@@ -241,6 +241,7 @@ def get_tree_diff(
     tree: node.Node,
     other_tree: node.Node,
     only_diff: bool = True,
+    detail: bool = False,
     attr_list: List[str] = [],
     fallback_sep: str = "/",
 ) -> node.Node:
@@ -254,6 +255,9 @@ def get_tree_diff(
     - (+) and (-) will be added to node name relative to `tree`.
     - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
     - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
+
+    If `detail=True`, (added) and (moved to) will be used instead of (+), (removed) and (moved from)
+    will be used instead of (-).
 
     !!! note
 
@@ -298,6 +302,15 @@ def get_tree_diff(
         ├── file1.doc
         └── photo2.jpg (-)
 
+        >>> tree_diff = get_tree_diff(root, root_other, detail=True)
+        >>> tree_diff.show()
+        Downloads
+        ├── Pictures
+        │   ├── photo1.jpg
+        │   └── photo2.jpg (moved to)
+        ├── file1.doc
+        └── photo2.jpg (moved from)
+
         Comparing tree attributes
 
         - (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
@@ -339,6 +352,7 @@ def get_tree_diff(
         tree (Node): tree to be compared against
         other_tree (Node): tree to be compared with
         only_diff (bool): indicator to show all nodes or only nodes that are different (+/-), defaults to True
+        detail (bool): indicator to differentiate between different types of diff e.g., added or removed or moved
         attr_list (List[str]): tree attributes to check for difference, defaults to empty list
         fallback_sep (str): sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
             All node names in tree and other_tree should not contain this fallback_sep, defaults to "/"
@@ -388,13 +402,43 @@ def get_tree_diff(
     nodes_added = list(data_both[data_both[indicator_col] == "right_only"][path_col])[
         ::-1
     ]
-    for node_removed in nodes_removed:
+
+    moved_from_indicator: List[bool] = [True for _ in range(len(nodes_removed))]
+    moved_to_indicator: List[bool] = [True for _ in range(len(nodes_added))]
+    if detail:
+        _sep = tree.sep
+        node_names_removed = [
+            node_removed.split(_sep)[-1] for node_removed in nodes_removed
+        ]
+        node_names_added = [node_added.split(_sep)[-1] for node_added in nodes_added]
+        moved_from_indicator = [
+            node_name_removed in node_names_added
+            for node_name_removed in node_names_removed
+        ]
+        moved_to_indicator = [
+            node_name_added in node_names_removed
+            for node_name_added in node_names_added
+        ]
+
+    for node_removed, move_indicator in zip(nodes_removed, moved_from_indicator):
+        if not detail:
+            suffix = "-"
+        elif move_indicator:
+            suffix = "moved from"
+        else:
+            suffix = "removed"
         data_both[path_col] = data_both[path_col].str.replace(
-            node_removed, f"{node_removed} (-)", regex=True
+            node_removed, f"{node_removed} ({suffix})", regex=True
         )
-    for node_added in nodes_added:
+    for node_added, move_indicator in zip(nodes_added, moved_to_indicator):
+        if not detail:
+            suffix = "+"
+        elif move_indicator:
+            suffix = "moved to"
+        else:
+            suffix = "added"
         data_both[path_col] = data_both[path_col].str.replace(
-            node_added, f"{node_added} (+)", regex=True
+            node_added, f"{node_added} ({suffix})", regex=True
         )
 
     # Check tree attribute difference
