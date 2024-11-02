@@ -1,4 +1,5 @@
 import io
+import unittest
 
 import pandas as pd
 import polars as pl
@@ -1139,6 +1140,10 @@ class TestTreeToPolars:
         actual = export.tree_to_polars(tree_node, name_col="")
         assert expected.equals(actual)
 
+    @unittest.skipIf(
+        tuple(map(int, pl.__version__.split(".")[:2])) > (1, 9),
+        reason="Not compatible with polars>1.9.0",
+    )
     @staticmethod
     def test_tree_to_polars_name_path_col_missing(tree_node):
         expected = pl.DataFrame()
