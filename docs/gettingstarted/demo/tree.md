@@ -954,8 +954,11 @@ To compare tree attributes:
 - `(-)`: Node is removed in second tree
 - `(~)`: Node has different attributes, only available when comparing attributes
 
+For more details, `(moved from)`, `(moved to)`, `(added)`, and `(removed)` can
+be indicated instead if `(+)` and `(-)`.
+
 === "Only differences"
-    ```python hl_lines="20 29"
+    ```python hl_lines="20"
     from bigtree import str_to_tree, get_tree_diff
 
     root = str_to_tree("""
@@ -1014,6 +1017,38 @@ To compare tree attributes:
     # └── c
     #     ├── f (-)
     #     └── g (+)
+    ```
+=== "With details"
+    ```python hl_lines="21"
+    from bigtree import str_to_tree, get_tree_diff
+
+    root = str_to_tree("""
+    a
+    ├── b
+    │   ├── d
+    │   └── e
+    └── c
+        └── f
+    """)
+
+    root_other = str_to_tree("""
+    a
+    ├── b
+    │   └── g
+    └── c
+        ├── d
+        └── f
+    """)
+
+    tree_diff = get_tree_diff(root, root_other, detail=True)
+    tree_diff.show()
+    # a
+    # ├── b
+    # │   ├── d (moved from)
+    # │   ├── e (removed)
+    # │   └── g (added)
+    # └── c
+    #     └── d (moved to)
     ```
 === "Attribute difference"
     ```python hl_lines="25"
