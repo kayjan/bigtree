@@ -1543,9 +1543,19 @@ def tree_to_mermaid(
 
         **Customize node shape, edge label, edge arrow, and custom node attributes**
 
-        >>> graph = tree_to_mermaid(root, node_shape_attr="node_shape", edge_label="edge_label", edge_arrow_attr="edge_arrow", node_attr="node_style")
+        >>> graph = tree_to_mermaid(
+        ...     root,
+        ...     title="Mermaid Diagram",
+        ...     node_shape_attr="node_shape",
+        ...     edge_label="edge_label",
+        ...     edge_arrow_attr="edge_arrow",
+        ...     node_attr="node_style",
+        ... )
         >>> print(graph)
         ```mermaid
+        ---
+        title: Mermaid Diagram
+        ---
         %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
         flowchart TB
         0{"a"} ==>|Child 1| 0-0("b")
@@ -1599,7 +1609,7 @@ def tree_to_mermaid(
     style_template = "classDef {style_name} {style}"
 
     # Content
-    title = f"---\ntitle: {title}\n---" if title else ""
+    title = f"---\ntitle: {title}\n---\n" if title else ""
     line_style = f"%%{{ init: {{ 'flowchart': {{ 'curve': '{line_shape}' }} }} }}%%"
     styles = []
     flows = []
