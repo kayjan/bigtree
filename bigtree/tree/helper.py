@@ -5,6 +5,13 @@ from bigtree.node import basenode, binarynode, node
 from bigtree.tree import construct, export, search
 from bigtree.utils import assertions, exceptions, iterators
 
+try:
+    import pandas as pd
+except ImportError:  # pragma: no cover
+    from unittest.mock import MagicMock
+
+    pd = MagicMock()
+
 __all__ = ["clone_tree", "get_subtree", "prune_tree", "get_tree_diff"]
 BaseNodeT = TypeVar("BaseNodeT", bound=basenode.BaseNode)
 BinaryNodeT = TypeVar("BinaryNodeT", bound=binarynode.BinaryNode)
@@ -237,6 +244,7 @@ def prune_tree(
     return tree_copy
 
 
+@exceptions.optional_dependencies_pandas
 def get_tree_diff(
     tree: node.Node,
     other_tree: node.Node,
@@ -376,6 +384,7 @@ def get_tree_diff(
     name_col = "name"
     path_col = "PATH"
     indicator_col = "Exists"
+    tree_sep = tree.sep
 
     data, data_other = (
         export.tree_to_dataframe(
@@ -406,11 +415,12 @@ def get_tree_diff(
     moved_from_indicator: List[bool] = [True for _ in range(len(nodes_removed))]
     moved_to_indicator: List[bool] = [True for _ in range(len(nodes_added))]
     if detail:
-        _sep = tree.sep
         node_names_removed = [
-            node_removed.split(_sep)[-1] for node_removed in nodes_removed
+            node_removed.split(tree_sep)[-1] for node_removed in nodes_removed
         ]
-        node_names_added = [node_added.split(_sep)[-1] for node_added in nodes_added]
+        node_names_added = [
+            node_added.split(tree_sep)[-1] for node_added in nodes_added
+        ]
         moved_from_indicator = [
             node_name_removed in node_names_added
             for node_name_removed in node_names_removed
@@ -420,6 +430,27 @@ def get_tree_diff(
             for node_name_added in node_names_added
         ]
 
+    def add_suffix_to_path(
+        _data: pd.DataFrame, _condition: pd.Series, _original_name: str, _suffix: str
+    ) -> pd.DataFrame:
+        """Add suffix to path string
+
+        Args:
+            _data (pd.DataFrame): original data with path column
+            _condition (pd.Series): whether to add suffix, contains True/False values
+            _original_name (str): path prefix to add suffix to
+            _suffix (str): suffix to add to path column
+
+        Returns:
+            (pd.DataFrame)
+        """
+        data_replace = _data[_condition]
+        data_replace[path_col] = data_replace[path_col].str.replace(
+            _original_name, f"{_original_name} ({suffix})", regex=True
+        )
+        data_not_replace = _data[~_condition]
+        return data_replace._append(data_not_replace).sort_index()
+
     for node_removed, move_indicator in zip(nodes_removed, moved_from_indicator):
         if not detail:
             suffix = "-"
@@ -427,8 +458,11 @@ def get_tree_diff(
             suffix = "moved from"
         else:
             suffix = "removed"
-        data_both[path_col] = data_both[path_col].str.replace(
-            node_removed, f"{node_removed} ({suffix})", regex=True
+        condition_node_removed = data_both[path_col].str.endswith(
+            node_removed
+        ) | data_both[path_col].str.contains(node_removed + tree_sep)
+        data_both = add_suffix_to_path(
+            data_both, condition_node_removed, node_removed, suffix
         )
     for node_added, move_indicator in zip(nodes_added, moved_to_indicator):
         if not detail:
@@ -437,8 +471,11 @@ def get_tree_diff(
             suffix = "moved to"
         else:
             suffix = "added"
-        data_both[path_col] = data_both[path_col].str.replace(
-            node_added, f"{node_added} ({suffix})", regex=True
+        condition_node_added = data_both[path_col].str.endswith(node_added) | data_both[
+            path_col
+        ].str.contains(node_added + tree_sep)
+        data_both = add_suffix_to_path(
+            data_both, condition_node_added, node_added, suffix
         )
 
     # Check tree attribute difference

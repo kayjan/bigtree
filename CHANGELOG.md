@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed:
 - Misc: Doctest for docstrings, docstring to indicate usage prefers `node_name` to `name`.
 - Tree Export: Mermaid diagram title to add newline.
+- Tree Helper: Get tree diff string replacement bug when the path change is substring of another path.
 
 ## [0.22.1] - 2024-11-03
 ### Added:
@@ -21,7 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.22.0] - 2024-11-03
 ### Added:
-- Tree Helper: Accept parameter `detail` to show the different types of shift e.g., moved / added / removed. By default it is false.
+- Tree Helper: Accept parameter `detail` to show the different types of shift e.g., moved / added / removed. By default
+it is false.
 
 ## [0.21.3] - 2024-10-16
 ### Added:
@@ -96,10 +98,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.19.0] - 2024-06-15
 ### Changed:
-- Tree Exporter: Print functions to accept custom style that is implemented as dataclass, this is a more
-object-oriented way of parsing arguments.
-This affects functions `print_tree`, `yield_tree`, `hprint_tree`, and `hyield_tree`.
-The argument `custom_style` is deprecated, and argument `style` is used instead.
+- Tree Exporter: Print functions to accept custom style that is implemented as dataclass, this is a more  object-oriented
+way of parsing arguments. This affects functions `print_tree`, `yield_tree`, `hprint_tree`, and `hyield_tree`. The
+argument `custom_style` is deprecated, and argument `style` is used instead.
 **This might not be backwards-compatible!**
 - Misc: Update docstrings to be more comprehensive for tree constructor and tree exporter.
 - Misc: Update documentation badges and conda information.
