@@ -93,8 +93,8 @@ theme:
 
 plugins:
   - glightbox  # expand images
-  - mkdocs-jupyter
-    include_source: True
+  - mkdocs-jupyter:
+      include_source: True
   - search
   - social:
       cards_layout_options:
