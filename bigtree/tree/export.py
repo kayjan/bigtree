@@ -55,6 +55,7 @@ T = TypeVar("T", bound=node.Node)
 
 def print_tree(
     tree: T,
+    alias: str = "node_name",
     node_name_or_path: str = "",
     max_depth: int = 0,
     all_attrs: bool = False,
@@ -67,6 +68,7 @@ def print_tree(
     """Print tree to console, starting from `tree`.
     Accepts kwargs for print() function.
 
+    - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
     - Able to choose which attributes to show or show all attributes, using `attr_name_filter` and `all_attrs`
@@ -85,9 +87,9 @@ def print_tree(
         **Printing tree**
 
         >>> from bigtree import Node, print_tree
-        >>> root = Node("a", age=90)
+        >>> root = Node("a", alias="alias-a", age=90)
         >>> b = Node("b", age=65, parent=root)
-        >>> c = Node("c", age=60, parent=root)
+        >>> c = Node("c", alias="alias-c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=b)
         >>> e = Node("e", age=35, parent=b)
         >>> print_tree(root)
@@ -96,6 +98,15 @@ def print_tree(
         │   ├── d
         │   └── e
         └── c
+
+        **Printing alias**
+
+        >>> print_tree(root, alias="alias")
+        alias-a
+        ├── b
+        │   ├── d
+        │   └── e
+        └── alias-c
 
         **Printing Sub-tree**
 
@@ -195,6 +206,8 @@ def print_tree(
 
     Args:
         tree (Node): tree to print
+        alias (Optional[str]): node attribute to use for node name in tree as alias to `node_name`, if present.
+            Otherwise, it will default to `node_name` of node.
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         all_attrs (bool): indicator to show all attributes, defaults to False, overrides `attr_list` and `attr_omit_null`
@@ -236,7 +249,8 @@ def print_tree(
             attr_str = ", ".join(attr_str_list)
             if attr_str:
                 attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
-        node_str = f"{_node.node_name}{attr_str}"
+        name_str = _node.get_attr(alias) or _node.node_name
+        node_str = f"{name_str}{attr_str}"
         print(f"{pre_str}{fill_str}{node_str}", **kwargs)
 
 
@@ -1579,6 +1593,7 @@ def tree_to_mermaid(
     Args:
         tree (Node): tree to be exported
         title (str): title, defaults to None
+        theme (str): theme or colour scheme, defaults to None
         rankdir (str): layout direction, defaults to 'TB' (top to bottom), can be 'BT' (bottom to top),
             'LR' (left to right), 'RL' (right to left)
         line_shape (str): line shape or curvature, defaults to 'basis'
