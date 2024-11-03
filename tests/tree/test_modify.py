@@ -454,7 +454,7 @@ class TestCopyNodes(unittest.TestCase):
         to_paths = ["a/aa"]
         modify.copy_nodes(a, from_paths, to_paths, merge_leaves=True)
 
-        assert [child.name for child in a.children] == [
+        assert [child.node_name for child in a.children] == [
             "aa",
             "d",
             "g",
@@ -1023,7 +1023,7 @@ class TestShiftNodes(unittest.TestCase):
         from_paths = ["a/aa"]
         to_paths = ["a/aa"]
         modify.shift_nodes(a, from_paths, to_paths, merge_leaves=True)
-        assert [child.name for child in a.children] == [
+        assert [child.node_name for child in a.children] == [
             "aa",
             "d",
             "g",
@@ -1882,7 +1882,8 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             self.root_other.max_depth == 3
         ), f"Depth is wrong, expected 3, received {self.root_other.depth}"
         assert [
-            _node.name for _node in search.find_path(self.root_other, "a/b").children
+            _node.node_name
+            for _node in search.find_path(self.root_other, "a/b").children
         ] == [
             "b",
             "c",

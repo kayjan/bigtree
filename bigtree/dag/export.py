@@ -259,7 +259,7 @@ def dag_to_dot(
             _node_style = node_style.copy()
             _edge_style = edge_style.copy()
 
-            child_name = child_node.name
+            child_name = child_node.node_name
             if node_attr and child_node.get_attr(node_attr):
                 _node_style.update(child_node.get_attr(node_attr))
             if edge_attr and child_node.get_attr(edge_attr):
@@ -267,7 +267,7 @@ def dag_to_dot(
             pydot_child = pydot.Node(name=child_name, label=child_name, **_node_style)
             _graph.add_node(pydot_child)
 
-            parent_name = parent_node.name
+            parent_name = parent_node.node_name
             parent_node_style = node_style.copy()
             if node_attr and parent_node.get_attr(node_attr):
                 parent_node_style.update(parent_node.get_attr(node_attr))

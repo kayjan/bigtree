@@ -18,7 +18,7 @@ class TestAppToDo(unittest.TestCase):
     @staticmethod
     def test_creation():
         todoapp = app_todo.AppToDo("To Do Items")
-        assert todoapp._root.name == "To Do Items"
+        assert todoapp._root.node_name == "To Do Items"
 
     def test_add_list(self):
         self.todoapp.add_list("List 1")

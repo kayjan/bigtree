@@ -452,22 +452,22 @@ root.show()
 # │   └── e
 # └── c
 
-[node.name for node in preorder_iter(root)]
+[node.node_name for node in preorder_iter(root)]
 # ['a', 'b', 'd', 'e', 'c']
 
-[node.name for node in postorder_iter(root)]
+[node.node_name for node in postorder_iter(root)]
 # ['d', 'e', 'b', 'c', 'a']
 
-[node.name for node in levelorder_iter(root)]
+[node.node_name for node in levelorder_iter(root)]
 # ['a', 'b', 'c', 'd', 'e']
 
-[[node.name for node in node_group] for node_group in levelordergroup_iter(root)]
+[[node.node_name for node in node_group] for node_group in levelordergroup_iter(root)]
 # [['a'], ['b', 'c'], ['d', 'e']]
 
-[node.name for node in zigzag_iter(root)]
+[node.node_name for node in zigzag_iter(root)]
 # ['a', 'c', 'b', 'd', 'e']
 
-[[node.name for node in node_group] for node_group in zigzaggroup_iter(root)]
+[[node.node_name for node in node_group] for node_group in zigzaggroup_iter(root)]
 # [['a'], ['c', 'b'], ['d', 'e']]
 ```
 
@@ -673,7 +673,7 @@ root.show(attr_list=["age"])
 find_children(root, lambda node: node.age >= 60)
 # (Node(/a/b, age=65), Node(/a/c, age=60))
 
-find_child(root, lambda node: node.name == "c")
+find_child(root, lambda node: node.node_name == "c")
 # Node(/a/c, age=60)
 
 find_child_by_name(root, "c")

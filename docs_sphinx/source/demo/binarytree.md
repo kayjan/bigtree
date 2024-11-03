@@ -80,24 +80,24 @@ root.show()
 #     ├── 6
 #     └── 7
 
-[node.name for node in inorder_iter(root)]
+[node.node_name for node in inorder_iter(root)]
 # ['8', '4', '2', '5', '1', '6', '3', '7']
 
-[node.name for node in preorder_iter(root)]
+[node.node_name for node in preorder_iter(root)]
 # ['1', '2', '4', '8', '5', '3', '6', '7']
 
-[node.name for node in postorder_iter(root)]
+[node.node_name for node in postorder_iter(root)]
 # ['8', '4', '5', '2', '6', '7', '3', '1']
 
-[node.name for node in levelorder_iter(root)]
+[node.node_name for node in levelorder_iter(root)]
 # ['1', '2', '3', '4', '5', '6', '7', '8']
 
-[[node.name for node in node_group] for node_group in levelordergroup_iter(root)]
+[[node.node_name for node in node_group] for node_group in levelordergroup_iter(root)]
 # [['1'], ['2', '3'], ['4', '5', '6', '7'], ['8']]
 
-[node.name for node in zigzag_iter(root)]
+[node.node_name for node in zigzag_iter(root)]
 # ['1', '3', '2', '4', '5', '6', '7', '8']
 
-[[node.name for node in node_group] for node_group in zigzaggroup_iter(root)]
+[[node.node_name for node in node_group] for node_group in zigzaggroup_iter(root)]
 # [['1'], ['3', '2'], ['4', '5', '6', '7'], ['8']]
 ```

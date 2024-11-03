@@ -1303,12 +1303,6 @@ def tree_to_dot(
             _node_style = node_style.copy()
             _edge_style = edge_style.copy()
 
-            child_label = child_node.node_name
-            if child_node.path_name not in name_dict[child_label]:  # pragma: no cover
-                name_dict[child_label].append(child_node.path_name)
-            child_name = child_label + str(
-                name_dict[child_label].index(child_node.path_name)
-            )
             if node_attr:
                 if isinstance(node_attr, str) and child_node.get_attr(node_attr):
                     _node_style.update(child_node.get_attr(node_attr))
@@ -1319,6 +1313,13 @@ def tree_to_dot(
                     _edge_style.update(child_node.get_attr(edge_attr))
                 elif isinstance(edge_attr, Callable):  # type: ignore
                     _edge_style.update(edge_attr(child_node))  # type: ignore
+
+            child_label = child_node.node_name
+            if child_node.path_name not in name_dict[child_label]:  # pragma: no cover
+                name_dict[child_label].append(child_node.path_name)
+            child_name = child_label + str(
+                name_dict[child_label].index(child_node.path_name)
+            )
             node = pydot.Node(name=child_name, label=child_label, **_node_style)
             _graph.add_node(node)
             if parent_name is not None:
@@ -1683,7 +1684,7 @@ def tree_to_mermaid(
                 # Get custom style for root (node_shape_attr, node_attr)
                 _parent_node_name = node_shapes[
                     _get_attr(_node.parent, node_shape_attr, node_shape)
-                ].format(label=_node.parent.name)
+                ].format(label=_node.parent.node_name)
 
                 if _get_attr(_node.parent, node_attr, "") and len(styles) < 2:
                     _from_style = _get_attr(_node.parent, node_attr, "")
@@ -1698,7 +1699,7 @@ def tree_to_mermaid(
                     _from_style = f":::{_from_style_class}"
             _node_name = node_shapes[
                 _get_attr(_node, node_shape_attr, node_shape)
-            ].format(label=_node.name)
+            ].format(label=_node.node_name)
 
             # Get custom style (edge_arrow_attr, edge_label)
             _arrow = edge_arrows[_get_attr(_node, edge_arrow_attr, edge_arrow)]

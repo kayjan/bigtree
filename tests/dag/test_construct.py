@@ -203,16 +203,16 @@ class TestDataFrameToDAG(unittest.TestCase):
         dag = construct.dataframe_to_dag(data)
         assert_dag_structure_root(dag)
         for parent, _ in dag_iterator(dag):
-            if parent.name == "a":
+            if parent.node_name == "a":
                 assert hasattr(
                     parent, "value"
                 ), "Check a attribute, expected value attribute"
                 assert parent.value == 0, "Check a value, expected 0"
-            elif parent.name == "b":
+            elif parent.node_name == "b":
                 assert not hasattr(
                     parent, "value"
                 ), "Check b attribute, expected no value attribute"
-            elif parent.name == "c":
+            elif parent.node_name == "c":
                 assert parent.value == -1, "Check c value, expected -1"
 
     def test_dataframe_to_dag_empty_row_error(self):
