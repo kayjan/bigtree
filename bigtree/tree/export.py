@@ -55,6 +55,7 @@ T = TypeVar("T", bound=node.Node)
 
 def print_tree(
     tree: T,
+    alias: str = "node_name",
     node_name_or_path: str = "",
     max_depth: int = 0,
     all_attrs: bool = False,
@@ -195,6 +196,8 @@ def print_tree(
 
     Args:
         tree (Node): tree to print
+        alias (Optional[str]): node attribute to use for node name in tree as alias to `node_name`, if present.
+            Otherwise, it will default to `node_name` of node.
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         all_attrs (bool): indicator to show all attributes, defaults to False, overrides `attr_list` and `attr_omit_null`
@@ -236,7 +239,8 @@ def print_tree(
             attr_str = ", ".join(attr_str_list)
             if attr_str:
                 attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
-        node_str = f"{_node.node_name}{attr_str}"
+        name_str = _node.get_attr(alias) or _node.node_name
+        node_str = f"{name_str}{attr_str}"
         print(f"{pre_str}{fill_str}{node_str}", **kwargs)
 
 

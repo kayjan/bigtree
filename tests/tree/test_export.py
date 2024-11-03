@@ -55,6 +55,34 @@ LOCAL = Constants.LOCAL
 
 class TestPrintTree:
     @staticmethod
+    def test_print_tree(tree_node):
+        assert_print_statement(
+            export.print_tree,
+            tree_node_no_attr_str,
+            tree=tree_node,
+        )
+
+    @staticmethod
+    def test_print_tree_alias(tree_node):
+        expected_str = (
+            "alias a\n"
+            "├── b\n"
+            "│   ├── d\n"
+            "│   └── e\n"
+            "│       ├── g\n"
+            "│       └── h\n"
+            "└── c\n"
+            "    └── f\n"
+        )
+        tree_node.set_attrs({"alias": "alias a"})
+        assert_print_statement(
+            export.print_tree,
+            expected_str,
+            tree=tree_node,
+            alias="alias",
+        )
+
+    @staticmethod
     def test_print_tree_child_node_name(tree_node):
         # fmt: off
         expected_str = (
