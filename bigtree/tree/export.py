@@ -68,6 +68,7 @@ def print_tree(
     """Print tree to console, starting from `tree`.
     Accepts kwargs for print() function.
 
+    - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
     - Able to choose which attributes to show or show all attributes, using `attr_name_filter` and `all_attrs`
@@ -1592,6 +1593,7 @@ def tree_to_mermaid(
     Args:
         tree (Node): tree to be exported
         title (str): title, defaults to None
+        theme (str): theme or colour scheme, defaults to None
         rankdir (str): layout direction, defaults to 'TB' (top to bottom), can be 'BT' (bottom to top),
             'LR' (left to right), 'RL' (right to left)
         line_shape (str): line shape or curvature, defaults to 'basis'
