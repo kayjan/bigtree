@@ -61,7 +61,9 @@ class Node(basenode.BaseNode):
 
     Get `Node` configuration
 
-    1. ``node_name``: Get node name, without accessing `name` directly
+    1. ``node_name``: Get node name, without accessing `name` directly.
+        This is the preferred way to access node name as `node_name` is
+        immutable, whereas `name` is mutable.
     2. ``path_name``: Get path name from root, separated by `sep`
 
     **Node Methods**
