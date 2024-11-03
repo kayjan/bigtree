@@ -1653,7 +1653,26 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot(tree_node):
         graph = export.tree_to_dot(tree_node)
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\n"
+            "b0 [label=b];\n"
+            "a0 -> b0;\n"
+            "d0 [label=d];\n"
+            "b0 -> d0;\n"
+            "e0 [label=e];\n"
+            "b0 -> e0;\n"
+            "g0 [label=g];\n"
+            "e0 -> g0;\n"
+            "h0 [label=h];\n"
+            "e0 -> h0;\n"
+            "c0 [label=c];\n"
+            "a0 -> c0;\n"
+            "f0 [label=f];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree.png")
@@ -1665,7 +1684,29 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_multiple(tree_node, tree_node_plot):
         graph = export.tree_to_dot([tree_node, tree_node_plot])
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\nz0 [label=z];\ny0 [label=y];\nz0 -> y0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\n"
+            "b0 [label=b];\n"
+            "a0 -> b0;\n"
+            "d0 [label=d];\n"
+            "b0 -> d0;\n"
+            "e0 [label=e];\n"
+            "b0 -> e0;\n"
+            "g0 [label=g];\n"
+            "e0 -> g0;\n"
+            "h0 [label=h];\n"
+            "e0 -> h0;\n"
+            "c0 [label=c];\n"
+            "a0 -> c0;\n"
+            "f0 [label=f];\n"
+            "c0 -> f0;\n"
+            "z0 [label=z];\n"
+            "y0 [label=y];\n"
+            "z0 -> y0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_multiple.png")
@@ -1677,7 +1718,26 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_duplicate_names(tree_node_duplicate_names):
         graph = export.tree_to_dot(tree_node_duplicate_names)
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\na1 [label=a];\na0 -> a1;\na2 [label=a];\na1 -> a2;\nb0 [label=b];\na1 -> b0;\na3 [label=a];\nb0 -> a3;\nb1 [label=b];\nb0 -> b1;\nb2 [label=b];\na0 -> b2;\na4 [label=a];\nb2 -> a4;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\n"
+            "a1 [label=a];\n"
+            "a0 -> a1;\n"
+            "a2 [label=a];\n"
+            "a1 -> a2;\n"
+            "b0 [label=b];\n"
+            "a1 -> b0;\n"
+            "a3 [label=a];\n"
+            "b0 -> a3;\n"
+            "b1 [label=b];\n"
+            "b0 -> b1;\n"
+            "b2 [label=b];\n"
+            "a0 -> b2;\n"
+            "a4 [label=a];\n"
+            "b2 -> a4;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_duplicate_names.png")
@@ -1695,7 +1755,26 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_directed(tree_node):
         graph = export.tree_to_dot(tree_node, directed=False)
-        expected = """strict graph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -- b0;\nd0 [label=d];\nb0 -- d0;\ne0 [label=e];\nb0 -- e0;\ng0 [label=g];\ne0 -- g0;\nh0 [label=h];\ne0 -- h0;\nc0 [label=c];\na0 -- c0;\nf0 [label=f];\nc0 -- f0;\n}\n"""
+        expected = (
+            "strict graph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\n"
+            "b0 [label=b];\n"
+            "a0 -- b0;\n"
+            "d0 [label=d];\n"
+            "b0 -- d0;\n"
+            "e0 [label=e];\n"
+            "b0 -- e0;\n"
+            "g0 [label=g];\n"
+            "e0 -- g0;\n"
+            "h0 [label=h];\n"
+            "e0 -- h0;\n"
+            "c0 [label=c];\n"
+            "a0 -- c0;\n"
+            "f0 [label=f];\n"
+            "c0 -- f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_undirected.png")
@@ -1707,7 +1786,26 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_bg_colour(tree_node):
         graph = export.tree_to_dot(tree_node, bg_colour="blue")
-        expected = """strict digraph G {\nbgcolor=blue;\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0;\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "bgcolor=blue;\n"
+            "rankdir=TB;\na0 [label=a];\n"
+            "b0 [label=b];\n"
+            "a0 -> b0;\n"
+            "d0 [label=d];\n"
+            "b0 -> d0;\n"
+            "e0 [label=e];\n"
+            "b0 -> e0;\n"
+            "g0 [label=g];\n"
+            "e0 -> g0;\n"
+            "h0 [label=h];\n"
+            "e0 -> h0;\n"
+            "c0 [label=c];\n"
+            "a0 -> c0;\n"
+            "f0 [label=f];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_bg_colour.png")
@@ -1722,7 +1820,26 @@ class TestTreeToDot:
     )
     def test_tree_to_dot_fill_colour(tree_node):
         graph = export.tree_to_dot(tree_node, node_colour="gold")
-        expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=gold, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=gold, label=d, style=filled];\nb0 -> d0;\ne0 [fillcolor=gold, label=e, style=filled];\nb0 -> e0;\ng0 [fillcolor=gold, label=g, style=filled];\ne0 -> g0;\nh0 [fillcolor=gold, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=gold, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=gold, label=f, style=filled];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [fillcolor=gold, label=a, style=filled];\n"
+            "b0 [fillcolor=gold, label=b, style=filled];\n"
+            "a0 -> b0;\n"
+            "d0 [fillcolor=gold, label=d, style=filled];\n"
+            "b0 -> d0;\n"
+            "e0 [fillcolor=gold, label=e, style=filled];\n"
+            "b0 -> e0;\n"
+            "g0 [fillcolor=gold, label=g, style=filled];\n"
+            "e0 -> g0;\n"
+            "h0 [fillcolor=gold, label=h, style=filled];\n"
+            "e0 -> h0;\n"
+            "c0 [fillcolor=gold, label=c, style=filled];\n"
+            "a0 -> c0;\n"
+            "f0 [fillcolor=gold, label=f, style=filled];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_fill_colour.png")
@@ -1738,7 +1855,26 @@ class TestTreeToDot:
     )
     def test_tree_to_dot_fill_colour2(tree_node):
         graph = export.tree_to_dot(tree_node, node_colour="gold")
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, style=filled, fillcolor=gold];\nb0 [label=b, style=filled, fillcolor=gold];\na0 -> b0;\nd0 [label=d, style=filled, fillcolor=gold];\nb0 -> d0;\ne0 [label=e, style=filled, fillcolor=gold];\nb0 -> e0;\ng0 [label=g, style=filled, fillcolor=gold];\ne0 -> g0;\nh0 [label=h, style=filled, fillcolor=gold];\ne0 -> h0;\nc0 [label=c, style=filled, fillcolor=gold];\na0 -> c0;\nf0 [label=f, style=filled, fillcolor=gold];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a, style=filled, fillcolor=gold];\n"
+            "b0 [label=b, style=filled, fillcolor=gold];\n"
+            "a0 -> b0;\n"
+            "d0 [label=d, style=filled, fillcolor=gold];\n"
+            "b0 -> d0;\n"
+            "e0 [label=e, style=filled, fillcolor=gold];\n"
+            "b0 -> e0;\n"
+            "g0 [label=g, style=filled, fillcolor=gold];\n"
+            "e0 -> g0;\n"
+            "h0 [label=h, style=filled, fillcolor=gold];\n"
+            "e0 -> h0;\n"
+            "c0 [label=c, style=filled, fillcolor=gold];\n"
+            "a0 -> c0;\n"
+            "f0 [label=f, style=filled, fillcolor=gold];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_fill_colour.png")
@@ -1750,7 +1886,26 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_edge_colour(tree_node):
         graph = export.tree_to_dot(tree_node, edge_colour="red")
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [color=red];\nd0 [label=d];\nb0 -> d0  [color=red];\ne0 [label=e];\nb0 -> e0  [color=red];\ng0 [label=g];\ne0 -> g0  [color=red];\nh0 [label=h];\ne0 -> h0  [color=red];\nc0 [label=c];\na0 -> c0  [color=red];\nf0 [label=f];\nc0 -> f0  [color=red];\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\n"
+            "b0 [label=b];\n"
+            "a0 -> b0  [color=red];\n"
+            "d0 [label=d];\n"
+            "b0 -> d0  [color=red];\n"
+            "e0 [label=e];\n"
+            "b0 -> e0  [color=red];\n"
+            "g0 [label=g];\n"
+            "e0 -> g0  [color=red];\n"
+            "h0 [label=h];\n"
+            "e0 -> h0  [color=red];\n"
+            "c0 [label=c];\n"
+            "a0 -> c0  [color=red];\n"
+            "f0 [label=f];\n"
+            "c0 -> f0  [color=red];\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_edge_colour.png")
@@ -1762,7 +1917,22 @@ class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot_node_shape(tree_node):
         graph = export.tree_to_dot(tree_node, node_shape="triangle")
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, shape=triangle];\nb0 [label=b, shape=triangle];\na0 -> b0;\nd0 [label=d, shape=triangle];\nb0 -> d0;\ne0 [label=e, shape=triangle];\nb0 -> e0;\ng0 [label=g, shape=triangle];\ne0 -> g0;\nh0 [label=h, shape=triangle];\ne0 -> h0;\nc0 [label=c, shape=triangle];\na0 -> c0;\nf0 [label=f, shape=triangle];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a, shape=triangle];\nb0 [label=b, shape=triangle];\n"
+            "a0 -> b0;\n"
+            "d0 [label=d, shape=triangle];\n"
+            "b0 -> d0;\ne0 [label=e, shape=triangle];\n"
+            "b0 -> e0;\n"
+            "g0 [label=g, shape=triangle];\n"
+            "e0 -> g0;\nh0 [label=h, shape=triangle];\n"
+            "e0 -> h0;\n"
+            "c0 [label=c, shape=triangle];\n"
+            "a0 -> c0;\nf0 [label=f, shape=triangle];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_node_shape.png")
@@ -1777,7 +1947,25 @@ class TestTreeToDot:
     )
     def test_tree_to_dot_node_attr(tree_node_style):
         graph = export.tree_to_dot(tree_node_style, node_attr="node_style")
-        expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=green, label=d, style=filled];\nb0 -> d0;\ng0 [fillcolor=red, label=g, style=filled];\nd0 -> g0;\ne0 [fillcolor=green, label=e, style=filled];\nb0 -> e0;\nh0 [fillcolor=red, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=blue, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=green, label=f, style=filled];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [fillcolor=gold, label=a, style=filled];\n"
+            "b0 [fillcolor=blue, label=b, style=filled];\na0 -> b0;\n"
+            "d0 [fillcolor=green, label=d, style=filled];\n"
+            "b0 -> d0;\n"
+            "g0 [fillcolor=red, label=g, style=filled];\n"
+            "d0 -> g0;\n"
+            "e0 [fillcolor=green, label=e, style=filled];\n"
+            "b0 -> e0;\n"
+            "h0 [fillcolor=red, label=h, style=filled];\n"
+            "e0 -> h0;\n"
+            "c0 [fillcolor=blue, label=c, style=filled];\n"
+            "a0 -> c0;\n"
+            "f0 [fillcolor=green, label=f, style=filled];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_node_attr.png")
@@ -1793,7 +1981,26 @@ class TestTreeToDot:
     )
     def test_tree_to_dot_node_attr2(tree_node_style):
         graph = export.tree_to_dot(tree_node_style, node_attr="node_style")
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, style=filled, fillcolor=gold];\nb0 [label=b, style=filled, fillcolor=blue];\na0 -> b0;\nd0 [label=d, style=filled, fillcolor=green];\nb0 -> d0;\ng0 [label=g, style=filled, fillcolor=red];\nd0 -> g0;\ne0 [label=e, style=filled, fillcolor=green];\nb0 -> e0;\nh0 [label=h, style=filled, fillcolor=red];\ne0 -> h0;\nc0 [label=c, style=filled, fillcolor=blue];\na0 -> c0;\nf0 [label=f, style=filled, fillcolor=green];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a, style=filled, fillcolor=gold];\n"
+            "b0 [label=b, style=filled, fillcolor=blue];\n"
+            "a0 -> b0;\n"
+            "d0 [label=d, style=filled, fillcolor=green];\n"
+            "b0 -> d0;\n"
+            "g0 [label=g, style=filled, fillcolor=red];\n"
+            "d0 -> g0;\n"
+            "e0 [label=e, style=filled, fillcolor=green];\n"
+            "b0 -> e0;\n"
+            "h0 [label=h, style=filled, fillcolor=red];\n"
+            "e0 -> h0;\n"
+            "c0 [label=c, style=filled, fillcolor=blue];\n"
+            "a0 -> c0;\n"
+            "f0 [label=f, style=filled, fillcolor=green];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_node_attr.png")
@@ -1817,7 +2024,26 @@ class TestTreeToDot:
             return {"style": "filled", "fillcolor": "red"}
 
         graph = export.tree_to_dot(tree_node_style_callable, node_attr=get_node_attr)
-        expected = """strict digraph G {\nrankdir=TB;\na0 [fillcolor=gold, label=a, style=filled];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0;\nd0 [fillcolor=green, label=d, style=filled];\nb0 -> d0;\ng0 [fillcolor=red, label=g, style=filled];\nd0 -> g0;\ne0 [fillcolor=green, label=e, style=filled];\nb0 -> e0;\nh0 [fillcolor=red, label=h, style=filled];\ne0 -> h0;\nc0 [fillcolor=blue, label=c, style=filled];\na0 -> c0;\nf0 [fillcolor=green, label=f, style=filled];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [fillcolor=gold, label=a, style=filled];\n"
+            "b0 [fillcolor=blue, label=b, style=filled];\n"
+            "a0 -> b0;\n"
+            "d0 [fillcolor=green, label=d, style=filled];\n"
+            "b0 -> d0;\n"
+            "g0 [fillcolor=red, label=g, style=filled];\n"
+            "d0 -> g0;\n"
+            "e0 [fillcolor=green, label=e, style=filled];\n"
+            "b0 -> e0;\n"
+            "h0 [fillcolor=red, label=h, style=filled];\n"
+            "e0 -> h0;\n"
+            "c0 [fillcolor=blue, label=c, style=filled];\n"
+            "a0 -> c0;\n"
+            "f0 [fillcolor=green, label=f, style=filled];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_node_attr_callable.png")
@@ -1842,7 +2068,26 @@ class TestTreeToDot:
             return {"style": "filled", "fillcolor": "red"}
 
         graph = export.tree_to_dot(tree_node_style_callable, node_attr=get_node_attr)
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a, style=filled, fillcolor=gold];\nb0 [label=b, style=filled, fillcolor=blue];\na0 -> b0;\nd0 [label=d, style=filled, fillcolor=green];\nb0 -> d0;\ng0 [label=g, style=filled, fillcolor=red];\nd0 -> g0;\ne0 [label=e, style=filled, fillcolor=green];\nb0 -> e0;\nh0 [label=h, style=filled, fillcolor=red];\ne0 -> h0;\nc0 [label=c, style=filled, fillcolor=red];\na0 -> c0;\nf0 [label=f, style=filled, fillcolor=green];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a, style=filled, fillcolor=gold];\n"
+            "b0 [label=b, style=filled, fillcolor=blue];\n"
+            "a0 -> b0;\n"
+            "d0 [label=d, style=filled, fillcolor=green];\n"
+            "b0 -> d0;\n"
+            "g0 [label=g, style=filled, fillcolor=red];\n"
+            "d0 -> g0;\n"
+            "e0 [label=e, style=filled, fillcolor=green];\n"
+            "b0 -> e0;\n"
+            "h0 [label=h, style=filled, fillcolor=red];\n"
+            "e0 -> h0;\n"
+            "c0 [label=c, style=filled, fillcolor=red];\n"
+            "a0 -> c0;\n"
+            "f0 [label=f, style=filled, fillcolor=green];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_node_attr_callable.png")
@@ -1857,7 +2102,26 @@ class TestTreeToDot:
     )
     def test_tree_to_dot_edge_attr(tree_node_style):
         graph = export.tree_to_dot(tree_node_style, edge_attr="edge_style")
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [label=b, style=bold];\nd0 [label=d];\nb0 -> d0  [label=1, style=bold];\ng0 [label=g];\nd0 -> g0  [label=4, style=bold];\ne0 [label=e];\nb0 -> e0  [label=2, style=bold];\nh0 [label=h];\ne0 -> h0  [label=5, style=bold];\nc0 [label=c];\na0 -> c0  [label=c, style=bold];\nf0 [label=f];\nc0 -> f0  [label=3, style=bold];\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\n"
+            "b0 [label=b];\n"
+            "a0 -> b0  [label=b, style=bold];\n"
+            "d0 [label=d];\n"
+            "b0 -> d0  [label=1, style=bold];\n"
+            "g0 [label=g];\n"
+            "d0 -> g0  [label=4, style=bold];\n"
+            "e0 [label=e];\n"
+            "b0 -> e0  [label=2, style=bold];\n"
+            "h0 [label=h];\n"
+            "e0 -> h0  [label=5, style=bold];\n"
+            "c0 [label=c];\n"
+            "a0 -> c0  [label=c, style=bold];\n"
+            "f0 [label=f];\n"
+            "c0 -> f0  [label=3, style=bold];\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_edge_attr.png")
@@ -1873,7 +2137,26 @@ class TestTreeToDot:
     )
     def test_tree_to_dot_edge_attr2(tree_node_style):
         graph = export.tree_to_dot(tree_node_style, edge_attr="edge_style")
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0 [style=bold, label=b];\nd0 [label=d];\nb0 -> d0 [style=bold, label=1];\ng0 [label=g];\nd0 -> g0 [style=bold, label=4];\ne0 [label=e];\nb0 -> e0 [style=bold, label=2];\nh0 [label=h];\ne0 -> h0 [style=bold, label=5];\nc0 [label=c];\na0 -> c0 [style=bold, label=c];\nf0 [label=f];\nc0 -> f0 [style=bold, label=3];\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\n"
+            "b0 [label=b];\n"
+            "a0 -> b0 [style=bold, label=b];\n"
+            "d0 [label=d];\n"
+            "b0 -> d0 [style=bold, label=1];\n"
+            "g0 [label=g];\n"
+            "d0 -> g0 [style=bold, label=4];\n"
+            "e0 [label=e];\n"
+            "b0 -> e0 [style=bold, label=2];\n"
+            "h0 [label=h];\n"
+            "e0 -> h0 [style=bold, label=5];\n"
+            "c0 [label=c];\n"
+            "a0 -> c0 [style=bold, label=c];\n"
+            "f0 [label=f];\n"
+            "c0 -> f0 [style=bold, label=3];\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_edge_attr.png")
@@ -1902,7 +2185,26 @@ class TestTreeToDot:
             raise Exception("Node with invalid edge_attr not covered")
 
         graph = export.tree_to_dot(tree_node_style_callable, edge_attr=get_edge_attr)
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0  [label=b, style=bold];\nd0 [label=d];\nb0 -> d0  [label=1, style=bold];\ng0 [label=g];\nd0 -> g0  [label=4, style=bold];\ne0 [label=e];\nb0 -> e0  [label=2, style=bold];\nh0 [label=h];\ne0 -> h0  [label=5, style=bold];\nc0 [label=c];\na0 -> c0  [label=c, style=bold];\nf0 [label=f];\nc0 -> f0  [label=3, style=bold];\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\n"
+            "b0 [label=b];\n"
+            "a0 -> b0  [label=b, style=bold];\n"
+            "d0 [label=d];\n"
+            "b0 -> d0  [label=1, style=bold];\n"
+            "g0 [label=g];\n"
+            "d0 -> g0  [label=4, style=bold];\n"
+            "e0 [label=e];\n"
+            "b0 -> e0  [label=2, style=bold];\n"
+            "h0 [label=h];\n"
+            "e0 -> h0  [label=5, style=bold];\n"
+            "c0 [label=c];\n"
+            "a0 -> c0  [label=c, style=bold];\n"
+            "f0 [label=f];\n"
+            "c0 -> f0  [label=3, style=bold];\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_edge_attr_callable.png")
@@ -1932,7 +2234,25 @@ class TestTreeToDot:
             raise Exception("Node with invalid edge_attr not covered")
 
         graph = export.tree_to_dot(tree_node_style_callable, edge_attr=get_edge_attr)
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b];\na0 -> b0 [style=bold, label=b];\nd0 [label=d];\nb0 -> d0 [style=bold, label=1];\ng0 [label=g];\nd0 -> g0 [style=bold, label=4];\ne0 [label=e];\nb0 -> e0 [style=bold, label=2];\nh0 [label=h];\ne0 -> h0 [style=bold, label=5];\nc0 [label=c];\na0 -> c0 [style=bold, label=c];\nf0 [label=f];\nc0 -> f0 [style=bold, label=3];\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\nb0 [label=b];\n"
+            "a0 -> b0 [style=bold, label=b];\n"
+            "d0 [label=d];\n"
+            "b0 -> d0 [style=bold, label=1];\n"
+            "g0 [label=g];\n"
+            "d0 -> g0 [style=bold, label=4];\n"
+            "e0 [label=e];\n"
+            "b0 -> e0 [style=bold, label=2];\n"
+            "h0 [label=h];\n"
+            "e0 -> h0 [style=bold, label=5];\n"
+            "c0 [label=c];\n"
+            "a0 -> c0 [style=bold, label=c];\n"
+            "f0 [label=f];\n"
+            "c0 -> f0 [style=bold, label=3];\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_edge_attr_callable.png")
@@ -1955,7 +2275,26 @@ class TestTreeToDot:
         graph = export.tree_to_dot(
             tree_node, node_attr="node_style", edge_attr="edge_style"
         )
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [fillcolor=blue, label=b, style=filled];\na0 -> b0  [style=bold];\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\n"
+            "b0 [fillcolor=blue, label=b, style=filled];\n"
+            "a0 -> b0  [style=bold];\n"
+            "d0 [label=d];\n"
+            "b0 -> d0;\n"
+            "e0 [label=e];\n"
+            "b0 -> e0;\n"
+            "g0 [label=g];\n"
+            "e0 -> g0;\n"
+            "h0 [label=h];\n"
+            "e0 -> h0;\n"
+            "c0 [label=c];\n"
+            "a0 -> c0;\n"
+            "f0 [label=f];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_attr_override.png")
@@ -1979,7 +2318,23 @@ class TestTreeToDot:
         graph = export.tree_to_dot(
             tree_node, node_attr="node_style", edge_attr="edge_style"
         )
-        expected = """strict digraph G {\nrankdir=TB;\na0 [label=a];\nb0 [label=b, style=filled, fillcolor=blue];\na0 -> b0 [style=bold];\nd0 [label=d];\nb0 -> d0;\ne0 [label=e];\nb0 -> e0;\ng0 [label=g];\ne0 -> g0;\nh0 [label=h];\ne0 -> h0;\nc0 [label=c];\na0 -> c0;\nf0 [label=f];\nc0 -> f0;\n}\n"""
+        expected = (
+            "strict digraph G {\n"
+            "rankdir=TB;\n"
+            "a0 [label=a];\n"
+            "b0 [label=b, style=filled, fillcolor=blue];\n"
+            "a0 -> b0 [style=bold];\n"
+            "d0 [label=d];\n"
+            "b0 -> d0;\n"
+            "e0 [label=e];\nb0 -> e0;\n"
+            "g0 [label=g];\n"
+            "e0 -> g0;\nh0 [label=h];\n"
+            "e0 -> h0;\n"
+            "c0 [label=c];\na0 -> c0;\n"
+            "f0 [label=f];\n"
+            "c0 -> f0;\n"
+            "}\n"
+        )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png("tests/tree_attr_override.png")
