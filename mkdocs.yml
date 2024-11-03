@@ -93,7 +93,7 @@ theme:
 
 plugins:
   - glightbox  # expand images
-  - mkdocs-jupyter
+  - mkdocs-jupyter:
       include_source: True
   - search
   - social:
