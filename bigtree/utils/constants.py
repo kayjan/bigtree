@@ -171,6 +171,7 @@ DoubleHPrintStyle = BaseHPrintStyle(*ExportConstants.HPRINT_STYLES["double"])
 
 
 class MermaidConstants:
+    THEMES: List[str] = ["default", "neutral", "dark", "forest", "base"]
     RANK_DIR: List[str] = ["TB", "BT", "LR", "RL"]
     LINE_SHAPES: List[str] = [
         "basis",

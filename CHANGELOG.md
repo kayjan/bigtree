@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added:
+- Tree Export: Mermaid diagram to include theme.
+### Fixed:
+- Misc: Doctest for docstrings, mermaid title to add newline.
 
 ## [0.22.1] - 2024-11-03
 ### Added:

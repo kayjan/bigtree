@@ -2477,6 +2477,33 @@ class TestTreeToMermaid:
         assert mermaid_md == expected_str
 
     @staticmethod
+    def test_tree_to_mermaid_theme(tree_node):
+        mermaid_md = export.tree_to_mermaid(tree_node, theme="forest")
+        expected_str = (
+            """```mermaid\n"""
+            """%%{ init: { \'flowchart\': { \'curve\': \'basis\' }, \'theme\': \'forest\' } }%%\n"""
+            """flowchart TB\n"""
+            """0("a") --> 0-0("b")\n"""
+            """0-0 --> 0-0-0("d")\n"""
+            """0-0 --> 0-0-1("e")\n"""
+            """0-0-1 --> 0-0-1-0("g")\n"""
+            """0-0-1 --> 0-0-1-1("h")\n"""
+            """0("a") --> 0-1("c")\n"""
+            """0-1 --> 0-1-0("f")\n"""
+            """classDef default stroke-width:1\n"""
+            """```"""
+        )
+        assert mermaid_md == expected_str
+
+    @staticmethod
+    def test_tree_to_mermaid_invalid_theme_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            export.tree_to_mermaid(tree_node, theme="invalid")
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_MERMAID_INVALID_ARGUMENT.format(parameter="theme")
+        )
+
+    @staticmethod
     def test_tree_to_mermaid_invalid_rankdir_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
             export.tree_to_mermaid(tree_node, rankdir="invalid")
