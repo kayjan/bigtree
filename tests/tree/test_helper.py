@@ -242,7 +242,14 @@ class TestTreeDiff:
         )
         other_tree_node = node.Node("a", children=[node.Node("b")])
         tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
-        expected_str = "a\n" "├── b (+)\n" "└── bb (-)\n" "    └── b (-)"
+        # fmt: off
+        expected_str = (
+            "a\n"
+            "├── b (+)\n"
+            "└── bb (-)\n"
+            "    └── b (-)\n"
+        )
+        # fmt: on
         assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
