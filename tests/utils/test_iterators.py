@@ -198,7 +198,7 @@ class TestLevelOrderGroupIter:
             [node.node_name for node in group]
             for group in iterators.levelordergroup_iter(
                 tree_node,
-                filter_condition=lambda x: x.name in ["a", "d", "e", "f", "g"],
+                filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"],
             )
         ]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
@@ -210,7 +210,7 @@ class TestLevelOrderGroupIter:
             [node.node_name for node in group]
             for group in iterators.levelordergroup_iter(
                 tree_node,
-                filter_condition=lambda x: x.name in ["g", "h"],
+                filter_condition=lambda x: x.node_name in ["g", "h"],
             )
         ]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
@@ -221,7 +221,7 @@ class TestLevelOrderGroupIter:
         actual = [
             [node.node_name for node in group]
             for group in iterators.levelordergroup_iter(
-                tree_node, stop_condition=lambda x: x.name == "e"
+                tree_node, stop_condition=lambda x: x.node_name == "e"
             )
         ]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
@@ -319,7 +319,7 @@ class TestZigZagGroupIter:
             [node.node_name for node in group]
             for group in iterators.zigzaggroup_iter(
                 tree_node,
-                filter_condition=lambda x: x.name in ["a", "d", "e", "f", "g"],
+                filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"],
             )
         ]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
@@ -331,7 +331,7 @@ class TestZigZagGroupIter:
             [node.node_name for node in group]
             for group in iterators.zigzaggroup_iter(
                 tree_node,
-                filter_condition=lambda x: x.name in ["g", "h"],
+                filter_condition=lambda x: x.node_name in ["g", "h"],
             )
         ]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
@@ -342,7 +342,7 @@ class TestZigZagGroupIter:
         actual = [
             [node.node_name for node in group]
             for group in iterators.zigzaggroup_iter(
-                tree_node, stop_condition=lambda x: x.name == "e"
+                tree_node, stop_condition=lambda x: x.node_name == "e"
             )
         ]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"

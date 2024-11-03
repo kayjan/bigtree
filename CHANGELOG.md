@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added:
-- Misc: Documentation to rely on jupyter notebook.
+- (WIP) Misc: Documentation to rely on jupyter notebook.
+### Changed:
+- Tree Export: Exporting to dot allow node_attr and edge_attr to modify node before retrieving node name.
+- Misc: All code reference to node_name (immutable) instead of name (mutable).
 
 ## [0.22.0] - 2024-11-03
 ### Added:

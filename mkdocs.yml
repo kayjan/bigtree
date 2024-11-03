@@ -23,7 +23,7 @@ nav:
       - gettingstarted/demo/tree.md
       - gettingstarted/demo/binarytree.md
       - gettingstarted/demo/dag.md
-      - gettingstarted/demo/workflow.ipynb
+      - gettingstarted/demo/workflow.md
     - Resources:
       - gettingstarted/resources/articles.md
       - gettingstarted/resources/glossary.md

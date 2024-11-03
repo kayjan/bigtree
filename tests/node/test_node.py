@@ -326,15 +326,17 @@ class TestNode(unittest.TestCase):
         for node_pair, expected_path in zip(
             combinations(list(iterators.preorder_iter(self.a)), 2), expected_paths
         ):
-            actual_path = [_node.name for _node in node_pair[0].go_to(node_pair[1])]
+            actual_path = [
+                _node.node_name for _node in node_pair[0].go_to(node_pair[1])
+            ]
             assert (
                 actual_path == expected_path
             ), f"Wrong path for {node_pair}, expected {expected_path}, received {actual_path}"
 
     def test_go_to_same_node(self):
         for _node in iterators.preorder_iter(self.a):
-            actual_path = [_node1.name for _node1 in _node.go_to(_node)]
-            expected_path = [_node.name]
+            actual_path = [_node1.node_name for _node1 in _node.go_to(_node)]
+            expected_path = [_node.node_name]
             assert (
                 actual_path == expected_path
             ), f"Wrong path for {_node}, expected {expected_path}, received {actual_path}"

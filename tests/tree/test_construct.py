@@ -93,7 +93,7 @@ class TestAddPathToTree(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     def test_add_path_to_tree_sep_error(self):
-        root1 = self.root.name
+        root1 = self.root.node_name
         root2 = "a\\b\\d"
         path_list = ["a\\b\\d", "a\\b\\e", "a\\b\\e\\g", "a\\b\\e\\h", "a\\c\\f"]
 
@@ -169,7 +169,7 @@ class TestAddPathToTree(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     def test_add_path_to_tree_different_root_error(self):
-        root1 = self.root.name
+        root1 = self.root.node_name
         root2 = "a/b"
         path_list = [
             "a",
@@ -264,7 +264,7 @@ class TestAddDictToTreeByPath(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     def test_add_dict_to_tree_by_path_sep_error(self):
-        root1 = self.root.name
+        root1 = self.root.node_name
         root2 = "a-b"
         paths = {
             "a": {"age": 90},
@@ -384,7 +384,7 @@ class TestAddDictToTreeByPath(unittest.TestCase):
         assert_tree_structure_node_root(root)
 
     def test_add_dict_to_tree_by_path_different_root_error(self):
-        root1 = self.root.name
+        root1 = self.root.node_name
         root2 = "b"
         paths = {
             "a": {"age": 90},
@@ -784,7 +784,7 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     def test_add_dataframe_to_tree_by_path_sep_error(self):
-        root1 = self.root.name
+        root1 = self.root.node_name
         root2 = "a\\b"
         data = pd.DataFrame(
             [
@@ -971,7 +971,7 @@ class TestAddDataFrameToTreeByPath(unittest.TestCase):
         assert_tree_structure_node_root(root)
 
     def test_add_dataframe_to_tree_by_path_different_root_error(self):
-        root1 = self.root.name
+        root1 = self.root.node_name
         root2 = "b"
         data = pd.DataFrame(
             [
@@ -1530,7 +1530,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     def test_add_polars_to_tree_by_path_sep_error(self):
-        root1 = self.root.name
+        root1 = self.root.node_name
         root2 = "a\\b"
         data = pl.DataFrame(
             [
@@ -1717,7 +1717,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
         assert_tree_structure_node_root(root)
 
     def test_add_polars_to_tree_by_path_different_root_error(self):
-        root1 = self.root.name
+        root1 = self.root.node_name
         root2 = "b"
         data = pl.DataFrame(
             [

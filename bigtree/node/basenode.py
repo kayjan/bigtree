@@ -739,7 +739,7 @@ class BaseNode:
         return copy.deepcopy(self)
 
     def sort(self: T, **kwargs: Any) -> None:
-        """Sort children, possible keyword arguments include ``key=lambda node: node.name``, ``reverse=True``
+        """Sort children, possible keyword arguments include ``key=lambda node: node.node_name``, ``reverse=True``
         Accepts kwargs for sort() function.
 
         Examples:
@@ -751,7 +751,7 @@ class BaseNode:
             a
             ├── c
             └── b
-            >>> a.sort(key=lambda node: node.name)
+            >>> a.sort(key=lambda node: node.node_name)
             >>> print_tree(a)
             a
             ├── b

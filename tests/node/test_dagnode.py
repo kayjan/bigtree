@@ -674,7 +674,7 @@ class TestDAGNode(unittest.TestCase):
                 )
             else:
                 actual_path = [
-                    [_node.name for _node in _path]
+                    [_node.node_name for _node in _path]
                     for _path in node_pair[0].go_to(node_pair[1])
                 ]
                 assert (
@@ -693,9 +693,9 @@ class TestDAGNode(unittest.TestCase):
 
         for _node in self.nodes:
             actual_path = [
-                [_node2.name for _node2 in _node1] for _node1 in _node.go_to(_node)
+                [_node2.node_name for _node2 in _node1] for _node1 in _node.go_to(_node)
             ]
-            expected_path = [[_node.name]]
+            expected_path = [[_node.node_name]]
             assert (
                 actual_path == expected_path
             ), f"Wrong path for {_node}, expected {expected_path}, received {actual_path}"
@@ -1003,7 +1003,7 @@ def assert_dag_structure_self(self):
 def assert_dag_child_attr(dag, parent_name, child_name, child_attr, child_value):
     """Test tree attributes"""
     for parent, child in iterators.dag_iterator(dag):
-        if parent.name == parent_name and child.name == child_name:
+        if parent.node_name == parent_name and child.node_name == child_name:
             expected = child_value
             actual = child.get_attr(child_attr)
             assert actual == expected, f"Expected {expected}, received {actual}"
