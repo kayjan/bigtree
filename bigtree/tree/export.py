@@ -1430,6 +1430,7 @@ def tree_to_pillow(
 def tree_to_mermaid(
     tree: T,
     title: str = "",
+    theme: Optional[str] = None,
     rankdir: str = "TB",
     line_shape: str = "basis",
     node_colour: str = "",
@@ -1447,6 +1448,7 @@ def tree_to_mermaid(
 
     Parameters for customizations that apply to entire flowchart include:
         - Title, `title`
+        - Theme, `theme`
         - Layout direction, `rankdir`
         - Line shape or curvature, `line_shape`
         - Fill colour of nodes, `node_colour`
@@ -1464,6 +1466,13 @@ def tree_to_mermaid(
         - Edge label, `edge_label`
 
     **Accepted Parameter Values**
+
+    Possible theme:
+        - default
+        - neutral: great for black and white documents
+        - dark: great for dark-mode
+        - forest: shades of geen
+        - base: theme that can be modified, use it for customizations
 
     Possible rankdir:
         - `TB`: top-to-bottom
@@ -1546,6 +1555,7 @@ def tree_to_mermaid(
         >>> graph = tree_to_mermaid(
         ...     root,
         ...     title="Mermaid Diagram",
+        ...     theme="forest",
         ...     node_shape_attr="node_shape",
         ...     edge_label="edge_label",
         ...     edge_arrow_attr="edge_arrow",
@@ -1556,7 +1566,7 @@ def tree_to_mermaid(
         ---
         title: Mermaid Diagram
         ---
-        %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
+        %%{ init: { 'flowchart': { 'curve': 'basis' }, 'theme': 'forest' } }%%
         flowchart TB
         0{"a"} ==>|Child 1| 0-0("b")
         0-0 --> 0-0-0("d"):::class0-0-0
@@ -1593,12 +1603,15 @@ def tree_to_mermaid(
     """
     from bigtree.tree.helper import clone_tree
 
+    themes = constants.MermaidConstants.THEMES
     rankdirs = constants.MermaidConstants.RANK_DIR
     line_shapes = constants.MermaidConstants.LINE_SHAPES
     node_shapes = constants.MermaidConstants.NODE_SHAPES
     edge_arrows = constants.MermaidConstants.EDGE_ARROWS
 
     # Assertions
+    if theme:
+        assertions.assert_str_in_list("theme", theme, themes)
     assertions.assert_str_in_list("rankdir", rankdir, rankdirs)
     assertions.assert_key_in_dict("node_shape", node_shape, node_shapes)
     assertions.assert_str_in_list("line_shape", line_shape, line_shapes)
@@ -1609,8 +1622,9 @@ def tree_to_mermaid(
     style_template = "classDef {style_name} {style}"
 
     # Content
+    theme_mermaid = f", 'theme': '{theme}'" if theme else ""
     title = f"---\ntitle: {title}\n---\n" if title else ""
-    line_style = f"%%{{ init: {{ 'flowchart': {{ 'curve': '{line_shape}' }} }} }}%%"
+    line_style = f"%%{{ init: {{ 'flowchart': {{ 'curve': '{line_shape}' }}{theme_mermaid} }} }}%%"
     styles = []
     flows = []
 
