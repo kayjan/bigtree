@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added:
+- Tree Export: Print tree to allow alias.
 - Tree Export: Mermaid diagram to include theme.
 ### Fixed:
 - Misc: Doctest for docstrings, docstring to indicate usage prefers `node_name` to `name`.

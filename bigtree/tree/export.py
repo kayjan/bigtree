@@ -86,9 +86,9 @@ def print_tree(
         **Printing tree**
 
         >>> from bigtree import Node, print_tree
-        >>> root = Node("a", age=90)
+        >>> root = Node("a", alias="alias-a", age=90)
         >>> b = Node("b", age=65, parent=root)
-        >>> c = Node("c", age=60, parent=root)
+        >>> c = Node("c", alias="alias-c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=b)
         >>> e = Node("e", age=35, parent=b)
         >>> print_tree(root)
@@ -97,6 +97,15 @@ def print_tree(
         │   ├── d
         │   └── e
         └── c
+
+        **Printing alias**
+
+        >>> print_tree(root, alias="alias")
+        alias-a
+        ├── b
+        │   ├── d
+        │   └── e
+        └── alias-c
 
         **Printing Sub-tree**
 

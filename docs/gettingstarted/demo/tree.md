@@ -333,9 +333,9 @@ Alternatively, the `print_tree` or `hprint_tree` method can be used.
 ```python hl_lines="8 15"
 from bigtree import Node, print_tree, hprint_tree
 
-root = Node("a", age=90, gender="F")
+root = Node("a", alias="alias-a", age=90, gender="F")
 b = Node("b", age=65, gender="M", parent=root)
-c = Node("c", age=60, gender="M", parent=root)
+c = Node("c", alias="alias-c", age=60, gender="M", parent=root)
 d = Node("d", age=40, gender="F", parent=b)
 e = Node("e", age=35, gender="M", parent=b)
 print_tree(root) # (1)!
@@ -357,10 +357,20 @@ hprint_tree(root) # (2)!
 
 Other customizations for printing are also available, such as:
 
+- Printing alias instead of node name, if present
 - Printing subtree
 - Printing tree with attributes
 - Different built-in or custom style
 
+=== "Alias"
+    ```python hl_lines="1"
+    root.show(alias="alias")
+    # alias-a
+    # ├── b
+    # │   ├── d
+    # │   └── e
+    # └── alias-c
+    ```
 === "Subtree"
     ```python hl_lines="1 6"
     root.show(node_name_or_path="b")
