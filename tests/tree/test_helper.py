@@ -236,6 +236,16 @@ class TestTreeDiff:
         assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
+    def test_tree_diff_same_prefix():
+        tree_node = node.Node(
+            "a", children=[node.Node("bb", children=[node.Node("b")])]
+        )
+        other_tree_node = node.Node("a", children=[node.Node("b")])
+        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
+        expected_str = "a\n" "├── b (+)\n" "└── bb (-)\n" "    └── b (-)"
+        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
+
+    @staticmethod
     def test_tree_diff_diff_sep_error(tree_node):
         other_tree_node = helper.prune_tree(tree_node, "a/c")
         other_tree_node.sep = "-"
