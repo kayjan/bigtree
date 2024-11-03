@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added:
 - Tree Export: Mermaid diagram to include theme.
 ### Fixed:
-- Misc: Doctest for docstrings, mermaid title to add newline.
+- Misc: Doctest for docstrings, docstring to indicate usage prefers `node_name` to `name`.
+- Tree Export: Mermaid diagram title to add newline.
 
 ## [0.22.1] - 2024-11-03
 ### Added:
