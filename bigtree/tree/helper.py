@@ -444,12 +444,10 @@ def get_tree_diff(
         Returns:
             (pd.DataFrame)
         """
-        data_replace = _data[_condition]
-        data_replace[path_col] = data_replace[path_col].str.replace(
-            _original_name, f"{_original_name} ({suffix})", regex=True
-        )
-        data_not_replace = _data[~_condition]
-        return data_replace._append(data_not_replace).sort_index()
+        _data.iloc[_condition.values, _data.columns.get_loc(path_col)] = _data.iloc[
+            _condition.values, _data.columns.get_loc(path_col)
+        ].str.replace(_original_name, f"{_original_name} ({suffix})", regex=True)
+        return _data
 
     for node_removed, move_indicator in zip(nodes_removed, moved_from_indicator):
         if not detail:
