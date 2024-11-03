@@ -289,9 +289,9 @@ def get_tree_diff(
         >>> tree_diff = get_tree_diff(root, root_other)
         >>> tree_diff.show()
         Downloads
-        ├── photo2.jpg (-)
-        └── Pictures
-            └── photo2.jpg (+)
+        ├── Pictures
+        │   └── photo2.jpg (+)
+        └── photo2.jpg (-)
 
         >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
         >>> tree_diff.show()
@@ -302,7 +302,7 @@ def get_tree_diff(
         ├── file1.doc
         └── photo2.jpg (-)
 
-        >>> tree_diff = get_tree_diff(root, root_other, detail=True)
+        >>> tree_diff = get_tree_diff(root, root_other, only_diff=False, detail=True)
         >>> tree_diff.show()
         Downloads
         ├── Pictures
