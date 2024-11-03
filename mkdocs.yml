@@ -23,7 +23,7 @@ nav:
       - gettingstarted/demo/tree.md
       - gettingstarted/demo/binarytree.md
       - gettingstarted/demo/dag.md
-      - gettingstarted/demo/workflow.md
+      - gettingstarted/demo/Workflow Demonstration.ipynb
     - Resources:
       - gettingstarted/resources/articles.md
       - gettingstarted/resources/glossary.md
@@ -94,7 +94,7 @@ theme:
 plugins:
   - glightbox  # expand images
   - mkdocs-jupyter:
-      include_source: True
+      ignore_h1_titles: True
   - search
   - social:
       cards_layout_options:
