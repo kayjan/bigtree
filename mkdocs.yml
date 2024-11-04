@@ -59,6 +59,7 @@ nav:
       - others/nodes.md
       - others/merging_trees.md
       - others/weighted_trees.md
+      - others/work_with_classes.md
 
 theme:
   name: material
