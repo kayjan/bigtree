@@ -64,6 +64,7 @@ dependencies = [
   "pandas",
   "Pillow",
   "polars",
+  "polars-lts-cpu",
   "pydot",
   "pytest",
   "pytest-cov",
