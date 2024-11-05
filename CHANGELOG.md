@@ -13,9 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed:
 - Misc: Doctest for docstrings, docstring to indicate usage prefers `node_name` to `name`.
 - Misc: Documentation to include tips and tricks on working with custom classes.
+- Misc: Polars set up to work on laptop with M1 chip.
 - Tree Export: Mermaid diagram title to add newline.
 - Tree Helper: Get tree diff string replacement bug when the path change is substring of another path.
-- Tree Export: Polars test to work with old (<=1.9.0) and new polars version.
+- Tree Export: Polars unit test to work with old (<=1.9.0) and new polars version.
 
 ## [0.22.1] - 2024-11-03
 ### Added:
