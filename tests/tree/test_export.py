@@ -1173,11 +1173,20 @@ class TestTreeToPolars:
         tuple(map(int, pl.__version__.split(".")[:2])) > (1, 9),
         reason="Not compatible with polars>1.9.0",
     )
-    def test_tree_to_polars_name_path_col_missing(tree_node):
-        expected = pl.DataFrame()
-        expected.index = range(8)
+    def test_tree_to_polars_name_path_col_missing_old_polars(tree_node):
         actual = export.tree_to_polars(tree_node, name_col="", path_col="")
-        assert expected.equals(actual)
+        assert actual.is_empty()
+        assert actual.shape == (0, 0)
+
+    @staticmethod
+    @unittest.skipIf(
+        tuple(map(int, pl.__version__.split(".")[:2])) <= (1, 9),
+        reason="Not compatible with polars<=1.9.0",
+    )
+    def test_tree_to_polars_name_path_col_missing(tree_node):
+        actual = export.tree_to_polars(tree_node, name_col="", path_col="")
+        assert actual.is_empty()
+        assert actual.shape == (8, 0)
 
     @staticmethod
     def test_tree_to_polars_parent_col(tree_node):
