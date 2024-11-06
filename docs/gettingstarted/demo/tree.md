@@ -965,7 +965,11 @@ To compare tree attributes:
 - `(~)`: Node has different attributes, only available when comparing attributes
 
 For more details, `(moved from)`, `(moved to)`, `(added)`, and `(removed)` can
-be indicated instead if `(+)` and `(-)`.
+be indicated instead if `(+)` and `(-)` by passing `detail=True`.
+
+For aggregating the differences at the parent-level instead of having `(+)` and
+`(-)` at every child node, pass in `aggregate=True`. This is useful if
+subtrees are shifted, and if you want to view the shifting at the parent-level.
 
 === "Only differences"
     ```python hl_lines="20"
@@ -1029,13 +1033,14 @@ be indicated instead if `(+)` and `(-)`.
     #     └── g (+)
     ```
 === "With details"
-    ```python hl_lines="21"
+    ```python hl_lines="23"
     from bigtree import str_to_tree, get_tree_diff
 
     root = str_to_tree("""
     a
     ├── b
     │   ├── d
+    │   │   └── g
     │   └── e
     └── c
         └── f
@@ -1044,9 +1049,10 @@ be indicated instead if `(+)` and `(-)`.
     root_other = str_to_tree("""
     a
     ├── b
-    │   └── g
+    │   └── h
     └── c
         ├── d
+        │   └── g
         └── f
     """)
 
@@ -1055,10 +1061,48 @@ be indicated instead if `(+)` and `(-)`.
     # a
     # ├── b
     # │   ├── d (moved from)
+    # │   │   └── g (moved from)
     # │   ├── e (removed)
-    # │   └── g (added)
+    # │   └── h (added)
     # └── c
     #     └── d (moved to)
+    #         └── g (moved to)
+    ```
+=== "With aggregated differences"
+    ```python hl_lines="23"
+    from bigtree import str_to_tree, get_tree_diff
+
+    root = str_to_tree("""
+    a
+    ├── b
+    │   ├── d
+    │   │   └── g
+    │   └── e
+    └── c
+        └── f
+    """)
+
+    root_other = str_to_tree("""
+    a
+    ├── b
+    │   └── h
+    └── c
+        ├── d
+        │   └── g
+        └── f
+    """)
+
+    tree_diff = get_tree_diff(root, root_other, detail=True, aggregate=True)
+    tree_diff.show()
+    # a
+    # ├── b
+    # │   ├── d (moved from)
+    # │   │   └── g
+    # │   ├── e (removed)
+    # │   └── h (added)
+    # └── c
+    #     └── d (moved to)
+    #         └── g
     ```
 === "Attribute difference"
     ```python hl_lines="25"
