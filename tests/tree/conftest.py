@@ -1,12 +1,13 @@
 import pytest
 
-from bigtree.node.node import Node
+from bigtree.node import node
+from bigtree.tree import helper, modify
 
 
 @pytest.fixture
 def tree_node_plot():
-    z = Node("z")
-    y = Node("y")
+    z = node.Node("z")
+    y = node.Node("y")
     y.parent = z
     return z
 
@@ -24,14 +25,14 @@ def tree_node_duplicate_names():
     +-- b (age=60)
         +-- a (age=38)
     """
-    a = Node("a", age=90)
-    b = Node("a", age=65)
-    c = Node("b", age=60)
-    d = Node("a", age=40)
-    e = Node("b", age=35)
-    f = Node("a", age=38)
-    g = Node("a", age=10)
-    h = Node("b", age=6)
+    a = node.Node("a", age=90)
+    b = node.Node("a", age=65)
+    c = node.Node("b", age=60)
+    d = node.Node("a", age=40)
+    e = node.Node("b", age=35)
+    f = node.Node("a", age=38)
+    g = node.Node("a", age=10)
+    h = node.Node("b", age=6)
 
     b.parent = a
     c.parent = a
@@ -56,14 +57,14 @@ def tree_node_no_attr():
     +-- c
         +-- f
     """
-    a = Node("a")
-    b = Node("b")
-    c = Node("c")
-    d = Node("d")
-    e = Node("e")
-    f = Node("f")
-    g = Node("g")
-    h = Node("h")
+    a = node.Node("a")
+    b = node.Node("b")
+    c = node.Node("c")
+    d = node.Node("d")
+    e = node.Node("e")
+    f = node.Node("f")
+    g = node.Node("g")
+    h = node.Node("h")
 
     b.parent = a
     c.parent = a
@@ -88,14 +89,14 @@ def tree_node_negative_null_attr():
     +-- c
         +-- f
     """
-    a = Node("a")
-    b = Node("b", age=-1)
-    c = Node("c", age=0)
-    d = Node("d", age=1)
-    e = Node("e", age=None)
-    f = Node("f", age=float("nan"))
-    g = Node("g", age="10")
-    h = Node("h")
+    a = node.Node("a")
+    b = node.Node("b", age=-1)
+    c = node.Node("c", age=0)
+    d = node.Node("d", age=1)
+    e = node.Node("e", age=None)
+    f = node.Node("f", age=float("nan"))
+    g = node.Node("g", age="10")
+    h = node.Node("h")
 
     b.parent = a
     c.parent = a
@@ -120,42 +121,42 @@ def tree_node_style():
     +-- c
         +-- f
     """
-    a = Node(
+    a = node.Node(
         "a",
         node_style={"style": "filled", "fillcolor": "gold"},
         edge_style={"style": "bold", "label": "a"},
     )
-    b = Node(
+    b = node.Node(
         "b",
         node_style={"style": "filled", "fillcolor": "blue"},
         edge_style={"style": "bold", "label": "b"},
     )
-    c = Node(
+    c = node.Node(
         "c",
         node_style={"style": "filled", "fillcolor": "blue"},
         edge_style={"style": "bold", "label": "c"},
     )
-    d = Node(
+    d = node.Node(
         "d",
         node_style={"style": "filled", "fillcolor": "green"},
         edge_style={"style": "bold", "label": 1},
     )
-    e = Node(
+    e = node.Node(
         "e",
         node_style={"style": "filled", "fillcolor": "green"},
         edge_style={"style": "bold", "label": 2},
     )
-    f = Node(
+    f = node.Node(
         "f",
         node_style={"style": "filled", "fillcolor": "green"},
         edge_style={"style": "bold", "label": 3},
     )
-    g = Node(
+    g = node.Node(
         "g",
         node_style={"style": "filled", "fillcolor": "red"},
         edge_style={"style": "bold", "label": 4},
     )
-    h = Node(
+    h = node.Node(
         "h",
         node_style={"style": "filled", "fillcolor": "red"},
         edge_style={"style": "bold", "label": 5},
@@ -184,14 +185,14 @@ def tree_node_style_callable():
     +-- c
         +-- f
     """
-    a = Node("a", style=1)
-    b = Node("b", style="two")
-    c = Node("c", style=("three"))
-    d = Node("d")
-    e = Node("e")
-    f = Node("f")
-    g = Node("g")
-    h = Node("h")
+    a = node.Node("a", style=1)
+    b = node.Node("b", style="two")
+    c = node.Node("c", style=("three"))
+    d = node.Node("d")
+    e = node.Node("e")
+    f = node.Node("f")
+    g = node.Node("g")
+    h = node.Node("h")
 
     b.parent = a
     c.parent = a
@@ -216,16 +217,16 @@ def tree_node_mermaid_style():
     +-- c
         +-- f
     """
-    a = Node("a", node_shape="rhombus")
-    b = Node(
+    a = node.Node("a", node_shape="rhombus")
+    b = node.Node(
         "b", node_shape="stadium", edge_arrow="dotted", attr="fill:green,stroke:black"
     )
-    c = Node("c", node_shape="stadium", edge_arrow="dotted_open")
-    d = Node("d", label="c-d link")
-    e = Node("e", label="c-e link")
-    f = Node("f")
-    g = Node("g", attr="fill:red,stroke:black,stroke-width:2")
-    h = Node("h", attr="fill:red,stroke:black,stroke-width:2")
+    c = node.Node("c", node_shape="stadium", edge_arrow="dotted_open")
+    d = node.Node("d", label="c-d link")
+    e = node.Node("e", label="c-e link")
+    f = node.Node("f")
+    g = node.Node("g", attr="fill:red,stroke:black,stroke-width:2")
+    h = node.Node("h", attr="fill:red,stroke:black,stroke-width:2")
 
     b.parent = a
     c.parent = a
@@ -242,8 +243,8 @@ def phylogenetic_tree():
     """
     Example taken from: https://www.cs.mcgill.ca/~birch/doc/forester/NHX.pdf
     """
-    root = Node("placeholder_root", E="1.1.1.1", D="N")
-    metazoa = Node(
+    root = node.Node("placeholder_root", E="1.1.1.1", D="N")
+    metazoa = node.Node(
         "placeholder_metazoa",
         length=0.1,
         S="Metazoa",
@@ -251,7 +252,7 @@ def phylogenetic_tree():
         D="N",
         parent=root,
     )
-    primates = Node(
+    primates = node.Node(
         "placeholder_primates",
         length=0.05,
         S="Primates",
@@ -260,13 +261,24 @@ def phylogenetic_tree():
         B="100",
         parent=metazoa,
     )
-    _ = Node("ADH2", length=0.1, S="human", E="1.1.1.1", parent=primates)
-    _ = Node("ADH1", length=0.11, S="human", E="1.1.1.1", parent=primates)
-    _ = Node("ADHY", length=0.1, S="nematode", E="1.1.1.1", parent=metazoa)
-    _ = Node("ADHX", length=0.12, S="insect", E="1.1.1.1", parent=metazoa)
-    fungi = Node("placeholder_fungi", length=0.1, S="Fungi", parent=root)
-    _ = Node("ADH4", length=0.09, S="yeast", E="1.1.1.1", parent=fungi)
-    _ = Node("ADH3", length=0.13, S="yeast", E="1.1.1.1", parent=fungi)
-    _ = Node("ADH2", length=0.12, S="yeast", E="1.1.1.1", parent=fungi)
-    _ = Node("ADH1", length=0.11, S="yeast", E="1.1.1.1", parent=fungi)
+    _ = node.Node("ADH2", length=0.1, S="human", E="1.1.1.1", parent=primates)
+    _ = node.Node("ADH1", length=0.11, S="human", E="1.1.1.1", parent=primates)
+    _ = node.Node("ADHY", length=0.1, S="nematode", E="1.1.1.1", parent=metazoa)
+    _ = node.Node("ADHX", length=0.12, S="insect", E="1.1.1.1", parent=metazoa)
+    fungi = node.Node("placeholder_fungi", length=0.1, S="Fungi", parent=root)
+    _ = node.Node("ADH4", length=0.09, S="yeast", E="1.1.1.1", parent=fungi)
+    _ = node.Node("ADH3", length=0.13, S="yeast", E="1.1.1.1", parent=fungi)
+    _ = node.Node("ADH2", length=0.12, S="yeast", E="1.1.1.1", parent=fungi)
+    _ = node.Node("ADH1", length=0.11, S="yeast", E="1.1.1.1", parent=fungi)
     return root
+
+
+@pytest.fixture
+def tree_node_diff(tree_node):
+    # Remove nodes + shift nodes + add nodes
+    other_tree_node = helper.prune_tree(tree_node, "a/c")
+    modify.copy_nodes_from_tree_to_tree(
+        tree_node, other_tree_node, ["a/b/e"], ["a/c/e"]
+    )
+    node.Node("i", parent=other_tree_node, children=[node.Node("j")])
+    return other_tree_node

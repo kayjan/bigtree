@@ -250,6 +250,7 @@ def get_tree_diff(
     other_tree: node.Node,
     only_diff: bool = True,
     detail: bool = False,
+    aggregate: bool = False,
     attr_list: List[str] = [],
     fallback_sep: str = "/",
 ) -> node.Node:
@@ -267,6 +268,9 @@ def get_tree_diff(
     If `detail=True`, (added) and (moved to) will be used instead of (+), (removed) and (moved from)
     will be used instead of (-).
 
+    If `aggregate=True`, differences (+)/(added)/(moved to) and (-)/(removed)/(moved from) will only be indicated at
+    the parent-level. This is useful when a subtree is shifted and we want the differences to shown only at the top node.
+
     !!! note
 
         - tree and other_tree must have the same `sep` symbol, otherwise this will raise ValueError
@@ -276,50 +280,79 @@ def get_tree_diff(
     Examples:
         >>> # Create original tree
         >>> from bigtree import Node, get_tree_diff, list_to_tree
-        >>> root = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/photo2.jpg"])
+        >>> root = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/Trip/photo2.jpg"])
         >>> root.show()
         Downloads
         ├── Pictures
         │   └── photo1.jpg
         ├── file1.doc
-        └── photo2.jpg
+        └── Trip
+            └── photo2.jpg
 
         >>> # Create other tree
-        >>> root_other = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/Pictures/photo2.jpg", "Downloads/file1.doc"])
+        >>> root_other = list_to_tree(
+        ...     ["Downloads/Pictures/photo1.jpg", "Downloads/Pictures/Trip/photo2.jpg", "Downloads/file1.doc", "Downloads/file2.doc"]
+        ... )
         >>> root_other.show()
         Downloads
         ├── Pictures
         │   ├── photo1.jpg
-        │   └── photo2.jpg
-        └── file1.doc
+        │   └── Trip
+        │       └── photo2.jpg
+        ├── file1.doc
+        └── file2.doc
 
-        >>> # Get tree differences
+        # Get tree differences
         >>> tree_diff = get_tree_diff(root, root_other)
         >>> tree_diff.show()
         Downloads
         ├── Pictures
-        │   └── photo2.jpg (+)
-        └── photo2.jpg (-)
+        │   └── Trip (+)
+        │       └── photo2.jpg (+)
+        ├── Trip (-)
+        │   └── photo2.jpg (-)
+        └── file2.doc (+)
 
+        >>> # Get tree differences - all differences
         >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
         >>> tree_diff.show()
         Downloads
         ├── Pictures
-        │   ├── photo1.jpg
-        │   └── photo2.jpg (+)
+        │   ├── Trip (+)
+        │   │   └── photo2.jpg (+)
+        │   └── photo1.jpg
+        ├── Trip (-)
+        │   └── photo2.jpg (-)
         ├── file1.doc
-        └── photo2.jpg (-)
+        └── file2.doc (+)
 
+        >>> # Get tree differences - all differences with details
         >>> tree_diff = get_tree_diff(root, root_other, only_diff=False, detail=True)
         >>> tree_diff.show()
         Downloads
         ├── Pictures
-        │   ├── photo1.jpg
-        │   └── photo2.jpg (moved to)
+        │   ├── Trip (moved to)
+        │   │   └── photo2.jpg (moved to)
+        │   └── photo1.jpg
+        ├── Trip (moved from)
+        │   └── photo2.jpg (moved from)
         ├── file1.doc
-        └── photo2.jpg (moved from)
+        └── file2.doc (added)
 
-        Comparing tree attributes
+        >>> # Get tree differences - all differences with details on aggregated level
+        >>> tree_diff = get_tree_diff(root, root_other, only_diff=False, detail=True, aggregate=True)
+        >>> tree_diff.show()
+        Downloads
+        ├── Pictures
+        │   ├── Trip (moved to)
+        │   │   └── photo2.jpg
+        │   └── photo1.jpg
+        ├── Trip (moved from)
+        │   └── photo2.jpg
+        ├── file1.doc
+        └── file2.doc (added)
+
+        # Comparing tree attributes
 
         - (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
         - The node's attributes will be a list of [value in `tree`, value in `other_tree`]
@@ -361,6 +394,7 @@ def get_tree_diff(
         other_tree (Node): tree to be compared with
         only_diff (bool): indicator to show all nodes or only nodes that are different (+/-), defaults to True
         detail (bool): indicator to differentiate between different types of diff e.g., added or removed or moved
+        aggregate (bool): indicator to only add difference indicator to parent-level e.g., when shifting subtrees
         attr_list (List[str]): tree attributes to check for difference, defaults to empty list
         fallback_sep (str): sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
             All node names in tree and other_tree should not contain this fallback_sep, defaults to "/"
@@ -383,6 +417,7 @@ def get_tree_diff(
 
     name_col = "name"
     path_col = "PATH"
+    parent_col = "PARENT"
     indicator_col = "Exists"
     tree_sep = tree.sep
 
@@ -391,26 +426,34 @@ def get_tree_diff(
             _tree,
             name_col=name_col,
             path_col=path_col,
+            parent_col=parent_col,
             attr_dict={k: k for k in attr_list},
         )
         for _tree in (tree, other_tree)
     )
 
     # Check tree structure difference
-    data_both = data[[path_col, name_col] + attr_list].merge(
-        data_other[[path_col, name_col] + attr_list],
+    data_both = data[[path_col, name_col, parent_col] + attr_list].merge(
+        data_other[[path_col, name_col, parent_col] + attr_list],
         how="outer",
-        on=[path_col, name_col],
+        on=[path_col, name_col, parent_col],
         indicator=indicator_col,
     )
+    if aggregate:
+        data_both_agg = data_both[
+            (data_both[indicator_col] == "left_only")
+            | (data_both[indicator_col] == "right_only")
+        ].drop_duplicates(subset=[name_col, parent_col], keep=False)
+    else:
+        data_both_agg = data_both
 
     # Handle tree structure difference
-    nodes_removed = list(data_both[data_both[indicator_col] == "left_only"][path_col])[
-        ::-1
-    ]
-    nodes_added = list(data_both[data_both[indicator_col] == "right_only"][path_col])[
-        ::-1
-    ]
+    nodes_removed = list(
+        data_both_agg[data_both_agg[indicator_col] == "left_only"][path_col]
+    )[::-1]
+    nodes_added = list(
+        data_both_agg[data_both_agg[indicator_col] == "right_only"][path_col]
+    )[::-1]
 
     moved_from_indicator: List[bool] = [True for _ in range(len(nodes_removed))]
     moved_to_indicator: List[bool] = [True for _ in range(len(nodes_added))]
@@ -432,8 +475,8 @@ def get_tree_diff(
 
     def add_suffix_to_path(
         _data: pd.DataFrame, _condition: pd.Series, _original_name: str, _suffix: str
-    ) -> pd.DataFrame:
-        """Add suffix to path string
+    ) -> None:
+        """Add suffix to path string, in-place
 
         Args:
             _data (pd.DataFrame): original data with path column
@@ -446,35 +489,42 @@ def get_tree_diff(
         """
         _data.iloc[_condition.values, _data.columns.get_loc(path_col)] = _data.iloc[
             _condition.values, _data.columns.get_loc(path_col)
-        ].str.replace(_original_name, f"{_original_name} ({suffix})", regex=True)
-        return _data
+        ].str.replace(_original_name, f"{_original_name} ({_suffix})", regex=True)
 
-    for node_removed, move_indicator in zip(nodes_removed, moved_from_indicator):
-        if not detail:
-            suffix = "-"
-        elif move_indicator:
-            suffix = "moved from"
-        else:
-            suffix = "removed"
-        condition_node_removed = data_both[path_col].str.endswith(
-            node_removed
-        ) | data_both[path_col].str.contains(node_removed + tree_sep)
-        data_both = add_suffix_to_path(
-            data_both, condition_node_removed, node_removed, suffix
-        )
-    for node_added, move_indicator in zip(nodes_added, moved_to_indicator):
-        if not detail:
-            suffix = "+"
-        elif move_indicator:
-            suffix = "moved to"
-        else:
-            suffix = "added"
-        condition_node_added = data_both[path_col].str.endswith(node_added) | data_both[
-            path_col
-        ].str.contains(node_added + tree_sep)
-        data_both = add_suffix_to_path(
-            data_both, condition_node_added, node_added, suffix
-        )
+    def add_suffix_to_data(
+        _data: pd.DataFrame,
+        nodes_diff: List[str],
+        move_indicator: List[bool],
+        suffix_general: str,
+        suffix_move: str,
+        suffix_not_moved: str,
+    ) -> None:
+        """Add suffix to data, in-place
+
+        Args:
+            _data (pd.DataFrame): original data with path column
+            nodes_diff (List[str]): list of paths that were modified (e.g., added/removed)
+            move_indicator (List[bool]): move indicator to indicate path was moved instead of added/removed
+            suffix_general (str): path suffix for general case
+            suffix_move (str): path suffix if path was moved
+            suffix_not_moved (str): path suffix if path is not moved (e.g., added/removed)
+        """
+        for _node_diff, _move_indicator in zip(nodes_diff, move_indicator):
+            if not detail:
+                suffix = suffix_general
+            else:
+                suffix = suffix_move if _move_indicator else suffix_not_moved
+            condition_node_modified = data_both[path_col].str.endswith(
+                _node_diff
+            ) | data_both[path_col].str.contains(_node_diff + tree_sep)
+            add_suffix_to_path(data_both, condition_node_modified, _node_diff, suffix)
+
+    add_suffix_to_data(
+        data_both, nodes_removed, moved_from_indicator, "-", "moved from", "removed"
+    )
+    add_suffix_to_data(
+        data_both, nodes_added, moved_to_indicator, "+", "moved to", "added"
+    )
 
     # Check tree attribute difference
     path_changes_list_of_dict: List[Dict[str, Dict[str, Any]]] = []

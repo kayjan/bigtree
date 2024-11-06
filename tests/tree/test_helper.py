@@ -3,7 +3,7 @@ import math
 import pytest
 
 from bigtree.node import basenode, node
-from bigtree.tree import export, helper, modify
+from bigtree.tree import export, helper
 from bigtree.utils import exceptions
 from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
@@ -218,22 +218,44 @@ class TestPruneTree:
         assert str(exc_info.value) == Constants.ERROR_NODE_PRUNE_ARGUMENT
 
 
+EXPECTED_TREE_NODE_DIFF = (
+    "a\n"
+    "├── b (-)\n"
+    "│   ├── d (-)\n"
+    "│   └── e (-)\n"
+    "│       ├── g (-)\n"
+    "│       └── h (-)\n"
+    "├── c\n"
+    "│   └── e (+)\n"
+    "│       ├── g (+)\n"
+    "│       └── h (+)\n"
+    "└── i (+)\n"
+    "    └── j (+)\n"
+)
+EXPECTED_TREE_NODE_DIFF_ALL = (
+    "a\n"
+    "├── b (-)\n"
+    "│   ├── d (-)\n"
+    "│   └── e (-)\n"
+    "│       ├── g (-)\n"
+    "│       └── h (-)\n"
+    "├── c\n"
+    "│   ├── e (+)\n"
+    "│   │   ├── g (+)\n"
+    "│   │   └── h (+)\n"
+    "│   └── f\n"
+    "└── i (+)\n"
+    "    └── j (+)\n"
+)
+
+
 class TestTreeDiff:
     @staticmethod
-    def test_tree_diff(tree_node):
-        other_tree_node = helper.prune_tree(tree_node, "a/c")
-        _ = node.Node("d", parent=other_tree_node)
-        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
-        expected_str = (
-            "a\n"
-            "├── b (-)\n"
-            "│   ├── d (-)\n"
-            "│   └── e (-)\n"
-            "│       ├── g (-)\n"
-            "│       └── h (-)\n"
-            "└── d (+)\n"
+    def test_tree_diff(tree_node, tree_node_diff):
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_diff)
+        assert_print_statement(
+            export.print_tree, EXPECTED_TREE_NODE_DIFF, tree=tree_diff
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
     def test_tree_diff_same_prefix():
@@ -241,7 +263,7 @@ class TestTreeDiff:
             "a", children=[node.Node("bb", children=[node.Node("b")])]
         )
         other_tree_node = node.Node("a", children=[node.Node("b")])
-        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
+        tree_diff = helper.get_tree_diff(tree_node, other_tree_node)
         # fmt: off
         expected_str = (
             "a\n"
@@ -250,7 +272,7 @@ class TestTreeDiff:
             "    └── b (-)\n"
         )
         # fmt: on
-        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
 
     @staticmethod
     def test_tree_diff_diff_sep_error(tree_node):
@@ -263,7 +285,7 @@ class TestTreeDiff:
     @staticmethod
     def test_tree_diff_sep_clash_with_node_name_error(tree_node):
         other_tree_node = helper.prune_tree(tree_node, "a/c")
-        _ = node.Node("/d", parent=other_tree_node)
+        node.Node("/d", parent=other_tree_node)
         with pytest.raises(exceptions.TreeError) as exc_info:
             helper.get_tree_diff(tree_node, other_tree_node)
         assert str(exc_info.value) == Constants.ERROR_NODE_NAME
@@ -271,10 +293,10 @@ class TestTreeDiff:
     @staticmethod
     def test_tree_diff_sep_clash_with_node_name(tree_node):
         other_tree_node = helper.prune_tree(tree_node, "a/c")
-        _ = node.Node("/d", parent=other_tree_node)
+        node.Node("/d", parent=other_tree_node)
         tree_node.sep = "."
         other_tree_node.sep = "."
-        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
+        tree_diff = helper.get_tree_diff(tree_node, other_tree_node)
         expected_str = (
             "a\n"
             "├── /d (+)\n"
@@ -284,122 +306,216 @@ class TestTreeDiff:
             "        ├── g (-)\n"
             "        └── h (-)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
 
     @staticmethod
-    def test_tree_diff_forbidden_sep(tree_node):
-        other_tree_node = helper.prune_tree(tree_node, "a/c")
-        _ = node.Node("d", parent=other_tree_node)
+    def test_tree_diff_forbidden_sep(tree_node, tree_node_diff):
         for symbol in [".", "-", "+", "~"]:
             tree_node.sep = symbol
-            other_tree_node.sep = symbol
-            tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
-            expected_str = (
-                "a\n"
-                "├── b (-)\n"
-                "│   ├── d (-)\n"
-                "│   └── e (-)\n"
-                "│       ├── g (-)\n"
-                "│       └── h (-)\n"
-                "└── d (+)\n"
+            tree_node_diff.sep = symbol
+            tree_diff = helper.get_tree_diff(tree_node, tree_node_diff)
+            assert_print_statement(
+                export.print_tree, EXPECTED_TREE_NODE_DIFF, tree=tree_diff
             )
-            assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
 
     @staticmethod
-    def test_tree_diff_detail(tree_node):
-        other_tree_node = helper.prune_tree(tree_node, "a/c")
-        _ = node.Node("i", parent=other_tree_node)
-        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node, detail=True)
+    def test_tree_diff_all_diff(tree_node, tree_node_diff):
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_diff, only_diff=False)
+        assert_print_statement(
+            export.print_tree, EXPECTED_TREE_NODE_DIFF_ALL, tree=tree_diff
+        )
+
+    @staticmethod
+    def test_tree_diff_detail(tree_node, tree_node_diff):
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_diff, detail=True)
         expected_str = (
             "a\n"
             "├── b (removed)\n"
-            "│   ├── d (removed)\n"
-            "│   └── e (removed)\n"
-            "│       ├── g (removed)\n"
-            "│       └── h (removed)\n"
-            "└── i (added)\n"
-        )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
-
-    @staticmethod
-    def test_tree_diff_all_diff(tree_node):
-        other_tree_node = helper.prune_tree(tree_node, "a/c")
-        _ = node.Node("d", parent=other_tree_node)
-        tree_diff = helper.get_tree_diff(tree_node, other_tree_node, only_diff=False)
-        expected_str = (
-            "a\n"
-            "├── b (-)\n"
-            "│   ├── d (-)\n"
-            "│   └── e (-)\n"
-            "│       ├── g (-)\n"
-            "│       └── h (-)\n"
-            "├── c\n"
-            "│   └── f\n"
-            "└── d (+)\n"
-        )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
-
-    @staticmethod
-    def test_tree_diff_all_diff_detail(tree_node):
-        other_tree_node = helper.prune_tree(tree_node, "a/c")
-        _ = node.Node("i", parent=other_tree_node)
-        tree_diff = helper.get_tree_diff(
-            tree_node, other_tree_node, only_diff=False, detail=True
-        )
-        expected_str = (
-            "a\n"
-            "├── b (removed)\n"
-            "│   ├── d (removed)\n"
-            "│   └── e (removed)\n"
-            "│       ├── g (removed)\n"
-            "│       └── h (removed)\n"
-            "├── c\n"
-            "│   └── f\n"
-            "└── i (added)\n"
-        )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
-
-    @staticmethod
-    def test_tree_diff_detail_move(tree_node):
-        other_tree_node = tree_node.copy()
-        modify.shift_nodes(
-            other_tree_node, from_paths=["a/b/d", "a/b"], to_paths=[None, "a/c/b"]
-        )
-        _ = node.Node("i", parent=other_tree_node)
-        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node, detail=True)
-        expected_str = (
-            "a\n"
-            "├── b (moved from)\n"
             "│   ├── d (removed)\n"
             "│   └── e (moved from)\n"
             "│       ├── g (moved from)\n"
             "│       └── h (moved from)\n"
             "├── c\n"
-            "│   └── b (moved to)\n"
-            "│       └── e (moved to)\n"
-            "│           ├── g (moved to)\n"
-            "│           └── h (moved to)\n"
+            "│   └── e (moved to)\n"
+            "│       ├── g (moved to)\n"
+            "│       └── h (moved to)\n"
             "└── i (added)\n"
+            "    └── j (added)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+
+    @staticmethod
+    def test_tree_diff_detail_clash_names(tree_node, tree_node_diff):
+        tree_node_diff.append(node.Node("g"))
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_diff, detail=True)
+        expected_str = (
+            "a\n"
+            "├── b (removed)\n"
+            "│   ├── d (removed)\n"
+            "│   └── e (moved from)\n"
+            "│       ├── g (moved from)\n"
+            "│       └── h (moved from)\n"
+            "├── c\n"
+            "│   └── e (moved to)\n"
+            "│       ├── g (moved to)\n"  # classified as moved to
+            "│       └── h (moved to)\n"
+            "├── g (moved to)\n"  # classified as moved to instead of added
+            "└── i (added)\n"
+            "    └── j (added)\n"
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+
+    @staticmethod
+    def test_tree_diff_aggregate(tree_node, tree_node_diff):
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_diff, aggregate=True)
+        expected_str = (
+            "a\n"
+            "├── b (-)\n"
+            "│   ├── d (-)\n"
+            "│   └── e (-)\n"
+            "│       ├── g\n"  # no (-)
+            "│       └── h\n"  # no (-)
+            "├── c\n"
+            "│   └── e (+)\n"
+            "│       ├── g\n"  # no (+)
+            "│       └── h\n"  # no (+)
+            "└── i (+)\n"
+            "    └── j (+)\n"
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+
+    @staticmethod
+    def test_tree_diff_all_diff_detail(tree_node, tree_node_diff):
+        tree_diff = helper.get_tree_diff(
+            tree_node, tree_node_diff, only_diff=False, detail=True
+        )
+        expected_str = (
+            "a\n"
+            "├── b (removed)\n"
+            "│   ├── d (removed)\n"
+            "│   └── e (moved from)\n"
+            "│       ├── g (moved from)\n"
+            "│       └── h (moved from)\n"
+            "├── c\n"
+            "│   ├── e (moved to)\n"
+            "│   │   ├── g (moved to)\n"
+            "│   │   └── h (moved to)\n"
+            "│   └── f\n"
+            "└── i (added)\n"
+            "    └── j (added)\n"
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+
+    @staticmethod
+    def test_tree_diff_all_diff_aggregate(tree_node, tree_node_diff):
+        tree_diff = helper.get_tree_diff(
+            tree_node, tree_node_diff, only_diff=False, aggregate=True
+        )
+        expected_str = (
+            "a\n"
+            "├── b (-)\n"
+            "│   ├── d (-)\n"
+            "│   └── e (-)\n"
+            "│       ├── g\n"  # no  (-)
+            "│       └── h\n"  # no  (-)
+            "├── c\n"
+            "│   ├── e (+)\n"
+            "│   │   ├── g\n"  # no  (+)
+            "│   │   └── h\n"  # no  (+)
+            "│   └── f\n"
+            "└── i (+)\n"
+            "    └── j (+)\n"
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+
+    @staticmethod
+    def test_tree_diff_detail_aggregate(tree_node, tree_node_diff):
+        tree_diff = helper.get_tree_diff(
+            tree_node, tree_node_diff, detail=True, aggregate=True
+        )
+        expected_str = (
+            "a\n"
+            "├── b (removed)\n"
+            "│   ├── d (removed)\n"
+            "│   └── e (moved from)\n"
+            "│       ├── g\n"  # no (moved from)
+            "│       └── h\n"  # no (moved from)
+            "├── c\n"
+            "│   └── e (moved to)\n"
+            "│       ├── g\n"  # no (moved to)
+            "│       └── h\n"  # no (moved to)
+            "└── i (added)\n"
+            "    └── j (added)\n"
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+
+    @staticmethod
+    def test_tree_diff_detail_aggregate_clash_names(tree_node, tree_node_diff):
+        tree_node_diff.append(node.Node("g"))
+        tree_diff = helper.get_tree_diff(
+            tree_node, tree_node_diff, detail=True, aggregate=True
+        )
+        expected_str = (
+            "a\n"
+            "├── b (removed)\n"
+            "│   ├── d (removed)\n"
+            "│   └── e (moved from)\n"
+            "│       ├── g\n"  # no (moved from)
+            "│       └── h\n"  # no (moved from)
+            "├── c\n"
+            "│   └── e (moved to)\n"
+            "│       ├── g\n"  # no (moved to)
+            "│       └── h\n"  # no (moved to)
+            "├── g (added)\n"  # classified as added
+            "└── i (added)\n"
+            "    └── j (added)\n"
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+
+    @staticmethod
+    def test_tree_diff_all_diff_detail_aggregate(tree_node, tree_node_diff):
+        tree_diff = helper.get_tree_diff(
+            tree_node, tree_node_diff, only_diff=False, detail=True, aggregate=True
+        )
+        expected_str = (
+            "a\n"
+            "├── b (removed)\n"
+            "│   ├── d (removed)\n"
+            "│   └── e (moved from)\n"
+            "│       ├── g\n"  # no (moved from)
+            "│       └── h\n"  # no (moved from)
+            "├── c\n"
+            "│   ├── e (moved to)\n"
+            "│   │   ├── g\n"  # no (moved to)
+            "│   │   └── h\n"  # no (moved to)
+            "│   └── f\n"
+            "└── i (added)\n"
+            "    └── j (added)\n"
+        )
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
 
     @staticmethod
     def test_tree_diff_new_leaf(tree_node):
         other_tree_node = tree_node.copy()
         tree_node_new_parent = other_tree_node["c"]["f"]
-        _ = node.Node("i", parent=tree_node_new_parent)
-        tree_only_diff = helper.get_tree_diff(tree_node, other_tree_node)
-        expected_str = "a\n" "└── c\n" "    └── f\n" "        └── i (+)\n"
-        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
+        node.Node("i", parent=tree_node_new_parent)
+        tree_diff = helper.get_tree_diff(tree_node, other_tree_node)
+        # fmt: off
+        expected_str = (
+            "a\n"
+            "└── c\n"
+            "    └── f\n"
+            "        └── i (+)\n"
+        )
+        # fmt: on
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
 
     @staticmethod
     def test_tree_diff_new_leaf_all_diff(tree_node):
         other_tree_node = tree_node.copy()
         tree_node_new_parent = other_tree_node["c"]["f"]
-        _ = node.Node("i", parent=tree_node_new_parent)
-        tree_only_diff = helper.get_tree_diff(
-            tree_node, other_tree_node, only_diff=False
-        )
+        node.Node("i", parent=tree_node_new_parent)
+        tree_diff = helper.get_tree_diff(tree_node, other_tree_node, only_diff=False)
         expected_str = (
             "a\n"
             "├── b\n"
@@ -411,7 +527,7 @@ class TestTreeDiff:
             "    └── f\n"
             "        └── i (+)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_only_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
 
     @staticmethod
     def test_tree_diff_same_tree(tree_node):
