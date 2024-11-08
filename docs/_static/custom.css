@@ -4,3 +4,6 @@
 h1 {
     --md-default-fg-color--light: hsla(var(--md-hue),0%,50%,1);
 }
+h5 {
+  text-transform: none !important;
+}
