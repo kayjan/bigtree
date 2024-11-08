@@ -156,7 +156,7 @@ def prune_tree(
         │   └── d
         └── e
 
-        # Prune tree
+        Prune tree
 
         >>> root_pruned = prune_tree(root, "a/b")
         >>> root_pruned.show()
@@ -165,14 +165,14 @@ def prune_tree(
             ├── c
             └── d
 
-        ## Exact path
+        Prune by exact path
 
         >>> root_pruned = prune_tree(root, "a/b", exact=True)
         >>> root_pruned.show()
         a
         └── b
 
-        ## Multiple paths
+        Prune by multiple paths
 
         >>> root_pruned = prune_tree(root, ["a/b/d", "a/e"])
         >>> root_pruned.show()
@@ -181,7 +181,7 @@ def prune_tree(
         │   └── d
         └── e
 
-        ## By depth
+        Prune by depth
 
         >>> root_pruned = prune_tree(root, max_depth=2)
         >>> root_pruned.show()
@@ -302,7 +302,8 @@ def get_tree_diff(
         ├── file1.doc
         └── file2.doc
 
-        # Get tree differences
+        # Comparing tree structure
+
         >>> tree_diff = get_tree_diff(root, root_other)
         >>> tree_diff.show()
         Downloads
@@ -313,7 +314,8 @@ def get_tree_diff(
         │   └── photo2.jpg (-)
         └── file2.doc (+)
 
-        ## All differences
+        All differences
+
         >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
         >>> tree_diff.show()
         Downloads
@@ -326,7 +328,8 @@ def get_tree_diff(
         ├── file1.doc
         └── file2.doc (+)
 
-        ## All differences with details
+        All differences with details
+
         >>> tree_diff = get_tree_diff(
         ...     root, root_other, only_diff=False, detail=True
         ... )
@@ -341,7 +344,8 @@ def get_tree_diff(
         ├── file1.doc
         └── file2.doc (added)
 
-        ## All differences with details on aggregated level
+        All differences with details on aggregated level
+
         >>> tree_diff = get_tree_diff(
         ...     root, root_other, only_diff=False, detail=True, aggregate=True
         ... )
@@ -356,7 +360,8 @@ def get_tree_diff(
         ├── file1.doc
         └── file2.doc (added)
 
-        ## Only differences with details on aggregated level
+        Only differences with details on aggregated level
+
         >>> tree_diff = get_tree_diff(root, root_other, detail=True, aggregate=True)
         >>> tree_diff.show()
         Downloads
@@ -366,7 +371,7 @@ def get_tree_diff(
         ├── Trip (moved from)
         └── file2.doc (added)
 
-        # Comparing tree attributes
+        # Comparing tree attribute
 
         - (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
         - The node's attributes will be a list of [value in `tree`, value in `other_tree`]

@@ -67,7 +67,7 @@ All other methods calls these 2 methods directly.
 
 ![Advanced Shift Example](https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_advanced.png "Advanced Shift Example")
 
-## Sample Tree Modification (Advanced)
+### Sample Tree Modification (Advanced)
 
 | Setting                     | Sample path in `from_paths` | Sample path in `to_paths` | Description                                                                                                                                                                                                |
 |-----------------------------|-----------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

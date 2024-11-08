@@ -17,7 +17,7 @@ class AppToDo:
       - If list name is not given, item will be assigned to a `General` list.
 
     Examples:
-        *Initializing and Adding Items*
+        # *Initializing and Adding Items*
 
         >>> from bigtree import AppToDo
         >>> app = AppToDo("To Do App")
@@ -34,7 +34,7 @@ class AppToDo:
         └── General
             └── Cook
 
-        *Reorder List and Item*
+        # *Reorder List and Item*
 
         >>> app.prioritize_list(list_name="General")
         >>> app.show()
@@ -58,7 +58,7 @@ class AppToDo:
             ├── Bread [description=Urgent]
             └── Milk [description=Urgent]
 
-        *Removing Items*
+        # *Removing Items*
 
         >>> app.remove_item("Homework 1")
         >>> app.show()
@@ -69,7 +69,7 @@ class AppToDo:
             ├── Bread [description=Urgent]
             └── Milk [description=Urgent]
 
-        *Exporting and Importing List*
+        # *Exporting and Importing List*
 
         >>> app.save("assets/docstr/list.json")
         >>> app2 = AppToDo.load("assets/docstr/list.json")

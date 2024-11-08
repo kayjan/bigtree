@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: Standardise testing fixtures.
 ### Fixed:
 - Misc: Polars set up to work on laptop with M1 chip.
+- Misc: Indentation in documentation.
 - Tree Export: Mermaid diagram title to add newline.
 - Tree Export: Polars unit test to work with old (<=1.9.0) and new polars version.
 - Tree Helper: Get tree diff string replacement bug when the path change is substring of another path.
