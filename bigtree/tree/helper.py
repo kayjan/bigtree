@@ -129,7 +129,7 @@ def prune_tree(
 
     For pruning by `prune_path`,
 
-    - All siblings along the prune path will be removed.
+    - All siblings along the prune path will be removed. All descendants will be kept by default.
     - If ``exact=True``, all descendants of prune path will be removed.
     - Prune path can be string (only one path) or a list of strings (multiple paths).
     - Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.
@@ -156,7 +156,7 @@ def prune_tree(
         │   └── d
         └── e
 
-        Prune (default is keep descendants)
+        # Prune tree
 
         >>> root_pruned = prune_tree(root, "a/b")
         >>> root_pruned.show()
@@ -165,14 +165,14 @@ def prune_tree(
             ├── c
             └── d
 
-        Prune exact path
+        ## Exact path
 
         >>> root_pruned = prune_tree(root, "a/b", exact=True)
         >>> root_pruned.show()
         a
         └── b
 
-        Prune multiple paths
+        ## Multiple paths
 
         >>> root_pruned = prune_tree(root, ["a/b/d", "a/e"])
         >>> root_pruned.show()
@@ -181,7 +181,7 @@ def prune_tree(
         │   └── d
         └── e
 
-        Prune by depth
+        ## By depth
 
         >>> root_pruned = prune_tree(root, max_depth=2)
         >>> root_pruned.show()
@@ -265,11 +265,11 @@ def get_tree_diff(
     - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
     - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
 
-    If `detail=True`, (added) and (moved to) will be used instead of (+), (removed) and (moved from)
-    will be used instead of (-).
+    If `detail=True`, (added) and (moved to) will be used instead of (+), (removed) and (moved from) will be used
+    instead of (-).
 
     If `aggregate=True`, differences (+)/(added)/(moved to) and (-)/(removed)/(moved from) will only be indicated at
-    the parent-level. This is useful when a subtree is shifted and we want the differences to shown only at the top node.
+    the parent-level. This is useful when a subtree is shifted, and we want the differences shown only at the top node.
 
     !!! note
 
@@ -313,7 +313,7 @@ def get_tree_diff(
         │   └── photo2.jpg (-)
         └── file2.doc (+)
 
-        >>> # Get tree differences - all differences
+        ## All differences
         >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
         >>> tree_diff.show()
         Downloads
@@ -326,8 +326,10 @@ def get_tree_diff(
         ├── file1.doc
         └── file2.doc (+)
 
-        >>> # Get tree differences - all differences with details
-        >>> tree_diff = get_tree_diff(root, root_other, only_diff=False, detail=True)
+        ## All differences with details
+        >>> tree_diff = get_tree_diff(
+        ...     root, root_other, only_diff=False, detail=True
+        ... )
         >>> tree_diff.show()
         Downloads
         ├── Pictures
@@ -339,8 +341,10 @@ def get_tree_diff(
         ├── file1.doc
         └── file2.doc (added)
 
-        >>> # Get tree differences - all differences with details on aggregated level
-        >>> tree_diff = get_tree_diff(root, root_other, only_diff=False, detail=True, aggregate=True)
+        ## All differences with details on aggregated level
+        >>> tree_diff = get_tree_diff(
+        ...     root, root_other, only_diff=False, detail=True, aggregate=True
+        ... )
         >>> tree_diff.show()
         Downloads
         ├── Pictures
@@ -350,6 +354,16 @@ def get_tree_diff(
         ├── Trip (moved from)
         │   └── photo2.jpg
         ├── file1.doc
+        └── file2.doc (added)
+
+        ## Only differences with details on aggregated level
+        >>> tree_diff = get_tree_diff(root, root_other, detail=True, aggregate=True)
+        >>> tree_diff.show()
+        Downloads
+        ├── Pictures
+        │   └── Trip (moved to)
+        │       └── photo2.jpg
+        ├── Trip (moved from)
         └── file2.doc (added)
 
         # Comparing tree attributes
@@ -381,7 +395,7 @@ def get_tree_diff(
         │   └── photo2.jpg [tags=photo2-new]
         └── file1.doc [tags=file1]
 
-        >>> # Get tree differences
+        >>> # Get tree attribute differences
         >>> tree_diff = get_tree_diff(root, root_other, attr_list=["tags"])
         >>> tree_diff.show(attr_list=["tags"])
         Downloads
@@ -444,6 +458,12 @@ def get_tree_diff(
             (data_both[indicator_col] == "left_only")
             | (data_both[indicator_col] == "right_only")
         ].drop_duplicates(subset=[name_col, parent_col], keep=False)
+        if only_diff:
+            # If only_diff and aggregate, remove children under (moved from)
+            data_both = data_both.sort_values(indicator_col, ascending=False)
+            data_both = data_both[
+                ~data_both.duplicated(subset=[name_col, parent_col])
+            ]  # keep right_only
     else:
         data_both_agg = data_both
 
