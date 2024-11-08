@@ -372,9 +372,7 @@ class TestTreeDiff:
             "a\n"
             "├── b (-)\n"
             "│   ├── d (-)\n"
-            "│   └── e (-)\n"
-            "│       ├── g\n"  # no (-)
-            "│       └── h\n"  # no (-)
+            "│   └── e (-)\n"  # children removed
             "├── c\n"
             "│   └── e (+)\n"
             "│       ├── g\n"  # no (+)
@@ -437,9 +435,7 @@ class TestTreeDiff:
             "a\n"
             "├── b (removed)\n"
             "│   ├── d (removed)\n"
-            "│   └── e (moved from)\n"
-            "│       ├── g\n"  # no (moved from)
-            "│       └── h\n"  # no (moved from)
+            "│   └── e (moved from)\n"  # children removed
             "├── c\n"
             "│   └── e (moved to)\n"
             "│       ├── g\n"  # no (moved to)
@@ -459,9 +455,7 @@ class TestTreeDiff:
             "a\n"
             "├── b (removed)\n"
             "│   ├── d (removed)\n"
-            "│   └── e (moved from)\n"
-            "│       ├── g\n"  # no (moved from)
-            "│       └── h\n"  # no (moved from)
+            "│   └── e (moved from)\n"  # children removed
             "├── c\n"
             "│   └── e (moved to)\n"
             "│       ├── g\n"  # no (moved to)
