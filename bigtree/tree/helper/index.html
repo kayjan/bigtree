@@ -1809,6 +1809,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label=" get_tree_diff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.helper.get_tree_diff--comparing-tree-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparing tree structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.helper.get_tree_diff--comparing-tree-attribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparing tree attribute
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -2143,6 +2167,8 @@
       
         
       
+        
+      
     
     
       
@@ -2281,6 +2307,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/work_with_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Working with Classes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2365,6 +2412,30 @@
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_tree_diff
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label=" get_tree_diff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.helper.get_tree_diff--comparing-tree-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparing tree structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.helper.get_tree_diff--comparing-tree-attribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparing tree attribute
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2670,7 +2741,7 @@ If the same type is needed, simply do a tree.copy().</p>
         <p>Prune tree by path or depth, returns the root of a <em>copy</em> of the original tree.</p>
 <p>For pruning by <code>prune_path</code>,</p>
 <ul>
-<li>All siblings along the prune path will be removed.</li>
+<li>All siblings along the prune path will be removed. All descendants will be kept by default.</li>
 <li>If <code>exact=True</code>, all descendants of prune path will be removed.</li>
 <li>Prune path can be string (only one path) or a list of strings (multiple paths).</li>
 <li>Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.</li>
@@ -2699,7 +2770,7 @@ If the same type is needed, simply do a tree.copy().</p>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">│   └── d</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">└── e</span>
 </span></code></pre></div>
-    <p>Prune (default is keep descendants)</p>
+    <p>Prune tree</p>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_pruned</span> <span class="o">=</span> <span class="n">prune_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;a/b&quot;</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_pruned</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">a</span>
@@ -2707,13 +2778,13 @@ If the same type is needed, simply do a tree.copy().</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">    ├── c</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">    └── d</span>
 </span></code></pre></div>
-    <p>Prune exact path</p>
+    <p>Prune by exact path</p>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_pruned</span> <span class="o">=</span> <span class="n">prune_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;a/b&quot;</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_pruned</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">a</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">└── b</span>
 </span></code></pre></div>
-    <p>Prune multiple paths</p>
+    <p>Prune by multiple paths</p>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_pruned</span> <span class="o">=</span> <span class="n">prune_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;a/b/d&quot;</span><span class="p">,</span> <span class="s2">&quot;a/e&quot;</span><span class="p">])</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_pruned</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">a</span>
@@ -2864,9 +2935,10 @@ If the same type is needed, simply do a tree.copy().</p>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">other_tree</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">only_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">attr_list</span><span class="o">=</span><span class="p">[],</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">fallback_sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">aggregate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">attr_list</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">fallback_sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2880,8 +2952,10 @@ Function can return only the differences (default), or all original tree nodes a
 <li>For example: (+) refers to nodes that are in <code>other_tree</code> but not <code>tree</code>.</li>
 <li>For example: (-) refers to nodes that are in <code>tree</code> but not <code>other_tree</code>.</li>
 </ul>
-<p>If <code>detail=True</code>, (added) and (moved to) will be used instead of (+), (removed) and (moved from)
-will be used instead of (-).</p>
+<p>If <code>detail=True</code>, (added) and (moved to) will be used instead of (+), (removed) and (moved from) will be used
+instead of (-).</p>
+<p>If <code>aggregate=True</code>, differences (+)/(added)/(moved to) and (-)/(removed)/(moved from) will only be indicated at
+the parent-level. This is useful when a subtree is shifted, and we want the differences shown only at the top node.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul>
@@ -2895,50 +2969,93 @@ will be used instead of (-).</p>
 <p><span class="doc-section-title">Examples:</span></p>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create original tree</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">get_tree_diff</span><span class="p">,</span> <span class="n">list_to_tree</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">list_to_tree</span><span class="p">([</span><span class="s2">&quot;Downloads/Pictures/photo1.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/file1.doc&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/photo2.jpg&quot;</span><span class="p">])</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">list_to_tree</span><span class="p">([</span><span class="s2">&quot;Downloads/Pictures/photo1.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/file1.doc&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/Trip/photo2.jpg&quot;</span><span class="p">])</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">Downloads</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">├── Pictures</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">│   └── photo1.jpg</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">├── file1.doc</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">└── photo2.jpg</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">└── Trip</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">    └── photo2.jpg</span>
 </span></code></pre></div>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create other tree</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_other</span> <span class="o">=</span> <span class="n">list_to_tree</span><span class="p">([</span><span class="s2">&quot;Downloads/Pictures/photo1.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/Pictures/photo2.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/file1.doc&quot;</span><span class="p">])</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_other</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">Downloads</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">├── Pictures</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│   ├── photo1.jpg</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">│   └── photo2.jpg</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">└── file1.doc</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_other</span> <span class="o">=</span> <span class="n">list_to_tree</span><span class="p">(</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;Downloads/Pictures/photo1.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/Pictures/Trip/photo2.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/file1.doc&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/file2.doc&quot;</span><span class="p">]</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">... </span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_other</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">Downloads</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">├── Pictures</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">│   ├── photo1.jpg</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">│   └── Trip</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">│       └── photo2.jpg</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">├── file1.doc</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">└── file2.doc</span>
 </span></code></pre></div>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get tree differences</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span> <span class="o">=</span> <span class="n">get_tree_diff</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">root_other</span><span class="p">)</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">Downloads</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">├── photo2.jpg (-)</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">└── Pictures</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">    └── photo2.jpg (+)</span>
+    <h4 id="bigtree.tree.helper.get_tree_diff--comparing-tree-structure">Comparing tree structure</h4>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span> <span class="o">=</span> <span class="n">get_tree_diff</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">root_other</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">Downloads</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">├── Pictures</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">│   └── Trip (+)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│       └── photo2.jpg (+)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">├── Trip (-)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">│   └── photo2.jpg (-)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">└── file2.doc (+)</span>
 </span></code></pre></div>
+    <p>All differences</p>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span> <span class="o">=</span> <span class="n">get_tree_diff</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">root_other</span><span class="p">,</span> <span class="n">only_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">Downloads</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">├── Pictures</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">│   ├── photo1.jpg</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│   └── photo2.jpg (+)</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">├── file1.doc</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">└── photo2.jpg (-)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">│   ├── Trip (+)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│   │   └── photo2.jpg (+)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">│   └── photo1.jpg</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">├── Trip (-)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">│   └── photo2.jpg (-)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">├── file1.doc</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">└── file2.doc (+)</span>
 </span></code></pre></div>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span> <span class="o">=</span> <span class="n">get_tree_diff</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">root_other</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <p>All differences with details</p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span> <span class="o">=</span> <span class="n">get_tree_diff</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span>    <span class="n">root</span><span class="p">,</span> <span class="n">root_other</span><span class="p">,</span> <span class="n">only_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">... </span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">Downloads</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">├── Pictures</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">│   ├── Trip (moved to)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">│   │   └── photo2.jpg (moved to)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">│   └── photo1.jpg</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">├── Trip (moved from)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">│   └── photo2.jpg (moved from)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">├── file1.doc</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">└── file2.doc (added)</span>
+</span></code></pre></div>
+    <p>All differences with details on aggregated level</p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span> <span class="o">=</span> <span class="n">get_tree_diff</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span>    <span class="n">root</span><span class="p">,</span> <span class="n">root_other</span><span class="p">,</span> <span class="n">only_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">... </span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">Downloads</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">├── Pictures</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">│   ├── Trip (moved to)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">│   │   └── photo2.jpg</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">│   └── photo1.jpg</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">├── Trip (moved from)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">│   └── photo2.jpg</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">├── file1.doc</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">└── file2.doc (added)</span>
+</span></code></pre></div>
+    <p>Only differences with details on aggregated level</p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span> <span class="o">=</span> <span class="n">get_tree_diff</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">root_other</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">Downloads</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">├── Pictures</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">│   ├── photo1.jpg</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│   └── photo2.jpg (moved to)</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">├── file1.doc</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">└── photo2.jpg (moved from)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">│   └── Trip (moved to)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│       └── photo2.jpg</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">├── Trip (moved from)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">└── file2.doc (added)</span>
 </span></code></pre></div>
-    <p>Comparing tree attributes</p>
+    <h4 id="bigtree.tree.helper.get_tree_diff--comparing-tree-attribute">Comparing tree attribute</h4>
 <ul>
 <li>(~) will be added to node name if there are differences in tree attributes defined in <code>attr_list</code>.</li>
 <li>The node's attributes will be a list of [value in <code>tree</code>, value in <code>other_tree</code>]</li>
@@ -2967,7 +3084,7 @@ will be used instead of (-).</p>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">│   └── photo2.jpg [tags=photo2-new]</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">└── file1.doc [tags=file1]</span>
 </span></code></pre></div>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get tree differences</span>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get tree attribute differences</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span> <span class="o">=</span> <span class="n">get_tree_diff</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">root_other</span><span class="p">,</span> <span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tags&quot;</span><span class="p">])</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tags&quot;</span><span class="p">])</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">Downloads</span>
@@ -3046,6 +3163,22 @@ will be used instead of (-).</p>
             <td>
               <div class="doc-md-description">
                 <p>indicator to differentiate between different types of diff e.g., added or removed or moved</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>aggregate</code>
+            </td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>indicator to only add difference indicator to parent-level e.g., when shifting subtrees</p>
               </div>
             </td>
             <td>

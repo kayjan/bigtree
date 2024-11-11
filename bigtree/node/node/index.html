@@ -2401,6 +2401,8 @@
       
         
       
+        
+      
     
     
       
@@ -2530,6 +2532,27 @@
   
   <span class="md-ellipsis">
     Trees with Weighted Edges
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/work_with_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Working with Classes
   </span>
   
 
@@ -3002,7 +3025,9 @@ If node is created with dictionary, all keys of dictionary will be stored as cla
 </ol>
 <p>Get <code>Node</code> configuration</p>
 <ol>
-<li><code>node_name</code>: Get node name, without accessing <code>name</code> directly</li>
+<li><code>node_name</code>: Get node name, without accessing <code>name</code> directly.
+    This is the preferred way to access node name as <code>node_name</code> is
+    immutable, whereas <code>name</code> is mutable.</li>
 <li><code>path_name</code>: Get path name from root, separated by <code>sep</code></li>
 </ol>
 <p><strong>Node Methods</strong></p>
