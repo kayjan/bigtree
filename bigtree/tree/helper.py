@@ -490,60 +490,14 @@ def get_tree_diff(
         moved_from_ind = [name in names_added for name in names_removed]
         moved_to_ind = [name in names_removed for name in names_added]
 
-    def add_suffix_to_path(
-        _data: pd.DataFrame, _condition: pd.Series, _original_name: str, _suffix: str
-    ) -> None:
-        """Add suffix to path string, in-place
-
-        Args:
-            _data (pd.DataFrame): original data with path column
-            _condition (pd.Series): whether to add suffix, contains True/False values
-            _original_name (str): path prefix to add suffix to
-            _suffix (str): suffix to add to path column
-
-        Returns:
-            (pd.DataFrame)
-        """
-        _data.iloc[_condition.values, _data.columns.get_loc(path_col)] = _data.iloc[
-            _condition.values, _data.columns.get_loc(path_col)
-        ].str.replace(_original_name, f"{_original_name} ({_suffix})", regex=True)
-
-    def add_suffix_to_data(
-        _data: pd.DataFrame,
-        paths_diff: List[str],
-        move_ind: List[bool],
-        suffix_general: str,
-        suffix_move: str,
-        suffix_not_moved: str,
-    ) -> None:
-        """Add suffix to data, in-place
-
-        Args:
-            _data (pd.DataFrame): original data with path column
-            paths_diff (List[str]): list of paths that were modified (e.g., added/removed)
-            move_ind (List[bool]): move indicator to indicate path was moved instead of added/removed
-            suffix_general (str): path suffix for general case
-            suffix_move (str): path suffix if path was moved
-            suffix_not_moved (str): path suffix if path is not moved (e.g., added/removed)
-        """
-        for _path_diff, _move_ind in zip(paths_diff, move_ind):
-            if not detail:
-                suffix = suffix_general
-            else:
-                suffix = suffix_move if _move_ind else suffix_not_moved
-            condition_node_modified = data_compare[path_col].str.endswith(
-                _path_diff
-            ) | data_compare[path_col].str.contains(_path_diff + tree_sep)
-            add_suffix_to_path(
-                data_compare, condition_node_modified, _path_diff, suffix
-            )
-
-    add_suffix_to_data(
-        data_compare, paths_removed, moved_from_ind, "-", "moved from", "removed"
-    )
-    add_suffix_to_data(
-        data_compare, paths_added, moved_to_ind, "+", "moved to", "added"
-    )
+    path_removed_to_name = {
+        k: "-" if not detail else ("moved from" if v else "removed")
+        for k, v in zip(paths_removed, moved_from_ind)
+    }
+    path_added_to_name = {
+        k: "+" if not detail else ("moved to" if v else "added")
+        for k, v in zip(paths_added, moved_to_ind)
+    }
 
     # Check tree attribute difference
     dict_attr_diff: Dict[str, Dict[str, Any]] = {}
@@ -584,6 +538,13 @@ def get_tree_diff(
         tree_diff = construct.dataframe_to_tree(
             data_compare, node_type=tree.__class__, sep=tree.sep
         )
+        for path in sorted(path_removed_to_name, reverse=True):
+            _node = search.find_full_path(tree_diff, path)
+            _node.name += f""" ({path_removed_to_name[path]})"""
+        for path in sorted(path_added_to_name, reverse=True):
+            _node = search.find_full_path(tree_diff, path)
+            _node.name += f""" ({path_added_to_name[path]})"""
+
         # Handle tree attribute difference
         if dict_attr_diff:
             tree_diff = construct.add_dict_to_tree_by_path(tree_diff, dict_attr_diff)
