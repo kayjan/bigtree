@@ -543,8 +543,8 @@ def get_tree_diff(
     add_suffix_to_data(data_both, paths_added, moved_to_ind, "+", "moved to", "added")
 
     # Check tree attribute difference
-    path_changes_list_of_dict: List[Dict[str, Dict[str, Any]]] = []
-    path_changes_deque: Deque[str] = deque([])
+    path_to_attrs_diff: List[Dict[str, Dict[str, Any]]] = []
+    paths_with_attr_diff: Deque[str] = deque([])
     for attr_change in attr_list:
         condition_diff = (
             (
@@ -565,13 +565,13 @@ def get_tree_diff(
             )
             dict_attr_diff = [{attr_change: v} for v in tuple_diff]
             dict_path_diff = dict(list(zip(data_diff[path_col], dict_attr_diff)))
-            path_changes_list_of_dict.append(dict_path_diff)
-            path_changes_deque.extend(list(data_diff[path_col]))
+            path_to_attrs_diff.append(dict_path_diff)
+            paths_with_attr_diff.extend(list(data_diff[path_col]))
 
     if only_diff:
         data_both = data_both[
             (data_both[indicator_col] != "both")
-            | (data_both[path_col].isin(path_changes_deque))
+            | (data_both[path_col].isin(paths_with_attr_diff))
         ]
     data_both = data_both[[path_col]].sort_values(path_col)
     if len(data_both):
@@ -579,13 +579,13 @@ def get_tree_diff(
             data_both, node_type=tree.__class__, sep=tree.sep
         )
         # Handle tree attribute difference
-        if len(path_changes_deque):
-            path_changes_list = sorted(path_changes_deque, reverse=True)
+        if len(paths_with_attr_diff):
+            path_changes_list = sorted(paths_with_attr_diff, reverse=True)
             name_changes_list = [
                 {k: {"name": f"{k.split(tree.sep)[-1]} (~)"} for k in path_changes_list}
             ]
-            path_changes_list_of_dict.extend(name_changes_list)
-            for attr_change_dict in path_changes_list_of_dict:
+            path_to_attrs_diff.extend(name_changes_list)
+            for attr_change_dict in path_to_attrs_diff:
                 tree_diff = construct.add_dict_to_tree_by_path(
                     tree_diff, attr_change_dict
                 )
