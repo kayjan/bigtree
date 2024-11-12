@@ -438,6 +438,8 @@ def get_tree_diff(
     path_col = "PATH"
     parent_col = "PARENT"
     indicator_col = "Exists"
+    old_suffix = "_old"
+    new_suffix = "_new"
     tree_sep = tree.sep
 
     data, data_other = (
@@ -457,6 +459,7 @@ def get_tree_diff(
         how="outer",
         on=[path_col, name_col, parent_col],
         indicator=indicator_col,
+        suffixes=(old_suffix, new_suffix),
     )
     if aggregate:
         data_both_agg = data_both[
@@ -473,30 +476,20 @@ def get_tree_diff(
         data_both_agg = data_both
 
     # Handle tree structure difference
-    nodes_removed = list(
+    paths_removed = list(
         data_both_agg[data_both_agg[indicator_col] == "left_only"][path_col]
     )[::-1]
-    nodes_added = list(
+    paths_added = list(
         data_both_agg[data_both_agg[indicator_col] == "right_only"][path_col]
     )[::-1]
 
-    moved_from_indicator: List[bool] = [True for _ in range(len(nodes_removed))]
-    moved_to_indicator: List[bool] = [True for _ in range(len(nodes_added))]
+    moved_from_ind: List[bool] = [True for _ in range(len(paths_removed))]
+    moved_to_ind: List[bool] = [True for _ in range(len(paths_added))]
     if detail:
-        node_names_removed = [
-            node_removed.split(tree_sep)[-1] for node_removed in nodes_removed
-        ]
-        node_names_added = [
-            node_added.split(tree_sep)[-1] for node_added in nodes_added
-        ]
-        moved_from_indicator = [
-            node_name_removed in node_names_added
-            for node_name_removed in node_names_removed
-        ]
-        moved_to_indicator = [
-            node_name_added in node_names_removed
-            for node_name_added in node_names_added
-        ]
+        names_removed = [path.split(tree_sep)[-1] for path in paths_removed]
+        names_added = [path.split(tree_sep)[-1] for path in paths_added]
+        moved_from_ind = [name in names_added for name in names_removed]
+        moved_to_ind = [name in names_removed for name in names_added]
 
     def add_suffix_to_path(
         _data: pd.DataFrame, _condition: pd.Series, _original_name: str, _suffix: str
@@ -518,8 +511,8 @@ def get_tree_diff(
 
     def add_suffix_to_data(
         _data: pd.DataFrame,
-        nodes_diff: List[str],
-        move_indicator: List[bool],
+        paths_diff: List[str],
+        move_ind: List[bool],
         suffix_general: str,
         suffix_move: str,
         suffix_not_moved: str,
@@ -528,28 +521,26 @@ def get_tree_diff(
 
         Args:
             _data (pd.DataFrame): original data with path column
-            nodes_diff (List[str]): list of paths that were modified (e.g., added/removed)
-            move_indicator (List[bool]): move indicator to indicate path was moved instead of added/removed
+            paths_diff (List[str]): list of paths that were modified (e.g., added/removed)
+            move_ind (List[bool]): move indicator to indicate path was moved instead of added/removed
             suffix_general (str): path suffix for general case
             suffix_move (str): path suffix if path was moved
             suffix_not_moved (str): path suffix if path is not moved (e.g., added/removed)
         """
-        for _node_diff, _move_indicator in zip(nodes_diff, move_indicator):
+        for _path_diff, _move_ind in zip(paths_diff, move_ind):
             if not detail:
                 suffix = suffix_general
             else:
-                suffix = suffix_move if _move_indicator else suffix_not_moved
+                suffix = suffix_move if _move_ind else suffix_not_moved
             condition_node_modified = data_both[path_col].str.endswith(
-                _node_diff
-            ) | data_both[path_col].str.contains(_node_diff + tree_sep)
-            add_suffix_to_path(data_both, condition_node_modified, _node_diff, suffix)
+                _path_diff
+            ) | data_both[path_col].str.contains(_path_diff + tree_sep)
+            add_suffix_to_path(data_both, condition_node_modified, _path_diff, suffix)
 
     add_suffix_to_data(
-        data_both, nodes_removed, moved_from_indicator, "-", "moved from", "removed"
+        data_both, paths_removed, moved_from_ind, "-", "moved from", "removed"
     )
-    add_suffix_to_data(
-        data_both, nodes_added, moved_to_indicator, "+", "moved to", "added"
-    )
+    add_suffix_to_data(data_both, paths_added, moved_to_ind, "+", "moved to", "added")
 
     # Check tree attribute difference
     path_changes_list_of_dict: List[Dict[str, Dict[str, Any]]] = []
@@ -557,16 +548,20 @@ def get_tree_diff(
     for attr_change in attr_list:
         condition_diff = (
             (
-                ~data_both[f"{attr_change}_x"].isnull()
-                | ~data_both[f"{attr_change}_y"].isnull()
+                ~data_both[f"{attr_change}{old_suffix}"].isnull()
+                | ~data_both[f"{attr_change}{new_suffix}"].isnull()
             )
-            & (data_both[f"{attr_change}_x"] != data_both[f"{attr_change}_y"])
+            & (
+                data_both[f"{attr_change}{old_suffix}"]
+                != data_both[f"{attr_change}{new_suffix}"]
+            )
             & (data_both[indicator_col] == "both")
         )
         data_diff = data_both[condition_diff]
         if len(data_diff):
             tuple_diff = zip(
-                data_diff[f"{attr_change}_x"], data_diff[f"{attr_change}_y"]
+                data_diff[f"{attr_change}{old_suffix}"],
+                data_diff[f"{attr_change}{new_suffix}"],
             )
             dict_attr_diff = [{attr_change: v} for v in tuple_diff]
             dict_path_diff = dict(list(zip(data_diff[path_col], dict_attr_diff)))
