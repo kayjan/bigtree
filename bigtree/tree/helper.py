@@ -490,11 +490,11 @@ def get_tree_diff(
         moved_from_ind = [name in names_added for name in names_removed]
         moved_to_ind = [name in names_removed for name in names_added]
 
-    path_removed_to_name = {
+    path_removed_to_suffix = {
         path: "-" if not detail else ("moved from" if move_ind else "removed")
         for path, move_ind in zip(paths_removed, moved_from_ind)
     }
-    path_added_to_name = {
+    path_added_to_suffix = {
         path: "+" if not detail else ("moved to" if move_ind else "added")
         for path, move_ind in zip(paths_added, moved_to_ind)
     }
@@ -538,12 +538,12 @@ def get_tree_diff(
         tree_diff = construct.dataframe_to_tree(
             data_compare, node_type=tree.__class__, sep=tree.sep
         )
-        for path in sorted(path_removed_to_name, reverse=True):
+        for path in sorted(path_removed_to_suffix, reverse=True):
             _node = search.find_full_path(tree_diff, path)
-            _node.name += f""" ({path_removed_to_name[path]})"""
-        for path in sorted(path_added_to_name, reverse=True):
+            _node.name += f""" ({path_removed_to_suffix[path]})"""
+        for path in sorted(path_added_to_suffix, reverse=True):
             _node = search.find_full_path(tree_diff, path)
-            _node.name += f""" ({path_added_to_name[path]})"""
+            _node.name += f""" ({path_added_to_suffix[path]})"""
 
         # Handle tree attribute difference
         if dict_attr_diff:
