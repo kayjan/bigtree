@@ -491,12 +491,12 @@ def get_tree_diff(
         moved_to_ind = [name in names_removed for name in names_added]
 
     path_removed_to_name = {
-        k: "-" if not detail else ("moved from" if v else "removed")
-        for k, v in zip(paths_removed, moved_from_ind)
+        path: "-" if not detail else ("moved from" if move_ind else "removed")
+        for path, move_ind in zip(paths_removed, moved_from_ind)
     }
     path_added_to_name = {
-        k: "+" if not detail else ("moved to" if v else "added")
-        for k, v in zip(paths_added, moved_to_ind)
+        path: "+" if not detail else ("moved to" if move_ind else "added")
+        for path, move_ind in zip(paths_added, moved_to_ind)
     }
 
     # Check tree attribute difference
