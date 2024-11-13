@@ -1803,6 +1803,39 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.helper.get_tree_diff_dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_tree_diff_dataframe
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" get_tree_diff_dataframe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.helper.get_tree_diff_dataframe--comparing-tree-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparing tree structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.helper.get_tree_diff_dataframe--compare-tree-attribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compare tree attribute
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.helper.get_tree_diff" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_tree_diff
@@ -2407,6 +2440,39 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.helper.get_tree_diff_dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_tree_diff_dataframe
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" get_tree_diff_dataframe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.helper.get_tree_diff_dataframe--comparing-tree-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparing tree structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.helper.get_tree_diff_dataframe--compare-tree-attribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compare tree attribute
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.helper.get_tree_diff" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_tree_diff
@@ -2925,6 +2991,367 @@ If the same type is needed, simply do a tree.copy().</p>
 <div class="doc doc-object doc-function">
 
 
+<h3 id="bigtree.tree.helper.get_tree_diff_dataframe" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_tree_diff_dataframe</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_tree_diff_dataframe</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">other_tree</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">only_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">aggregate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">attr_list</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">fallback_sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">name_col</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">path_col</span><span class="o">=</span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="s2">&quot;parent&quot;</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">indicator_col</span><span class="o">=</span><span class="s2">&quot;Exists&quot;</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">old_suffix</span><span class="o">=</span><span class="s2">&quot;_old&quot;</span><span class="p">,</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">new_suffix</span><span class="o">=</span><span class="s2">&quot;_new&quot;</span><span class="p">,</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">suffix_col</span><span class="o">=</span><span class="s2">&quot;suffix&quot;</span><span class="p">,</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Get difference of <code>tree</code> to <code>other_tree</code>, changes are relative to <code>tree</code>. This function exports both trees to
+pandas DataFrame, merge them, and adds new suffix column to indicate the type of differences in both trees.</p>
+<h4 id="bigtree.tree.helper.get_tree_diff_dataframe--comparing-tree-structure">Comparing tree structure</h4>
+<p>By default, suffix will be '+' and '-' for the tree differences, and np.nan for the others.</p>
+<ul>
+<li>If <code>detail=True</code>, 'added' and 'moved to' will be used instead of '+', and 'removed' and 'moved from' will be used
+instead of '-'</li>
+<li>If <code>aggregate=True</code>, suffix will only be indicated at the parent-level. This is useful when a subtree is shifted
+and we want the differences shown only at the top node</li>
+</ul>
+<h4 id="bigtree.tree.helper.get_tree_diff_dataframe--compare-tree-attribute">Compare tree attribute</h4>
+<p>Attributes indicated in <code>attr_list</code> will be exported in the pandas DataFrame with suffixes representing attributes
+from <code>tree</code> and <code>other_tree</code> respectively.</p>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create original tree</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">get_tree_diff_dataframe</span><span class="p">,</span> <span class="n">list_to_tree</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">list_to_tree</span><span class="p">([</span><span class="s2">&quot;Downloads/Pictures/photo1.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/file1.doc&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/Trip/photo2.jpg&quot;</span><span class="p">])</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">Downloads</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">├── Pictures</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">│   └── photo1.jpg</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">├── file1.doc</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">└── Trip</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">    └── photo2.jpg</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create other tree</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_other</span> <span class="o">=</span> <span class="n">list_to_tree</span><span class="p">(</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;Downloads/Pictures/photo1.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/Pictures/Trip/photo2.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/file1.doc&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/file2.doc&quot;</span><span class="p">]</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">... </span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_other</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">Downloads</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">├── Pictures</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">│   ├── photo1.jpg</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">│   └── Trip</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">│       └── photo2.jpg</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">├── file1.doc</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">└── file2.doc</span>
+</span></code></pre></div>
+    <p>Comparing tree structure</p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">get_tree_diff_dataframe</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">root_other</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">                                  path        name     parent      Exists      suffix</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">0                           /Downloads   Downloads       None        both         NaN</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">1                  /Downloads/Pictures    Pictures  Downloads        both         NaN</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">2             /Downloads/Pictures/Trip        Trip   Pictures  right_only    moved to</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">3  /Downloads/Pictures/Trip/photo2.jpg  photo2.jpg       Trip  right_only    moved to</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">4       /Downloads/Pictures/photo1.jpg  photo1.jpg   Pictures        both         NaN</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">5                      /Downloads/Trip        Trip  Downloads   left_only  moved from</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">6           /Downloads/Trip/photo2.jpg  photo2.jpg       Trip   left_only  moved from</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">7                 /Downloads/file1.doc   file1.doc  Downloads        both         NaN</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">8                 /Downloads/file2.doc   file2.doc  Downloads  right_only       added</span>
+</span></code></pre></div>
+        <div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>tree and other_tree must have the same <code>sep</code> symbol, otherwise this will raise ValueError</li>
+<li>If the <code>sep</code> symbol contains one of <code>+</code> / <code>-</code> / <code>~</code> character, a fallback sep will be used</li>
+<li>Node names in tree and other_tree must not contain the <code>sep</code> (or fallback sep) symbol</li>
+</ul>
+</div>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>tree</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tree to be compared against</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>other_tree</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tree to be compared with</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>only_diff</code>
+            </td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if aggregate and only_diff are True, child nodes that are moved from tree will be removed</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>detail</code>
+            </td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>by default, suffix column will display "+" and "-". If detail is True, suffix column will be more
+detailed, displaying "moved from" / "moved to" / "added" / "removed" instead</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>aggregate</code>
+            </td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>by default, all nodes that are different will have suffix specified. If aggregate is True,
+only parent-level node have suffixes and nodes that have different paths but same parent will not have suffix.</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>attr_list</code>
+            </td>
+            <td>
+                  <code><span title="typing.List">List</span>[str]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tree attributes to retrieve from tree and other_tree, defaults to empty list</p>
+              </div>
+            </td>
+            <td>
+                  <code>[]</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>fallback_sep</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
+All node names in tree and other_tree should not contain this fallback_sep, defaults to "/"</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;/&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>name_col</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>name column of return dataframe, indicates the name of node</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;name&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>path_col</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>path column of return dataframe, indicates the full path of node</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;path&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>parent_col</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>parent column of return dataframe, indicates the parent name of node</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;parent&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indicator_col</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>indicator column of return dataframe, indicates whether node appears in left_only, right_only
+or both tree</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;Exists&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>old_suffix</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>suffix given to attributes from tree of return dataframe, relevant if attr_list is specified</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;_old&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>new_suffix</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>suffix given to attributes from other_tree of return dataframe, relevant if attr_list is specified</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;_new&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>suffix_col</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>suffix column of return dataframe, indicates the type of diff whether it is added, removed,
+or moved</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;suffix&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="pandas.DataFrame">DataFrame</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(pd.DataFrame)</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h3 id="bigtree.tree.helper.get_tree_diff" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_tree_diff</span>
 
@@ -2946,7 +3373,7 @@ If the same type is needed, simply do a tree.copy().</p>
         <p>Get difference of <code>tree</code> to <code>other_tree</code>, changes are relative to <code>tree</code>.</p>
 <p>Compares the difference in tree structure (default), but can also compare tree attributes using <code>attr_list</code>.
 Function can return only the differences (default), or all original tree nodes and differences.</p>
-<p>Comparing tree structure:</p>
+<h4 id="bigtree.tree.helper.get_tree_diff--comparing-tree-structure">Comparing tree structure</h4>
 <ul>
 <li>(+) and (-) will be added to node name relative to <code>tree</code>.</li>
 <li>For example: (+) refers to nodes that are in <code>other_tree</code> but not <code>tree</code>.</li>
@@ -2956,14 +3383,6 @@ Function can return only the differences (default), or all original tree nodes a
 instead of (-).</p>
 <p>If <code>aggregate=True</code>, differences (+)/(added)/(moved to) and (-)/(removed)/(moved from) will only be indicated at
 the parent-level. This is useful when a subtree is shifted, and we want the differences shown only at the top node.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul>
-<li>tree and other_tree must have the same <code>sep</code> symbol, otherwise this will raise ValueError</li>
-<li>If the <code>sep</code> symbol contains one of <code>+</code> / <code>-</code> / <code>~</code> character, a fallback sep will be used</li>
-<li>Node names in tree and other_tree must not contain the <code>sep</code> (or fallback sep) symbol</li>
-</ul>
-</div>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -2991,7 +3410,7 @@ the parent-level. This is useful when a subtree is shifted, and we want the diff
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">├── file1.doc</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">└── file2.doc</span>
 </span></code></pre></div>
-    <h4 id="bigtree.tree.helper.get_tree_diff--comparing-tree-structure">Comparing tree structure</h4>
+    <p>Comparing tree structure</p>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span> <span class="o">=</span> <span class="n">get_tree_diff</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">root_other</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_diff</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">Downloads</span>
@@ -3092,6 +3511,14 @@ the parent-level. This is useful when a subtree is shifted, and we want the diff
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">    ├── photo1.jpg (~) [tags=(&#39;photo1&#39;, &#39;photo1-edited&#39;)]</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">    └── photo2.jpg (+)</span>
 </span></code></pre></div>
+        <div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>tree and other_tree must have the same <code>sep</code> symbol, otherwise this will raise ValueError</li>
+<li>If the <code>sep</code> symbol contains one of <code>+</code> / <code>-</code> / <code>~</code> character, a fallback sep will be used</li>
+<li>Node names in tree and other_tree must not contain the <code>sep</code> (or fallback sep) symbol</li>
+</ul>
+</div>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>

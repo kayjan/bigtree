@@ -3754,6 +3754,11 @@ be indicated instead if <code>(+)</code> and <code>(-)</code> by passing <code>d
 <p>For aggregating the differences at the parent-level instead of having <code>(+)</code> and
 <code>(-)</code> at every child node, pass in <code>aggregate=True</code>. This is useful if
 subtrees are shifted, and if you want to view the shifting at the parent-level.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For more custom processing and handling of the tree differences, the interim
+dataframe of the tree differences can be retrieved with <code>get_tree_diff_dataframe</code>.</p>
+</div>
 <div class="tabbed-set tabbed-alternate" data-tabs="12:5"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><input id="__tabbed_12_3" name="__tabbed_12" type="radio" /><input id="__tabbed_12_4" name="__tabbed_12" type="radio" /><input id="__tabbed_12_5" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Only differences</label><label for="__tabbed_12_2">Full original tree</label><label for="__tabbed_12_3">With details</label><label for="__tabbed_12_4">With aggregated differences</label><label for="__tabbed_12_5">Attribute difference</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
