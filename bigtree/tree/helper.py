@@ -331,16 +331,18 @@ def get_tree_diff_dataframe(
     Args:
         tree (Node): tree to be compared against
         other_tree (Node): tree to be compared with
-        only_diff (bool): indicator to show all nodes or only nodes that are different (+/-), defaults to True
-        detail (bool): indicator to differentiate between different types of diff e.g., added or removed or moved
-        aggregate (bool): indicator to only add difference indicator to parent-level e.g., when shifting subtrees
-        attr_list (List[str]): tree attributes to check for difference, defaults to empty list
+        only_diff (bool): if aggregate and only_diff are True, child nodes that are moved from tree will be removed
+        detail (bool): by default, suffix column will display "+" and "-". If detail is True, suffix column will be more
+            detailed, displaying "moved from" / "moved to" / "added" / "removed" instead
+        aggregate (bool): by default, all nodes that are different will have suffix specified. If aggregate is True,
+            only parent-level node have suffixes and nodes that have different paths but same parent will not have suffix.
+        attr_list (List[str]): tree attributes to retrieve from tree and other_tree, defaults to empty list
         fallback_sep (str): sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
             All node names in tree and other_tree should not contain this fallback_sep, defaults to "/"
-        name_col (str): name column of return dataframe, indicates name of node
-        path_col (str): path column of return dataframe, indicates full path of node
-        parent_col (str): parent column of return dataframe, indicates parent name of node
-        indicator_col (str): indicator column of return dataframe, indicates whether node appear in left_only, right_only
+        name_col (str): name column of return dataframe, indicates the name of node
+        path_col (str): path column of return dataframe, indicates the full path of node
+        parent_col (str): parent column of return dataframe, indicates the parent name of node
+        indicator_col (str): indicator column of return dataframe, indicates whether node appears in left_only, right_only
             or both tree
         old_suffix (str): suffix given to attributes from tree of return dataframe, relevant if attr_list is specified
         new_suffix (str): suffix given to attributes from other_tree of return dataframe, relevant if attr_list is specified
