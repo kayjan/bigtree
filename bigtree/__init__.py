@@ -1,4 +1,4 @@
-__version__ = "0.22.2"
+__version__ = "0.22.3"
 
 from bigtree.binarytree.construct import list_to_binarytree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
@@ -40,7 +40,13 @@ from bigtree.tree.export import (
     tree_to_polars,
     yield_tree,
 )
-from bigtree.tree.helper import clone_tree, get_subtree, get_tree_diff, prune_tree
+from bigtree.tree.helper import (
+    clone_tree,
+    get_subtree,
+    get_tree_diff,
+    get_tree_diff_dataframe,
+    prune_tree,
+)
 from bigtree.tree.modify import (
     copy_and_replace_nodes_from_tree_to_tree,
     copy_nodes,

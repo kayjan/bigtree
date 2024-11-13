@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.22.3] - 2024-11-14
+### Added:
+- Tree Helper: `get_tree_diff_dataframe` to get tree differences in pd.DataFrame for customised processing and handling.
 ### Changed:
 - Tree Helper: Get tree diff logic to be faster to compare all attribute list and data at once (for attr diff).
 - Tree Helper: Get tree diff logic to be faster to add suffix at the end (for path diff).
@@ -699,7 +703,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.22.2...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.22.3...HEAD
+[0.22.3]: https://github.com/kayjan/bigtree/compare/0.22.2...0.22.3
 [0.22.2]: https://github.com/kayjan/bigtree/compare/0.22.1...0.22.2
 [0.22.1]: https://github.com/kayjan/bigtree/compare/0.22.0...0.22.1
 [0.22.0]: https://github.com/kayjan/bigtree/compare/0.21.3...0.22.0

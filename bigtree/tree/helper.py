@@ -11,7 +11,13 @@ except ImportError:  # pragma: no cover
 
     pd = MagicMock()
 
-__all__ = ["clone_tree", "get_subtree", "prune_tree", "get_tree_diff"]
+__all__ = [
+    "clone_tree",
+    "get_subtree",
+    "prune_tree",
+    "get_tree_diff_dataframe",
+    "get_tree_diff",
+]
 BaseNodeT = TypeVar("BaseNodeT", bound=basenode.BaseNode)
 BinaryNodeT = TypeVar("BinaryNodeT", bound=binarynode.BinaryNode)
 NodeT = TypeVar("NodeT", bound=node.Node)
@@ -244,6 +250,185 @@ def prune_tree(
 
 
 @exceptions.optional_dependencies_pandas
+def get_tree_diff_dataframe(
+    tree: node.Node,
+    other_tree: node.Node,
+    only_diff: bool = True,
+    detail: bool = False,
+    aggregate: bool = False,
+    attr_list: List[str] = [],
+    fallback_sep: str = "/",
+    name_col: str = "name",
+    path_col: str = "path",
+    parent_col: str = "parent",
+    indicator_col: str = "Exists",
+    old_suffix: str = "_old",
+    new_suffix: str = "_new",
+    suffix_col: str = "suffix",
+) -> pd.DataFrame:
+    """Get difference of `tree` to `other_tree`, changes are relative to `tree`. This function exports both trees to
+    pandas DataFrame, merge them, and adds new suffix column to indicate the type of differences in both trees.
+
+    # Comparing tree structure
+
+    By default, suffix will be '+' and '-' for the tree differences, and np.nan for the others.
+
+    - If `detail=True`, 'added' and 'moved to' will be used instead of '+', and 'removed' and 'moved from' will be used
+    instead of '-'
+    - If `aggregate=True`, suffix will only be indicated at the parent-level. This is useful when a subtree is shifted
+    and we want the differences shown only at the top node
+
+    # Compare tree attribute
+
+    Attributes indicated in `attr_list` will be exported in the pandas DataFrame with suffixes representing attributes
+    from `tree` and `other_tree` respectively.
+
+    Examples:
+        >>> # Create original tree
+        >>> from bigtree import Node, get_tree_diff_dataframe, list_to_tree
+        >>> root = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/Trip/photo2.jpg"])
+        >>> root.show()
+        Downloads
+        ├── Pictures
+        │   └── photo1.jpg
+        ├── file1.doc
+        └── Trip
+            └── photo2.jpg
+
+        >>> # Create other tree
+        >>> root_other = list_to_tree(
+        ...     ["Downloads/Pictures/photo1.jpg", "Downloads/Pictures/Trip/photo2.jpg", "Downloads/file1.doc", "Downloads/file2.doc"]
+        ... )
+        >>> root_other.show()
+        Downloads
+        ├── Pictures
+        │   ├── photo1.jpg
+        │   └── Trip
+        │       └── photo2.jpg
+        ├── file1.doc
+        └── file2.doc
+
+        Comparing tree structure
+
+        >>> get_tree_diff_dataframe(root, root_other, detail=True)
+                                          path        name     parent      Exists      suffix
+        0                           /Downloads   Downloads       None        both         NaN
+        1                  /Downloads/Pictures    Pictures  Downloads        both         NaN
+        2             /Downloads/Pictures/Trip        Trip   Pictures  right_only    moved to
+        3  /Downloads/Pictures/Trip/photo2.jpg  photo2.jpg       Trip  right_only    moved to
+        4       /Downloads/Pictures/photo1.jpg  photo1.jpg   Pictures        both         NaN
+        5                      /Downloads/Trip        Trip  Downloads   left_only  moved from
+        6           /Downloads/Trip/photo2.jpg  photo2.jpg       Trip   left_only  moved from
+        7                 /Downloads/file1.doc   file1.doc  Downloads        both         NaN
+        8                 /Downloads/file2.doc   file2.doc  Downloads  right_only       added
+
+    !!! note
+
+        - tree and other_tree must have the same `sep` symbol, otherwise this will raise ValueError
+        - If the `sep` symbol contains one of `+` / `-` / `~` character, a fallback sep will be used
+        - Node names in tree and other_tree must not contain the `sep` (or fallback sep) symbol
+
+    Args:
+        tree (Node): tree to be compared against
+        other_tree (Node): tree to be compared with
+        only_diff (bool): if aggregate and only_diff are True, child nodes that are moved from tree will be removed
+        detail (bool): by default, suffix column will display "+" and "-". If detail is True, suffix column will be more
+            detailed, displaying "moved from" / "moved to" / "added" / "removed" instead
+        aggregate (bool): by default, all nodes that are different will have suffix specified. If aggregate is True,
+            only parent-level node have suffixes and nodes that have different paths but same parent will not have suffix.
+        attr_list (List[str]): tree attributes to retrieve from tree and other_tree, defaults to empty list
+        fallback_sep (str): sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
+            All node names in tree and other_tree should not contain this fallback_sep, defaults to "/"
+        name_col (str): name column of return dataframe, indicates the name of node
+        path_col (str): path column of return dataframe, indicates the full path of node
+        parent_col (str): parent column of return dataframe, indicates the parent name of node
+        indicator_col (str): indicator column of return dataframe, indicates whether node appears in left_only, right_only
+            or both tree
+        old_suffix (str): suffix given to attributes from tree of return dataframe, relevant if attr_list is specified
+        new_suffix (str): suffix given to attributes from other_tree of return dataframe, relevant if attr_list is specified
+        suffix_col (str): suffix column of return dataframe, indicates the type of diff whether it is added, removed,
+            or moved
+
+    Returns:
+        (pd.DataFrame)
+    """
+    if tree.sep != other_tree.sep:
+        raise ValueError("`sep` must be the same for tree and other_tree")
+
+    forbidden_sep_symbols = ["+", "-", "~"]
+    if any(
+        forbidden_sep_symbol in tree.sep
+        for forbidden_sep_symbol in forbidden_sep_symbols
+    ):
+        tree.sep = fallback_sep
+        other_tree.sep = fallback_sep
+
+    data, data_other = (
+        export.tree_to_dataframe(
+            _tree,
+            name_col=name_col,
+            path_col=path_col,
+            parent_col=parent_col,
+            attr_dict={k: k for k in attr_list},
+        )
+        for _tree in (tree, other_tree)
+    )
+
+    # Combine both trees to compare
+    data_combine = data[[path_col, name_col, parent_col] + attr_list].merge(
+        data_other[[path_col, name_col, parent_col] + attr_list],
+        how="outer",
+        on=[path_col, name_col, parent_col],
+        indicator=indicator_col,
+        suffixes=(old_suffix, new_suffix),
+    )
+    data_compare = data_combine[[path_col, name_col, parent_col, indicator_col]]
+
+    # If aggregate, drop differences where node parent remains the same
+    if aggregate:
+        data_compare = data_compare[
+            (data_compare[indicator_col] == "left_only")
+            | (data_compare[indicator_col] == "right_only")
+        ].drop_duplicates(subset=[name_col, parent_col], keep=False)
+        if only_diff:
+            # If only_diff and aggregate, remove children under (moved from)
+            data_combine = data_combine.sort_values(indicator_col, ascending=False)
+            data_combine = data_combine[
+                ~data_combine.duplicated(subset=[name_col, parent_col])
+            ]  # keep right_only
+
+    # Determine the type of shift in suffix column
+    data_tree = data_compare[data_compare[indicator_col] == "left_only"]
+    data_tree_other = data_compare[data_compare[indicator_col] == "right_only"]
+
+    if detail:
+        data_tree[suffix_col] = "removed"
+        data_tree_other[suffix_col] = "added"
+
+        if len(data_tree) and len(data_tree_other):
+            # Check for moved from and moved to
+            move_from_condition = data_tree[
+                data_tree[name_col].isin(set(data_tree_other[name_col]))
+            ]
+            data_tree.loc[move_from_condition.index, suffix_col] = "moved from"
+            move_to_condition = data_tree_other[
+                data_tree_other[name_col].isin(set(data_tree[name_col]))
+            ]
+            data_tree_other.loc[move_to_condition.index, suffix_col] = "moved to"
+    else:
+        data_tree[suffix_col] = "-"
+        data_tree_other[suffix_col] = "+"
+
+    data_tree_diff = pd.merge(
+        data_combine,
+        pd.concat([data_tree, data_tree_other]),
+        on=[path_col, name_col, parent_col, indicator_col],
+        how="left",
+    )
+    return data_tree_diff
+
+
+@exceptions.optional_dependencies_pandas
 def get_tree_diff(
     tree: node.Node,
     other_tree: node.Node,
@@ -258,7 +443,7 @@ def get_tree_diff(
     Compares the difference in tree structure (default), but can also compare tree attributes using `attr_list`.
     Function can return only the differences (default), or all original tree nodes and differences.
 
-    Comparing tree structure:
+    # Comparing tree structure
 
     - (+) and (-) will be added to node name relative to `tree`.
     - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
@@ -269,12 +454,6 @@ def get_tree_diff(
 
     If `aggregate=True`, differences (+)/(added)/(moved to) and (-)/(removed)/(moved from) will only be indicated at
     the parent-level. This is useful when a subtree is shifted, and we want the differences shown only at the top node.
-
-    !!! note
-
-        - tree and other_tree must have the same `sep` symbol, otherwise this will raise ValueError
-        - If the `sep` symbol contains one of `+` / `-` / `~` character, a fallback sep will be used
-        - Node names in tree and other_tree must not contain the `sep` (or fallback sep) symbol
 
     Examples:
         >>> # Create original tree
@@ -301,7 +480,7 @@ def get_tree_diff(
         ├── file1.doc
         └── file2.doc
 
-        # Comparing tree structure
+        Comparing tree structure
 
         >>> tree_diff = get_tree_diff(root, root_other)
         >>> tree_diff.show()
@@ -407,6 +586,12 @@ def get_tree_diff(
             ├── photo1.jpg (~) [tags=('photo1', 'photo1-edited')]
             └── photo2.jpg (+)
 
+    !!! note
+
+        - tree and other_tree must have the same `sep` symbol, otherwise this will raise ValueError
+        - If the `sep` symbol contains one of `+` / `-` / `~` character, a fallback sep will be used
+        - Node names in tree and other_tree must not contain the `sep` (or fallback sep) symbol
+
     Args:
         tree (Node): tree to be compared against
         other_tree (Node): tree to be compared with
@@ -420,103 +605,39 @@ def get_tree_diff(
     Returns:
         (Node)
     """
-    if tree.sep != other_tree.sep:
-        raise ValueError("`sep` must be the same for tree and other_tree")
-
-    forbidden_sep_symbols = ["+", "-", "~"]
-    if any(
-        forbidden_sep_symbol in tree.sep
-        for forbidden_sep_symbol in forbidden_sep_symbols
-    ):
-        tree = tree.copy()
-        other_tree = other_tree.copy()
-        tree.sep = fallback_sep
-        other_tree.sep = fallback_sep
-
     name_col = "name"
-    path_col = "PATH"
-    parent_col = "PARENT"
+    path_col = "path"
+    parent_col = "parent"
     indicator_col = "Exists"
     old_suffix = "_old"
     new_suffix = "_new"
-    moved_ind = "moved_ind"
+    suffix_col = "suffix"
 
-    data, data_other = (
-        export.tree_to_dataframe(
-            _tree,
-            name_col=name_col,
-            path_col=path_col,
-            parent_col=parent_col,
-            attr_dict={k: k for k in attr_list},
-        )
-        for _tree in (tree, other_tree)
+    data_diff_all = get_tree_diff_dataframe(
+        tree,
+        other_tree,
+        only_diff,
+        detail,
+        aggregate,
+        attr_list,
+        fallback_sep,
+        name_col,
+        path_col,
+        parent_col,
+        indicator_col,
+        old_suffix,
+        new_suffix,
+        suffix_col,
     )
 
     # Check tree structure difference
-    data_compare = data[[path_col, name_col, parent_col] + attr_list].merge(
-        data_other[[path_col, name_col, parent_col] + attr_list],
-        how="outer",
-        on=[path_col, name_col, parent_col],
-        indicator=indicator_col,
-        suffixes=(old_suffix, new_suffix),
-    )
-    if aggregate:
-        data_path_diff = data_compare[
-            (data_compare[indicator_col] == "left_only")
-            | (data_compare[indicator_col] == "right_only")
-        ].drop_duplicates(subset=[name_col, parent_col], keep=False)
-        if only_diff:
-            # If only_diff and aggregate, remove children under (moved from)
-            data_compare = data_compare.sort_values(indicator_col, ascending=False)
-            data_compare = data_compare[
-                ~data_compare.duplicated(subset=[name_col, parent_col])
-            ]  # keep right_only
-    else:
-        data_path_diff = data_compare
-
-    # Handle tree structure difference
-    data_tree = data_path_diff[data_path_diff[indicator_col] == "left_only"]
-    data_tree_other = data_path_diff[data_path_diff[indicator_col] == "right_only"]
-
-    if detail:
-        data_tree[moved_ind] = False
-        data_tree_other[moved_ind] = False
-
-        if len(data_tree) and len(data_tree_other):
-            # Check for moved from and moved to
-            move_from_condition = data_tree[
-                data_tree[name_col].isin(set(data_tree_other[name_col]))
-            ]
-            data_tree.loc[move_from_condition.index, moved_ind] = True
-            move_to_condition = data_tree_other[
-                data_tree_other[name_col].isin(set(data_tree[name_col]))
-            ]
-            data_tree_other.loc[move_to_condition.index, moved_ind] = True
-
-        path_move_from = data_tree.set_index(path_col)[[moved_ind]].to_dict(
-            orient="index"
-        )
-        path_move_to = data_tree_other.set_index(path_col)[[moved_ind]].to_dict(
-            orient="index"
-        )
-        path_move_from_suffix = {
-            path: "moved from" if v[moved_ind] else "removed"
-            for path, v in path_move_from.items()
-        }
-        path_move_to_suffix = {
-            path: "moved to" if v[moved_ind] else "added"
-            for path, v in path_move_to.items()
-        }
-    else:
-        path_move_from_suffix = dict(zip(data_tree[path_col], "-" * len(data_tree)))
-        path_move_to_suffix = dict(
-            zip(data_tree_other[path_col], "+" * len(data_tree_other))
-        )
+    data_diff = data_diff_all.dropna(subset=[suffix_col])
+    path_to_suffix = dict(zip(data_diff[path_col], data_diff[suffix_col]))
 
     # Check tree attribute difference
     path_attr_diff: Dict[str, Dict[str, Any]] = {}
     if attr_list:
-        data_both = data_compare[data_compare[indicator_col] == "both"]
+        data_both = data_diff_all[data_diff_all[indicator_col] == "both"]
         condition_attr_diff = (
             "("
             + ") | (".join(
@@ -543,21 +664,19 @@ def get_tree_diff(
             }
 
     if only_diff:
-        data_compare = data_compare[
-            (data_compare[indicator_col] != "both")
-            | (data_compare[path_col].isin(path_attr_diff.keys()))
+        data_diff_all = data_diff_all[
+            (data_diff_all[indicator_col] != "both")
+            | (data_diff_all[path_col].isin(path_attr_diff.keys()))
         ]
-    data_compare = data_compare[[path_col]].sort_values(path_col)
-    if len(data_compare):
+    data_diff_all = data_diff_all[[path_col]].sort_values(path_col)
+    if len(data_diff_all):
         tree_diff = construct.dataframe_to_tree(
-            data_compare, node_type=tree.__class__, sep=tree.sep
+            data_diff_all, node_type=tree.__class__, sep=tree.sep
         )
-        for path in sorted(path_move_from_suffix, reverse=True):
+        # Handle tree structure difference
+        for path in sorted(path_to_suffix, reverse=True):
             _node = search.find_full_path(tree_diff, path)
-            _node.name += f""" ({path_move_from_suffix[path]})"""
-        for path in sorted(path_move_to_suffix, reverse=True):
-            _node = search.find_full_path(tree_diff, path)
-            _node.name += f""" ({path_move_to_suffix[path]})"""
+            _node.name += f""" ({path_to_suffix[path]})"""
 
         # Handle tree attribute difference
         if path_attr_diff:
