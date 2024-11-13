@@ -439,7 +439,7 @@ def get_tree_diff(
     indicator_col = "Exists"
     old_suffix = "_old"
     new_suffix = "_new"
-    tree_sep = tree.sep
+    moved_ind = "moved_ind"
 
     data, data_other = (
         export.tree_to_dataframe(
@@ -475,32 +475,46 @@ def get_tree_diff(
         data_path_diff = data_compare
 
     # Handle tree structure difference
-    paths_removed = list(
-        data_path_diff[data_path_diff[indicator_col] == "left_only"][path_col]
-    )[::-1]
-    paths_added = list(
-        data_path_diff[data_path_diff[indicator_col] == "right_only"][path_col]
-    )[::-1]
+    data_tree = data_path_diff[data_path_diff[indicator_col] == "left_only"]
+    data_tree_other = data_path_diff[data_path_diff[indicator_col] == "right_only"]
 
-    moved_from_ind: List[bool] = [True for _ in range(len(paths_removed))]
-    moved_to_ind: List[bool] = [True for _ in range(len(paths_added))]
     if detail:
-        names_removed = [path.split(tree_sep)[-1] for path in paths_removed]
-        names_added = [path.split(tree_sep)[-1] for path in paths_added]
-        moved_from_ind = [name in names_added for name in names_removed]
-        moved_to_ind = [name in names_removed for name in names_added]
+        data_tree[moved_ind] = False
+        data_tree_other[moved_ind] = False
 
-    path_removed_to_suffix = {
-        path: "-" if not detail else ("moved from" if move_ind else "removed")
-        for path, move_ind in zip(paths_removed, moved_from_ind)
-    }
-    path_added_to_suffix = {
-        path: "+" if not detail else ("moved to" if move_ind else "added")
-        for path, move_ind in zip(paths_added, moved_to_ind)
-    }
+        if len(data_tree) and len(data_tree_other):
+            # Check for moved from and moved to
+            move_from_condition = data_tree[
+                data_tree[name_col].isin(set(data_tree_other[name_col]))
+            ]
+            data_tree.loc[move_from_condition.index, moved_ind] = True
+            move_to_condition = data_tree_other[
+                data_tree_other[name_col].isin(set(data_tree[name_col]))
+            ]
+            data_tree_other.loc[move_to_condition.index, moved_ind] = True
+
+        path_move_from = data_tree.set_index(path_col)[[moved_ind]].to_dict(
+            orient="index"
+        )
+        path_move_to = data_tree_other.set_index(path_col)[[moved_ind]].to_dict(
+            orient="index"
+        )
+        path_move_from_suffix = {
+            path: "moved from" if v[moved_ind] else "removed"
+            for path, v in path_move_from.items()
+        }
+        path_move_to_suffix = {
+            path: "moved to" if v[moved_ind] else "added"
+            for path, v in path_move_to.items()
+        }
+    else:
+        path_move_from_suffix = dict(zip(data_tree[path_col], "-" * len(data_tree)))
+        path_move_to_suffix = dict(
+            zip(data_tree_other[path_col], "+" * len(data_tree_other))
+        )
 
     # Check tree attribute difference
-    dict_attr_diff: Dict[str, Dict[str, Any]] = {}
+    path_attr_diff: Dict[str, Dict[str, Any]] = {}
     if attr_list:
         data_both = data_compare[data_compare[indicator_col] == "both"]
         condition_attr_diff = (
@@ -517,7 +531,7 @@ def get_tree_diff(
         data_attr_diff = data_both[eval(condition_attr_diff)]
         dict_attr_all = data_attr_diff.set_index(path_col).to_dict(orient="index")
         for path, node_attr in dict_attr_all.items():
-            dict_attr_diff[path] = {
+            path_attr_diff[path] = {
                 attr: (
                     node_attr[f"{attr}{old_suffix}"],
                     node_attr[f"{attr}{new_suffix}"],
@@ -531,24 +545,24 @@ def get_tree_diff(
     if only_diff:
         data_compare = data_compare[
             (data_compare[indicator_col] != "both")
-            | (data_compare[path_col].isin(dict_attr_diff.keys()))
+            | (data_compare[path_col].isin(path_attr_diff.keys()))
         ]
     data_compare = data_compare[[path_col]].sort_values(path_col)
     if len(data_compare):
         tree_diff = construct.dataframe_to_tree(
             data_compare, node_type=tree.__class__, sep=tree.sep
         )
-        for path in sorted(path_removed_to_suffix, reverse=True):
+        for path in sorted(path_move_from_suffix, reverse=True):
             _node = search.find_full_path(tree_diff, path)
-            _node.name += f""" ({path_removed_to_suffix[path]})"""
-        for path in sorted(path_added_to_suffix, reverse=True):
+            _node.name += f""" ({path_move_from_suffix[path]})"""
+        for path in sorted(path_move_to_suffix, reverse=True):
             _node = search.find_full_path(tree_diff, path)
-            _node.name += f""" ({path_added_to_suffix[path]})"""
+            _node.name += f""" ({path_move_to_suffix[path]})"""
 
         # Handle tree attribute difference
-        if dict_attr_diff:
-            tree_diff = construct.add_dict_to_tree_by_path(tree_diff, dict_attr_diff)
-            for path in sorted(dict_attr_diff, reverse=True):
+        if path_attr_diff:
+            tree_diff = construct.add_dict_to_tree_by_path(tree_diff, path_attr_diff)
+            for path in sorted(path_attr_diff, reverse=True):
                 _node = search.find_full_path(tree_diff, path)
                 _node.name += " (~)"
         return tree_diff
