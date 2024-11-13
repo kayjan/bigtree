@@ -477,33 +477,41 @@ def get_tree_diff(
     # Handle tree structure difference
     data_tree = data_path_diff[data_path_diff[indicator_col] == "left_only"]
     data_tree_other = data_path_diff[data_path_diff[indicator_col] == "right_only"]
-    data_tree[moved_ind] = False
-    data_tree_other[moved_ind] = False
 
-    if len(data_tree) and len(data_tree_other):
-        # Check for moved from and moved to
-        move_from_condition = data_tree[
-            data_tree[name_col].isin(set(data_tree_other[name_col]))
-        ]
-        data_tree.loc[move_from_condition.index, moved_ind] = True
-        move_to_condition = data_tree_other[
-            data_tree_other[name_col].isin(set(data_tree[name_col]))
-        ]
-        data_tree_other.loc[move_to_condition.index, moved_ind] = True
+    if detail:
+        data_tree[moved_ind] = False
+        data_tree_other[moved_ind] = False
 
-    path_move_from = data_tree.set_index(path_col)[[moved_ind]].to_dict(orient="index")
-    path_move_to = data_tree_other.set_index(path_col)[[moved_ind]].to_dict(
-        orient="index"
-    )
+        if len(data_tree) and len(data_tree_other):
+            # Check for moved from and moved to
+            move_from_condition = data_tree[
+                data_tree[name_col].isin(set(data_tree_other[name_col]))
+            ]
+            data_tree.loc[move_from_condition.index, moved_ind] = True
+            move_to_condition = data_tree_other[
+                data_tree_other[name_col].isin(set(data_tree[name_col]))
+            ]
+            data_tree_other.loc[move_to_condition.index, moved_ind] = True
 
-    path_move_from_suffix = {
-        path: "-" if not detail else ("moved from" if v[moved_ind] else "removed")
-        for path, v in path_move_from.items()
-    }
-    path_move_to_suffix = {
-        path: "+" if not detail else ("moved to" if v[moved_ind] else "added")
-        for path, v in path_move_to.items()
-    }
+        path_move_from = data_tree.set_index(path_col)[[moved_ind]].to_dict(
+            orient="index"
+        )
+        path_move_to = data_tree_other.set_index(path_col)[[moved_ind]].to_dict(
+            orient="index"
+        )
+        path_move_from_suffix = {
+            path: "moved from" if v[moved_ind] else "removed"
+            for path, v in path_move_from.items()
+        }
+        path_move_to_suffix = {
+            path: "moved to" if v[moved_ind] else "added"
+            for path, v in path_move_to.items()
+        }
+    else:
+        path_move_from_suffix = dict(zip(data_tree[path_col], "-" * len(data_tree)))
+        path_move_to_suffix = dict(
+            zip(data_tree_other[path_col], "+" * len(data_tree_other))
+        )
 
     # Check tree attribute difference
     path_attr_diff: Dict[str, Dict[str, Any]] = {}
