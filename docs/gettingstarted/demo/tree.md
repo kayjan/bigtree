@@ -971,6 +971,11 @@ For aggregating the differences at the parent-level instead of having `(+)` and
 `(-)` at every child node, pass in `aggregate=True`. This is useful if
 subtrees are shifted, and if you want to view the shifting at the parent-level.
 
+!!! note
+
+    For more custom processing and handling of the tree differences, the interim
+    dataframe of the tree differences can be retrieved with `get_tree_diff_dataframe`.
+
 === "Only differences"
     ```python hl_lines="20"
     from bigtree import str_to_tree, get_tree_diff

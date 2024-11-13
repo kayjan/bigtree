@@ -40,7 +40,13 @@ from bigtree.tree.export import (
     tree_to_polars,
     yield_tree,
 )
-from bigtree.tree.helper import clone_tree, get_subtree, get_tree_diff, prune_tree
+from bigtree.tree.helper import (
+    clone_tree,
+    get_subtree,
+    get_tree_diff,
+    get_tree_diff_dataframe,
+    prune_tree,
+)
 from bigtree.tree.modify import (
     copy_and_replace_nodes_from_tree_to_tree,
     copy_nodes,
