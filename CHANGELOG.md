@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed:
 - Tree Helper: Get tree diff logic to be faster to compare all attribute list and data at once (for attr diff).
 - Tree Helper: Get tree diff logic to be faster to add suffix at the end (for path diff).
+- Tree Helper: Get tree diff logic to be faster to detect moved indicator using dataframe operations (for detail).
 
 ## [0.22.2] - 2024-11-11
 ### Added:
