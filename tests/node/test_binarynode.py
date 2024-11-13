@@ -79,7 +79,7 @@ class TestBinaryNode(unittest.TestCase):
         ), f"Node name is wrong, expected 1, received {self.a.node_name}"
         assert (
             self.a.val == 1
-        ), f"Node name is wrong, expected 1, received {self.a.node_name}"
+        ), f"Node val is wrong, expected 1, received {self.a.node_name}"
         self.h.children = []
         assert not self.h.left, f"Expected {None}, received {self.h.left}"
         assert not self.h.right, f"Expected {None}, received {self.h.right}"
@@ -87,6 +87,41 @@ class TestBinaryNode(unittest.TestCase):
         assert (
             self.b.path_name == "\\1\\2"
         ), f"Expected \\1\\2, received {self.b.path_name}"
+
+    def test_from_dict_str(self):
+        self.a = binarynode.BinaryNode.from_dict({"name": "abc"})
+        self.b = binarynode.BinaryNode.from_dict({"name": "2"})
+        self.c = binarynode.BinaryNode.from_dict({"name": "3"})
+        self.d = binarynode.BinaryNode.from_dict({"name": "4"})
+        self.e = binarynode.BinaryNode.from_dict({"name": "5"})
+        self.f = binarynode.BinaryNode.from_dict({"name": "6"})
+        self.g = binarynode.BinaryNode.from_dict({"name": "7"})
+        self.h = binarynode.BinaryNode.from_dict({"name": "8"})
+
+        self.b.parent = self.a
+        self.c.parent = self.a
+        self.d.parent = self.b
+        self.e.parent = self.b
+        self.c.children = []
+        self.c.left = self.f
+        self.g.parent = self.c
+        self.d.children = []
+        self.d.children = [None, self.h]
+
+        assert_print_statement(print, "BinaryNode(name=abc, val=abc)\n", self.a)
+        assert (
+            self.a.node_name == "abc"
+        ), f"Node name is wrong, expected abc, received {self.a.node_name}"
+        assert (
+            self.a.val == "abc"
+        ), f"Node val is wrong, expected abc, received {self.a.node_name}"
+        self.h.children = []
+        assert not self.h.left, f"Expected {None}, received {self.h.left}"
+        assert not self.h.right, f"Expected {None}, received {self.h.right}"
+        self.a.sep = "\\"
+        assert (
+            self.b.path_name == "\\abc\\2"
+        ), f"Expected \\abc\\2, received {self.b.path_name}"
 
     def test_set_parents_error(self):
         with pytest.raises(AttributeError) as exc_info:
