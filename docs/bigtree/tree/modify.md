@@ -65,6 +65,8 @@ All other methods calls these 2 methods directly.
 | Default   | "/a/e"                      | None                      | Delete node `e`                                     |
 | skippable | "/a/c"                      | "/a/b/c"                  | Shift/copy node `c`, skip if "/a/c" cannot be found |
 
+---
+
 ![Advanced Shift Example](https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_advanced.png "Advanced Shift Example")
 
 ### Sample Tree Modification (Advanced)
@@ -75,7 +77,7 @@ All other methods calls these 2 methods directly.
 | merge_children              | "a/b/c"                     | "a/d/c"                   | **If path not present**: Shift/copy children of node `c` to be children of node `d`, removing node `c`<br>**If path present**: Shift/copy children of node `c` to be merged with existing "a/d/c" children |
 | merge_children + overriding | "a/b/c"                     | "a/d/c"                   | **If path not present**: Behaves like merge_children<br>**If path present**: Behaves like overriding                                                                                                       |
 | merge_leaves                | "a/b/c"                     | "a/d/c"                   | **If path not present**: Shift/copy leaves of node `c` to be children of node `d`<br>**If path present**: Shift/copy leaves of node `c` to be merged with existing "a/d/c" children                        |
-| - merge_leaves + overriding | "a/b/c"                     | "a/d/c"                   | **If path not present**: Behaves like merge_leaves<br>**If path present**: Behaves like overriding, but original node `c` remains                                                                          |
+| merge_leaves + overriding   | "a/b/c"                     | "a/d/c"                   | **If path not present**: Behaves like merge_leaves<br>**If path present**: Behaves like overriding, but original node `c` remains                                                                          |
 | delete_children             | "a/b"                       | "a/d/b"                   | Shift/copy node `b` only without any node `b` children                                                                                                                                                     |
 
 -----
