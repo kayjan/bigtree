@@ -267,7 +267,7 @@ class TestCopyNodes(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     # overriding
-    def test_copy_nodes_delete_and_overriding_error(self):
+    def test_copy_nodes_overriding_error(self):
         to_path = "a/b/d"
         new_aa = node.Node("aa", parent=self.root)
         new_d = node.Node("d")
@@ -280,7 +280,7 @@ class TestCopyNodes(unittest.TestCase):
             to_path=to_path
         )
 
-    def test_copy_nodes_delete_and_overriding(self):
+    def test_copy_nodes_overriding(self):
         new_aa = node.Node("aa", parent=self.root)
         new_d = node.Node("d", age=1)
         new_d.parent = new_aa
@@ -297,7 +297,7 @@ class TestCopyNodes(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.root, d=("d", 1))
         assert_tree_structure_node_root(self.root)
 
-    def test_copy_nodes_overriding(self):
+    def test_copy_nodes_overriding_manual_check(self):
         from_paths = ["a/aa/bb"]
         to_paths = ["/a/bb"]
         modify.copy_nodes(
@@ -839,7 +839,7 @@ class TestShiftNodes(unittest.TestCase):
         assert_tree_structure_node_root(self.root)
 
     # overriding
-    def test_shift_nodes_delete_and_overriding_error(self):
+    def test_shift_nodes_overriding_error(self):
         to_path = "a/b/d"
         new_aa = node.Node("aa", parent=self.root)
         new_d = node.Node("d")
@@ -852,7 +852,7 @@ class TestShiftNodes(unittest.TestCase):
             to_path=to_path
         )
 
-    def test_shift_nodes_delete_and_overriding(self):
+    def test_shift_nodes_overriding(self):
         new_aa = node.Node("aa", parent=self.root)
         new_d = node.Node("d", age=1)
         new_d.parent = new_aa
@@ -863,7 +863,7 @@ class TestShiftNodes(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.root, d=("d", 1))
         assert_tree_structure_node_root(self.root)
 
-    def test_shift_nodes_overriding(self):
+    def test_shift_nodes_overriding_manual_check(self):
         from_paths = ["a/aa/bb"]
         to_paths = ["/a/bb"]
         modify.shift_nodes(
@@ -1748,7 +1748,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
         assert_tree_structure_node_root(self.root_other)
 
     # overriding
-    def test_copy_nodes_from_tree_to_tree_delete_and_overriding_error(self):
+    def test_copy_nodes_from_tree_to_tree_overriding_error(self):
         new_aa = node.Node("aa", parent=self.root)
         new_d = node.Node("d")
         new_d.parent = new_aa
@@ -1766,7 +1766,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             to_path=to_path
         )
 
-    def test_copy_nodes_from_tree_to_tree_delete_and_overriding(self):
+    def test_copy_nodes_from_tree_to_tree_overriding(self):
         new_aa = node.Node("aa", parent=self.root)
         new_d = node.Node("d", age=1)
         new_d.parent = new_aa
@@ -1792,7 +1792,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.root_other, d=("d", 1))
         assert_tree_structure_node_root(self.root_other)
 
-    def test_copy_nodes_from_tree_to_tree_overriding(self):
+    def test_copy_nodes_from_tree_to_tree_overriding_manual_check(self):
         from_paths = ["d", "e", "g", "h", "f"]
         to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
         modify.shift_nodes(self.root, from_paths, to_paths)
