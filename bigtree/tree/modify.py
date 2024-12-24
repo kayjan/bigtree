@@ -1227,18 +1227,63 @@ def copy_or_shift_logic(
                             )
                             del to_node.children
                     else:
-                        if not overriding:
+                        if not (overriding or merge_attribute):
                             raise exceptions.TreeError(
                                 f"Path {to_path} already exists and unable to override\n"
-                                f"Set `overriding` to True to perform overrides\n"
+                                f"Set `overriding` or `merge_attribute` to True to handle node name clashes\n"
                                 f"Alternatively, set `merge_children` to True if nodes are to be merged"
                             )
-                        logging.info(
-                            f"Path {to_path} already exists and will be overridden"
-                        )
-                        parent = to_node.parent
-                        to_node.parent = None
-                        to_node = parent
+                        if overriding:
+                            logging.info(
+                                f"Path {to_path} already exists and will be overridden"
+                            )
+                            parent = to_node.parent
+                            to_node.parent = None
+                            to_node = parent
+                        else:
+                            logging.info(
+                                f"Path {to_path} already exists and attributes will be upserted"
+                            )
+                            import pandas as pd
+
+                            from bigtree.tree import export
+
+                            dummy_to_node = to_node.copy()
+                            dummy_to_node.parent = None
+                            to_node_data = export.tree_to_dataframe(
+                                dummy_to_node, all_attrs=True
+                            )
+
+                            dummy_from_node = from_node.copy()
+                            dummy_from_node.parent = None
+                            from_node_data = export.tree_to_dataframe(
+                                dummy_from_node, all_attrs=True
+                            )
+
+                            common_attributes = set(to_node_data.columns).intersection(
+                                set(from_node_data.columns)
+                            ) - {"path", "name"}
+                            merged_data = pd.merge(
+                                to_node_data,
+                                from_node_data,
+                                on=["path", "name"],
+                                how="outer",
+                                suffixes=("_x", "_y"),
+                            )
+                            for common_attribute in common_attributes:
+                                merged_data[common_attribute] = merged_data[
+                                    common_attribute + "_y"
+                                ].fillna(merged_data[common_attribute + "_x"])
+                                merged_data.drop(
+                                    columns=[
+                                        common_attribute + "_x",
+                                        common_attribute + "_y",
+                                    ]
+                                )
+                            from_node = construct.dataframe_to_tree(merged_data)
+                            parent = to_node.parent
+                            to_node.parent = None
+                            to_node = parent
 
                 # To node not found
                 else:

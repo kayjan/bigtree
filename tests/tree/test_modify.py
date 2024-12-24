@@ -322,6 +322,104 @@ class TestCopyNodes(unittest.TestCase):
             list(search.find_path(self.root_overriding, "/a/aa").children)
         ), "Children of node parent deleted (not copied)"
 
+    # merge_attribute
+    def test_copy_nodes_merge_attribute(self):
+        from_paths = ["a/aa/bb"]
+        to_paths = ["/a/bb"]
+
+        # Set attribute for node
+        self.root_overriding["aa"]["bb"].set_attrs({"gender": "b"})
+        self.root_overriding["bb"].set_attrs({"age": 1})
+        modify.copy_nodes(
+            self.root_overriding,
+            from_paths,
+            to_paths,
+            merge_attribute=True,
+        )
+        assert (
+            len(list(self.root_overriding.children)) == 2
+        ), f"Node children not merged, {export.print_tree(self.root_overriding)}"
+        assert (
+            self.root_overriding["bb"].get_attr("age") == 1
+        ), "Original attribute not present"
+        assert (
+            self.root_overriding["bb"].get_attr("gender") == "b"
+        ), "Merge attribute not present"
+        assert (
+            len(self.root_overriding["bb"].children) == 2
+        ), "Original node children not combined with copied node"
+
+    def test_copy_nodes_merge_attribute_update(self):
+        from_paths = ["a/aa/bb"]
+        to_paths = ["/a/bb"]
+
+        # Set attribute for node
+        self.root_overriding["aa"]["bb"].set_attrs({"age": 2, "gender": "b"})
+        self.root_overriding["bb"].set_attrs({"age": 1, "hello": "world"})
+        modify.copy_nodes(
+            self.root_overriding,
+            from_paths,
+            to_paths,
+            merge_attribute=True,
+        )
+        assert (
+            len(list(self.root_overriding.children)) == 2
+        ), f"Node children not merged, {export.print_tree(self.root_overriding)}"
+        assert (
+            self.root_overriding["bb"].get_attr("age") == 2
+        ), "Original attribute not updated"
+        assert (
+            self.root_overriding["bb"].get_attr("hello") == "world"
+        ), "Original attribute not present"
+        assert (
+            self.root_overriding["bb"].get_attr("gender") == "b"
+        ), "Merge attribute not present"
+        assert (
+            len(self.root_overriding["bb"].children) == 2
+        ), "Original node children not combined with copied node"
+
+    def test_copy_nodes_merge_attribute_children(self):
+        from_paths = ["a/aa/bb"]
+        to_paths = ["/a/bb"]
+
+        # Set attribute for node and child node
+        self.root_overriding["aa"]["bb"]["cc"].set_attrs({"age": 2, "gender": "c"})
+        self.root_overriding["aa"]["bb"].set_attrs({"age": 2, "gender": "b"})
+        self.root_overriding["bb"].set_attrs({"age": 1, "hello": "world"})
+        self.root_overriding["bb"]["cc2"].set_attrs(
+            {"name": "cc", "age": 1, "hello": "world"}
+        )
+        modify.copy_nodes(
+            self.root_overriding,
+            from_paths,
+            to_paths,
+            merge_attribute=True,
+        )
+        assert (
+            len(list(self.root_overriding.children)) == 2
+        ), f"Node children not merged, {export.print_tree(self.root_overriding)}"
+        assert (
+            self.root_overriding["bb"].get_attr("age") == 2
+        ), "Original attribute not updated"
+        assert (
+            self.root_overriding["bb"].get_attr("hello") == "world"
+        ), "Original attribute not present"
+        assert (
+            self.root_overriding["bb"].get_attr("gender") == "b"
+        ), "Merge attribute not present"
+        assert (
+            self.root_overriding["bb"]["cc"].get_attr("age") == 2
+        ), "Original attribute of children not present"
+        assert (
+            self.root_overriding["bb"]["cc"].get_attr("hello") == "world"
+        ), "Original attribute of children not present"
+        assert (
+            self.root_overriding["bb"]["cc"].get_attr("gender") == "c"
+        ), "Merge attribute of children not present"
+        assert (
+            len(self.root_overriding["bb"].children) == 1
+        ), "Original node children changed"
+
     # merge_children
     def test_copy_nodes_merge_children(self):
         from_paths = ["aa/bb/cc"]
@@ -556,6 +654,26 @@ class TestCopyNodes(unittest.TestCase):
         assert len(
             list(search.find_path(self.root, "/a/aa").children)
         ), "Node parent deleted"
+
+    # overriding, merge_attribute
+    def test_copy_nodes_overriding_and_merge_attribute_error(self):
+        a = node.Node("a", age=90)
+        self.root_other.parent = a
+
+        from_paths = ["a/aa/d", "a/aa/e", "a/aa/g", "a/aa/h", "a/aa/f"]
+        to_paths = ["a/aa/b/d", "a/aa/b/e", "a/aa/b/e/g", "a/aa/b/e/h", "a/aa/c/f"]
+        modify.shift_nodes(a, from_paths, to_paths)
+
+        from_paths = ["a/aa"]
+        to_paths = ["a/bb/aa"]
+        with pytest.raises(ValueError) as exc_info:
+            modify.copy_nodes(
+                a, from_paths, to_paths, overriding=True, merge_attribute=True
+            )
+        assert (
+            str(exc_info.value)
+            == Constants.ERROR_MODIFY_PARAM_OVERRIDING_OR_MERGE_ATTRIBUTE
+        )
 
     # merge_children, merge_leaves
     def test_copy_nodes_merge_children_and_leaf_error(self):
