@@ -87,6 +87,41 @@ All other methods calls these 2 methods directly.
 | merge_leaves + overriding/merge_attribute   | "a/b/c"                     | "a/d/c"                   | **If path not present**: Behaves like merge_leaves<br>**If path present**: Behaves like overriding/merge_attribute, but original node `c` remains                                                          |
 | delete_children                             | "a/b"                       | "a/d/b"                   | Shift/copy node `b` only without any node `b` children                                                                                                                                                     |
 
+## Guideline
+
+If you're still feeling lost over the parameters, here are some guiding questions to ask yourself.
+
+- Do I want to retain the original node where they are?
+  - Yes: Set `copy=True`
+  - Default performs a shift instead of copy
+- Am I unsure of what nodes I am going to shift, they may or may not exist and this is perfectly fine?
+  - Yes: Set `skippable=True`
+  - Default throws error if origin node is not found
+- The origin node (and its descendants) may clash with the destination node(s), how do I want to handle it?
+  - Set `overriding=True` to overwrite origin node
+  - Set `merge_attribute=True` to combine both nodes' attributes
+  - Default throws error about the clash in node name
+- I want to shift everything under the node, but not the node itself
+  - Set `merge_children=True` or `merge_leaves=True` to shift the children and leaf nodes respectively
+  - Default shifts the node itself, and everything under it
+- I want to shift the node and only the node, and not everything under it
+  - Yes: Set `delete_children=True`
+  - Default shifts the node itself, and everything under it
+- I want to shift things from one tree to another tree
+  - Specify `to_tree`
+  - Default shifts nodes within the same tree
+
+What about the permutations between the parameters?
+
+- These parameters are standalone and does not produce any interaction effect
+  - `copy`, `skippable`, `delete_children`
+- These parameters have some interaction:
+  - `overriding` and `merge_attribute` with `merge_children` and `merge_leaves`
+  - `overriding` + `merge_children`: Behaves like `merge_children` when there is no clash in node name, otherwise behaves like `overriding`. Note that clashes will preserve destination nodes' children only.
+  - `overriding` + `merge_leaves`: Behaves like `merge_leaves` when there is no clash in node name, otherwise behaves like `overriding`. Note that clashes will preserve destination nodes' leaves only.
+  - `merge_attribute` + `merge_children`: Behaves like `merge_children` when there is no clash in node name, otherwise behaves like `merge_attribute`. Note that attributes will be merged for node and all descendants, and will preserve origin and destination nodes' children.
+  - `merge_attribute` + `merge_leaves`: Behaves like `merge_leaves` when there is no clash in node name, otherwise behaves like `merge_attribute`. Note that attributes will be merged for node and all descendants, and will preserve origin nodes' children and destination nodes' leaves.
+
 -----
 
 ::: bigtree.tree.modify
