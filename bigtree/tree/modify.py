@@ -1018,6 +1018,57 @@ def copy_and_replace_nodes_from_tree_to_tree(
     )  # pragma: no cover
 
 
+def _merge_attribute(
+    from_node: T, to_node: T, merge_children: bool, merge_leaves: bool
+) -> T:
+    import pandas as pd
+
+    from bigtree.tree import export
+
+    dummy_to_node = to_node.copy()
+    dummy_to_node.parent = None
+    to_node_data = export.tree_to_dataframe(dummy_to_node, all_attrs=True)
+
+    dummy_from_node = from_node.copy()
+    dummy_from_node.parent = None
+    if merge_leaves:
+        dummy_from_node.children = list(dummy_from_node.leaves)  # type: ignore
+    from_node_data = export.tree_to_dataframe(dummy_from_node, all_attrs=True)
+
+    common_attributes = set(to_node_data.columns).intersection(
+        set(from_node_data.columns)
+    ) - {"path", "name"}
+    if merge_children or merge_leaves:
+        merged_data = pd.merge(
+            to_node_data,
+            from_node_data,
+            on=["path", "name"],
+            how="outer",
+            suffixes=("_x", "_y"),
+        )
+    else:
+        merged_data = pd.merge(
+            to_node_data,
+            from_node_data,
+            on=["path", "name"],
+            how="left",
+            suffixes=("_x", "_y"),
+        )
+
+    # Upsert data
+    for common_attribute in common_attributes:
+        merged_data[common_attribute] = merged_data[common_attribute + "_y"].fillna(
+            merged_data[common_attribute + "_x"]
+        )
+        merged_data = merged_data.drop(
+            columns=[
+                common_attribute + "_x",
+                common_attribute + "_y",
+            ]
+        )
+    return construct.dataframe_to_tree(merged_data)
+
+
 def copy_or_shift_logic(
     tree: T,
     from_paths: List[str],
@@ -1202,12 +1253,7 @@ def copy_or_shift_logic(
                                 f"Alternatively, set `merge_children` or `merge_leaves` to True if intermediate node is to be removed"
                             )
                     elif merge_children:
-                        # Specify override to remove existing node, else children are merged
-                        if not overriding:
-                            logging.info(
-                                f"Path {to_path} already exists and children are merged"
-                            )
-                        else:
+                        if overriding:
                             logging.info(
                                 f"Path {to_path} already exists and its children be overridden by the merge"
                             )
@@ -1215,17 +1261,48 @@ def copy_or_shift_logic(
                             to_node.parent = None
                             to_node = parent
                             merge_children = False
-                    elif merge_leaves:
-                        # Specify override to remove existing node, else leaves are merged
-                        if not overriding:
+                        elif merge_attribute:
                             logging.info(
-                                f"Path {to_path} already exists and leaves are merged"
+                                f"Path {to_path} already exists and their attributes will be merged"
                             )
+                            from_node = _merge_attribute(
+                                from_node,
+                                to_node,
+                                merge_children=merge_children,
+                                merge_leaves=merge_leaves,
+                            )
+                            parent = to_node.parent
+                            to_node.parent = None
+                            to_node = parent
+                            merge_children = False
                         else:
+                            logging.info(
+                                f"Path {to_path} already exists and children are merged"
+                            )
+                    elif merge_leaves:
+                        if overriding:
                             logging.info(
                                 f"Path {to_path} already exists and its leaves be overridden by the merge"
                             )
                             del to_node.children
+                        elif merge_attribute:
+                            logging.info(
+                                f"Path {to_path} already exists and their attributes will be merged"
+                            )
+                            from_node = _merge_attribute(
+                                from_node,
+                                to_node,
+                                merge_children=merge_children,
+                                merge_leaves=merge_leaves,
+                            )
+                            parent = to_node.parent
+                            to_node.parent = None
+                            to_node = parent
+                            merge_leaves = False
+                        else:
+                            logging.info(
+                                f"Path {to_path} already exists and leaves are merged"
+                            )
                     else:
                         if not (overriding or merge_attribute):
                             raise exceptions.TreeError(
@@ -1240,47 +1317,16 @@ def copy_or_shift_logic(
                             parent = to_node.parent
                             to_node.parent = None
                             to_node = parent
-                        else:
+                        elif merge_attribute:
                             logging.info(
                                 f"Path {to_path} already exists and attributes will be upserted"
                             )
-                            import pandas as pd
-
-                            from bigtree.tree import export
-
-                            dummy_to_node = to_node.copy()
-                            dummy_to_node.parent = None
-                            to_node_data = export.tree_to_dataframe(
-                                dummy_to_node, all_attrs=True
+                            from_node = _merge_attribute(
+                                from_node,
+                                to_node,
+                                merge_children=merge_children,
+                                merge_leaves=merge_leaves,
                             )
-
-                            dummy_from_node = from_node.copy()
-                            dummy_from_node.parent = None
-                            from_node_data = export.tree_to_dataframe(
-                                dummy_from_node, all_attrs=True
-                            )
-
-                            common_attributes = set(to_node_data.columns).intersection(
-                                set(from_node_data.columns)
-                            ) - {"path", "name"}
-                            merged_data = pd.merge(
-                                to_node_data,
-                                from_node_data,
-                                on=["path", "name"],
-                                how="outer",
-                                suffixes=("_x", "_y"),
-                            )
-                            for common_attribute in common_attributes:
-                                merged_data[common_attribute] = merged_data[
-                                    common_attribute + "_y"
-                                ].fillna(merged_data[common_attribute + "_x"])
-                                merged_data.drop(
-                                    columns=[
-                                        common_attribute + "_x",
-                                        common_attribute + "_y",
-                                    ]
-                                )
-                            from_node = construct.dataframe_to_tree(merged_data)
                             parent = to_node.parent
                             to_node.parent = None
                             to_node = parent
