@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed:
+- Tree Modify: Update documentation and docstring with some rephrasing.
+### Added:
+- Tree Modify: Add parameter `merge_attribute` to allow from-node and to-node attributes to be merged if there are clashes.
+### Fixed:
+- Tree Modify: Fixed bug when `merge_children` is used with `overriding` as the `merge_children` value is changed in for-loop (bad move, literally).
 
 ## [0.22.3] - 2024-11-14
 ### Added:

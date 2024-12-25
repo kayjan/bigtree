@@ -14,18 +14,25 @@ There are two types of modification available
 
 In **non-replacing scenario**, there are several configurations available for customization.
 
-| Configuration     | Description                                                                            | Default Value                                           |
-|-------------------|----------------------------------------------------------------------------------------|---------------------------------------------------------|
-| `copy`            | Indicates whether it is to shift the nodes, or copy the nodes                          | False (nodes are shifted, not copied)                   |
-| `to_tree`         | Indicates whether shifting/copying is within the same tree, or between different trees | None (nodes are shifted/copied within the same tree)    |
-| `skippable`       | Skip shifting/copying of nodes if from_path cannot be found                            | False (from-node must be found)                         |
-| `overriding`      | Override existing node if it exists                                                    | False (to-node must not exist)                          |
-| `merge_children`  | Shift/copy children of from-node and remove intermediate parent node                   | False (children are not merged)                         |
- | `merge_leaves`    | Shift/copy leaves of from-node and remove all intermediate nodes                       | False (leaves are not merged)                           |
-| `delete_children` | Shift/copy node only and delete its children                                           | False (nodes are shifted/copied together with children) |
+| Configuration     | Description                                                                            | Default Value                                             |
+|-------------------|----------------------------------------------------------------------------------------|-----------------------------------------------------------|
+| `copy`            | Indicates whether it is to shift the nodes, or copy the nodes                          | False (nodes are shifted, not copied)                     |
+| `to_tree`         | Indicates whether shifting/copying is within the same tree, or between different trees | None (nodes are shifted/copied within the same tree)      |
+| `skippable`       | Skip shifting/copying of nodes if from_path cannot be found                            | False (from-node must be found)                           |
+| `overriding`      | Override existing node if it exists                                                    | False (to-node must not exist)                            |
+| `merge_attribute` | Merge attributes of existing node if it exists                                         | False (to-node must not exist, attributes are not merged) |
+| `merge_children`  | Shift/copy children of from-node and remove intermediate parent node                   | False (children are not merged)                           |
+| `merge_leaves`    | Shift/copy leaves of from-node and remove all intermediate nodes                       | False (leaves are not merged)                             |
+| `delete_children` | Shift/copy node only and delete its children                                           | False (nodes are shifted/copied together with children)   |
 
-In **replacing scenario**, all the configurations are also available except `overriding`, `merge_children`, and `merge_leaves` as it is doing a one-to-one replacement.
+In **replacing scenario**, all the configurations are also available except `overriding`, `merge_attribute`,
+`merge_children`, and `merge_leaves` as it is doing a one-to-one replacement.
 It is by default overriding, and there is nothing to merge.
+
+!!! note
+
+    `overriding` and `merge_attribute` cannot be simultaneously set to `True`. One deals with clashing nodes by
+    overriding, another deals with it by merging attributes of both nodes.
 
 !!! note
 
@@ -71,14 +78,49 @@ All other methods calls these 2 methods directly.
 
 ### Sample Tree Modification (Advanced)
 
-| Setting                     | Sample path in `from_paths` | Sample path in `to_paths` | Description                                                                                                                                                                                                |
-|-----------------------------|-----------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| overriding                  | "a/b/c"                     | "a/d/c"                   | Shift/copy node `c`, override if "a/d/c" exists                                                                                                                                                            |
-| merge_children              | "a/b/c"                     | "a/d/c"                   | **If path not present**: Shift/copy children of node `c` to be children of node `d`, removing node `c`<br>**If path present**: Shift/copy children of node `c` to be merged with existing "a/d/c" children |
-| merge_children + overriding | "a/b/c"                     | "a/d/c"                   | **If path not present**: Behaves like merge_children<br>**If path present**: Behaves like overriding                                                                                                       |
-| merge_leaves                | "a/b/c"                     | "a/d/c"                   | **If path not present**: Shift/copy leaves of node `c` to be children of node `d`<br>**If path present**: Shift/copy leaves of node `c` to be merged with existing "a/d/c" children                        |
-| merge_leaves + overriding   | "a/b/c"                     | "a/d/c"                   | **If path not present**: Behaves like merge_leaves<br>**If path present**: Behaves like overriding, but original node `c` remains                                                                          |
-| delete_children             | "a/b"                       | "a/d/b"                   | Shift/copy node `b` only without any node `b` children                                                                                                                                                     |
+| Setting                                     | Sample path in `from_paths` | Sample path in `to_paths` | Description                                                                                                                                                                                                |
+|---------------------------------------------|-----------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| overriding                                  | "a/b/c"                     | "a/d/c"                   | Shift/copy node `c`, override if "a/d/c" exists                                                                                                                                                            |
+| merge_children                              | "a/b/c"                     | "a/d/c"                   | **If path not present**: Shift/copy children of node `c` to be children of node `d`, removing node `c`<br>**If path present**: Shift/copy children of node `c` to be merged with existing "a/d/c" children |
+| merge_children + overriding/merge_attribute | "a/b/c"                     | "a/d/c"                   | **If path not present**: Behaves like merge_children<br>**If path present**: Behaves like overriding/merge_attribute                                                                                       |
+| merge_leaves                                | "a/b/c"                     | "a/d/c"                   | **If path not present**: Shift/copy leaves of node `c` to be children of node `d`<br>**If path present**: Shift/copy leaves of node `c` to be merged with existing "a/d/c" children                        |
+| merge_leaves + overriding/merge_attribute   | "a/b/c"                     | "a/d/c"                   | **If path not present**: Behaves like merge_leaves<br>**If path present**: Behaves like overriding/merge_attribute, but original node `c` remains                                                          |
+| delete_children                             | "a/b"                       | "a/d/b"                   | Shift/copy node `b` only without any node `b` children                                                                                                                                                     |
+
+## Guideline
+
+If you're still feeling lost over the parameters, here are some guiding questions to ask yourself.
+
+- Do I want to retain the original node where they are?
+  - Yes: Set `copy=True`
+  - Default performs a shift instead of copy
+- Am I unsure of what nodes I am going to shift, they may or may not exist and this is perfectly fine?
+  - Yes: Set `skippable=True`
+  - Default throws error if origin node is not found
+- The origin node (and its descendants) may clash with the destination node(s), how do I want to handle it?
+  - Set `overriding=True` to overwrite origin node
+  - Set `merge_attribute=True` to combine both nodes' attributes
+  - Default throws error about the clash in node name
+- I want to shift everything under the node, but not the node itself
+  - Set `merge_children=True` or `merge_leaves=True` to shift the children and leaf nodes respectively
+  - Default shifts the node itself, and everything under it
+- I want to shift the node and only the node, and not everything under it
+  - Yes: Set `delete_children=True`
+  - Default shifts the node itself, and everything under it
+- I want to shift things from one tree to another tree
+  - Specify `to_tree`
+  - Default shifts nodes within the same tree
+
+What about the permutations between the parameters?
+
+- These parameters are standalone and does not produce any interaction effect
+  - `copy`, `skippable`, `delete_children`
+- These parameters have some interaction:
+  - `overriding` and `merge_attribute` with `merge_children` and `merge_leaves`
+  - `overriding` + `merge_children`: Behaves like `merge_children` when there is no clash in node name, otherwise behaves like `overriding`. Note that clashes will preserve destination nodes' children only.
+  - `overriding` + `merge_leaves`: Behaves like `merge_leaves` when there is no clash in node name, otherwise behaves like `overriding`. Note that clashes will preserve destination nodes' leaves only.
+  - `merge_attribute` + `merge_children`: Behaves like `merge_children` when there is no clash in node name, otherwise behaves like `merge_attribute`. Note that attributes will be merged for node and all descendants, and will preserve origin and destination nodes' children.
+  - `merge_attribute` + `merge_leaves`: Behaves like `merge_leaves` when there is no clash in node name, otherwise behaves like `merge_attribute`. Note that attributes will be merged for node and all descendants, and will preserve origin nodes' children and destination nodes' leaves.
 
 -----
 

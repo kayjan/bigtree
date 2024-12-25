@@ -179,6 +179,7 @@ class Constants:
         "Paths are different length, input `from_paths` have {n1} entries, "
         "while output `to_paths` have {n2} entries"
     )
+    ERROR_MODIFY_PARAM_OVERRIDING_OR_MERGE_ATTRIBUTE = "Invalid shifting, can only specify one type of merging, check `overriding` and `merge_attribute`"
     ERROR_MODIFY_PARAM_MERGE_CHILDREN_OR_LEAVES = "Invalid shifting, can only specify one type of merging, check `merge_children` and `merge_leaves`"
     ERROR_MODIFY_PARAM_DELETE_AND_COPY = (
         "Deletion of node will not happen if `copy=True`, check your `copy` parameter."
@@ -196,7 +197,7 @@ class Constants:
     )
     ERROR_MODIFY_OVERRIDING = (
         "Path {to_path} already exists and unable to override\n"
-        "Set `overriding` to True to perform overrides\n"
+        "Set `overriding` or `merge_attribute` to True to handle node name clashes\n"
         "Alternatively, set `merge_children` to True if nodes are to be merged"
     )
 
