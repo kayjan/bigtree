@@ -1019,17 +1019,20 @@ def copy_and_replace_nodes_from_tree_to_tree(
 
 
 def _merge_attribute(
-    from_node: T, to_node: T, merge_children: bool, merge_leaves: bool
+    from_node: T, to_node: T, copy: bool, merge_children: bool, merge_leaves: bool
 ) -> T:
     import pandas as pd
 
     from bigtree.tree import export
 
+    if copy:
+        from_node = from_node.copy()
+
     dummy_to_node = to_node.copy()
     dummy_to_node.parent = None
     to_node_data = export.tree_to_dataframe(dummy_to_node, all_attrs=True)
 
-    dummy_from_node = from_node.copy()
+    dummy_from_node = from_node
     dummy_from_node.parent = None
     if merge_leaves:
         dummy_from_node.children = list(dummy_from_node.leaves)  # type: ignore
@@ -1268,6 +1271,7 @@ def copy_or_shift_logic(
                             from_node = _merge_attribute(
                                 from_node,
                                 to_node,
+                                copy=copy,
                                 merge_children=merge_children,
                                 merge_leaves=merge_leaves,
                             )
@@ -1292,6 +1296,7 @@ def copy_or_shift_logic(
                             from_node = _merge_attribute(
                                 from_node,
                                 to_node,
+                                copy=copy,
                                 merge_children=merge_children,
                                 merge_leaves=merge_leaves,
                             )
@@ -1324,6 +1329,7 @@ def copy_or_shift_logic(
                             from_node = _merge_attribute(
                                 from_node,
                                 to_node,
+                                copy=copy,
                                 merge_children=merge_children,
                                 merge_leaves=merge_leaves,
                             )
