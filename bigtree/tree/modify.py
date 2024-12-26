@@ -1069,6 +1069,7 @@ def _merge_attribute(
                 common_attribute + "_y",
             ]
         )
+    merged_data = merged_data.sort_values("path")
     return construct.dataframe_to_tree(merged_data)
 
 
