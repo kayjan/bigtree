@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed:
 - Tree Modify: Update documentation and docstring with some rephrasing.
+- Tree Modify: Clean up test cases.
 ### Added:
 - Tree Modify: Add parameter `merge_attribute` to allow from-node and to-node attributes to be merged if there are clashes.
 ### Fixed:
