@@ -2377,7 +2377,7 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             overriding=True,
         )
         assert_tree_structure_basenode_root(self.root_other_full_wrong)
-        assert_tree_structure_basenode_root_attr(self.root_other_full_wrong)
+        assert_tree_structure_basenode_root_attr(self.root_other_full_wrong, c=("c", 1))
         assert_tree_structure_node_root(self.root_other_full_wrong)
 
     # merge_children, merge_attribute

@@ -5,13 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.23.0] - 2024-12-26
 ### Changed:
 - Tree Modify: Update documentation and docstring with some rephrasing.
 - Tree Modify: Clean up test cases.
 ### Added:
 - Tree Modify: Add parameter `merge_attribute` to allow from-node and to-node attributes to be merged if there are clashes.
 ### Fixed:
-- Tree Modify: Fixed bug when `merge_children` is used with `overriding` as the `merge_children` value is changed in for-loop (bad move, literally).
+- Tree Modify: Fixed bug when `merge_children` is used with `overriding` as the `merge_children` value is changed in
+for-loop (bad move, literally). Modified the logic such that if there are clashes for `merge_children=True, overriding=True`,
+the origin node parent and destination node children are preserved. The origin node's children are overridden.
+**This might not be backwards-compatible!**
 
 ## [0.22.3] - 2024-11-14
 ### Added:

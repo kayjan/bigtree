@@ -617,6 +617,9 @@ Nodes can be <mark>shifted</mark> (with or without replacement) or <mark>copied<
 from one path to another, this changes the tree in-place.
 Nodes can also be copied (with or without replacement) <mark>between two different trees</mark>.
 
+There are various other configurations for performing copying/shifting, refer to [code documentation](../../bigtree/tree/modify.md)
+for more examples.
+
 === "Shift nodes"
 ```python hl_lines="12-16 24-28"
 from bigtree import list_to_tree, shift_nodes, shift_and_replace_nodes
