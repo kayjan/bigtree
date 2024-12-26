@@ -724,6 +724,55 @@ class TestCopyNodes(unittest.TestCase):
             str(exc_info.value) == Constants.ERROR_MODIFY_PARAM_MERGE_CHILDREN_OR_LEAVES
         )
 
+    # overriding, delete_children
+    def test_copy_nodes_overriding_and_delete_children(self):
+        from_paths = ["a/aa/bb"]
+        to_paths = ["a/bb"]
+
+        # Set attribute for node
+        self.root_manual["aa"]["bb"].set_attrs({"age": 2})
+
+        modify.copy_nodes(
+            self.root_manual,
+            from_paths,
+            to_paths,
+            overriding=True,
+            delete_children=True,
+        )
+        assert (
+            self.root_manual["bb"].get_attr("age") == 2
+        ), "Original node not overridden"
+
+        assert not len(self.root_manual["bb"].children), "Children present"
+        assert search.find_path(self.root_manual, "/a/aa/bb"), "Origin node not present"
+
+    # merge_attribute, delete_children
+    def test_copy_nodes_merge_attribute_and_delete_children(self):
+        from_paths = ["a/aa/bb"]
+        to_paths = ["a/bb"]
+
+        # Set attribute for node
+        self.root_manual["aa"]["bb"].set_attrs({"age": 2, "gender": "b"})
+        self.root_manual["bb"].set_attrs({"age": 1, "hello": "world"})
+        modify.copy_nodes(
+            self.root_manual,
+            from_paths,
+            to_paths,
+            merge_attribute=True,
+            delete_children=True,
+        )
+        assert (
+            self.root_manual["bb"].get_attr("age") == 2
+        ), "Original attribute not updated"
+        assert (
+            self.root_manual["bb"].get_attr("hello") == "world"
+        ), "Original attribute not present"
+        assert (
+            self.root_manual["bb"].get_attr("gender") == "b"
+        ), "New attribute not present"
+        assert not len(self.root_manual["bb"].children), "Children present"
+        assert search.find_path(self.root_manual, "/a/aa/bb"), "Origin node not present"
+
     # merge_children, delete_children
     def test_copy_nodes_merge_children_and_delete_children(self):
         from_paths = ["d", "e", "g", "f"]
@@ -1388,6 +1437,55 @@ class TestShiftNodes(unittest.TestCase):
         assert (
             str(exc_info.value) == Constants.ERROR_MODIFY_PARAM_MERGE_CHILDREN_OR_LEAVES
         )
+
+    # overriding, delete_children
+    def test_shift_nodes_overriding_and_delete_children(self):
+        from_paths = ["a/aa/bb"]
+        to_paths = ["a/bb"]
+
+        # Set attribute for node
+        self.root_manual["aa"]["bb"].set_attrs({"age": 2})
+
+        modify.shift_nodes(
+            self.root_manual,
+            from_paths,
+            to_paths,
+            overriding=True,
+            delete_children=True,
+        )
+        assert (
+            self.root_manual["bb"].get_attr("age") == 2
+        ), "Original node not overridden"
+
+        assert not len(self.root_manual["bb"].children), "Children present"
+        assert not search.find_path(self.root_manual, "/a/aa/bb"), "Origin node present"
+
+    # merge_attribute, delete_children
+    def test_shift_nodes_merge_attribute_and_delete_children(self):
+        from_paths = ["a/aa/bb"]
+        to_paths = ["a/bb"]
+
+        # Set attribute for node
+        self.root_manual["aa"]["bb"].set_attrs({"age": 2, "gender": "b"})
+        self.root_manual["bb"].set_attrs({"age": 1, "hello": "world"})
+        modify.shift_nodes(
+            self.root_manual,
+            from_paths,
+            to_paths,
+            merge_attribute=True,
+            delete_children=True,
+        )
+        assert (
+            self.root_manual["bb"].get_attr("age") == 2
+        ), "Original attribute not updated"
+        assert (
+            self.root_manual["bb"].get_attr("hello") == "world"
+        ), "Original attribute not present"
+        assert (
+            self.root_manual["bb"].get_attr("gender") == "b"
+        ), "New attribute not present"
+        assert not len(self.root_manual["bb"].children), "Children present"
+        assert not search.find_path(self.root_manual, "/a/aa/bb"), "Origin node present"
 
     # merge_children, delete_children
     def test_shift_nodes_merge_children_and_delete_children(self):
