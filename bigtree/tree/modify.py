@@ -23,7 +23,7 @@ T = TypeVar("T", bound=node.Node)
 def shift_nodes(
     tree: T,
     from_paths: List[str],
-    to_paths: List[str],
+    to_paths: List[Optional[str]],
     sep: str = "/",
     skippable: bool = False,
     overriding: bool = False,
@@ -260,7 +260,7 @@ def shift_nodes(
     Args:
         tree (Node): tree to modify
         from_paths (List[str]): original paths to shift nodes from
-        to_paths (List[str]): new paths to shift nodes to
+        to_paths (List[Optional[str]]): new paths to shift nodes to
         sep (str): path separator for input paths, applies to `from_path` and `to_path`
         skippable (bool): indicator to skip if from-path is not found, defaults to False
         overriding (bool): indicator to override existing to-path if there are clashes, defaults to False
@@ -294,7 +294,7 @@ def shift_nodes(
 def copy_nodes(
     tree: T,
     from_paths: List[str],
-    to_paths: List[str],
+    to_paths: List[Optional[str]],
     sep: str = "/",
     skippable: bool = False,
     overriding: bool = False,
@@ -530,7 +530,7 @@ def copy_nodes(
     Args:
         tree (Node): tree to modify
         from_paths (List[str]): original paths to shift nodes from
-        to_paths (List[str]): new paths to shift nodes to
+        to_paths (List[Optional[str]]): new paths to shift nodes to
         sep (str): path separator for input paths, applies to `from_path` and `to_path`
         skippable (bool): indicator to skip if from path is not found, defaults to False
         overriding (bool): indicator to override existing to path if there is clashes, defaults to False
@@ -663,7 +663,7 @@ def copy_nodes_from_tree_to_tree(
     from_tree: T,
     to_tree: T,
     from_paths: List[str],
-    to_paths: List[str],
+    to_paths: List[Optional[str]],
     sep: str = "/",
     skippable: bool = False,
     overriding: bool = False,
@@ -858,7 +858,7 @@ def copy_nodes_from_tree_to_tree(
         from_tree (Node): tree to copy nodes from
         to_tree (Node): tree to copy nodes to
         from_paths (List[str]): original paths to shift nodes from
-        to_paths (List[str]): new paths to shift nodes to
+        to_paths (List[Optional[str]]): new paths to shift nodes to
         sep (str): path separator for input paths, applies to `from_path` and `to_path`
         skippable (bool): indicator to skip if from path is not found, defaults to False
         overriding (bool): indicator to override existing to path if there is clashes, defaults to False
@@ -1075,7 +1075,7 @@ def _merge_attribute(
 def copy_or_shift_logic(
     tree: T,
     from_paths: List[str],
-    to_paths: List[str],
+    to_paths: List[Optional[str]],
     sep: str = "/",
     copy: bool = False,
     skippable: bool = False,
@@ -1135,7 +1135,7 @@ def copy_or_shift_logic(
     Args:
         tree (Node): tree to modify
         from_paths (List[str]): original paths to shift nodes from
-        to_paths (List[str]): new paths to shift nodes to
+        to_paths (List[Optional[str]]): new paths to shift nodes to
         sep (str): path separator for input paths, applies to `from_path` and `to_path`
         copy (bool): indicator to copy node, defaults to False
         skippable (bool): indicator to skip if from path is not found, defaults to False
@@ -1350,10 +1350,6 @@ def copy_or_shift_logic(
                     )
 
             # Reassign from_node to new parent
-            # if merge_children and (overriding or merge_attribute):
-            #     merge_children = False
-            # if merge_leaves and merge_attribute:
-            #     merge_leaves = False
             if copy:
                 logging.debug(f"Copying {from_node.node_name}")
                 from_node = from_node.copy()

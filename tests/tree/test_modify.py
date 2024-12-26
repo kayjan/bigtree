@@ -576,75 +576,56 @@ class TestCopyNodes(unittest.TestCase):
 
     # merge_children, overriding
     def test_copy_nodes_merge_children_overriding(self):
-        new_aa = node.Node("aa", parent=self.root)
-        new_bb = node.Node("bb", parent=new_aa)
-        new_cc = node.Node("cc", age=1)
-        new_cc.parent = new_bb
-        bb2 = node.Node("bb")
-        cc2 = node.Node("cc2")
-        bb2.parent = self.root
-        cc2.parent = bb2
-
-        from_paths = ["d", "e", "g", "h", "f"]
-        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        modify.shift_nodes(self.root, from_paths, to_paths)
-
         from_paths = ["a/aa/bb"]
         to_paths = ["/a/bb"]
         modify.copy_nodes(
-            self.root, from_paths, to_paths, overriding=True, merge_children=True
+            self.root_overriding,
+            from_paths,
+            to_paths,
+            overriding=True,
+            merge_children=True,
         )
-        assert (
-            len(list(self.root.children)) == 4
-        ), f"Node children not merged, {export.print_tree(self.root)}"
         assert search.find_path(
-            self.root, "/a/bb/cc"
+            self.root_overriding, "/a/bb/cc"
         ), "Node children not merged, new children not present"
         assert not search.find_path(
-            self.root, "/a/bb/cc2"
+            self.root_overriding, "/a/bb/cc2"
         ), "Node children not merged, original children not overridden"
         assert (
-            search.find_path(self.root, "/a/bb/cc").get_attr("age") == 1
-        ), f"Merged children not overridden, {export.print_tree(self.root)}"
+            search.find_path(self.root_overriding, "/a/bb/cc").get_attr("age") == 1
+        ), f"Merged children not overridden, {export.print_tree(self.root_overriding)}"
         assert len(
-            list(search.find_path(self.root, "/a/aa").children)
+            list(search.find_path(self.root_overriding, "/a/aa").children)
         ), "Node parent deleted"
 
     def test_copy_nodes_merge_children_overriding_multiple(self):
-        new_aa = node.Node("aa", parent=self.root)
-        new_bb = node.Node("bb", parent=new_aa)
-        new_cc = node.Node("cc", age=1)
-        new_cc.parent = new_bb
-        new_dd = node.Node("dd", parent=new_aa)
+        new_dd = node.Node("dd", parent=self.root_overriding["aa"])
         new_ee = node.Node("ee", age=1)
         new_ee.parent = new_dd
-        bb2 = node.Node("bb", parent=self.root)
-        cc2 = node.Node("cc2")
-        cc2.parent = bb2
-
-        from_paths = ["/d", "/e", "/g", "/h", "/f"]
-        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        modify.shift_nodes(self.root, from_paths, to_paths)
 
         from_paths = ["a/aa/bb", "a/aa/dd"]
         to_paths = ["/a/bb", "a/dd"]
         modify.copy_nodes(
-            self.root, from_paths, to_paths, overriding=True, merge_children=True
+            self.root_overriding,
+            from_paths,
+            to_paths,
+            overriding=True,
+            merge_children=True,
         )
         assert search.find_path(
-            self.root, "/a/bb/cc"
+            self.root_overriding, "/a/bb/cc"
         ), "Node children not merged, new children not present"
         assert not search.find_path(
-            self.root, "/a/bb/cc2"
+            self.root_overriding, "/a/bb/cc2"
         ), "Node children not merged, original children not overridden"
         assert (
-            search.find_path(self.root, "/a/bb/cc").get_attr("age") == 1
-        ), f"Merged children not overridden, {export.print_tree(self.root)}"
+            search.find_path(self.root_overriding, "/a/bb/cc").get_attr("age") == 1
+        ), f"Merged children not overridden, {export.print_tree(self.root_overriding)}"
         assert len(
-            list(search.find_path(self.root, "/a/aa").children)
+            list(search.find_path(self.root_overriding, "/a/aa").children)
         ), "Node parent deleted"
         assert search.find_path(
-            self.root, "/a/ee"
+            self.root_overriding, "/a/ee"
         ), "Node children not merged, new children not present"
 
     # merge_children, merge_attribute
@@ -677,38 +658,26 @@ class TestCopyNodes(unittest.TestCase):
 
     # merge_leaves, overriding
     def test_copy_nodes_merge_leaves_overriding(self):
-        new_aa = node.Node("aa", parent=self.root)
-        new_bb = node.Node("bb", parent=new_aa)
-        new_cc = node.Node("cc", age=1)
-        new_cc.parent = new_bb
-        bb2 = node.Node("bb")
-        cc2 = node.Node("cc2")
-        bb2.parent = self.root
-        cc2.parent = bb2
-
-        from_paths = ["d", "e", "g", "h", "f"]
-        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        modify.shift_nodes(self.root, from_paths, to_paths)
-
         from_paths = ["a/aa/bb"]
         to_paths = ["/a/bb"]
         modify.copy_nodes(
-            self.root, from_paths, to_paths, overriding=True, merge_leaves=True
+            self.root_overriding,
+            from_paths,
+            to_paths,
+            overriding=True,
+            merge_leaves=True,
         )
-        assert (
-            len(list(self.root.children)) == 4
-        ), f"Node children not merged, {export.print_tree(self.root)}"
         assert search.find_path(
-            self.root, "/a/bb/cc"
+            self.root_overriding, "/a/bb/dd"
         ), "Node children not merged, new children not present"
         assert not search.find_path(
-            self.root, "/a/bb/cc2"
+            self.root_overriding, "/a/bb/cc2"
         ), "Node children not merged, original children not overridden"
         assert (
-            search.find_path(self.root, "/a/bb/cc").get_attr("age") == 1
-        ), f"Merged children not overridden, {export.print_tree(self.root)}"
+            search.find_path(self.root_overriding, "/a/bb/dd").get_attr("age") == 2
+        ), f"Merged leaves not overridden, {export.print_tree(self.root_overriding)}"
         assert len(
-            list(search.find_path(self.root, "/a/aa").children)
+            list(search.find_path(self.root_overriding, "/a/aa").children)
         ), "Node parent deleted"
 
     # merge_leaves, merge_attribute
@@ -1372,38 +1341,26 @@ class TestShiftNodes(unittest.TestCase):
 
     # merge_children, overriding
     def test_shift_nodes_merge_children_overriding(self):
-        new_aa = node.Node("aa", parent=self.root)
-        new_bb = node.Node("bb", parent=new_aa)
-        new_cc = node.Node("cc", age=1)
-        new_cc.parent = new_bb
-        bb2 = node.Node("bb")
-        cc2 = node.Node("cc2")
-        bb2.parent = self.root
-        cc2.parent = bb2
-
-        from_paths = ["d", "e", "g", "h", "f"]
-        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        modify.shift_nodes(self.root, from_paths, to_paths)
-
         from_paths = ["a/aa/bb"]
         to_paths = ["/a/bb"]
         modify.shift_nodes(
-            self.root, from_paths, to_paths, overriding=True, merge_children=True
+            self.root_overriding,
+            from_paths,
+            to_paths,
+            overriding=True,
+            merge_children=True,
         )
-        assert (
-            len(list(self.root.children)) == 4
-        ), f"Node children not merged, {export.print_tree(self.root)}"
         assert search.find_path(
-            self.root, "a/bb/cc"
+            self.root_overriding, "a/bb/cc"
         ), "Node children not merged, new children not present"
         assert not search.find_path(
-            self.root, "a/bb/cc2"
+            self.root_overriding, "a/bb/cc2"
         ), "Node children not merged, original children not overridden"
         assert (
-            search.find_path(self.root, "a/bb/cc").get_attr("age") == 1
-        ), f"Merged children not overridden, {export.print_tree(self.root)}"
+            search.find_path(self.root_overriding, "a/bb/cc").get_attr("age") == 1
+        ), f"Merged children not overridden, {export.print_tree(self.root_overriding)}"
         assert not len(
-            list(search.find_path(self.root, "a/aa").children)
+            list(search.find_path(self.root_overriding, "a/aa").children)
         ), "Node parent not deleted"
 
     # merge_children, merge_attribute
@@ -1439,38 +1396,29 @@ class TestShiftNodes(unittest.TestCase):
 
     # merge_leaves, overriding
     def test_shift_nodes_merge_leaves_overriding(self):
-        new_aa = node.Node("aa", parent=self.root)
-        new_bb = node.Node("bb", parent=new_aa)
-        new_cc = node.Node("cc", age=1)
-        new_cc.parent = new_bb
-        bb2 = node.Node("bb")
-        cc2 = node.Node("cc2")
-        bb2.parent = self.root
-        cc2.parent = bb2
-
-        from_paths = ["d", "e", "g", "h", "f"]
-        to_paths = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        modify.shift_nodes(self.root, from_paths, to_paths)
-
         from_paths = ["a/aa/bb"]
         to_paths = ["/a/bb"]
         modify.shift_nodes(
-            self.root, from_paths, to_paths, overriding=True, merge_leaves=True
+            self.root_overriding,
+            from_paths,
+            to_paths,
+            overriding=True,
+            merge_leaves=True,
         )
-        assert (
-            len(list(self.root.children)) == 4
-        ), f"Node children not merged, {export.print_tree(self.root)}"
         assert search.find_path(
-            self.root, "a/bb/cc"
-        ), "Node children not merged, new children not present"
+            self.root_overriding, "a/bb/dd"
+        ), "New children not present"
         assert not search.find_path(
-            self.root, "a/bb/cc2"
-        ), "Node children not merged, original children not overridden"
+            self.root_overriding, "a/bb/cc2"
+        ), "Original children not overridden"
+        assert not search.find_path(
+            self.root_overriding, "a/aa/bb/cc/dd"
+        ), "Origin leaf still present at origin"
         assert (
-            search.find_path(self.root, "a/bb/cc").get_attr("age") == 1
-        ), f"Merged children not overridden, {export.print_tree(self.root)}"
+            search.find_path(self.root_overriding, "a/bb/dd").get_attr("age") == 2
+        ), f"Merged children not overridden, {export.print_tree(self.root_overriding)}"
         assert len(
-            list(search.find_path(self.root, "a/aa").children)
+            list(search.find_path(self.root_overriding, "a/aa").children)
         ), "Node parent deleted"
 
     # merge_leaves, merge_attribute
