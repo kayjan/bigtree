@@ -1216,10 +1216,6 @@ def copy_or_shift_logic(
 
     # Perform shifting/copying
     for from_path, to_path in zip(from_paths, to_paths):
-        # Reset parameters
-        merge_children2 = merge_children
-        merge_leaves2 = merge_leaves
-
         if with_full_path:
             from_node = search.find_full_path(tree, from_path)
         else:
@@ -1264,10 +1260,7 @@ def copy_or_shift_logic(
                             logging.info(
                                 f"Path {to_path} already exists and its children be overridden by the merge"
                             )
-                            parent = to_node.parent
-                            to_node.parent = None
-                            to_node = parent
-                            merge_children2 = False
+                            del to_node.children
                         elif merge_attribute:
                             logging.info(
                                 f"Path {to_path} already exists and their attributes will be merged"
@@ -1279,10 +1272,10 @@ def copy_or_shift_logic(
                                 merge_children=merge_children,
                                 merge_leaves=merge_leaves,
                             )
-                            parent = to_node.parent
-                            to_node.parent = None
-                            to_node = parent
-                            merge_children2 = False
+                            to_node.set_attrs(
+                                dict(from_node.describe(exclude_prefix="_"))
+                            )
+                            del to_node.children
                         else:
                             logging.info(
                                 f"Path {to_path} already exists and children are merged"
@@ -1304,10 +1297,10 @@ def copy_or_shift_logic(
                                 merge_children=merge_children,
                                 merge_leaves=merge_leaves,
                             )
-                            parent = to_node.parent
-                            to_node.parent = None
-                            to_node = parent
-                            merge_leaves2 = False
+                            to_node.set_attrs(
+                                dict(from_node.describe(exclude_prefix="_"))
+                            )
+                            del to_node.children
                         else:
                             logging.info(
                                 f"Path {to_path} already exists and leaves are merged"
@@ -1353,7 +1346,7 @@ def copy_or_shift_logic(
             if copy:
                 logging.debug(f"Copying {from_node.node_name}")
                 from_node = from_node.copy()
-            if merge_children2:
+            if merge_children:
                 # overriding / merge_attribute handled merge_children, set merge_children=False
                 logging.debug(
                     f"Reassigning children from {from_node.node_name} to {to_node.node_name}"
@@ -1363,7 +1356,7 @@ def copy_or_shift_logic(
                         del children.children
                     children.parent = to_node
                 from_node.parent = None
-            elif merge_leaves2:
+            elif merge_leaves:
                 logging.debug(
                     f"Reassigning leaf nodes from {from_node.node_name} to {to_node.node_name}"
                 )
