@@ -1313,12 +1313,6 @@ def copy_or_shift_logic(
                                 f"Path {to_path} already exists and leaves are merged"
                             )
                     else:
-                        if not (overriding or merge_attribute):
-                            raise exceptions.TreeError(
-                                f"Path {to_path} already exists and unable to override\n"
-                                f"Set `overriding` or `merge_attribute` to True to handle node name clashes\n"
-                                f"Alternatively, set `merge_children` to True if nodes are to be merged"
-                            )
                         if overriding:
                             logging.info(
                                 f"Path {to_path} already exists and will be overridden"
@@ -1340,6 +1334,12 @@ def copy_or_shift_logic(
                             parent = to_node.parent
                             to_node.parent = None
                             to_node = parent
+                        else:
+                            raise exceptions.TreeError(
+                                f"Path {to_path} already exists and unable to override\n"
+                                f"Set `overriding` or `merge_attribute` to True to handle node name clashes\n"
+                                f"Alternatively, set `merge_children` to True if nodes are to be merged"
+                            )
 
                 # To node not found
                 else:
