@@ -1838,6 +1838,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#guideline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guideline
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#bigtree.tree.modify" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;modify
@@ -2475,6 +2484,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#guideline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guideline
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#bigtree.tree.modify" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;modify
@@ -2608,6 +2626,11 @@
 <td>False (to-node must not exist)</td>
 </tr>
 <tr>
+<td><code>merge_attribute</code></td>
+<td>Merge attributes of existing node if it exists</td>
+<td>False (to-node must not exist, attributes are not merged)</td>
+</tr>
+<tr>
 <td><code>merge_children</code></td>
 <td>Shift/copy children of from-node and remove intermediate parent node</td>
 <td>False (children are not merged)</td>
@@ -2624,8 +2647,14 @@
 </tr>
 </tbody>
 </table>
-<p>In <strong>replacing scenario</strong>, all the configurations are also available except <code>overriding</code>, <code>merge_children</code>, and <code>merge_leaves</code> as it is doing a one-to-one replacement.
+<p>In <strong>replacing scenario</strong>, all the configurations are also available except <code>overriding</code>, <code>merge_attribute</code>,
+<code>merge_children</code>, and <code>merge_leaves</code> as it is doing a one-to-one replacement.
 It is by default overriding, and there is nothing to merge.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>overriding</code> and <code>merge_attribute</code> cannot be simultaneously set to <code>True</code>. One deals with clashing nodes by
+overriding, another deals with it by merging attributes of both nodes.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code>merge_children</code> and <code>merge_leaves</code> cannot be simultaneously set to <code>True</code>.</p>
@@ -2737,6 +2766,7 @@ All other methods calls these 2 methods directly.</p>
 </tr>
 </tbody>
 </table>
+<hr />
 <p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_advanced.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Advanced Shift Example" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_advanced.png" title="Advanced Shift Example" /></a></p>
 <h3 id="sample-tree-modification-advanced">Sample Tree Modification (Advanced)</h3>
 <table>
@@ -2762,10 +2792,10 @@ All other methods calls these 2 methods directly.</p>
 <td><strong>If path not present</strong>: Shift/copy children of node <code>c</code> to be children of node <code>d</code>, removing node <code>c</code><br><strong>If path present</strong>: Shift/copy children of node <code>c</code> to be merged with existing "a/d/c" children</td>
 </tr>
 <tr>
-<td>merge_children + overriding</td>
+<td>merge_children + overriding/merge_attribute</td>
 <td>"a/b/c"</td>
 <td>"a/d/c"</td>
-<td><strong>If path not present</strong>: Behaves like merge_children<br><strong>If path present</strong>: Behaves like overriding</td>
+<td><strong>If path not present</strong>: Behaves like merge_children<br><strong>If path present</strong>: Behaves like overriding/merge_attribute</td>
 </tr>
 <tr>
 <td>merge_leaves</td>
@@ -2774,10 +2804,10 @@ All other methods calls these 2 methods directly.</p>
 <td><strong>If path not present</strong>: Shift/copy leaves of node <code>c</code> to be children of node <code>d</code><br><strong>If path present</strong>: Shift/copy leaves of node <code>c</code> to be merged with existing "a/d/c" children</td>
 </tr>
 <tr>
-<td>- merge_leaves + overriding</td>
+<td>merge_leaves + overriding/merge_attribute</td>
 <td>"a/b/c"</td>
 <td>"a/d/c"</td>
-<td><strong>If path not present</strong>: Behaves like merge_leaves<br><strong>If path present</strong>: Behaves like overriding, but original node <code>c</code> remains</td>
+<td><strong>If path not present</strong>: Behaves like merge_leaves<br><strong>If path present</strong>: Behaves like overriding/merge_attribute, but original node <code>c</code> remains</td>
 </tr>
 <tr>
 <td>delete_children</td>
@@ -2787,6 +2817,60 @@ All other methods calls these 2 methods directly.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="guideline">Guideline</h2>
+<p>If you're still feeling lost over the parameters, here are some guiding questions to ask yourself.</p>
+<ul>
+<li>Do I want to retain the original node where they are?<ul>
+<li>Yes: Set <code>copy=True</code></li>
+<li>Default performs a shift instead of copy</li>
+</ul>
+</li>
+<li>Am I unsure of what nodes I am going to copy/shift, they may or may not exist and this is perfectly fine?<ul>
+<li>Yes: Set <code>skippable=True</code></li>
+<li>Default throws error if origin node is not found</li>
+</ul>
+</li>
+<li>The origin node (and its descendants) may clash with the destination node(s), how do I want to handle it?<ul>
+<li>Set <code>overriding=True</code> to overwrite origin node</li>
+<li>Set <code>merge_attribute=True</code> to combine both nodes' attributes</li>
+<li>Default throws error about the clash in node name</li>
+</ul>
+</li>
+<li>I want to copy/shift everything under the node, but not the node itself<ul>
+<li>Set <code>merge_children=True</code> or <code>merge_leaves=True</code> to shift the children and leaf nodes respectively</li>
+<li>Default shifts the node itself, and everything under it</li>
+</ul>
+</li>
+<li>I want to copy/shift the node and only the node, and not everything under it<ul>
+<li>Yes: Set <code>delete_children=True</code></li>
+<li>Default shifts the node itself, and everything under it</li>
+</ul>
+</li>
+<li>I want to copy/shift things from one tree to another tree<ul>
+<li>Specify <code>to_tree</code></li>
+<li>Default shifts nodes within the same tree</li>
+</ul>
+</li>
+</ul>
+<p>What about the permutations between the parameters?</p>
+<ul>
+<li>These parameters are standalone and do not produce any interaction effect<ul>
+<li><code>copy</code>, <code>skippable</code>, <code>delete_children</code></li>
+</ul>
+</li>
+<li>These parameters have some interaction:<ul>
+<li><code>overriding</code> and <code>merge_attribute</code> with <code>merge_children</code> and <code>merge_leaves</code></li>
+<li><code>overriding</code> + <code>merge_children</code>: Behaves like <code>merge_children</code> when there is no clash in node name, otherwise behaves like <code>overriding</code>.
+Note that clashes will preserve origin node parent and destination nodes' children.</li>
+<li><code>overriding</code> + <code>merge_leaves</code>: Behaves like <code>merge_leaves</code> when there is no clash in node name, otherwise behaves like <code>overriding</code>.
+Note that clashes will preserve origin node parent and destination nodes' leaves.</li>
+<li><code>merge_attribute</code> + <code>merge_children</code>: Behaves like <code>merge_children</code> when there is no clash in node name, otherwise behaves like <code>merge_attribute</code>.
+Note that attributes will be merged for node and all descendants, and will preserve origin and destination nodes' children.</li>
+<li><code>merge_attribute</code> + <code>merge_leaves</code>: Behaves like <code>merge_leaves</code> when there is no clash in node name, otherwise behaves like <code>merge_attribute</code>.
+Note that attributes will be merged for node and all descendants, and will preserve origin nodes' children and destination nodes' leaves.</li>
+</ul>
+</li>
+</ul>
 <hr />
 
 
@@ -2834,22 +2918,24 @@ All other methods calls these 2 methods directly.</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">skippable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">overriding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">merge_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">merge_leaves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">delete_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">with_full_path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">merge_attribute</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">merge_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">merge_leaves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">delete_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">with_full_path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>Shift nodes from <code>from_paths</code> to <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
-<li>Creates intermediate nodes if to path is not present</li>
-<li>Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable).</li>
+<li>Creates intermediate nodes if to-path is not present</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).</li>
 <li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).</li>
+<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).</li>
 <li>Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged).</li>
-<li>Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)</li>
+<li>Able to merge leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)</li>
 <li>Able to shift node only and delete children, defaults to False (nodes are shifted together with children).</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
@@ -2879,6 +2965,11 @@ All other methods calls these 2 methods directly.</p>
 <li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged.</li>
 <li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained,
     original non-leaf nodes in <code>from_path</code> are retained.</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time.</li>
+<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time.</li>
 </ul>
 
 
@@ -2941,7 +3032,7 @@ All other methods calls these 2 methods directly.</p>
     <p>In <code>merge_children=True</code> case, child nodes are shifted instead of the parent node.</p>
 <ul>
 <li>If the path already exists, child nodes are merged with existing children.</li>
-<li>If same node is shifted, the child nodes of the node are merged with the node's parent.</li>
+<li>Otherwise, the child nodes of the node are merged with the node's parent.</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Downloads</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -2985,10 +3076,10 @@ All other methods calls these 2 methods directly.</p>
 </span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">└── Files</span>
 </span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="go">    └── file1.doc</span>
 </span></code></pre></div>
-    <p>In <code>merge_leaves=True</code> case, leaf nodes are copied instead of the parent node.</p>
+    <p>In <code>merge_leaves=True</code> case, leaf nodes are shifted instead of the parent node.</p>
 <ul>
 <li>If the path already exists, leaf nodes are merged with existing children.</li>
-<li>If same node is copied, the leaf nodes of the node are merged with the node's parent.</li>
+<li>Otherwise, the leaf nodes of the node are merged with the node's parent.</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Downloads</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -3110,7 +3201,7 @@ All other methods calls these 2 methods directly.</p>
                 <code>to_paths</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[str]</code>
+                  <code><span title="typing.List">List</span>[<span title="typing.Optional">Optional</span>[str]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3146,7 +3237,7 @@ All other methods calls these 2 methods directly.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to skip if from path is not found, defaults to False</p>
+                <p>indicator to skip if from-path is not found, defaults to False</p>
               </div>
             </td>
             <td>
@@ -3162,7 +3253,24 @@ All other methods calls these 2 methods directly.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to override existing to path if there is clashes, defaults to False</p>
+                <p>indicator to override existing to-path if there are clashes, defaults to False</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>merge_attribute</code>
+            </td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>indicator to merge attributes of from-path and to-path if there are clashes, defaults
+to False</p>
               </div>
             </td>
             <td>
@@ -3178,7 +3286,8 @@ All other methods calls these 2 methods directly.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to merge children and remove intermediate parent node, defaults to False</p>
+                <p>indicator to merge from-path's children and remove intermediate parent node, defaults to
+False</p>
               </div>
             </td>
             <td>
@@ -3194,7 +3303,8 @@ All other methods calls these 2 methods directly.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to merge leaf nodes and remove intermediate parent node(s), defaults to False</p>
+                <p>indicator to merge from-path's leaf nodes and remove intermediate parent node(s), defaults
+to False</p>
               </div>
             </td>
             <td>
@@ -3226,7 +3336,7 @@ All other methods calls these 2 methods directly.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to shift/copy node with full path in <code>from_paths</code>, results in faster search,
+                <p>indicator to shift node with full path in <code>from_paths</code>, results in faster search,
 defaults to False</p>
               </div>
             </td>
@@ -3256,22 +3366,24 @@ defaults to False</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">skippable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">overriding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">merge_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">merge_leaves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">delete_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">with_full_path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">merge_attribute</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">merge_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">merge_leaves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">delete_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">with_full_path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>Copy nodes from <code>from_paths</code> to <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
-<li>Creates intermediate nodes if to path is not present</li>
-<li>Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable).</li>
+<li>Creates intermediate nodes if to-path is not present</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).</li>
 <li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).</li>
-<li>Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged).</li>
-<li>Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)</li>
+<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).</li>
+<li>Able to merge children and remove intermediate parent node, defaults to False (nodes are copied; not merged).</li>
+<li>Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are copied; not merged)</li>
 <li>Able to copy node only and delete children, defaults to False (nodes are copied together with children).</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
@@ -3299,6 +3411,11 @@ defaults to False</p>
 <li>If <code>to_path</code> is not present, it copies leaves of <code>from_path</code>.</li>
 <li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged.</li>
 <li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained.</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time.</li>
+<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time.</li>
 </ul>
 
 
@@ -3354,7 +3471,7 @@ defaults to False</p>
     <p>In <code>merge_children=True</code> case, child nodes are copied instead of the parent node.</p>
 <ul>
 <li>If the path already exists, child nodes are merged with existing children.</li>
-<li>If same node is copied, the child nodes of the node are merged with the node's parent.</li>
+<li>Otherwise, the child nodes of the node are merged with the node's parent.</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Downloads</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -3405,7 +3522,7 @@ defaults to False</p>
     <p>In <code>merge_leaves=True</code> case, leaf nodes are copied instead of the parent node.</p>
 <ul>
 <li>If the path already exists, leaf nodes are merged with existing children.</li>
-<li>If same node is copied, the leaf nodes of the node are merged with the node's parent.</li>
+<li>Otherwise, the leaf nodes of the node are merged with the node's parent.</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Downloads</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -3532,7 +3649,7 @@ defaults to False</p>
                 <code>to_paths</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[str]</code>
+                  <code><span title="typing.List">List</span>[<span title="typing.Optional">Optional</span>[str]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3593,6 +3710,23 @@ defaults to False</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>merge_attribute</code>
+            </td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>indicator to merge attributes of from-path and to-path if there are clashes, defaults
+to False</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>merge_children</code>
             </td>
             <td>
@@ -3600,7 +3734,8 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to merge children and remove intermediate parent node, defaults to False</p>
+                <p>indicator to merge from-path's children and remove intermediate parent node, defaults to
+False</p>
               </div>
             </td>
             <td>
@@ -3616,7 +3751,8 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to merge leaf nodes and remove intermediate parent node(s), defaults to False</p>
+                <p>indicator to merge from-path's leaf nodes and remove intermediate parent node(s), defaults
+to False</p>
               </div>
             </td>
             <td>
@@ -3648,7 +3784,7 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to shift/copy node with full path in <code>from_paths</code>, results in faster search,
+                <p>indicator to copy node with full path in <code>from_paths</code>, results in faster search,
 defaults to False</p>
               </div>
             </td>
@@ -3686,8 +3822,8 @@ defaults to False</p>
 
         <p>Shift nodes from <code>from_paths</code> to <em>replace</em> <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
-<li>Creates intermediate nodes if to path is not present</li>
-<li>Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable).</li>
+<li>Creates intermediate nodes if to-path is not present</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).</li>
 <li>Able to shift node only and delete children, defaults to False (nodes are shifted together with children).</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
@@ -3869,7 +4005,7 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to shift/copy node with full path in <code>from_paths</code>, results in faster search,
+                <p>indicator to shift node with full path in <code>from_paths</code>, results in faster search,
 defaults to False</p>
               </div>
             </td>
@@ -3900,20 +4036,22 @@ defaults to False</p>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">skippable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">overriding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">merge_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">merge_leaves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">delete_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">with_full_path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">merge_attribute</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">merge_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">merge_leaves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">delete_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">with_full_path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>Copy nodes from <code>from_paths</code> to <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
-<li>Creates intermediate nodes if to path is not present</li>
-<li>Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable).</li>
+<li>Creates intermediate nodes if to-path is not present</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).</li>
 <li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).</li>
+<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).</li>
 <li>Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged).</li>
 <li>Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)</li>
 <li>Able to copy node only and delete children, defaults to False (nodes are copied together with children).</li>
@@ -3943,6 +4081,11 @@ defaults to False</p>
 <li>If <code>to_path</code> is not present, it copies leaves of <code>from_path</code>.</li>
 <li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged.</li>
 <li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained.</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time.</li>
+<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time.</li>
 </ul>
 
 
@@ -4011,6 +4154,7 @@ defaults to False</p>
     <p>In <code>merge_children=True</code> case, child nodes are copied instead of the parent node.</p>
 <ul>
 <li>If the path already exists, child nodes are merged with existing children.</li>
+<li>Otherwise, the child nodes of the node are merged with the node's parent.</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_other</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Documents</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -4040,6 +4184,7 @@ defaults to False</p>
     <p>In <code>merge_leaves=True</code> case, leaf nodes are copied instead of the parent node.</p>
 <ul>
 <li>If the path already exists, leaf nodes are merged with existing children.</li>
+<li>Otherwise, the leaf nodes of the node are merged with the node's parent.</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_other</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Documents</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -4148,7 +4293,7 @@ defaults to False</p>
                 <code>to_paths</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[str]</code>
+                  <code><span title="typing.List">List</span>[<span title="typing.Optional">Optional</span>[str]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4209,6 +4354,23 @@ defaults to False</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>merge_attribute</code>
+            </td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>indicator to merge attributes of from-path and to-path if there are clashes, defaults
+to False</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>merge_children</code>
             </td>
             <td>
@@ -4216,7 +4378,8 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to merge children and remove intermediate parent node, defaults to False</p>
+                <p>indicator to merge from-path's children and remove intermediate parent node, defaults to
+False</p>
               </div>
             </td>
             <td>
@@ -4232,7 +4395,8 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to merge leaf nodes and remove intermediate parent node(s), defaults to False</p>
+                <p>indicator to merge from-path's leaf nodes and remove intermediate parent node(s), defaults
+to False</p>
               </div>
             </td>
             <td>
@@ -4264,7 +4428,7 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to shift/copy node with full path in <code>from_paths</code>, results in faster search,
+                <p>indicator to copy node with full path in <code>from_paths</code>, results in faster search,
 defaults to False</p>
               </div>
             </td>
@@ -4303,8 +4467,8 @@ defaults to False</p>
 
         <p>Copy nodes from <code>from_paths</code> to <em>replace</em> <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
-<li>Creates intermediate nodes if to path is not present</li>
-<li>Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable).</li>
+<li>Creates intermediate nodes if to-path is not present</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).</li>
 <li>Able to copy node only and delete children, defaults to False (nodes are copied together with children).</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
@@ -4451,7 +4615,7 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>original paths to shift nodes from</p>
+                <p>original paths to copy nodes from</p>
               </div>
             </td>
             <td>
@@ -4467,7 +4631,7 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>new paths to shift nodes to</p>
+                <p>new paths to copy nodes to</p>
               </div>
             </td>
             <td>
@@ -4531,7 +4695,7 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to shift/copy node with full path in <code>from_paths</code>, results in faster search,
+                <p>indicator to copy node with full path in <code>from_paths</code>, results in faster search,
 defaults to False</p>
               </div>
             </td>
@@ -4562,22 +4726,24 @@ defaults to False</p>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">skippable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">overriding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">merge_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">merge_leaves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">delete_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">to_tree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">with_full_path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">merge_attribute</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">merge_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">merge_leaves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">delete_children</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">to_tree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">with_full_path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>Shift or copy nodes from <code>from_paths</code> to <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
-<li>Creates intermediate nodes if to path is not present</li>
+<li>Creates intermediate nodes if to-path is not present</li>
 <li>Able to copy node, defaults to False (nodes are shifted; not copied).</li>
-<li>Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable)</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)</li>
 <li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)</li>
+<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).</li>
 <li>Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged)</li>
 <li>Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)</li>
 <li>Able to shift/copy node only and delete children, defaults to False (nodes are shifted/copied together with children).</li>
@@ -4610,6 +4776,11 @@ defaults to False</p>
 <li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged.</li>
 <li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained,
     original non-leaf nodes in <code>from_path</code> are retained.</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time.</li>
+<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time.</li>
 </ul>
 
 
@@ -4661,7 +4832,7 @@ defaults to False</p>
                 <code>to_paths</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[str]</code>
+                  <code><span title="typing.List">List</span>[<span title="typing.Optional">Optional</span>[str]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4738,6 +4909,23 @@ defaults to False</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>merge_attribute</code>
+            </td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>indicator to merge attributes of from-path and to-path if there are clashes, defaults
+to False</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>merge_children</code>
             </td>
             <td>
@@ -4745,7 +4933,8 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to merge children and remove intermediate parent node, defaults to False</p>
+                <p>indicator to merge from-path's children and remove intermediate parent node, defaults to
+False</p>
               </div>
             </td>
             <td>
@@ -4761,7 +4950,8 @@ defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to merge leaf nodes and remove intermediate parent node(s), defaults to False</p>
+                <p>indicator to merge from-path's leaf nodes and remove intermediate parent node(s), defaults
+to False</p>
               </div>
             </td>
             <td>
@@ -4849,9 +5039,9 @@ defaults to False</p>
 
         <p>Shift or copy nodes from <code>from_paths</code> to <em>replace</em> <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
-<li>Creates intermediate nodes if to path is not present</li>
+<li>Creates intermediate nodes if to-path is not present</li>
 <li>Able to copy node, defaults to False (nodes are shifted; not copied).</li>
-<li>Able to skip nodes if from path is not found, defaults to False (from-nodes must be found; not skippable)</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)</li>
 <li>Able to replace node only and delete children, defaults to False (nodes are shifted/copied together with children).</li>
 <li>Able to shift/copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)</li>
 </ul>
