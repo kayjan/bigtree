@@ -2454,7 +2454,6 @@ class TestCopyNodesTwoTrees(unittest.TestCase):
             merge_leaves=True,
             merge_attribute=True,
         )
-        self.root_other_full_wrong["b"].sort(key=lambda node: node.node_name)
         assert_tree_structure_basenode_root(self.root_other_full_wrong)
         assert_tree_structure_basenode_root_attr(self.root_other_full_wrong)
         assert_tree_structure_node_root(self.root_other_full_wrong)
