@@ -243,44 +243,51 @@ def find_relative_paths(
     """
     sep = tree.sep
     if path_name.startswith(sep):
-        resolved_node = find_full_path(tree, path_name)
-        return (resolved_node,)
+        path_list = path_name.rstrip(sep).lstrip(sep).split(sep)
+        if path_list[0] not in (tree.root.node_name, "..", ".", "*"):
+            raise ValueError(
+                f"Path {path_name} does not match the root node name {tree.root.node_name}"
+            )
+        if path_list[0] == tree.root.node_name:
+            path_list[0] = "."
+        result = find_relative_paths(tree.root, sep.join(path_list))
+        return result
     path_name = path_name.rstrip(sep).lstrip(sep)
     path_list = path_name.split(sep)
     wildcard_indicator = "*" in path_name
     resolved_nodes: List[NodeT] = []
 
-    def resolve(node: NodeT, path_idx: int) -> None:
+    def resolve(_node: NodeT, path_idx: int) -> None:
         """Resolve node based on path name
 
         Args:
-            node (Node): current node
+            _node (Node): current node
             path_idx (int): current index in path_list
         """
         if path_idx == len(path_list):
-            resolved_nodes.append(node)
+            resolved_nodes.append(_node)
         else:
             path_component = path_list[path_idx]
             if path_component == ".":
-                resolve(node, path_idx + 1)
+                resolve(_node, path_idx + 1)
             elif path_component == "..":
-                if node.is_root:
+                if _node.is_root:
                     raise exceptions.SearchError(
                         "Invalid path name. Path goes beyond root node."
                     )
-                resolve(node.parent, path_idx + 1)
+                resolve(_node.parent, path_idx + 1)
             elif path_component == "*":
-                for child in node.children:
+                for child in _node.children:
                     resolve(child, path_idx + 1)
             else:
-                node = find_child_by_name(node, path_component)
-                if not node:
+                child_node = find_child_by_name(_node, path_component)
+                if not child_node:
                     if not wildcard_indicator:
                         raise exceptions.SearchError(
                             f"Invalid path name. Node {path_component} cannot be found."
                         )
                 else:
-                    resolve(node, path_idx + 1)
+                    resolve(child_node, path_idx + 1)
 
     resolve(tree, 0)
     result = tuple(resolved_nodes)
