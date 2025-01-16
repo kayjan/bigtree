@@ -255,6 +255,20 @@ class TestSearch(unittest.TestCase):
                 expected,
             ), f"Expected find_relative_paths to return {expected}, received {actual}"
 
+    def test_find_relative_paths_sep_leading_wildcard(self):
+        inputs = ["/*", "/a/b/*", "/a/c/*", "/a/b/e/*"]
+        expected_ans = [
+            (self.b, self.c),
+            (self.d, self.e),
+            (self.f,),
+            (self.g, self.h),
+        ]
+        for input_, expected in zip(inputs, expected_ans):
+            actual = search.find_relative_paths(self.b, input_)
+            assert (
+                actual == expected
+            ), f"Expected find_relative_paths to return {expected}, received {actual}"
+
     def test_find_relative_paths_sep_trailing(self):
         inputs = [self.b, self.c, self.d, self.e, self.f, self.g, self.h]
         expected_ans = [self.a, self.a, self.b, self.b, self.c, self.e, self.e]
@@ -263,6 +277,17 @@ class TestSearch(unittest.TestCase):
             assert actual == (
                 expected,
             ), f"Expected find_relative_paths to return {expected}, received {actual}"
+
+    def test_find_relative_paths_wrong_root_error(self):
+        inputs = ["/b/a", "/c"]
+        for input_ in inputs:
+            with pytest.raises(ValueError) as exc_info:
+                search.find_relative_paths(self.a, input_)
+            assert str(
+                exc_info.value
+            ) == Constants.ERROR_SEARCH_FULL_PATH_INVALID_ROOT.format(
+                path_name=input_, root_name="a"
+            )
 
     def test_find_relative_paths_wrong_node_error(self):
         inputs = [
@@ -280,7 +305,12 @@ class TestSearch(unittest.TestCase):
             )
 
     def test_find_relative_paths_wrong_path_error(self):
-        inputs_list = [(self.a, ["../"]), (self.b, ["../../"])]
+        inputs_list = [
+            (self.a, ["../"]),
+            (self.b, ["../../"]),
+            (self.a, ["/../"]),
+            (self.b, ["/.."]),
+        ]
         for inputs in inputs_list:
             for input_ in inputs[1]:
                 with pytest.raises(exceptions.SearchError) as exc_info:
