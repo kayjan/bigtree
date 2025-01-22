@@ -48,7 +48,7 @@ class TestNode(unittest.TestCase):
 
     def test_empty_node_name_error(self):
         with pytest.raises(exceptions.TreeError) as exc_info:
-            node.Node()
+            node.Node("")
         assert str(exc_info.value) == Constants.ERROR_NODE_NAME
 
     def test_set_parent(self):

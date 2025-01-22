@@ -79,7 +79,7 @@ class Node(basenode.BaseNode):
 
     """
 
-    def __init__(self, name: str = "", sep: str = "/", **kwargs: Any):
+    def __init__(self, name: str, sep: str = "/", **kwargs: Any):
         self.name = name
         self._sep = sep
         super().__init__(**kwargs)
