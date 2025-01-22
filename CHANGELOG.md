@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed:
 - Tree Search: Search relative path allows unix folder expression for leading sep symbol.
+- Node: Updated Node signature to reflect that name is mandatory.
 
 ## [0.23.0] - 2024-12-26
 ### Changed:
