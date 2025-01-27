@@ -15,7 +15,7 @@ There are 3 ways to get the x- and y- coordinates for each node
 Using these x- and y- coordinates, we can display it on a pydot plot using the `pos` node attribute. In the example
 below, we will make use of option (2) to generate our tree plot with custom coordinates.
 
-```python hl_lines="21-24"
+```python hl_lines="20-24"
 from bigtree import Node, clone_tree, list_to_tree, reingold_tilford, tree_to_dot
 
 # Create tree
