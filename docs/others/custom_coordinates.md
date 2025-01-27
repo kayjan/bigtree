@@ -21,7 +21,7 @@ from bigtree import Node, clone_tree, list_to_tree, reingold_tilford, tree_to_do
 # Create tree
 root = list_to_tree(["a/b/d", "a/c"])
 
-# Get coordinates and modify them (alternatively, use your own custom coordinates)
+# Modify from the Reingold Tilford algorithm
 reingold_tilford(root)
 
 
