@@ -1,5 +1,7 @@
 # Trees with Weighted Edges
 
+> Topic: export
+
 Edge weights should be defined in the child node for the parent-child edge since each node can only have one parent.
 
 We can simply add `weight` attribute to the `Node` class.
