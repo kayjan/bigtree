@@ -1,5 +1,7 @@
 # List Directory
 
+> Topic: construct
+
 To list directories recursively using bigtree, we can use the `glob` built-in Python package to extract a list of paths.
 
 ```python

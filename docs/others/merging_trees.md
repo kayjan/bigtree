@@ -1,5 +1,7 @@
 # Merging Trees
 
+> Topic: modify
+
 To merge two separate trees into one, we can use the tree modify module.
 
 In this example, we are merging two trees that have similar node `Pictures`.

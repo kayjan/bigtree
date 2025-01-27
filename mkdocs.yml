@@ -54,12 +54,16 @@ nav:
         - bigtree/workflows/app_calendar.md
   - Others:
     - 💡 Tips and Tricks:
-      - others/remove_checks.md
-      - others/list_dir.md
-      - others/nodes.md
-      - others/merging_trees.md
-      - others/weighted_trees.md
-      - others/work_with_classes.md
+      - Optimise:
+        - others/remove_checks.md
+      - Node:
+        - others/nodes.md
+        - others/work_with_classes.md
+      - Tree:
+        - others/list_dir.md
+        - others/merging_trees.md
+        - others/weighted_trees.md
+        - others/custom_coordinates.md
 
 theme:
   name: material
@@ -86,6 +90,7 @@ theme:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.top
+    - navigation.expand
     - navigation.indexes
     - navigation.sections
     - content.code.copy
