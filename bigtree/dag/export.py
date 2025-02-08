@@ -214,8 +214,10 @@ def dag_to_dot(
 
         Export to image, dot file, etc.
 
-        >>> dag_graph.write_png("assets/docstr/tree_dag.png")
-        >>> dag_graph.write_dot("assets/docstr/tree_dag.dot")
+        >>> dag_graph.write_png("assets/tree_dag.png")
+        >>> dag_graph.write_dot("assets/tree_dag.dot")
+
+        ![Export to Dot](https://github.com/kayjan/bigtree/raw/master/assets/tree_dag.png)
 
         Export to string
 
