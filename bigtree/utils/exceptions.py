@@ -71,7 +71,7 @@ def deprecated(
 
 
 def optional_dependencies_pandas(
-    func: Callable[..., T]
+    func: Callable[..., T],
 ) -> Callable[..., T]:  # pragma: no cover
     """
     This is a decorator which can be used to import optional pandas dependency.
@@ -93,7 +93,7 @@ def optional_dependencies_pandas(
 
 
 def optional_dependencies_polars(
-    func: Callable[..., T]
+    func: Callable[..., T],
 ) -> Callable[..., T]:  # pragma: no cover
     """
     This is a decorator which can be used to import optional polars dependency.
@@ -115,7 +115,7 @@ def optional_dependencies_polars(
 
 
 def optional_dependencies_matplotlib(
-    func: Callable[..., T]
+    func: Callable[..., T],
 ) -> Callable[..., T]:  # pragma: no cover
     """
     This is a decorator which can be used to import optional matplotlib dependency.

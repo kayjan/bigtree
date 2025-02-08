@@ -75,29 +75,29 @@ def add_path_to_tree(
         )
 
     # Grow tree
-    node = root_node
+    _node = root_node
     parent_node = root_node
     for idx in range(1, len(branch)):
         node_name = branch[idx]
         node_path = tree_sep.join(branch[: idx + 1])
         if not duplicate_name_allowed:
-            node = search.find_name(root_node, node_name)
-            if node and not node.path_name.endswith(node_path):
+            _node = search.find_name(root_node, node_name)
+            if _node and not _node.path_name.endswith(node_path):
                 raise exceptions.DuplicatedNodeError(
                     f"Node {node_name} already exists, try setting `duplicate_name_allowed` to True "
                     f"to allow `Node` with same node name"
                 )
         else:
-            node = search.find_child_by_name(parent_node, node_name)
-        if not node:
+            _node = search.find_child_by_name(parent_node, node_name)
+        if not _node:
             if idx == len(branch) - 1:
-                node = node_type(node_name, **node_attrs)
+                _node = node_type(node_name, **node_attrs)
             else:
-                node = node_type(node_name)
-            node.parent = parent_node
-        parent_node = node
-    node.set_attrs(node_attrs)
-    return node
+                _node = node_type(node_name)
+            _node.parent = parent_node
+        parent_node = _node
+    _node.set_attrs(node_attrs)
+    return _node
 
 
 def str_to_tree(
