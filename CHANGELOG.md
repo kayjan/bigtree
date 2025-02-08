@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - Docs: Tips for setting custom coordinates for plots.
+### Changed:
+- Misc: Split tree/construct and tree/export into multiple files.
 
 ## [0.23.1] - 2025-01-22
 ### Changed:
