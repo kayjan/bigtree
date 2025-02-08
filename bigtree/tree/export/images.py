@@ -43,7 +43,10 @@ def tree_to_dot(
     node_attr: Callable[[T], Dict[str, Any]] | str = "",
     edge_attr: Callable[[T], Dict[str, Any]] | str = "",
 ) -> pydot.Dot:
-    r"""Export tree or list of trees to image.
+    r"""Export tree or list of trees to pydot.Dot object. Object can be
+    converted to other format, such as png, dot file or dot string. Dot
+    string can be imported to work with networkx.
+
     Possible node attributes include style, fillcolor, shape.
 
     Examples:
@@ -216,8 +219,10 @@ def tree_to_pillow(
     bg_colour: Union[Tuple[int, int, int], str] = "white",
     **kwargs: Any,
 ) -> Image.Image:
-    """Export tree to image (JPG, PNG).
-    Image will be similar format as `print_tree`, accepts additional keyword arguments as input to `yield_tree`.
+    """Export tree to PIL.Image.Image object. Object can be
+    converted to other format, such as jpg, or png. Image will be
+    similar format as `print_tree`, accepts additional keyword arguments
+    as input to `yield_tree`.
 
     Examples:
         >>> from bigtree import Node, tree_to_pillow
@@ -230,8 +235,10 @@ def tree_to_pillow(
 
         Export to image (PNG, JPG) file, etc.
 
-        >>> pillow_image.save("assets/docstr/tree_pillow.png")
-        >>> pillow_image.save("assets/docstr/tree_pillow.jpg")
+        >>> pillow_image.save("assets/tree_pillow.png")
+        >>> pillow_image.save("assets/tree_pillow.jpg")
+
+        ![Export to pillow](https://github.com/kayjan/bigtree/raw/master/assets/tree_pillow.png)
 
     Args:
         tree (Node): tree to be exported
