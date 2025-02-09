@@ -1,3 +1,4 @@
+import matplotlib as mpl
 import pydot
 import pytest
 
@@ -745,6 +746,14 @@ class TestTreeToPillowGraph:
             pillow_image.save("tests/tree_pillow_graph_buffer.png")
 
     @staticmethod
+    def test_tree_to_pillow_graph_bg_colour(tree_node):
+        pillow_image = export.tree_to_pillow_graph(
+            tree_node, node_content="{node_name}\nAge: {age}", bg_colour="beige"
+        )
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_bg_colour.png")
+
+    @staticmethod
     def test_tree_to_pillow_graph_rect_tb_margins(tree_node):
         pillow_image = export.tree_to_pillow_graph(
             tree_node,
@@ -763,6 +772,47 @@ class TestTreeToPillowGraph:
         )
         if LOCAL:
             pillow_image.save("tests/tree_pillow_graph_rect_lr_margins.png")
+
+    @staticmethod
+    def test_tree_to_pillow_graph_rect_fill(tree_node):
+        pillow_image = export.tree_to_pillow_graph(
+            tree_node,
+            node_content="{node_name}\nAge: {age}",
+            rect_fill="beige",
+        )
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_rect_fill.png")
+
+    @staticmethod
+    def test_tree_to_pillow_graph_rect_fill_cmap_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            export.tree_to_pillow_graph(
+                tree_node,
+                node_content="{node_name}\nAge: {age}",
+                rect_fill=mpl.colormaps["RdBu"],
+            )
+        assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_PILLOW_CMAP
+
+    @staticmethod
+    def test_tree_to_pillow_graph_rect_fill_cmap(tree_node):
+        pillow_image = export.tree_to_pillow_graph(
+            tree_node,
+            node_content="{node_name}\nAge: {age}",
+            rect_fill=mpl.colormaps["RdBu"],
+            rect_cmap_attr="age",
+        )
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_rect_fill_cmap.png")
+
+    @staticmethod
+    def test_tree_to_pillow_graph_rect_width(tree_node):
+        pillow_image = export.tree_to_pillow_graph(
+            tree_node,
+            node_content="{node_name}\nAge: {age}",
+            rect_width=3,
+        )
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_rect_width.png")
 
 
 class TestTreeToPillow:

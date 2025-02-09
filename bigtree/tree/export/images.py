@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import collections
 import re
-from typing import Any, Callable, Dict, List, Optional, Tuple, TypeVar, Union
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple, TypeVar, Union
 
 from bigtree.node import node
 from bigtree.tree.export.stdout import yield_tree
@@ -21,6 +21,15 @@ except ImportError:  # pragma: no cover
     from unittest.mock import MagicMock
 
     Image = ImageDraw = ImageFont = MagicMock()
+
+try:
+    import matplotlib as mpl
+    from matplotlib.colors import Normalize
+except ImportError:  # pragma: no cover
+    from unittest.mock import MagicMock
+
+    mpl = MagicMock()
+    Normalize = MagicMock()
 
 
 __all__ = [
@@ -211,6 +220,21 @@ def tree_to_dot(
     return _graph
 
 
+def _load_font(font_family: str, font_size: int) -> ImageFont.truetype:
+    if not font_family:
+        from urllib.request import urlopen
+
+        dejavusans_url = "https://github.com/kayjan/bigtree/raw/master/assets/DejaVuSans.ttf?raw=true"
+        font_family = urlopen(dejavusans_url)
+    try:
+        font = ImageFont.truetype(font_family, font_size)
+    except OSError:
+        raise ValueError(
+            f"Font file {font_family} is not found, set `font_family` parameter to point to a valid .ttf file."
+        )
+    return font
+
+
 @exceptions.optional_dependencies_image("Pillow")
 def tree_to_pillow_graph(
     tree: T,
@@ -225,9 +249,10 @@ def tree_to_pillow_graph(
     text_align: str = "center",
     bg_colour: Union[Tuple[int, int, int], str] = "white",
     rect_margin: Optional[Dict[str, int]] = None,
-    rect_fill: Union[Tuple[int, int, int], str] = "white",
+    rect_fill: Union[Tuple[int, int, int], str, mpl.colors.Colormap] = "white",
+    rect_cmap_attr: Optional[str] = None,
     rect_outline: Union[Tuple[int, int, int], str] = "black",
-    rect_width: Union[float, int] = 1,
+    rect_width: int = 1,
 ) -> Image.Image:
     r"""Export tree to PIL.Image.Image object. Object can be
     converted to other formats, such as jpg, or png. Image will look
@@ -267,13 +292,21 @@ def tree_to_pillow_graph(
         text_align (str): text align for multi-line text
         bg_colour (Union[Tuple[int, int, int], str]): background of image, accepts tuple of RGB values or string, defaults to white
         rect_margin (Dict[str, int]): (for rectangle) margin of text to rectangle, in pixels
-        rect_fill (Union[Tuple[int, int, int], str]): (for rectangle) colour to use for fill
+        rect_fill (Union[Tuple[int, int, int], str, mpl.colormap]): (for rectangle) colour to use for fill
+        rect_cmap_attr (str): (for rectangle) if rect_fill is a colormap, attribute of node to retrieve fill from colormap,
+            must be a float/int attribute
         rect_outline (Union[Tuple[int, int, int], str]): (for rectangle) colour to use for outline
-        rect_width (Union[float, int]): (for rectangle) line width, in pixels
+        rect_width (int): (for rectangle) line width, in pixels
 
     Returns:
         (PIL.Image.Image)
     """
+    use_cmap = isinstance(rect_fill, mpl.colors.Colormap)
+    if use_cmap and rect_cmap_attr is None:
+        raise ValueError(
+            "`rect_cmap_attr` cannot be None if rect_fill is mpl.colormaps"
+        )
+
     default_margin = {"t": 10, "b": 10, "l": 10, "r": 10}
     default_rect_margin = {"t": 5, "b": 5, "l": 5, "r": 5}
     if not margin:
@@ -286,19 +319,10 @@ def tree_to_pillow_graph(
         rect_margin = {**default_rect_margin, **rect_margin}
 
     # Initialize font
-    if not font_family:
-        from urllib.request import urlopen
+    font = _load_font(font_family, font_size)
 
-        dejavusans_url = "https://github.com/kayjan/bigtree/raw/master/assets/DejaVuSans.ttf?raw=true"
-        font_family = urlopen(dejavusans_url)
-    try:
-        font = ImageFont.truetype(font_family, font_size)
-    except OSError:
-        raise ValueError(
-            f"Font file {font_family} is not found, set `font_family` parameter to point to a valid .ttf file."
-        )
-
-    # Calculate image dimension from text, otherwise override with argument
+    # Iterate tree once to obtain attributes
+    # Calculate image dimension from text, get range for colourmap if applicable
     _max_text_width = 0
     _max_text_height = 0
     _image = Image.new("RGB", (0, 0))
@@ -309,11 +333,11 @@ def tree_to_pillow_graph(
         matches = re.findall(pattern, _node_content)
         for match in matches:
             _node_content = _node_content.replace(
-                f"{{{match}}}",
-                str(_node.get_attr(match)) if _node.get_attr(match) else "",
+                f"{{{match}}}", str(_node.get_attr(match, ""))
             )
         return _node_content
 
+    cmap_range: Set[Union[float, int]] = set()
     for _, _, _node in yield_tree(tree):
         l, t, r, b = _draw.multiline_textbbox(
             (0, 0), get_node_text(_node, node_content), font=font
@@ -324,6 +348,15 @@ def tree_to_pillow_graph(
         _max_text_height = max(
             _max_text_height, t + b + rect_margin.get("t", 0) + rect_margin.get("b", 0)
         )
+        if use_cmap:
+            cmap_range.add(_node.get_attr(rect_cmap_attr, 0))
+
+    cmap_dict = {}
+    if use_cmap:
+        norm = Normalize(vmin=min(cmap_range), vmax=max(cmap_range))
+        cmap_range_list = [norm(c) for c in cmap_range]
+        cmap_colour_list = rect_fill(cmap_range_list)  # type: ignore
+        cmap_dict = dict(zip(cmap_range_list, cmap_colour_list))
 
     # Get x, y, coordinates and height, width of diagram
     from bigtree.utils.plot import reingold_tilford
@@ -357,8 +390,13 @@ def tree_to_pillow_graph(
         x1, x2 = _x - 0.5 * _max_text_width, _x + 0.5 * _max_text_width
         y1, y2 = _y - 0.5 * _max_text_height, _y + 0.5 * _max_text_height
         # Draw box
+        _rect_fill = rect_fill
+        if use_cmap:
+            _rect_fill = mpl.colors.rgb2hex(
+                cmap_dict[norm(_node.get_attr(rect_cmap_attr, 0))]
+            )
         image_draw.rectangle(
-            [x1, y1, x2, y2], fill=rect_fill, outline=rect_outline, width=rect_width
+            [x1, y1, x2, y2], fill=_rect_fill, outline=rect_outline, width=rect_width
         )
         # Draw text
         image_draw.text(
@@ -445,17 +483,7 @@ def tree_to_pillow(
         (PIL.Image.Image)
     """
     # Initialize font
-    if not font_family:
-        from urllib.request import urlopen
-
-        dejavusans_url = "https://github.com/kayjan/bigtree/raw/master/assets/DejaVuSans.ttf?raw=true"
-        font_family = urlopen(dejavusans_url)
-    try:
-        font = ImageFont.truetype(font_family, font_size)
-    except OSError:
-        raise ValueError(
-            f"Font file {font_family} is not found, set `font_family` parameter to point to a valid .ttf file."
-        )
+    font = _load_font(font_family, font_size)
 
     # Initialize text
     image_text = []
