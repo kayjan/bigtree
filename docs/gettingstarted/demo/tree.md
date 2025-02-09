@@ -1288,6 +1288,14 @@ root.show()
     graph.write_png("assets/demo/dot.png")
     ```
 
+=== "Pillow Graph"
+    ```python hl_lines="3"
+    from bigtree import tree_to_pillow_graph
+
+    pillow_image = tree_to_pillow_graph(root, node_content="{node_name}\nAge {age}")
+    pillow_image.save("assets/demo/pillow_graph.png")
+    ```
+
 === "Pillow"
     ```python hl_lines="3"
     from bigtree import tree_to_pillow
@@ -1307,6 +1315,10 @@ root.show()
 - dot.png
 
 ![Dot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/dot.png "Dot Image Output")
+
+- pillow_graph.png
+
+![Pillow Graph Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/pillow_graph.png "Pillow Graph Image Output")
 
 - pillow.png
 

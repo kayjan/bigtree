@@ -211,7 +211,7 @@ def tree_to_dot(
     return _graph
 
 
-@exceptions.optional_dependencies_image("pydot")
+@exceptions.optional_dependencies_image("Pillow")
 def tree_to_pillow_graph(
     tree: T,
     node_content: str = "{node_name}",
