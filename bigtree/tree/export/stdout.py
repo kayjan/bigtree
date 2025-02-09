@@ -45,7 +45,7 @@ def print_tree(
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
     - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
-    `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
+        `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
 
     Examples:
         **Printing tree**
@@ -235,7 +235,7 @@ def yield_tree(
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
     - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
-    `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
+        `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
 
     Examples:
         **Yield tree**
@@ -413,7 +413,7 @@ def hprint_tree(
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style icons, they must have the same number of characters
     - (constants.BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
-    `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from constants.BaseHPrintStyle
+        `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from constants.BaseHPrintStyle
 
     Examples:
         **Printing tree**
@@ -535,7 +535,7 @@ def hyield_tree(
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (List[str]): Choose own style icons, they must have the same number of characters
     - (constants.BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
-    `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from constants.BaseHPrintStyle
+        `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from constants.BaseHPrintStyle
 
     Examples:
         **Printing tree**
