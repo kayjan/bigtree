@@ -256,7 +256,7 @@ def tree_to_pillow_graph(
         ![Export to Pillow Graph](https://github.com/kayjan/bigtree/raw/master/assets/tree_pillow_graph.png)
 
     Args:
-        tree (Node/List[Node]): tree or list of trees to be exported
+        tree (Node): tree to be exported
         node_content (str): display text in node
         margin (Dict[str, int]): margin of diagram
         height_buffer (Union[int, float]): height buffer between node layers, in pixels
@@ -269,7 +269,7 @@ def tree_to_pillow_graph(
         rect_margin (Dict[str, int]): (for rectangle) margin of text to rectangle, in pixels
         rect_fill (Union[Tuple[int, int, int], str]): (for rectangle) colour to use for fill
         rect_outline (Union[Tuple[int, int, int], str]): (for rectangle) colour to use for outline
-        rect_width: Union[float, int]: (for rectangle) line width, in pixels
+        rect_width (Union[float, int]): (for rectangle) line width, in pixels
 
     Returns:
         (PIL.Image.Image)
