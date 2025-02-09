@@ -26,6 +26,7 @@ def reingold_tilford(
     level_separation: float = 1.0,
     x_offset: float = 0.0,
     y_offset: float = 0.0,
+    reverse: bool = False,
 ) -> None:
     """
     Algorithm for drawing tree structure, retrieves `(x, y)` coordinates for a tree structure.
@@ -77,9 +78,12 @@ def reingold_tilford(
         level_separation (float): fixed distance between adjacent levels of the tree
         x_offset (float): graph offset of x-coordinates
         y_offset (float): graph offset of y-coordinates
+        reverse (bool): graph begins bottom to top by default, set to True for top to bottom y coordinates
     """
     _first_pass(tree_node, sibling_separation, subtree_separation)
-    x_adjustment = _second_pass(tree_node, level_separation, x_offset, y_offset)
+    x_adjustment = _second_pass(
+        tree_node, level_separation, x_offset, y_offset, reverse
+    )
     _third_pass(tree_node, x_adjustment)
 
 
@@ -333,6 +337,7 @@ def _second_pass(
     level_separation: float,
     x_offset: float,
     y_offset: float,
+    reverse: bool,
     cum_mod: Optional[float] = 0.0,
     max_depth: Optional[int] = None,
     x_adjustment: Optional[float] = 0.0,
@@ -356,6 +361,7 @@ def _second_pass(
         level_separation (float): fixed distance between adjacent levels of the tree (constant across iteration)
         x_offset (float): graph offset of x-coordinates (constant across iteration)
         y_offset (float): graph offset of y-coordinates (constant across iteration)
+        reverse (bool): graph begins bottom to top by default, set to True for top to bottom y coordinates
         cum_mod (Optional[float]): cumulative `mod + shift` for tree/subtree from the ancestors
         max_depth (Optional[int]): maximum depth of tree (constant across iteration)
         x_adjustment (Optional[float]): amount of x-adjustment for third pass, in case any x-coordinates goes below 0
@@ -369,7 +375,10 @@ def _second_pass(
     final_x: float = (
         tree_node.get_attr("x") + tree_node.get_attr("shift") + cum_mod + x_offset
     )
-    final_y: float = (max_depth - tree_node.depth) * level_separation + y_offset
+    if reverse:
+        final_y: float = (tree_node.depth - 1) * level_separation + y_offset
+    else:
+        final_y = (max_depth - tree_node.depth) * level_separation + y_offset
     tree_node.set_attrs({"x": final_x, "y": final_y})
 
     # Pre-order iteration (NLR)
@@ -381,6 +390,7 @@ def _second_pass(
                     level_separation,
                     x_offset,
                     y_offset,
+                    reverse,
                     cum_mod + tree_node.get_attr("mod") + tree_node.get_attr("shift"),
                     max_depth,
                     x_adjustment,

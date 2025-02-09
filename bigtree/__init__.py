@@ -37,6 +37,7 @@ from bigtree.tree.export import (
     tree_to_nested_dict,
     tree_to_newick,
     tree_to_pillow,
+    tree_to_pillow_graph,
     tree_to_polars,
     yield_tree,
 )

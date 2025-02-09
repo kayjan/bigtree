@@ -702,6 +702,69 @@ class TestTreeToDot:
             ), f"Expected {expected_str} not in actual string"
 
 
+class TestTreeToPillowGraph:
+    @staticmethod
+    def test_tree_to_pillow_graph(tree_node):
+        pillow_image = export.tree_to_pillow_graph(tree_node)
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph.png")
+
+    @staticmethod
+    def test_tree_to_pillow_graph_multiline(tree_node):
+        pillow_image = export.tree_to_pillow_graph(
+            tree_node, node_content="{node_name}\nAge: {age}"
+        )
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_multiline.png")
+
+    @staticmethod
+    def test_tree_to_pillow_graph_tb_margins(tree_node):
+        pillow_image = export.tree_to_pillow_graph(
+            tree_node, node_content="{node_name}\nAge: {age}", margin={"t": 60, "b": 60}
+        )
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_tb_margins.png")
+
+    @staticmethod
+    def test_tree_to_pillow_graph_lr_margins(tree_node):
+        pillow_image = export.tree_to_pillow_graph(
+            tree_node, node_content="{node_name}\nAge: {age}", margin={"l": 60, "r": 60}
+        )
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_lr_margins.png")
+
+    @staticmethod
+    def test_tree_to_pillow_graph_buffer(tree_node):
+        pillow_image = export.tree_to_pillow_graph(
+            tree_node,
+            node_content="{node_name}\nAge: {age}",
+            height_buffer=60,
+            width_buffer=60,
+        )
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_buffer.png")
+
+    @staticmethod
+    def test_tree_to_pillow_graph_rect_tb_margins(tree_node):
+        pillow_image = export.tree_to_pillow_graph(
+            tree_node,
+            node_content="{node_name}\nAge: {age}",
+            rect_margin={"t": 60, "b": 60},
+        )
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_rect_tb_margins.png")
+
+    @staticmethod
+    def test_tree_to_pillow_graph_rect_lr_margins(tree_node):
+        pillow_image = export.tree_to_pillow_graph(
+            tree_node,
+            node_content="{node_name}\nAge: {age}",
+            rect_margin={"l": 60, "r": 60},
+        )
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_rect_lr_margins.png")
+
+
 class TestTreeToPillow:
     @staticmethod
     def test_tree_to_pillow(tree_node):
