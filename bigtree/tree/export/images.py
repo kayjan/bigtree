@@ -345,8 +345,8 @@ def tree_to_pillow_graph(
     for _, _, _node in yield_tree(tree):
         _width = max(_width, _node.get_attr("x") + _width_margin)
         _height = max(_height, _node.get_attr("y") + _height_margin)
-    _width = _width.__ceil__()
-    _height = _height.__ceil__()
+    _width = int(round(_width + 0.5, 0))
+    _height = int(round(_height + 0.5, 0))
 
     # Initialize and draw image
     image = Image.new("RGB", (_width, _height), bg_colour)
