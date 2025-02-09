@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - Docs: Tips for setting custom coordinates for plots.
+- Tree Exporter: `tree_to_pillow_graph` method to export tree to pillow image in graph format.
 ### Changed:
+- Plot: Allow `reverse` argument to allow top-bottom y coordinates in Reingold Tilford algorithm.
 - Docs: Add more elaboration for exporting to image for tree and dag.
 - Misc: Split tree/construct and tree/export into multiple files.
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import collections
+import re
 from typing import Any, Callable, Dict, List, Optional, Tuple, TypeVar, Union
 
 from bigtree.node import node
@@ -24,6 +25,7 @@ except ImportError:  # pragma: no cover
 
 __all__ = [
     "tree_to_dot",
+    "tree_to_pillow_graph",
     "tree_to_pillow",
     "tree_to_mermaid",
 ]
@@ -67,8 +69,10 @@ def tree_to_dot(
 
         Export to image, dot file, etc.
 
-        >>> graph.write_png("assets/docstr/tree.png")
-        >>> graph.write_dot("assets/docstr/tree.dot")
+        >>> graph.write_png("assets/tree.png")
+        >>> graph.write_dot("assets/tree.dot")
+
+        ![Export to Dot](https://github.com/kayjan/bigtree/raw/master/assets/tree.png)
 
         Export to string
 
@@ -207,6 +211,187 @@ def tree_to_dot(
     return _graph
 
 
+@exceptions.optional_dependencies_image("pydot")
+def tree_to_pillow_graph(
+    tree: T,
+    node_content: str = "{node_name}",
+    *,
+    margin: Optional[Dict[str, int]] = None,
+    height_buffer: Union[int, float] = 20,
+    width_buffer: Union[int, float] = 10,
+    font_family: str = "",
+    font_size: int = 12,
+    font_colour: Union[Tuple[int, int, int], str] = "black",
+    text_align: str = "center",
+    bg_colour: Union[Tuple[int, int, int], str] = "white",
+    rect_margin: Optional[Dict[str, int]] = None,
+    rect_fill: Union[Tuple[int, int, int], str] = "white",
+    rect_outline: Union[Tuple[int, int, int], str] = "black",
+    rect_width: Union[float, int] = 1,
+) -> Image.Image:
+    r"""Export tree to PIL.Image.Image object. Object can be
+    converted to other formats, such as jpg, or png. Image will look
+    like a tree/graph-like structure.
+
+    Customisations:
+
+        - To change the margin of tree within diagram, vary `margin`
+        - To change the margin of the text within node, vary `rect_margin`
+        - For more separation between nodes, change `height_buffer` and `width_buffer`
+
+    Examples:
+        >>> from bigtree import Node, tree_to_pillow_graph
+        >>> root = Node("a", age=90)
+        >>> b = Node("b", age=65, parent=root)
+        >>> c = Node("c", age=60, parent=root)
+        >>> d = Node("d", age=40, parent=b)
+        >>> e = Node("e", age=35, parent=b)
+        >>> pillow_image = tree_to_pillow_graph(root, node_content="{node_name}\nAge: {age}")
+
+        Export to image (PNG, JPG) file, etc.
+
+        >>> pillow_image.save("assets/tree_pillow_graph.png")
+        >>> pillow_image.save("assets/tree_pillow_graph.jpg")
+
+        ![Export to Pillow Graph](https://github.com/kayjan/bigtree/raw/master/assets/tree_pillow_graph.png)
+
+    Args:
+        tree (Node/List[Node]): tree or list of trees to be exported
+        node_content (str): display text in node
+        margin (Dict[str, int]): margin of diagram
+        height_buffer (Union[int, float]): height buffer between node layers, in pixels
+        width_buffer (Union[int, float]) : width buffer between sibling nodes, in pixels
+        font_family (str): file path of font family, requires .ttf file, defaults to DejaVuSans
+        font_size (int): font size, defaults to 12
+        font_colour (Union[Tuple[int, int, int], str]): font colour, accepts tuple of RGB values or string, defaults to black
+        text_align (str): text align for multi-line text
+        bg_colour (Union[Tuple[int, int, int], str]): background of image, accepts tuple of RGB values or string, defaults to white
+        rect_margin (Dict[str, int]): (for rectangle) margin of text to rectangle, in pixels
+        rect_fill (Union[Tuple[int, int, int], str]): (for rectangle) colour to use for fill
+        rect_outline (Union[Tuple[int, int, int], str]): (for rectangle) colour to use for outline
+        rect_width: Union[float, int]: (for rectangle) line width, in pixels
+
+    Returns:
+        (PIL.Image.Image)
+    """
+    if not margin:
+        margin = {"t": 10, "b": 10, "l": 10, "r": 10}
+    if not rect_margin:
+        rect_margin = {"t": 5, "b": 5, "l": 5, "r": 5}
+
+    # Initialize font
+    if not font_family:
+        from urllib.request import urlopen
+
+        dejavusans_url = "https://github.com/kayjan/bigtree/raw/master/assets/DejaVuSans.ttf?raw=true"
+        font_family = urlopen(dejavusans_url)
+    try:
+        font = ImageFont.truetype(font_family, font_size)
+    except OSError:
+        raise ValueError(
+            f"Font file {font_family} is not found, set `font_family` parameter to point to a valid .ttf file."
+        )
+
+    # Calculate image dimension from text, otherwise override with argument
+    _max_text_width = 0
+    _max_text_height = 0
+    _image = Image.new("RGB", (0, 0))
+    _draw = ImageDraw.Draw(_image)
+
+    def get_node_text(_node: T, _node_content: str) -> str:
+        pattern = re.compile(r"\{(.*)\}")
+        matches = re.findall(pattern, _node_content)
+        for match in matches:
+            _node_content = _node_content.replace(
+                f"{{{match}}}",
+                str(_node.get_attr(match)) if _node.get_attr(match) else "",
+            )
+        return _node_content
+
+    for _, _, _node in yield_tree(tree):
+        l, t, r, b = _draw.multiline_textbbox(
+            (0, 0), get_node_text(_node, node_content), font=font
+        )
+        _max_text_width = max(
+            _max_text_width, l + r + rect_margin.get("l", 0) + rect_margin.get("r", 0)
+        )
+        _max_text_height = max(
+            _max_text_height, t + b + rect_margin.get("t", 0) + rect_margin.get("b", 0)
+        )
+
+    # Get x, y, coordinates and height, width of diagram
+    from bigtree.utils.plot import reingold_tilford
+
+    tree = tree.copy()
+    reingold_tilford(
+        tree,
+        subtree_separation=_max_text_width + width_buffer,
+        sibling_separation=_max_text_width + width_buffer,
+        level_separation=_max_text_height + height_buffer,
+        x_offset=0.5 * _max_text_width + margin.get("l", 0),
+        y_offset=0.5 * _max_text_height + margin.get("t", 0),
+        reverse=True,  # top-left corner is (0, 0)
+    )
+
+    _width, _height = 0, 0
+    _width_margin = 0.5 * _max_text_width + margin.get("r", 0)
+    _height_margin = 0.5 * _max_text_height + margin.get("b")
+    for _, _, _node in yield_tree(tree):
+        _width = max(_width, _node.get_attr("x") + _width_margin)
+        _height = max(_height, _node.get_attr("y") + _height_margin)
+    _width = _width.__ceil__()
+    _height = _height.__ceil__()
+
+    # Initialize and draw image
+    image = Image.new("RGB", (_width, _height), bg_colour)
+    image_draw = ImageDraw.Draw(image)
+
+    for _, _, _node in yield_tree(tree):
+        _x, _y = _node.get_attr("x"), _node.get_attr("y")
+        x1, x2 = _x - 0.5 * _max_text_width, _x + 0.5 * _max_text_width
+        y1, y2 = _y - 0.5 * _max_text_height, _y + 0.5 * _max_text_height
+        # Draw box
+        image_draw.rectangle(
+            [x1, y1, x2, y2], fill=rect_fill, outline=rect_outline, width=rect_width
+        )
+        # Draw text
+        image_draw.text(
+            (x1 + rect_margin.get("l", 0), y1 + rect_margin.get("t", 0)),
+            get_node_text(_node, node_content),
+            font=font,
+            fill=font_colour,
+            align=text_align,
+        )
+        # Draw line to parent
+        if _node.parent:
+            _child_x, _child_y = (
+                _node.get_attr("x"),
+                _node.get_attr("y") - 0.5 * _max_text_height,
+            )
+            _parent_x, _parent_y = (
+                _node.parent.get_attr("x"),
+                _node.parent.get_attr("y") + 0.5 * _max_text_height,
+            )
+            middle_y = (_child_y + _parent_y) / 2
+            image_draw.line(
+                (_parent_x, _parent_y, _parent_x, middle_y),
+                fill=rect_outline,
+                width=rect_width,
+            )
+            image_draw.line(
+                (_parent_x, middle_y, _child_x, middle_y),
+                fill=rect_outline,
+                width=rect_width,
+            )
+            image_draw.line(
+                (_child_x, _child_y, _child_x, middle_y),
+                fill=rect_outline,
+                width=rect_width,
+            )
+
+    return image
+
+
 @exceptions.optional_dependencies_image("Pillow")
 def tree_to_pillow(
     tree: T,
@@ -220,7 +405,7 @@ def tree_to_pillow(
     **kwargs: Any,
 ) -> Image.Image:
     """Export tree to PIL.Image.Image object. Object can be
-    converted to other format, such as jpg, or png. Image will be
+    converted to other formats, such as jpg, or png. Image will be
     similar format as `print_tree`, accepts additional keyword arguments
     as input to `yield_tree`.
 
