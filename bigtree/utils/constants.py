@@ -2,6 +2,8 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Dict, Iterable, List, Tuple
 
+from bigtree.utils import assertions
+
 
 class ExportConstants:
     DOWN_RIGHT = "\u250c"
@@ -109,6 +111,11 @@ class BasePrintStyle:
     def __iter__(self) -> Iterable[str]:
         return iter((self.stem, self.branch, self.stem_final))
 
+    @classmethod
+    def get_style(cls, style_name: str) -> "BasePrintStyle":
+        assertions.assert_style_in_dict(style_name, ExportConstants.PRINT_STYLES)
+        return BasePrintStyle(*ExportConstants.PRINT_STYLES[style_name])
+
     def __post_init__(self) -> None:
         if not len(self.stem) == len(self.branch) == len(self.stem_final):
             raise ValueError(
@@ -140,6 +147,11 @@ class BaseHPrintStyle:
                 self.branch,
             )
         )
+
+    @classmethod
+    def get_style(cls, style_name: str) -> "BaseHPrintStyle":
+        assertions.assert_style_in_dict(style_name, ExportConstants.HPRINT_STYLES)
+        return BaseHPrintStyle(*ExportConstants.HPRINT_STYLES[style_name])
 
     def __post_init__(self) -> None:
         if (
