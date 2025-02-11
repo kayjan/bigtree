@@ -2,6 +2,8 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Dict, Iterable, List, Tuple
 
+from bigtree.utils import assertions
+
 
 class ExportConstants:
     DOWN_RIGHT = "\u250c"
@@ -106,8 +108,13 @@ class BasePrintStyle:
     branch: str
     stem_final: str
 
-    def __iter__(self) -> Iterable[str]:
-        return iter((self.stem, self.branch, self.stem_final))
+    @classmethod
+    def from_style(cls, style_name: str) -> "BasePrintStyle":
+        assertions.assert_style_in_dict(style_name, ExportConstants.PRINT_STYLES)
+        return BasePrintStyle(*ExportConstants.PRINT_STYLES[style_name])
+
+    def get_style(self) -> Iterable[str]:
+        return self.stem, self.branch, self.stem_final
 
     def __post_init__(self) -> None:
         if not len(self.stem) == len(self.branch) == len(self.stem_final):
@@ -128,17 +135,20 @@ class BaseHPrintStyle:
     stem: str
     branch: str
 
-    def __iter__(self) -> Iterable[str]:
-        return iter(
-            (
-                self.first_child,
-                self.subsequent_child,
-                self.split_branch,
-                self.middle_child,
-                self.last_child,
-                self.stem,
-                self.branch,
-            )
+    @classmethod
+    def from_style(cls, style_name: str) -> "BaseHPrintStyle":
+        assertions.assert_style_in_dict(style_name, ExportConstants.HPRINT_STYLES)
+        return BaseHPrintStyle(*ExportConstants.HPRINT_STYLES[style_name])
+
+    def get_style(self) -> Iterable[str]:
+        return (
+            self.first_child,
+            self.subsequent_child,
+            self.split_branch,
+            self.middle_child,
+            self.last_child,
+            self.stem,
+            self.branch,
         )
 
     def __post_init__(self) -> None:

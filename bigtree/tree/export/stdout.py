@@ -351,18 +351,17 @@ def yield_tree(
 
     # Set style
     if isinstance(style, str):
-        available_styles = constants.ExportConstants.PRINT_STYLES
-        assertions.assert_style_in_dict(style, available_styles)
-        style_stem, style_branch, style_stem_final = available_styles[style]
-    elif isinstance(style, list) and len(list(style)) != 3:
-        raise ValueError(
-            "Please specify the style of stem, branch, and final stem in `style`"
-        )
+        style_class = constants.BasePrintStyle.from_style(style)
+    elif isinstance(style, constants.BasePrintStyle):
+        style_class = style
     else:
-        style_stem, style_branch, style_stem_final = style  # type: ignore[misc]
+        if len(list(style)) != 3:
+            raise ValueError(
+                "Please specify the style of stem, branch, and final stem in `style`"
+            )
+        style_class = constants.BasePrintStyle(*style)
 
-    if not len(style_stem) == len(style_branch) == len(style_stem_final):
-        raise ValueError("`stem`, `branch`, and `stem_final` are of different length")
+    style_stem, style_branch, style_stem_final = style_class.get_style()
 
     gap_str = " " * len(style_stem)
     unclosed_depth = set()
@@ -630,41 +629,23 @@ def hyield_tree(
 
     # Set style
     if isinstance(style, str):
-        available_styles = constants.ExportConstants.HPRINT_STYLES
-        assertions.assert_style_in_dict(style, available_styles)
-        (
-            style_first_child,
-            style_subsequent_child,
-            style_split_branch,
-            style_middle_child,
-            style_last_child,
-            style_stem,
-            style_branch,
-        ) = available_styles[style]
-    elif isinstance(style, list) and len(list(style)) != 7:
-        raise ValueError("Please specify the style of 7 icons in `style`")
+        style_class = constants.BaseHPrintStyle.from_style(style)
+    elif isinstance(style, constants.BaseHPrintStyle):
+        style_class = style
     else:
-        (
-            style_first_child,
-            style_subsequent_child,
-            style_split_branch,
-            style_middle_child,
-            style_last_child,
-            style_stem,
-            style_branch,
-        ) = style  # type: ignore[misc]
+        if len(list(style)) != 7:
+            raise ValueError("Please specify the style of 7 icons in `style`")
+        style_class = constants.BaseHPrintStyle(*style)
 
-    if (
-        not len(style_first_child)
-        == len(style_subsequent_child)
-        == len(style_split_branch)
-        == len(style_middle_child)
-        == len(style_last_child)
-        == len(style_stem)
-        == len(style_branch)
-        == 1
-    ):
-        raise ValueError("All style icons must have length 1")
+    (
+        style_first_child,
+        style_subsequent_child,
+        style_split_branch,
+        style_middle_child,
+        style_last_child,
+        style_stem,
+        style_branch,
+    ) = style_class.get_style()
 
     # Calculate padding
     space = " "
