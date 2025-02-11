@@ -351,7 +351,7 @@ def yield_tree(
 
     # Set style
     if isinstance(style, str):
-        style_class = constants.BasePrintStyle.get_style(style)
+        style_class = constants.BasePrintStyle.from_style(style)
     elif isinstance(style, constants.BasePrintStyle):
         style_class = style
     else:
@@ -361,10 +361,7 @@ def yield_tree(
             )
         style_class = constants.BasePrintStyle(*style)
 
-    style_stem: str
-    style_branch: str
-    style_stem_final: str
-    style_stem, style_branch, style_stem_final = style_class  # type: ignore[misc]
+    style_stem, style_branch, style_stem_final = style_class.get_style()
 
     gap_str = " " * len(style_stem)
     unclosed_depth = set()
@@ -632,7 +629,7 @@ def hyield_tree(
 
     # Set style
     if isinstance(style, str):
-        style_class = constants.BaseHPrintStyle.get_style(style)
+        style_class = constants.BaseHPrintStyle.from_style(style)
     elif isinstance(style, constants.BaseHPrintStyle):
         style_class = style
     else:
@@ -640,13 +637,6 @@ def hyield_tree(
             raise ValueError("Please specify the style of 7 icons in `style`")
         style_class = constants.BaseHPrintStyle(*style)
 
-    style_first_child: str
-    style_subsequent_child: str
-    style_split_branch: str
-    style_middle_child: str
-    style_last_child: str
-    style_stem: str
-    style_branch: str
     (
         style_first_child,
         style_subsequent_child,
@@ -655,7 +645,7 @@ def hyield_tree(
         style_last_child,
         style_stem,
         style_branch,
-    ) = style_class  # type: ignore[misc]
+    ) = style_class.get_style()
 
     # Calculate padding
     space = " "
