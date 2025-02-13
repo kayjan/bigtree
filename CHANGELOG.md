@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - Tree Exporter: `tree_to_pillow_graph` method to allow cmap for node background.
+### Changed:
+- Tree Exporter: Minor refactoring to deduplicate code in export module.
 
 ## [0.24.0] - 2025-02-09
 ### Added:

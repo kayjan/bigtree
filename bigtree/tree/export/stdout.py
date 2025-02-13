@@ -361,9 +361,7 @@ def yield_tree(
             )
         style_class = constants.BasePrintStyle(*style)
 
-    style_stem, style_branch, style_stem_final = style_class.get_style()
-
-    gap_str = " " * len(style_stem)
+    gap_str = " " * len(style_class.STEM)
     unclosed_depth = set()
     initial_depth = tree.depth
     for _node in iterators.preorder_iter(tree, max_depth=max_depth):
@@ -375,17 +373,17 @@ def yield_tree(
             # Get fill_str (style_branch or style_stem_final)
             if _node.right_sibling:
                 unclosed_depth.add(node_depth)
-                fill_str = style_branch
+                fill_str = style_class.BRANCH
             else:
                 if node_depth in unclosed_depth:
                     unclosed_depth.remove(node_depth)
-                fill_str = style_stem_final
+                fill_str = style_class.STEM_FINAL
 
             # Get pre_str (style_stem, style_branch, style_stem_final, or gap)
             pre_str = ""
             for _depth in range(1, node_depth):
                 if _depth in unclosed_depth:
-                    pre_str += style_stem
+                    pre_str += style_class.STEM
                 else:
                     pre_str += gap_str
 
@@ -637,16 +635,6 @@ def hyield_tree(
             raise ValueError("Please specify the style of 7 icons in `style`")
         style_class = constants.BaseHPrintStyle(*style)
 
-    (
-        style_first_child,
-        style_subsequent_child,
-        style_split_branch,
-        style_middle_child,
-        style_last_child,
-        style_stem,
-        style_branch,
-    ) = style_class.get_style()
-
     # Calculate padding
     space = " "
     padding_depths = collections.defaultdict(int)
@@ -675,14 +663,18 @@ def hyield_tree(
 
         children = list(_node.children) if any(list(_node.children)) else []
         if not len(children):
-            node_str = f"{style_branch} {node_name_centered.rstrip()}"
+            node_str = f"{style_class.BRANCH} {node_name_centered.rstrip()}"
             return [node_str], 0
 
         result, result_nrow, result_idx = [], [], []
         if intermediate_node_name:
-            node_str = f"""{style_branch} {node_name_centered} {style_branch}"""
+            node_str = (
+                f"""{style_class.BRANCH} {node_name_centered} {style_class.BRANCH}"""
+            )
         else:
-            node_str = f"""{style_branch}{style_branch}{style_branch}"""
+            node_str = (
+                f"""{style_class.BRANCH}{style_class.BRANCH}{style_class.BRANCH}"""
+            )
         padding = space * len(node_str)
         for idx, child in enumerate(children):
             result_child, result_branch_idx = _hprint_branch(child, _cur_depth + 1)
@@ -691,7 +683,7 @@ def hyield_tree(
             result_idx.append(result_branch_idx)
 
         # Calculate index of first branch, last branch, total length, and midpoint
-        first, last, end = (
+        first, last, total = (
             result_idx[0],
             sum(result_nrow) + result_idx[-1] - result_nrow[-1],
             sum(result_nrow) - 1,
@@ -702,8 +694,8 @@ def hyield_tree(
             # Special case for one child (need only branch)
             result_prefix = (
                 [padding + space] * first
-                + [node_str + style_branch]
-                + [padding + space] * (end - last)
+                + [node_str + style_class.BRANCH]
+                + [padding + space] * (total - last)
             )
         elif len(children) == 2:
             # Special case for two children (need split_branch)
@@ -711,16 +703,16 @@ def hyield_tree(
                 # Create gap if two children occupy two rows
                 assert len(result) == 2
                 result = [result[0], "", result[1]]
-                last = end = first + 2
+                last = total = first + 2
                 mid = (last - first) // 2
             result_prefix = (
                 [padding + space] * first
-                + [padding + style_first_child]
-                + [padding + style_stem] * (mid - first - 1)
-                + [node_str + style_split_branch]
-                + [padding + style_stem] * (last - mid - 1)
-                + [padding + style_last_child]
-                + [padding + space] * (end - last)
+                + [padding + style_class.FIRST_CHILD]
+                + [padding + style_class.STEM] * (mid - first - 1)
+                + [node_str + style_class.SPLIT_BRANCH]
+                + [padding + style_class.STEM] * (last - mid - 1)
+                + [padding + style_class.LAST_CHILD]
+                + [padding + space] * (total - last)
             )
         else:
             branch_idxs = list(
@@ -734,23 +726,23 @@ def hyield_tree(
             n_stems = [(b - a - 1) for a, b in zip(branch_idxs, branch_idxs[1:])]
             result_prefix = (
                 [padding + space] * first
-                + [padding + style_first_child]
+                + [padding + style_class.FIRST_CHILD]
                 + [
                     _line
                     for line in [
-                        [padding + style_stem] * n_stem
-                        + [padding + style_subsequent_child]
+                        [padding + style_class.STEM] * n_stem
+                        + [padding + style_class.SUBSEQUENT_CHILD]
                         for n_stem in n_stems[:-1]
                     ]
                     for _line in line
                 ]
-                + [padding + style_stem] * n_stems[-1]
-                + [padding + style_last_child]
-                + [padding + space] * (end - last)
+                + [padding + style_class.STEM] * n_stems[-1]
+                + [padding + style_class.LAST_CHILD]
+                + [padding + space] * (total - last)
             )
-            result_prefix[mid] = node_str + style_split_branch
+            result_prefix[mid] = node_str + style_class.SPLIT_BRANCH
             if mid in branch_idxs:
-                result_prefix[mid] = node_str + style_middle_child
+                result_prefix[mid] = node_str + style_class.MIDDLE_CHILD
         result = [prefix + stem for prefix, stem in zip(result_prefix, result)]
         return result, mid
 
