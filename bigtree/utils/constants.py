@@ -1,37 +1,47 @@
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, List, Tuple
 
 from bigtree.utils import assertions
 
 
 class ExportConstants:
     DOWN_RIGHT = "\u250c"
+    DOWN_LEFT = "\u2510"
     VERTICAL_RIGHT = "\u251c"
     VERTICAL_LEFT = "\u2524"
     VERTICAL_HORIZONTAL = "\u253c"
     UP_RIGHT = "\u2514"
     VERTICAL = "\u2502"
     HORIZONTAL = "\u2500"
+    HORIZONTAL_UP = "\u2534"
+    HORIZONTAL_DOWN = "\u252c"
 
     DOWN_RIGHT_ROUNDED = "\u256d"
+    DOWN_LEFT_ROUNDED = "\u256e"
     UP_RIGHT_ROUNDED = "\u2570"
 
     DOWN_RIGHT_BOLD = "\u250f"
+    DOWN_LEFT_BOLD = "\u2513"
     VERTICAL_RIGHT_BOLD = "\u2523"
     VERTICAL_LEFT_BOLD = "\u252b"
     VERTICAL_HORIZONTAL_BOLD = "\u254b"
     UP_RIGHT_BOLD = "\u2517"
     VERTICAL_BOLD = "\u2503"
     HORIZONTAL_BOLD = "\u2501"
+    HORIZONTAL_UP_BOLD = "\u253b"
+    HORIZONTAL_DOWN_BOLD = "\u2533"
 
     DOWN_RIGHT_DOUBLE = "\u2554"
+    DOWN_LEFT_DOUBLE = "\u2557"
     VERTICAL_RIGHT_DOUBLE = "\u2560"
     VERTICAL_LEFT_DOUBLE = "\u2563"
     VERTICAL_HORIZONTAL_DOUBLE = "\u256c"
     UP_RIGHT_DOUBLE = "\u255a"
     VERTICAL_DOUBLE = "\u2551"
     HORIZONTAL_DOUBLE = "\u2550"
+    HORIZONTAL_UP_DOUBLE = "\u2569"
+    HORIZONTAL_DOWN_DOUBLE = "\u2566"
 
     PRINT_STYLES: Dict[str, Tuple[str, str, str]] = {
         "ansi": ("|   ", "|-- ", "`-- "),
@@ -104,20 +114,17 @@ class ExportConstants:
 class BasePrintStyle:
     """Base style for `print_tree` and `yield_tree` function"""
 
-    stem: str
-    branch: str
-    stem_final: str
+    STEM: str
+    BRANCH: str
+    STEM_FINAL: str
 
     @classmethod
     def from_style(cls, style_name: str) -> "BasePrintStyle":
         assertions.assert_style_in_dict(style_name, ExportConstants.PRINT_STYLES)
         return BasePrintStyle(*ExportConstants.PRINT_STYLES[style_name])
 
-    def get_style(self) -> Iterable[str]:
-        return self.stem, self.branch, self.stem_final
-
     def __post_init__(self) -> None:
-        if not len(self.stem) == len(self.branch) == len(self.stem_final):
+        if not len(self.STEM) == len(self.BRANCH) == len(self.STEM_FINAL):
             raise ValueError(
                 "`stem`, `branch`, and `stem_final` are of different length"
             )
@@ -127,57 +134,46 @@ class BasePrintStyle:
 class BaseHPrintStyle:
     """Base style for `hprint_tree` and `hyield_tree` function"""
 
-    first_child: str
-    subsequent_child: str
-    split_branch: str
-    middle_child: str
-    last_child: str
-    stem: str
-    branch: str
+    FIRST_CHILD: str
+    SUBSEQUENT_CHILD: str
+    SPLIT_BRANCH: str
+    MIDDLE_CHILD: str
+    LAST_CHILD: str
+    STEM: str
+    BRANCH: str
 
     @classmethod
     def from_style(cls, style_name: str) -> "BaseHPrintStyle":
         assertions.assert_style_in_dict(style_name, ExportConstants.HPRINT_STYLES)
         return BaseHPrintStyle(*ExportConstants.HPRINT_STYLES[style_name])
 
-    def get_style(self) -> Iterable[str]:
-        return (
-            self.first_child,
-            self.subsequent_child,
-            self.split_branch,
-            self.middle_child,
-            self.last_child,
-            self.stem,
-            self.branch,
-        )
-
     def __post_init__(self) -> None:
         if (
-            not len(self.first_child)
-            == len(self.subsequent_child)
-            == len(self.split_branch)
-            == len(self.middle_child)
-            == len(self.last_child)
-            == len(self.stem)
-            == len(self.branch)
+            not len(self.FIRST_CHILD)
+            == len(self.SUBSEQUENT_CHILD)
+            == len(self.SPLIT_BRANCH)
+            == len(self.MIDDLE_CHILD)
+            == len(self.LAST_CHILD)
+            == len(self.STEM)
+            == len(self.BRANCH)
             == 1
         ):
             raise ValueError("All style icons must have length 1")
 
 
-ANSIPrintStyle = BasePrintStyle(*ExportConstants.PRINT_STYLES["ansi"])
-ASCIIPrintStyle = BasePrintStyle(*ExportConstants.PRINT_STYLES["ascii"])
-ConstPrintStyle = BasePrintStyle(*ExportConstants.PRINT_STYLES["const"])
-ConstBoldPrintStyle = BasePrintStyle(*ExportConstants.PRINT_STYLES["const_bold"])
-RoundedPrintStyle = BasePrintStyle(*ExportConstants.PRINT_STYLES["rounded"])
-DoublePrintStyle = BasePrintStyle(*ExportConstants.PRINT_STYLES["double"])
+ANSIPrintStyle = BasePrintStyle.from_style("ansi")
+ASCIIPrintStyle = BasePrintStyle.from_style("ascii")
+ConstPrintStyle = BasePrintStyle.from_style("const")
+ConstBoldPrintStyle = BasePrintStyle.from_style("const_bold")
+RoundedPrintStyle = BasePrintStyle.from_style("rounded")
+DoublePrintStyle = BasePrintStyle.from_style("double")
 
-ANSIHPrintStyle = BaseHPrintStyle(*ExportConstants.HPRINT_STYLES["ansi"])
-ASCIIHPrintStyle = BaseHPrintStyle(*ExportConstants.HPRINT_STYLES["ascii"])
-ConstHPrintStyle = BaseHPrintStyle(*ExportConstants.HPRINT_STYLES["const"])
-ConstBoldHPrintStyle = BaseHPrintStyle(*ExportConstants.HPRINT_STYLES["const_bold"])
-RoundedHPrintStyle = BaseHPrintStyle(*ExportConstants.HPRINT_STYLES["rounded"])
-DoubleHPrintStyle = BaseHPrintStyle(*ExportConstants.HPRINT_STYLES["double"])
+ANSIHPrintStyle = BaseHPrintStyle.from_style("ansi")
+ASCIIHPrintStyle = BaseHPrintStyle.from_style("ascii")
+ConstHPrintStyle = BaseHPrintStyle.from_style("const")
+ConstBoldHPrintStyle = BaseHPrintStyle.from_style("const_bold")
+RoundedHPrintStyle = BaseHPrintStyle.from_style("rounded")
+DoubleHPrintStyle = BaseHPrintStyle.from_style("double")
 
 
 class MermaidConstants:
