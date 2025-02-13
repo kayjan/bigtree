@@ -11,6 +11,8 @@ from .stdout import (  # noqa
     hyield_tree,
     print_tree,
     tree_to_newick,
+    vprint_tree,
+    vyield_tree,
     yield_tree,
 )
 
@@ -19,6 +21,8 @@ __all__ = [
     "yield_tree",
     "hprint_tree",
     "hyield_tree",
+    "vprint_tree",
+    "vyield_tree",
     "tree_to_dataframe",
     "tree_to_polars",
     "tree_to_dict",

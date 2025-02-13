@@ -74,6 +74,7 @@ class Node(basenode.BaseNode):
 
     1. ``show()``: Print tree to console
     2. ``hshow()``: Print tree in horizontal orientation to console
+    2. ``vshow()``: Print tree in vertical orientation to console
 
     ----
 
@@ -226,6 +227,12 @@ class Node(basenode.BaseNode):
         from bigtree.tree.export import hprint_tree
 
         hprint_tree(self, **kwargs)
+
+    def vshow(self, **kwargs: Any) -> None:
+        """Print tree in vertical orientation to console, takes in same keyword arguments as `vprint_tree` function"""
+        from bigtree.tree.export import vprint_tree
+
+        vprint_tree(self, **kwargs)
 
     def __getitem__(self, child_name: str) -> "Node":
         """Get child by name identifier

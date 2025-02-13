@@ -12,6 +12,7 @@ class ExportConstants:
     VERTICAL_LEFT = "\u2524"
     VERTICAL_HORIZONTAL = "\u253c"
     UP_RIGHT = "\u2514"
+    UP_LEFT = "\u2518"
     VERTICAL = "\u2502"
     HORIZONTAL = "\u2500"
     HORIZONTAL_UP = "\u2534"
@@ -20,6 +21,7 @@ class ExportConstants:
     DOWN_RIGHT_ROUNDED = "\u256d"
     DOWN_LEFT_ROUNDED = "\u256e"
     UP_RIGHT_ROUNDED = "\u2570"
+    UP_LEFT_ROUNDED = "\u256f"
 
     DOWN_RIGHT_BOLD = "\u250f"
     DOWN_LEFT_BOLD = "\u2513"
@@ -27,6 +29,7 @@ class ExportConstants:
     VERTICAL_LEFT_BOLD = "\u252b"
     VERTICAL_HORIZONTAL_BOLD = "\u254b"
     UP_RIGHT_BOLD = "\u2517"
+    UP_LEFT_BOLD = "\u251b"
     VERTICAL_BOLD = "\u2503"
     HORIZONTAL_BOLD = "\u2501"
     HORIZONTAL_UP_BOLD = "\u253b"
@@ -38,10 +41,41 @@ class ExportConstants:
     VERTICAL_LEFT_DOUBLE = "\u2563"
     VERTICAL_HORIZONTAL_DOUBLE = "\u256c"
     UP_RIGHT_DOUBLE = "\u255a"
+    UP_LEFT_DOUBLE = "\u255d"
     VERTICAL_DOUBLE = "\u2551"
     HORIZONTAL_DOUBLE = "\u2550"
     HORIZONTAL_UP_DOUBLE = "\u2569"
     HORIZONTAL_DOWN_DOUBLE = "\u2566"
+
+    BORDER_STYLES: Dict[str, Tuple[str, str, str, str, str, str]] = {
+        "ansi": ("`", "`", "`", "`", "-", "|"),
+        "ascii": ("+", "+", "+", "+", "-", "|"),
+        "const": (DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT, HORIZONTAL, VERTICAL),
+        "const_bold": (
+            DOWN_RIGHT_BOLD,
+            DOWN_LEFT_BOLD,
+            UP_RIGHT_BOLD,
+            UP_LEFT_BOLD,
+            HORIZONTAL_BOLD,
+            VERTICAL_BOLD,
+        ),
+        "rounded": (
+            DOWN_RIGHT_ROUNDED,
+            DOWN_LEFT_ROUNDED,
+            UP_RIGHT_ROUNDED,
+            UP_LEFT_ROUNDED,
+            HORIZONTAL,
+            VERTICAL,
+        ),
+        "double": (
+            DOWN_RIGHT_DOUBLE,
+            DOWN_LEFT_DOUBLE,
+            UP_RIGHT_DOUBLE,
+            UP_LEFT_DOUBLE,
+            HORIZONTAL_DOUBLE,
+            VERTICAL_DOUBLE,
+        ),
+    }
 
     PRINT_STYLES: Dict[str, Tuple[str, str, str]] = {
         "ansi": ("|   ", "|-- ", "`-- "),
@@ -109,6 +143,76 @@ class ExportConstants:
         ),
     }
 
+    VPRINT_STYLES: Dict[str, Tuple[str, str, str, str, str, str, str]] = {
+        "ansi": ("/", "+", "+", "+", "\\", "-", "|"),
+        "ascii": ("+", "+", "+", "+", "+", "-", "|"),
+        "const": (
+            DOWN_RIGHT,
+            HORIZONTAL_DOWN,
+            HORIZONTAL_UP,
+            VERTICAL_HORIZONTAL,
+            DOWN_LEFT,
+            HORIZONTAL,
+            VERTICAL,
+        ),
+        "const_bold": (
+            DOWN_RIGHT_BOLD,
+            HORIZONTAL_DOWN_BOLD,
+            HORIZONTAL_UP_BOLD,
+            VERTICAL_HORIZONTAL_BOLD,
+            DOWN_LEFT_BOLD,
+            HORIZONTAL_BOLD,
+            VERTICAL_BOLD,
+        ),
+        "rounded": (
+            DOWN_RIGHT_ROUNDED,
+            HORIZONTAL_DOWN,
+            HORIZONTAL_UP,
+            VERTICAL_HORIZONTAL,
+            DOWN_LEFT_ROUNDED,
+            VERTICAL,
+            HORIZONTAL,
+        ),
+        "double": (
+            DOWN_RIGHT_DOUBLE,
+            HORIZONTAL_DOWN_DOUBLE,
+            HORIZONTAL_UP_DOUBLE,
+            VERTICAL_HORIZONTAL_DOUBLE,
+            DOWN_LEFT_DOUBLE,
+            HORIZONTAL_DOUBLE,
+            VERTICAL_DOUBLE,
+        ),
+    }
+
+
+@dataclass
+class BorderStyle:
+    """Base style for `print_tree` and `yield_tree` function"""
+
+    TOP_LEFT: str
+    TOP_RIGHT: str
+    BOTTOM_LEFT: str
+    BOTTOM_RIGHT: str
+    HORIZONTAL: str
+    VERTICAL: str
+
+    @classmethod
+    def from_style(cls, style_name: str) -> "BorderStyle":
+        assertions.assert_style_in_dict(style_name, ExportConstants.BORDER_STYLES)
+        return BorderStyle(*ExportConstants.BORDER_STYLES[style_name])
+
+    def __post_init__(self) -> None:
+        if (
+            not len(self.TOP_LEFT)
+            == len(self.TOP_RIGHT)
+            == len(self.BOTTOM_LEFT)
+            == len(self.BOTTOM_RIGHT)
+            == len(self.HORIZONTAL)
+            == len(self.VERTICAL)
+            == 1
+        ):
+            raise ValueError("All style icons must have length 1")
+
 
 @dataclass
 class BasePrintStyle:
@@ -161,6 +265,44 @@ class BaseHPrintStyle:
             raise ValueError("All style icons must have length 1")
 
 
+@dataclass
+class BaseVPrintStyle:
+    """Base style for `hprint_tree` and `hyield_tree` function"""
+
+    FIRST_CHILD: str
+    SUBSEQUENT_CHILD: str
+    SPLIT_BRANCH: str
+    MIDDLE_CHILD: str
+    LAST_CHILD: str
+    STEM: str
+    BRANCH: str
+
+    @classmethod
+    def from_style(cls, style_name: str) -> "BaseVPrintStyle":
+        assertions.assert_style_in_dict(style_name, ExportConstants.VPRINT_STYLES)
+        return BaseVPrintStyle(*ExportConstants.VPRINT_STYLES[style_name])
+
+    def __post_init__(self) -> None:
+        if (
+            not len(self.FIRST_CHILD)
+            == len(self.SUBSEQUENT_CHILD)
+            == len(self.SPLIT_BRANCH)
+            == len(self.MIDDLE_CHILD)
+            == len(self.LAST_CHILD)
+            == len(self.STEM)
+            == len(self.BRANCH)
+            == 1
+        ):
+            raise ValueError("All style icons must have length 1")
+
+
+ANSIBorderStyle = BorderStyle.from_style("ansi")
+ASCIIBorderStyle = BorderStyle.from_style("ascii")
+ConstBorderStyle = BorderStyle.from_style("const")
+ConstBoldBorderStyle = BorderStyle.from_style("const_bold")
+RoundedBorderStyle = BorderStyle.from_style("rounded")
+DoubleBorderStyle = BorderStyle.from_style("double")
+
 ANSIPrintStyle = BasePrintStyle.from_style("ansi")
 ASCIIPrintStyle = BasePrintStyle.from_style("ascii")
 ConstPrintStyle = BasePrintStyle.from_style("const")
@@ -174,6 +316,13 @@ ConstHPrintStyle = BaseHPrintStyle.from_style("const")
 ConstBoldHPrintStyle = BaseHPrintStyle.from_style("const_bold")
 RoundedHPrintStyle = BaseHPrintStyle.from_style("rounded")
 DoubleHPrintStyle = BaseHPrintStyle.from_style("double")
+
+ANSIVPrintStyle = BaseVPrintStyle.from_style("ansi")
+ASCIIVPrintStyle = BaseVPrintStyle.from_style("ascii")
+ConstVPrintStyle = BaseVPrintStyle.from_style("const")
+ConstBoldVPrintStyle = BaseVPrintStyle.from_style("const_bold")
+RoundedVPrintStyle = BaseVPrintStyle.from_style("rounded")
+DoubleVPrintStyle = BaseVPrintStyle.from_style("double")
 
 
 class MermaidConstants:
