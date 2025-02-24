@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added:
-- Tree Exporter: `tree_to_pillow_graph` method to allow cmap for node background.
+- Tree Exporter: `tree_to_pillow_graph` method to allow cmap for node background and generic kwargs for yield_tree.
+- Tree Exporter: `vprint_tree` method to print trees vertically, able to use `.vshow()` as well.
 ### Changed:
 - Tree Exporter: Minor refactoring to deduplicate code in export module.
 

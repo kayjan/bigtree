@@ -1026,6 +1026,29 @@ def assert_binarytree_structure_root2(root):
         tree=root,
     )
 
+    expected_str = (
+        "                ┌───┐            \n"
+        "                │ 1 │            \n"
+        "                └─┬─┘            \n"
+        "          ┌───────┴───────┐      \n"
+        "        ┌─┴─┐           ┌─┴─┐    \n"
+        "        │ 2 │           │ 3 │    \n"
+        "        └─┬─┘           └─┬─┘    \n"
+        "     ┌────┴─────┐      ┌──┴───┐  \n"
+        "   ┌─┴─┐      ┌─┴─┐  ┌─┴─┐  ┌─┴─┐\n"
+        "   │ 4 │      │ 5 │  │ 6 │  │ 7 │\n"
+        "   └─┬─┘      └───┘  └───┘  └───┘\n"
+        "  ┌──┴───┐                       \n"
+        "┌─┴─┐  ┌─┴─┐                     \n"
+        "│ 8 │  │   │                     \n"
+        "└───┘  └───┘                     \n"
+    )
+    assert_print_statement(
+        export.vprint_tree,
+        expected_str,
+        tree=root,
+    )
+
     class Sample:
         pass
 

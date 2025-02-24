@@ -144,6 +144,9 @@ class Constants:
     ERROR_NODE_EXPORT_HPRINT_STYLE_SELECT = (
         "Please specify the style of 7 icons in `style`"
     )
+    ERROR_NODE_EXPORT_BORDER_STYLE_SELECT = (
+        "Please specify the style of 6 icons in `border_style`"
+    )
     ERROR_NODE_EXPORT_PRINT_CUSTOM_STYLE_DIFFERENT_LENGTH = (
         "`stem`, `branch`, and `stem_final` are of different length"
     )

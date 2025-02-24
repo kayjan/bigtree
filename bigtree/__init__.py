@@ -39,6 +39,8 @@ from bigtree.tree.export import (
     tree_to_pillow,
     tree_to_pillow_graph,
     tree_to_polars,
+    vprint_tree,
+    vyield_tree,
     yield_tree,
 )
 from bigtree.tree.helper import (
@@ -74,20 +76,34 @@ from bigtree.tree.search import (
     findall,
 )
 from bigtree.utils.constants import (
+    ANSIBorderStyle,
     ANSIHPrintStyle,
     ANSIPrintStyle,
+    ANSIVPrintStyle,
+    ASCIIBorderStyle,
     ASCIIHPrintStyle,
     ASCIIPrintStyle,
+    ASCIIVPrintStyle,
     BaseHPrintStyle,
     BasePrintStyle,
+    BaseVPrintStyle,
+    BorderStyle,
+    ConstBoldBorderStyle,
     ConstBoldHPrintStyle,
     ConstBoldPrintStyle,
+    ConstBoldVPrintStyle,
+    ConstBorderStyle,
     ConstHPrintStyle,
     ConstPrintStyle,
+    ConstVPrintStyle,
+    DoubleBorderStyle,
     DoubleHPrintStyle,
     DoublePrintStyle,
+    DoubleVPrintStyle,
+    RoundedBorderStyle,
     RoundedHPrintStyle,
     RoundedPrintStyle,
+    RoundedVPrintStyle,
 )
 from bigtree.utils.groot import speak_like_groot, whoami
 from bigtree.utils.iterators import (

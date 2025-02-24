@@ -253,10 +253,12 @@ def tree_to_pillow_graph(
     rect_cmap_attr: Optional[str] = None,
     rect_outline: Union[Tuple[int, int, int], str] = "black",
     rect_width: int = 1,
+    **kwargs: Any,
 ) -> Image.Image:
     r"""Export tree to PIL.Image.Image object. Object can be
     converted to other formats, such as jpg, or png. Image will look
-    like a tree/graph-like structure.
+    like a tree/graph-like structure, accepts additional keyword arguments
+    as input to `yield_tree`.
 
     Customisations:
 
@@ -338,7 +340,7 @@ def tree_to_pillow_graph(
         return _node_content
 
     cmap_range: Set[Union[float, int]] = set()
-    for _, _, _node in yield_tree(tree):
+    for _, _, _node in yield_tree(tree, **kwargs):
         l, t, r, b = _draw.multiline_textbbox(
             (0, 0), get_node_text(_node, node_content), font=font
         )
@@ -375,7 +377,7 @@ def tree_to_pillow_graph(
     _width, _height = 0, 0
     _width_margin = 0.5 * _max_text_width + margin.get("r", 0)
     _height_margin = 0.5 * _max_text_height + margin.get("b")
-    for _, _, _node in yield_tree(tree):
+    for _, _, _node in yield_tree(tree, **kwargs):
         _width = max(_width, _node.get_attr("x") + _width_margin)
         _height = max(_height, _node.get_attr("y") + _height_margin)
     _width = int(round(_width + 0.5, 0))
@@ -385,7 +387,7 @@ def tree_to_pillow_graph(
     image = Image.new("RGB", (_width, _height), bg_colour)
     image_draw = ImageDraw.Draw(image)
 
-    for _, _, _node in yield_tree(tree):
+    for _, _, _node in yield_tree(tree, **kwargs):
         _x, _y = _node.get_attr("x"), _node.get_attr("y")
         x1, x2 = _x - 0.5 * _max_text_width, _x + 0.5 * _max_text_width
         y1, y2 = _y - 0.5 * _max_text_height, _y + 0.5 * _max_text_height
