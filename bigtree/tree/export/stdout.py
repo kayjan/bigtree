@@ -554,49 +554,57 @@ def hyield_tree(
 
         **Printing Sub-tree**
 
-        >>> hprint_tree(root, node_name_or_path="b")
+        >>> result = hyield_tree(root, node_name_or_path="b")
+        >>> print("\\n".join(result))
              ┌─ d
         ─ b ─┤
              └─ e
 
-        >>> hprint_tree(root, max_depth=2)
+        >>> result = hyield_tree(root, max_depth=2)
+        >>> print("\\n".join(result))
              ┌─ b
         ─ a ─┤
              └─ c
 
         **Available Styles**
 
-        >>> hprint_tree(root, style="ansi")
+        >>> result = hyield_tree(root, style="ansi")
+        >>> print("\\n".join(result))
                    /- d
              /- b -+
         - a -+     \\- e
              \\- c
 
-        >>> hprint_tree(root, style="ascii")
+        >>> result = hyield_tree(root, style="ascii")
+        >>> print("\\n".join(result))
                    +- d
              +- b -+
         - a -+     +- e
              +- c
 
-        >>> hprint_tree(root, style="const")
+        >>> result = hyield_tree(root, style="const")
+        >>> print("\\n".join(result))
                    ┌─ d
              ┌─ b ─┤
         ─ a ─┤     └─ e
              └─ c
 
-        >>> hprint_tree(root, style="const_bold")
+        >>> result = hyield_tree(root, style="const_bold")
+        >>> print("\\n".join(result))
                    ┏━ d
              ┏━ b ━┫
         ━ a ━┫     ┗━ e
              ┗━ c
 
-        >>> hprint_tree(root, style="rounded")
+        >>> result = hyield_tree(root, style="rounded")
+        >>> print("\\n".join(result))
                    ╭─ d
              ╭─ b ─┤
         ─ a ─┤     ╰─ e
              ╰─ c
 
-        >>> hprint_tree(root, style="double")
+        >>> result = hyield_tree(root, style="double")
+        >>> print("\\n".join(result))
                    ╔═ d
              ╔═ b ═╣
         ═ a ═╣     ╚═ e
@@ -605,7 +613,8 @@ def hyield_tree(
         **Custom Styles**
 
         >>> from bigtree import ANSIHPrintStyle
-        >>> hprint_tree(root, style=ANSIHPrintStyle)
+        >>> result = hyield_tree(root, style=ANSIHPrintStyle)
+        >>> print("\\n".join(result))
                    /- d
              /- b -+
         - a -+     \\- e
@@ -797,43 +806,151 @@ def vprint_tree(
         >>> d = Node("d", parent=b)
         >>> e = Node("e", parent=b)
         >>> vprint_tree(root)
+                ┌───┐
+                │ a │
+                └─┬─┘
+             ┌────┴─────┐
+           ┌─┴─┐      ┌─┴─┐
+           │ b │      │ c │
+           └─┬─┘      └───┘
+          ┌──┴───┐
+        ┌─┴─┐  ┌─┴─┐
+        │ d │  │ e │
+        └───┘  └───┘
 
         **Printing Sub-tree**
 
         >>> vprint_tree(root, node_name_or_path="b")
+           ┌───┐
+           │ b │
+           └─┬─┘
+          ┌──┴───┐
+        ┌─┴─┐  ┌─┴─┐
+        │ d │  │ e │
+        └───┘  └───┘
 
         >>> vprint_tree(root, max_depth=2)
+           ┌───┐
+           │ a │
+           └─┬─┘
+          ┌──┴───┐
+        ┌─┴─┐  ┌─┴─┐
+        │ b │  │ c │
+        └───┘  └───┘
 
         **Available Styles**
 
-        >>> vprint_tree(root, style="ansi")
+        >>> vprint_tree(root, style="ansi", border_style="ansi")
+                `---`
+                | a |
+                `-+-`
+             /----+-----\
+           `-+-`      `-+-`
+           | b |      | c |
+           `-+-`      `---`
+          /--+---\
+        `-+-`  `-+-`
+        | d |  | e |
+        `---`  `---`
 
-        >>> vprint_tree(root, style="ascii")
+        >>> vprint_tree(root, style="ascii", border_style="ascii")
+                +---+
+                | a |
+                +-+-+
+             +----+-----+
+           +-+-+      +-+-+
+           | b |      | c |
+           +-+-+      +---+
+          +--+---+
+        +-+-+  +-+-+
+        | d |  | e |
+        +---+  +---+
 
-        >>> vprint_tree(root, style="const")
+        >>> vprint_tree(root, style="const", border_style="const")
+                ┌───┐
+                │ a │
+                └─┬─┘
+             ┌────┴─────┐
+           ┌─┴─┐      ┌─┴─┐
+           │ b │      │ c │
+           └─┬─┘      └───┘
+          ┌──┴───┐
+        ┌─┴─┐  ┌─┴─┐
+        │ d │  │ e │
+        └───┘  └───┘
 
-        >>> vprint_tree(root, style="const_bold")
+        >>> vprint_tree(root, style="const_bold", border_style="const_bold")
+                ┏━━━┓
+                ┃ a ┃
+                ┗━┳━┛
+             ┏━━━━┻━━━━━┓
+           ┏━┻━┓      ┏━┻━┓
+           ┃ b ┃      ┃ c ┃
+           ┗━┳━┛      ┗━━━┛
+          ┏━━┻━━━┓
+        ┏━┻━┓  ┏━┻━┓
+        ┃ d ┃  ┃ e ┃
+        ┗━━━┛  ┗━━━┛
 
-        >>> vprint_tree(root, style="rounded")
+        >>> vprint_tree(root, style="rounded", border_style="rounded")
+                ╭───╮
+                │ a │
+                ╰─┬─╯
+             ╭────┴─────╮
+           ╭─┴─╮      ╭─┴─╮
+           │ b │      │ c │
+           ╰─┬─╯      ╰───╯
+          ╭──┴───╮
+        ╭─┴─╮  ╭─┴─╮
+        │ d │  │ e │
+        ╰───╯  ╰───╯
 
-        >>> vprint_tree(root, style="double")
+        >>> vprint_tree(root, style="double", border_style="double")
+                ╔═══╗
+                ║ a ║
+                ╚═╦═╝
+             ╔════╩═════╗
+           ╔═╩═╗      ╔═╩═╗
+           ║ b ║      ║ c ║
+           ╚═╦═╝      ╚═══╝
+          ╔══╩═══╗
+        ╔═╩═╗  ╔═╩═╗
+        ║ d ║  ║ e ║
+        ╚═══╝  ╚═══╝
 
         **Custom Styles**
 
-        >>> from bigtree import ANSIVPrintStyle
-        >>> vprint_tree(root, style=ANSIVPrintStyle)
-
+        >>> from bigtree import ANSIVPrintStyle, ANSIBorderStyle
+        >>> vprint_tree(root, style=ANSIVPrintStyle, border_style=ANSIBorderStyle)
+                `---`
+                | a |
+                `-+-`
+             /----+-----\\
+           `-+-`      `-+-`
+           | b |      | c |
+           `-+-`      `---`
+          /--+---\\
+        `-+-`  `-+-`
+        | d |  | e |
+        `---`  `---`
 
         **Printing to a file**
         >>> import io
         >>> output = io.StringIO()
-        >>> hprint_tree(root, file=output)
+        >>> vprint_tree(root, file=output)
         >>> tree_string = output.getvalue()
         >>> print(tree_string)
-                   ┌─ d
-             ┌─ b ─┤
-        ─ a ─┤     └─ e
-             └─ c
+                ┌───┐
+                │ a │
+                └─┬─┘
+             ┌────┴─────┐
+           ┌─┴─┐      ┌─┴─┐
+           │ b │      │ c │
+           └─┬─┘      └───┘
+          ┌──┴───┐
+        ┌─┴─┐  ┌─┴─┐
+        │ d │  │ e │
+        └───┘  └───┘
 
     Args:
         tree (Node): tree to print
@@ -901,31 +1018,142 @@ def vyield_tree(
         >>> e = Node("e", parent=b)
         >>> result = vyield_tree(root)
         >>> print("\\n".join(result))
+                ┌───┐
+                │ a │
+                └─┬─┘
+             ┌────┴─────┐
+           ┌─┴─┐      ┌─┴─┐
+           │ b │      │ c │
+           └─┬─┘      └───┘
+          ┌──┴───┐
+        ┌─┴─┐  ┌─┴─┐
+        │ d │  │ e │
+        └───┘  └───┘
 
         **Printing Sub-tree**
 
-        >>> vprint_tree(root, node_name_or_path="b")
+        >>> result = vyield_tree(root, node_name_or_path="b")
+        >>> print("\\n".join(result))
+           ┌───┐
+           │ b │
+           └─┬─┘
+          ┌──┴───┐
+        ┌─┴─┐  ┌─┴─┐
+        │ d │  │ e │
+        └───┘  └───┘
 
-        >>> vprint_tree(root, max_depth=2)
+        >>> result = vyield_tree(root, max_depth=2)
+        >>> print("\\n".join(result))
+           ┌───┐
+           │ a │
+           └─┬─┘
+          ┌──┴───┐
+        ┌─┴─┐  ┌─┴─┐
+        │ b │  │ c │
+        └───┘  └───┘
 
         **Available Styles**
 
-        >>> vprint_tree(root, style="ansi")
+        >>> result = vyield_tree(root, style="ansi", border_style="ansi")
+        >>> print("\\n".join(result))
+                `---`
+                | a |
+                `-+-`
+             /----+-----\
+           `-+-`      `-+-`
+           | b |      | c |
+           `-+-`      `---`
+          /--+---\
+        `-+-`  `-+-`
+        | d |  | e |
+        `---`  `---`
 
-        >>> vprint_tree(root, style="ascii")
+        >>> result = vyield_tree(root, style="ascii", border_style="ascii")
+        >>> print("\\n".join(result))
+                +---+
+                | a |
+                +-+-+
+             +----+-----+
+           +-+-+      +-+-+
+           | b |      | c |
+           +-+-+      +---+
+          +--+---+
+        +-+-+  +-+-+
+        | d |  | e |
+        +---+  +---+
 
-        >>> vprint_tree(root, style="const")
+        >>> result = vyield_tree(root, style="const", border_style="const")
+        >>> print("\\n".join(result))
+                ┌───┐
+                │ a │
+                └─┬─┘
+             ┌────┴─────┐
+           ┌─┴─┐      ┌─┴─┐
+           │ b │      │ c │
+           └─┬─┘      └───┘
+          ┌──┴───┐
+        ┌─┴─┐  ┌─┴─┐
+        │ d │  │ e │
+        └───┘  └───┘
 
-        >>> vprint_tree(root, style="const_bold")
+        >>> result = vyield_tree(root, style="const_bold", border_style="const_bold")
+        >>> print("\\n".join(result))
+                ┏━━━┓
+                ┃ a ┃
+                ┗━┳━┛
+             ┏━━━━┻━━━━━┓
+           ┏━┻━┓      ┏━┻━┓
+           ┃ b ┃      ┃ c ┃
+           ┗━┳━┛      ┗━━━┛
+          ┏━━┻━━━┓
+        ┏━┻━┓  ┏━┻━┓
+        ┃ d ┃  ┃ e ┃
+        ┗━━━┛  ┗━━━┛
 
-        >>> vprint_tree(root, style="rounded")
+        >>> result = vyield_tree(root, style="rounded", border_style="rounded")
+        >>> print("\\n".join(result))
+                ╭───╮
+                │ a │
+                ╰─┬─╯
+             ╭────┴─────╮
+           ╭─┴─╮      ╭─┴─╮
+           │ b │      │ c │
+           ╰─┬─╯      ╰───╯
+          ╭──┴───╮
+        ╭─┴─╮  ╭─┴─╮
+        │ d │  │ e │
+        ╰───╯  ╰───╯
 
-        >>> vprint_tree(root, style="double")
+        >>> result = vyield_tree(root, style="double", border_style="double")
+        >>> print("\\n".join(result))
+                ╔═══╗
+                ║ a ║
+                ╚═╦═╝
+             ╔════╩═════╗
+           ╔═╩═╗      ╔═╩═╗
+           ║ b ║      ║ c ║
+           ╚═╦═╝      ╚═══╝
+          ╔══╩═══╗
+        ╔═╩═╗  ╔═╩═╗
+        ║ d ║  ║ e ║
+        ╚═══╝  ╚═══╝
 
         **Custom Styles**
 
-        >>> from bigtree import ANSIVPrintStyle
-        >>> vprint_tree(root, style=ANSIVPrintStyle)
+        >>> from bigtree import ANSIVPrintStyle, ANSIBorderStyle
+        >>> result = vyield_tree(root, style=ANSIVPrintStyle, border_style=ANSIBorderStyle)
+        >>> print("\\n".join(result))
+                `---`
+                | a |
+                `-+-`
+             /----+-----\\
+           `-+-`      `-+-`
+           | b |      | c |
+           `-+-`      `---`
+          /--+---\\
+        `-+-`  `-+-`
+        | d |  | e |
+        `---`  `---`
 
     Args:
         tree (Node): tree to print
@@ -960,7 +1188,9 @@ def vyield_tree(
             raise ValueError("Please specify the style of 7 icons in `style`")
         style_class = constants.BaseVPrintStyle(*style)
 
-    if isinstance(border_style, str):
+    if border_style is None:
+        border_style_class = None
+    elif isinstance(border_style, str):
         border_style_class = constants.BorderStyle.from_style(border_style)
     elif isinstance(border_style, constants.BorderStyle):
         border_style_class = border_style

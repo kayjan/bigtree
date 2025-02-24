@@ -6,7 +6,9 @@ from bigtree.node import node
 from bigtree.utils.constants import BorderStyle
 
 __all__ = [
+    "calculate_stem_pos",
     "format_node",
+    "horizontal_join",
 ]
 
 T = TypeVar("T", bound=node.Node)
@@ -44,9 +46,10 @@ def format_node(
     Returns:
         List of str that makes up the node display
     """
-    node_title: str = (
-        _node.get_attr(alias) or _node.node_name if intermediate_node_name else ""
-    )
+    if not intermediate_node_name and _node.children:
+        node_title: str = ""
+    else:
+        node_title = _node.get_attr(alias) or _node.node_name
     node_title_lines = node_title.split("\n")
     width = max([len(node_title_lines) for node_title_lines in node_title_lines])
 
@@ -94,6 +97,6 @@ def horizontal_join(node_displays: List[List[str]], spacing: int = 2) -> List[st
         # Add node buffer
         for row_idx_buffer in range(len(node_display), height):
             if node_display_idx:
-                row_display[row_idx] += spacing * space
-            row_display[row_idx_buffer] += " " * width
+                row_display[row_idx_buffer] += spacing * space
+            row_display[row_idx_buffer] += width * space
     return [row_display[k] for k in sorted(row_display)]

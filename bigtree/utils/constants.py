@@ -170,8 +170,8 @@ class ExportConstants:
             HORIZONTAL_UP,
             VERTICAL_HORIZONTAL,
             DOWN_LEFT_ROUNDED,
-            VERTICAL,
             HORIZONTAL,
+            VERTICAL,
         ),
         "double": (
             DOWN_RIGHT_DOUBLE,
