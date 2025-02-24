@@ -844,11 +844,11 @@ def vprint_tree(
                 `---`
                 | a |
                 `-+-`
-             /----+-----\
+             /----+-----\\
            `-+-`      `-+-`
            | b |      | c |
            `-+-`      `---`
-          /--+---\
+          /--+---\\
         `-+-`  `-+-`
         | d |  | e |
         `---`  `---`
@@ -1059,11 +1059,11 @@ def vyield_tree(
                 `---`
                 | a |
                 `-+-`
-             /----+-----\
+             /----+-----\\
            `-+-`      `-+-`
            | b |      | c |
            `-+-`      `---`
-          /--+---\
+          /--+---\\
         `-+-`  `-+-`
         | d |  | e |
         `---`  `---`
@@ -1289,7 +1289,7 @@ def vyield_tree(
         return result, mid
 
     result_tree, _ = _vprint_branch(tree)
-    return result_tree
+    return [result.rstrip() for result in result_tree]
 
 
 def tree_to_newick(
