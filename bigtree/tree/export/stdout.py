@@ -771,6 +771,7 @@ def vprint_tree(
     intermediate_node_name: bool = True,
     style: Union[str, Iterable[str], constants.BaseVPrintStyle] = "const",
     border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = "const",
+    strip: bool = False,
     **kwargs: Any,
 ) -> None:
     """Print tree in vertical orientation to console, starting from `tree`.
@@ -805,7 +806,7 @@ def vprint_tree(
         >>> c = Node("c", parent=root)
         >>> d = Node("d", parent=b)
         >>> e = Node("e", parent=b)
-        >>> vprint_tree(root)
+        >>> vprint_tree(root, strip=True)
                 ┌───┐
                 │ a │
                 └─┬─┘
@@ -820,7 +821,7 @@ def vprint_tree(
 
         **Printing Sub-tree**
 
-        >>> vprint_tree(root, node_name_or_path="b")
+        >>> vprint_tree(root, node_name_or_path="b", strip=True)
            ┌───┐
            │ b │
            └─┬─┘
@@ -829,7 +830,7 @@ def vprint_tree(
         │ d │  │ e │
         └───┘  └───┘
 
-        >>> vprint_tree(root, max_depth=2)
+        >>> vprint_tree(root, max_depth=2, strip=True)
            ┌───┐
            │ a │
            └─┬─┘
@@ -840,7 +841,7 @@ def vprint_tree(
 
         **Available Styles**
 
-        >>> vprint_tree(root, style="ansi", border_style="ansi")
+        >>> vprint_tree(root, style="ansi", border_style="ansi", strip=True)
                 `---`
                 | a |
                 `-+-`
@@ -853,7 +854,7 @@ def vprint_tree(
         | d |  | e |
         `---`  `---`
 
-        >>> vprint_tree(root, style="ascii", border_style="ascii")
+        >>> vprint_tree(root, style="ascii", border_style="ascii", strip=True)
                 +---+
                 | a |
                 +-+-+
@@ -866,7 +867,7 @@ def vprint_tree(
         | d |  | e |
         +---+  +---+
 
-        >>> vprint_tree(root, style="const", border_style="const")
+        >>> vprint_tree(root, style="const", border_style="const", strip=True)
                 ┌───┐
                 │ a │
                 └─┬─┘
@@ -879,7 +880,7 @@ def vprint_tree(
         │ d │  │ e │
         └───┘  └───┘
 
-        >>> vprint_tree(root, style="const_bold", border_style="const_bold")
+        >>> vprint_tree(root, style="const_bold", border_style="const_bold", strip=True)
                 ┏━━━┓
                 ┃ a ┃
                 ┗━┳━┛
@@ -892,7 +893,7 @@ def vprint_tree(
         ┃ d ┃  ┃ e ┃
         ┗━━━┛  ┗━━━┛
 
-        >>> vprint_tree(root, style="rounded", border_style="rounded")
+        >>> vprint_tree(root, style="rounded", border_style="rounded", strip=True)
                 ╭───╮
                 │ a │
                 ╰─┬─╯
@@ -905,7 +906,7 @@ def vprint_tree(
         │ d │  │ e │
         ╰───╯  ╰───╯
 
-        >>> vprint_tree(root, style="double", border_style="double")
+        >>> vprint_tree(root, style="double", border_style="double", strip=True)
                 ╔═══╗
                 ║ a ║
                 ╚═╦═╝
@@ -921,7 +922,7 @@ def vprint_tree(
         **Custom Styles**
 
         >>> from bigtree import ANSIVPrintStyle, ANSIBorderStyle
-        >>> vprint_tree(root, style=ANSIVPrintStyle, border_style=ANSIBorderStyle)
+        >>> vprint_tree(root, style=ANSIVPrintStyle, border_style=ANSIBorderStyle, strip=True)
                 `---`
                 | a |
                 `-+-`
@@ -937,7 +938,7 @@ def vprint_tree(
         **Printing to a file**
         >>> import io
         >>> output = io.StringIO()
-        >>> vprint_tree(root, file=output)
+        >>> vprint_tree(root, file=output, strip=True)
         >>> tree_string = output.getvalue()
         >>> print(tree_string)
                 ┌───┐
@@ -959,6 +960,7 @@ def vprint_tree(
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
         style (Union[str, Iterable[str], constants.BaseVPrintStyle]): style of print, defaults to const
         border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to const
+        strip (bool): whether to strip results, defaults to False
 
     Returns:
         (List[str])
@@ -970,6 +972,7 @@ def vprint_tree(
         max_depth=max_depth,
         style=style,
         border_style=border_style,
+        strip=strip,
     )
     print("\n".join(result), **kwargs)
 
@@ -983,6 +986,7 @@ def vyield_tree(
     spacing: int = 2,
     style: Union[str, Iterable[str], constants.BaseVPrintStyle] = "const",
     border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = "const",
+    strip: bool = False,
 ) -> List[str]:
     """Yield tree in vertical orientation to console, starting from `tree`.
 
@@ -1016,7 +1020,7 @@ def vyield_tree(
         >>> c = Node("c", parent=root)
         >>> d = Node("d", parent=b)
         >>> e = Node("e", parent=b)
-        >>> result = vyield_tree(root)
+        >>> result = vyield_tree(root, strip=True)
         >>> print("\\n".join(result))
                 ┌───┐
                 │ a │
@@ -1032,7 +1036,7 @@ def vyield_tree(
 
         **Printing Sub-tree**
 
-        >>> result = vyield_tree(root, node_name_or_path="b")
+        >>> result = vyield_tree(root, node_name_or_path="b", strip=True)
         >>> print("\\n".join(result))
            ┌───┐
            │ b │
@@ -1042,7 +1046,7 @@ def vyield_tree(
         │ d │  │ e │
         └───┘  └───┘
 
-        >>> result = vyield_tree(root, max_depth=2)
+        >>> result = vyield_tree(root, max_depth=2, strip=True)
         >>> print("\\n".join(result))
            ┌───┐
            │ a │
@@ -1054,7 +1058,7 @@ def vyield_tree(
 
         **Available Styles**
 
-        >>> result = vyield_tree(root, style="ansi", border_style="ansi")
+        >>> result = vyield_tree(root, style="ansi", border_style="ansi", strip=True)
         >>> print("\\n".join(result))
                 `---`
                 | a |
@@ -1068,7 +1072,7 @@ def vyield_tree(
         | d |  | e |
         `---`  `---`
 
-        >>> result = vyield_tree(root, style="ascii", border_style="ascii")
+        >>> result = vyield_tree(root, style="ascii", border_style="ascii", strip=True)
         >>> print("\\n".join(result))
                 +---+
                 | a |
@@ -1082,7 +1086,7 @@ def vyield_tree(
         | d |  | e |
         +---+  +---+
 
-        >>> result = vyield_tree(root, style="const", border_style="const")
+        >>> result = vyield_tree(root, style="const", border_style="const", strip=True)
         >>> print("\\n".join(result))
                 ┌───┐
                 │ a │
@@ -1096,7 +1100,7 @@ def vyield_tree(
         │ d │  │ e │
         └───┘  └───┘
 
-        >>> result = vyield_tree(root, style="const_bold", border_style="const_bold")
+        >>> result = vyield_tree(root, style="const_bold", border_style="const_bold", strip=True)
         >>> print("\\n".join(result))
                 ┏━━━┓
                 ┃ a ┃
@@ -1110,7 +1114,7 @@ def vyield_tree(
         ┃ d ┃  ┃ e ┃
         ┗━━━┛  ┗━━━┛
 
-        >>> result = vyield_tree(root, style="rounded", border_style="rounded")
+        >>> result = vyield_tree(root, style="rounded", border_style="rounded", strip=True)
         >>> print("\\n".join(result))
                 ╭───╮
                 │ a │
@@ -1124,7 +1128,7 @@ def vyield_tree(
         │ d │  │ e │
         ╰───╯  ╰───╯
 
-        >>> result = vyield_tree(root, style="double", border_style="double")
+        >>> result = vyield_tree(root, style="double", border_style="double", strip=True)
         >>> print("\\n".join(result))
                 ╔═══╗
                 ║ a ║
@@ -1141,7 +1145,7 @@ def vyield_tree(
         **Custom Styles**
 
         >>> from bigtree import ANSIVPrintStyle, ANSIBorderStyle
-        >>> result = vyield_tree(root, style=ANSIVPrintStyle, border_style=ANSIBorderStyle)
+        >>> result = vyield_tree(root, style=ANSIVPrintStyle, border_style=ANSIBorderStyle, strip=True)
         >>> print("\\n".join(result))
                 `---`
                 | a |
@@ -1165,6 +1169,7 @@ def vyield_tree(
         spacing (int): spacing between node displays
         style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
         border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to const
+        strip (bool): whether to strip results, defaults to False
 
     Returns:
         (List[str])
@@ -1289,7 +1294,9 @@ def vyield_tree(
         return result, mid
 
     result_tree, _ = _vprint_branch(tree)
-    return [result.rstrip() for result in result_tree]
+    if strip:
+        return [result.rstrip() for result in result_tree]
+    return result_tree
 
 
 def tree_to_newick(
