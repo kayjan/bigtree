@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import List, Optional, TypeVar
 
 from bigtree.node import node
-from bigtree.utils.constants import BorderStyle
+from bigtree.utils.constants import BaseVPrintStyle, BorderStyle
 
 __all__ = [
     "calculate_stem_pos",
@@ -32,6 +32,7 @@ def format_node(
     _node: T,
     alias: str,
     intermediate_node_name: bool = True,
+    style: BaseVPrintStyle = BaseVPrintStyle.from_style("const"),
     border_style: Optional[BorderStyle] = None,
 ) -> List[str]:
     """Format node to be same width, able to customise whether to add border
@@ -41,13 +42,19 @@ def format_node(
         alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
             Otherwise, it will default to `node_name` of node.
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
+        style (BaseVPrintStyle): style to format node, used only if border_style is None
         border_style (BorderStyle): border style to format node
 
     Returns:
-        List of str that makes up the node display
+        (List[str]) node display
     """
     if not intermediate_node_name and _node.children:
-        node_title: str = ""
+        if border_style is None:
+            node_title: str = style.BRANCH
+            if _node.is_root:
+                node_title = style.SUBSEQUENT_CHILD
+        else:
+            node_title = ""
     else:
         node_title = _node.get_attr(alias) or _node.node_name
     node_title_lines = node_title.split("\n")
@@ -66,6 +73,21 @@ def format_node(
         node_display_lines.append(
             f"{border_style.BOTTOM_LEFT}{border_style.HORIZONTAL * width}{border_style.BOTTOM_RIGHT}"
         )
+        node_mid = calculate_stem_pos(width + 2)
+        # If there is a parent
+        if _node.parent:
+            node_display_lines[0] = (
+                node_display_lines[0][:node_mid]
+                + style.SPLIT_BRANCH
+                + node_display_lines[0][node_mid + 1 :]  # noqa
+            )
+        # If there are subsequent children
+        if _node.children:
+            node_display_lines[-1] = (
+                node_display_lines[-1][:node_mid]
+                + style.SUBSEQUENT_CHILD
+                + node_display_lines[-1][node_mid + 1 :]  # noqa
+            )
     else:
         for node_title_line in node_title_lines:
             node_display_lines.append(f"{node_title_line.center(width)}")

@@ -1220,7 +1220,7 @@ def vyield_tree(
             # For binary node
             _node = node.Node("  ")
         node_display_lines = format_node(
-            _node, alias, intermediate_node_name, border_style_class
+            _node, alias, intermediate_node_name, style_class, border_style_class
         )
         node_width = len(node_display_lines[0])
         node_mid = calculate_stem_pos(node_width)
@@ -1229,20 +1229,10 @@ def vyield_tree(
         if not len(children):
             return node_display_lines, node_mid
 
-        node_display_lines[-1] = (
-            node_display_lines[-1][:node_mid]
-            + style_class.SUBSEQUENT_CHILD
-            + node_display_lines[-1][node_mid + 1 :]  # noqa
-        )
         result_children, result_idx = [], []
         cumulative_width = 0
         for idx, child in enumerate(children):
             result_child, result_branch_idx = _vprint_branch(child)
-            result_child[0] = (
-                result_child[0][:result_branch_idx]
-                + style_class.SPLIT_BRANCH
-                + result_child[0][result_branch_idx + 1 :]  # noqa
-            )
             result_idx.append(cumulative_width + result_branch_idx)
             cumulative_width += len(result_child[0]) + spacing
             result_children.append(result_child)

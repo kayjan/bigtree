@@ -1021,20 +1021,24 @@ class TestVPrintTree:
             intermediate_node_name=False,
         )
 
-    #    @staticmethod
-    #    def test_vprint_tree_intermediate_node_name_border_none(tree_node):
-    #        expected_str = (
-    # '  ┌──┴───┐\n'
-    # '┌─┴─┐    │\n'
-    # 'd  ┌┴─┐  f\n'
-    # '   g  h   \n')
-    #        assert_print_statement(
-    #            export.vprint_tree,
-    #            expected_str,
-    #            tree=tree_node,
-    #            intermediate_node_name=False,
-    #            border_style=None,
-    #        )
+    @staticmethod
+    def test_vprint_tree_intermediate_node_name_border_none(tree_node):
+        expected_str = (
+            "     ┬    \n"
+            "  ┌──┴───┐\n"
+            "  │      │\n"
+            "┌─┴─┐    │\n"
+            "d   │    f\n"
+            "   ┌┴─┐   \n"
+            "   g  h   \n"
+        )
+        assert_print_statement(
+            export.vprint_tree,
+            expected_str,
+            tree=tree_node,
+            intermediate_node_name=False,
+            border_style=None,
+        )
 
     @staticmethod
     def test_vprint_tree_intermediate_node_name_diff_node_name_length(tree_node):
@@ -1339,14 +1343,24 @@ class TestVPrintTree:
     @staticmethod
     def test_vprint_tree_custom_style(tree_node):
         expected_str = (
-            "           -= d\n"
-            "     -= b =+     -= g\n"
-            "= a =+     |= e =+\n"
-            "     -           |= h\n"
-            "     |= c === f\n"
+            "             ┌───┐        \n"
+            "             │ a │        \n"
+            "             └─-─┘        \n"
+            "       --------+-------|  \n"
+            "     ┌─+─┐           ┌─+─┐\n"
+            "     │ b │           │ c │\n"
+            "     └─-─┘           └─-─┘\n"
+            "  -----+----|          =  \n"
+            "┌─+─┐     ┌─+─┐      ┌─+─┐\n"
+            "│ d │     │ e │      │ f │\n"
+            "└───┘     └─-─┘      └───┘\n"
+            "         ---+---|         \n"
+            "       ┌─+─┐  ┌─+─┐       \n"
+            "       │ g │  │ h │       \n"
+            "       └───┘  └───┘       \n"
         )
         assert_print_statement(
-            export.hprint_tree,
+            export.vprint_tree,
             expected_str,
             tree=tree_node,
             style=["-", "-", "+", "+", "|", "-", "="],
@@ -1375,6 +1389,37 @@ class TestVPrintTree:
         output = io.StringIO()
         export.vprint_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_vstr
+
+    # border
+    @staticmethod
+    def test_vprint_tree_border_none(tree_node):
+        expected_str = (
+            "     a    \n"
+            "  ┌──┴───┐\n"
+            "  b      c\n"
+            "┌─┴─┐    │\n"
+            "d   e    f\n"
+            "   ┌┴─┐   \n"
+            "   g  h   \n"
+        )
+        assert_print_statement(
+            export.vprint_tree,
+            expected_str,
+            tree=tree_node,
+            border_style=None,
+        )
+
+    @staticmethod
+    def test_vprint_tree_border_unequal_char_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            export.vprint_tree(
+                tree_node,
+                border_style=["+ ", "+", "+", "+", "|", "-"],
+            )
+        assert (
+            str(exc_info.value)
+            == Constants.ERROR_NODE_EXPORT_HPRINT_CUSTOM_STYLE_DIFFERENT_LENGTH
+        )
 
 
 class TestTreeToNewick:
