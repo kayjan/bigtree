@@ -82,7 +82,7 @@ def format_node(
                 + node_display_lines[0][node_mid + 1 :]  # noqa
             )
         # If there are subsequent children
-        if _node.children:
+        if any(_node.children):
             node_display_lines[-1] = (
                 node_display_lines[-1][:node_mid]
                 + style.SUBSEQUENT_CHILD

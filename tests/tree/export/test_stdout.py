@@ -914,6 +914,32 @@ class TestVPrintTree:
         )
 
     @staticmethod
+    def test_vprint_tree_strip(tree_node):
+        expected_str = (
+            "             ┌───┐\n"
+            "             │ a │\n"
+            "             └─┬─┘\n"
+            "       ┌───────┴───────┐\n"
+            "     ┌─┴─┐           ┌─┴─┐\n"
+            "     │ b │           │ c │\n"
+            "     └─┬─┘           └─┬─┘\n"
+            "  ┌────┴────┐          │\n"
+            "┌─┴─┐     ┌─┴─┐      ┌─┴─┐\n"
+            "│ d │     │ e │      │ f │\n"
+            "└───┘     └─┬─┘      └───┘\n"
+            "         ┌──┴───┐\n"
+            "       ┌─┴─┐  ┌─┴─┐\n"
+            "       │ g │  │ h │\n"
+            "       └───┘  └───┘\n"
+        )
+        assert_print_statement(
+            export.vprint_tree,
+            expected_str,
+            tree=tree_node,
+            strip=True,
+        )
+
+    @staticmethod
     def test_vprint_tree_long_root_name_length(tree_node):
         tree_node.name = "abcdefghijkl"
         expected_str = (
@@ -1410,7 +1436,7 @@ class TestVPrintTree:
         )
 
     @staticmethod
-    def test_vprint_tree_border_unequal_char_error(tree_node):
+    def test_vprint_tree_border_style_unequal_char_error(tree_node):
         with pytest.raises(ValueError) as exc_info:
             export.vprint_tree(
                 tree_node,
@@ -1420,6 +1446,12 @@ class TestVPrintTree:
             str(exc_info.value)
             == Constants.ERROR_NODE_EXPORT_HPRINT_CUSTOM_STYLE_DIFFERENT_LENGTH
         )
+
+    @staticmethod
+    def test_vprint_tree_border_style_missing_style_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            export.vprint_tree(tree_node, border_style=["+", "+", "+", "+", "|"])
+        assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_BORDER_STYLE_SELECT
 
 
 class TestTreeToNewick:

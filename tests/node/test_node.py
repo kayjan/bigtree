@@ -468,6 +468,29 @@ def assert_tree_structure_node_self(self):
         expected_str,
     )
 
+    # Test vshow()
+    expected_str = (
+        "             ┌───┐        \n"
+        "             │ a │        \n"
+        "             └─┬─┘        \n"
+        "       ┌───────┴───────┐  \n"
+        "     ┌─┴─┐           ┌─┴─┐\n"
+        "     │ b │           │ c │\n"
+        "     └─┬─┘           └─┬─┘\n"
+        "  ┌────┴────┐          │  \n"
+        "┌─┴─┐     ┌─┴─┐      ┌─┴─┐\n"
+        "│ d │     │ e │      │ f │\n"
+        "└───┘     └─┬─┘      └───┘\n"
+        "         ┌──┴───┐         \n"
+        "       ┌─┴─┐  ┌─┴─┐       \n"
+        "       │ g │  │ h │       \n"
+        "       └───┘  └───┘       \n"
+    )
+    assert_print_statement(
+        self.a.vshow,
+        expected_str,
+    )
+
 
 def assert_tree_structure_node_root_sep(root):
     # Test path_name

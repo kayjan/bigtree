@@ -1218,7 +1218,7 @@ def vyield_tree(
         """
         if not _node:
             # For binary node
-            _node = node.Node("  ")
+            _node = node.Node(" ", parent=node.Node(" "))
         node_display_lines = format_node(
             _node, alias, intermediate_node_name, style_class, border_style_class
         )
