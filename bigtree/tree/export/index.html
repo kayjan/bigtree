@@ -1912,6 +1912,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.export.vprint_tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;vprint_tree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.export.vyield_tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;vyield_tree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.export.yield_tree" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;yield_tree
@@ -2805,6 +2823,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.export.vprint_tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;vprint_tree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.export.vyield_tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;vyield_tree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.export.yield_tree" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;yield_tree
@@ -2848,8 +2884,12 @@
 </thead>
 <tbody>
 <tr>
-<td>Command Line / Others</td>
-<td><code>print_tree</code>, <code>yield_tree</code>, <code>hprint_tree</code>, <code>hyield_tree</code></td>
+<td>Command Line / Print</td>
+<td><code>print_tree</code>, <code>hprint_tree</code>, <code>vprint_tree</code></td>
+</tr>
+<tr>
+<td>Generator (versatile)</td>
+<td><code>yield_tree</code>, <code>hyield_tree</code>, <code>vyield_tree</code></td>
 </tr>
 <tr>
 <td>String</td>
@@ -2894,39 +2934,71 @@
 <tr>
 <td><code>print_tree</code></td>
 <td>Yes with <code>attr_list</code> or <code>all_attrs</code></td>
-<td>Yes with <code>max_depth</code></td>
-<td>No, but can specify subtree</td>
+<td>Yes</td>
+<td>No</td>
 <td>No</td>
 <td>Tree style</td>
 </tr>
 <tr>
 <td><code>yield_tree</code></td>
 <td>No, returns node</td>
-<td>Yes with <code>max_depth</code></td>
-<td>No, but can specify subtree</td>
+<td>Yes</td>
+<td>No</td>
 <td>No</td>
 <td>Tree style</td>
+</tr>
+<tr>
+<td><code>hprint_tree</code></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes, by hiding intermediate node name</td>
+<td>Tree style</td>
+</tr>
+<tr>
+<td><code>hyield_tree</code></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes, by hiding intermediate node name</td>
+<td>Tree style</td>
+</tr>
+<tr>
+<td><code>vprint_tree</code></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes, by hiding intermediate node name</td>
+<td>Tree style, border style</td>
+</tr>
+<tr>
+<td><code>vyield_tree</code></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes, by hiding intermediate node name</td>
+<td>Tree style, border style</td>
 </tr>
 <tr>
 <td><code>tree_to_newick</code></td>
 <td>Yes with <code>attr_list</code></td>
 <td>No</td>
 <td>No</td>
-<td>No</td>
+<td>Yes, by hiding intermediate node name</td>
 <td>Length separator and attribute prefix and separator</td>
 </tr>
 <tr>
 <td><code>tree_to_dict</code></td>
 <td>Yes with <code>attr_dict</code> or <code>all_attrs</code></td>
-<td>Yes with <code>max_depth</code></td>
-<td>Yes with <code>skip_depth</code></td>
+<td>Yes</td>
+<td>Yes</td>
 <td>Yes with <code>leaf_only</code></td>
 <td>Dict key for parent</td>
 </tr>
 <tr>
 <td><code>tree_to_nested_dict</code></td>
 <td>Yes with <code>attr_dict</code> or <code>all_attrs</code></td>
-<td>Yes with <code>max_depth</code></td>
+<td>Yes</td>
 <td>No</td>
 <td>No</td>
 <td>Dict key for node name and node children</td>
@@ -2934,16 +3006,16 @@
 <tr>
 <td><code>tree_to_dataframe</code></td>
 <td>Yes with <code>attr_dict</code> or <code>all_attrs</code></td>
-<td>Yes with <code>max_depth</code></td>
-<td>Yes with <code>skip_depth</code></td>
+<td>Yes</td>
+<td>Yes</td>
 <td>Yes with <code>leaf_only</code></td>
 <td>Column name for path, node name, node parent</td>
 </tr>
 <tr>
 <td><code>tree_to_polars</code></td>
 <td>Yes with <code>attr_dict</code> or <code>all_attrs</code></td>
-<td>Yes with <code>max_depth</code></td>
-<td>Yes with <code>skip_depth</code></td>
+<td>Yes</td>
+<td>Yes</td>
 <td>Yes with <code>leaf_only</code></td>
 <td>Column name for path, node name, node parent</td>
 </tr>
@@ -2958,7 +3030,7 @@
 <tr>
 <td><code>tree_to_pillow_graph</code></td>
 <td>Yes with <code>node_content</code></td>
-<td>No</td>
+<td>Yes</td>
 <td>No</td>
 <td>No</td>
 <td>Font (family, size, colour), background colour, etc.</td>
@@ -2966,7 +3038,7 @@
 <tr>
 <td><code>tree_to_pillow</code></td>
 <td>No</td>
-<td>Yes, using keyword arguments similar to <code>yield_tree</code></td>
+<td>Yes</td>
 <td>No</td>
 <td>No</td>
 <td>Font (family, size, colour), background colour, etc.</td>
@@ -2974,7 +3046,7 @@
 <tr>
 <td><code>tree_to_mermaid</code></td>
 <td>No</td>
-<td>Yes, using keyword arguments similar to <code>yield_tree</code></td>
+<td>Yes</td>
 <td>No</td>
 <td>No</td>
 <td>Node shape, node fill, edge arrow, edge label etc.</td>
@@ -3080,7 +3152,7 @@
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3096,7 +3168,7 @@
                 <code>path_col</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3112,7 +3184,7 @@
                 <code>name_col</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3128,7 +3200,7 @@
                 <code>parent_col</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3144,7 +3216,7 @@
                 <code>attr_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[str, str]</code>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3161,7 +3233,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>all_attrs</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3177,7 +3249,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>max_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3193,7 +3265,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>skip_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3209,7 +3281,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>leaf_only</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3329,7 +3401,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3345,7 +3417,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>path_col</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3361,7 +3433,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>name_col</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3377,7 +3449,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>parent_col</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3393,7 +3465,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>attr_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[str, str]</code>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3410,7 +3482,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>all_attrs</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3426,7 +3498,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>max_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3442,7 +3514,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>skip_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3458,7 +3530,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>leaf_only</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3558,7 +3630,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3574,7 +3646,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>name_key</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3590,7 +3662,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>parent_key</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3606,7 +3678,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
                 <code>attr_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[str, str]</code>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3623,7 +3695,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
                 <code>all_attrs</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3639,7 +3711,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
                 <code>max_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3655,7 +3727,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
                 <code>skip_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3671,7 +3743,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
                 <code>leaf_only</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3697,7 +3769,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3765,7 +3837,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3781,7 +3853,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
                 <code>name_key</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3797,7 +3869,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
                 <code>child_key</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3813,7 +3885,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
                 <code>attr_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[str, str]</code>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3830,7 +3902,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
                 <code>all_attrs</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3846,7 +3918,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
                 <code>max_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3872,7 +3944,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4003,7 +4075,7 @@ string can be imported to work with networkx.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a> / <span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a> / <span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4019,7 +4091,7 @@ string can be imported to work with networkx.</p>
                 <code>directed</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4035,7 +4107,7 @@ string can be imported to work with networkx.</p>
                 <code>rankdir</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4052,7 +4124,7 @@ string can be imported to work with networkx.</p>
                 <code>bg_colour</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4068,7 +4140,7 @@ string can be imported to work with networkx.</p>
                 <code>node_colour</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4084,7 +4156,7 @@ string can be imported to work with networkx.</p>
                 <code>node_shape</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4101,7 +4173,7 @@ Possible node_shape include "circle", "square", "diamond", "triangle"</p>
                 <code>edge_colour</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4117,7 +4189,7 @@ Possible node_shape include "circle", "square", "diamond", "triangle"</p>
                 <code>node_attr</code>
             </td>
             <td>
-                  <code>str | <span title="typing.Callable">Callable</span></code>
+                  <code><span title="str">str</span> | <span title="typing.Callable">Callable</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4136,7 +4208,7 @@ Possible node styles include {"style": "filled", "fillcolor": "gold", "shape": "
                 <code>edge_attr</code>
             </td>
             <td>
-                  <code>str | <span title="typing.Callable">Callable</span></code>
+                  <code><span title="str">str</span> | <span title="typing.Callable">Callable</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4385,7 +4457,7 @@ mermaid playground <a href="https://mermaid.live/">here</a>.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4401,7 +4473,7 @@ mermaid playground <a href="https://mermaid.live/">here</a>.</p>
                 <code>title</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4417,7 +4489,7 @@ mermaid playground <a href="https://mermaid.live/">here</a>.</p>
                 <code>theme</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4433,7 +4505,7 @@ mermaid playground <a href="https://mermaid.live/">here</a>.</p>
                 <code>rankdir</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4450,7 +4522,7 @@ mermaid playground <a href="https://mermaid.live/">here</a>.</p>
                 <code>line_shape</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4466,7 +4538,7 @@ mermaid playground <a href="https://mermaid.live/">here</a>.</p>
                 <code>node_colour</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4482,7 +4554,7 @@ mermaid playground <a href="https://mermaid.live/">here</a>.</p>
                 <code>node_border_colour</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4498,7 +4570,7 @@ mermaid playground <a href="https://mermaid.live/">here</a>.</p>
                 <code>node_border_width</code>
             </td>
             <td>
-                  <code>float</code>
+                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4514,7 +4586,7 @@ mermaid playground <a href="https://mermaid.live/">here</a>.</p>
                 <code>node_shape</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4530,7 +4602,7 @@ mermaid playground <a href="https://mermaid.live/">here</a>.</p>
                 <code>node_shape_attr</code>
             </td>
             <td>
-                  <code>str | <span title="typing.Callable">Callable</span></code>
+                  <code><span title="str">str</span> | <span title="typing.Callable">Callable</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4548,7 +4620,7 @@ This sets the shape of custom nodes, and overrides default <code>node_shape</cod
                 <code>edge_arrow</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4564,7 +4636,7 @@ This sets the shape of custom nodes, and overrides default <code>node_shape</cod
                 <code>edge_arrow_attr</code>
             </td>
             <td>
-                  <code>str | <span title="typing.Callable">Callable</span></code>
+                  <code><span title="str">str</span> | <span title="typing.Callable">Callable</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4582,7 +4654,7 @@ This sets the edge arrow style of custom nodes from parent to itself, and overri
                 <code>edge_label</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4598,7 +4670,7 @@ This sets the edge arrow style of custom nodes from parent to itself, and overri
                 <code>node_attr</code>
             </td>
             <td>
-                  <code>str | <span title="typing.Callable">Callable</span></code>
+                  <code><span title="str">str</span> | <span title="typing.Callable">Callable</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4626,7 +4698,7 @@ This overrides <code>node_colour</code>, <code>node_border_colour</code>, and <c
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4702,7 +4774,7 @@ as input to <code>yield_tree</code>.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4718,7 +4790,7 @@ as input to <code>yield_tree</code>.</p>
                 <code>width</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4734,7 +4806,7 @@ as input to <code>yield_tree</code>.</p>
                 <code>height</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4750,7 +4822,7 @@ as input to <code>yield_tree</code>.</p>
                 <code>start_pos</code>
             </td>
             <td>
-                  <code><span title="typing.Tuple">Tuple</span>[int, int]</code>
+                  <code><span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4766,7 +4838,7 @@ as input to <code>yield_tree</code>.</p>
                 <code>font_family</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4782,7 +4854,7 @@ as input to <code>yield_tree</code>.</p>
                 <code>font_size</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4798,7 +4870,7 @@ as input to <code>yield_tree</code>.</p>
                 <code>font_colour</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[int, int, int], str]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>, <span title="int">int</span>], <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4814,7 +4886,7 @@ as input to <code>yield_tree</code>.</p>
                 <code>bg_colour</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[int, int, int], str]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>, <span title="int">int</span>], <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4877,16 +4949,19 @@ as input to <code>yield_tree</code>.</p>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">bg_colour</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">rect_margin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">rect_fill</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">rect_outline</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="n">rect_width</span><span class="o">=</span><span class="mi">1</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">)</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">rect_cmap_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="n">rect_outline</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    <span class="n">rect_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    <span class="o">**</span><span class="n">kwargs</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>Export tree to PIL.Image.Image object. Object can be
 converted to other formats, such as jpg, or png. Image will look
-like a tree/graph-like structure.</p>
+like a tree/graph-like structure, accepts additional keyword arguments
+as input to <code>yield_tree</code>.</p>
 <p>Customisations:</p>
 <div class="language-text highlight"><pre><span></span><code>- To change the margin of tree within diagram, vary `margin`
 - To change the margin of the text within node, vary `rect_margin`
@@ -4926,7 +5001,7 @@ like a tree/graph-like structure.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4942,7 +5017,7 @@ like a tree/graph-like structure.</p>
                 <code>node_content</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4958,7 +5033,7 @@ like a tree/graph-like structure.</p>
                 <code>margin</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[str, int]</code>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="int">int</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4974,7 +5049,7 @@ like a tree/graph-like structure.</p>
                 <code>height_buffer</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[int, float]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="int">int</span>, <span title="float">float</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5006,7 +5081,7 @@ like a tree/graph-like structure.</p>
                 <code>font_family</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5022,7 +5097,7 @@ like a tree/graph-like structure.</p>
                 <code>font_size</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5038,7 +5113,7 @@ like a tree/graph-like structure.</p>
                 <code>font_colour</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[int, int, int], str]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>, <span title="int">int</span>], <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5054,7 +5129,7 @@ like a tree/graph-like structure.</p>
                 <code>text_align</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5070,7 +5145,7 @@ like a tree/graph-like structure.</p>
                 <code>bg_colour</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[int, int, int], str]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>, <span title="int">int</span>], <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5086,7 +5161,7 @@ like a tree/graph-like structure.</p>
                 <code>rect_margin</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[str, int]</code>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="int">int</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5102,7 +5177,7 @@ like a tree/graph-like structure.</p>
                 <code>rect_fill</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[int, int, int], str]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>, <span title="int">int</span>], <span title="str">str</span>, <span title="matplotlib.colormap">colormap</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5115,10 +5190,27 @@ like a tree/graph-like structure.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>rect_cmap_attr</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(for rectangle) if rect_fill is a colormap, attribute of node to retrieve fill from colormap,
+must be a float/int attribute</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>rect_outline</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[int, int, int], str]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>, <span title="int">int</span>], <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5134,7 +5226,7 @@ like a tree/graph-like structure.</p>
                 <code>rect_width</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[float, int]</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5205,9 +5297,9 @@ Accepts kwargs for print() function.</p>
 <p>For style,</p>
 <ul>
 <li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
-<li>(List[str]): Choose own style icons, they must have the same number of characters</li>
+<li>(Iterable[str]): Choose own style icons, they must have the same number of characters</li>
 <li>(constants.BaseHPrintStyle): <code>ANSIHPrintStyle</code>, <code>ASCIIHPrintStyle</code>, <code>ConstHPrintStyle</code>, <code>ConstBoldHPrintStyle</code>,
-<code>RoundedHPrintStyle</code>, <code>DoubleHPrintStyle</code> style or inherit from constants.BaseHPrintStyle</li>
+    <code>RoundedHPrintStyle</code>, <code>DoubleHPrintStyle</code> style or inherit from constants.BaseHPrintStyle</li>
 </ul>
 
 
@@ -5310,7 +5402,7 @@ Accepts kwargs for print() function.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5326,7 +5418,7 @@ Accepts kwargs for print() function.</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5342,7 +5434,7 @@ Accepts kwargs for print() function.</p>
                 <code>max_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5358,7 +5450,7 @@ Accepts kwargs for print() function.</p>
                 <code>intermediate_node_name</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5374,7 +5466,7 @@ Accepts kwargs for print() function.</p>
                 <code>style</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[str, <span title="typing.Iterable">Iterable</span>[str], <span title="bigtree.utils.constants.BaseHPrintStyle">BaseHPrintStyle</span>]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="bigtree.utils.constants.BaseHPrintStyle">BaseHPrintStyle</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5420,9 +5512,9 @@ Accepts kwargs for print() function.</p>
 <p>For style,</p>
 <ul>
 <li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
-<li>(List[str]): Choose own style icons, they must have the same number of characters</li>
+<li>(Iterable[str]): Choose own style icons, they must be 1 character long</li>
 <li>(constants.BaseHPrintStyle): <code>ANSIHPrintStyle</code>, <code>ASCIIHPrintStyle</code>, <code>ConstHPrintStyle</code>, <code>ConstBoldHPrintStyle</code>,
-<code>RoundedHPrintStyle</code>, <code>DoubleHPrintStyle</code> style or inherit from constants.BaseHPrintStyle</li>
+    <code>RoundedHPrintStyle</code>, <code>DoubleHPrintStyle</code> style or inherit from constants.BaseHPrintStyle</li>
 </ul>
 
 
@@ -5442,60 +5534,69 @@ Accepts kwargs for print() function.</p>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">     └─ c</span>
 </span></code></pre></div>
     <p><strong>Printing Sub-tree</strong></p>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">     ┌─ d</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">─ b ─┤</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">     └─ e</span>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">     ┌─ d</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">─ b ─┤</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     └─ e</span>
 </span></code></pre></div>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">     ┌─ b</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">─ a ─┤</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">     └─ c</span>
-</span></code></pre></div>
-    <p><strong>Available Styles</strong></p>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;ansi&quot;</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">           /- d</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">     /- b -+</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">- a -+     \- e</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     \- c</span>
-</span></code></pre></div>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">           +- d</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">     +- b -+</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">- a -+     +- e</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     +- c</span>
-</span></code></pre></div>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">           ┌─ d</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">     ┌─ b ─┤</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">─ a ─┤     └─ e</span>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">     ┌─ b</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">─ a ─┤</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     └─ c</span>
 </span></code></pre></div>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const_bold&quot;</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">           ┏━ d</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">     ┏━ b ━┫</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">━ a ━┫     ┗━ e</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     ┗━ c</span>
-</span></code></pre></div>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;rounded&quot;</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">           ╭─ d</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">     ╭─ b ─┤</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">─ a ─┤     ╰─ e</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     ╰─ c</span>
-</span></code></pre></div>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">           ╔═ d</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">     ╔═ b ═╣</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">═ a ═╣     ╚═ e</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     ╚═ c</span>
-</span></code></pre></div>
-    <p><strong>Custom Styles</strong></p>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">ANSIHPrintStyle</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ANSIHPrintStyle</span><span class="p">)</span>
+    <p><strong>Available Styles</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;ansi&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">           /- d</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">     /- b -+</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">- a -+     \- e</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     \- c</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">           +- d</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">     +- b -+</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">- a -+     +- e</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     +- c</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">           ┌─ d</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">     ┌─ b ─┤</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">─ a ─┤     └─ e</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     └─ c</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const_bold&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">           ┏━ d</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">     ┏━ b ━┫</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">━ a ━┫     ┗━ e</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     ┗━ c</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;rounded&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">           ╭─ d</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">     ╭─ b ─┤</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">─ a ─┤     ╰─ e</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     ╰─ c</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">           ╔═ d</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">     ╔═ b ═╣</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">═ a ═╣     ╚═ e</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     ╚═ c</span>
+</span></code></pre></div>
+    <p><strong>Custom Styles</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">ANSIHPrintStyle</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ANSIHPrintStyle</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">           /- d</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     /- b -+</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">- a -+     \- e</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">     \- c</span>
 </span></code></pre></div>
 
 
@@ -5515,7 +5616,7 @@ Accepts kwargs for print() function.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5531,7 +5632,7 @@ Accepts kwargs for print() function.</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5547,7 +5648,7 @@ Accepts kwargs for print() function.</p>
                 <code>max_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5563,7 +5664,7 @@ Accepts kwargs for print() function.</p>
                 <code>intermediate_node_name</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5579,7 +5680,7 @@ Accepts kwargs for print() function.</p>
                 <code>style</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[str, <span title="typing.Iterable">Iterable</span>[str], <span title="bigtree.utils.constants.BaseHPrintStyle">BaseHPrintStyle</span>]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="bigtree.utils.constants.BaseHPrintStyle">BaseHPrintStyle</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5605,7 +5706,7 @@ Accepts kwargs for print() function.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.List">List</span>[str]</code>
+                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5660,7 +5761,7 @@ Accepts kwargs for print() function.</p>
 <li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
 <li>(List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters</li>
 <li>(constants.BasePrintStyle): <code>ANSIPrintStyle</code>, <code>ASCIIPrintStyle</code>, <code>ConstPrintStyle</code>, <code>ConstBoldPrintStyle</code>, <code>RoundedPrintStyle</code>,
-<code>DoublePrintStyle</code> style or inherit from <code>constants.BasePrintStyle</code></li>
+    <code>DoublePrintStyle</code> style or inherit from <code>constants.BasePrintStyle</code></li>
 </ul>
 
 
@@ -5795,7 +5896,7 @@ Accepts kwargs for print() function.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5811,7 +5912,7 @@ Accepts kwargs for print() function.</p>
                 <code>alias</code>
             </td>
             <td>
-                  <code>Optional[str]</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5828,7 +5929,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5844,7 +5945,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>max_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5860,7 +5961,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>all_attrs</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5876,7 +5977,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>attr_list</code>
             </td>
             <td>
-                  <code><span title="typing.Iterable">Iterable</span>[str]</code>
+                  <code><span title="typing.Iterable">Iterable</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5892,7 +5993,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>attr_omit_null</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5908,7 +6009,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>attr_bracket</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[str]</code>
+                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5924,7 +6025,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>style</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[str, <span title="typing.Iterable">Iterable</span>[str], <span title="bigtree.utils.constants.BasePrintStyle">BasePrintStyle</span>]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="bigtree.utils.constants.BasePrintStyle">BasePrintStyle</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6022,7 +6123,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6038,7 +6139,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>intermediate_node_name</code>
             </td>
             <td>
-                  <code>bool</code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6054,7 +6155,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>length_attr</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6070,7 +6171,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>length_sep</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6086,7 +6187,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>attr_list</code>
             </td>
             <td>
-                  <code><span title="typing.Iterable">Iterable</span>[str]</code>
+                  <code><span title="typing.Iterable">Iterable</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6102,7 +6203,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>attr_prefix</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6118,7 +6219,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>attr_sep</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6144,11 +6245,745 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <p>(str)</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="bigtree.tree.export.vprint_tree" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">vprint_tree</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">vprint_tree</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">strip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="o">**</span><span class="n">kwargs</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Print tree in vertical orientation to console, starting from <code>tree</code>.
+Accepts kwargs for print() function.</p>
+<ul>
+<li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
+<li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
+<li>Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using <code>style</code></li>
+<li>Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
+    using <code>border_style</code></li>
+</ul>
+<p>For style,</p>
+<ul>
+<li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
+<li>(Iterable[str]): Choose own style icons, they must be 1 character long</li>
+<li>(constants.BaseVPrintStyle): <code>ANSIVPrintStyle</code>, <code>ASCIIVPrintStyle</code>, <code>ConstVPrintStyle</code>, <code>ConstBoldVPrintStyle</code>,
+    <code>RoundedVPrintStyle</code>, <code>DoubleVPrintStyle</code> style or inherit from constants.BaseVPrintStyle</li>
+</ul>
+<p>For border_style,</p>
+<ul>
+<li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
+<li>(Iterable[str]): Choose own style icons, they must be 1 character long</li>
+<li>(constants.BorderStyle): <code>ANSIBorderStyle</code>, <code>ASCIIBorderStyle</code>, <code>ConstBorderStyle</code>, <code>ConstBoldBorderStyle</code>,
+    <code>RoundedBorderStyle</code>, <code>DoubleBorderStyle</code> style or inherit from constants.BorderStyle</li>
+</ul>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p><strong>Printing tree</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">vprint_tree</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">        ┌───┐</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">        │ a │</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">        └─┬─┘</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">     ┌────┴─────┐</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">   ┌─┴─┐      ┌─┴─┐</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">   │ b │      │ c │</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">   └─┬─┘      └───┘</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="go">  ┌──┴───┐</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="go">┌─┴─┐  ┌─┴─┐</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="go">└───┘  └───┘</span>
+</span></code></pre></div>
+    <p><strong>Printing Sub-tree</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">   ┌───┐</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">   │ b │</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">   └─┬─┘</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">  ┌──┴───┐</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">┌─┴─┐  ┌─┴─┐</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">└───┘  └───┘</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">   ┌───┐</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">   │ a │</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">   └─┬─┘</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">  ┌──┴───┐</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">┌─┴─┐  ┌─┴─┐</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">│ b │  │ c │</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">└───┘  └───┘</span>
+</span></code></pre></div>
+    <p><strong>Available Styles</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;ansi&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;ansi&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">        `---`</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        | a |</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        `-+-`</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     /----+-----\</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">   `-+-`      `-+-`</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   | b |      | c |</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   `-+-`      `---`</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">  /--+---\</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">`-+-`  `-+-`</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">| d |  | e |</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">`---`  `---`</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">        +---+</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        | a |</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        +-+-+</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     +----+-----+</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">   +-+-+      +-+-+</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   | b |      | c |</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   +-+-+      +---+</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">  +--+---+</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">+-+-+  +-+-+</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">| d |  | e |</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">+---+  +---+</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">        ┌───┐</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        │ a │</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        └─┬─┘</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     ┌────┴─────┐</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">   ┌─┴─┐      ┌─┴─┐</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   │ b │      │ c │</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   └─┬─┘      └───┘</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">  ┌──┴───┐</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">┌─┴─┐  ┌─┴─┐</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">└───┘  └───┘</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const_bold&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;const_bold&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">        ┏━━━┓</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        ┃ a ┃</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        ┗━┳━┛</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     ┏━━━━┻━━━━━┓</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">   ┏━┻━┓      ┏━┻━┓</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   ┃ b ┃      ┃ c ┃</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   ┗━┳━┛      ┗━━━┛</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">  ┏━━┻━━━┓</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">┏━┻━┓  ┏━┻━┓</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">┃ d ┃  ┃ e ┃</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">┗━━━┛  ┗━━━┛</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;rounded&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;rounded&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">        ╭───╮</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        │ a │</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        ╰─┬─╯</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     ╭────┴─────╮</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">   ╭─┴─╮      ╭─┴─╮</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   │ b │      │ c │</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   ╰─┬─╯      ╰───╯</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">  ╭──┴───╮</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">╭─┴─╮  ╭─┴─╮</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">╰───╯  ╰───╯</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">        ╔═══╗</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        ║ a ║</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        ╚═╦═╝</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">     ╔════╩═════╗</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">   ╔═╩═╗      ╔═╩═╗</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   ║ b ║      ║ c ║</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   ╚═╦═╝      ╚═══╝</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">  ╔══╩═══╗</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">╔═╩═╗  ╔═╩═╗</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">║ d ║  ║ e ║</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">╚═══╝  ╚═══╝</span>
+</span></code></pre></div>
+    <p><strong>Custom Styles</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">ANSIVPrintStyle</span><span class="p">,</span> <span class="n">ANSIBorderStyle</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ANSIVPrintStyle</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="n">ANSIBorderStyle</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        `---`</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        | a |</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        `-+-`</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     /----+-----\</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   `-+-`      `-+-`</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   | b |      | c |</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   `-+-`      `---`</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">  /--+---\</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">`-+-`  `-+-`</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">| d |  | e |</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">`---`  `---`</span>
+</span></code></pre></div>
+    <p><strong>Printing to a file</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_string</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tree_string</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">        ┌───┐</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">        │ a │</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">        └─┬─┘</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">     ┌────┴─────┐</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">   ┌─┴─┐      ┌─┴─┐</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">   │ b │      │ c │</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">   └─┬─┘      └───┘</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">  ┌──┴───┐</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">┌─┴─┐  ┌─┴─┐</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="go">└───┘  └───┘</span>
+</span></code></pre></div>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>tree</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tree to print</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>node_name_or_path</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node to print from, becomes the root node of printing</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>max_depth</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>maximum depth of tree to print, based on <code>depth</code> attribute, optional</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>intermediate_node_name</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>indicator if intermediate nodes have node names, defaults to True</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>style</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="bigtree.utils.constants.BaseVPrintStyle">BaseVPrintStyle</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>style of print, defaults to const</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;const&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>border_style</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="bigtree.utils.constants.BorderStyle">BorderStyle</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>style of border, defaults to const</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;const&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>strip</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>whether to strip results, defaults to False</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(List[str])</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="bigtree.tree.export.vyield_tree" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">vyield_tree</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">vyield_tree</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;node_name&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">spacing</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">strip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Yield tree in vertical orientation to console, starting from <code>tree</code>.</p>
+<ul>
+<li>Able to have alias for node name if alias attribute is present, else it falls back to node_name, using <code>alias</code></li>
+<li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
+<li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
+<li>Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using <code>style</code></li>
+<li>Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
+    using <code>border_style</code></li>
+</ul>
+<p>For style,</p>
+<ul>
+<li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
+<li>(Iterable[str]): Choose own style icons, they must be 1 character long</li>
+<li>(constants.BaseHPrintStyle): <code>ANSIVPrintStyle</code>, <code>ASCIIVPrintStyle</code>, <code>ConstVPrintStyle</code>, <code>ConstBoldVPrintStyle</code>,
+    <code>RoundedVPrintStyle</code>, <code>DoubleVPrintStyle</code> style or inherit from constants.BaseVPrintStyle</li>
+</ul>
+<p>For border_style,</p>
+<ul>
+<li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
+<li>(Iterable[str]): Choose own style icons, they must be 1 character long</li>
+<li>(constants.BorderStyle): <code>ANSIBorderStyle</code>, <code>ASCIIBorderStyle</code>, <code>ConstBorderStyle</code>, <code>ConstBoldBorderStyle</code>,
+    <code>RoundedBorderStyle</code>, <code>DoubleBorderStyle</code> style or inherit from constants.BorderStyle</li>
+</ul>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <p><strong>Printing tree</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">vyield_tree</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">        ┌───┐</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">        │ a │</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">        └─┬─┘</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">     ┌────┴─────┐</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">   ┌─┴─┐      ┌─┴─┐</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">   │ b │      │ c │</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="go">   └─┬─┘      └───┘</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="go">  ┌──┴───┐</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="go">┌─┴─┐  ┌─┴─┐</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="go">└───┘  └───┘</span>
+</span></code></pre></div>
+    <p><strong>Printing Sub-tree</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">   ┌───┐</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">   │ b │</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">   └─┬─┘</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">  ┌──┴───┐</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">┌─┴─┐  ┌─┴─┐</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">└───┘  └───┘</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">   ┌───┐</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">   │ a │</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">   └─┬─┘</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">  ┌──┴───┐</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">┌─┴─┐  ┌─┴─┐</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">│ b │  │ c │</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">└───┘  └───┘</span>
+</span></code></pre></div>
+    <p><strong>Available Styles</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;ansi&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;ansi&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        `---`</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        | a |</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        `-+-`</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     /----+-----\</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   `-+-`      `-+-`</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   | b |      | c |</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   `-+-`      `---`</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">  /--+---\</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">`-+-`  `-+-`</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">| d |  | e |</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">`---`  `---`</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        +---+</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        | a |</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        +-+-+</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     +----+-----+</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   +-+-+      +-+-+</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   | b |      | c |</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   +-+-+      +---+</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">  +--+---+</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">+-+-+  +-+-+</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">| d |  | e |</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">+---+  +---+</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        ┌───┐</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        │ a │</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        └─┬─┘</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     ┌────┴─────┐</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   ┌─┴─┐      ┌─┴─┐</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   │ b │      │ c │</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   └─┬─┘      └───┘</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">  ┌──┴───┐</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">┌─┴─┐  ┌─┴─┐</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">└───┘  └───┘</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const_bold&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;const_bold&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        ┏━━━┓</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        ┃ a ┃</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        ┗━┳━┛</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     ┏━━━━┻━━━━━┓</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   ┏━┻━┓      ┏━┻━┓</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   ┃ b ┃      ┃ c ┃</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   ┗━┳━┛      ┗━━━┛</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">  ┏━━┻━━━┓</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">┏━┻━┓  ┏━┻━┓</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">┃ d ┃  ┃ e ┃</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">┗━━━┛  ┗━━━┛</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;rounded&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;rounded&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        ╭───╮</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        │ a │</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        ╰─┬─╯</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     ╭────┴─────╮</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   ╭─┴─╮      ╭─┴─╮</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   │ b │      │ c │</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   ╰─┬─╯      ╰───╯</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">  ╭──┴───╮</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">╭─┴─╮  ╭─┴─╮</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">╰───╯  ╰───╯</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        ╔═══╗</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        ║ a ║</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        ╚═╦═╝</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     ╔════╩═════╗</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   ╔═╩═╗      ╔═╩═╗</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   ║ b ║      ║ c ║</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   ╚═╦═╝      ╚═══╝</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">  ╔══╩═══╗</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">╔═╩═╗  ╔═╩═╗</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">║ d ║  ║ e ║</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">╚═══╝  ╚═══╝</span>
+</span></code></pre></div>
+    <p><strong>Custom Styles</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">ANSIVPrintStyle</span><span class="p">,</span> <span class="n">ANSIBorderStyle</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ANSIVPrintStyle</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="n">ANSIBorderStyle</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        `---`</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        | a |</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">        `-+-`</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">     /----+-----\</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   `-+-`      `-+-`</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   | b |      | c |</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">   `-+-`      `---`</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">  /--+---\</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">`-+-`  `-+-`</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">| d |  | e |</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">`---`  `---`</span>
+</span></code></pre></div>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>tree</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tree to print</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>alias</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node attribute to use for node name in tree as alias to <code>node_name</code>, if present.
+Otherwise, it will default to <code>node_name</code> of node.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;node_name&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>node_name_or_path</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node to print from, becomes the root node of printing</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>max_depth</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>maximum depth of tree to print, based on <code>depth</code> attribute, optional</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>intermediate_node_name</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>indicator if intermediate nodes have node names, defaults to True</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>spacing</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>spacing between node displays</p>
+              </div>
+            </td>
+            <td>
+                  <code>2</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>style</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="bigtree.utils.constants.BaseHPrintStyle">BaseHPrintStyle</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>style of print, defaults to const</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;const&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>border_style</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="bigtree.utils.constants.BorderStyle">BorderStyle</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>style of border, defaults to const</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;const&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>strip</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>whether to strip results, defaults to False</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(List[str])</p>
               </div>
             </td>
           </tr>
@@ -6185,7 +7020,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
 <li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
 <li>(List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters</li>
 <li>(constants.BasePrintStyle): <code>ANSIPrintStyle</code>, <code>ASCIIPrintStyle</code>, <code>ConstPrintStyle</code>, <code>ConstBoldPrintStyle</code>, <code>RoundedPrintStyle</code>,
-<code>DoublePrintStyle</code> style or inherit from <code>constants.BasePrintStyle</code></li>
+    <code>DoublePrintStyle</code> style or inherit from <code>constants.BasePrintStyle</code></li>
 </ul>
 
 
@@ -6304,7 +7139,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="bigtree.node.node.Node" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6320,7 +7155,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code>str</code>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6336,7 +7171,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>max_depth</code>
             </td>
             <td>
-                  <code>int</code>
+                  <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6352,7 +7187,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
                 <code>style</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[str, <span title="typing.Iterable">Iterable</span>[str], <span title="bigtree.utils.constants.BasePrintStyle">BasePrintStyle</span>]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="bigtree.utils.constants.BasePrintStyle">BasePrintStyle</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
