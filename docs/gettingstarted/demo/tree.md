@@ -42,6 +42,19 @@ Nodes can be linked to each other in the following ways:
     # ─ a ─┤
     #      └─ c
 
+    root.vshow()
+    #    ┌───┐
+    #    │ a │
+    #    └─┬─┘
+    #   ┌──┴───┐
+    # ┌─┴─┐  ┌─┴─┐
+    # │ b │  │ c │
+    # └─┬─┘  └───┘
+    #   │
+    # ┌─┴─┐
+    # │ d │
+    # └───┘
+
     graph = tree_to_dot(root, node_colour="gold")
     graph.write_png("assets/demo/tree.png")
     ```
