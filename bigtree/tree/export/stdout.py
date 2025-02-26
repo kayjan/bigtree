@@ -766,9 +766,11 @@ def hyield_tree(
 
 def vprint_tree(
     tree: T,
+    alias: str = "node_name",
     node_name_or_path: str = "",
     max_depth: int = 0,
     intermediate_node_name: bool = True,
+    spacing: int = 2,
     style: Union[str, Iterable[str], constants.BaseVPrintStyle] = "const",
     border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = "const",
     strip: bool = False,
@@ -777,11 +779,15 @@ def vprint_tree(
     """Print tree in vertical orientation to console, starting from `tree`.
     Accepts kwargs for print() function.
 
+    - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
+    - Able to hide names of intermediate nodes, using `intermediate_node_name`
+    - Able to select spacing between nodes, using `spacing`
     - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
+    - Able to have constant width output string or to strip the trailing spaces, using `strip`
 
     For style,
 
@@ -955,9 +961,12 @@ def vprint_tree(
 
     Args:
         tree (Node): tree to print
+        alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
+            Otherwise, it will default to `node_name` of node.
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
+        spacing (int): spacing between node displays
         style (Union[str, Iterable[str], constants.BaseVPrintStyle]): style of print, defaults to const
         border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to const
         strip (bool): whether to strip results, defaults to False
@@ -967,9 +976,11 @@ def vprint_tree(
     """
     result = vyield_tree(
         tree,
+        alias=alias,
         node_name_or_path=node_name_or_path,
-        intermediate_node_name=intermediate_node_name,
         max_depth=max_depth,
+        intermediate_node_name=intermediate_node_name,
+        spacing=spacing,
         style=style,
         border_style=border_style,
         strip=strip,
@@ -993,15 +1004,18 @@ def vyield_tree(
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
+    - Able to hide names of intermediate nodes, using `intermediate_node_name`
+    - Able to select spacing between nodes, using `spacing`
     - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
+    - Able to have constant width output string or to strip the trailing spaces, using `strip`
 
     For style,
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (Iterable[str]): Choose own style icons, they must be 1 character long
-    - (constants.BaseHPrintStyle): `ANSIVPrintStyle`, `ASCIIVPrintStyle`, `ConstVPrintStyle`, `ConstBoldVPrintStyle`,
+    - (constants.BaseVPrintStyle): `ANSIVPrintStyle`, `ASCIIVPrintStyle`, `ConstVPrintStyle`, `ConstBoldVPrintStyle`,
         `RoundedVPrintStyle`, `DoubleVPrintStyle` style or inherit from constants.BaseVPrintStyle
 
     For border_style,
