@@ -527,6 +527,7 @@ def hyield_tree(
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
+    - Able to hide names of intermediate nodes, using `intermediate_node_name`
     - Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using `style`
 
     For style,

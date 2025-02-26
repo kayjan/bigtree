@@ -914,6 +914,36 @@ class TestVPrintTree:
         )
 
     @staticmethod
+    def test_vprint_tree_multiline(tree_node):
+        tree_node.name = "a\na2"
+        tree_node["b"]["e"].name = "e\ne2\neeeeee3"
+        expected_str = (
+            "             ┌────┐       \n"
+            "             │ a  │       \n"
+            "             │ a2 │       \n"
+            "             └─┬──┘       \n"
+            "       ┌───────┴───────┐  \n"
+            "     ┌─┴─┐           ┌─┴─┐\n"
+            "     │ b │           │ c │\n"
+            "     └─┬─┘           └─┬─┘\n"
+            "  ┌────┴────┐          │  \n"
+            "┌─┴─┐  ┌────┴────┐   ┌─┴─┐\n"
+            "│ d │  │    e    │   │ f │\n"
+            "└───┘  │    e2   │   └───┘\n"
+            "       │ eeeeee3 │        \n"
+            "       └────┬────┘        \n"
+            "         ┌──┴───┐         \n"
+            "       ┌─┴─┐  ┌─┴─┐       \n"
+            "       │ g │  │ h │       \n"
+            "       └───┘  └───┘       \n"
+        )
+        assert_print_statement(
+            export.vprint_tree,
+            expected_str,
+            tree=tree_node,
+        )
+
+    @staticmethod
     def test_vprint_tree_alias(tree_node):
         tree_node.alias_attr = "a\na2"
         tree_node["b"]["e"].alias_attr = "e\ne2\neeeeee3"
@@ -945,37 +975,7 @@ class TestVPrintTree:
         )
 
     @staticmethod
-    def test_vprint_tree_multiline(tree_node):
-        tree_node.name = "a\na2"
-        tree_node["b"]["e"].name = "e\ne2\neeeeee3"
-        expected_str = (
-            "             ┌────┐       \n"
-            "             │ a  │       \n"
-            "             │ a2 │       \n"
-            "             └─┬──┘       \n"
-            "       ┌───────┴───────┐  \n"
-            "     ┌─┴─┐           ┌─┴─┐\n"
-            "     │ b │           │ c │\n"
-            "     └─┬─┘           └─┬─┘\n"
-            "  ┌────┴────┐          │  \n"
-            "┌─┴─┐  ┌────┴────┐   ┌─┴─┐\n"
-            "│ d │  │    e    │   │ f │\n"
-            "└───┘  │    e2   │   └───┘\n"
-            "       │ eeeeee3 │        \n"
-            "       └────┬────┘        \n"
-            "         ┌──┴───┐         \n"
-            "       ┌─┴─┐  ┌─┴─┐       \n"
-            "       │ g │  │ h │       \n"
-            "       └───┘  └───┘       \n"
-        )
-        assert_print_statement(
-            export.vprint_tree,
-            expected_str,
-            tree=tree_node,
-        )
-
-    @staticmethod
-    def test_vprint_tree_strip(tree_node):
+    def test_vprint_tree_spacing(tree_node):
         expected_str = (
             "             ┌───┐\n"
             "             │ a │\n"
@@ -992,6 +992,32 @@ class TestVPrintTree:
             "       ┌─┴─┐  ┌─┴─┐\n"
             "       │ g │  │ h │\n"
             "       └───┘  └───┘\n"
+        )
+        assert_print_statement(
+            export.vprint_tree,
+            expected_str,
+            tree=tree_node,
+            spacing=4,
+        )
+
+    @staticmethod
+    def test_vprint_tree_strip(tree_node):
+        expected_str = (
+            "                ┌───┐           \n"
+            "                │ a │           \n"
+            "                └─┬─┘           \n"
+            "        ┌─────────┴──────────┐  \n"
+            "      ┌─┴─┐                ┌─┴─┐\n"
+            "      │ b │                │ c │\n"
+            "      └─┬─┘                └─┬─┘\n"
+            "  ┌─────┴──────┐             │  \n"
+            "┌─┴─┐        ┌─┴─┐         ┌─┴─┐\n"
+            "│ d │        │ e │         │ f │\n"
+            "└───┘        └─┬─┘         └───┘\n"
+            "           ┌───┴────┐           \n"
+            "         ┌─┴─┐    ┌─┴─┐         \n"
+            "         │ g │    │ h │         \n"
+            "         └───┘    └───┘         \n"
         )
         assert_print_statement(
             export.vprint_tree,
