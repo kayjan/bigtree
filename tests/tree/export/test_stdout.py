@@ -977,32 +977,6 @@ class TestVPrintTree:
     @staticmethod
     def test_vprint_tree_spacing(tree_node):
         expected_str = (
-            "             ┌───┐\n"
-            "             │ a │\n"
-            "             └─┬─┘\n"
-            "       ┌───────┴───────┐\n"
-            "     ┌─┴─┐           ┌─┴─┐\n"
-            "     │ b │           │ c │\n"
-            "     └─┬─┘           └─┬─┘\n"
-            "  ┌────┴────┐          │\n"
-            "┌─┴─┐     ┌─┴─┐      ┌─┴─┐\n"
-            "│ d │     │ e │      │ f │\n"
-            "└───┘     └─┬─┘      └───┘\n"
-            "         ┌──┴───┐\n"
-            "       ┌─┴─┐  ┌─┴─┐\n"
-            "       │ g │  │ h │\n"
-            "       └───┘  └───┘\n"
-        )
-        assert_print_statement(
-            export.vprint_tree,
-            expected_str,
-            tree=tree_node,
-            spacing=4,
-        )
-
-    @staticmethod
-    def test_vprint_tree_strip(tree_node):
-        expected_str = (
             "                ┌───┐           \n"
             "                │ a │           \n"
             "                └─┬─┘           \n"
@@ -1018,6 +992,32 @@ class TestVPrintTree:
             "         ┌─┴─┐    ┌─┴─┐         \n"
             "         │ g │    │ h │         \n"
             "         └───┘    └───┘         \n"
+        )
+        assert_print_statement(
+            export.vprint_tree,
+            expected_str,
+            tree=tree_node,
+            spacing=4,
+        )
+
+    @staticmethod
+    def test_vprint_tree_strip(tree_node):
+        expected_str = (
+            "             ┌───┐\n"
+            "             │ a │\n"
+            "             └─┬─┘\n"
+            "       ┌───────┴───────┐\n"
+            "     ┌─┴─┐           ┌─┴─┐\n"
+            "     │ b │           │ c │\n"
+            "     └─┬─┘           └─┬─┘\n"
+            "  ┌────┴────┐          │\n"
+            "┌─┴─┐     ┌─┴─┐      ┌─┴─┐\n"
+            "│ d │     │ e │      │ f │\n"
+            "└───┘     └─┬─┘      └───┘\n"
+            "         ┌──┴───┐\n"
+            "       ┌─┴─┐  ┌─┴─┐\n"
+            "       │ g │  │ h │\n"
+            "       └───┘  └───┘\n"
         )
         assert_print_statement(
             export.vprint_tree,
