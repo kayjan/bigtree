@@ -916,7 +916,7 @@ class TestVPrintTree:
     @staticmethod
     def test_vprint_tree_multiline(tree_node):
         tree_node.name = "a\na2"
-        tree_node["b"]["e"].name = "e\ne2\neeeeee3"
+        tree_node["b"]["e"].name = "e\ne2\nmultiln"
         expected_str = (
             "             ┌────┐       \n"
             "             │ a  │       \n"
@@ -930,7 +930,7 @@ class TestVPrintTree:
             "┌─┴─┐  ┌────┴────┐   ┌─┴─┐\n"
             "│ d │  │    e    │   │ f │\n"
             "└───┘  │    e2   │   └───┘\n"
-            "       │ eeeeee3 │        \n"
+            "       │ multiln │        \n"
             "       └────┬────┘        \n"
             "         ┌──┴───┐         \n"
             "       ┌─┴─┐  ┌─┴─┐       \n"
@@ -946,7 +946,7 @@ class TestVPrintTree:
     @staticmethod
     def test_vprint_tree_alias(tree_node):
         tree_node.alias_attr = "a\na2"
-        tree_node["b"]["e"].alias_attr = "e\ne2\neeeeee3"
+        tree_node["b"]["e"].alias_attr = "e\ne2\nalias_1"
         expected_str = (
             "             ┌────┐       \n"
             "             │ a  │       \n"
@@ -960,7 +960,7 @@ class TestVPrintTree:
             "┌─┴─┐  ┌────┴────┐   ┌─┴─┐\n"
             "│ d │  │    e    │   │ f │\n"
             "└───┘  │    e2   │   └───┘\n"
-            "       │ eeeeee3 │        \n"
+            "       │ alias_1 │        \n"
             "       └────┬────┘        \n"
             "         ┌──┴───┐         \n"
             "       ┌─┴─┐  ┌─┴─┐       \n"
