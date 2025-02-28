@@ -702,7 +702,7 @@ class TestPrintTree:
         )
 
     @staticmethod
-    def test_vprint_tree_intermediate_node_name_border(tree_node):
+    def test_hprint_tree_intermediate_node_name_border(tree_node):
         expected_str = (
             "          ┌───┐\n"
             "         ┌┤ d │\n"
