@@ -3229,10 +3229,10 @@ Attributes can be added to existing nodes using a dictionary or pandas/polars Da
 </div>
 <h2 id="view-tree">View Tree</h2>
 <h3 id="1-print-tree">1. Print Tree</h3>
-<p>After tree is constructed, it can be viewed by printing to console using <code>show</code> or <code>hshow</code> method directly,
-for vertical and horizontal orientation respectively.
-Alternatively, the <code>print_tree</code> or <code>hprint_tree</code> method can be used.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">print_tree</span><span class="p">,</span> <span class="n">hprint_tree</span>
+<p>After tree is constructed, it can be viewed by printing to console using <code>show</code>, <code>hshow</code>, or <code>vshow</code> method directly,
+for compact, horizontal, and vertical orientation respectively.
+Alternatively, the <code>print_tree</code>, <code>hprint_tree</code>, or <code>vprint_tree</code> method can be used.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">print_tree</span><span class="p">,</span> <span class="n">hprint_tree</span><span class="p">,</span> <span class="n">vprint_tree</span>
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;alias-a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
@@ -3251,17 +3251,31 @@ Alternatively, the <code>print_tree</code> or <code>hprint_tree</code> method ca
 </span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="c1">#      ┌─ b ─┤</span>
 </span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="c1"># ─ a ─┤     └─ e</span>
 </span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="c1">#      └─ c</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="c1"># (3)!</span>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="c1">#         ┌───┐</span>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="c1">#         │ a │</span>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="c1">#         └─┬─┘</span>
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="c1">#      ┌────┴─────┐</span>
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="c1">#    ┌─┴─┐      ┌─┴─┐</span>
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="c1">#    │ b │      │ c │</span>
+</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="c1">#    └─┬─┘      └───┘</span>
+</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="c1">#   ┌──┴───┐</span>
+</span><span id="__span-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a><span class="c1"># ┌─┴─┐  ┌─┴─┐</span>
+</span><span id="__span-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="c1"># │ d │  │ e │</span>
+</span><span id="__span-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a><span class="c1"># └───┘  └───┘</span>
 </span></code></pre></div>
 <ol>
 <li>Alternatively, <code>root.show()</code> can be used</li>
 <li>Alternatively, <code>root.hshow()</code> can be used</li>
+<li>Alternatively, <code>root.vshow()</code> can be used</li>
 </ol>
 <p>Other customizations for printing are also available, such as:</p>
 <ul>
 <li>Printing alias instead of node name, if present</li>
 <li>Printing subtree</li>
 <li>Printing tree with attributes</li>
-<li>Different built-in or custom style</li>
+<li>Different built-in or custom style and border style</li>
 </ul>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:10"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><input id="__tabbed_6_3" name="__tabbed_6" type="radio" /><input id="__tabbed_6_4" name="__tabbed_6" type="radio" /><input id="__tabbed_6_5" name="__tabbed_6" type="radio" /><input id="__tabbed_6_6" name="__tabbed_6" type="radio" /><input id="__tabbed_6_7" name="__tabbed_6" type="radio" /><input id="__tabbed_6_8" name="__tabbed_6" type="radio" /><input id="__tabbed_6_9" name="__tabbed_6" type="radio" /><input id="__tabbed_6_10" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Alias</label><label for="__tabbed_6_2">Subtree</label><label for="__tabbed_6_3">Tree with attributes</label><label for="__tabbed_6_4">Style - ansi</label><label for="__tabbed_6_5">Style - ascii</label><label for="__tabbed_6_6">Style - const</label><label for="__tabbed_6_7">Style - const_bold</label><label for="__tabbed_6_8">Style - rounded</label><label for="__tabbed_6_9">Style - double</label><label for="__tabbed_6_10">Style - custom style</label></div>
 <div class="tabbed-content">
@@ -3549,6 +3563,11 @@ and operations (methods).</p>
 <tr>
 <td>Visualize tree (horizontally) (only for <code>Node</code>)</td>
 <td><code>root.hshow()</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td>Visualize tree (vertically) (only for <code>Node</code>)</td>
+<td><code>root.vshow()</code></td>
 <td>None</td>
 </tr>
 <tr>

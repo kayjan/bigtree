@@ -2953,7 +2953,7 @@
 <td>Yes</td>
 <td>No</td>
 <td>Yes, by hiding intermediate node name</td>
-<td>Tree style</td>
+<td>Tree style, border style</td>
 </tr>
 <tr>
 <td><code>hyield_tree</code></td>
@@ -2961,7 +2961,7 @@
 <td>Yes</td>
 <td>No</td>
 <td>Yes, by hiding intermediate node name</td>
-<td>Tree style</td>
+<td>Tree style, border style</td>
 </tr>
 <tr>
 <td><code>vprint_tree</code></td>
@@ -5277,12 +5277,15 @@ must be a float/int attribute</p>
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">hprint_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="o">**</span><span class="n">kwargs</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;node_name&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">border_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="o">**</span><span class="n">kwargs</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5290,9 +5293,13 @@ must be a float/int attribute</p>
         <p>Print tree in horizontal orientation to console, starting from <code>tree</code>.
 Accepts kwargs for print() function.</p>
 <ul>
+<li>Able to have alias for node name if alias attribute is present, else it falls back to node_name, using <code>alias</code></li>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
 <li>Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using <code>style</code></li>
+<li>Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
+    using <code>border_style</code></li>
+<li>Able to have constant width output string or to strip the trailing spaces, using <code>strip</code></li>
 </ul>
 <p>For style,</p>
 <ul>
@@ -5373,6 +5380,18 @@ Accepts kwargs for print() function.</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">- a -+     \- e</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     \- c</span>
 </span></code></pre></div>
+    <p><strong>Border</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">hprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;rounded&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;rounded&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">                    ╭───────╮</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">          ╭───────╮╭┤   d   │</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">         ╭┤   b   ├┤╰───────╯</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">╭───────╮│╰───────╯│╭───────╮</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│   a   ├┤         ╰┤   e   │</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">╰───────╯│          ╰───────╯</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">         │╭───────╮</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">         ╰┤   c   │</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">          ╰───────╯</span>
+</span></code></pre></div>
     <p><strong>Printing to a file</strong></p>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
@@ -5411,6 +5430,23 @@ Accepts kwargs for print() function.</p>
             </td>
             <td>
                 <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>alias</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node attribute to use for node name in tree as alias to <code>node_name</code>, if present.
+Otherwise, it will default to <code>node_name</code> of node.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;node_name&#39;</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -5477,6 +5513,38 @@ Accepts kwargs for print() function.</p>
                   <code>&#39;const&#39;</code>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>border_style</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="bigtree.utils.constants.BorderStyle">BorderStyle</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>style of border, defaults to None</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>strip</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>whether to strip results, defaults to True</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
       </tbody>
     </table>
 
@@ -5494,20 +5562,28 @@ Accepts kwargs for print() function.</p>
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">hyield_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;node_name&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">border_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>Yield tree in horizontal orientation to console, starting from <code>tree</code>.</p>
 <ul>
+<li>Able to have alias for node name if alias attribute is present, else it falls back to node_name, using <code>alias</code></li>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
+<li>Able to hide names of intermediate nodes, using <code>intermediate_node_name</code></li>
 <li>Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using <code>style</code></li>
+<li>Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
+    using <code>border_style</code></li>
+<li>Able to have constant width output string or to strip the trailing spaces, using <code>strip</code></li>
 </ul>
 <p>For style,</p>
 <ul>
@@ -5598,6 +5674,19 @@ Accepts kwargs for print() function.</p>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">- a -+     \- e</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">     \- c</span>
 </span></code></pre></div>
+    <p><strong>Border</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">hyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;rounded&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;rounded&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">                    ╭───────╮</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">          ╭───────╮╭┤   d   │</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">         ╭┤   b   ├┤╰───────╯</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">╭───────╮│╰───────╯│╭───────╮</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">│   a   ├┤         ╰┤   e   │</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">╰───────╯│          ╰───────╯</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">         │╭───────╮</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">         ╰┤   c   │</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">          ╰───────╯</span>
+</span></code></pre></div>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -5625,6 +5714,23 @@ Accepts kwargs for print() function.</p>
             </td>
             <td>
                 <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>alias</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node attribute to use for node name in tree as alias to <code>node_name</code>, if present.
+Otherwise, it will default to <code>node_name</code> of node.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;node_name&#39;</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -5689,6 +5795,38 @@ Accepts kwargs for print() function.</p>
             </td>
             <td>
                   <code>&#39;const&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>border_style</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="bigtree.utils.constants.BorderStyle">BorderStyle</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>style of border, defaults to None</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>strip</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>whether to strip results, defaults to True</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
             </td>
           </tr>
       </tbody>
@@ -6270,14 +6408,16 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">vprint_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">strip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="o">**</span><span class="n">kwargs</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;node_name&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">spacing</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">strip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="o">**</span><span class="n">kwargs</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6285,11 +6425,15 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
         <p>Print tree in vertical orientation to console, starting from <code>tree</code>.
 Accepts kwargs for print() function.</p>
 <ul>
+<li>Able to have alias for node name if alias attribute is present, else it falls back to node_name, using <code>alias</code></li>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
+<li>Able to hide names of intermediate nodes, using <code>intermediate_node_name</code></li>
+<li>Able to select spacing between nodes, using <code>spacing</code></li>
 <li>Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using <code>style</code></li>
 <li>Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
     using <code>border_style</code></li>
+<li>Able to have constant width output string or to strip the trailing spaces, using <code>strip</code></li>
 </ul>
 <p>For style,</p>
 <ul>
@@ -6427,19 +6571,19 @@ Accepts kwargs for print() function.</p>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">╚═══╝  ╚═══╝</span>
 </span></code></pre></div>
     <p><strong>Custom Styles</strong></p>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">ANSIVPrintStyle</span><span class="p">,</span> <span class="n">ANSIBorderStyle</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ANSIVPrintStyle</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="n">ANSIBorderStyle</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        `---`</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        | a |</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        `-+-`</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     /----+-----\</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   `-+-`      `-+-`</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   | b |      | c |</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   `-+-`      `---`</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">  /--+---\</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">`-+-`  `-+-`</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">| d |  | e |</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">`---`  `---`</span>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">RoundedVPrintStyle</span><span class="p">,</span> <span class="n">RoundedBorderStyle</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">vprint_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">RoundedVPrintStyle</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="n">RoundedBorderStyle</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">        ╭───╮</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        │ a │</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        ╰─┬─╯</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">     ╭────┴─────╮</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">   ╭─┴─╮      ╭─┴─╮</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   │ b │      │ c │</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   ╰─┬─╯      ╰───╯</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">  ╭──┴───╮</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">╭─┴─╮  ╭─┴─╮</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">╰───╯  ╰───╯</span>
 </span></code></pre></div>
     <p><strong>Printing to a file</strong></p>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
@@ -6490,6 +6634,23 @@ Accepts kwargs for print() function.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>alias</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node attribute to use for node name in tree as alias to <code>node_name</code>, if present.
+Otherwise, it will default to <code>node_name</code> of node.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;node_name&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>node_name_or_path</code>
             </td>
             <td>
@@ -6534,6 +6695,22 @@ Accepts kwargs for print() function.</p>
             </td>
             <td>
                   <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>spacing</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>spacing between node displays</p>
+              </div>
+            </td>
+            <td>
+                  <code>2</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -6642,15 +6819,18 @@ Accepts kwargs for print() function.</p>
 <li>Able to have alias for node name if alias attribute is present, else it falls back to node_name, using <code>alias</code></li>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
+<li>Able to hide names of intermediate nodes, using <code>intermediate_node_name</code></li>
+<li>Able to select spacing between nodes, using <code>spacing</code></li>
 <li>Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using <code>style</code></li>
 <li>Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
     using <code>border_style</code></li>
+<li>Able to have constant width output string or to strip the trailing spaces, using <code>strip</code></li>
 </ul>
 <p>For style,</p>
 <ul>
 <li>(str): <code>ansi</code>, <code>ascii</code>, <code>const</code> (default), <code>const_bold</code>, <code>rounded</code>, <code>double</code>  style</li>
 <li>(Iterable[str]): Choose own style icons, they must be 1 character long</li>
-<li>(constants.BaseHPrintStyle): <code>ANSIVPrintStyle</code>, <code>ASCIIVPrintStyle</code>, <code>ConstVPrintStyle</code>, <code>ConstBoldVPrintStyle</code>,
+<li>(constants.BaseVPrintStyle): <code>ANSIVPrintStyle</code>, <code>ASCIIVPrintStyle</code>, <code>ConstVPrintStyle</code>, <code>ConstBoldVPrintStyle</code>,
     <code>RoundedVPrintStyle</code>, <code>DoubleVPrintStyle</code> style or inherit from constants.BaseVPrintStyle</li>
 </ul>
 <p>For border_style,</p>
@@ -6791,20 +6971,20 @@ Accepts kwargs for print() function.</p>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">╚═══╝  ╚═══╝</span>
 </span></code></pre></div>
     <p><strong>Custom Styles</strong></p>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">ANSIVPrintStyle</span><span class="p">,</span> <span class="n">ANSIBorderStyle</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ANSIVPrintStyle</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="n">ANSIBorderStyle</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">RoundedVPrintStyle</span><span class="p">,</span> <span class="n">RoundedBorderStyle</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">vyield_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">RoundedVPrintStyle</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="n">RoundedBorderStyle</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        `---`</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        | a |</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">        `-+-`</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">     /----+-----\</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   `-+-`      `-+-`</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   | b |      | c |</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">   `-+-`      `---`</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">  /--+---\</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">`-+-`  `-+-`</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">| d |  | e |</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">`---`  `---`</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">        ╭───╮</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">        │ a │</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">        ╰─┬─╯</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">     ╭────┴─────╮</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">   ╭─┴─╮      ╭─┴─╮</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">   │ b │      │ c │</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">   ╰─┬─╯      ╰───╯</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">  ╭──┴───╮</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">╭─┴─╮  ╭─┴─╮</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">│ d │  │ e │</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">╰───╯  ╰───╯</span>
 </span></code></pre></div>
 
 
