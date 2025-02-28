@@ -394,18 +394,25 @@ def yield_tree(
 
 def hprint_tree(
     tree: T,
+    alias: str = "node_name",
     node_name_or_path: str = "",
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     style: Union[str, Iterable[str], constants.BaseHPrintStyle] = "const",
+    border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = None,
+    strip: bool = True,
     **kwargs: Any,
 ) -> None:
     """Print tree in horizontal orientation to console, starting from `tree`.
     Accepts kwargs for print() function.
 
+    - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
     - Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using `style`
+    - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
+        using `border_style`
+    - Able to have constant width output string or to strip the trailing spaces, using `strip`
 
     For style,
 
@@ -488,6 +495,19 @@ def hprint_tree(
         - a -+     \\- e
              \\- c
 
+        **Border**
+
+        >>> hprint_tree(root, style="rounded", border_style="rounded")
+                            ╭───────╮
+                  ╭───────╮╭┤   d   │
+                 ╭┤   b   ├┤╰───────╯
+        ╭───────╮│╰───────╯│╭───────╮
+        │   a   ├┤         ╰┤   e   │
+        ╰───────╯│          ╰───────╯
+                 │╭───────╮
+                 ╰┤   c   │
+                  ╰───────╯
+
         **Printing to a file**
         >>> import io
         >>> output = io.StringIO()
@@ -501,33 +521,48 @@ def hprint_tree(
 
     Args:
         tree (Node): tree to print
+        alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
+            Otherwise, it will default to `node_name` of node.
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
         style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
+        border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to None
+        strip (bool): whether to strip results, defaults to True
     """
     result = hyield_tree(
         tree,
+        alias=alias,
         node_name_or_path=node_name_or_path,
         intermediate_node_name=intermediate_node_name,
         max_depth=max_depth,
         style=style,
+        border_style=border_style,
+        strip=strip,
     )
     print("\n".join(result), **kwargs)
 
 
 def hyield_tree(
     tree: T,
+    alias: str = "node_name",
     node_name_or_path: str = "",
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     style: Union[str, Iterable[str], constants.BaseHPrintStyle] = "const",
+    border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = None,
+    strip: bool = True,
 ) -> List[str]:
     """Yield tree in horizontal orientation to console, starting from `tree`.
 
+    - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
+    - Able to hide names of intermediate nodes, using `intermediate_node_name`
     - Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using `style`
+    - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
+        using `border_style`
+    - Able to have constant width output string or to strip the trailing spaces, using `strip`
 
     For style,
 
@@ -620,18 +655,40 @@ def hyield_tree(
         - a -+     \\- e
              \\- c
 
+        **Border**
+
+        >>> result = hyield_tree(root, style="rounded", border_style="rounded")
+        >>> print("\\n".join(result))
+                            ╭───────╮
+                  ╭───────╮╭┤   d   │
+                 ╭┤   b   ├┤╰───────╯
+        ╭───────╮│╰───────╯│╭───────╮
+        │   a   ├┤         ╰┤   e   │
+        ╰───────╯│          ╰───────╯
+                 │╭───────╮
+                 ╰┤   c   │
+                  ╰───────╯
+
     Args:
         tree (Node): tree to print
+        alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
+            Otherwise, it will default to `node_name` of node.
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
         style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
+        border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to None
+        strip (bool): whether to strip results, defaults to True
 
     Returns:
         (List[str])
     """
-    from itertools import accumulate
-
+    from bigtree.tree.export._stdout import (
+        calculate_stem_pos,
+        format_node,
+        horizontal_join,
+        vertical_join,
+    )
     from bigtree.tree.helper import get_subtree
 
     tree = get_subtree(tree, node_name_or_path, max_depth)
@@ -646,13 +703,36 @@ def hyield_tree(
             raise ValueError("Please specify the style of 7 icons in `style`")
         style_class = constants.BaseHPrintStyle(*style)
 
+    if border_style is None:
+        border_style_class = None
+    elif isinstance(border_style, str):
+        border_style_class = constants.BorderStyle.from_style(border_style)
+    elif isinstance(border_style, constants.BorderStyle):
+        border_style_class = border_style
+    else:
+        if len(list(border_style)) != 6:
+            raise ValueError("Please specify the style of 6 icons in `border_style`")
+        border_style_class = constants.BorderStyle(*border_style)
+
     # Calculate padding
     space = " "
     padding_depths = collections.defaultdict(int)
     if intermediate_node_name:
         for _idx, _children in enumerate(iterators.levelordergroup_iter(tree)):
             padding_depths[_idx + 1] = max(
-                [len(_node.node_name) for _node in _children]
+                [
+                    len(
+                        format_node(
+                            _node,
+                            alias,
+                            intermediate_node_name,
+                            style_class,
+                            border_style_class,
+                            add_buffer=False,
+                        )[0]
+                    )
+                    for _node in _children
+                ]
             )
 
     def _hprint_branch(
@@ -670,105 +750,103 @@ def hyield_tree(
         """
         if not _node:
             # For binary node
-            _node = node.Node("  ")
-        node_name_centered = _node.node_name.center(padding_depths[_cur_depth])
+            _node = node.Node(" ")
+        node_display_lines = format_node(
+            _node,
+            alias,
+            intermediate_node_name,
+            style_class,
+            border_style_class,
+            padding_depths[_cur_depth],
+        )
+        node_mid = calculate_stem_pos(len(node_display_lines))
 
         children = list(_node.children) if any(list(_node.children)) else []
         if not len(children):
-            node_str = f"{style_class.BRANCH} {node_name_centered.rstrip()}"
-            return [node_str], 0
+            return node_display_lines, node_mid
 
-        result_children, result_nrow, result_idx = [], [], []
-        if intermediate_node_name:
-            node_str = (
-                f"""{style_class.BRANCH} {node_name_centered} {style_class.BRANCH}"""
-            )
-        else:
-            node_str = (
-                f"""{style_class.BRANCH}{style_class.BRANCH}{style_class.BRANCH}"""
-            )
-        padding = space * len(node_str)
+        result_children, result_idx = [], []
+        cumulative_height = 0
         for idx, child in enumerate(children):
             result_child, result_branch_idx = _hprint_branch(child, _cur_depth + 1)
-            result_children.extend(result_child)
-            result_nrow.append(len(result_child))
-            result_idx.append(result_branch_idx)
+            result_idx.append(cumulative_height + result_branch_idx)
+            cumulative_height += len(result_child)
+            result_children.append(result_child)
+
+        # Join children column
+        children_display_lines = vertical_join(result_children)
 
         # Calculate index of first branch, last branch, total length, and midpoint
         first, last, total = (
             result_idx[0],
-            sum(result_nrow) + result_idx[-1] - result_nrow[-1],
-            sum(result_nrow) - 1,
+            result_idx[-1],
+            len(children_display_lines),
         )
         mid = (first + last) // 2
 
         if len(children) == 1:
             # Special case for one child (need only one branch)
             result_prefix = (
-                [padding + space] * first
-                + [node_str + style_class.BRANCH]
-                + [padding + space] * (total - last)
+                space * first + style_class.BRANCH + space * (total - first - 1)
             )
-        elif len(children) == 2:
+        elif len(children) == 2 and (last - first == 1):
             # Special case for two children (need split_branch)
-            if last - first == 1:
-                # Create gap if two children occupy two rows
-                assert len(result_children) == 2
-                result_children = [result_children[0], "", result_children[1]]
-                last = total = first + 2
-                mid = (last - first) // 2
+            # Create gap if two children occupy two rows
+            children_display_lines.insert(last, "")
+            last = first + 2
+            mid = (last - first) // 2
             result_prefix = (
-                [padding + space] * first
-                + [padding + style_class.FIRST_CHILD]
-                + [padding + style_class.STEM] * (mid - first - 1)
-                + [node_str + style_class.SPLIT_BRANCH]
-                + [padding + style_class.STEM] * (last - mid - 1)
-                + [padding + style_class.LAST_CHILD]
-                + [padding + space] * (total - last)
+                space * first
+                + style_class.FIRST_CHILD
+                + style_class.SPLIT_BRANCH
+                + style_class.LAST_CHILD
             )
         else:
-            branch_idxs = list(
-                (
-                    offset + blanks
-                    for offset, blanks in zip(
-                        result_idx, [0] + list(accumulate(result_nrow))
-                    )
+            result_prefix = space * first + style_class.FIRST_CHILD
+            for idx, (bef, aft) in enumerate(zip(result_idx, result_idx[1:])):
+                result_prefix += style_class.STEM * (aft - bef - 1)
+                result_prefix += style_class.SUBSEQUENT_CHILD
+            result_prefix = result_prefix[:-1] + style_class.LAST_CHILD
+            result_prefix += space * (total - result_idx[-1] - 1)
+            if mid in result_idx:
+                stem = style_class.MIDDLE_CHILD if mid else style_class.FIRST_CHILD
+                result_prefix = (
+                    result_prefix[:mid] + stem + result_prefix[mid + 1 :]  # noqa
                 )
-            )
-            n_stems = [(b - a - 1) for a, b in zip(branch_idxs, branch_idxs[1:])]
-            result_prefix = (
-                [padding + space] * first
-                + [padding + style_class.FIRST_CHILD]
-                + [
-                    _line
-                    for line in [
-                        [padding + style_class.STEM] * n_stem
-                        + [padding + style_class.SUBSEQUENT_CHILD]
-                        for n_stem in n_stems[:-1]
-                    ]
-                    for _line in line
-                ]
-                + [padding + style_class.STEM] * n_stems[-1]
-                + [padding + style_class.LAST_CHILD]
-                + [padding + space] * (total - last)
-            )
-            result_prefix[mid] = node_str + style_class.SPLIT_BRANCH
-            if mid in branch_idxs:
-                result_prefix[mid] = node_str + style_class.MIDDLE_CHILD
-        result_children = [
-            prefix + stem for prefix, stem in zip(result_prefix, result_children)
-        ]
-        return result_children, mid
+            else:
+                result_prefix = (
+                    result_prefix[:mid]
+                    + style_class.SPLIT_BRANCH
+                    + result_prefix[mid + 1 :]  # noqa
+                )
+        parent_buffer = max(0, mid - node_mid)
+        child_buffer = max(0, node_mid - mid)
+        mid += child_buffer
+        node_display_lines = [
+            len(node_display_lines[0]) * space
+        ] * parent_buffer + node_display_lines
+        result_prefix = " " * child_buffer + result_prefix
+        children_display_lines = [
+            len(children_display_lines[0]) * space
+        ] * child_buffer + children_display_lines
+        result = horizontal_join(
+            [node_display_lines, list(result_prefix), children_display_lines]
+        )
+        return result, mid
 
     result_tree, _ = _hprint_branch(tree, 1)
+    if strip:
+        return [result.rstrip() for result in result_tree]
     return result_tree
 
 
 def vprint_tree(
     tree: T,
+    alias: str = "node_name",
     node_name_or_path: str = "",
     max_depth: int = 0,
     intermediate_node_name: bool = True,
+    spacing: int = 2,
     style: Union[str, Iterable[str], constants.BaseVPrintStyle] = "const",
     border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = "const",
     strip: bool = False,
@@ -777,11 +855,15 @@ def vprint_tree(
     """Print tree in vertical orientation to console, starting from `tree`.
     Accepts kwargs for print() function.
 
+    - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
+    - Able to hide names of intermediate nodes, using `intermediate_node_name`
+    - Able to select spacing between nodes, using `spacing`
     - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
+    - Able to have constant width output string or to strip the trailing spaces, using `strip`
 
     For style,
 
@@ -921,19 +1003,19 @@ def vprint_tree(
 
         **Custom Styles**
 
-        >>> from bigtree import ANSIVPrintStyle, ANSIBorderStyle
-        >>> vprint_tree(root, style=ANSIVPrintStyle, border_style=ANSIBorderStyle, strip=True)
-                `---`
-                | a |
-                `-+-`
-             /----+-----\\
-           `-+-`      `-+-`
-           | b |      | c |
-           `-+-`      `---`
-          /--+---\\
-        `-+-`  `-+-`
-        | d |  | e |
-        `---`  `---`
+        >>> from bigtree import RoundedVPrintStyle, RoundedBorderStyle
+        >>> vprint_tree(root, style=RoundedVPrintStyle, border_style=RoundedBorderStyle, strip=True)
+                ╭───╮
+                │ a │
+                ╰─┬─╯
+             ╭────┴─────╮
+           ╭─┴─╮      ╭─┴─╮
+           │ b │      │ c │
+           ╰─┬─╯      ╰───╯
+          ╭──┴───╮
+        ╭─┴─╮  ╭─┴─╮
+        │ d │  │ e │
+        ╰───╯  ╰───╯
 
         **Printing to a file**
         >>> import io
@@ -955,9 +1037,12 @@ def vprint_tree(
 
     Args:
         tree (Node): tree to print
+        alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
+            Otherwise, it will default to `node_name` of node.
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
+        spacing (int): spacing between node displays
         style (Union[str, Iterable[str], constants.BaseVPrintStyle]): style of print, defaults to const
         border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to const
         strip (bool): whether to strip results, defaults to False
@@ -967,9 +1052,11 @@ def vprint_tree(
     """
     result = vyield_tree(
         tree,
+        alias=alias,
         node_name_or_path=node_name_or_path,
-        intermediate_node_name=intermediate_node_name,
         max_depth=max_depth,
+        intermediate_node_name=intermediate_node_name,
+        spacing=spacing,
         style=style,
         border_style=border_style,
         strip=strip,
@@ -993,15 +1080,18 @@ def vyield_tree(
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
+    - Able to hide names of intermediate nodes, using `intermediate_node_name`
+    - Able to select spacing between nodes, using `spacing`
     - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
+    - Able to have constant width output string or to strip the trailing spaces, using `strip`
 
     For style,
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
     - (Iterable[str]): Choose own style icons, they must be 1 character long
-    - (constants.BaseHPrintStyle): `ANSIVPrintStyle`, `ASCIIVPrintStyle`, `ConstVPrintStyle`, `ConstBoldVPrintStyle`,
+    - (constants.BaseVPrintStyle): `ANSIVPrintStyle`, `ASCIIVPrintStyle`, `ConstVPrintStyle`, `ConstBoldVPrintStyle`,
         `RoundedVPrintStyle`, `DoubleVPrintStyle` style or inherit from constants.BaseVPrintStyle
 
     For border_style,
@@ -1144,20 +1234,20 @@ def vyield_tree(
 
         **Custom Styles**
 
-        >>> from bigtree import ANSIVPrintStyle, ANSIBorderStyle
-        >>> result = vyield_tree(root, style=ANSIVPrintStyle, border_style=ANSIBorderStyle, strip=True)
+        >>> from bigtree import RoundedVPrintStyle, RoundedBorderStyle
+        >>> result = vyield_tree(root, style=RoundedVPrintStyle, border_style=RoundedBorderStyle, strip=True)
         >>> print("\\n".join(result))
-                `---`
-                | a |
-                `-+-`
-             /----+-----\\
-           `-+-`      `-+-`
-           | b |      | c |
-           `-+-`      `---`
-          /--+---\\
-        `-+-`  `-+-`
-        | d |  | e |
-        `---`  `---`
+                ╭───╮
+                │ a │
+                ╰─┬─╯
+             ╭────┴─────╮
+           ╭─┴─╮      ╭─┴─╮
+           │ b │      │ c │
+           ╰─┬─╯      ╰───╯
+          ╭──┴───╮
+        ╭─┴─╮  ╭─┴─╮
+        │ d │  │ e │
+        ╰───╯  ╰───╯
 
     Args:
         tree (Node): tree to print

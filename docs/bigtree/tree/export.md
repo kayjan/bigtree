@@ -28,8 +28,8 @@ While exporting to another data type, methods can take in arguments to determine
 |------------------------|-------------------------------------|-----------------------|------------|---------------------------------------|-------------------------------------------------------|
 | `print_tree`           | Yes with `attr_list` or `all_attrs` | Yes                   | No         | No                                    | Tree style                                            |
 | `yield_tree`           | No, returns node                    | Yes                   | No         | No                                    | Tree style                                            |
-| `hprint_tree`          | No                                  | Yes                   | No         | Yes, by hiding intermediate node name | Tree style                                            |
-| `hyield_tree`          | No                                  | Yes                   | No         | Yes, by hiding intermediate node name | Tree style                                            |
+| `hprint_tree`          | No                                  | Yes                   | No         | Yes, by hiding intermediate node name | Tree style, border style                              |
+| `hyield_tree`          | No                                  | Yes                   | No         | Yes, by hiding intermediate node name | Tree style, border style                              |
 | `vprint_tree`          | No                                  | Yes                   | No         | Yes, by hiding intermediate node name | Tree style, border style                              |
 | `vyield_tree`          | No                                  | Yes                   | No         | Yes, by hiding intermediate node name | Tree style, border style                              |
 | `tree_to_newick`       | Yes with `attr_list`                | No                    | No         | Yes, by hiding intermediate node name | Length separator and attribute prefix and separator   |

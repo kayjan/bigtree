@@ -1014,7 +1014,7 @@ def assert_binarytree_structure_root2(root):
     expected_str = (
         "                 ┌─ 8\n"
         "           ┌─ 4 ─┤\n"
-        "     ┌─ 2 ─┤     └─ \n"
+        "     ┌─ 2 ─┤     └─\n"
         "─ 1 ─┤     └─ 5\n"
         "     │     ┌─ 6\n"
         "     └─ 3 ─┤\n"

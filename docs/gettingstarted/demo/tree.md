@@ -339,12 +339,12 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
 
 ### 1. Print Tree
 
-After tree is constructed, it can be viewed by printing to console using `show` or `hshow` method directly,
-for vertical and horizontal orientation respectively.
-Alternatively, the `print_tree` or `hprint_tree` method can be used.
+After tree is constructed, it can be viewed by printing to console using `show`, `hshow`, or `vshow` method directly,
+for compact, horizontal, and vertical orientation respectively.
+Alternatively, the `print_tree`, `hprint_tree`, or `vprint_tree` method can be used.
 
 ```python hl_lines="8 15"
-from bigtree import Node, print_tree, hprint_tree
+from bigtree import Node, print_tree, hprint_tree, vprint_tree
 
 root = Node("a", alias="alias-a", age=90, gender="F")
 b = Node("b", age=65, gender="M", parent=root)
@@ -363,17 +363,31 @@ hprint_tree(root) # (2)!
 #      ┌─ b ─┤
 # ─ a ─┤     └─ e
 #      └─ c
+
+vprint_tree(root) # (3)!
+#         ┌───┐
+#         │ a │
+#         └─┬─┘
+#      ┌────┴─────┐
+#    ┌─┴─┐      ┌─┴─┐
+#    │ b │      │ c │
+#    └─┬─┘      └───┘
+#   ┌──┴───┐
+# ┌─┴─┐  ┌─┴─┐
+# │ d │  │ e │
+# └───┘  └───┘
 ```
 
 1. Alternatively, `root.show()` can be used
 2. Alternatively, `root.hshow()` can be used
+3. Alternatively, `root.vshow()` can be used
 
 Other customizations for printing are also available, such as:
 
 - Printing alias instead of node name, if present
 - Printing subtree
 - Printing tree with attributes
-- Different built-in or custom style
+- Different built-in or custom style and border style
 
 === "Alias"
     ```python hl_lines="1"
@@ -572,6 +586,7 @@ Below is the table of operations available to `BaseNode` and `Node` classes.
 |-------------------------------------------------|------------------------------------------------------------|--------------------------------------------|
 | Visualize tree (only for `Node`)                | `root.show()`                                              | None                                       |
 | Visualize tree (horizontally) (only for `Node`) | `root.hshow()`                                             | None                                       |
+| Visualize tree (vertically) (only for `Node`)   | `root.vshow()`                                             | None                                       |
 | Get node information                            | `root.describe(exclude_prefix="_")`                        | [('name', 'a')]                            |
 | Find path from one node to another              | `root.go_to(node_e)`                                       | [Node(/a, ), Node(/a/b, ), Node(/a/b/e, )] |
 | Add child to node                               | `root.append(Node("j"))`                                   | None                                       |

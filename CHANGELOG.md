@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.25.1] - 2025-02-28
+### Added:
+- Tree Exporter: `vprint_tree` to have same arguments as `vyield_tree`, add more test cases.
+- Tree Exporter: `hprint_tree` to support multiline node name, alias, and border style.
+
 ## [0.25.0] - 2025-02-25
 ### Added:
 - Tree Exporter: `tree_to_pillow_graph` method to allow cmap for node background and generic kwargs for yield_tree.
@@ -736,7 +741,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.25.0...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.25.1...HEAD
+[0.25.1]: https://github.com/kayjan/bigtree/compare/0.25.0...0.25.1
 [0.25.0]: https://github.com/kayjan/bigtree/compare/0.24.0...0.25.0
 [0.24.0]: https://github.com/kayjan/bigtree/compare/0.23.1...0.24.0
 [0.23.1]: https://github.com/kayjan/bigtree/compare/0.23.0...0.23.1
