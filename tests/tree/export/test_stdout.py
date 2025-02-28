@@ -590,6 +590,40 @@ class TestPrintTree:
         )
 
     @staticmethod
+    def test_hprint_tree_alias(tree_node):
+        tree_node.alias_attr = "a\na2"
+        tree_node["b"]["e"].alias_attr = "e\ne2\nalias_1"
+        expected_str = (
+            "            ┌─    d\n"
+            "      ┌─ b ─┤     e     ┌─ g\n"
+            "─ a  ─┤     └─    e2   ─┤\n"
+            "  a2  │        alias_1  └─ h\n"
+            "      └─ c ───    f\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            alias="alias_attr",
+        )
+
+    @staticmethod
+    def test_hprint_tree_strip(tree_node):
+        expected_str = (
+            "           ┌─ d      \n"
+            "     ┌─ b ─┤     ┌─ g\n"
+            "─ a ─┤     └─ e ─┤   \n"
+            "     │           └─ h\n"
+            "     └─ c ─── f      \n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            strip=False,
+        )
+
+    @staticmethod
     def test_hprint_tree_long_root_name_length(tree_node):
         tree_node.name = "abcdefghijkl"
         expected_str = (
@@ -870,7 +904,7 @@ class TestPrintTree:
         )
 
     @staticmethod
-    def test_hprint_tree_style_class_error(tree_node):
+    def test_hprint_tree_style_class_unequal_char_error(tree_node):
         from bigtree.utils.constants import BaseHPrintStyle
 
         with pytest.raises(ValueError) as exc_info:
@@ -924,9 +958,57 @@ class TestPrintTree:
         export.hprint_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_hstr
 
-    # border
+    # border_style
     @staticmethod
-    def test_hprint_tree_border(tree_node):
+    def test_hprint_tree_border_style_ansi(tree_node):
+        expected_str = (
+            "                    `-------`\n"
+            "                   /+   d   |\n"
+            "          `-------`|`-------`\n"
+            "         /+   b   ++          `-------`\n"
+            "         |`-------`|`-------`/+   g   |\n"
+            "`-------`|         \\+   e   ++`-------`\n"
+            "|   a   ++          `-------`|`-------`\n"
+            "`-------`|                   \\+   h   |\n"
+            "         |                    `-------`\n"
+            "         |`-------` `-------`\n"
+            "         \\+   c   +-+   f   |\n"
+            "          `-------` `-------`\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="ansi",
+            border_style="ansi",
+        )
+
+    @staticmethod
+    def test_hprint_tree_border_style_ascii(tree_node):
+        expected_str = (
+            "                    +-------+\n"
+            "                   ++   d   |\n"
+            "          +-------+|+-------+\n"
+            "         ++   b   ++          +-------+\n"
+            "         |+-------+|+-------+++   g   |\n"
+            "+-------+|         ++   e   +++-------+\n"
+            "|   a   ++          +-------+|+-------+\n"
+            "+-------+|                   ++   h   |\n"
+            "         |                    +-------+\n"
+            "         |+-------+ +-------+\n"
+            "         ++   c   +-+   f   |\n"
+            "          +-------+ +-------+\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="ascii",
+            border_style="ascii",
+        )
+
+    @staticmethod
+    def test_hprint_tree_border_style_const(tree_node):
         expected_str = (
             "                    ┌───────┐\n"
             "                   ┌┤   d   │\n"
@@ -945,11 +1027,119 @@ class TestPrintTree:
             export.hprint_tree,
             expected_str,
             tree=tree_node,
+            style="const",
             border_style="const",
         )
 
     @staticmethod
-    def test_vprint_tree_border_multiline(tree_node):
+    def test_hprint_tree_border_style_const_bold(tree_node):
+        expected_str = (
+            "                    ┏━━━━━━━┓\n"
+            "                   ┏┫   d   ┃\n"
+            "          ┏━━━━━━━┓┃┗━━━━━━━┛\n"
+            "         ┏┫   b   ┣┫          ┏━━━━━━━┓\n"
+            "         ┃┗━━━━━━━┛┃┏━━━━━━━┓┏┫   g   ┃\n"
+            "┏━━━━━━━┓┃         ┗┫   e   ┣┫┗━━━━━━━┛\n"
+            "┃   a   ┣┫          ┗━━━━━━━┛┃┏━━━━━━━┓\n"
+            "┗━━━━━━━┛┃                   ┗┫   h   ┃\n"
+            "         ┃                    ┗━━━━━━━┛\n"
+            "         ┃┏━━━━━━━┓ ┏━━━━━━━┓\n"
+            "         ┗┫   c   ┣━┫   f   ┃\n"
+            "          ┗━━━━━━━┛ ┗━━━━━━━┛\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="const_bold",
+            border_style="const_bold",
+        )
+
+    @staticmethod
+    def test_hprint_tree_border_style_rounded(tree_node):
+        expected_str = (
+            "                    ╭───────╮\n"
+            "                   ╭┤   d   │\n"
+            "          ╭───────╮│╰───────╯\n"
+            "         ╭┤   b   ├┤          ╭───────╮\n"
+            "         │╰───────╯│╭───────╮╭┤   g   │\n"
+            "╭───────╮│         ╰┤   e   ├┤╰───────╯\n"
+            "│   a   ├┤          ╰───────╯│╭───────╮\n"
+            "╰───────╯│                   ╰┤   h   │\n"
+            "         │                    ╰───────╯\n"
+            "         │╭───────╮ ╭───────╮\n"
+            "         ╰┤   c   ├─┤   f   │\n"
+            "          ╰───────╯ ╰───────╯\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="rounded",
+            border_style="rounded",
+        )
+
+    @staticmethod
+    def test_hprint_tree_border_style_double(tree_node):
+        expected_str = (
+            "                    ╔═══════╗\n"
+            "                   ╔╣   d   ║\n"
+            "          ╔═══════╗║╚═══════╝\n"
+            "         ╔╣   b   ╠╣          ╔═══════╗\n"
+            "         ║╚═══════╝║╔═══════╗╔╣   g   ║\n"
+            "╔═══════╗║         ╚╣   e   ╠╣╚═══════╝\n"
+            "║   a   ╠╣          ╚═══════╝║╔═══════╗\n"
+            "╚═══════╝║                   ╚╣   h   ║\n"
+            "         ║                    ╚═══════╝\n"
+            "         ║╔═══════╗ ╔═══════╗\n"
+            "         ╚╣   c   ╠═╣   f   ║\n"
+            "          ╚═══════╝ ╚═══════╝\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style="double",
+            border_style="double",
+        )
+
+    @staticmethod
+    def test_hprint_tree_border_style_unknown_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            export.hprint_tree(tree_node, border_style="something")
+        assert str(exc_info.value).startswith(
+            Constants.ERROR_NODE_EXPORT_PRINT_INVALID_STYLE
+        )
+
+    # custom border_style
+    @staticmethod
+    def test_hprint_tree_border_style_ansi_class(tree_node):
+        from bigtree.utils.constants import ANSIBorderStyle, ANSIHPrintStyle
+
+        expected_str = (
+            "                    `-------`\n"
+            "                   /+   d   |\n"
+            "          `-------`|`-------`\n"
+            "         /+   b   ++          `-------`\n"
+            "         |`-------`|`-------`/+   g   |\n"
+            "`-------`|         \\+   e   ++`-------`\n"
+            "|   a   ++          `-------`|`-------`\n"
+            "`-------`|                   \\+   h   |\n"
+            "         |                    `-------`\n"
+            "         |`-------` `-------`\n"
+            "         \\+   c   +-+   f   |\n"
+            "          `-------` `-------`\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            style=ANSIHPrintStyle,
+            border_style=ANSIBorderStyle,
+        )
+
+    @staticmethod
+    def test_hprint_tree_border_style_multiline(tree_node):
         tree_node.name = "a\na2"
         tree_node["b"]["e"].name = "e\ne2\nmultiln"
         expected_str = (
@@ -974,7 +1164,7 @@ class TestPrintTree:
         )
 
     @staticmethod
-    def test_hprint_tree_border_multiline_parent_longer(tree_node):
+    def test_hprint_tree_border_style_multiline_parent_longer(tree_node):
         tree_node.name = "a\na2"
         tree_node["b"]["e"].name = "e\ne2\nmultiln\nmultiln\nmultiln"
         expected_str = (
@@ -1000,7 +1190,7 @@ class TestPrintTree:
         )
 
     @staticmethod
-    def test_hprint_tree_border_diff_node_name_length(tree_node):
+    def test_hprint_tree_border_style_diff_node_name_length(tree_node):
         tree_node["b"].name = "bcde"
         tree_node["c"]["f"].name = "fghijk"
         expected_str = (
@@ -1632,7 +1822,7 @@ class TestVPrintTree:
         )
 
     @staticmethod
-    def test_vprint_tree_style_class_error(tree_node):
+    def test_vprint_tree_style_class_unequal_char_error(tree_node):
         from bigtree.utils.constants import BaseVPrintStyle
 
         with pytest.raises(ValueError) as exc_info:
@@ -1696,7 +1886,7 @@ class TestVPrintTree:
         export.vprint_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_vstr
 
-    # border
+    # border_style
     @staticmethod
     def test_vprint_tree_border_none(tree_node):
         expected_str = (
