@@ -456,8 +456,7 @@ class TestPrintTree:
         export.print_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_no_attr_str
 
-
-class TestHPrintTree:
+    # class TestHPrintTree:
     @staticmethod
     def test_hprint_tree(tree_node):
         assert_print_statement(
@@ -528,6 +527,61 @@ class TestHPrintTree:
             "           │      ┌─ e311\n"
             "           └─ e3 ─┼─ e312\n"
             "                  └─ e313\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+        )
+
+    @staticmethod
+    def test_hprint_tree_multiline(tree_node):
+        tree_node.name = "a\na2"
+        tree_node["b"]["e"].name = "e\ne2\nmultiln"
+        expected_str = (
+            "            ┌─    d\n"
+            "      ┌─ b ─┤     e     ┌─ g\n"
+            "─ a  ─┤     └─    e2   ─┤\n"
+            "  a2  │        multiln  └─ h\n"
+            "      └─ c ───    f\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+        )
+
+    @staticmethod
+    def test_hprint_tree_multiline_parent_longer(tree_node):
+        tree_node.name = "a\na2"
+        tree_node["c"].name = "c\nc2\nmultiln"
+        expected_str = (
+            "                  ┌─ d\n"
+            "      ┌─    b    ─┤     ┌─ g\n"
+            "      │           └─ e ─┤\n"
+            "─ a  ─┤                 └─ h\n"
+            "  a2  │     c\n"
+            "      └─    c2   ─── f\n"
+            "         multiln\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+        )
+
+    @staticmethod
+    def test_hprint_tree_multiline_parent_longer2(tree_node):
+        tree_node.name = "a\na2"
+        tree_node["b"]["e"].name = "e\ne2\nmultiln\nmultiln\nmultiln"
+        expected_str = (
+            "            ┌─    d\n"
+            "      ┌─ b ─┤     e\n"
+            "      │     │     e2    ┌─ g\n"
+            "─ a  ─┤     └─ multiln ─┤\n"
+            "  a2  │        multiln  └─ h\n"
+            "      │        multiln\n"
+            "      └─ c ───    f\n"
         )
         assert_print_statement(
             export.hprint_tree,
@@ -611,6 +665,30 @@ class TestHPrintTree:
             expected_str,
             tree=tree_node,
             intermediate_node_name=False,
+        )
+
+    @staticmethod
+    def test_vprint_tree_intermediate_node_name_border(tree_node):
+        expected_str = (
+            "          ┌───┐\n"
+            "         ┌┤ d │\n"
+            "     ┌──┐│└───┘\n"
+            "    ┌┤  ├┤     ┌───┐\n"
+            "    │└──┘│┌──┐┌┤ g │\n"
+            "┌──┐│    └┤  ├┤└───┘\n"
+            "│  ├┤     └──┘│┌───┐\n"
+            "└──┘│         └┤ h │\n"
+            "    │          └───┘\n"
+            "    │┌──┐ ┌───┐\n"
+            "    └┤  ├─┤ f │\n"
+            "     └──┘ └───┘\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            intermediate_node_name=False,
+            border_style="const",
         )
 
     @staticmethod
@@ -845,6 +923,121 @@ class TestHPrintTree:
         output = io.StringIO()
         export.hprint_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_hstr
+
+    # border
+    @staticmethod
+    def test_hprint_tree_border(tree_node):
+        expected_str = (
+            "                    ┌───────┐\n"
+            "                   ┌┤   d   │\n"
+            "          ┌───────┐│└───────┘\n"
+            "         ┌┤   b   ├┤          ┌───────┐\n"
+            "         │└───────┘│┌───────┐┌┤   g   │\n"
+            "┌───────┐│         └┤   e   ├┤└───────┘\n"
+            "│   a   ├┤          └───────┘│┌───────┐\n"
+            "└───────┘│                   └┤   h   │\n"
+            "         │                    └───────┘\n"
+            "         │┌───────┐ ┌───────┐\n"
+            "         └┤   c   ├─┤   f   │\n"
+            "          └───────┘ └───────┘\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            border_style="const",
+        )
+
+    @staticmethod
+    def test_vprint_tree_border_multiline(tree_node):
+        tree_node.name = "a\na2"
+        tree_node["b"]["e"].name = "e\ne2\nmultiln"
+        expected_str = (
+            "                     ┌─────────────┐\n"
+            "                    ┌┤      d      │\n"
+            "           ┌───────┐│└─────────────┘\n"
+            "          ┌┤   b   ├┤┌─────────────┐ ┌───────┐\n"
+            "          │└───────┘││      e      │┌┤   g   │\n"
+            "┌────────┐│         └┤      e2     ├┤└───────┘\n"
+            "│   a    ├┤          │   multiln   ││┌───────┐\n"
+            "│   a2   ││          └─────────────┘└┤   h   │\n"
+            "└────────┘│                          └───────┘\n"
+            "          │┌───────┐ ┌─────────────┐\n"
+            "          └┤   c   ├─┤      f      │\n"
+            "           └───────┘ └─────────────┘\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            border_style="const",
+        )
+
+    @staticmethod
+    def test_hprint_tree_border_multiline_parent_longer(tree_node):
+        tree_node.name = "a\na2"
+        tree_node["b"]["e"].name = "e\ne2\nmultiln\nmultiln\nmultiln"
+        expected_str = (
+            "                     ┌─────────────┐\n"
+            "                    ┌┤      d      │\n"
+            "           ┌───────┐│└─────────────┘\n"
+            "          ┌┤   b   ├┤┌─────────────┐\n"
+            "          │└───────┘││      e      │ ┌───────┐\n"
+            "          │         ││      e2     │┌┤   g   │\n"
+            "┌────────┐│         └┤   multiln   ├┤└───────┘\n"
+            "│   a    ├┤          │   multiln   ││┌───────┐\n"
+            "│   a2   ││          │   multiln   │└┤   h   │\n"
+            "└────────┘│          └─────────────┘ └───────┘\n"
+            "          │┌───────┐ ┌─────────────┐\n"
+            "          └┤   c   ├─┤      f      │\n"
+            "           └───────┘ └─────────────┘\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            border_style="const",
+        )
+
+    @staticmethod
+    def test_hprint_tree_border_diff_node_name_length(tree_node):
+        tree_node["b"].name = "bcde"
+        tree_node["c"]["f"].name = "fghijk"
+        expected_str = (
+            "                       ┌────────────┐\n"
+            "                      ┌┤     d      │\n"
+            "          ┌──────────┐│└────────────┘\n"
+            "         ┌┤   bcde   ├┤               ┌───────┐\n"
+            "         │└──────────┘│┌────────────┐┌┤   g   │\n"
+            "┌───────┐│            └┤     e      ├┤└───────┘\n"
+            "│   a   ├┤             └────────────┘│┌───────┐\n"
+            "└───────┘│                           └┤   h   │\n"
+            "         │                            └───────┘\n"
+            "         │┌──────────┐ ┌────────────┐\n"
+            "         └┤    c     ├─┤   fghijk   │\n"
+            "          └──────────┘ └────────────┘\n"
+        )
+        assert_print_statement(
+            export.hprint_tree, expected_str, tree=tree_node, border_style="const"
+        )
+
+    @staticmethod
+    def test_hprint_tree_border_style_unequal_char_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            export.hprint_tree(
+                tree_node,
+                border_style=["+ ", "+", "+", "+", "|", "-"],
+            )
+        assert (
+            str(exc_info.value)
+            == Constants.ERROR_NODE_EXPORT_HPRINT_CUSTOM_STYLE_DIFFERENT_LENGTH
+        )
+
+    @staticmethod
+    def test_hprint_tree_border_style_missing_style_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            export.hprint_tree(tree_node, border_style=["+", "+", "+", "+", "|"])
+        assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_BORDER_STYLE_SELECT
 
 
 class TestVPrintTree:
