@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.25.0] - 2025-02-25
 ### Added:
 - Tree Exporter: `vprint_tree` to have same arguments as `vyield_tree`, add more test cases.
 - Tree Exporter: `hprint_tree` to support multiline node name, alias, and border style.
