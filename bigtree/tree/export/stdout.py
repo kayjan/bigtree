@@ -495,6 +495,19 @@ def hprint_tree(
         - a -+     \\- e
              \\- c
 
+        **Border**
+
+        >>> hprint_tree(root, style="rounded", border_style="rounded")
+                            ╭───────╮
+                  ╭───────╮╭┤   d   │
+                 ╭┤   b   ├┤╰───────╯
+        ╭───────╮│╰───────╯│╭───────╮
+        │   a   ├┤         ╰┤   e   │
+        ╰───────╯│          ╰───────╯
+                 │╭───────╮
+                 ╰┤   c   │
+                  ╰───────╯
+
         **Printing to a file**
         >>> import io
         >>> output = io.StringIO()
@@ -537,7 +550,7 @@ def hyield_tree(
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     style: Union[str, Iterable[str], constants.BaseHPrintStyle] = "const",
-    border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = "const",
+    border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = None,
     strip: bool = True,
 ) -> List[str]:
     """Yield tree in horizontal orientation to console, starting from `tree`.
@@ -641,6 +654,20 @@ def hyield_tree(
              /- b -+
         - a -+     \\- e
              \\- c
+
+        **Border**
+
+        >>> result = hyield_tree(root, style="rounded", border_style="rounded")
+        >>> print("\\n".join(result))
+                            ╭───────╮
+                  ╭───────╮╭┤   d   │
+                 ╭┤   b   ├┤╰───────╯
+        ╭───────╮│╰───────╯│╭───────╮
+        │   a   ├┤         ╰┤   e   │
+        ╰───────╯│          ╰───────╯
+                 │╭───────╮
+                 ╰┤   c   │
+                  ╰───────╯
 
     Args:
         tree (Node): tree to print
@@ -976,19 +1003,19 @@ def vprint_tree(
 
         **Custom Styles**
 
-        >>> from bigtree import ANSIVPrintStyle, ANSIBorderStyle
-        >>> vprint_tree(root, style=ANSIVPrintStyle, border_style=ANSIBorderStyle, strip=True)
-                `---`
-                | a |
-                `-+-`
-             /----+-----\\
-           `-+-`      `-+-`
-           | b |      | c |
-           `-+-`      `---`
-          /--+---\\
-        `-+-`  `-+-`
-        | d |  | e |
-        `---`  `---`
+        >>> from bigtree import RoundedVPrintStyle, RoundedBorderStyle
+        >>> vprint_tree(root, style=RoundedVPrintStyle, border_style=RoundedBorderStyle, strip=True)
+                ╭───╮
+                │ a │
+                ╰─┬─╯
+             ╭────┴─────╮
+           ╭─┴─╮      ╭─┴─╮
+           │ b │      │ c │
+           ╰─┬─╯      ╰───╯
+          ╭──┴───╮
+        ╭─┴─╮  ╭─┴─╮
+        │ d │  │ e │
+        ╰───╯  ╰───╯
 
         **Printing to a file**
         >>> import io
@@ -1207,20 +1234,20 @@ def vyield_tree(
 
         **Custom Styles**
 
-        >>> from bigtree import ANSIVPrintStyle, ANSIBorderStyle
-        >>> result = vyield_tree(root, style=ANSIVPrintStyle, border_style=ANSIBorderStyle, strip=True)
+        >>> from bigtree import RoundedVPrintStyle, RoundedBorderStyle
+        >>> result = vyield_tree(root, style=RoundedVPrintStyle, border_style=RoundedBorderStyle, strip=True)
         >>> print("\\n".join(result))
-                `---`
-                | a |
-                `-+-`
-             /----+-----\\
-           `-+-`      `-+-`
-           | b |      | c |
-           `-+-`      `---`
-          /--+---\\
-        `-+-`  `-+-`
-        | d |  | e |
-        `---`  `---`
+                ╭───╮
+                │ a │
+                ╰─┬─╯
+             ╭────┴─────╮
+           ╭─┴─╮      ╭─┴─╮
+           │ b │      │ c │
+           ╰─┬─╯      ╰───╯
+          ╭──┴───╮
+        ╭─┴─╮  ╭─┴─╮
+        │ d │  │ e │
+        ╰───╯  ╰───╯
 
     Args:
         tree (Node): tree to print
