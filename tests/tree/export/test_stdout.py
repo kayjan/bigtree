@@ -456,7 +456,8 @@ class TestPrintTree:
         export.print_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_no_attr_str
 
-    # class TestHPrintTree:
+
+class TestHPrintTree:
     @staticmethod
     def test_hprint_tree(tree_node):
         assert_print_statement(
@@ -605,6 +606,22 @@ class TestPrintTree:
             expected_str,
             tree=tree_node,
             alias="alias_attr",
+        )
+
+    @staticmethod
+    def test_hprint_tree_spacing(tree_node):
+        expected_str = (
+            "                       ┌───── d\n"
+            "         ┌───── b ─────┤             ┌───── g\n"
+            "─ a ─────┤             └───── e ─────┤\n"
+            "         │                           └───── h\n"
+            "         └───── c ─────────── f\n"
+        )
+        assert_print_statement(
+            export.hprint_tree,
+            expected_str,
+            tree=tree_node,
+            spacing=4,
         )
 
     @staticmethod
@@ -1319,6 +1336,36 @@ class TestVPrintTree:
             "       ┌─┴─┐  ┌─┴─┐       \n"
             "       │ g │  │ h │       \n"
             "       └───┘  └───┘       \n"
+        )
+        assert_print_statement(
+            export.vprint_tree,
+            expected_str,
+            tree=tree_node,
+        )
+
+    @staticmethod
+    def test_vprint_tree_multiline_parent_longer(tree_node):
+        from bigtree.node import node
+
+        tree_node = node.Node("a")
+        tree_node.children = [
+            node.Node("b"),
+            node.Node("ccccccc\ncc", children=[node.Node("e")]),
+            node.Node("d"),
+        ]
+        expected_str = (
+            "          ┌───┐          \n"
+            "          │ a │          \n"
+            "          └─┬─┘          \n"
+            "  ┌─────────┼─────────┐  \n"
+            "┌─┴─┐  ┌────┴────┐  ┌─┴─┐\n"
+            "│ b │  │ ccccccc │  │ d │\n"
+            "└───┘  │    cc   │  └───┘\n"
+            "       └────┬────┘       \n"
+            "            │            \n"
+            "          ┌─┴─┐          \n"
+            "          │ e │          \n"
+            "          └───┘          \n"
         )
         assert_print_statement(
             export.vprint_tree,

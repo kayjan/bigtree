@@ -398,6 +398,7 @@ def hprint_tree(
     node_name_or_path: str = "",
     max_depth: int = 0,
     intermediate_node_name: bool = True,
+    spacing: int = 0,
     style: Union[str, Iterable[str], constants.BaseHPrintStyle] = "const",
     border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = None,
     strip: bool = True,
@@ -409,7 +410,9 @@ def hprint_tree(
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using `style`
+    - Able to hide names of intermediate nodes, using `intermediate_node_name`
+    - Able to select horizontal spacing between nodes, using `spacing`
+    - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseHPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
     - Able to have constant width output string or to strip the trailing spaces, using `strip`
@@ -526,6 +529,7 @@ def hprint_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
+        spacing (int): horizontal spacing between node displays
         style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
         border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to None
         strip (bool): whether to strip results, defaults to True
@@ -534,8 +538,9 @@ def hprint_tree(
         tree,
         alias=alias,
         node_name_or_path=node_name_or_path,
-        intermediate_node_name=intermediate_node_name,
         max_depth=max_depth,
+        intermediate_node_name=intermediate_node_name,
+        spacing=spacing,
         style=style,
         border_style=border_style,
         strip=strip,
@@ -549,6 +554,7 @@ def hyield_tree(
     node_name_or_path: str = "",
     max_depth: int = 0,
     intermediate_node_name: bool = True,
+    spacing: int = 0,
     style: Union[str, Iterable[str], constants.BaseHPrintStyle] = "const",
     border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = None,
     strip: bool = True,
@@ -559,7 +565,8 @@ def hyield_tree(
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
     - Able to hide names of intermediate nodes, using `intermediate_node_name`
-    - Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using `style`
+    - Able to select horizontal spacing between nodes, using `spacing`
+    - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseHPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
     - Able to have constant width output string or to strip the trailing spaces, using `strip`
@@ -676,6 +683,7 @@ def hyield_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
+        spacing (int): horizontal spacing between node displays
         style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
         border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to None
         strip (bool): whether to strip results, defaults to True
@@ -786,53 +794,56 @@ def hyield_tree(
 
         if len(children) == 1:
             # Special case for one child (need only one branch)
-            result_prefix = (
-                space * first + style_class.BRANCH + space * (total - first - 1)
-            )
+            line = space * first + style_class.BRANCH + space * (total - first - 1)
+            line_prefix = line_suffix = line
         elif len(children) == 2 and (last - first == 1):
             # Special case for two children (need split_branch)
             # Create gap if two children occupy two rows
             children_display_lines.insert(last, "")
             last = first + 2
             mid = (last - first) // 2
-            result_prefix = (
+            line_prefix = space * (first + 1) + style_class.BRANCH + space
+            line = (
                 space * first
                 + style_class.FIRST_CHILD
                 + style_class.SPLIT_BRANCH
                 + style_class.LAST_CHILD
             )
+            line_suffix = (
+                space * first + style_class.BRANCH + space + style_class.BRANCH
+            )
         else:
-            result_prefix = space * first + style_class.FIRST_CHILD
+            line_prefix = space * (first + 1)
+            line = space * first + style_class.FIRST_CHILD
+            line_suffix = space * first + style_class.BRANCH
             for idx, (bef, aft) in enumerate(zip(result_idx, result_idx[1:])):
-                result_prefix += style_class.STEM * (aft - bef - 1)
-                result_prefix += style_class.SUBSEQUENT_CHILD
-            result_prefix = result_prefix[:-1] + style_class.LAST_CHILD
-            result_prefix += space * (total - result_idx[-1] - 1)
+                line_prefix += space * (aft - bef)
+                line += (
+                    style_class.STEM * (aft - bef - 1) + style_class.SUBSEQUENT_CHILD
+                )
+                line_suffix += space * (aft - bef - 1) + style_class.BRANCH
+            line = line[:-1] + style_class.LAST_CHILD
+            line_suffix = line_suffix[:-1] + style_class.BRANCH
             if mid in result_idx:
                 stem = style_class.MIDDLE_CHILD if mid else style_class.FIRST_CHILD
-                result_prefix = (
-                    result_prefix[:mid] + stem + result_prefix[mid + 1 :]  # noqa
-                )
             else:
-                result_prefix = (
-                    result_prefix[:mid]
-                    + style_class.SPLIT_BRANCH
-                    + result_prefix[mid + 1 :]  # noqa
-                )
-        parent_buffer = max(0, mid - node_mid)
-        child_buffer = max(0, node_mid - mid)
-        mid += child_buffer
-        node_display_lines = [
-            len(node_display_lines[0]) * space
-        ] * parent_buffer + node_display_lines
-        result_prefix = " " * child_buffer + result_prefix
-        children_display_lines = [
-            len(children_display_lines[0]) * space
-        ] * child_buffer + children_display_lines
+                stem = style_class.SPLIT_BRANCH
+            line_prefix = (
+                line_prefix[:mid] + style_class.BRANCH + line_prefix[mid + 1 :]  # noqa
+            )
+            line = line[:mid] + stem + line[mid + 1 :]  # noqa
+        display_buffer = max(0, mid - node_mid)
+        line_buffer = max(0, node_mid - mid)
+        node_display_buffer = [len(node_display_lines[0]) * space] * display_buffer
+        child_display_buffer = [len(children_display_lines[0]) * space] * line_buffer
         result = horizontal_join(
-            [node_display_lines, list(result_prefix), children_display_lines]
+            [node_display_buffer + node_display_lines]
+            + [list(" " * line_buffer + line_prefix)] * spacing
+            + [list(" " * line_buffer + line)]
+            + [list(" " * line_buffer + line_suffix)] * spacing
+            + [child_display_buffer + children_display_lines]
         )
-        return result, mid
+        return result, mid + line_buffer
 
     result_tree, _ = _hprint_branch(tree, 1)
     if strip:
@@ -859,7 +870,7 @@ def vprint_tree(
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
     - Able to hide names of intermediate nodes, using `intermediate_node_name`
-    - Able to select spacing between nodes, using `spacing`
+    - Able to select horizontal spacing between nodes, using `spacing`
     - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
@@ -1042,7 +1053,7 @@ def vprint_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        spacing (int): spacing between node displays
+        spacing (int): horizontal spacing between node displays
         style (Union[str, Iterable[str], constants.BaseVPrintStyle]): style of print, defaults to const
         border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to const
         strip (bool): whether to strip results, defaults to False
@@ -1081,7 +1092,7 @@ def vyield_tree(
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customize for maximum depth to print, using `max_depth`
     - Able to hide names of intermediate nodes, using `intermediate_node_name`
-    - Able to select spacing between nodes, using `spacing`
+    - Able to select horizontal spacing between nodes, using `spacing`
     - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
@@ -1256,7 +1267,7 @@ def vyield_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        spacing (int): spacing between node displays
+        spacing (int): horizontal spacing between node displays
         style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
         border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to const
         strip (bool): whether to strip results, defaults to False
@@ -1268,6 +1279,7 @@ def vyield_tree(
         calculate_stem_pos,
         format_node,
         horizontal_join,
+        vertical_join,
     )
     from bigtree.tree.helper import get_subtree
 
@@ -1340,38 +1352,36 @@ def vyield_tree(
 
         if len(children) == 1:
             # Special case for one child (need only one branch)
-            result_prefix = (
-                space * first + style_class.BRANCH + space * (total - first - 1)
-            )
+            line = space * first + style_class.BRANCH + space * (total - first - 1)
         else:
-            result_prefix = space * first + style_class.FIRST_CHILD
+            line = space * first + style_class.FIRST_CHILD
             for idx, (bef, aft) in enumerate(zip(result_idx, result_idx[1:])):
-                result_prefix += style_class.STEM * (aft - bef - 1)
-                result_prefix += style_class.SUBSEQUENT_CHILD
-            result_prefix = result_prefix[:-1] + style_class.LAST_CHILD
-            result_prefix += space * (total - result_idx[-1] - 1)
-            if mid in result_idx:
-                result_prefix = (
-                    result_prefix[:mid]
-                    + style_class.MIDDLE_CHILD
-                    + result_prefix[mid + 1 :]  # noqa
-                )
-            else:
-                result_prefix = (
-                    result_prefix[:mid]
-                    + style_class.SPLIT_BRANCH
-                    + result_prefix[mid + 1 :]  # noqa
-                )
-        result = []
-        for result_line in node_display_lines:
-            result_line_buffer = max(0, mid - node_mid) * space + result_line
-            result_line_buffer += max(0, total - len(result_line_buffer)) * space
-            result.append(result_line_buffer)
-        for result_line in [result_prefix] + children_display_lines:
-            result_line_buffer = max(0, node_mid - mid) * space + result_line
-            result_line_buffer += max(0, node_width - len(result_line_buffer)) * space
-            result.append(result_line_buffer)
-        return result, mid
+                line += style_class.STEM * (aft - bef - 1)
+                line += style_class.SUBSEQUENT_CHILD
+            line = line[:-1] + style_class.LAST_CHILD
+            line += space * (total - result_idx[-1] - 1)
+            stem = (
+                style_class.MIDDLE_CHILD
+                if mid in result_idx
+                else style_class.SPLIT_BRANCH
+            )
+            line = line[:mid] + stem + line[mid + 1 :]  # noqa
+        display_buffer = max(0, mid - node_mid)
+        line_buffer = max(0, node_mid - mid)
+        result = vertical_join(
+            [
+                [
+                    display_buffer * space + result_line
+                    for result_line in node_display_lines
+                ],
+                [line_buffer * space + line],
+                [
+                    line_buffer * space + result_line
+                    for result_line in children_display_lines
+                ],
+            ]
+        )
+        return result, mid + line_buffer
 
     result_tree, _ = _vprint_branch(tree)
     if strip:
