@@ -346,6 +346,9 @@ def yield_tree(
         node_name_or_path (str): node to print from, becomes the root node of printing, optional
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         style (Union[str, Iterable[str], constants.BasePrintStyle]): style of print, defaults to const
+
+    Returns:
+        (Iterable[Tuple[str, str, T]])
     """
     from bigtree.tree.helper import get_subtree
 
