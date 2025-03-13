@@ -3075,6 +3075,7 @@
 
 
 
+
   <div class="doc doc-children">
 
 
@@ -3317,6 +3318,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
           </tr>
       </tbody>
     </table>
+
 
     </div>
 
@@ -3567,6 +3569,7 @@ key: node attributes, value: corresponding column in dataframe, optional</p>
       </tbody>
     </table>
 
+
     </div>
 
 </div>
@@ -3780,6 +3783,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
       </tbody>
     </table>
 
+
     </div>
 
 </div>
@@ -3954,6 +3958,7 @@ key: node attributes, value: corresponding dictionary key, optional</p>
           </tr>
       </tbody>
     </table>
+
 
     </div>
 
@@ -4247,6 +4252,7 @@ Possible edge styles include {"style": "bold", "label": "edge label", "color": "
           </tr>
       </tbody>
     </table>
+
 
     </div>
 
@@ -4709,6 +4715,7 @@ This overrides <code>node_colour</code>, <code>node_border_colour</code>, and <c
       </tbody>
     </table>
 
+
     </div>
 
 </div>
@@ -4922,6 +4929,7 @@ as input to <code>yield_tree</code>.</p>
           </tr>
       </tbody>
     </table>
+
 
     </div>
 
@@ -5263,6 +5271,7 @@ must be a float/int attribute</p>
       </tbody>
     </table>
 
+
     </div>
 
 </div>
@@ -5281,11 +5290,12 @@ must be a float/int attribute</p>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">border_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="o">**</span><span class="n">kwargs</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">spacing</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">border_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="o">**</span><span class="n">kwargs</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5296,7 +5306,9 @@ Accepts kwargs for print() function.</p>
 <li>Able to have alias for node name if alias attribute is present, else it falls back to node_name, using <code>alias</code></li>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
-<li>Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using <code>style</code></li>
+<li>Able to hide names of intermediate nodes, using <code>intermediate_node_name</code></li>
+<li>Able to select horizontal spacing between nodes, using <code>spacing</code></li>
+<li>Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseHPrintStyle, using <code>style</code></li>
 <li>Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
     using <code>border_style</code></li>
 <li>Able to have constant width output string or to strip the trailing spaces, using <code>strip</code></li>
@@ -5499,6 +5511,22 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>spacing</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>horizontal spacing between node displays</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>style</code>
             </td>
             <td>
@@ -5548,6 +5576,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
       </tbody>
     </table>
 
+
     </div>
 
 </div>
@@ -5566,10 +5595,11 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">border_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">spacing</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">border_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5580,7 +5610,8 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
 <li>Able to hide names of intermediate nodes, using <code>intermediate_node_name</code></li>
-<li>Able to customize style, to choose from str, List[str], or inherit from constants.BaseHPrintStyle, using <code>style</code></li>
+<li>Able to select horizontal spacing between nodes, using <code>spacing</code></li>
+<li>Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseHPrintStyle, using <code>style</code></li>
 <li>Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
     using <code>border_style</code></li>
 <li>Able to have constant width output string or to strip the trailing spaces, using <code>strip</code></li>
@@ -5783,6 +5814,22 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>spacing</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>horizontal spacing between node displays</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>style</code>
             </td>
             <td>
@@ -5854,6 +5901,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
           </tr>
       </tbody>
     </table>
+
 
     </div>
 
@@ -6177,6 +6225,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
       </tbody>
     </table>
 
+
     </div>
 
 </div>
@@ -6394,6 +6443,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
       </tbody>
     </table>
 
+
     </div>
 
 </div>
@@ -6429,7 +6479,7 @@ Accepts kwargs for print() function.</p>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
 <li>Able to hide names of intermediate nodes, using <code>intermediate_node_name</code></li>
-<li>Able to select spacing between nodes, using <code>spacing</code></li>
+<li>Able to select horizontal spacing between nodes, using <code>spacing</code></li>
 <li>Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using <code>style</code></li>
 <li>Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
     using <code>border_style</code></li>
@@ -6706,7 +6756,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>spacing between node displays</p>
+                <p>horizontal spacing between node displays</p>
               </div>
             </td>
             <td>
@@ -6787,6 +6837,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
       </tbody>
     </table>
 
+
     </div>
 
 </div>
@@ -6820,7 +6871,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
 <li>Able to select which node to print from, resulting in a subtree, using <code>node_name_or_path</code></li>
 <li>Able to customize for maximum depth to print, using <code>max_depth</code></li>
 <li>Able to hide names of intermediate nodes, using <code>intermediate_node_name</code></li>
-<li>Able to select spacing between nodes, using <code>spacing</code></li>
+<li>Able to select horizontal spacing between nodes, using <code>spacing</code></li>
 <li>Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using <code>style</code></li>
 <li>Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
     using <code>border_style</code></li>
@@ -7089,7 +7140,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>spacing between node displays</p>
+                <p>horizontal spacing between node displays</p>
               </div>
             </td>
             <td>
@@ -7169,6 +7220,7 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
           </tr>
       </tbody>
     </table>
+
 
     </div>
 
@@ -7380,6 +7432,30 @@ Otherwise, it will default to <code>node_name</code> of node.</p>
           </tr>
       </tbody>
     </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Iterable">Iterable</span>[<span title="typing.Tuple">Tuple</span>[<span title="str">str</span>, <span title="str">str</span>, <span title="bigtree.tree.export.stdout.T">T</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(Iterable[Tuple[str, str, Node]])</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
 
     </div>
 
