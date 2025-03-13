@@ -348,7 +348,7 @@ def yield_tree(
         style (Union[str, Iterable[str], constants.BasePrintStyle]): style of print, defaults to const
 
     Returns:
-        (Iterable[Tuple[str, str, T]])
+        (Iterable[Tuple[str, str, Node]])
     """
     from bigtree.tree.helper import get_subtree
 
