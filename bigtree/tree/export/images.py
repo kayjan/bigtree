@@ -311,14 +311,8 @@ def tree_to_pillow_graph(
 
     default_margin = {"t": 10, "b": 10, "l": 10, "r": 10}
     default_rect_margin = {"t": 5, "b": 5, "l": 5, "r": 5}
-    if not margin:
-        margin = default_margin
-    else:
-        margin = {**default_margin, **margin}
-    if not rect_margin:
-        rect_margin = default_rect_margin
-    else:
-        rect_margin = {**default_rect_margin, **rect_margin}
+    margin = {**default_margin, **(margin or {})}
+    rect_margin = {**default_rect_margin, **(rect_margin or {})}
 
     # Initialize font
     font = _load_font(font_family, font_size)
