@@ -126,7 +126,7 @@ class DAGNode:
 
     @property
     def parent(self) -> None:
-        """Do not allow `parent` attribute to be accessed
+        """Do not allow `parent` attribute to be accessed.
 
         Raises:
             AttributeError: No such attribute
@@ -137,10 +137,10 @@ class DAGNode:
 
     @parent.setter
     def parent(self, new_parent: T) -> None:
-        """Do not allow `parent` attribute to be set
+        """Do not allow `parent` attribute to be set.
 
         Args:
-            new_parent (Self): parent node
+            new_parent: parent node
 
         Raises:
             AttributeError
@@ -151,10 +151,10 @@ class DAGNode:
 
     @staticmethod
     def __check_parent_type(new_parents: List[T]) -> None:
-        """Check parent type
+        """Check parent type.
 
         Args:
-            new_parents (List[Self]): parent nodes
+            new_parents: parent nodes
         """
         if not isinstance(new_parents, list):
             raise TypeError(
@@ -162,10 +162,10 @@ class DAGNode:
             )
 
     def __check_parent_loop(self: T, new_parents: List[T]) -> None:
-        """Check parent type
+        """Check parent type.
 
         Args:
-            new_parents (List[Self]): parent nodes
+            new_parents: parent nodes
         """
         seen_parent = []
         for new_parent in new_parents:
@@ -196,19 +196,19 @@ class DAGNode:
 
     @property
     def parents(self: T) -> Iterable[T]:
-        """Get parent nodes
+        """Get parent nodes.
 
         Returns:
-            (Iterable[Self])
+            Parent node(s)
         """
         return tuple(self.__parents)
 
     @parents.setter
     def parents(self: T, new_parents: List[T]) -> None:
-        """Set parent node
+        """Set parent node.
 
         Args:
-            new_parents (List[Self]): parent nodes
+            new_parents: parent nodes
         """
         if ASSERTIONS:
             self.__check_parent_type(new_parents)
@@ -235,28 +235,26 @@ class DAGNode:
             raise exceptions.TreeError(exc_info)
 
     def __pre_assign_parents(self: T, new_parents: List[T]) -> None:
-        """Custom method to check before attaching parent
-        Can be overridden with `_DAGNode__pre_assign_parent()`
+        """Custom method to check before attaching parent. Can be overridden with `_DAGNode__pre_assign_parent()`.
 
         Args:
-            new_parents (List[Self]): new parents to be added
+            new_parents: new parents to be added
         """
         pass
 
     def __post_assign_parents(self: T, new_parents: List[T]) -> None:
-        """Custom method to check after attaching parent
-        Can be overridden with `_DAGNode__post_assign_parent()`
+        """Custom method to check after attaching parent. Can be overridden with `_DAGNode__post_assign_parent()`.
 
         Args:
-            new_parents (List[Self]): new parents to be added
+            new_parents: new parents to be added
         """
         pass
 
     def __check_children_type(self: T, new_children: Iterable[T]) -> None:
-        """Check child type
+        """Check child type.
 
         Args:
-            new_children (Iterable[Self]): child node
+            new_children: child node
         """
         if not isinstance(new_children, Iterable):
             raise TypeError(
@@ -264,10 +262,10 @@ class DAGNode:
             )
 
     def __check_children_loop(self: T, new_children: Iterable[T]) -> None:
-        """Check child loop
+        """Check child loop.
 
         Args:
-            new_children (Iterable[Self]): child node
+            new_children: child node
         """
         seen_children = []
         for new_child in new_children:
@@ -297,19 +295,19 @@ class DAGNode:
 
     @property
     def children(self: T) -> Iterable[T]:
-        """Get child nodes
+        """Get child nodes.
 
         Returns:
-            (Iterable[Self])
+            Child node(s)
         """
         return tuple(self.__children)
 
     @children.setter
     def children(self: T, new_children: Iterable[T]) -> None:
-        """Set child nodes
+        """Set child nodes.
 
         Args:
-            new_children (Iterable[Self]): child node
+            new_children: child node
         """
         if ASSERTIONS:
             self.__check_children_type(new_children)
@@ -336,47 +334,45 @@ class DAGNode:
 
     @children.deleter
     def children(self) -> None:
-        """Delete child node(s)"""
+        """Delete child node(s)."""
         for child in self.children:
             self.__children.remove(child)  # type: ignore
             child.__parents.remove(self)  # type: ignore
 
     def __pre_assign_children(self: T, new_children: Iterable[T]) -> None:
-        """Custom method to check before attaching children
-        Can be overridden with `_DAGNode__pre_assign_children()`
+        """Custom method to check before attaching children. Can be overridden with `_DAGNode__pre_assign_children()`.
 
         Args:
-            new_children (List[Self]): new children to be added
+            new_children: new children to be added
         """
         pass
 
     def __post_assign_children(self: T, new_children: Iterable[T]) -> None:
-        """Custom method to check after attaching children
-        Can be overridden with `_DAGNode__post_assign_children()`
+        """Custom method to check after attaching children. Can be overridden with `_DAGNode__post_assign_children()`.
 
         Args:
-            new_children (List[Self]): new children to be added
+            new_children: new children to be added
         """
         pass
 
     @property
     def ancestors(self: T) -> Iterable[T]:
-        """Get iterator to yield all ancestors of self, does not include self
+        """Get iterator to yield all ancestors of self, does not include self.
 
         Returns:
-            (Iterable[Self])
+            Ancestor(s) of node excluding itself
         """
         if not len(list(self.parents)):
             return ()
 
         def _recursive_parent(node: T) -> Iterable[T]:
-            """Recursively yield parent of current node, returns earliest to latest ancestor
+            """Recursively yield parent of current node, returns earliest to latest ancestor.
 
             Args:
-                node (DAGNode): current node
+                node: current node
 
             Returns:
-                (Iterable[DAGNode])
+                Parent node
             """
             for _node in node.parents:
                 yield from _recursive_parent(_node)
@@ -387,10 +383,10 @@ class DAGNode:
 
     @property
     def descendants(self: T) -> Iterable[T]:
-        """Get iterator to yield all descendants of self, does not include self
+        """Get iterator to yield all descendants of self, does not include self.
 
         Returns:
-            (Iterable[Self])
+            Descendant(s) of node excluding itself
         """
         descendants = iterators.preorder_iter(
             self, filter_condition=lambda _node: _node != self
@@ -399,10 +395,10 @@ class DAGNode:
 
     @property
     def siblings(self: T) -> Iterable[T]:
-        """Get siblings of self
+        """Get siblings of self.
 
         Returns:
-            (Iterable[Self])
+            Sibling(s) of node
         """
         if self.is_root:
             return ()
@@ -415,59 +411,59 @@ class DAGNode:
 
     @property
     def node_name(self) -> str:
-        """Get node name
+        """Get node name.
 
         Returns:
-            (str)
+            Node name
         """
         return self.name
 
     @property
     def is_root(self) -> bool:
-        """Get indicator if self is root node
+        """Get indicator if self is root node.
 
         Returns:
-            (bool)
+            Indicator if node is root node
         """
         return not len(list(self.parents))
 
     @property
     def is_leaf(self) -> bool:
-        """Get indicator if self is leaf node
+        """Get indicator if self is leaf node.
 
         Returns:
-            (bool)
+            Indicator if node is leaf node
         """
         return not len(list(self.children))
 
     @classmethod
     def from_dict(cls, input_dict: Dict[str, Any]) -> DAGNode:
-        """Construct node from dictionary, all keys of dictionary will be stored as class attributes
-        Input dictionary must have key `name` if not `Node` will not have any name
+        """Construct node from dictionary, all keys of dictionary will be stored as class attributes.
+        Input dictionary must have key `name` if not `Node` will not have any name.
 
         Examples:
             >>> from bigtree import DAGNode
             >>> a = DAGNode.from_dict({"name": "a", "age": 90})
 
         Args:
-            input_dict (Dict[str, Any]): dictionary with node information, key: attribute name, value: attribute value
+            input_dict: dictionary with node information, key: attribute name, value: attribute value
 
         Returns:
-            (DAGNode)
+            DAG node
         """
         return cls(**input_dict)
 
     def describe(
         self, exclude_attributes: List[str] = [], exclude_prefix: str = ""
     ) -> List[Tuple[str, Any]]:
-        """Get node information sorted by attribute name, returns list of tuples
+        """Get node information sorted by attribute name, returns list of tuples.
 
         Args:
-            exclude_attributes (List[str]): list of attributes to exclude
-            exclude_prefix (str): prefix of attributes to exclude
+            exclude_attributes: list of attributes to exclude
+            exclude_prefix: prefix of attributes to exclude
 
         Returns:
-            (List[Tuple[str, Any]])
+            List of attribute name and attribute value pairs
         """
         return [
             item
@@ -477,15 +473,14 @@ class DAGNode:
         ]
 
     def get_attr(self, attr_name: str, default_value: Any = None) -> Any:
-        """Get value of node attribute
-        Returns default value if attribute name does not exist
+        """Get value of node attribute. Returns default value if attribute name does not exist.
 
         Args:
-            attr_name (str): attribute name
-            default_value (Any): default value if attribute does not exist, defaults to None
+            attr_name: attribute name
+            default_value: default value if attribute does not exist
 
         Returns:
-            (Any)
+            Attribute value of node
         """
         try:
             return getattr(self, attr_name)
@@ -493,7 +488,7 @@ class DAGNode:
             return default_value
 
     def set_attrs(self, attrs: Dict[str, Any]) -> None:
-        """Set node attributes
+        """Set node attributes.
 
         Examples:
             >>> from bigtree.node.dagnode import DAGNode
@@ -503,13 +498,12 @@ class DAGNode:
             DAGNode(a, age=90)
 
         Args:
-            attrs (Dict[str, Any]): attribute dictionary,
-                key: attribute name, value: attribute value
+            attrs: attribute dictionary, key: attribute name, value: attribute value
         """
         self.__dict__.update(attrs)
 
     def go_to(self: T, node: T) -> List[List[T]]:
-        """Get list of possible paths from current node to specified node from same tree
+        """Get list of possible paths from current node to specified node from same tree.
 
         Examples:
             >>> from bigtree import DAGNode
@@ -531,10 +525,10 @@ class DAGNode:
             bigtree.utils.exceptions.exceptions.TreeError: It is not possible to go to DAGNode(b, )
 
         Args:
-            node (Self): node to travel to from current node, inclusive of start and end node
+            node: node to travel to from current node, inclusive of start and end node
 
         Returns:
-            (List[List[Self]])
+            Path from current node to destination node
         """
         if not isinstance(node, DAGNode):
             raise TypeError(
@@ -548,14 +542,14 @@ class DAGNode:
         self.__path: List[List[T]] = []
 
         def _recursive_path(_node: T, _path: List[T]) -> Optional[List[T]]:
-            """Get path to specified node
+            """Get path to specified node.
 
             Args:
-                _node (DAGNode): current node
-                _path (List[DAGNode]): current path, from start node to current node, excluding current node
+                _node: current node
+                _path: current path, from start node to current node, excluding current node
 
             Returns:
-                (List[DAGNode])
+                Path from current node to destination node
             """
             if _node:  # pragma: no cover
                 _path.append(_node)
@@ -571,7 +565,7 @@ class DAGNode:
         return self.__path
 
     def copy(self: T) -> T:
-        """Deep copy self; clone DAGNode
+        """Deep copy self; clone DAGNode.
 
         Examples:
             >>> from bigtree.node.dagnode import DAGNode
@@ -579,12 +573,12 @@ class DAGNode:
             >>> a_copy = a.copy()
 
         Returns:
-            (Self)
+            Cloned copy of node
         """
         return copy.deepcopy(self)
 
     def __copy__(self: T) -> T:
-        """Shallow copy self
+        """Shallow copy self.
 
         Examples:
             >>> import copy
@@ -593,30 +587,30 @@ class DAGNode:
             >>> a_copy = copy.deepcopy(a)
 
         Returns:
-            (Self)
+            Shallow copy of node
         """
         obj: T = type(self).__new__(self.__class__)
         obj.__dict__.update(self.__dict__)
         return obj
 
     def __getitem__(self, child_name: str) -> "DAGNode":
-        """Get child by name identifier
+        """Get child by name identifier.
 
         Args:
-            child_name (str): name of child node
+            child_name: name of child node
 
         Returns:
-            (Self): child node
+            Child node
         """
         from bigtree.tree.search import find_child_by_name
 
         return find_child_by_name(self, child_name)
 
     def __delitem__(self, child_name: str) -> None:
-        """Delete child by name identifier, will not throw error if child does not exist
+        """Delete child by name identifier, will not throw error if child does not exist.
 
         Args:
-            child_name (str): name of child node
+            child_name: name of child node
         """
         from bigtree.tree.search import find_child_by_name
 
@@ -626,10 +620,10 @@ class DAGNode:
             child.__parents.remove(self)  # type: ignore
 
     def __repr__(self) -> str:
-        """Print format of DAGNode
+        """Print format of DAGNode.
 
         Returns:
-            (str)
+            Print format of DAGNode
         """
         class_name = self.__class__.__name__
         node_dict = self.describe(exclude_attributes=["name"])
@@ -639,37 +633,37 @@ class DAGNode:
         return f"{class_name}({self.node_name}, {node_description})"
 
     def __rshift__(self: T, other: T) -> None:
-        """Set children using >> bitshift operator for self >> children (other)
+        """Set children using >> bitshift operator for self >> children (other).
 
         Args:
-            other (Self): other node, children
+            other: other node, children
         """
         other.parents = [self]
 
     def __lshift__(self: T, other: T) -> None:
-        """Set parent using << bitshift operator for self << parent (other)
+        """Set parent using << bitshift operator for self << parent (other).
 
         Args:
-            other (Self): other node, parent
+            other: other node, parent
         """
         self.parents = [other]
 
     def __iter__(self) -> Generator[T, None, None]:
-        """Iterate through child nodes
+        """Iterate through child nodes.
 
         Returns:
-            (Self): child node
+            Iterable of child node(s)
         """
         yield from self.children  # type: ignore
 
     def __contains__(self, other_node: T) -> bool:
-        """Check if child node exists
+        """Check if child node exists.
 
         Args:
-            other_node (T): child node
+            other_node: child node
 
         Returns:
-            (bool)
+            Indicator if other node is child of current node
         """
         return other_node in self.children
 
