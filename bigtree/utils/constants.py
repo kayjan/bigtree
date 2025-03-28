@@ -186,7 +186,14 @@ class ExportConstants:
 
 
 @dataclass
-class BorderStyle:
+class BaseStyle:
+    @classmethod
+    def from_style(cls, style_name: str) -> "BaseStyle":
+        raise NotImplementedError
+
+
+@dataclass
+class BorderStyle(BaseStyle):
     """Base style for `print_tree` and `yield_tree` function"""
 
     TOP_LEFT: str
@@ -215,7 +222,7 @@ class BorderStyle:
 
 
 @dataclass
-class BasePrintStyle:
+class BasePrintStyle(BaseStyle):
     """Base style for `print_tree` and `yield_tree` function"""
 
     STEM: str
@@ -235,7 +242,7 @@ class BasePrintStyle:
 
 
 @dataclass
-class BaseHPrintStyle:
+class BaseHPrintStyle(BaseStyle):
     """Base style for `hprint_tree` and `hyield_tree` function"""
 
     FIRST_CHILD: str
@@ -266,7 +273,7 @@ class BaseHPrintStyle:
 
 
 @dataclass
-class BaseVPrintStyle:
+class BaseVPrintStyle(BaseStyle):
     """Base style for `hprint_tree` and `hyield_tree` function"""
 
     FIRST_CHILD: str

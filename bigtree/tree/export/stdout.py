@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import collections
-from typing import Any, Iterable, List, Optional, Tuple, TypeVar, Union
+from typing import Any, Iterable, List, Optional, Tuple, Type, TypeVar, Union
 
 from bigtree.node import node
 from bigtree.utils import assertions, constants, iterators
@@ -355,16 +355,9 @@ def yield_tree(
     tree = get_subtree(tree, node_name_or_path, max_depth)
 
     # Set style
-    if isinstance(style, str):
-        style_class = constants.BasePrintStyle.from_style(style)
-    elif isinstance(style, constants.BasePrintStyle):
-        style_class = style
-    else:
-        if len(list(style)) != 3:
-            raise ValueError(
-                "Please specify the style of stem, branch, and final stem in `style`"
-            )
-        style_class = constants.BasePrintStyle(*style)
+    style_class: constants.BasePrintStyle = __get_style_class(
+        constants.BasePrintStyle, style, "style"
+    )  # type: ignore
 
     gap_str = " " * len(style_class.STEM)
     unclosed_depth = set()
@@ -705,25 +698,14 @@ def hyield_tree(
     tree = get_subtree(tree, node_name_or_path, max_depth)
 
     # Set style
-    if isinstance(style, str):
-        style_class = constants.BaseHPrintStyle.from_style(style)
-    elif isinstance(style, constants.BaseHPrintStyle):
-        style_class = style
-    else:
-        if len(list(style)) != 7:
-            raise ValueError("Please specify the style of 7 icons in `style`")
-        style_class = constants.BaseHPrintStyle(*style)
-
-    if border_style is None:
-        border_style_class = None
-    elif isinstance(border_style, str):
-        border_style_class = constants.BorderStyle.from_style(border_style)
-    elif isinstance(border_style, constants.BorderStyle):
-        border_style_class = border_style
-    else:
-        if len(list(border_style)) != 6:
-            raise ValueError("Please specify the style of 6 icons in `border_style`")
-        border_style_class = constants.BorderStyle(*border_style)
+    style_class: constants.BaseHPrintStyle = __get_style_class(
+        constants.BaseHPrintStyle, style, "style"
+    )  # type: ignore
+    border_style_class: Optional[constants.BorderStyle] = None
+    if border_style:
+        border_style_class = __get_style_class(
+            constants.BorderStyle, border_style, "border_style"
+        )  # type: ignore
 
     # Calculate padding
     space = " "
@@ -1289,25 +1271,14 @@ def vyield_tree(
     tree = get_subtree(tree, node_name_or_path, max_depth)
 
     # Set style
-    if isinstance(style, str):
-        style_class = constants.BaseVPrintStyle.from_style(style)
-    elif isinstance(style, constants.BaseVPrintStyle):
-        style_class = style
-    else:
-        if len(list(style)) != 7:
-            raise ValueError("Please specify the style of 7 icons in `style`")
-        style_class = constants.BaseVPrintStyle(*style)
-
-    if border_style is None:
-        border_style_class = None
-    elif isinstance(border_style, str):
-        border_style_class = constants.BorderStyle.from_style(border_style)
-    elif isinstance(border_style, constants.BorderStyle):
-        border_style_class = border_style
-    else:
-        if len(list(border_style)) != 6:
-            raise ValueError("Please specify the style of 6 icons in `border_style`")
-        border_style_class = constants.BorderStyle(*border_style)
+    style_class: constants.BaseVPrintStyle = __get_style_class(
+        constants.BaseVPrintStyle, style, "style"
+    )  # type: ignore
+    border_style_class: Optional[constants.BorderStyle] = None
+    if border_style:
+        border_style_class = __get_style_class(
+            constants.BorderStyle, border_style, "border_style"
+        )  # type: ignore
 
     space = " "
 
@@ -1508,3 +1479,34 @@ def tree_to_newick(
         for child in tree.children
     )
     return f"({children_newick}){node_name_str}{attr_str}"
+
+
+def __get_style_class(
+    base_style: Type[constants.BaseStyle],
+    style: Union[
+        str,
+        Iterable[str],
+        constants.BaseStyle,
+    ],
+    param_name: str,
+) -> constants.BaseStyle:
+    """Get style class from style, which can be a string, style_class, or list of input to style_class
+
+    Args:
+        base_style: style class to return
+        style: style of print
+        param_name: parameter name for error message
+
+    Returns:
+        style class
+    """
+    if isinstance(style, str):
+        return base_style.from_style(style)
+    elif isinstance(style, Iterable):
+        n_fields = len(base_style.__dict__["__dataclass_fields__"])
+        if len(list(style)) != n_fields:
+            raise ValueError(
+                f"Please specify the style of {n_fields} icons in `{param_name}`"
+            )
+        return base_style(*style)
+    return style
