@@ -19,10 +19,10 @@ def calculate_stem_pos(length: int) -> int:
     """Calculate stem position based on length
 
     Args:
-        length (int): length of node
+        length: length of node
 
     Returns:
-        (int) Stem position
+        Stem position
     """
     if length % 2:
         return length // 2
@@ -43,17 +43,17 @@ def format_node(
     """Format node to be same width, able to customise whether to add border
 
     Args:
-        _node (Node): node to format
-        alias (str): node attribute to use for node name in tree as alias to `node_name`. Otherwise, it will default to
+        _node: node to format
+        alias: node attribute to use for node name in tree as alias to `node_name`. Otherwise, it will default to
             `node_name` of node.
-        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        style (Union[BaseHPrintStyle, BaseVPrintStyle]): style to format node, used only if border_style is None
-        border_style (BorderStyle): border style to format node
-        min_width (int): minimum width of node display contents
-        add_buffer (bool): whether to add buffer if style is BaseHPrintStyle and border_style is None
+        intermediate_node_name: indicator if intermediate nodes have node names, defaults to True
+        style: style to format node, used only if border_style is None
+        border_style: border style to format node
+        min_width: minimum width of node display contents
+        add_buffer: whether to add buffer if style is BaseHPrintStyle and border_style is None
 
     Returns:
-        (List[str]) node display
+        node display
     """
     if not intermediate_node_name and _node.children:
         if border_style is None:
@@ -141,11 +141,11 @@ def horizontal_join(node_displays: List[List[str]], spacing: int = 0) -> List[st
     """Horizontally join multiple node displays, for displaying tree vertically
 
     Args:
-        node_displays (List[List[str]]): multiple node displays belonging to the same row
-        spacing (int): spacing between node displays
+        node_displays: multiple node displays belonging to the same row
+        spacing: spacing between node displays
 
     Returns:
-        (List[str]) node display of the row
+        node display of the row
     """
     space = " "
     height = max([len(node_display) for node_display in node_displays])
@@ -171,10 +171,10 @@ def vertical_join(node_displays: List[List[str]]) -> List[str]:
     """Vertically join multiple node displays, for displaying tree horizontally
 
     Args:
-        node_displays (List[List[str]]): multiple node displays belonging to the same column
+        node_displays: multiple node displays belonging to the same column
 
     Returns:
-        (List[str]) node display of the row
+        node display of the row
     """
     space = " "
     width = max([len(node_display[0]) for node_display in node_displays])
