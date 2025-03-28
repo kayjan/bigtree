@@ -35,11 +35,11 @@ def list_to_binarytree(
         ![Sample Binary Tree](https://github.com/kayjan/bigtree/raw/master/assets/construct_binarytree.png)
 
     Args:
-        heapq_list (List[int]): list containing integer node names, ordered in heapq fashion
-        node_type (Type[BinaryNode]): node type of tree to be created, defaults to ``BinaryNode``
+        heapq_list: list containing integer node names, ordered in heapq fashion
+        node_type: node type of tree to be created
 
     Returns:
-        (BinaryNode)
+        Binary node
     """
     assertions.assert_length_not_empty(heapq_list, "Input list", "heapq_list")
 
