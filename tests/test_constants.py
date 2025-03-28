@@ -139,7 +139,7 @@ class Constants:
         "Expect open and close brackets in `attr_bracket`, received {attr_bracket}"
     )
     ERROR_NODE_EXPORT_PRINT_STYLE_SELECT = (
-        "Please specify the style of stem, branch, and final stem in `style`"
+        "Please specify the style of 3 icons in `style`"
     )
     ERROR_NODE_EXPORT_HPRINT_STYLE_SELECT = (
         "Please specify the style of 7 icons in `style`"

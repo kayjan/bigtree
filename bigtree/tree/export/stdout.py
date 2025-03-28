@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-import collections
 from typing import Any, Iterable, List, Optional, Tuple, TypeVar, Union
 
 from bigtree.node import node
-from bigtree.utils import assertions, constants, iterators
+from bigtree.utils import assertions, constants
 
 __all__ = [
     "print_tree",
@@ -173,7 +172,7 @@ def print_tree(
     Args:
         tree (Node): tree to print
         alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
-            Otherwise, it will default to `node_name` of node.
+            Otherwise, it will default to `node_name` of node
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         all_attrs (bool): indicator to show all attributes, defaults to False, overrides `attr_list` and `attr_omit_null`
@@ -350,49 +349,15 @@ def yield_tree(
     Returns:
         (Iterable[Tuple[str, str, Node]])
     """
-    from bigtree.tree.helper import get_subtree
+    from bigtree.tree.export._yield_tree import YieldTree
 
-    tree = get_subtree(tree, node_name_or_path, max_depth)
-
-    # Set style
-    if isinstance(style, str):
-        style_class = constants.BasePrintStyle.from_style(style)
-    elif isinstance(style, constants.BasePrintStyle):
-        style_class = style
-    else:
-        if len(list(style)) != 3:
-            raise ValueError(
-                "Please specify the style of stem, branch, and final stem in `style`"
-            )
-        style_class = constants.BasePrintStyle(*style)
-
-    gap_str = " " * len(style_class.STEM)
-    unclosed_depth = set()
-    initial_depth = tree.depth
-    for _node in iterators.preorder_iter(tree, max_depth=max_depth):
-        pre_str = ""
-        fill_str = ""
-        if not _node.is_root:
-            node_depth = _node.depth - initial_depth
-
-            # Get fill_str (style_branch or style_stem_final)
-            if _node.right_sibling:
-                unclosed_depth.add(node_depth)
-                fill_str = style_class.BRANCH
-            else:
-                if node_depth in unclosed_depth:
-                    unclosed_depth.remove(node_depth)
-                fill_str = style_class.STEM_FINAL
-
-            # Get pre_str (style_stem, style_branch, style_stem_final, or gap)
-            pre_str = ""
-            for _depth in range(1, node_depth):
-                if _depth in unclosed_depth:
-                    pre_str += style_class.STEM
-                else:
-                    pre_str += gap_str
-
-        yield pre_str, fill_str, _node
+    yield_class = YieldTree(
+        tree,
+        node_name_or_path,
+        max_depth,
+        style,
+    )
+    yield from yield_class.yield_tree()
 
 
 def hprint_tree(
@@ -528,7 +493,7 @@ def hprint_tree(
     Args:
         tree (Node): tree to print
         alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
-            Otherwise, it will default to `node_name` of node.
+            Otherwise, it will default to `node_name` of node
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
@@ -682,7 +647,7 @@ def hyield_tree(
     Args:
         tree (Node): tree to print
         alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
-            Otherwise, it will default to `node_name` of node.
+            Otherwise, it will default to `node_name` of node
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
@@ -694,164 +659,19 @@ def hyield_tree(
     Returns:
         (List[str])
     """
-    from bigtree.tree.export._stdout import (
-        calculate_stem_pos,
-        format_node,
-        horizontal_join,
-        vertical_join,
+    from bigtree.tree.export._yield_tree import HYieldTree
+
+    yield_class = HYieldTree(
+        tree,
+        alias,
+        node_name_or_path,
+        max_depth,
+        intermediate_node_name,
+        spacing,
+        style,
+        border_style,
     )
-    from bigtree.tree.helper import get_subtree
-
-    tree = get_subtree(tree, node_name_or_path, max_depth)
-
-    # Set style
-    if isinstance(style, str):
-        style_class = constants.BaseHPrintStyle.from_style(style)
-    elif isinstance(style, constants.BaseHPrintStyle):
-        style_class = style
-    else:
-        if len(list(style)) != 7:
-            raise ValueError("Please specify the style of 7 icons in `style`")
-        style_class = constants.BaseHPrintStyle(*style)
-
-    if border_style is None:
-        border_style_class = None
-    elif isinstance(border_style, str):
-        border_style_class = constants.BorderStyle.from_style(border_style)
-    elif isinstance(border_style, constants.BorderStyle):
-        border_style_class = border_style
-    else:
-        if len(list(border_style)) != 6:
-            raise ValueError("Please specify the style of 6 icons in `border_style`")
-        border_style_class = constants.BorderStyle(*border_style)
-
-    # Calculate padding
-    space = " "
-    padding_depths = collections.defaultdict(int)
-    if intermediate_node_name:
-        for _idx, _children in enumerate(iterators.levelordergroup_iter(tree)):
-            padding_depths[_idx + 1] = max(
-                [
-                    len(
-                        format_node(
-                            _node,
-                            alias,
-                            intermediate_node_name,
-                            style_class,
-                            border_style_class,
-                            add_buffer=False,
-                        )[0]
-                    )
-                    for _node in _children
-                ]
-            )
-
-    def _hprint_branch(
-        _node: Union[T, node.Node], _cur_depth: int
-    ) -> Tuple[List[str], int]:
-        """Get string for tree horizontally.
-        Recursively iterate the nodes in post-order traversal manner.
-
-        Args:
-            _node (Node): node to get string
-            _cur_depth (int): current depth of node
-
-        Returns:
-            (Tuple[List[str], int]): Intermediate/final result for node, index of branch
-        """
-        if not _node:
-            # For binary node
-            _node = node.Node(" ")
-        node_display_lines = format_node(
-            _node,
-            alias,
-            intermediate_node_name,
-            style_class,
-            border_style_class,
-            padding_depths[_cur_depth],
-        )
-        node_mid = calculate_stem_pos(len(node_display_lines))
-
-        children = list(_node.children) if any(list(_node.children)) else []
-        if not len(children):
-            return node_display_lines, node_mid
-
-        result_children, result_idx = [], []
-        cumulative_height = 0
-        for idx, child in enumerate(children):
-            result_child, result_branch_idx = _hprint_branch(child, _cur_depth + 1)
-            result_idx.append(cumulative_height + result_branch_idx)
-            cumulative_height += len(result_child)
-            result_children.append(result_child)
-
-        # Join children column
-        children_display_lines = vertical_join(result_children)
-
-        # Calculate index of first branch, last branch, total length, and midpoint
-        first, last, total = (
-            result_idx[0],
-            result_idx[-1],
-            len(children_display_lines),
-        )
-        mid = (first + last) // 2
-
-        if len(children) == 1:
-            # Special case for one child (need only one branch)
-            line = space * first + style_class.BRANCH + space * (total - first - 1)
-            line_prefix = line_suffix = line
-        elif len(children) == 2 and (last - first == 1):
-            # Special case for two children (need split_branch)
-            # Create gap if two children occupy two rows
-            children_display_lines.insert(last, "")
-            last = first + 2
-            mid = (last - first) // 2
-            line_prefix = space * (first + 1) + style_class.BRANCH + space
-            line = (
-                space * first
-                + style_class.FIRST_CHILD
-                + style_class.SPLIT_BRANCH
-                + style_class.LAST_CHILD
-            )
-            line_suffix = (
-                space * first + style_class.BRANCH + space + style_class.BRANCH
-            )
-        else:
-            line_prefix = space * (first + 1)
-            line = space * first + style_class.FIRST_CHILD
-            line_suffix = space * first + style_class.BRANCH
-            for idx, (bef, aft) in enumerate(zip(result_idx, result_idx[1:])):
-                line_prefix += space * (aft - bef)
-                line += (
-                    style_class.STEM * (aft - bef - 1) + style_class.SUBSEQUENT_CHILD
-                )
-                line_suffix += space * (aft - bef - 1) + style_class.BRANCH
-            line = line[:-1] + style_class.LAST_CHILD
-            line_suffix = line_suffix[:-1] + style_class.BRANCH
-            if mid in result_idx:
-                stem = style_class.MIDDLE_CHILD if mid else style_class.FIRST_CHILD
-            else:
-                stem = style_class.SPLIT_BRANCH
-            line_prefix = (
-                line_prefix[:mid] + style_class.BRANCH + line_prefix[mid + 1 :]  # noqa
-            )
-            line = line[:mid] + stem + line[mid + 1 :]  # noqa
-        display_buffer = max(0, mid - node_mid)
-        line_buffer = max(0, node_mid - mid)
-        node_display_buffer = [len(node_display_lines[0]) * space] * display_buffer
-        child_display_buffer = [len(children_display_lines[0]) * space] * line_buffer
-        result = horizontal_join(
-            [node_display_buffer + node_display_lines]
-            + [list(" " * line_buffer + line_prefix)] * spacing
-            + [list(" " * line_buffer + line)]
-            + [list(" " * line_buffer + line_suffix)] * spacing
-            + [child_display_buffer + children_display_lines]
-        )
-        return result, mid + line_buffer
-
-    result_tree, _ = _hprint_branch(tree, 1)
-    if strip:
-        return [result.rstrip() for result in result_tree]
-    return result_tree
+    return yield_class.yield_tree(strip)
 
 
 def vprint_tree(
@@ -1052,7 +872,7 @@ def vprint_tree(
     Args:
         tree (Node): tree to print
         alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
-            Otherwise, it will default to `node_name` of node.
+            Otherwise, it will default to `node_name` of node
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
@@ -1266,7 +1086,7 @@ def vyield_tree(
     Args:
         tree (Node): tree to print
         alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
-            Otherwise, it will default to `node_name` of node.
+            Otherwise, it will default to `node_name` of node
         node_name_or_path (str): node to print from, becomes the root node of printing
         max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
         intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
@@ -1278,118 +1098,19 @@ def vyield_tree(
     Returns:
         (List[str])
     """
-    from bigtree.tree.export._stdout import (
-        calculate_stem_pos,
-        format_node,
-        horizontal_join,
-        vertical_join,
+    from bigtree.tree.export._yield_tree import VYieldTree
+
+    yield_class = VYieldTree(
+        tree,
+        alias,
+        node_name_or_path,
+        max_depth,
+        intermediate_node_name,
+        spacing,
+        style,
+        border_style,
     )
-    from bigtree.tree.helper import get_subtree
-
-    tree = get_subtree(tree, node_name_or_path, max_depth)
-
-    # Set style
-    if isinstance(style, str):
-        style_class = constants.BaseVPrintStyle.from_style(style)
-    elif isinstance(style, constants.BaseVPrintStyle):
-        style_class = style
-    else:
-        if len(list(style)) != 7:
-            raise ValueError("Please specify the style of 7 icons in `style`")
-        style_class = constants.BaseVPrintStyle(*style)
-
-    if border_style is None:
-        border_style_class = None
-    elif isinstance(border_style, str):
-        border_style_class = constants.BorderStyle.from_style(border_style)
-    elif isinstance(border_style, constants.BorderStyle):
-        border_style_class = border_style
-    else:
-        if len(list(border_style)) != 6:
-            raise ValueError("Please specify the style of 6 icons in `border_style`")
-        border_style_class = constants.BorderStyle(*border_style)
-
-    space = " "
-
-    def _vprint_branch(_node: Union[T, node.Node]) -> Tuple[List[str], int]:
-        """Get string for tree vertically.
-        Recursively iterate the nodes in post-order traversal manner.
-
-        Args:
-            _node (Node): node to get string
-
-        Returns:
-            (Tuple[List[str], int]): Intermediate/final result for node, index of branch
-        """
-        if not _node:
-            # For binary node
-            _node = node.Node(" ", parent=node.Node(" "))
-        node_display_lines = format_node(
-            _node, alias, intermediate_node_name, style_class, border_style_class
-        )
-        node_width = len(node_display_lines[0])
-        node_mid = calculate_stem_pos(node_width)
-
-        children = list(_node.children) if any(list(_node.children)) else []
-        if not len(children):
-            return node_display_lines, node_mid
-
-        result_children, result_idx = [], []
-        cumulative_width = 0
-        for idx, child in enumerate(children):
-            result_child, result_branch_idx = _vprint_branch(child)
-            result_idx.append(cumulative_width + result_branch_idx)
-            cumulative_width += len(result_child[0]) + spacing
-            result_children.append(result_child)
-
-        # Join children row
-        children_display_lines = horizontal_join(result_children, spacing)
-
-        # Calculate index of first branch, last branch, total length, and midpoint
-        first, last, total = (
-            result_idx[0],
-            result_idx[-1],
-            len(children_display_lines[0]),
-        )
-        mid = (first + last) // 2
-
-        if len(children) == 1:
-            # Special case for one child (need only one branch)
-            line = space * first + style_class.BRANCH + space * (total - first - 1)
-        else:
-            line = space * first + style_class.FIRST_CHILD
-            for idx, (bef, aft) in enumerate(zip(result_idx, result_idx[1:])):
-                line += style_class.STEM * (aft - bef - 1)
-                line += style_class.SUBSEQUENT_CHILD
-            line = line[:-1] + style_class.LAST_CHILD
-            line += space * (total - result_idx[-1] - 1)
-            stem = (
-                style_class.MIDDLE_CHILD
-                if mid in result_idx
-                else style_class.SPLIT_BRANCH
-            )
-            line = line[:mid] + stem + line[mid + 1 :]  # noqa
-        display_buffer = max(0, mid - node_mid)
-        line_buffer = max(0, node_mid - mid)
-        result = vertical_join(
-            [
-                [
-                    display_buffer * space + result_line
-                    for result_line in node_display_lines
-                ],
-                [line_buffer * space + line],
-                [
-                    line_buffer * space + result_line
-                    for result_line in children_display_lines
-                ],
-            ]
-        )
-        return result, mid + line_buffer
-
-    result_tree, _ = _vprint_branch(tree)
-    if strip:
-        return [result.rstrip() for result in result_tree]
-    return result_tree
+    return yield_class.yield_tree(strip)
 
 
 def tree_to_newick(
