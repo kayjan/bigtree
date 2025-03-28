@@ -99,7 +99,7 @@ class BaseYieldTree:
         Returns:
             List of tree string to print
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
 
 class YieldTree(BaseYieldTree):

@@ -189,7 +189,7 @@ class ExportConstants:
 class BaseStyle:
     @classmethod
     def from_style(cls, style_name: str) -> "BaseStyle":
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
 
 @dataclass
