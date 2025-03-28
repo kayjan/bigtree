@@ -12,17 +12,22 @@ from bigtree.tree.helper import get_subtree
 from bigtree.utils import constants, iterators
 
 T = TypeVar("T", bound=node.Node)
+TStyle = TypeVar(
+    "TStyle",
+    bound=Union[
+        constants.BaseStyle,
+        constants.BasePrintStyle,
+        constants.BaseHPrintStyle,
+        constants.BaseVPrintStyle,
+    ],
+)
 
 
 def _get_style_class(
-    base_style: Type[constants.BaseStyle],
-    style: Union[
-        str,
-        Iterable[str],
-        constants.BaseStyle,
-    ],
+    base_style: Type[TStyle],
+    style: Union[str, Iterable[str], TStyle],
     param_name: str,
-) -> constants.BaseStyle:
+) -> TStyle:
     """Get style class from style, which can be a string, style_class, or list of input to style_class
 
     Args:
@@ -34,14 +39,14 @@ def _get_style_class(
         style class
     """
     if isinstance(style, str):
-        return base_style.from_style(style)
+        return base_style.from_style(style)  # type: ignore
     elif isinstance(style, Iterable):
         n_fields = len(base_style.__dict__["__dataclass_fields__"])
         if len(list(style)) != n_fields:
             raise ValueError(
                 f"Please specify the style of {n_fields} icons in `{param_name}`"
             )
-        return base_style(*style)
+        return base_style(*style)  # type: ignore
     return style
 
 
@@ -78,7 +83,7 @@ class BaseYieldTree:
         if border_style:
             border_style_class = _get_style_class(
                 constants.BorderStyle, border_style, "border_style"
-            )  # type: ignore
+            )
 
         self.tree = tree
         self.style_class = style_class
@@ -126,7 +131,10 @@ class YieldTree(BaseYieldTree):
         Returns:
             Iterable of tree string to print
         """
-        gap_str = self.space * len(self.style_class.STEM)
+        space = self.space
+        style_class: constants.BasePrintStyle = self.style_class
+
+        gap_str = space * len(style_class.STEM)
         unclosed_depth = set()
         initial_depth = self.tree.depth
         for _node in iterators.preorder_iter(self.tree):
@@ -138,17 +146,17 @@ class YieldTree(BaseYieldTree):
                 # Get fill_str (style_branch or style_stem_final)
                 if _node.right_sibling:
                     unclosed_depth.add(node_depth)
-                    fill_str = self.style_class.BRANCH
+                    fill_str = style_class.BRANCH
                 else:
                     if node_depth in unclosed_depth:
                         unclosed_depth.remove(node_depth)
-                    fill_str = self.style_class.STEM_FINAL
+                    fill_str = style_class.STEM_FINAL
 
                 # Get pre_str (style_stem, style_branch, style_stem_final, or gap)
                 pre_str = ""
                 for _depth in range(1, node_depth):
                     if _depth in unclosed_depth:
-                        pre_str += self.style_class.STEM
+                        pre_str += style_class.STEM
                     else:
                         pre_str += gap_str
 
@@ -220,6 +228,9 @@ class HYieldTree(BaseYieldTree):
         Returns:
             Intermediate/final result for node, index of branch
         """
+        space = self.space
+        style_class: constants.BaseHPrintStyle = self.style_class
+
         if not _node:
             # For binary node
             _node = node.Node(" ")
@@ -258,11 +269,7 @@ class HYieldTree(BaseYieldTree):
 
         if len(children) == 1:
             # Special case for one child (need only one branch)
-            line = (
-                self.space * first
-                + self.style_class.BRANCH
-                + self.space * (total - first - 1)
-            )
+            line = space * first + style_class.BRANCH + space * (total - first - 1)
             line_prefix = line_suffix = line
         elif len(children) == 2 and (last - first == 1):
             # Special case for two children (need split_branch)
@@ -270,54 +277,40 @@ class HYieldTree(BaseYieldTree):
             children_display_lines.insert(last, "")
             last = first + 2
             mid = (last - first) // 2
-            line_prefix = (
-                self.space * (first + 1) + self.style_class.BRANCH + self.space
-            )
+            line_prefix = space * (first + 1) + style_class.BRANCH + space
             line = (
-                self.space * first
-                + self.style_class.FIRST_CHILD
-                + self.style_class.SPLIT_BRANCH
-                + self.style_class.LAST_CHILD
+                space * first
+                + style_class.FIRST_CHILD
+                + style_class.SPLIT_BRANCH
+                + style_class.LAST_CHILD
             )
             line_suffix = (
-                self.space * first
-                + self.style_class.BRANCH
-                + self.space
-                + self.style_class.BRANCH
+                space * first + style_class.BRANCH + space + style_class.BRANCH
             )
         else:
-            line_prefix = self.space * (first + 1)
-            line = self.space * first + self.style_class.FIRST_CHILD
-            line_suffix = self.space * first + self.style_class.BRANCH
+            line_prefix = space * (first + 1)
+            line = space * first + style_class.FIRST_CHILD
+            line_suffix = space * first + style_class.BRANCH
             for idx, (bef, aft) in enumerate(zip(result_idx, result_idx[1:])):
-                line_prefix += self.space * (aft - bef)
+                line_prefix += space * (aft - bef)
                 line += (
-                    self.style_class.STEM * (aft - bef - 1)
-                    + self.style_class.SUBSEQUENT_CHILD
+                    style_class.STEM * (aft - bef - 1) + style_class.SUBSEQUENT_CHILD
                 )
-                line_suffix += self.space * (aft - bef - 1) + self.style_class.BRANCH
-            line = line[:-1] + self.style_class.LAST_CHILD
-            line_suffix = line_suffix[:-1] + self.style_class.BRANCH
+                line_suffix += space * (aft - bef - 1) + style_class.BRANCH
+            line = line[:-1] + style_class.LAST_CHILD
+            line_suffix = line_suffix[:-1] + style_class.BRANCH
             if mid in result_idx:
-                stem = (
-                    self.style_class.MIDDLE_CHILD
-                    if mid
-                    else self.style_class.FIRST_CHILD
-                )
+                stem = style_class.MIDDLE_CHILD if mid else style_class.FIRST_CHILD
             else:
-                stem = self.style_class.SPLIT_BRANCH
+                stem = style_class.SPLIT_BRANCH
             line_prefix = (
-                line_prefix[:mid]
-                + self.style_class.BRANCH
-                + line_prefix[mid + 1 :]  # noqa
+                line_prefix[:mid] + style_class.BRANCH + line_prefix[mid + 1 :]  # noqa
             )
             line = line[:mid] + stem + line[mid + 1 :]  # noqa
         display_buffer = max(0, mid - node_mid)
         line_buffer = max(0, node_mid - mid)
-        node_display_buffer = [len(node_display_lines[0]) * self.space] * display_buffer
-        child_display_buffer = [
-            len(children_display_lines[0]) * self.space
-        ] * line_buffer
+        node_display_buffer = [len(node_display_lines[0]) * space] * display_buffer
+        child_display_buffer = [len(children_display_lines[0]) * space] * line_buffer
         result = horizontal_join(
             [node_display_buffer + node_display_lines]
             + [list(" " * line_buffer + line_prefix)] * self.spacing
@@ -384,6 +377,9 @@ class VYieldTree(BaseYieldTree):
         Returns:
             Intermediate/final result for node, index of branch
         """
+        space = self.space
+        style_class: constants.BaseVPrintStyle = self.style_class
+
         if not _node:
             # For binary node
             _node = node.Node(" ", parent=node.Node(" "))
@@ -422,22 +418,18 @@ class VYieldTree(BaseYieldTree):
 
         if len(children) == 1:
             # Special case for one child (need only one branch)
-            line = (
-                self.space * first
-                + self.style_class.BRANCH
-                + self.space * (total - first - 1)
-            )
+            line = space * first + style_class.BRANCH + space * (total - first - 1)
         else:
-            line = self.space * first + self.style_class.FIRST_CHILD
+            line = space * first + style_class.FIRST_CHILD
             for idx, (bef, aft) in enumerate(zip(result_idx, result_idx[1:])):
-                line += self.style_class.STEM * (aft - bef - 1)
-                line += self.style_class.SUBSEQUENT_CHILD
-            line = line[:-1] + self.style_class.LAST_CHILD
-            line += self.space * (total - result_idx[-1] - 1)
+                line += style_class.STEM * (aft - bef - 1)
+                line += style_class.SUBSEQUENT_CHILD
+            line = line[:-1] + style_class.LAST_CHILD
+            line += space * (total - result_idx[-1] - 1)
             stem = (
-                self.style_class.MIDDLE_CHILD
+                style_class.MIDDLE_CHILD
                 if mid in result_idx
-                else self.style_class.SPLIT_BRANCH
+                else style_class.SPLIT_BRANCH
             )
             line = line[:mid] + stem + line[mid + 1 :]  # noqa
         display_buffer = max(0, mid - node_mid)
@@ -445,12 +437,12 @@ class VYieldTree(BaseYieldTree):
         result = vertical_join(
             [
                 [
-                    display_buffer * self.space + result_line
+                    display_buffer * space + result_line
                     for result_line in node_display_lines
                 ],
-                [line_buffer * self.space + line],
+                [line_buffer * space + line],
                 [
-                    line_buffer * self.space + result_line
+                    line_buffer * space + result_line
                     for result_line in children_display_lines
                 ],
             ]
