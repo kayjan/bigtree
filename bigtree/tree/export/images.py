@@ -138,26 +138,23 @@ def tree_to_dot(
         ![Export to dot (callable)](https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png)
 
     Args:
-        tree (Node/List[Node]): tree or list of trees to be exported
-        directed (bool): indicator whether graph should be directed or undirected, defaults to True
-        rankdir (str): layout direction, defaults to 'TB' (top to bottom), can be 'BT' (bottom to top),
-            'LR' (left to right), 'RL' (right to left)
-        bg_colour (str): background color of image, defaults to None
-        node_colour (str): fill colour of nodes, defaults to None
-        node_shape (str): shape of nodes, defaults to None
-            Possible node_shape include "circle", "square", "diamond", "triangle"
-        edge_colour (str): colour of edges, defaults to None
-        node_attr (str | Callable): If string type, it refers to ``Node`` attribute for node style.
-            If callable type, it takes in the node itself and returns the node style.
-            This overrides `node_colour` and `node_shape` and defaults to None.
+        tree: tree or list of trees to be exported
+        directed: indicator whether graph should be directed or undirected
+        rankdir: layout direction, accepts 'TB' (top to bottom), 'BT' (bottom to top), 'LR' (left to
+            right), or 'RL' (right to left)
+        bg_colour: background color of image
+        node_colour: fill colour of nodes
+        node_shape: shape of nodes. Possible node_shape include "circle", "square", "diamond", "triangle"
+        edge_colour: colour of edges
+        node_attr: If string type, it refers to ``Node`` attribute for node style. If callable type, it takes
+            in the node itself and returns the node style. This overrides `node_colour` and `node_shape`.
             Possible node styles include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
-        edge_attr (str | Callable): If stirng type, it refers to ``Node`` attribute for edge style.
-            If callable type, it takes in the node itself and returns the edge style.
-            This overrides `edge_colour`, and defaults to None.
-            Possible edge styles include {"style": "bold", "label": "edge label", "color": "black"}
+        edge_attr: If string type, it refers to ``Node`` attribute for edge style. If callable type, it takes
+            in the node itself and returns the edge style. This overrides `edge_colour`. Possible edge styles
+            include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
-        (pydot.Dot)
+        Dot object of tree
     """
     # Get style
     graph_style = dict(bgcolor=bg_colour) if bg_colour else {}
@@ -184,8 +181,8 @@ def tree_to_dot(
             """Recursively iterate through node and its children to export to dot by creating node and edges.
 
             Args:
-                parent_name (Optional[str]): parent name
-                child_node (Node): current node
+                parent_name: parent name
+                child_node: current node
             """
             _node_style = node_style.copy()
             _edge_style = edge_style.copy()
@@ -255,10 +252,9 @@ def tree_to_pillow_graph(
     rect_width: int = 1,
     **kwargs: Any,
 ) -> Image.Image:
-    r"""Export tree to PIL.Image.Image object. Object can be
-    converted to other formats, such as jpg, or png. Image will look
-    like a tree/graph-like structure, accepts additional keyword arguments
-    as input to `yield_tree`.
+    r"""Export tree to PIL.Image.Image object. Object can be converted to other
+    formats, such as jpg, or png. Image will look like a tree/graph-like structure,
+    accepts additional keyword arguments as input to `yield_tree`.
 
     Customisations:
 
@@ -283,25 +279,25 @@ def tree_to_pillow_graph(
         ![Export to Pillow Graph](https://github.com/kayjan/bigtree/raw/master/assets/tree_pillow_graph.png)
 
     Args:
-        tree (Node): tree to be exported
-        node_content (str): display text in node
-        margin (Dict[str, int]): margin of diagram
-        height_buffer (Union[int, float]): height buffer between node layers, in pixels
-        width_buffer (Union[int, float]) : width buffer between sibling nodes, in pixels
-        font_family (str): file path of font family, requires .ttf file, defaults to DejaVuSans
-        font_size (int): font size, defaults to 12
-        font_colour (Union[Tuple[int, int, int], str]): font colour, accepts tuple of RGB values or string, defaults to black
-        text_align (str): text align for multi-line text
-        bg_colour (Union[Tuple[int, int, int], str]): background of image, accepts tuple of RGB values or string, defaults to white
-        rect_margin (Dict[str, int]): (for rectangle) margin of text to rectangle, in pixels
-        rect_fill (Union[Tuple[int, int, int], str, mpl.colormap]): (for rectangle) colour to use for fill
-        rect_cmap_attr (str): (for rectangle) if rect_fill is a colormap, attribute of node to retrieve fill from colormap,
+        tree: tree to be exported
+        node_content: display text in node
+        margin: margin of diagram
+        height_buffer: height buffer between node layers, in pixels
+        width_buffer: width buffer between sibling nodes, in pixels
+        font_family: file path of font family, requires .ttf file, defaults to DejaVuSans
+        font_size: font size
+        font_colour: font colour, accepts tuple of RGB values or string
+        text_align: text align for multi-line text
+        bg_colour: background of image, accepts tuple of RGB values or string
+        rect_margin: (for rectangle) margin of text to rectangle, in pixels
+        rect_fill: (for rectangle) colour to use for fill
+        rect_cmap_attr: (for rectangle) if rect_fill is a colormap, attribute of node to retrieve fill from colormap,
             must be a float/int attribute
-        rect_outline (Union[Tuple[int, int, int], str]): (for rectangle) colour to use for outline
-        rect_width (int): (for rectangle) line width, in pixels
+        rect_outline: (for rectangle) colour to use for outline
+        rect_width: (for rectangle) line width, in pixels
 
     Returns:
-        (PIL.Image.Image)
+        Pillow object of tree, in graph format
     """
     use_cmap = isinstance(rect_fill, mpl.colors.Colormap)
     if use_cmap and rect_cmap_attr is None:
@@ -444,10 +440,9 @@ def tree_to_pillow(
     bg_colour: Union[Tuple[int, int, int], str] = "white",
     **kwargs: Any,
 ) -> Image.Image:
-    """Export tree to PIL.Image.Image object. Object can be
-    converted to other formats, such as jpg, or png. Image will be
-    similar format as `print_tree`, accepts additional keyword arguments
-    as input to `yield_tree`.
+    """Export tree to PIL.Image.Image object. Object can be converted to other
+    formats, such as jpg, or png. Image will be similar format as `print_tree`,
+    accepts additional keyword arguments as input to `yield_tree`.
 
     Examples:
         >>> from bigtree import Node, tree_to_pillow
@@ -466,17 +461,17 @@ def tree_to_pillow(
         ![Export to pillow](https://github.com/kayjan/bigtree/raw/master/assets/tree_pillow.png)
 
     Args:
-        tree (Node): tree to be exported
-        width (int): width of image, optional as width of image is calculated automatically
-        height (int): height of image, optional as height of image is calculated automatically
-        start_pos (Tuple[int, int]): start position of text, (x-offset, y-offset), defaults to (10, 10)
-        font_family (str): file path of font family, requires .ttf file, defaults to DejaVuSans
-        font_size (int): font size, defaults to 12
-        font_colour (Union[Tuple[int, int, int], str]): font colour, accepts tuple of RGB values or string, defaults to black
-        bg_colour (Union[Tuple[int, int, int], str]): background of image, accepts tuple of RGB values or string, defaults to white
+        tree: tree to be exported
+        width: width of image, optional as width of image is calculated automatically
+        height: height of image, optional as height of image is calculated automatically
+        start_pos: start position of text, (x-offset, y-offset)
+        font_family: file path of font family, requires .ttf file, defaults to DejaVuSans
+        font_size: font size
+        font_colour: font colour, accepts tuple of RGB values or string
+        bg_colour: background of image, accepts tuple of RGB values or string
 
     Returns:
-        (PIL.Image.Image)
+        Pillow object of tree, in condensed text format
     """
     # Initialize font
     font = _load_font(font_family, font_size)
@@ -493,10 +488,10 @@ def tree_to_pillow(
         """Get list dimensions.
 
         Args:
-            text_list (List[str]): list of texts
+            text_list: list of texts
 
         Returns:
-            (List[Tuple[int, int, int, int]]): list of (left, top, right, bottom) bounding box
+            Bounding box dimensions (left, top, right, bottom)
         """
         _image = Image.new("RGB", (0, 0))
         _draw = ImageDraw.Draw(_image)
@@ -670,30 +665,27 @@ def tree_to_mermaid(
         ```
 
     Args:
-        tree (Node): tree to be exported
-        title (str): title, defaults to None
-        theme (str): theme or colour scheme, defaults to None
-        rankdir (str): layout direction, defaults to 'TB' (top to bottom), can be 'BT' (bottom to top),
-            'LR' (left to right), 'RL' (right to left)
-        line_shape (str): line shape or curvature, defaults to 'basis'
-        node_colour (str): fill colour of nodes, can be colour name or hexcode, defaults to None
-        node_border_colour (str): border colour of nodes, can be colour name or hexcode, defaults to None
-        node_border_width (float): width of node border, defaults to 1
-        node_shape (str): node shape, sets the shape of every node, defaults to 'rounded_edge'
-        node_shape_attr (str | Callable): If string type, it refers to ``Node`` attribute for node shape.
-            If callable type, it takes in the node itself and returns the node shape.
-            This sets the shape of custom nodes, and overrides default `node_shape`, defaults to None
-        edge_arrow (str): edge arrow style from parent to itself, sets the arrow style of every edge, defaults to 'normal'
-        edge_arrow_attr (str | Callable): If string type, it refers to ``Node`` attribute for edge arrow style.
-            If callable type, it takes in the node itself and returns the edge arrow style.
-            This sets the edge arrow style of custom nodes from parent to itself, and overrides default `edge_arrow`, defaults to None
-        edge_label (str): ``Node`` attribute for edge label from parent to itself, defaults to None
-        node_attr (str | Callable): If string type, it refers to ``Node`` attribute for node style.
-            If callable type, it takes in the node itself and returns the node style.
-            This overrides `node_colour`, `node_border_colour`, and `node_border_width`, defaults to None
+        tree: tree to be exported
+        title: title
+        theme: theme or colour scheme
+        rankdir: layout direction, accepts 'TB' (top to bottom), 'BT' (bottom to top), 'LR' (left to right), 'RL' (right to left)
+        line_shape: line shape or curvature
+        node_colour: fill colour of nodes, can be colour name or hexcode
+        node_border_colour: border colour of nodes, can be colour name or hexcode
+        node_border_width: width of node border
+        node_shape: node shape, sets the shape of every node
+        node_shape_attr: If string type, it refers to ``Node`` attribute for node shape. If callable type, it takes in the node itself
+            and returns the node shape. This sets the shape of custom nodes, and overrides default `node_shape`
+        edge_arrow: edge arrow style from parent to itself, sets the arrow style of every edge
+        edge_arrow_attr: If string type, it refers to ``Node`` attribute for edge arrow style. If callable type, it takes in the node
+            itself and returns the edge arrow style. This sets the edge arrow style of custom nodes from parent to itself, and
+            overrides default `edge_arrow`
+        edge_label: ``Node`` attribute for edge label from parent to itself
+        node_attr: If string type, it refers to ``Node`` attribute for node style. If callable type, it takes in the node itself and
+            returns the node style. This overrides `node_colour`, `node_border_colour`, and `node_border_width`
 
     Returns:
-        (str)
+        Mermaid string of tree
     """
     from bigtree.tree.helper import clone_tree
 
@@ -731,13 +723,13 @@ def tree_to_mermaid(
         """Construct style for Mermaid.
 
         Args:
-            _style_name (str): style name
-            _node_colour (str): node colour
-            _node_border_colour (str): node border colour
-            _node_border_width (float): node border width
+            _style_name: style name
+            _node_colour: node colour
+            _node_border_colour: node border colour
+            _node_border_width: node border width
 
         Returns:
-            (str)
+            Style
         """
         style = []
         if _node_colour:
@@ -763,7 +755,7 @@ def tree_to_mermaid(
             """Reference name for MermaidNode, must be unique for each node.
 
             Returns:
-                (str)
+                Name of mermaid node
             """
             if self.is_root:
                 return "0"
@@ -777,12 +769,12 @@ def tree_to_mermaid(
         """Get custom attribute if available, otherwise return default parameter.
 
         Args:
-            _node (MermaidNode): node to get custom attribute, can be accessed as node attribute or a callable that takes in the node
-            attr_parameter (str | Callable): custom attribute parameter
-            default_parameter (str): default parameter if there is no attr_parameter
+            _node: node to get custom attribute, can be accessed as node attribute or a callable that takes in the node
+            attr_parameter: custom attribute parameter
+            default_parameter: default parameter if there is no attr_parameter
 
         Returns:
-            (str)
+            Node attribute
         """
         _choice = default_parameter
         if attr_parameter:
