@@ -11,7 +11,7 @@ def speak_like_groot(sentence: str) -> str:
     """Convert sentence into Groot langauge.
 
     Args:
-        sentence: Sentence to convert to groot language
+        sentence: sentence to convert to groot language
 
     Returns:
         Groot string
