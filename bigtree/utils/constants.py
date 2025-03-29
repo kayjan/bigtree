@@ -189,12 +189,12 @@ class ExportConstants:
 class BaseStyle:
     @classmethod
     def from_style(cls, style_name: str) -> "BaseStyle":
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
 
 @dataclass
 class BorderStyle(BaseStyle):
-    """Base style for `print_tree` and `yield_tree` function"""
+    """Base style for `print_tree` and `yield_tree` function."""
 
     TOP_LEFT: str
     TOP_RIGHT: str
@@ -223,7 +223,7 @@ class BorderStyle(BaseStyle):
 
 @dataclass
 class BasePrintStyle(BaseStyle):
-    """Base style for `print_tree` and `yield_tree` function"""
+    """Base style for `print_tree` and `yield_tree` function."""
 
     STEM: str
     BRANCH: str
@@ -243,7 +243,7 @@ class BasePrintStyle(BaseStyle):
 
 @dataclass
 class BaseHPrintStyle(BaseStyle):
-    """Base style for `hprint_tree` and `hyield_tree` function"""
+    """Base style for `hprint_tree` and `hyield_tree` function."""
 
     FIRST_CHILD: str
     SUBSEQUENT_CHILD: str
@@ -274,7 +274,7 @@ class BaseHPrintStyle(BaseStyle):
 
 @dataclass
 class BaseVPrintStyle(BaseStyle):
-    """Base style for `hprint_tree` and `hyield_tree` function"""
+    """Base style for `hprint_tree` and `hyield_tree` function."""
 
     FIRST_CHILD: str
     SUBSEQUENT_CHILD: str

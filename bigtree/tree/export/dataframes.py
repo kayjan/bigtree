@@ -68,19 +68,19 @@ def tree_to_dataframe(
         2  /a/b/e    e      b          35
 
     Args:
-        tree (Node): tree to be exported
-        path_col (str): column name for `node.path_name`, defaults to 'path'
-        name_col (str): column name for `node.node_name`, defaults to 'name'
-        parent_col (str): column name for `node.parent.node_name`, optional
-        attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
-            key: node attributes, value: corresponding column in dataframe, optional
-        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
-        max_depth (int): maximum depth to export tree, optional
-        skip_depth (int): number of initial depths to skip, optional
-        leaf_only (bool): indicator to retrieve only information from leaf nodes
+        tree: tree to be exported
+        path_col: column name for `node.path_name`
+        name_col: column name for `node.node_name`
+        parent_col: column name for `node.parent.node_name`
+        attr_dict: dictionary mapping node attributes to column name, key: node attributes, value: corresponding column
+            in dataframe
+        all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
+        max_depth: maximum depth to export tree
+        skip_depth: number of initial depths to skip
+        leaf_only: indicator to retrieve only information from leaf nodes
 
     Returns:
-        (pd.DataFrame)
+        pandas DataFrame containing tree information
     """
     tree = tree.copy()
     data_list = []
@@ -175,19 +175,19 @@ def tree_to_polars(
         └────────┴──────┴────────┴────────────┘
 
     Args:
-        tree (Node): tree to be exported
-        path_col (str): column name for `node.path_name`, defaults to 'path'
-        name_col (str): column name for `node.node_name`, defaults to 'name'
-        parent_col (str): column name for `node.parent.node_name`, optional
-        attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
-            key: node attributes, value: corresponding column in dataframe, optional
-        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
-        max_depth (int): maximum depth to export tree, optional
-        skip_depth (int): number of initial depths to skip, optional
-        leaf_only (bool): indicator to retrieve only information from leaf nodes
+        tree: tree to be exported
+        path_col: column name for `node.path_name`
+        name_col: column name for `node.node_name`
+        parent_col: column name for `node.parent.node_name`
+        attr_dict: dictionary mapping node attributes to column name, key: node attributes, value: corresponding column
+            in dataframe
+        all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
+        max_depth: maximum depth to export tree
+        skip_depth: number of initial depths to skip
+        leaf_only: indicator to retrieve only information from leaf nodes
 
     Returns:
-        (pl.DataFrame)
+        polars DataFrame containing tree information
     """
     tree = tree.copy()
     data_list = []

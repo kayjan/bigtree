@@ -104,46 +104,46 @@ class BinaryNode(node.Node):
 
     @property
     def left(self: T) -> T:
-        """Get left children
+        """Get left children.
 
         Returns:
-            (Self)
+            Left child
         """
         return self.__children[0]
 
     @left.setter
     def left(self: T, left_child: Optional[T]) -> None:
-        """Set left children
+        """Set left children.
 
         Args:
-            left_child (Optional[Self]): left child
+            left_child: left child
         """
         self.children = [left_child, self.right]  # type: ignore
 
     @property
     def right(self: T) -> T:
-        """Get right children
+        """Get right children.
 
         Returns:
-            (Self)
+            Right child
         """
         return self.__children[1]
 
     @right.setter
     def right(self: T, right_child: Optional[T]) -> None:
-        """Set right children
+        """Set right children.
 
         Args:
-            right_child (Optional[Self]): right child
+            right_child: right child
         """
         self.children = [self.left, right_child]  # type: ignore
 
     @staticmethod
     def __check_parent_type(new_parent: Optional[T]) -> None:
-        """Check parent type
+        """Check parent type.
 
         Args:
-            new_parent (Optional[Self]): parent node
+            new_parent: parent node
         """
         if not (isinstance(new_parent, BinaryNode) or new_parent is None):
             raise TypeError(
@@ -152,19 +152,19 @@ class BinaryNode(node.Node):
 
     @property
     def parent(self: T) -> Optional[T]:
-        """Get parent node
+        """Get parent node.
 
         Returns:
-            (Optional[Self])
+            Parent node, none if the node is root
         """
         return self.__parent
 
     @parent.setter
     def parent(self: T, new_parent: Optional[T]) -> None:
-        """Set parent node
+        """Set parent node.
 
         Args:
-            new_parent (Optional[Self]): parent node
+            new_parent: parent node
         """
         if ASSERTIONS:
             self.__check_parent_type(new_parent)
@@ -215,33 +215,31 @@ class BinaryNode(node.Node):
             raise exceptions.TreeError(exc_info)
 
     def __pre_assign_parent(self: T, new_parent: Optional[T]) -> None:
-        """Custom method to check before attaching parent
-        Can be overridden with `_BinaryNode__pre_assign_parent()`
+        """Custom method to check before attaching parent. Can be overridden with `_BinaryNode__pre_assign_parent()`.
 
         Args:
-            new_parent (Optional[Self]): new parent to be added
+            new_parent: new parent to be added
         """
         pass
 
     def __post_assign_parent(self: T, new_parent: Optional[T]) -> None:
-        """Custom method to check after attaching parent
-        Can be overridden with `_BinaryNode__post_assign_parent()`
+        """Custom method to check after attaching parent. Can be overridden with `_BinaryNode__post_assign_parent()`.
 
         Args:
-            new_parent (Optional[Self]): new parent to be added
+            new_parent: new parent to be added
         """
         pass
 
     def __check_children_type(
         self: T, new_children: List[Optional[T]]
     ) -> List[Optional[T]]:
-        """Check child type
+        """Check child type.
 
         Args:
-            new_children (List[Optional[Self]]): child node
+            new_children: child node
 
         Returns:
-            (List[Optional[Self]])
+            Child nodes, initialise child to None if no new children defined
         """
         if not len(new_children):
             new_children = [None, None]
@@ -250,10 +248,10 @@ class BinaryNode(node.Node):
         return new_children
 
     def __check_children_loop(self: T, new_children: List[Optional[T]]) -> None:
-        """Check child loop
+        """Check child loop.
 
         Args:
-            new_children (List[Optional[Self]]): child node
+            new_children: child node
         """
         seen_children = []
         for new_child in new_children:
@@ -284,19 +282,19 @@ class BinaryNode(node.Node):
 
     @property
     def children(self: T) -> Tuple[T, ...]:
-        """Get child nodes
+        """Get child nodes.
 
         Returns:
-            (Tuple[Optional[Self]])
+            Child nodes
         """
         return tuple(self.__children)
 
     @children.setter
     def children(self: T, _new_children: List[Optional[T]]) -> None:
-        """Set child nodes
+        """Set child nodes.
 
         Args:
-            _new_children (List[Optional[Self]]): child node
+            _new_children: child node
         """
         self._BaseNode__check_children_type(_new_children)  # type: ignore
         new_children = self.__check_children_type(_new_children)
@@ -351,41 +349,39 @@ class BinaryNode(node.Node):
 
     @children.deleter
     def children(self) -> None:
-        """Delete child node(s)"""
+        """Delete child node(s)."""
         for child in self.children:
             if child is not None:
                 child.parent.__children.remove(child)  # type: ignore
                 child.__parent = None
 
     def __pre_assign_children(self: T, new_children: List[Optional[T]]) -> None:
-        """Custom method to check before attaching children
-        Can be overridden with `_BinaryNode__pre_assign_children()`
+        """Custom method to check before attaching children. Can be overridden with `_BinaryNode__pre_assign_children()`.
 
         Args:
-            new_children (List[Optional[Self]]): new children to be added
+            new_children: new children to be added
         """
         pass
 
     def __post_assign_children(self: T, new_children: List[Optional[T]]) -> None:
-        """Custom method to check after attaching children
-        Can be overridden with `_BinaryNode__post_assign_children()`
+        """Custom method to check after attaching children. Can be overridden with `_BinaryNode__post_assign_children()`.
 
         Args:
-            new_children (List[Optional[Self]]): new children to be added
+            new_children: new children to be added
         """
         pass
 
     @property
     def is_leaf(self) -> bool:
-        """Get indicator if self is leaf node
+        """Get indicator if self is leaf node.
 
         Returns:
-            (bool)
+            Indicator if node is leaf node
         """
         return not len([child for child in self.children if child])
 
     def sort(self, **kwargs: Any) -> None:
-        """Sort children, possible keyword arguments include ``key=lambda node: node.val``, ``reverse=True``
+        """Sort children, possible keyword arguments include ``key=lambda node: node.val``, ``reverse=True``.
 
         Examples:
             >>> from bigtree import BinaryNode, print_tree
@@ -408,10 +404,10 @@ class BinaryNode(node.Node):
             self.__children = children  # type: ignore
 
     def __repr__(self) -> str:
-        """Print format of BinaryNode
+        """Print format of BinaryNode.
 
         Returns:
-            (str)
+            Print format of BinaryNode
         """
         class_name = self.__class__.__name__
         node_dict = self.describe(exclude_prefix="_", exclude_attributes=[])

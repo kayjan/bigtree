@@ -1,19 +1,19 @@
 def whoami() -> str:
-    """Groot utils
+    """Groot utils.
 
     Returns:
-        (str)
+        Groot reply
     """
     return "I am Groot!"
 
 
 def speak_like_groot(sentence: str) -> str:
-    """Convert sentence into Groot langauge
+    """Convert sentence into Groot langauge.
 
     Args:
-        sentence (str): Sentence to convert to groot language
+        sentence: sentence to convert to groot language
 
     Returns:
-        (str)
+        Groot string
     """
     return " ".join([whoami() for _ in range(len(sentence.split()))])

@@ -145,10 +145,10 @@ class BaseNode:
 
     @staticmethod
     def __check_parent_type(new_parent: T) -> None:
-        """Check parent type
+        """Check parent type.
 
         Args:
-            new_parent (Self): parent node
+            new_parent: parent node
         """
         if not (isinstance(new_parent, BaseNode) or new_parent is None):
             raise TypeError(
@@ -156,10 +156,10 @@ class BaseNode:
             )
 
     def __check_parent_loop(self, new_parent: T) -> None:
-        """Check parent type
+        """Check parent type.
 
         Args:
-            new_parent (Self): parent node
+            new_parent: parent node
         """
         if new_parent is not None:
             if new_parent is self:
@@ -177,19 +177,19 @@ class BaseNode:
 
     @property
     def parent(self: T) -> Optional[T]:
-        """Get parent node
+        """Get parent node.
 
         Returns:
-            (Optional[Self])
+            Parent node, none if the node is root
         """
         return self.__parent
 
     @parent.setter
     def parent(self: T, new_parent: T) -> None:
-        """Set parent node
+        """Set parent node.
 
         Args:
-            new_parent (Self): parent node
+            new_parent: parent node
         """
         if ASSERTIONS:
             self.__check_parent_type(new_parent)
@@ -231,26 +231,24 @@ class BaseNode:
             raise exceptions.TreeError(exc_info)
 
     def __pre_assign_parent(self, new_parent: T) -> None:
-        """Custom method to check before attaching parent
-        Can be overridden with `_BaseNode__pre_assign_parent()`
+        """Custom method to check before attaching parent. Can be overridden with `_BaseNode__pre_assign_parent()`.
 
         Args:
-            new_parent (Self): new parent to be added
+            new_parent: new parent to be added
         """
         pass
 
     def __post_assign_parent(self, new_parent: T) -> None:
-        """Custom method to check after attaching parent
-        Can be overridden with `_BaseNode__post_assign_parent()`
+        """Custom method to check after attaching parent. Can be overridden with `_BaseNode__post_assign_parent()`.
 
         Args:
-            new_parent (Self): new parent to be added
+            new_parent: new parent to be added
         """
         pass
 
     @property
     def parents(self) -> None:
-        """Do not allow `parents` attribute to be accessed
+        """Do not allow `parents` attribute to be accessed.
 
         Raises:
             AttributeError: No such attribute
@@ -261,10 +259,10 @@ class BaseNode:
 
     @parents.setter
     def parents(self, new_parent: T) -> None:
-        """Do not allow `parents` attribute to be set
+        """Do not allow `parents` attribute to be set.
 
         Args:
-            new_parent (Self): parent node
+            new_parent: parent node
 
         Raises:
             AttributeError: No such attribute
@@ -273,13 +271,11 @@ class BaseNode:
             "Attempting to set `parents` attribute, do you mean `parent`?"
         )
 
-    def __check_children_type(
-        self: T, new_children: List[T] | Tuple[T] | Set[T]
-    ) -> None:
-        """Check child type
+    def __check_children_type(self: T, new_children: Iterable[T]) -> None:
+        """Check child type.
 
         Args:
-            new_children (Iterable[Self]): child node
+            new_children: child node
         """
         if (
             not isinstance(new_children, list)
@@ -291,10 +287,10 @@ class BaseNode:
             )
 
     def __check_children_loop(self: T, new_children: Iterable[T]) -> None:
-        """Check child loop
+        """Check child loop.
 
         Args:
-            new_children (Iterable[Self]): child node
+            new_children: child node
         """
         seen_children = []
         for new_child in new_children:
@@ -324,19 +320,19 @@ class BaseNode:
 
     @property
     def children(self: T) -> Tuple[T, ...]:
-        """Get child nodes
+        """Get child nodes.
 
         Returns:
-            (Tuple[Self, ...])
+            Child node(s)
         """
         return tuple(self.__children)
 
     @children.setter
     def children(self: T, new_children: List[T] | Tuple[T] | Set[T]) -> None:
-        """Set child nodes
+        """Set child nodes.
 
         Args:
-            new_children (List[Self]): child node
+            new_children: child node
         """
         if ASSERTIONS:
             self.__check_children_type(new_children)
@@ -383,23 +379,21 @@ class BaseNode:
 
     @children.deleter
     def children(self) -> None:
-        """Delete child node(s)"""
+        """Delete child node(s)."""
         for child in self.children:
             child.parent.__children.remove(child)  # type: ignore
             child.__parent = None
 
     def __pre_assign_children(self: T, new_children: Iterable[T]) -> None:
-        """Custom method to check before attaching children
-        Can be overridden with `_BaseNode__pre_assign_children()`
+        """Custom method to check before attaching children. Can be overridden with `_BaseNode__pre_assign_children()`.
 
         Args:
-            new_children (Iterable[Self]): new children to be added
+            new_children: new children to be added
         """
         pass
 
     def __post_assign_children(self: T, new_children: Iterable[T]) -> None:
-        """Custom method to check after attaching children
-        Can be overridden with `_BaseNode__post_assign_children()`
+        """Custom method to check after attaching children. Can be overridden with `_BaseNode__post_assign_children()`.
 
         Args:
             new_children (Iterable[Self]): new children to be added
@@ -408,10 +402,10 @@ class BaseNode:
 
     @property
     def ancestors(self: T) -> Iterable[T]:
-        """Get iterator to yield all ancestors of self, does not include self
+        """Get iterator to yield all ancestors of self, does not include self.
 
         Returns:
-            (Iterable[Self])
+            Ancestor(s) of node excluding itself
         """
         node = self.parent
         while node is not None:
@@ -420,10 +414,10 @@ class BaseNode:
 
     @property
     def descendants(self: T) -> Iterable[T]:
-        """Get iterator to yield all descendants of self, does not include self
+        """Get iterator to yield all descendants of self, does not include self.
 
         Returns:
-            (Iterable[Self])
+            Descendant(s) of node excluding itself
         """
         yield from iterators.preorder_iter(
             self, filter_condition=lambda _node: _node != self
@@ -431,10 +425,10 @@ class BaseNode:
 
     @property
     def leaves(self: T) -> Iterable[T]:
-        """Get iterator to yield all leaf nodes from self
+        """Get iterator to yield all leaf nodes from self.
 
         Returns:
-            (Iterable[Self])
+            Leaf node(s) of node
         """
         yield from iterators.preorder_iter(
             self, filter_condition=lambda _node: _node.is_leaf
@@ -442,21 +436,21 @@ class BaseNode:
 
     @property
     def siblings(self: T) -> Iterable[T]:
-        """Get siblings of self
+        """Get siblings of self.
 
         Returns:
-            (Iterable[Self])
+            Sibling(s) of node
         """
         if self.parent is None:
             return ()
         return tuple(child for child in self.parent.children if child is not self)
 
     @property
-    def left_sibling(self: T) -> T:
-        """Get sibling left of self
+    def left_sibling(self: T) -> Optional[T]:
+        """Get sibling left of self.
 
         Returns:
-            (Self)
+            Left sibling of node
         """
         if self.parent:
             children = self.parent.children
@@ -465,11 +459,11 @@ class BaseNode:
                 return self.parent.children[child_idx - 1]
 
     @property
-    def right_sibling(self: T) -> T:
-        """Get sibling right of self
+    def right_sibling(self: T) -> Optional[T]:
+        """Get sibling right of self.
 
         Returns:
-            (Self)
+            Right sibling of node
         """
         if self.parent:
             children = self.parent.children
@@ -479,39 +473,39 @@ class BaseNode:
 
     @property
     def node_path(self: T) -> Iterable[T]:
-        """Get tuple of nodes starting from root
+        """Get tuple of nodes starting from root.
 
         Returns:
-            (Iterable[Self])
+            Node path from root to itself
         """
         if self.parent is None:
-            return [self]
+            return tuple([self])
         return tuple(list(self.parent.node_path) + [self])
 
     @property
     def is_root(self) -> bool:
-        """Get indicator if self is root node
+        """Get indicator if self is root node.
 
         Returns:
-            (bool)
+            Indicator if node is root node
         """
         return self.parent is None
 
     @property
     def is_leaf(self) -> bool:
-        """Get indicator if self is leaf node
+        """Get indicator if self is leaf node.
 
         Returns:
-            (bool)
+            Indicator if node is leaf node
         """
         return not len(list(self.children))
 
     @property
     def root(self: T) -> T:
-        """Get root node of tree
+        """Get root node of tree.
 
         Returns:
-            (Self)
+            Root node
         """
         if self.parent is None:
             return self
@@ -519,10 +513,10 @@ class BaseNode:
 
     @property
     def diameter(self) -> int:
-        """Get diameter of tree or subtree, the length of longest path between any two nodes
+        """Get diameter of tree or subtree, the length of longest path between any two nodes.
 
         Returns:
-            (int)
+            Diameter of node
         """
         diameter = 0
 
@@ -530,13 +524,13 @@ class BaseNode:
             return diameter
 
         def _recursive_diameter(node: T) -> int:
-            """Recursively iterate through node and its children to get diameter of node
+            """Recursively iterate through node and its children to get diameter of node.
 
             Args:
-                node (Node): current node
+                node: current node
 
             Returns:
-                (int)
+                Diameter of node
             """
             nonlocal diameter
             if node.is_leaf:
@@ -550,10 +544,10 @@ class BaseNode:
 
     @property
     def depth(self) -> int:
-        """Get depth of self, indexing starts from 1
+        """Get depth of self, indexing starts from 1.
 
         Returns:
-            (int)
+            Depth of node
         """
         if self.parent is None:
             return 1
@@ -561,10 +555,10 @@ class BaseNode:
 
     @property
     def max_depth(self) -> int:
-        """Get maximum depth from root to leaf node
+        """Get maximum depth from root to leaf node.
 
         Returns:
-            (int)
+            Maximum depth of tree
         """
         return max(
             [self.root.depth] + [node.depth for node in list(self.root.descendants)]
@@ -572,25 +566,25 @@ class BaseNode:
 
     @classmethod
     def from_dict(cls, input_dict: Dict[str, Any]) -> BaseNode:
-        """Construct node from dictionary, all keys of dictionary will be stored as class attributes
-        Input dictionary must have key `name` if not `Node` will not have any name
+        """Construct node from dictionary, all keys of dictionary will be stored as class attributes.
+        Input dictionary must have key `name` if not `Node` will not have any name.
 
         Examples:
             >>> from bigtree import Node
             >>> a = Node.from_dict({"name": "a", "age": 90})
 
         Args:
-            input_dict (Dict[str, Any]): dictionary with node information, key: attribute name, value: attribute value
+            input_dict: dictionary with node information, key: attribute name, value: attribute value
 
         Returns:
-            (BaseNode)
+            Base node
         """
         return cls(**input_dict)
 
     def describe(
         self, exclude_attributes: List[str] = [], exclude_prefix: str = ""
     ) -> List[Tuple[str, Any]]:
-        """Get node information sorted by attribute name, returns list of tuples
+        """Get node information sorted by attribute name, returns list of tuples.
 
         Examples:
             >>> from bigtree.node.node import Node
@@ -603,11 +597,11 @@ class BaseNode:
             [('age', 90)]
 
         Args:
-            exclude_attributes (List[str]): list of attributes to exclude
-            exclude_prefix (str): prefix of attributes to exclude
+            exclude_attributes: list of attributes to exclude
+            exclude_prefix: prefix of attributes to exclude
 
         Returns:
-            (List[Tuple[str, Any]])
+            List of attribute name and attribute value pairs
         """
         return [
             item
@@ -617,8 +611,7 @@ class BaseNode:
         ]
 
     def get_attr(self, attr_name: str, default_value: Any = None) -> Any:
-        """Get value of node attribute
-        Returns default value if attribute name does not exist
+        """Get value of node attribute. Returns default value if attribute name does not exist.
 
         Examples:
             >>> from bigtree.node.node import Node
@@ -627,11 +620,11 @@ class BaseNode:
             90
 
         Args:
-            attr_name (str): attribute name
-            default_value (Any): default value if attribute does not exist, defaults to None
+            attr_name: attribute name
+            default_value: default value if attribute does not exist
 
         Returns:
-            (Any)
+            Attribute value of node
         """
         try:
             return getattr(self, attr_name)
@@ -639,7 +632,7 @@ class BaseNode:
             return default_value
 
     def set_attrs(self, attrs: Dict[str, Any]) -> None:
-        """Set node attributes
+        """Set node attributes.
 
         Examples:
             >>> from bigtree.node.node import Node
@@ -649,13 +642,12 @@ class BaseNode:
             Node(/a, age=90)
 
         Args:
-            attrs (Dict[str, Any]): attribute dictionary,
-                key: attribute name, value: attribute value
+            attrs.: attribute dictionary, key: attribute name, value: attribute value
         """
         self.__dict__.update(attrs)
 
     def go_to(self: T, node: T) -> Iterable[T]:
-        """Get path from current node to specified node from same tree
+        """Get path from current node to specified node from same tree.
 
         Examples:
             >>> from bigtree import Node, print_tree
@@ -684,10 +676,10 @@ class BaseNode:
             [Node(/a/b/d, ), Node(/a/b, ), Node(/a, ), Node(/a/c, ), Node(/a/c/f, )]
 
         Args:
-            node (Self): node to travel to from current node, inclusive of start and end node
+            node: node to travel to from current node, inclusive of start and end node
 
         Returns:
-            (Iterable[Self])
+            Path from current node to destination node
         """
         if not isinstance(node, BaseNode):
             raise TypeError(
@@ -709,24 +701,24 @@ class BaseNode:
         return self_path[:self_min_index] + node_path[node_min_index:]
 
     def append(self: T, other: T) -> None:
-        """Add other as child of self
+        """Add other as child of self.
 
         Args:
-            other (Self): other node, child to be added
+            other: other node, child to be added
         """
         other.parent = self
 
     def extend(self: T, others: List[T]) -> None:
-        """Add others as children of self
+        """Add others as children of self.
 
         Args:
-            others (Self): other nodes, children to be added
+            others: other nodes, children to be added
         """
         for child in others:
             child.parent = self
 
     def copy(self: T) -> T:
-        """Deep copy self; clone self
+        """Deep copy self; clone self.
 
         Examples:
             >>> from bigtree.node.node import Node
@@ -734,12 +726,12 @@ class BaseNode:
             >>> a_copy = a.copy()
 
         Returns:
-            (Self)
+            Cloned copy of node
         """
         return copy.deepcopy(self)
 
     def sort(self: T, **kwargs: Any) -> None:
-        """Sort children, possible keyword arguments include ``key=lambda node: node.node_name``, ``reverse=True``
+        """Sort children, possible keyword arguments include ``key=lambda node: node.node_name``, ``reverse=True``.
         Accepts kwargs for sort() function.
 
         Examples:
@@ -762,8 +754,7 @@ class BaseNode:
         self.__children = children
 
     def plot(self, *args: Any, **kwargs: Any) -> plt.Figure:
-        """Plot tree in line form.
-        Accepts args and kwargs for matplotlib.pyplot.plot() function.
+        """Plot tree in line form. Accepts args and kwargs for matplotlib.pyplot.plot() function.
 
         Examples:
             >>> import matplotlib.pyplot as plt
@@ -780,7 +771,7 @@ class BaseNode:
         return plot_tree(self, *args, **kwargs)
 
     def __copy__(self: T) -> T:
-        """Shallow copy self
+        """Shallow copy self.
 
         Examples:
             >>> import copy
@@ -789,17 +780,17 @@ class BaseNode:
             >>> a_copy = copy.deepcopy(a)
 
         Returns:
-            (Self)
+            Shallow copy of node
         """
         obj: T = type(self).__new__(self.__class__)
         obj.__dict__.update(self.__dict__)
         return obj
 
     def __repr__(self) -> str:
-        """Print format of BaseNode
+        """Print format of BaseNode.
 
         Returns:
-            (str)
+            Print format of BaseNode
         """
         class_name = self.__class__.__name__
         node_dict = self.describe(exclude_prefix="_")
@@ -807,18 +798,18 @@ class BaseNode:
         return f"{class_name}({node_description})"
 
     def __rshift__(self: T, other: T) -> None:
-        """Set children using >> bitshift operator for self >> children (other)
+        """Set children using >> bitshift operator for self >> children (other).
 
         Args:
-            other (Self): other node, children
+            other: other node, children
         """
         other.parent = self
 
     def __lshift__(self: T, other: T) -> None:
-        """Set parent using << bitshift operator for self << parent (other)
+        """Set parent using << bitshift operator for self << parent (other).
 
         Args:
-            other (Self): other node, parent
+            other: other node, parent
         """
         self.parent = other
 
@@ -826,18 +817,18 @@ class BaseNode:
         """Iterate through child nodes
 
         Returns:
-            (Self): child node
+            Iterable of child node(s)
         """
         yield from self.children  # type: ignore
 
     def __contains__(self, other_node: T) -> bool:
-        """Check if child node exists
+        """Check if child node exists.
 
         Args:
-            other_node (T): child node
+            other_node: child node
 
         Returns:
-            (bool)
+            Indicator if other node is child of current node
         """
         return other_node in self.children
 

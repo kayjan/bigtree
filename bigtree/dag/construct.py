@@ -21,8 +21,7 @@ def list_to_dag(
     relations: List[Tuple[str, str]],
     node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
-    """Construct DAG from list of tuples containing parent-child names.
-    Note that node names must be unique.
+    """Construct DAG from list of tuples containing parent-child names. Note that node names must be unique.
 
     Examples:
         >>> from bigtree import list_to_dag, dag_iterator
@@ -32,11 +31,11 @@ def list_to_dag(
         [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
-        relations (List[Tuple[str, str]]): list containing tuple of parent-child names
-        node_type (Type[DAGNode]): node type of DAG to be created, defaults to ``DAGNode``
+        relations: list containing tuple of parent-child names
+        node_type: node type of DAG to be created
 
     Returns:
-        (DAGNode)
+        DAG node
     """
     assertions.assert_length_not_empty(relations, "Input list", "relations")
 
@@ -66,8 +65,7 @@ def dict_to_dag(
     node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
     """Construct DAG from nested dictionary, ``key``: child name, ``value``: dictionary of parent names, attribute
-    name, and attribute value.
-    Note that node names must be unique.
+    name, and attribute value. Note that node names must be unique.
 
     Examples:
         >>> from bigtree import dict_to_dag, dag_iterator
@@ -83,13 +81,13 @@ def dict_to_dag(
         [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
-        relation_attrs (Dict[str, Any]): dictionary containing node, node parents, and node attribute information,
+        relation_attrs: dictionary containing node, node parents, and node attribute information,
             key: child name, value: dictionary of parent names, node attribute, and attribute value
-        parent_key (str): key of dictionary to retrieve list of parents name, defaults to 'parent'
-        node_type (Type[DAGNode]): node type of DAG to be created, defaults to ``DAGNode``
+        parent_key: key of dictionary to retrieve list of parents name
+        node_type: node type of DAG to be created
 
     Returns:
-        (DAGNode)
+        DAG node
     """
     assertions.assert_length_not_empty(relation_attrs, "Dictionary", "relation_attrs")
 
@@ -133,8 +131,7 @@ def dataframe_to_dag(
     attribute_cols: List[str] = [],
     node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
-    """Construct DAG from pandas DataFrame.
-    Note that node names must be unique.
+    """Construct DAG from pandas DataFrame. Note that node names must be unique.
 
     - `child_col` and `parent_col` specify columns for child name and parent name to construct DAG.
     - `attribute_cols` specify columns for node attribute for child name.
@@ -162,17 +159,15 @@ def dataframe_to_dag(
         [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
-        data (pd.DataFrame): data containing path and node attribute information
-        child_col (str): column of data containing child name information, defaults to ''
-            if not set, it will take the first column of data
-        parent_col (str): column of data containing parent name information, defaults to ''
-            if not set, it will take the second column of data
-        attribute_cols (List[str]): columns of data containing child node attribute information,
-            if not set, it will take all columns of data except `child_col` and `parent_col`
-        node_type (Type[DAGNode]): node type of DAG to be created, defaults to ``DAGNode``
+        data: data containing path and node attribute information
+        child_col: column of data containing child name information, if not set, it will take the first column of data
+        parent_col: column of data containing parent name information, if not set, it will take the second column of data
+        attribute_cols: columns of data containing child node attribute information, if not set, it will take all columns
+            of data except `child_col` and `parent_col`
+        node_type: node type of DAG to be created
 
     Returns:
-        (DAGNode)
+        DAG node
     """
     assertions.assert_dataframe_not_empty(data)
 

@@ -86,23 +86,23 @@ class AppToDo:
         self,
         app_name: str = "",
     ):
-        """Initialize To-Do app
+        """Initialize To-Do app.
 
         Args:
-            app_name (str): name of to-do app, optional
+            app_name: name of to-do app, optional
         """
         self._root = node.Node(app_name)
 
     def add_list(self, list_name: str, **kwargs: Any) -> node.Node:
-        """Add list to app
+        """Add list to app.
 
         If list is present, return list node, else a new list will be created
 
         Args:
-            list_name (str): name of list
+            list_name: name of list
 
         Returns:
-            (Node)
+            List node
         """
         list_node = search.find_child_by_name(self._root, list_name)
         if not list_node:
@@ -111,10 +111,10 @@ class AppToDo:
         return list_node
 
     def prioritize_list(self, list_name: str) -> None:
-        """Prioritize list in app, shift it to be the first list
+        """Prioritize list in app, shift it to be the first list.
 
         Args:
-            list_name (str): name of list
+            list_name: name of list
         """
         list_node = search.find_child_by_name(self._root, list_name)
         if not list_node:
@@ -127,11 +127,11 @@ class AppToDo:
     def add_item(
         self, item_name: Union[str, List[str]], list_name: str = "", **kwargs: Any
     ) -> None:
-        """Add items to list
+        """Add items to list.
 
         Args:
-            item_name (str/List[str]): items to be added
-            list_name (str): list to add items to, optional
+            item_name: items to be added
+            list_name: list to add items to, optional
         """
         if not isinstance(item_name, str) and not isinstance(item_name, list):
             raise TypeError("Invalid data type for item")
@@ -152,11 +152,11 @@ class AppToDo:
     def remove_item(
         self, item_name: Union[str, List[str]], list_name: str = ""
     ) -> None:
-        """Remove items from list
+        """Remove items from list.
 
         Args:
-            item_name (str/List[str]): items to be added
-            list_name (str): list to add items to, optional
+            item_name: items to be added
+            list_name: list to add items to, optional
         """
         if not isinstance(item_name, str) and not isinstance(item_name, list):
             raise TypeError("Invalid data type for item")
@@ -204,10 +204,10 @@ class AppToDo:
                 logging.info(f"Removed list {list_node.node_name}")
 
     def prioritize_item(self, item_name: str) -> None:
-        """Prioritize item in list, shift it to be the first item in list
+        """Prioritize item in list, shift it to be the first item in list.
 
         Args:
-            item_name (str): name of item
+            item_name: name of item
         """
         item_node = search.find_name(self._root, item_name)
         if not item_node:
@@ -222,18 +222,18 @@ class AppToDo:
         current_parent.children = current_children  # type: ignore
 
     def show(self, **kwargs: Any) -> None:
-        """Print tree to console"""
+        """Print tree to console."""
         export.print_tree(self._root, all_attrs=True, **kwargs)
 
     @staticmethod
     def load(json_path: str) -> AppToDo:
-        """Load To-Do app from json
+        """Load To-Do app from json.
 
         Args:
-            json_path (str): json load path
+            json_path: json load path
 
         Returns:
-            (Self)
+            AppToDo loaded from path
         """
         if not json_path.endswith(".json"):
             raise ValueError("Path should end with .json")
@@ -247,10 +247,10 @@ class AppToDo:
         return _app
 
     def save(self, json_path: str) -> None:
-        """Save To-Do app as json
+        """Save To-Do app as json.
 
         Args:
-            json_path (str): json save path
+            json_path: json save path
         """
         if not json_path.endswith(".json"):
             raise ValueError("Path should end with .json")

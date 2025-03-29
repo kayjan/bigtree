@@ -28,7 +28,7 @@ T = TypeVar("T", bound=dagnode.DAGNode)
 def dag_to_list(
     dag: T,
 ) -> List[Tuple[str, str]]:
-    """Export DAG to list of tuples containing parent-child names
+    """Export DAG to list of tuples containing parent-child names.
 
     Examples:
         >>> from bigtree import DAGNode, dag_to_list
@@ -41,10 +41,10 @@ def dag_to_list(
         [('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]
 
     Args:
-        dag (DAGNode): DAG to be exported
+        dag: DAG to be exported
 
     Returns:
-        (List[Tuple[str, str]])
+        List of tuples containing parent-child names
     """
     relations = []
     for parent_node, child_node in iterators.dag_iterator(dag):
@@ -73,14 +73,14 @@ def dag_to_dict(
         {'a': {'step no.': 1}, 'c': {'parent': ['a', 'b'], 'step no.': 2}, 'd': {'parent': ['a', 'c'], 'step no.': 2}, 'b': {'step no.': 1}, 'e': {'parent': ['d'], 'step no.': 3}}
 
     Args:
-        dag (DAGNode): DAG to be exported
-        parent_key (str): dictionary key for `node.parent.node_name`, defaults to `parents`
-        attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
-            key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, defaults to False
+        dag: DAG to be exported
+        parent_key: dictionary key for `node.parent.node_name`
+        attr_dict: dictionary mapping node attributes to dictionary key,
+            key: node attributes, value: corresponding dictionary key
+        all_attrs: indicator whether to retrieve all `Node` attributes
 
     Returns:
-        (Dict[str, Any])
+        Dictionary of node names to their attributes
     """
     dag = dag.copy()
     data_dict = {}
@@ -142,15 +142,15 @@ def dag_to_dataframe(
         6    e      d         3
 
     Args:
-        dag (DAGNode): DAG to be exported
-        name_col (str): column name for `node.node_name`, defaults to 'name'
-        parent_col (str): column name for `node.parent.node_name`, defaults to 'parent'
-        attr_dict (Dict[str, str]): dictionary mapping node attributes to column name,
-            key: node attributes, value: corresponding column in dataframe, optional
-        all_attrs (bool): indicator whether to retrieve all `Node` attributes, defaults to False
+        dag: DAG to be exported
+        name_col: column name for `node.node_name`
+        parent_col: column name for `node.parent.node_name`
+        attr_dict: dictionary mapping node attributes to column name,
+            key: node attributes, value: corresponding column in dataframe
+        all_attrs: indicator whether to retrieve all `Node` attributes
 
     Returns:
-        (pd.DataFrame)
+        pandas DataFrame of DAG information
     """
     dag = dag.copy()
     data_list: List[Dict[str, Any]] = []
@@ -192,9 +192,8 @@ def dag_to_dot(
     node_attr: str = "",
     edge_attr: str = "",
 ) -> pydot.Dot:
-    r"""Export DAG or list of DAGs to image.
-    Note that node names must be unique.
-    Possible node attributes include style, fillcolor, shape.
+    r"""Export DAG or list of DAGs to image. Note that node names must be unique. Possible node attributes include
+    style, fillcolor, or shape.
 
     Examples:
         >>> from bigtree import DAGNode, dag_to_dot
@@ -225,20 +224,19 @@ def dag_to_dot(
         'strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nb [label=b];\nb -> c;\nd [label=d];\nc [label=c];\nc -> d;\ne [label=e];\nd [label=d];\nd -> e;\n}\n'
 
     Args:
-        dag (Union[DAGNode, List[DAGNode]]): DAG or list of DAGs to be exported
-        rankdir (str): set direction of graph layout, defaults to 'TB', can be 'BT, 'LR', 'RL'
-        bg_colour (str): background color of image, defaults to ''
-        node_colour (str): fill colour of nodes, defaults to ''
-        node_shape (str): shape of nodes, defaults to None
-            Possible node_shape include "circle", "square", "diamond", "triangle"
-        edge_colour (str): colour of edges, defaults to ''
-        node_attr (str): node attribute for style, overrides node_colour, defaults to ''
+        dag: DAG or list of DAGs to be exported
+        rankdir: set direction of graph layout, can be 'TB', 'BT, 'LR', or 'RL'
+        bg_colour: background color of image
+        node_colour: fill colour of nodes
+        node_shape: shape of nodes. Possible node_shape include "circle", "square", "diamond", "triangle"
+        edge_colour: colour of edges
+        node_attr: node attribute for style, overrides node_colour.
             Possible node attributes include {"style": "filled", "fillcolor": "gold"}
-        edge_attr (str): edge attribute for style, overrides edge_colour, defaults to ''
+        edge_attr: edge attribute for style, overrides edge_colour.
             Possible edge attributes include {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
-        (pydot.Dot)
+        pydot object of DAG
     """
     # Get style
     graph_style = dict(bgcolor=bg_colour) if bg_colour else {}

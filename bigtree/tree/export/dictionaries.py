@@ -44,18 +44,18 @@ def tree_to_dict(
         {'/a/c': {'name': 'c', 'parent': 'a', 'person age': 60}}
 
     Args:
-        tree (Node): tree to be exported
-        name_key (str): dictionary key for `node.node_name`, defaults to 'name'
-        parent_key (str): dictionary key for `node.parent.node_name`, optional
-        attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
-            key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
-        max_depth (int): maximum depth to export tree, optional
-        skip_depth (int): number of initial depths to skip, optional
-        leaf_only (bool): indicator to retrieve only information from leaf nodes
+        tree: tree to be exported
+        name_key: dictionary key for `node.node_name`
+        parent_key: dictionary key for `node.parent.node_name`
+        attr_dict: dictionary mapping node attributes to dictionary key, key: node attributes, value: corresponding
+            dictionary key
+        all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
+        max_depth: maximum depth to export tree
+        skip_depth: number of initial depths to skip
+        leaf_only: indicator to retrieve only information from leaf nodes
 
     Returns:
-        (Dict[str, Any])
+        Dictionary containing tree information
     """
     tree = tree.copy()
     data_dict = {}
@@ -64,7 +64,7 @@ def tree_to_dict(
         """Recursively iterate through node and its children to export to dictionary.
 
         Args:
-            node (Node): current node
+            node: current node
         """
         if node:
             if (
@@ -124,16 +124,16 @@ def tree_to_nested_dict(
         {'name': 'a', 'age': 90, 'children': [{'name': 'b', 'age': 65, 'children': [{'name': 'd', 'age': 40}, {'name': 'e', 'age': 35}]}, {'name': 'c', 'age': 60}]}
 
     Args:
-        tree (Node): tree to be exported
-        name_key (str): dictionary key for `node.node_name`, defaults to 'name'
-        child_key (str): dictionary key for list of children, optional
-        attr_dict (Dict[str, str]): dictionary mapping node attributes to dictionary key,
-            key: node attributes, value: corresponding dictionary key, optional
-        all_attrs (bool): indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`, defaults to False
-        max_depth (int): maximum depth to export tree, optional
+        tree: tree to be exported
+        name_key: dictionary key for `node.node_name`
+        child_key: dictionary key for list of children
+        attr_dict: dictionary mapping node attributes to dictionary key, key: node attributes, value: corresponding
+            dictionary key
+        all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
+        max_depth: maximum depth to export tree
 
     Returns:
-        (Dict[str, Any])
+        Dictionary containing tree information
     """
     tree = tree.copy()
     data_dict: Dict[str, List[Dict[str, Any]]] = {}
@@ -142,8 +142,8 @@ def tree_to_nested_dict(
         """Recursively iterate through node and its children to export to nested dictionary.
 
         Args:
-            node (Node): current node
-            parent_dict (Dict[str, Any]): parent dictionary
+            node: current node
+            parent_dict: parent dictionary
         """
         if node:
             if not max_depth or node.depth <= max_depth:

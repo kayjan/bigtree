@@ -89,10 +89,10 @@ class Node(basenode.BaseNode):
 
     @property
     def sep(self) -> str:
-        """Get separator, gets from root node
+        """Get separator, gets from root node.
 
         Returns:
-            (str)
+            Seperator
         """
         if self.parent is None:
             return self._sep
@@ -100,28 +100,28 @@ class Node(basenode.BaseNode):
 
     @sep.setter
     def sep(self, value: str) -> None:
-        """Set separator, affects root node
+        """Set separator, affects root node.
 
         Args:
-            value (str): separator to replace default separator
+            value: separator to replace default separator
         """
         self.root._sep = value
 
     @property
     def node_name(self) -> str:
-        """Get node name
+        """Get node name.
 
         Returns:
-            (str)
+            Node name
         """
         return self.name
 
     @property
     def path_name(self) -> str:
-        """Get path name, separated by self.sep
+        """Get path name, separated by self.sep.
 
         Returns:
-            (str)
+            Path name
         """
         ancestors = [self] + list(self.ancestors)
         sep = ancestors[-1].sep
@@ -137,37 +137,34 @@ class Node(basenode.BaseNode):
         pass
 
     def __post_assign_children(self: T, new_children: List[T]) -> None:
-        """Custom method to check after attaching children
-        Can be overridden with `_Node__post_assign_children()`
+        """Custom method to check after attaching children. Can be overridden with `_Node__post_assign_children()`.
 
         Args:
-            new_children (List[Self]): new children to be added
+            new_children: new children to be added
         """
         pass
 
     def __pre_assign_parent(self: T, new_parent: T) -> None:
-        """Custom method to check before attaching parent
-        Can be overridden with `_Node__pre_assign_parent()`
+        """Custom method to check before attaching parent. Can be overridden with `_Node__pre_assign_parent()`.
 
         Args:
-            new_parent (Self): new parent to be added
+            new_parent: new parent to be added
         """
         pass
 
     def __post_assign_parent(self: T, new_parent: T) -> None:
-        """Custom method to check after attaching parent
-        Can be overridden with `_Node__post_assign_parent()`
+        """Custom method to check after attaching parent. Can be overridden with `_Node__post_assign_parent()`.
 
         Args:
-            new_parent (Self): new parent to be added
+            new_parent: new parent to be added
         """
         pass
 
     def _BaseNode__pre_assign_parent(self: T, new_parent: T) -> None:
-        """Do not allow duplicate nodes of same path
+        """Do not allow duplicate nodes of same path.
 
         Args:
-            new_parent (Self): new parent to be added
+            new_parent: new parent to be added
         """
         self.__pre_assign_parent(new_parent)
         if new_parent is not None:
@@ -181,18 +178,18 @@ class Node(basenode.BaseNode):
                 )
 
     def _BaseNode__post_assign_parent(self: T, new_parent: T) -> None:
-        """No rules
+        """No rules.
 
         Args:
-            new_parent (Self): new parent to be added
+            new_parent: new parent to be added
         """
         self.__post_assign_parent(new_parent)
 
     def _BaseNode__pre_assign_children(self: T, new_children: List[T]) -> None:
-        """Do not allow duplicate nodes of same path
+        """Do not allow duplicate nodes of same path.
 
         Args:
-            new_children (List[Self]): new children to be added
+            new_children: new children to be added
         """
         self.__pre_assign_children(new_children)
         children_names = [node.node_name for node in new_children]
@@ -209,49 +206,49 @@ class Node(basenode.BaseNode):
             )
 
     def _BaseNode__post_assign_children(self: T, new_children: List[T]) -> None:
-        """No rules
+        """No rules.
 
         Args:
-            new_children (List[Self]): new children to be added
+            new_children: new children to be added
         """
         self.__post_assign_children(new_children)
 
     def show(self, **kwargs: Any) -> None:
-        """Print tree to console, takes in same keyword arguments as `print_tree` function"""
+        """Print tree to console, takes in same keyword arguments as `print_tree` function."""
         from bigtree.tree.export import print_tree
 
         print_tree(self, **kwargs)
 
     def hshow(self, **kwargs: Any) -> None:
-        """Print tree in horizontal orientation to console, takes in same keyword arguments as `hprint_tree` function"""
+        """Print tree in horizontal orientation to console, takes in same keyword arguments as `hprint_tree` function."""
         from bigtree.tree.export import hprint_tree
 
         hprint_tree(self, **kwargs)
 
     def vshow(self, **kwargs: Any) -> None:
-        """Print tree in vertical orientation to console, takes in same keyword arguments as `vprint_tree` function"""
+        """Print tree in vertical orientation to console, takes in same keyword arguments as `vprint_tree` function."""
         from bigtree.tree.export import vprint_tree
 
         vprint_tree(self, **kwargs)
 
     def __getitem__(self, child_name: str) -> "Node":
-        """Get child by name identifier
+        """Get child by name identifier.
 
         Args:
-            child_name (str): name of child node
+            child_name: name of child node
 
         Returns:
-            (Self): child node
+            Child node
         """
         from bigtree.tree.search import find_child_by_name
 
         return find_child_by_name(self, child_name)
 
     def __delitem__(self, child_name: str) -> None:
-        """Delete child by name identifier, will not throw error if child does not exist
+        """Delete child by name identifier, will not throw error if child does not exist.
 
         Args:
-            child_name (str): name of child node
+            child_name: name of child node
         """
         from bigtree.tree.search import find_child_by_name
 
@@ -260,10 +257,10 @@ class Node(basenode.BaseNode):
             child.parent = None
 
     def __repr__(self) -> str:
-        """Print format of Node
+        """Print format of Node.
 
         Returns:
-            (str)
+            Print format of Node
         """
         class_name = self.__class__.__name__
         node_dict = self.describe(exclude_prefix="_", exclude_attributes=["name"])

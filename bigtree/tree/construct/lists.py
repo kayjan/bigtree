@@ -58,13 +58,13 @@ def list_to_tree(
             └── f
 
     Args:
-        paths (List[str]): list containing path strings
-        sep (str): path separator for input `paths` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
-        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+        paths: list containing path strings
+        sep: path separator for input `paths` and created tree
+        duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
+        node_type: node type of tree to be created
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_length_not_empty(paths, "Path list", "paths")
 
@@ -112,13 +112,12 @@ def list_to_tree_by_relation(
             └── f
 
     Args:
-        relations (List[Tuple[str, str]]): list containing tuple containing parent-child names
-        allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
-            be tagged to multiple parent nodes, defaults to False
-        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+        relations: list containing tuple containing parent-child names
+        allow_duplicates : allow duplicate intermediate nodes such that child node will be tagged to multiple parent nodes
+        node_type: node type of tree to be created
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_length_not_empty(relations, "Path list", "relations")
 
