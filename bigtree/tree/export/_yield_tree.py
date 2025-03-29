@@ -28,7 +28,7 @@ def _get_style_class(
     style: Union[str, Iterable[str], TStyle],
     param_name: str,
 ) -> TStyle:
-    """Get style class from style, which can be a string, style_class, or list of input to style_class
+    """Get style class from style, which can be a string, style_class, or list of input to style_class.
 
     Args:
         base_style: style class to return
@@ -36,7 +36,7 @@ def _get_style_class(
         param_name: parameter name for error message
 
     Returns:
-        style class
+        Style class
     """
     if isinstance(style, str):
         return base_style.from_style(style)  # type: ignore
@@ -65,7 +65,7 @@ class BaseYieldTree:
         ] = "const",
         border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = None,
     ):
-        """Initialise yield tree class
+        """Initialise yield tree class.
 
         Args:
             tree: tree to print
@@ -91,10 +91,10 @@ class BaseYieldTree:
         self.space = " "
 
     def yield_tree(self, strip: bool) -> Union[List[str], Iterable[Tuple[str, str, T]]]:
-        """Yield tree
+        """Yield tree.
 
         Args:
-            strip: whether to strip results,
+            strip: whether to strip results
 
         Returns:
             List of tree string to print
@@ -110,23 +110,23 @@ class YieldTree(BaseYieldTree):
         max_depth: int = 0,
         style: Union[str, Iterable[str], constants.BasePrintStyle] = "const",
     ):
-        """Initialise yield tree class
+        """Initialise yield tree class.
 
         Args:
             tree: tree to print
-            node_name_or_path: node to print from, becomes the root node of printing, optional
-            max_depth: maximum depth of tree to print, based on `depth` attribute, optional
-            style: style of print, defaults to const
+            node_name_or_path: node to print from, becomes the root node of printing
+            max_depth: maximum depth of tree to print, based on `depth` attribute
+            style: style of print
         """
         self._style_class = constants.BasePrintStyle
         super().__init__(tree, node_name_or_path, max_depth, style, None)
         self.style_class: constants.BasePrintStyle
 
     def yield_tree(self, strip: bool = True) -> Iterable[Tuple[str, str, T]]:
-        """Yield tree
+        """Yield tree.
 
         Args:
-            strip: whether to strip results, defaults to True
+            strip: whether to strip results
 
         Returns:
             Iterable of tree string to print
@@ -175,18 +175,17 @@ class HYieldTree(BaseYieldTree):
         style: Union[str, Iterable[str], constants.BaseHPrintStyle] = "const",
         border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = None,
     ):
-        """Initialise yield tree class
+        """Initialise yield tree class, yields tree in horizontal fashion.
 
         Args:
             tree: tree to print
-            alias: node attribute to use for node name in tree as alias to `node_name`, if present.
-                Otherwise, it will default to `node_name` of node
+            alias: node attribute to use for node name in tree as alias to `node_name`
             node_name_or_path: node to print from, becomes the root node of printing
-            max_depth: maximum depth of tree to print, based on `depth` attribute, optional
-            intermediate_node_name: indicator if intermediate nodes have node names, defaults to True
+            max_depth: maximum depth of tree to print, based on `depth` attribute
+            intermediate_node_name: indicator if intermediate nodes have node names
             spacing: horizontal spacing between node displays
-            style: style of print, defaults to const
-            border_style: style of border, defaults to None
+            style: style of print
+            border_style: style of border
         """
         self._style_class = constants.BaseHPrintStyle
         super().__init__(tree, node_name_or_path, max_depth, style, border_style)
@@ -218,8 +217,7 @@ class HYieldTree(BaseYieldTree):
     def recursive(
         self, _node: Union[T, node.Node], _cur_depth: int
     ) -> Tuple[List[str], int]:
-        """Get string for tree horizontally.
-        Recursively iterate the nodes in post-order traversal manner.
+        """Get string for tree horizontally. Recursively iterate the nodes in post-order traversal manner.
 
         Args:
             _node: node to get string
@@ -321,10 +319,10 @@ class HYieldTree(BaseYieldTree):
         return result, mid + line_buffer
 
     def yield_tree(self, strip: bool = True) -> List[str]:
-        """Yield tree
+        """Yield tree.
 
         Args:
-            strip: whether to strip results, defaults to True
+            strip: whether to strip results
 
         Returns:
             List of tree string to print
@@ -347,18 +345,17 @@ class VYieldTree(BaseYieldTree):
         style: Union[str, Iterable[str], constants.BaseVPrintStyle] = "const",
         border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = None,
     ):
-        """Initialise yield tree class
+        """Initialise yield tree class, yields tree in vertical fashion.
 
         Args:
             tree: tree to print
-            alias: node attribute to use for node name in tree as alias to `node_name`, if present.
-                Otherwise, it will default to `node_name` of node
+            alias: node attribute to use for node name in tree as alias to `node_name`
             node_name_or_path: node to print from, becomes the root node of printing
-            max_depth: maximum depth of tree to print, based on `depth` attribute, optional
-            intermediate_node_name: indicator if intermediate nodes have node names, defaults to True
+            max_depth: maximum depth of tree to print, based on `depth` attribute
+            intermediate_node_name: indicator if intermediate nodes have node names
             spacing: horizontal spacing between node displays
-            style: style of print, defaults to const
-            border_style: style of border, defaults to const
+            style: style of print
+            border_style: style of border
         """
         self._style_class = constants.BaseVPrintStyle
         super().__init__(tree, node_name_or_path, max_depth, style, border_style)
@@ -368,8 +365,7 @@ class VYieldTree(BaseYieldTree):
         self.spacing = spacing
 
     def recursive(self, _node: Union[T, node.Node]) -> Tuple[List[str], int]:
-        """Get string for tree vertically.
-        Recursively iterate the nodes in post-order traversal manner.
+        """Get string for tree vertically. Recursively iterate the nodes in post-order traversal manner.
 
         Args:
             _node: node to get string
@@ -450,10 +446,10 @@ class VYieldTree(BaseYieldTree):
         return result, mid + line_buffer
 
     def yield_tree(self, strip: bool = False) -> List[str]:
-        """Yield tree
+        """Yield tree.
 
         Args:
-            strip: whether to strip results, defaults to False
+            strip: whether to strip results
 
         Returns:
             List of tree string to print
