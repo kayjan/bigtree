@@ -509,7 +509,7 @@ def find_child(
         condition: function that takes in node as argument, returns node if condition evaluates to `True`
 
     Returns:
-        Search results
+        Search result
     """
     result = find_children(tree, condition, max_count=1)
     if result:
