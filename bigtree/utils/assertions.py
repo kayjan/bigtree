@@ -42,11 +42,11 @@ def assert_style_in_dict(
     parameter: Any,
     accepted_parameters: Dict[str, Any],
 ) -> None:
-    """Raise ValueError is parameter is not in list of accepted parameters
+    """Raise ValueError is parameter is not in list of accepted parameters.
 
     Args:
-        parameter (Any): argument input for parameter
-        accepted_parameters (List[Any]): list of accepted parameters
+        parameter: argument input for parameter
+        accepted_parameters: list of accepted parameters
     """
     if parameter not in accepted_parameters:
         raise ValueError(
@@ -59,12 +59,12 @@ def assert_str_in_list(
     parameter: Any,
     accepted_parameters: List[Any],
 ) -> None:
-    """Raise ValueError is parameter is not in list of accepted parameters
+    """Raise ValueError is parameter is not in list of accepted parameters.
 
     Args:
-        parameter_name (str): parameter name for error message
-        parameter (Any): argument input for parameter
-        accepted_parameters (List[Any]): list of accepted parameters
+        parameter_name: parameter name for error message
+        parameter: argument input for parameter
+        accepted_parameters: list of accepted parameters
     """
     if parameter not in accepted_parameters:
         raise ValueError(
@@ -94,12 +94,12 @@ def assert_key_in_dict(
     parameter: Any,
     accepted_parameters: Dict[Any, Any],
 ) -> None:
-    """Raise ValueError is parameter is not in key of dictionary
+    """Raise ValueError is parameter is not in key of dictionary.
 
     Args:
-        parameter_name (str): parameter name for error message
-        parameter (Any): argument input for parameter
-        accepted_parameters (Dict[Any]): dictionary of accepted parameters
+        parameter_name: parameter name for error message
+        parameter: argument input for parameter
+        accepted_parameters: dictionary of accepted parameters
     """
     if parameter not in accepted_parameters:
         raise ValueError(
@@ -108,12 +108,12 @@ def assert_key_in_dict(
 
 
 def assert_length_not_empty(data: Sized, argument_name: str, argument: str) -> None:
-    """Raise ValueError if data does not have length
+    """Raise ValueError if data does not have length.
 
     Args:
-        data (Sized): data to check
+        data: data to check
         argument_name: argument name for data, for error message
-        argument (str): argument for data, for error message
+        argument: argument for data, for error message
     """
     if not len(data):
         raise ValueError(
@@ -122,10 +122,10 @@ def assert_length_not_empty(data: Sized, argument_name: str, argument: str) -> N
 
 
 def assert_dataframe_not_empty(data: pd.DataFrame) -> None:
-    """Raise ValueError is dataframe is empty
+    """Raise ValueError is dataframe is empty.
 
     Args:
-        data (pd.DataFrame): dataframe to check
+        data: dataframe to check
     """
     if not len(data.columns):
         raise ValueError("Data does not contain any columns, check `data`")
@@ -139,13 +139,13 @@ def assert_dataframe_no_duplicate_attribute(
     id_col: str,
     attribute_cols: List[str],
 ) -> None:
-    """Raise ValueError is dataframe contains different attributes for same path
+    """Raise ValueError is dataframe contains different attributes for same path.
 
     Args:
-        data (Union[pd.DataFrame, pl.DataFrame]): dataframe to check
-        id_type (str): type of uniqueness to check for, for error message
-        id_col (str): column of data that is unique, can be name or path
-        attribute_cols (List[str]): columns of data containing node attribute information,
+        data: dataframe to check
+        id_type: type of uniqueness to check for, for error message
+        id_col: column of data that is unique, can be name or path
+        attribute_cols: columns of data containing node attribute information
     """
     if pd and isinstance(data, pd.DataFrame):
         data_check = data[[id_col] + attribute_cols].astype(str).drop_duplicates()
@@ -172,12 +172,12 @@ def assert_dataframe_no_duplicate_children(
     child_col: str,
     parent_col: str,
 ) -> None:
-    """Raise ValueError is dataframe contains different duplicated parent tagged to different grandparents
+    """Raise ValueError is dataframe contains different duplicated parent tagged to different grandparents.
 
     Args:
-        data (Union[pd.DataFrame, pl.DataFrame]): dataframe to check
-        child_col (str): column of data containing child name information
-        parent_col (str): column of data containing parent name information
+        data: dataframe to check
+        child_col: column of data containing child name information
+        parent_col: column of data containing parent name information
     """
     # Filter for child nodes that are parent of other nodes
     if pd and isinstance(data, pd.DataFrame):
@@ -211,12 +211,12 @@ def assert_tree_type(
     tree_type: Union[Type[BaseNode], Type[Node], Type[DAGNode]],
     tree_type_name: str,
 ) -> None:
-    """Raise TypeError is tree is not of `tree_type`
+    """Raise TypeError is tree is not of `tree_type`.
 
     Args:
-        tree (Union["BaseNode", "Node", "DAGNode"]): tree to check
+        tree: tree to check
         tree_type: tree type to assert for
-        tree_type_name (str): tree type name
+        tree_type_name: tree type name
     """
     if not isinstance(tree, tree_type):
         raise TypeError(
@@ -225,13 +225,13 @@ def assert_tree_type(
 
 
 def isnull(value: Any) -> bool:
-    """Check if value is null
+    """Check if value is null.
 
     Args:
-        value (Any): value to check
+        value: value to check
 
     Returns:
-        (bool)
+        Flag if value is null
     """
     import math
 
@@ -245,15 +245,15 @@ def filter_attributes(
     omit_keys: List[str],
     omit_null_values: bool,
 ) -> Dict[str, Any]:
-    """Filter node attributes to remove certain keys and/or values
+    """Filter node attributes to remove certain keys and/or values.
 
     Args:
-        node_attributes (Dict[str, Any]): node attribute dictionary
-        omit_keys (List[str]): list of keys to omit
-        omit_null_values (bool): indicator whether to omit values that are null
+        node_attributes: node attribute dictionary
+        omit_keys: list of keys to omit
+        omit_null_values: indicator whether to omit values that are null
 
     Returns:
-        (Dict[str, Any])
+        Filtered node attributes
     """
     if omit_null_values:
         return {
