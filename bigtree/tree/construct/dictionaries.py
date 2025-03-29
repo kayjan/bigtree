@@ -22,8 +22,8 @@ def add_dict_to_tree_by_path(
     sep: str = "/",
     duplicate_name_allowed: bool = True,
 ) -> T:
-    """Add nodes and attributes to tree *in-place*, return root of tree.
-    Adds to existing tree from nested dictionary, ``key``: path, ``value``: dict of attribute name and attribute value.
+    """Add nodes and attributes to tree *in-place*, return root of tree. Adds to existing tree from nested dictionary,
+    ``key``: path, ``value``: dict of attribute name and attribute value.
 
     All attributes in `path_attrs` will be added to the tree, including attributes with null values.
 
@@ -65,14 +65,14 @@ def add_dict_to_tree_by_path(
             └── f
 
     Args:
-        tree (Node): existing tree
-        path_attrs (Dict[str, Dict[str, Any]]): dictionary containing node path and attribute information,
+        tree: existing tree
+        path_attrs: dictionary containing node path and attribute information,
             key: node path, value: dict of node attribute name and attribute value
-        sep (str): path separator for input `path_attrs`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
+        sep: path separator for input `path_attrs`
+        duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_length_not_empty(path_attrs, "Dictionary", "path_attrs")
 
@@ -90,8 +90,8 @@ def add_dict_to_tree_by_path(
 
 
 def add_dict_to_tree_by_name(tree: T, name_attrs: Dict[str, Dict[str, Any]]) -> T:
-    """Add attributes to existing tree *in-place*.
-    Adds to existing tree from nested dictionary, ``key``: name, ``value``: dict of attribute name and attribute value.
+    """Add attributes to existing tree *in-place*. Adds to existing tree from nested dictionary, ``key``: name,
+    ``value``: dict of attribute name and attribute value.
 
     All attributes in `name_attrs` will be added to the tree, including attributes with null values.
 
@@ -112,12 +112,12 @@ def add_dict_to_tree_by_name(tree: T, name_attrs: Dict[str, Dict[str, Any]]) -> 
         └── b [age=65]
 
     Args:
-        tree (Node): existing tree
-        name_attrs (Dict[str, Dict[str, Any]]): dictionary containing node name and attribute information,
-            key: node name, value: dict of node attribute name and attribute value
+        tree: existing tree
+        name_attrs: dictionary containing node name and attribute information, key: node name, value: dict of node
+            attribute name and attribute value
 
     Returns:
-        (Node)
+        Node
     """
     from bigtree.tree.search import findall
 
@@ -140,8 +140,8 @@ def dict_to_tree(
     duplicate_name_allowed: bool = True,
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
-    """Construct tree from nested dictionary using path,
-    ``key``: path, ``value``: dict of attribute name and attribute value.
+    """Construct tree from nested dictionary using path, ``key``: path, ``value``: dict of attribute name and attribute
+    value.
 
     Path should contain ``Node`` name, separated by `sep`.
 
@@ -181,14 +181,14 @@ def dict_to_tree(
             └── f [age=38]
 
     Args:
-        path_attrs (Dict[str, Any]): dictionary containing path and node attribute information,
+        path_attrs: dictionary containing path and node attribute information,
             key: path, value: dict of tree attribute and attribute value
-        sep (str): path separator of input `path_attrs` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
-        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+        sep: path separator of input `path_attrs` and created tree
+        duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
+        node_type: node type of tree to be created
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_length_not_empty(path_attrs, "Dictionary", "path_attrs")
 
@@ -233,8 +233,8 @@ def nested_dict_to_tree(
     """Construct tree from nested recursive dictionary.
 
     - ``key``: `name_key`, `child_key`, or any attributes key.
-    - ``value`` of `name_key` (str): node name.
-    - ``value`` of `child_key` (List[Dict[str, Any]]): list of dict containing `name_key` and `child_key` (recursive).
+    - ``value`` of `name_key`: node name.
+    - ``value`` of `child_key`: list of dict containing `name_key` and `child_key` (recursive).
 
     Examples:
         >>> from bigtree import nested_dict_to_tree
@@ -261,16 +261,16 @@ def nested_dict_to_tree(
                 └── g [age=10]
 
     Args:
-        node_attrs (Dict[str, Any]): dictionary containing node, children, and node attribute information,
+        node_attrs: dictionary containing node, children, and node attribute information,
             key: `name_key` and `child_key`
             value of `name_key` (str): node name
             value of `child_key` (List[Dict[str, Any]]): list of dict containing `name_key` and `child_key` (recursive)
-        name_key (str): key of node name, value is type str
-        child_key (str): key of child list, value is type list
-        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+        name_key: key of node name, value is type str
+        child_key: key of child list, value is type list
+        node_type: node type of tree to be created
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_length_not_empty(node_attrs, "Dictionary", "node_attrs")
 
@@ -280,11 +280,11 @@ def nested_dict_to_tree(
         """Recursively add child to tree, given child attributes and parent node.
 
         Args:
-            child_dict (Dict[str, Any]): child to be added to tree, from dictionary
-            parent_node (Node): parent node to be assigned to child node, defaults to None
+            child_dict: child to be added to tree, from dictionary
+            parent_node: parent node to be assigned to child node
 
         Returns:
-            (Node)
+            Node
         """
         child_dict = child_dict.copy()
         node_name = child_dict.pop(name_key)

@@ -43,8 +43,7 @@ def add_dataframe_to_tree_by_path(
     sep: str = "/",
     duplicate_name_allowed: bool = True,
 ) -> T:
-    """Add nodes and attributes to tree *in-place*, return root of tree.
-    Adds to existing tree from pandas DataFrame.
+    """Add nodes and attributes to tree *in-place*, return root of tree. Adds to existing tree from pandas DataFrame.
 
     Only attributes in `attribute_cols` with non-null values will be added to the tree.
 
@@ -92,17 +91,16 @@ def add_dataframe_to_tree_by_path(
             └── f [age=38]
 
     Args:
-        tree (Node): existing tree
-        data (pd.DataFrame): data containing node path and attribute information
-        path_col (str): column of data containing `path_name` information,
-            if not set, it will take the first column of data
-        attribute_cols (List[str]): columns of data containing node attribute information,
-            if not set, it will take all columns of data except `path_col`
-        sep (str): path separator for input `path_col`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
+        tree: existing tree
+        data: data containing node path and attribute information
+        path_col: column of data containing `path_name` information, if not set, it will take the first column of data
+        attribute_cols: columns of data containing node attribute information, if not set, it will take all columns of
+            data except `path_col`
+        sep: path separator for input `path_col`
+        duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_dataframe_not_empty(data)
 
@@ -139,8 +137,7 @@ def add_dataframe_to_tree_by_name(
     name_col: str = "",
     attribute_cols: List[str] = [],
 ) -> T:
-    """Add attributes to existing tree *in-place*.
-    Adds to existing tree from pandas DataFrame.
+    """Add attributes to existing tree *in-place*. Adds to existing tree from pandas DataFrame.
 
     Only attributes in `attribute_cols` with non-null values will be added to the tree.
 
@@ -167,15 +164,14 @@ def add_dataframe_to_tree_by_name(
         └── b [age=65]
 
     Args:
-        tree (Node): existing tree
-        data (pd.DataFrame): data containing node name and attribute information
-        name_col (str): column of data containing `name` information,
-            if not set, it will take the first column of data
-        attribute_cols (List[str]): column(s) of data containing node attribute information,
-            if not set, it will take all columns of data except `path_col`
+        tree: existing tree
+        data: data containing node name and attribute information
+        name_col: column of data containing `name` information, if not set, it will take the first column of data
+        attribute_cols: column(s) of data containing node attribute information, if not set, it will take all columns
+            of data except `path_col`
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_dataframe_not_empty(data)
 
@@ -211,8 +207,7 @@ def add_polars_to_tree_by_path(
     sep: str = "/",
     duplicate_name_allowed: bool = True,
 ) -> T:
-    """Add nodes and attributes to tree *in-place*, return root of tree.
-    Adds to existing tree from polars DataFrame.
+    """Add nodes and attributes to tree *in-place*, return root of tree. Adds to existing tree from polars DataFrame.
 
     Only attributes in `attribute_cols` with non-null values will be added to the tree.
 
@@ -260,17 +255,16 @@ def add_polars_to_tree_by_path(
             └── f [age=38]
 
     Args:
-        tree (Node): existing tree
-        data (pl.DataFrame): data containing node path and attribute information
-        path_col (str): column of data containing `path_name` information,
-            if not set, it will take the first column of data
-        attribute_cols (List[str]): columns of data containing node attribute information,
-            if not set, it will take all columns of data except `path_col`
-        sep (str): path separator for input `path_col`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
+        tree: existing tree
+        data: data containing node path and attribute information
+        path_col: column of data containing `path_name` information, if not set, it will take the first column of data
+        attribute_cols: columns of data containing node attribute information, if not set, it will take all
+            columns of data except `path_col`
+        sep: path separator for input `path_col`
+        duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_dataframe_not_empty(data)
 
@@ -309,8 +303,7 @@ def add_polars_to_tree_by_name(
     name_col: str = "",
     attribute_cols: List[str] = [],
 ) -> T:
-    """Add attributes to existing tree *in-place*.
-    Adds to existing tree from polars DataFrame.
+    """Add attributes to existing tree *in-place*. Adds to existing tree from polars DataFrame.
 
     Only attributes in `attribute_cols` with non-null values will be added to the tree.
 
@@ -335,15 +328,14 @@ def add_polars_to_tree_by_name(
         └── b [age=65]
 
     Args:
-        tree (Node): existing tree
-        data (pl.DataFrame): data containing node name and attribute information
-        name_col (str): column of data containing `name` information,
-            if not set, it will take the first column of data
-        attribute_cols (List[str]): column(s) of data containing node attribute information,
-            if not set, it will take all columns of data except `path_col`
+        tree: existing tree
+        data: data containing node name and attribute information
+        name_col: column of data containing `name` information, if not set, it will take the first column of data
+        attribute_cols: column(s) of data containing node attribute information, if not set, it will take all columns
+            of data except `path_col`
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_dataframe_not_empty(data)
 
@@ -425,17 +417,16 @@ def dataframe_to_tree(
             └── f [age=38]
 
     Args:
-        data (pd.DataFrame): data containing path and node attribute information
-        path_col (str): column of data containing `path_name` information,
-            if not set, it will take the first column of data
-        attribute_cols (List[str]): columns of data containing node attribute information,
-            if not set, it will take all columns of data except `path_col`
-        sep (str): path separator of input `path_col` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
-        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+        data: data containing path and node attribute information
+        path_col: column of data containing `path_name` information, if not set, it will take the first column of data
+        attribute_cols: columns of data containing node attribute information, if not set, it will take all
+            columns of data except `path_col`
+        sep: path separator of input `path_col` and created tree
+        duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
+        node_type: node type of tree to be created
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_dataframe_not_empty(data)
 
@@ -529,19 +520,17 @@ def dataframe_to_tree_by_relation(
             └── f [age=38]
 
     Args:
-        data (pd.DataFrame): data containing path and node attribute information
-        child_col (str): column of data containing child name information, defaults to None
-            if not set, it will take the first column of data
-        parent_col (str): column of data containing parent name information, defaults to None
-            if not set, it will take the second column of data
-        attribute_cols (List[str]): columns of data containing node attribute information,
-            if not set, it will take all columns of data except `child_col` and `parent_col`
-        allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
-            be tagged to multiple parent nodes, defaults to False
-        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+        data: data containing path and node attribute information
+        child_col: column of data containing child name information, if not set, it will take the first column of data
+        parent_col: column of data containing parent name information, if not set, it will take the second column of data
+        attribute_cols: columns of data containing node attribute information, if not set, it will take all columns of
+            data except `child_col` and `parent_col`
+        allow_duplicates: allow duplicate intermediate nodes such that child node will
+            be tagged to multiple parent nodes
+        node_type: node type of tree to be created
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_dataframe_not_empty(data)
 
@@ -572,10 +561,10 @@ def dataframe_to_tree_by_relation(
         """Retrieve node attributes from dictionary, remove parent and child column from dictionary.
 
         Args:
-            _row (Dict[str, Any]): node attributes
+            _row: node attributes
 
         Returns:
-            (Dict[str, Any])
+            Attribute dictionary
         """
         node_attrs = assertions.filter_attributes(
             _row, omit_keys=[child_col, parent_col], omit_null_values=True
@@ -587,7 +576,7 @@ def dataframe_to_tree_by_relation(
         """Recursive add child to tree, given current node.
 
         Args:
-            parent_node (Node): parent node
+            parent_node: parent node
         """
         child_rows = data[data[parent_col] == parent_node.node_name]
 
@@ -661,17 +650,16 @@ def polars_to_tree(
             └── f [age=38]
 
     Args:
-        data (pl.DataFrame): data containing path and node attribute information
-        path_col (str): column of data containing `path_name` information,
-            if not set, it will take the first column of data
-        attribute_cols (List[str]): columns of data containing node attribute information,
-            if not set, it will take all columns of data except `path_col`
-        sep (str): path separator of input `path_col` and created tree, defaults to `/`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
-        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+        data: data containing path and node attribute information
+        path_col: column of data containing `path_name` information, if not set, it will take the first column of data
+        attribute_cols: columns of data containing node attribute information, if not set, it will take all columns of
+            data except `path_col`
+        sep: path separator of input `path_col` and created tree
+        duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
+        node_type: node type of tree to be created
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_dataframe_not_empty(data)
 
@@ -766,19 +754,17 @@ def polars_to_tree_by_relation(
             └── f [age=38]
 
     Args:
-        data (pl.DataFrame): data containing path and node attribute information
-        child_col (str): column of data containing child name information, defaults to None
-            if not set, it will take the first column of data
-        parent_col (str): column of data containing parent name information, defaults to None
-            if not set, it will take the second column of data
-        attribute_cols (List[str]): columns of data containing node attribute information,
-            if not set, it will take all columns of data except `child_col` and `parent_col`
-        allow_duplicates (bool): allow duplicate intermediate nodes such that child node will
-            be tagged to multiple parent nodes, defaults to False
-        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+        data: data containing path and node attribute information
+        child_col: column of data containing child name information, if not set, it will take the first column of data
+        parent_col: column of data containing parent name information, if not set, it will take the second column of data
+        attribute_cols: columns of data containing node attribute information, if not set, it will take all columns of
+            data except `child_col` and `parent_col`
+        allow_duplicates: allow duplicate intermediate nodes such that child node will
+            be tagged to multiple parent nodes
+        node_type: node type of tree to be created
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_dataframe_not_empty(data)
 
@@ -809,10 +795,10 @@ def polars_to_tree_by_relation(
         """Retrieve node attributes from dictionary, remove parent and child column from dictionary.
 
         Args:
-            _row (Dict[str, Any]): node attributes
+            _row: node attributes
 
         Returns:
-            (Dict[str, Any])
+            Attribute dictionary
         """
         node_attrs = assertions.filter_attributes(
             _row, omit_keys=[child_col, parent_col], omit_null_values=True
@@ -824,7 +810,7 @@ def polars_to_tree_by_relation(
         """Recursive add child to tree, given current node.
 
         Args:
-            parent_node (Node): parent node
+            parent_node: parent node
         """
         child_rows = data.filter(data[parent_col] == parent_node.node_name)
 
