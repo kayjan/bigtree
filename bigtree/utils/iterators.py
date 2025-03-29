@@ -67,13 +67,12 @@ def inorder_iter(
         ['4', '2', '5', '1', '6', '3', '7']
 
     Args:
-        tree (BinaryNode): input tree
-        filter_condition (Optional[Callable[[BinaryNode], bool]]): function that takes in node as argument, optional
-            Return node if condition evaluates to `True`
-        max_depth (int): maximum depth of iteration, based on `depth` attribute, optional
+        tree: input tree
+        filter_condition: function that takes in node as argument. Return node if condition evaluates to `True`
+        max_depth: maximum depth of iteration, based on `depth` attribute
 
     Returns:
-        (Iterable[BinaryNode])
+        Iterable of nodes
     """
     if tree and (not max_depth or not tree.depth > max_depth):
         yield from inorder_iter(tree.left, filter_condition, max_depth)
@@ -124,15 +123,13 @@ def preorder_iter(
         ['a', 'b', 'd', 'e', 'c', 'f']
 
     Args:
-        tree (Union[BaseNode, DAGNode]): input tree
-        filter_condition (Optional[Callable[[T], bool]]): function that takes in node as argument, optional
-            Return node if condition evaluates to `True`
-        stop_condition (Optional[Callable[[T], bool]]): function that takes in node as argument, optional
-            Stops iteration if condition evaluates to `True`
-        max_depth (int): maximum depth of iteration, based on `depth` attribute, optional
+        tree: input tree
+        filter_condition: function that takes in node as argument. Return node if condition evaluates to `True`
+        stop_condition: function that takes in node as argument. Stops iteration if condition evaluates to `True`
+        max_depth: maximum depth of iteration, based on `depth` attribute
 
     Returns:
-        (Union[Iterable[BaseNode], Iterable[DAGNode]])
+        Iterable of nodes
     """
     if (
         tree
@@ -185,15 +182,13 @@ def postorder_iter(
         ['d', 'e', 'b', 'f', 'c', 'a']
 
     Args:
-        tree (BaseNode): input tree
-        filter_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
-            Return node if condition evaluates to `True`
-        stop_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
-            Stops iteration if condition evaluates to `True`
-        max_depth (int): maximum depth of iteration, based on `depth` attribute, optional
+        tree: input tree
+        filter_condition: function that takes in node as argument. Return node if condition evaluates to `True`
+        stop_condition: function that takes in node as argument. Stops iteration if condition evaluates to `True`
+        max_depth: maximum depth of iteration, based on `depth` attribute
 
     Returns:
-        (Iterable[BaseNode])
+        Iterable of nodes
     """
     if (
         tree
@@ -246,15 +241,13 @@ def levelorder_iter(
         ['a', 'b', 'c', 'd', 'e', 'f']
 
     Args:
-        tree (BaseNode): input tree
-        filter_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
-            Return node if condition evaluates to `True`
-        stop_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
-            Stops iteration if condition evaluates to `True`
-        max_depth (int): maximum depth of iteration, based on `depth` attribute, defaults to None
+        tree: input tree
+        filter_condition: function that takes in node as argument. Return node if condition evaluates to `True`
+        stop_condition: function that takes in node as argument. Stops iteration if condition evaluates to `True`
+        max_depth: maximum depth of iteration, based on `depth` attribute
 
     Returns:
-        (Iterable[BaseNode])
+        Iterable of nodes
     """
 
     def _levelorder_iter(trees: List[BaseNodeT]) -> Iterable[BaseNodeT]:
@@ -319,25 +312,23 @@ def levelordergroup_iter(
         [['a'], ['b', 'c'], ['d', 'e', 'f']]
 
     Args:
-        tree (BaseNode): input tree
-        filter_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
-            Return node if condition evaluates to `True`
-        stop_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
-            Stops iteration if condition evaluates to `True`
-        max_depth (int): maximum depth of iteration, based on `depth` attribute, defaults to None
+        tree: input tree
+        filter_condition: function that takes in node as argument. Return node if condition evaluates to `True`
+        stop_condition: function that takes in node as argument. Stops iteration if condition evaluates to `True`
+        max_depth: maximum depth of iteration, based on `depth` attribute
 
     Returns:
-        (Iterable[Iterable[BaseNode]])
+        List of iterable of nodes
     """
 
     def _levelordergroup_iter(trees: List[BaseNodeT]) -> Iterable[Iterable[BaseNodeT]]:
         """Iterate through all children of a tree.
 
         Args:
-            trees (List[BaseNode]): trees to get children for next level
+            trees: trees to get children for next level
 
         Returns:
-            (Iterable[Iterable[BaseNode]])
+            List of iterable of nodes
         """
         current_tree = []
         next_level = []
@@ -393,15 +384,13 @@ def zigzag_iter(
         ['a', 'c', 'b', 'd', 'e', 'f']
 
     Args:
-        tree (BaseNode): input tree
-        filter_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
-            Return node if condition evaluates to `True`
-        stop_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
-            Stops iteration if condition evaluates to `True`
-        max_depth (int): maximum depth of iteration, based on `depth` attribute, defaults to None
+        tree: input tree
+        filter_condition: function that takes in node as argument. Return node if condition evaluates to `True`
+        stop_condition: function that takes in node as argument. Stops iteration if condition evaluates to `True`
+        max_depth: maximum depth of iteration, based on `depth` attribute
 
     Returns:
-        (Iterable[BaseNode])
+        Iterable of nodes
     """
 
     def _zigzag_iter(
@@ -475,15 +464,13 @@ def zigzaggroup_iter(
         [['a'], ['c', 'b'], ['d', 'e', 'f']]
 
     Args:
-        tree (BaseNode): input tree
-        filter_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
-            Return node if condition evaluates to `True`
-        stop_condition (Optional[Callable[[BaseNode], bool]]): function that takes in node as argument, optional
-            Stops iteration if condition evaluates to `True`
-        max_depth (int): maximum depth of iteration, based on `depth` attribute, defaults to None
+        tree: input tree
+        filter_condition: function that takes in node as argument. Return node if condition evaluates to `True`
+        stop_condition: function that takes in node as argument. Stops iteration if condition evaluates to `True`
+        max_depth: maximum depth of iteration, based on `depth` attribute
 
     Returns:
-        (Iterable[Iterable[BaseNode]])
+        List of iterable of nodes
     """
 
     def _zigzaggroup_iter(
@@ -492,11 +479,11 @@ def zigzaggroup_iter(
         """Iterate through all children of a tree.
 
         Args:
-            trees (List[BaseNode]): trees to get children for next level
-            reverse_indicator (bool): indicator whether it is in reverse order
+            trees: trees to get children for next level
+            reverse_indicator: indicator whether it is in reverse order
 
         Returns:
-            (Iterable[Iterable[BaseNode]])
+            List of iterable of nodes
         """
         current_tree = []
         next_level = []
@@ -520,9 +507,8 @@ def zigzaggroup_iter(
 
 
 def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
-    """Iterate through all nodes of a Directed Acyclic Graph (DAG).
-    Note that node names must be unique.
-    Note that DAG must at least have two nodes to be shown on graph.
+    """Iterate through all nodes of a Directed Acyclic Graph (DAG). Note that node names
+    must be unique. Note that DAG must at least have two nodes to be shown on graph.
 
     1. Visit the current node.
     2. Recursively traverse the current node's parents.
@@ -539,10 +525,10 @@ def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
         [('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]
 
     Args:
-        dag (DAGNode): input dag
+        dag: input dag
 
     Returns:
-        (Iterable[Tuple[DAGNode, DAGNode]])
+        Iterable of parent-child pair
     """
     visited_nodes = set()
 
@@ -550,10 +536,10 @@ def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
         """Iterate through all children of a DAG.
 
         Args:
-            node (DAGNode): current node
+            node: current node
 
         Returns:
-            (Iterable[Tuple[DAGNode, DAGNode]])
+            Iterable of parent-child pair
         """
         node_name = node.node_name
         visited_nodes.add(node_name)
