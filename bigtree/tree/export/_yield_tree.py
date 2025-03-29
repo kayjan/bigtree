@@ -70,9 +70,9 @@ class BaseYieldTree:
         Args:
             tree: tree to print
             node_name_or_path: node to print from, becomes the root node
-            max_depth: maximum depth of tree to print, based on `depth` attribute, optional
-            style: style of print, defaults to const
-            border_style: style of border, defaults to None
+            max_depth: maximum depth of tree to print, based on `depth` attribute
+            style: style of print
+            border_style: style of border
         """
         self._style_class: Type[constants.BaseStyle]
         tree = get_subtree(tree, node_name_or_path, max_depth)
