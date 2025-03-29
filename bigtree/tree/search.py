@@ -32,11 +32,11 @@ def __check_result_count(
     """Check result fulfil min_count and max_count requirements
 
     Args:
-        result (Tuple[Any]): result of search
-        min_count (int): checks for minimum number of occurrences,
-            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
-        max_count (int): checks for maximum number of occurrences,
-            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
+        result: result of search
+        min_count: checks for minimum number of occurrences, raise exceptions.SearchError if the number of results do
+            not meet min_count
+        max_count: checks for maximum number of occurrences, raise exceptions.SearchError if the number of results do
+            not meet min_count
     """
     if min_count and len(result) < min_count:
         raise exceptions.SearchError(
@@ -68,16 +68,16 @@ def findall(
         (Node(/a, age=90), Node(/a/b, age=65))
 
     Args:
-        tree (BaseNode): tree to search
-        condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
-        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
-        min_count (int): checks for minimum number of occurrences,
-            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
-        max_count (int): checks for maximum number of occurrences,
-            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
+        tree: tree to search
+        condition: function that takes in node as argument, returns node if condition evaluates to `True`
+        max_depth: maximum depth to search for, based on the `depth` attribute
+        min_count: checks for minimum number of occurrences, raise exceptions.SearchError if the number of results do
+            not meet min_count
+        max_count: checks for maximum number of occurrences, raise exceptions.SearchError if the number of results do
+            not meet min_count
 
     Returns:
-        (Tuple[BaseNode, ...])
+        Search results
     """
     result = tuple(
         iterators.preorder_iter(tree, filter_condition=condition, max_depth=max_depth)
@@ -105,12 +105,12 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
         (Node(/a, age=90), Node(/a/b, age=65), Node(/a/c, age=60), Node(/a/c/d, age=40))
 
     Args:
-        tree (BaseNode): tree to search
-        condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
-        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
+        tree: tree to search
+        condition: function that takes in node as argument, returns node if condition evaluates to `True`
+        max_depth: maximum depth to search for, based on the `depth` attribute
 
     Returns:
-        (BaseNode)
+        Search result
     """
     result = findall(tree, condition, max_depth, max_count=1)
     if result:
@@ -131,12 +131,12 @@ def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT:
         Node(/a/c, age=60)
 
     Args:
-        tree (Node): tree to search
-        name (str): value to match for name attribute
-        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
+        tree: tree to search
+        name: value to match for name attribute
+        max_depth: maximum depth to search for, based on the `depth` attribute
 
     Returns:
-        (Node)
+        Search result
     """
     return find(tree, lambda _node: _node.node_name == name, max_depth)
 
@@ -157,12 +157,12 @@ def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
         (Node(/a/b, age=65), Node(/a/c/b, age=40))
 
     Args:
-        tree (Node): tree to search
-        name (str): value to match for name attribute
-        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
+        tree: tree to search
+        name: value to match for name attribute
+        max_depth: maximum depth to search for, based on the `depth` attribute
 
     Returns:
-        (Iterable[Node])
+        Search results
     """
     return findall(tree, lambda _node: _node.node_name == name, max_depth)
 
@@ -192,11 +192,11 @@ def find_relative_path(tree: NodeT, path_name: str) -> NodeT:
         (Node(/a/b, age=65), Node(/a/c, age=60))
 
     Args:
-        tree (Node): tree to search
-        path_name (str): value to match (relative path) of path_name attribute
+        tree: tree to search
+        path_name: value to match (relative path) of path_name attribute
 
     Returns:
-        (Node)
+        Search result
     """
     result = find_relative_paths(tree, path_name, max_count=1)
 
@@ -231,15 +231,15 @@ def find_relative_paths(
         (Node(/a/b, age=65), Node(/a/c, age=60))
 
     Args:
-        tree (Node): tree to search
-        path_name (str): value to match (relative path) of path_name attribute
-        min_count (int): checks for minimum number of occurrences,
-            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
-        max_count (int): checks for maximum number of occurrences,
-            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
+        tree: tree to search
+        path_name: value to match (relative path) of path_name attribute
+        min_count: checks for minimum number of occurrences, raise exceptions.SearchError if the number of results do
+            not meet min_count
+        max_count: checks for maximum number of occurrences, raise exceptions.SearchError if the number of results do
+            not meet min_count
 
     Returns:
-        (Tuple[Node, ...])
+        Search results
     """
     sep = tree.sep
     if path_name.startswith(sep):
@@ -261,8 +261,8 @@ def find_relative_paths(
         """Resolve node based on path name
 
         Args:
-            _node (Node): current node
-            path_idx (int): current index in path_list
+            _node: current node
+            path_idx: current index in path_list
         """
         if path_idx == len(path_list):
             resolved_nodes.append(_node)
@@ -312,11 +312,11 @@ def find_full_path(tree: NodeT, path_name: str) -> NodeT:
         Node(/a/c/d, age=40)
 
     Args:
-        tree (Node): tree to search
-        path_name (str): value to match (full path) of path_name attribute
+        tree: tree to search
+        path_name: value to match (full path) of path_name attribute
 
     Returns:
-        (Node)
+        Search result
     """
     sep = tree.sep
     path_list = path_name.rstrip(sep).lstrip(sep).split(sep)
@@ -353,11 +353,11 @@ def find_path(tree: NodeT, path_name: str) -> NodeT:
         Node(/a/c, age=60)
 
     Args:
-        tree (Node): tree to search
-        path_name (str): value to match (full path) or trailing part (partial path) of path_name attribute
+        tree: tree to search
+        path_name: value to match (full path) or trailing part (partial path) of path_name attribute
 
     Returns:
-        (Node)
+        Search result
     """
     path_name = path_name.rstrip(tree.sep)
     return find(tree, lambda _node: _node.path_name.endswith(path_name))
@@ -382,11 +382,11 @@ def find_paths(tree: NodeT, path_name: str) -> Iterable[NodeT]:
         (Node(/a/c, age=60), Node(/a/c/c, age=40))
 
     Args:
-        tree (Node): tree to search
-        path_name (str): value to match (full path) or trailing part (partial path) of path_name attribute
+        tree: tree to search
+        path_name: value to match (full path) or trailing part (partial path) of path_name attribute
 
     Returns:
-        (Iterable[Node])
+        Search results
     """
     path_name = path_name.rstrip(tree.sep)
     return findall(tree, lambda _node: _node.path_name.endswith(path_name))
@@ -408,13 +408,13 @@ def find_attr(
         Node(/a/b, age=65)
 
     Args:
-        tree (BaseNode): tree to search
-        attr_name (str): attribute name to perform matching
-        attr_value (Any): value to match for attr_name attribute
-        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
+        tree: tree to search
+        attr_name: attribute name to perform matching
+        attr_value: value to match for attr_name attribute
+        max_depth: maximum depth to search for, based on the `depth` attribute
 
     Returns:
-        (BaseNode)
+        Search result
     """
     return find(
         tree,
@@ -439,13 +439,13 @@ def find_attrs(
         (Node(/a/b, age=65), Node(/a/c, age=65))
 
     Args:
-        tree (BaseNode): tree to search
-        attr_name (str): attribute name to perform matching
-        attr_value (Any): value to match for attr_name attribute
-        max_depth (int): maximum depth to search for, based on the `depth` attribute, defaults to None
+        tree: tree to search
+        attr_name: attribute name to perform matching
+        attr_value: value to match for attr_name attribute
+        max_depth: maximum depth to search for, based on the `depth` attribute
 
     Returns:
-        (Iterable[BaseNode])
+        Search results
     """
     return findall(
         tree,
@@ -473,15 +473,15 @@ def find_children(
         (Node(/a/b, age=65), Node(/a/c, age=60))
 
     Args:
-        tree (BaseNode/DAGNode): tree to search for its children
-        condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
-        min_count (int): checks for minimum number of occurrences,
-            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
-        max_count (int): checks for maximum number of occurrences,
-            raise exceptions.SearchError if the number of results do not meet min_count, defaults to None
+        tree: tree to search for its children
+        condition: function that takes in node as argument, returns node if condition evaluates to `True`
+        min_count: checks for minimum number of occurrences, raise exceptions.SearchError if the number of results do
+            not meet min_count
+        max_count: checks for maximum number of occurrences, raise exceptions.SearchError if the number of results do
+            not meet min_count
 
     Returns:
-        (Tuple[Union[BaseNode, DAGNode], ...])
+        Search results
     """
     result = tuple([_node for _node in tree.children if _node and condition(_node)])
     __check_result_count(result, min_count, max_count)
@@ -505,11 +505,11 @@ def find_child(
         Node(/a/b, age=65)
 
     Args:
-        tree (BaseNode/DAGNode): tree to search for its child
-        condition (Callable): function that takes in node as argument, returns node if condition evaluates to `True`
+        tree: tree to search for its child
+        condition: function that takes in node as argument, returns node if condition evaluates to `True`
 
     Returns:
-        (BaseNode/DAGNode)
+        Search results
     """
     result = find_children(tree, condition, max_count=1)
     if result:
@@ -534,10 +534,10 @@ def find_child_by_name(
         Node(/a/c/d, age=40)
 
     Args:
-        tree (Node/DAGNode): tree to search, parent node
-        name (str): value to match for name attribute, child node
+        tree: tree to search, parent node
+        name: value to match for name attribute, child node
 
     Returns:
-        (Node/DAGNode)
+        Search result
     """
     return find_child(tree, lambda _node: _node.node_name == name)
