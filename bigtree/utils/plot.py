@@ -72,13 +72,13 @@ def reingold_tilford(
     - [2] Reingold, E., Tilford, J. (1981). Tidier Drawings of Trees. IEEE Transactions on Software Engineering. https://reingold.co/tidier-drawings.pdf
 
     Args:
-        tree_node (BaseNode): tree to compute (x, y) coordinate
-        sibling_separation (float): minimum distance between adjacent siblings of the tree
-        subtree_separation (float): minimum distance between adjacent subtrees of the tree
-        level_separation (float): fixed distance between adjacent levels of the tree
-        x_offset (float): graph offset of x-coordinates
-        y_offset (float): graph offset of y-coordinates
-        reverse (bool): graph begins bottom to top by default, set to True for top to bottom y coordinates
+        tree_node: tree to compute (x, y) coordinate
+        sibling_separation: minimum distance between adjacent siblings of the tree
+        subtree_separation: minimum distance between adjacent subtrees of the tree
+        level_separation: fixed distance between adjacent levels of the tree
+        x_offset: graph offset of x-coordinates
+        y_offset: graph offset of y-coordinates
+        reverse: graph begins bottom to top by default, set to True for top to bottom y coordinates
     """
     _first_pass(tree_node, sibling_separation, subtree_separation)
     x_adjustment = _second_pass(
@@ -104,8 +104,8 @@ def plot_tree(
         <Figure size 1280x960 with 1 Axes>
 
     Args:
-        tree_node (BaseNode): tree to plot
-        ax (plt.Axes): axes to add Figure to
+        tree_node: tree to plot
+        ax: axes to add Figure to
     """
     if ax:
         fig = ax.get_figure()
@@ -168,9 +168,9 @@ def _first_pass(
       `shift` value to keep nodes centralized at the level.
 
     Args:
-        tree_node (BaseNode): tree to compute (x, y) coordinate
-        sibling_separation (float): minimum distance between adjacent siblings of the tree
-        subtree_separation (float): minimum distance between adjacent subtrees of the tree
+        tree_node: tree to compute (x, y) coordinate
+        sibling_separation: minimum distance between adjacent siblings of the tree
+        subtree_separation: minimum distance between adjacent subtrees of the tree
     """
     # Post-order iteration (LRN)
     for child in tree_node.children:
@@ -235,13 +235,13 @@ def _first_pass(
 
 
 def _get_midpoint_of_children(tree_node: basenode.BaseNode) -> float:
-    """Get midpoint of children of a node
+    """Get midpoint of children of a node.
 
     Args:
-        tree_node (BaseNode): tree node to obtain midpoint of their child/children
+        tree_node: tree node to obtain midpoint of their child/children
 
     Returns:
-        (float)
+        Midpoint of children
     """
     if tree_node.children:
         first_child_x: float = tree_node.children[0].get_attr("x") + tree_node.children[
@@ -265,21 +265,21 @@ def _get_subtree_shift(
     cum_shift: float = 0,
     initial_run: bool = True,
 ) -> float:
-    """Get shift amount to shift the right subtree towards the right such that it does not overlap with the left subtree
+    """Get shift amount to shift the right subtree towards the right such that it does not overlap with the left subtree.
 
     Args:
-        left_subtree (BaseNode): left subtree, with right contour to be traversed
+        left_subtree: left subtree, with right contour to be traversed
         right_subtree (BaseNode): right subtree, with left contour to be traversed
-        left_idx (int): index of left subtree, to compute overlap for relative shift (constant across iteration)
-        right_idx (int): index of right subtree, to compute overlap for relative shift (constant across iteration)
-        subtree_separation (float): minimum distance between adjacent subtrees of the tree (constant across iteration)
-        left_cum_shift (float): cumulative `mod + shift` for left subtree from the ancestors, defaults to 0
-        right_cum_shift (float): cumulative `mod + shift` for right subtree from the ancestors, defaults to 0
-        cum_shift (float): cumulative shift amount for right subtree, defaults to 0
-        initial_run (bool): indicates whether left_subtree and right_subtree are the main subtrees, defaults to True
+        left_idx: index of left subtree, to compute overlap for relative shift (constant across iteration)
+        right_idx: index of right subtree, to compute overlap for relative shift (constant across iteration)
+        subtree_separation: minimum distance between adjacent subtrees of the tree (constant across iteration)
+        left_cum_shift: cumulative `mod + shift` for left subtree from the ancestors
+        right_cum_shift: cumulative `mod + shift` for right subtree from the ancestors
+        cum_shift: cumulative shift amount for right subtree
+        initial_run: indicates whether left_subtree and right_subtree are the main subtrees
 
     Returns:
-        (float)
+        Amount to shift subtree
     """
     new_shift = 0.0
 
@@ -357,17 +357,17 @@ def _second_pass(
       - :math:`y = (depth - node.depth) * distance + y'`
 
     Args:
-        tree_node (BaseNode): tree to compute (x, y) coordinate
-        level_separation (float): fixed distance between adjacent levels of the tree (constant across iteration)
-        x_offset (float): graph offset of x-coordinates (constant across iteration)
-        y_offset (float): graph offset of y-coordinates (constant across iteration)
-        reverse (bool): graph begins bottom to top by default, set to True for top to bottom y coordinates
-        cum_mod (Optional[float]): cumulative `mod + shift` for tree/subtree from the ancestors
-        max_depth (Optional[int]): maximum depth of tree (constant across iteration)
-        x_adjustment (Optional[float]): amount of x-adjustment for third pass, in case any x-coordinates goes below 0
+        tree_node: tree to compute (x, y) coordinate
+        level_separation: fixed distance between adjacent levels of the tree (constant across iteration)
+        x_offset: graph offset of x-coordinates (constant across iteration)
+        y_offset: graph offset of y-coordinates (constant across iteration)
+        reverse: graph begins bottom to top by default, set to True for top to bottom y coordinates
+        cum_mod: cumulative `mod + shift` for tree/subtree from the ancestors
+        max_depth: maximum depth of tree (constant across iteration)
+        x_adjustment: amount of x-adjustment for third pass, in case any x-coordinates goes below 0
 
     Returns
-        (float)
+        Amount to shift the node by
     """
     if not max_depth:
         max_depth = tree_node.max_depth
@@ -406,8 +406,8 @@ def _third_pass(tree_node: basenode.BaseNode, x_adjustment: float) -> None:
     Modifies tree in-place.
 
     Args:
-        tree_node (BaseNode): tree to compute (x, y) coordinate
-        x_adjustment (float): amount of adjustment for x-coordinates (constant across iteration)
+        tree_node: tree to compute (x, y) coordinate
+        x_adjustment: amount of adjustment for x-coordinates (constant across iteration)
     """
     if x_adjustment:
         tree_node.set_attrs({"x": tree_node.get_attr("x") + x_adjustment})
