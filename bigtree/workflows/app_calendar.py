@@ -67,12 +67,12 @@ class Calendar:
         date_format: str = "%Y-%m-%d %H:%M",
         **kwargs: Any,
     ) -> None:
-        """Add event to calendar
+        """Add event to calendar.
 
         Args:
-            event_name (str): event name to be added
-            event_datetime (Union[str, dt.datetime]): event date and time
-            date_format (str): specify datetime format if event_datetime is str
+            event_name: event name to be added
+            event_datetime: event date and time
+            date_format: specify datetime format if event_datetime is str
         """
         if isinstance(event_datetime, str):
             event_datetime = dt.datetime.strptime(event_datetime, date_format)
@@ -99,11 +99,11 @@ class Calendar:
     def delete_event(
         self, event_name: str, event_date: Optional[dt.date] = None
     ) -> None:
-        """Delete event from calendar
+        """Delete event from calendar.
 
         Args:
-            event_name (str): event name to be deleted
-            event_date (dt.date): event date to be deleted
+            event_name: event name to be deleted
+            event_date: event date to be deleted
         """
         if event_date:
             year, month, day = (
@@ -124,10 +124,10 @@ class Calendar:
                 self._delete_event(event)
 
     def find_event(self, event_name: str) -> None:
-        """Find event by name, prints result to console
+        """Find event by name, prints result to console.
 
         Args:
-            event_name (str): event name
+            event_name: event name
         """
         if not self.__sorted:
             self._sort()
@@ -137,7 +137,7 @@ class Calendar:
             self._show(event)
 
     def show(self) -> None:
-        """Show calendar, prints result to console"""
+        """Show calendar, prints result to console."""
         if not len(self.calendar.children):
             raise Exception("Calendar is empty!")
         if not self.__sorted:
@@ -148,10 +148,10 @@ class Calendar:
 
     def to_dataframe(self) -> pd.DataFrame:
         """
-        Export calendar to DataFrame
+        Export calendar to DataFrame.
 
         Returns:
-            (pd.DataFrame)
+            pandas DataFrame of calendar
         """
         if not len(self.calendar.children):
             raise Exception("Calendar is empty!")
@@ -161,10 +161,10 @@ class Calendar:
         return data[compulsory_cols + other_cols]
 
     def _delete_event(self, event: node.Node) -> None:
-        """Private method to delete event, delete parent node as well
+        """Private method to delete event, delete parent node as well.
 
         Args:
-            event (Node): event to be deleted
+            event: event to be deleted
         """
         if len(event.parent.children) == 1:
             if event.parent.parent:
@@ -184,11 +184,11 @@ class Calendar:
 
     @staticmethod
     def _show(event: node.Node) -> None:
-        """Private method to show event, handles the formatting of event
-        Prints result to console
+        """Private method to show event, handles the formatting of event.
+        Prints result to console.
 
         Args:
-            event (Node): event
+            event: event
         """
         event_datetime = dt.datetime.combine(
             event.get_attr("date"), event.get_attr("time")
