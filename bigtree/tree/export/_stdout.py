@@ -44,16 +44,15 @@ def format_node(
 
     Args:
         _node: node to format
-        alias: node attribute to use for node name in tree as alias to `node_name`. Otherwise, it will default to
-            `node_name` of node.
-        intermediate_node_name: indicator if intermediate nodes have node names, defaults to True
+        alias: node attribute to use for node name in tree as alias to `node_name`
+        intermediate_node_name: indicator if intermediate nodes have node names
         style: style to format node, used only if border_style is None
         border_style: border style to format node
         min_width: minimum width of node display contents
         add_buffer: whether to add buffer if style is BaseHPrintStyle and border_style is None
 
     Returns:
-        node display
+        Node display
     """
     if not intermediate_node_name and _node.children:
         if border_style is None:
@@ -145,7 +144,7 @@ def horizontal_join(node_displays: List[List[str]], spacing: int = 0) -> List[st
         spacing: spacing between node displays
 
     Returns:
-        node display of the row
+        Node display of the row
     """
     space = " "
     height = max([len(node_display) for node_display in node_displays])
@@ -174,7 +173,7 @@ def vertical_join(node_displays: List[List[str]]) -> List[str]:
         node_displays: multiple node displays belonging to the same column
 
     Returns:
-        node display of the row
+        Node display of the row
     """
     space = " "
     width = max([len(node_display[0]) for node_display in node_displays])
