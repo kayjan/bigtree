@@ -2715,8 +2715,7 @@
 
     <div class="doc doc-contents ">
 
-        <p>Construct DAG from list of tuples containing parent-child names.
-Note that node names must be unique.</p>
+        <p>Construct DAG from list of tuples containing parent-child names. Note that node names must be unique.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -2760,11 +2759,11 @@ Note that node names must be unique.</p>
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.dagnode.DAGNode&lt;/code&gt;" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.dag.construct.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of DAG to be created, defaults to <code>DAGNode</code></p>
+                <p>node type of DAG to be created</p>
               </div>
             </td>
             <td>
@@ -2790,7 +2789,7 @@ Note that node names must be unique.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(DAGNode)</p>
+                <p>DAG node</p>
               </div>
             </td>
           </tr>
@@ -2818,8 +2817,7 @@ Note that node names must be unique.</p>
     <div class="doc doc-contents ">
 
         <p>Construct DAG from nested dictionary, <code>key</code>: child name, <code>value</code>: dictionary of parent names, attribute
-name, and attribute value.
-Note that node names must be unique.</p>
+name, and attribute value. Note that node names must be unique.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -2874,7 +2872,7 @@ key: child name, value: dictionary of parent names, node attribute, and attribut
             </td>
             <td>
               <div class="doc-md-description">
-                <p>key of dictionary to retrieve list of parents name, defaults to 'parent'</p>
+                <p>key of dictionary to retrieve list of parents name</p>
               </div>
             </td>
             <td>
@@ -2886,11 +2884,11 @@ key: child name, value: dictionary of parent names, node attribute, and attribut
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.dagnode.DAGNode&lt;/code&gt;" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.dag.construct.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of DAG to be created, defaults to <code>DAGNode</code></p>
+                <p>node type of DAG to be created</p>
               </div>
             </td>
             <td>
@@ -2916,7 +2914,7 @@ key: child name, value: dictionary of parent names, node attribute, and attribut
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(DAGNode)</p>
+                <p>DAG node</p>
               </div>
             </td>
           </tr>
@@ -2947,8 +2945,7 @@ key: child name, value: dictionary of parent names, node attribute, and attribut
 
     <div class="doc doc-contents ">
 
-        <p>Construct DAG from pandas DataFrame.
-Note that node names must be unique.</p>
+        <p>Construct DAG from pandas DataFrame. Note that node names must be unique.</p>
 <ul>
 <li><code>child_col</code> and <code>parent_col</code> specify columns for child name and parent name to construct DAG.</li>
 <li><code>attribute_cols</code> specify columns for node attribute for child name.</li>
@@ -3014,8 +3011,7 @@ Note that node names must be unique.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing child name information, defaults to ''
-if not set, it will take the first column of data</p>
+                <p>column of data containing child name information, if not set, it will take the first column of data</p>
               </div>
             </td>
             <td>
@@ -3031,8 +3027,7 @@ if not set, it will take the first column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing parent name information, defaults to ''
-if not set, it will take the second column of data</p>
+                <p>column of data containing parent name information, if not set, it will take the second column of data</p>
               </div>
             </td>
             <td>
@@ -3048,8 +3043,8 @@ if not set, it will take the second column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>columns of data containing child node attribute information,
-if not set, it will take all columns of data except <code>child_col</code> and <code>parent_col</code></p>
+                <p>columns of data containing child node attribute information, if not set, it will take all columns
+of data except <code>child_col</code> and <code>parent_col</code></p>
               </div>
             </td>
             <td>
@@ -3061,11 +3056,11 @@ if not set, it will take all columns of data except <code>child_col</code> and <
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.dagnode.DAGNode&lt;/code&gt;" href="../../node/dagnode/#bigtree.node.dagnode.DAGNode">DAGNode</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.dag.construct.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of DAG to be created, defaults to <code>DAGNode</code></p>
+                <p>node type of DAG to be created</p>
               </div>
             </td>
             <td>
@@ -3091,7 +3086,7 @@ if not set, it will take all columns of data except <code>child_col</code> and <
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(DAGNode)</p>
+                <p>DAG node</p>
               </div>
             </td>
           </tr>

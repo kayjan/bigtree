@@ -2845,7 +2845,7 @@ If the same type is needed, simply do a tree.copy().</p>
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.basenode.BaseNode&lt;/code&gt;" href="../../node/basenode/#bigtree.node.basenode.BaseNode">BaseNode</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.helper.BaseNodeT">BaseNodeT</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2875,7 +2875,7 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(BaseNode)</p>
+                <p>Cloned tree</p>
               </div>
             </td>
           </tr>
@@ -2942,7 +2942,7 @@ If the same type is needed, simply do a tree.copy().</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><span title="bigtree.tree.helper.NodeT">NodeT</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2962,7 +2962,7 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node name or path to get subtree, defaults to None</p>
+                <p>node name or path to get subtree</p>
               </div>
             </td>
             <td>
@@ -2978,7 +2978,7 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>maximum depth of subtree, based on <code>depth</code> attribute, defaults to None</p>
+                <p>maximum depth of subtree, based on <code>depth</code> attribute</p>
               </div>
             </td>
             <td>
@@ -3004,7 +3004,7 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Subtree</p>
               </div>
             </td>
           </tr>
@@ -3110,7 +3110,7 @@ If the same type is needed, simply do a tree.copy().</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.binarynode.BinaryNode&lt;/code&gt;" href="../../node/binarynode/#bigtree.node.binarynode.BinaryNode">BinaryNode</a>, <a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Union">Union</span>[<span title="bigtree.tree.helper.BinaryNodeT">BinaryNodeT</span>, <span title="bigtree.tree.helper.NodeT">NodeT</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3126,7 +3126,7 @@ If the same type is needed, simply do a tree.copy().</p>
                 <code>prune_path</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>] | <span title="str">str</span></code>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.List">List</span>[<span title="str">str</span>], <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3146,7 +3146,7 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>prune path(s) to be exactly the path, defaults to False (descendants of the path are retained)</p>
+                <p>prune path(s) to be exactly the path and remove descendants</p>
               </div>
             </td>
             <td>
@@ -3178,7 +3178,7 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>maximum depth of pruned tree, based on <code>depth</code> attribute, defaults to None</p>
+                <p>maximum depth of pruned tree, based on <code>depth</code> attribute</p>
               </div>
             </td>
             <td>
@@ -3204,7 +3204,7 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Union[BinaryNode, Node])</p>
+                <p>Pruned tree</p>
               </div>
             </td>
           </tr>
@@ -3393,7 +3393,7 @@ detailed, displaying "moved from" / "moved to" / "added" / "removed" instead</p>
             <td>
               <div class="doc-md-description">
                 <p>by default, all nodes that are different will have suffix specified. If aggregate is True,
-only parent-level node have suffixes and nodes that have different paths but same parent will not have suffix.</p>
+only parent-level node have suffixes and nodes that have different paths but same parent will not have suffix</p>
               </div>
             </td>
             <td>
@@ -3409,7 +3409,7 @@ only parent-level node have suffixes and nodes that have different paths but sam
             </td>
             <td>
               <div class="doc-md-description">
-                <p>tree attributes to retrieve from tree and other_tree, defaults to empty list</p>
+                <p>tree attributes to retrieve from tree and other_tree</p>
               </div>
             </td>
             <td>
@@ -3426,7 +3426,7 @@ only parent-level node have suffixes and nodes that have different paths but sam
             <td>
               <div class="doc-md-description">
                 <p>sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
-All node names in tree and other_tree should not contain this fallback_sep, defaults to "/"</p>
+All node names in tree and other_tree should not contain this fallback_sep</p>
               </div>
             </td>
             <td>
@@ -3539,8 +3539,7 @@ or both tree</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>suffix column of return dataframe, indicates the type of diff whether it is added, removed,
-or moved</p>
+                <p>suffix column of return dataframe, indicates the type of diff whether it is added, removed, or moved</p>
               </div>
             </td>
             <td>
@@ -3566,7 +3565,7 @@ or moved</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(pd.DataFrame)</p>
+                <p>Dataframe of tree differences</p>
               </div>
             </td>
           </tr>
@@ -3802,7 +3801,7 @@ the parent-level. This is useful when a subtree is shifted, and we want the diff
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator to show all nodes or only nodes that are different (+/-), defaults to True</p>
+                <p>indicator to show all nodes or only nodes that are different (+/-)</p>
               </div>
             </td>
             <td>
@@ -3850,7 +3849,7 @@ the parent-level. This is useful when a subtree is shifted, and we want the diff
             </td>
             <td>
               <div class="doc-md-description">
-                <p>tree attributes to check for difference, defaults to empty list</p>
+                <p>tree attributes to check for difference</p>
               </div>
             </td>
             <td>
@@ -3867,7 +3866,7 @@ the parent-level. This is useful when a subtree is shifted, and we want the diff
             <td>
               <div class="doc-md-description">
                 <p>sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
-All node names in tree and other_tree should not contain this fallback_sep, defaults to "/"</p>
+All node names in tree and other_tree should not contain this fallback_sep</p>
               </div>
             </td>
             <td>
@@ -3893,7 +3892,7 @@ All node names in tree and other_tree should not contain this fallback_sep, defa
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Tree highlighting the difference between tree and other_tree</p>
               </div>
             </td>
           </tr>

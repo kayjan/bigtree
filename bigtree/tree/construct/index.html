@@ -3049,8 +3049,7 @@ Under the hood, they have the following dependency,</p>
 
     <div class="doc doc-contents ">
 
-        <p>Add attributes to existing tree <em>in-place</em>.
-Adds to existing tree from pandas DataFrame.</p>
+        <p>Add attributes to existing tree <em>in-place</em>. Adds to existing tree from pandas DataFrame.</p>
 <p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p><code>name_col</code> and <code>attribute_cols</code> specify columns for node name and attributes to add to existing tree.
 If columns are not specified, the first column will be taken as name column and all other columns as attributes.</p>
@@ -3092,7 +3091,7 @@ Note that if multiple nodes have the same name, attributes will be added to all 
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><span title="bigtree.tree.construct.dataframes.T">T</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3128,8 +3127,7 @@ Note that if multiple nodes have the same name, attributes will be added to all 
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing <code>name</code> information,
-if not set, it will take the first column of data</p>
+                <p>column of data containing <code>name</code> information, if not set, it will take the first column of data</p>
               </div>
             </td>
             <td>
@@ -3145,8 +3143,8 @@ if not set, it will take the first column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column(s) of data containing node attribute information,
-if not set, it will take all columns of data except <code>path_col</code></p>
+                <p>column(s) of data containing node attribute information, if not set, it will take all columns
+of data except <code>path_col</code></p>
               </div>
             </td>
             <td>
@@ -3172,7 +3170,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -3204,8 +3202,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 
     <div class="doc doc-contents ">
 
-        <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
-Adds to existing tree from pandas DataFrame.</p>
+        <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree. Adds to existing tree from pandas DataFrame.</p>
 <p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to add to existing tree.
 If columns are not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code></p>
@@ -3269,7 +3266,7 @@ If columns are not specified, <code>path_col</code> takes first column and all o
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><span title="bigtree.tree.construct.dataframes.T">T</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3305,8 +3302,7 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing <code>path_name</code> information,
-if not set, it will take the first column of data</p>
+                <p>column of data containing <code>path_name</code> information, if not set, it will take the first column of data</p>
               </div>
             </td>
             <td>
@@ -3322,8 +3318,8 @@ if not set, it will take the first column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>columns of data containing node attribute information,
-if not set, it will take all columns of data except <code>path_col</code></p>
+                <p>columns of data containing node attribute information, if not set, it will take all columns of
+data except <code>path_col</code></p>
               </div>
             </td>
             <td>
@@ -3355,7 +3351,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator if nodes with duplicate <code>Node</code> name is allowed, defaults to True</p>
+                <p>indicator if nodes with duplicate <code>Node</code> name is allowed</p>
               </div>
             </td>
             <td>
@@ -3381,7 +3377,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -3408,8 +3404,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 
     <div class="doc doc-contents ">
 
-        <p>Add attributes to existing tree <em>in-place</em>.
-Adds to existing tree from polars DataFrame.</p>
+        <p>Add attributes to existing tree <em>in-place</em>. Adds to existing tree from polars DataFrame.</p>
 <p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p><code>name_col</code> and <code>attribute_cols</code> specify columns for node name and attributes to add to existing tree.
 If columns are not specified, the first column will be taken as name column and all other columns as attributes.</p>
@@ -3449,7 +3444,7 @@ Note that if multiple nodes have the same name, attributes will be added to all 
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><span title="bigtree.tree.construct.dataframes.T">T</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3485,8 +3480,7 @@ Note that if multiple nodes have the same name, attributes will be added to all 
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing <code>name</code> information,
-if not set, it will take the first column of data</p>
+                <p>column of data containing <code>name</code> information, if not set, it will take the first column of data</p>
               </div>
             </td>
             <td>
@@ -3502,8 +3496,8 @@ if not set, it will take the first column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column(s) of data containing node attribute information,
-if not set, it will take all columns of data except <code>path_col</code></p>
+                <p>column(s) of data containing node attribute information, if not set, it will take all columns
+of data except <code>path_col</code></p>
               </div>
             </td>
             <td>
@@ -3529,7 +3523,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -3561,8 +3555,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
 
     <div class="doc doc-contents ">
 
-        <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
-Adds to existing tree from polars DataFrame.</p>
+        <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree. Adds to existing tree from polars DataFrame.</p>
 <p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
 <p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to add to existing tree.
 If columns are not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code></p>
@@ -3626,7 +3619,7 @@ If columns are not specified, <code>path_col</code> takes first column and all o
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><span title="bigtree.tree.construct.dataframes.T">T</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3662,8 +3655,7 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing <code>path_name</code> information,
-if not set, it will take the first column of data</p>
+                <p>column of data containing <code>path_name</code> information, if not set, it will take the first column of data</p>
               </div>
             </td>
             <td>
@@ -3679,8 +3671,8 @@ if not set, it will take the first column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>columns of data containing node attribute information,
-if not set, it will take all columns of data except <code>path_col</code></p>
+                <p>columns of data containing node attribute information, if not set, it will take all
+columns of data except <code>path_col</code></p>
               </div>
             </td>
             <td>
@@ -3712,7 +3704,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator if nodes with duplicate <code>Node</code> name is allowed, defaults to True</p>
+                <p>indicator if nodes with duplicate <code>Node</code> name is allowed</p>
               </div>
             </td>
             <td>
@@ -3738,7 +3730,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -3852,8 +3844,7 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing <code>path_name</code> information,
-if not set, it will take the first column of data</p>
+                <p>column of data containing <code>path_name</code> information, if not set, it will take the first column of data</p>
               </div>
             </td>
             <td>
@@ -3869,8 +3860,8 @@ if not set, it will take the first column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>columns of data containing node attribute information,
-if not set, it will take all columns of data except <code>path_col</code></p>
+                <p>columns of data containing node attribute information, if not set, it will take all
+columns of data except <code>path_col</code></p>
               </div>
             </td>
             <td>
@@ -3886,7 +3877,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>path separator of input <code>path_col</code> and created tree, defaults to <code>/</code></p>
+                <p>path separator of input <code>path_col</code> and created tree</p>
               </div>
             </td>
             <td>
@@ -3902,7 +3893,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator if nodes with duplicate <code>Node</code> name is allowed, defaults to True</p>
+                <p>indicator if nodes with duplicate <code>Node</code> name is allowed</p>
               </div>
             </td>
             <td>
@@ -3914,11 +3905,11 @@ if not set, it will take all columns of data except <code>path_col</code></p>
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.construct.dataframes.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of tree to be created, defaults to <code>Node</code></p>
+                <p>node type of tree to be created</p>
               </div>
             </td>
             <td>
@@ -3944,7 +3935,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -4052,8 +4043,7 @@ columns are <code>attribute_cols</code>.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing child name information, defaults to None
-if not set, it will take the first column of data</p>
+                <p>column of data containing child name information, if not set, it will take the first column of data</p>
               </div>
             </td>
             <td>
@@ -4069,8 +4059,7 @@ if not set, it will take the first column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing parent name information, defaults to None
-if not set, it will take the second column of data</p>
+                <p>column of data containing parent name information, if not set, it will take the second column of data</p>
               </div>
             </td>
             <td>
@@ -4086,8 +4075,8 @@ if not set, it will take the second column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>columns of data containing node attribute information,
-if not set, it will take all columns of data except <code>child_col</code> and <code>parent_col</code></p>
+                <p>columns of data containing node attribute information, if not set, it will take all columns of
+data except <code>child_col</code> and <code>parent_col</code></p>
               </div>
             </td>
             <td>
@@ -4104,7 +4093,7 @@ if not set, it will take all columns of data except <code>child_col</code> and <
             <td>
               <div class="doc-md-description">
                 <p>allow duplicate intermediate nodes such that child node will
-be tagged to multiple parent nodes, defaults to False</p>
+be tagged to multiple parent nodes</p>
               </div>
             </td>
             <td>
@@ -4116,11 +4105,11 @@ be tagged to multiple parent nodes, defaults to False</p>
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.construct.dataframes.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of tree to be created, defaults to <code>Node</code></p>
+                <p>node type of tree to be created</p>
               </div>
             </td>
             <td>
@@ -4146,7 +4135,7 @@ be tagged to multiple parent nodes, defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -4260,8 +4249,7 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing <code>path_name</code> information,
-if not set, it will take the first column of data</p>
+                <p>column of data containing <code>path_name</code> information, if not set, it will take the first column of data</p>
               </div>
             </td>
             <td>
@@ -4277,8 +4265,8 @@ if not set, it will take the first column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>columns of data containing node attribute information,
-if not set, it will take all columns of data except <code>path_col</code></p>
+                <p>columns of data containing node attribute information, if not set, it will take all columns of
+data except <code>path_col</code></p>
               </div>
             </td>
             <td>
@@ -4294,7 +4282,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>path separator of input <code>path_col</code> and created tree, defaults to <code>/</code></p>
+                <p>path separator of input <code>path_col</code> and created tree</p>
               </div>
             </td>
             <td>
@@ -4310,7 +4298,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator if nodes with duplicate <code>Node</code> name is allowed, defaults to True</p>
+                <p>indicator if nodes with duplicate <code>Node</code> name is allowed</p>
               </div>
             </td>
             <td>
@@ -4322,11 +4310,11 @@ if not set, it will take all columns of data except <code>path_col</code></p>
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.construct.dataframes.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of tree to be created, defaults to <code>Node</code></p>
+                <p>node type of tree to be created</p>
               </div>
             </td>
             <td>
@@ -4352,7 +4340,7 @@ if not set, it will take all columns of data except <code>path_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -4460,8 +4448,7 @@ columns are <code>attribute_cols</code>.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing child name information, defaults to None
-if not set, it will take the first column of data</p>
+                <p>column of data containing child name information, if not set, it will take the first column of data</p>
               </div>
             </td>
             <td>
@@ -4477,8 +4464,7 @@ if not set, it will take the first column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>column of data containing parent name information, defaults to None
-if not set, it will take the second column of data</p>
+                <p>column of data containing parent name information, if not set, it will take the second column of data</p>
               </div>
             </td>
             <td>
@@ -4494,8 +4480,8 @@ if not set, it will take the second column of data</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>columns of data containing node attribute information,
-if not set, it will take all columns of data except <code>child_col</code> and <code>parent_col</code></p>
+                <p>columns of data containing node attribute information, if not set, it will take all columns of
+data except <code>child_col</code> and <code>parent_col</code></p>
               </div>
             </td>
             <td>
@@ -4512,7 +4498,7 @@ if not set, it will take all columns of data except <code>child_col</code> and <
             <td>
               <div class="doc-md-description">
                 <p>allow duplicate intermediate nodes such that child node will
-be tagged to multiple parent nodes, defaults to False</p>
+be tagged to multiple parent nodes</p>
               </div>
             </td>
             <td>
@@ -4524,11 +4510,11 @@ be tagged to multiple parent nodes, defaults to False</p>
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.construct.dataframes.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of tree to be created, defaults to <code>Node</code></p>
+                <p>node type of tree to be created</p>
               </div>
             </td>
             <td>
@@ -4554,7 +4540,7 @@ be tagged to multiple parent nodes, defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -4579,8 +4565,8 @@ be tagged to multiple parent nodes, defaults to False</p>
 
     <div class="doc doc-contents ">
 
-        <p>Add attributes to existing tree <em>in-place</em>.
-Adds to existing tree from nested dictionary, <code>key</code>: name, <code>value</code>: dict of attribute name and attribute value.</p>
+        <p>Add attributes to existing tree <em>in-place</em>. Adds to existing tree from nested dictionary, <code>key</code>: name,
+<code>value</code>: dict of attribute name and attribute value.</p>
 <p>All attributes in <code>name_attrs</code> will be added to the tree, including attributes with null values.</p>
 <p>Input dictionary keys that are not existing node names will be ignored.
 Note that if multiple nodes have the same name, attributes will be added to all nodes sharing the same name.</p>
@@ -4617,7 +4603,7 @@ Note that if multiple nodes have the same name, attributes will be added to all 
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><span title="bigtree.tree.construct.dictionaries.T">T</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4637,8 +4623,8 @@ Note that if multiple nodes have the same name, attributes will be added to all 
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary containing node name and attribute information,
-key: node name, value: dict of node attribute name and attribute value</p>
+                <p>dictionary containing node name and attribute information, key: node name, value: dict of node
+attribute name and attribute value</p>
               </div>
             </td>
             <td>
@@ -4664,7 +4650,7 @@ key: node name, value: dict of node attribute name and attribute value</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -4691,8 +4677,8 @@ key: node name, value: dict of node attribute name and attribute value</p>
 
     <div class="doc doc-contents ">
 
-        <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree.
-Adds to existing tree from nested dictionary, <code>key</code>: path, <code>value</code>: dict of attribute name and attribute value.</p>
+        <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree. Adds to existing tree from nested dictionary,
+<code>key</code>: path, <code>value</code>: dict of attribute name and attribute value.</p>
 <p>All attributes in <code>path_attrs</code> will be added to the tree, including attributes with null values.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
@@ -4751,7 +4737,7 @@ Adds to existing tree from nested dictionary, <code>key</code>: path, <code>valu
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><span title="bigtree.tree.construct.dictionaries.T">T</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4804,7 +4790,7 @@ key: node path, value: dict of node attribute name and attribute value</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator if nodes with duplicate <code>Node</code> name is allowed, defaults to True</p>
+                <p>indicator if nodes with duplicate <code>Node</code> name is allowed</p>
               </div>
             </td>
             <td>
@@ -4830,7 +4816,7 @@ key: node path, value: dict of node attribute name and attribute value</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -4860,8 +4846,8 @@ key: node path, value: dict of node attribute name and attribute value</p>
 
     <div class="doc doc-contents ">
 
-        <p>Construct tree from nested dictionary using path,
-<code>key</code>: path, <code>value</code>: dict of attribute name and attribute value.</p>
+        <p>Construct tree from nested dictionary using path, <code>key</code>: path, <code>value</code>: dict of attribute name and attribute
+value.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
 <li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
@@ -4939,7 +4925,7 @@ key: path, value: dict of tree attribute and attribute value</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>path separator of input <code>path_attrs</code> and created tree, defaults to <code>/</code></p>
+                <p>path separator of input <code>path_attrs</code> and created tree</p>
               </div>
             </td>
             <td>
@@ -4955,7 +4941,7 @@ key: path, value: dict of tree attribute and attribute value</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator if nodes with duplicate <code>Node</code> name is allowed, defaults to True</p>
+                <p>indicator if nodes with duplicate <code>Node</code> name is allowed</p>
               </div>
             </td>
             <td>
@@ -4967,11 +4953,11 @@ key: path, value: dict of tree attribute and attribute value</p>
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.construct.dictionaries.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of tree to be created, defaults to <code>Node</code></p>
+                <p>node type of tree to be created</p>
               </div>
             </td>
             <td>
@@ -4997,7 +4983,7 @@ key: path, value: dict of tree attribute and attribute value</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -5030,8 +5016,8 @@ key: path, value: dict of tree attribute and attribute value</p>
         <p>Construct tree from nested recursive dictionary.</p>
 <ul>
 <li><code>key</code>: <code>name_key</code>, <code>child_key</code>, or any attributes key.</li>
-<li><code>value</code> of <code>name_key</code> (str): node name.</li>
-<li><code>value</code> of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing <code>name_key</code> and <code>child_key</code> (recursive).</li>
+<li><code>value</code> of <code>name_key</code>: node name.</li>
+<li><code>value</code> of <code>child_key</code>: list of dict containing <code>name_key</code> and <code>child_key</code> (recursive).</li>
 </ul>
 
 
@@ -5128,11 +5114,11 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.construct.dictionaries.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of tree to be created, defaults to <code>Node</code></p>
+                <p>node type of tree to be created</p>
               </div>
             </td>
             <td>
@@ -5158,7 +5144,7 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -5255,7 +5241,7 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
             </td>
             <td>
               <div class="doc-md-description">
-                <p>path separator for input <code>paths</code> and created tree, defaults to <code>/</code></p>
+                <p>path separator for input <code>paths</code> and created tree</p>
               </div>
             </td>
             <td>
@@ -5271,7 +5257,7 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator if nodes with duplicate <code>Node</code> name is allowed, defaults to True</p>
+                <p>indicator if nodes with duplicate <code>Node</code> name is allowed</p>
               </div>
             </td>
             <td>
@@ -5283,11 +5269,11 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.construct.lists.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of tree to be created, defaults to <code>Node</code></p>
+                <p>node type of tree to be created</p>
               </div>
             </td>
             <td>
@@ -5313,7 +5299,7 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -5395,12 +5381,10 @@ This error can be ignored by setting <code>allow_duplicates</code> to be True.</
                 <code>allow_duplicates</code>
             </td>
             <td>
-                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>allow duplicate intermediate nodes such that child node will
-be tagged to multiple parent nodes, defaults to False</p>
+                <p>allow duplicate intermediate nodes such that child node will be tagged to multiple parent nodes</p>
               </div>
             </td>
             <td>
@@ -5412,11 +5396,11 @@ be tagged to multiple parent nodes, defaults to False</p>
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.construct.lists.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of tree to be created, defaults to <code>Node</code></p>
+                <p>node type of tree to be created</p>
               </div>
             </td>
             <td>
@@ -5442,7 +5426,7 @@ be tagged to multiple parent nodes, defaults to False</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -5473,8 +5457,8 @@ be tagged to multiple parent nodes, defaults to False</p>
 
     <div class="doc doc-contents ">
 
-        <p>Add nodes and attributes to existing tree <em>in-place</em>, return node of path added.
-Adds to existing tree from list of path strings.</p>
+        <p>Add nodes and attributes to existing tree <em>in-place</em>, return node of path added. Adds to existing tree from list
+of path strings.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
 <li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
@@ -5519,7 +5503,7 @@ Adds to existing tree from list of path strings.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></code>
+                  <code><span title="bigtree.tree.construct.strings.T">T</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5571,7 +5555,7 @@ Adds to existing tree from list of path strings.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>indicator if nodes with duplicate <code>Node</code> name is allowed, defaults to True</p>
+                <p>indicator if nodes with duplicate <code>Node</code> name is allowed</p>
               </div>
             </td>
             <td>
@@ -5587,7 +5571,7 @@ Adds to existing tree from list of path strings.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>attributes to add to node, key: attribute name, value: attribute value, optional</p>
+                <p>attributes to add to node, key: attribute name, value: attribute value</p>
               </div>
             </td>
             <td>
@@ -5613,7 +5597,7 @@ Adds to existing tree from list of path strings.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -5726,7 +5710,7 @@ Adds to existing tree from list of path strings.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>attribute name to store node length, optional, defaults to 'length'</p>
+                <p>attribute name to store node length, optional</p>
               </div>
             </td>
             <td>
@@ -5742,7 +5726,7 @@ Adds to existing tree from list of path strings.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>prefix before all attributes, within square bracket, used to detect attributes, defaults to "&amp;&amp;NHX:"</p>
+                <p>prefix before all attributes, within square bracket, used to detect attributes</p>
               </div>
             </td>
             <td>
@@ -5754,11 +5738,11 @@ Adds to existing tree from list of path strings.</p>
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.construct.strings.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of tree to be created, defaults to <code>Node</code></p>
+                <p>node type of tree to be created</p>
               </div>
             </td>
             <td>
@@ -5784,7 +5768,7 @@ Adds to existing tree from list of path strings.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
@@ -5866,8 +5850,8 @@ Adds to existing tree from list of path strings.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>List of prefix to mark the end of tree branch/stem and start of node name, optional.
-If not specified, it will infer unicode characters and whitespace as prefix.</p>
+                <p>List of prefix to mark the end of tree branch/stem and start of node name, optional. If not
+specified, it will infer unicode characters and whitespace as prefix</p>
               </div>
             </td>
             <td>
@@ -5879,11 +5863,11 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a>]</code>
+                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.construct.strings.T">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>node type of tree to be created, defaults to <code>Node</code></p>
+                <p>node type of tree to be created</p>
               </div>
             </td>
             <td>
@@ -5909,7 +5893,7 @@ If not specified, it will infer unicode characters and whitespace as prefix.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(Node)</p>
+                <p>Node</p>
               </div>
             </td>
           </tr>
