@@ -57,7 +57,6 @@ def tree_to_dict(
     Returns:
         Dictionary containing tree information
     """
-    tree = tree.copy()
     data_dict = {}
 
     def _recursive_append(node: T) -> None:
@@ -135,7 +134,6 @@ def tree_to_nested_dict(
     Returns:
         Dictionary containing tree information
     """
-    tree = tree.copy()
     data_dict: Dict[str, List[Dict[str, Any]]] = {}
 
     def _recursive_append(node: T, parent_dict: Dict[str, Any]) -> None:
