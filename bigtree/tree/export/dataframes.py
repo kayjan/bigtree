@@ -82,7 +82,6 @@ def tree_to_dataframe(
     Returns:
         pandas DataFrame containing tree information
     """
-    tree = tree.copy()
     data_list = []
 
     def _recursive_append(node: T) -> None:
@@ -189,7 +188,6 @@ def tree_to_polars(
     Returns:
         polars DataFrame containing tree information
     """
-    tree = tree.copy()
     data_list = []
 
     def _recursive_append(node: T) -> None:
