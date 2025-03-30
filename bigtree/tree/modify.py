@@ -1392,7 +1392,7 @@ def replace_logic(
         sep: path separator for input paths, applies to `from_path` and `to_path`
         copy: indicator to copy node
         skippable: indicator to skip if from-path is not found
-        delete_children: indicator to shift node only without children
+        delete_children: indicator to copy/shift node only without children
         to_tree: tree to copy to
         with_full_path: indicator to copy/shift node with full path in `from_paths`, results in faster search
     """
