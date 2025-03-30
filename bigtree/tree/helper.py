@@ -35,11 +35,11 @@ def clone_tree(tree: basenode.BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT
         Node(/a, )
 
     Args:
-        tree (BaseNode): tree to be cloned, must inherit from BaseNode
-        node_type (Type[BaseNode]): type of cloned tree
+        tree: tree to be cloned, must inherit from BaseNode
+        node_type: type of cloned tree
 
     Returns:
-        (BaseNode)
+        Cloned tree
     """
     assertions.assert_tree_type(tree, basenode.BaseNode, "BaseNode")
 
@@ -53,8 +53,8 @@ def clone_tree(tree: basenode.BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT
         """Recursively clone current node
 
         Args:
-            _new_parent_node (BaseNode): cloned parent node
-            _parent_node (BaseNode): parent node to be cloned
+            _new_parent_node: cloned parent node
+            _parent_node: parent node to be cloned
         """
         for _child in _parent_node.children:
             if _child:
@@ -97,12 +97,12 @@ def get_subtree(
         └── d
 
     Args:
-        tree (Node): existing tree
-        node_name_or_path (str): node name or path to get subtree, defaults to None
-        max_depth (int): maximum depth of subtree, based on `depth` attribute, defaults to None
+        tree: existing tree
+        node_name_or_path: node name or path to get subtree
+        max_depth: maximum depth of subtree, based on `depth` attribute
 
     Returns:
-        (Node)
+        Subtree
     """
     tree_sep = tree.sep
     tree = tree.copy()
@@ -195,14 +195,14 @@ def prune_tree(
         └── e
 
     Args:
-        tree (Union[BinaryNode, Node]): existing tree
-        prune_path (List[str] | str): prune path(s), all siblings along the prune path(s) will be removed
-        exact (bool): prune path(s) to be exactly the path, defaults to False (descendants of the path are retained)
-        sep (str): path separator of `prune_path`
-        max_depth (int): maximum depth of pruned tree, based on `depth` attribute, defaults to None
+        tree: existing tree
+        prune_path: prune path(s), all siblings along the prune path(s) will be removed
+        exact: prune path(s) to be exactly the path and remove descendants
+        sep: path separator of `prune_path`
+        max_depth: maximum depth of pruned tree, based on `depth` attribute
 
     Returns:
-        (Union[BinaryNode, Node])
+        Pruned tree
     """
     if isinstance(prune_path, str):
         prune_path = [prune_path] if prune_path else []
@@ -329,28 +329,27 @@ def get_tree_diff_dataframe(
         - Node names in tree and other_tree must not contain the `sep` (or fallback sep) symbol
 
     Args:
-        tree (Node): tree to be compared against
-        other_tree (Node): tree to be compared with
-        only_diff (bool): if aggregate and only_diff are True, child nodes that are moved from tree will be removed
-        detail (bool): by default, suffix column will display "+" and "-". If detail is True, suffix column will be more
+        tree: tree to be compared against
+        other_tree: tree to be compared with
+        only_diff: if aggregate and only_diff are True, child nodes that are moved from tree will be removed
+        detail: by default, suffix column will display "+" and "-". If detail is True, suffix column will be more
             detailed, displaying "moved from" / "moved to" / "added" / "removed" instead
-        aggregate (bool): by default, all nodes that are different will have suffix specified. If aggregate is True,
-            only parent-level node have suffixes and nodes that have different paths but same parent will not have suffix.
-        attr_list (List[str]): tree attributes to retrieve from tree and other_tree, defaults to empty list
-        fallback_sep (str): sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
-            All node names in tree and other_tree should not contain this fallback_sep, defaults to "/"
-        name_col (str): name column of return dataframe, indicates the name of node
-        path_col (str): path column of return dataframe, indicates the full path of node
-        parent_col (str): parent column of return dataframe, indicates the parent name of node
-        indicator_col (str): indicator column of return dataframe, indicates whether node appears in left_only, right_only
+        aggregate: by default, all nodes that are different will have suffix specified. If aggregate is True,
+            only parent-level node have suffixes and nodes that have different paths but same parent will not have suffix
+        attr_list: tree attributes to retrieve from tree and other_tree
+        fallback_sep: sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
+            All node names in tree and other_tree should not contain this fallback_sep
+        name_col: name column of return dataframe, indicates the name of node
+        path_col: path column of return dataframe, indicates the full path of node
+        parent_col: parent column of return dataframe, indicates the parent name of node
+        indicator_col: indicator column of return dataframe, indicates whether node appears in left_only, right_only
             or both tree
-        old_suffix (str): suffix given to attributes from tree of return dataframe, relevant if attr_list is specified
-        new_suffix (str): suffix given to attributes from other_tree of return dataframe, relevant if attr_list is specified
-        suffix_col (str): suffix column of return dataframe, indicates the type of diff whether it is added, removed,
-            or moved
+        old_suffix: suffix given to attributes from tree of return dataframe, relevant if attr_list is specified
+        new_suffix: suffix given to attributes from other_tree of return dataframe, relevant if attr_list is specified
+        suffix_col: suffix column of return dataframe, indicates the type of diff whether it is added, removed, or moved
 
     Returns:
-        (pd.DataFrame)
+        Dataframe of tree differences
     """
     if tree.sep != other_tree.sep:
         raise ValueError("`sep` must be the same for tree and other_tree")
@@ -593,17 +592,17 @@ def get_tree_diff(
         - Node names in tree and other_tree must not contain the `sep` (or fallback sep) symbol
 
     Args:
-        tree (Node): tree to be compared against
-        other_tree (Node): tree to be compared with
-        only_diff (bool): indicator to show all nodes or only nodes that are different (+/-), defaults to True
-        detail (bool): indicator to differentiate between different types of diff e.g., added or removed or moved
-        aggregate (bool): indicator to only add difference indicator to parent-level e.g., when shifting subtrees
-        attr_list (List[str]): tree attributes to check for difference, defaults to empty list
-        fallback_sep (str): sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
-            All node names in tree and other_tree should not contain this fallback_sep, defaults to "/"
+        tree: tree to be compared against
+        other_tree: tree to be compared with
+        only_diff: indicator to show all nodes or only nodes that are different (+/-)
+        detail: indicator to differentiate between different types of diff e.g., added or removed or moved
+        aggregate: indicator to only add difference indicator to parent-level e.g., when shifting subtrees
+        attr_list: tree attributes to check for difference
+        fallback_sep: sep to fall back to if tree and other_tree has sep that clashes with symbols "+" / "-" / "~".
+            All node names in tree and other_tree should not contain this fallback_sep
 
     Returns:
-        (Node)
+        Tree highlighting the difference between tree and other_tree
     """
     name_col = "name"
     path_col = "path"

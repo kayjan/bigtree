@@ -30,8 +30,7 @@ def print_tree(
     style: Union[str, Iterable[str], constants.BasePrintStyle] = "const",
     **kwargs: Any,
 ) -> None:
-    """Print tree to console, starting from `tree`.
-    Accepts kwargs for print() function.
+    """Print tree to console, starting from `tree`. Accepts kwargs for print() function.
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
@@ -170,16 +169,15 @@ def print_tree(
         <BLANKLINE>
 
     Args:
-        tree (Node): tree to print
-        alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
-            Otherwise, it will default to `node_name` of node
-        node_name_or_path (str): node to print from, becomes the root node of printing
-        max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        all_attrs (bool): indicator to show all attributes, defaults to False, overrides `attr_list` and `attr_omit_null`
-        attr_list (Iterable[str]): list of node attributes to print, optional
-        attr_omit_null (bool): indicator whether to omit showing of null attributes, defaults to False
-        attr_bracket (List[str]): open and close bracket for `all_attrs` or `attr_list`
-        style (Union[str, Iterable[str], constants.BasePrintStyle]): style of print, defaults to const
+        tree: tree to print
+        alias: node attribute to use for node name in tree as alias to `node_name`
+        node_name_or_path: node to print from, becomes the root node of printing
+        max_depth: maximum depth of tree to print, based on `depth` attribute
+        all_attrs: indicator to show all attributes, overrides `attr_list` and `attr_omit_null`
+        attr_list: list of node attributes to print
+        attr_omit_null: indicator whether to omit showing of null attributes
+        attr_bracket: open and close bracket for `all_attrs` or `attr_list`
+        style: style of print
     """
     for pre_str, fill_str, _node in yield_tree(
         tree=tree,
@@ -341,13 +339,13 @@ def yield_tree(
         └── c [age=60]
 
     Args:
-        tree (Node): tree to print
-        node_name_or_path (str): node to print from, becomes the root node of printing, optional
-        max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        style (Union[str, Iterable[str], constants.BasePrintStyle]): style of print, defaults to const
+        tree: tree to print
+        node_name_or_path: node to print from, becomes the root node of printing
+        max_depth: maximum depth of tree to print, based on `depth` attribute
+        style: style of print
 
     Returns:
-        (Iterable[Tuple[str, str, Node]])
+        Yields tree in format branch, stem, and node
     """
     from bigtree.tree.export._yield_tree import YieldTree
 
@@ -372,8 +370,7 @@ def hprint_tree(
     strip: bool = True,
     **kwargs: Any,
 ) -> None:
-    """Print tree in horizontal orientation to console, starting from `tree`.
-    Accepts kwargs for print() function.
+    """Print tree in horizontal orientation to console, starting from `tree`. Accepts kwargs for print() function.
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
@@ -491,16 +488,15 @@ def hprint_tree(
              └─ c
 
     Args:
-        tree (Node): tree to print
-        alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
-            Otherwise, it will default to `node_name` of node
-        node_name_or_path (str): node to print from, becomes the root node of printing
-        max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        spacing (int): horizontal spacing between node displays
-        style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
-        border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to None
-        strip (bool): whether to strip results, defaults to True
+        tree: tree to print
+        alias: node attribute to use for node name in tree as alias to `node_name`
+        node_name_or_path: node to print from, becomes the root node of printing
+        max_depth: maximum depth of tree to print, based on `depth` attribute
+        intermediate_node_name: indicator if intermediate nodes have node names
+        spacing: horizontal spacing between node displays
+        style: style of print
+        border_style: style of border
+        strip: whether to strip results
     """
     result = hyield_tree(
         tree,
@@ -645,19 +641,18 @@ def hyield_tree(
                   ╰───────╯
 
     Args:
-        tree (Node): tree to print
-        alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
-            Otherwise, it will default to `node_name` of node
-        node_name_or_path (str): node to print from, becomes the root node of printing
-        max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        spacing (int): horizontal spacing between node displays
-        style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
-        border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to None
-        strip (bool): whether to strip results, defaults to True
+        tree: tree to print
+        alias: node attribute to use for node name in tree as alias to `node_name`
+        node_name_or_path: node to print from, becomes the root node of printing
+        max_depth: maximum depth of tree to print, based on `depth` attribute
+        intermediate_node_name: indicator if intermediate nodes have node names
+        spacing: horizontal spacing between node displays
+        style: style of print
+        border_style: style of border
+        strip: whether to strip results
 
     Returns:
-        (List[str])
+        Yield tree in horizontal format
     """
     from bigtree.tree.export._yield_tree import HYieldTree
 
@@ -870,19 +865,15 @@ def vprint_tree(
         └───┘  └───┘
 
     Args:
-        tree (Node): tree to print
-        alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
-            Otherwise, it will default to `node_name` of node
-        node_name_or_path (str): node to print from, becomes the root node of printing
-        max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        spacing (int): horizontal spacing between node displays
-        style (Union[str, Iterable[str], constants.BaseVPrintStyle]): style of print, defaults to const
-        border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to const
-        strip (bool): whether to strip results, defaults to False
-
-    Returns:
-        (List[str])
+        tree: tree to print
+        alias: node attribute to use for node name in tree as alias to `node_name`
+        node_name_or_path: node to print from, becomes the root node of printing
+        max_depth: maximum depth of tree to print, based on `depth` attribute
+        intermediate_node_name: indicator if intermediate nodes have node names
+        spacing: horizontal spacing between node displays
+        style: style of print
+        border_style: style of border
+        strip: whether to strip results
     """
     result = vyield_tree(
         tree,
@@ -1084,19 +1075,18 @@ def vyield_tree(
         ╰───╯  ╰───╯
 
     Args:
-        tree (Node): tree to print
-        alias (str): node attribute to use for node name in tree as alias to `node_name`, if present.
-            Otherwise, it will default to `node_name` of node
-        node_name_or_path (str): node to print from, becomes the root node of printing
-        max_depth (int): maximum depth of tree to print, based on `depth` attribute, optional
-        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        spacing (int): horizontal spacing between node displays
-        style (Union[str, Iterable[str], constants.BaseHPrintStyle]): style of print, defaults to const
-        border_style (Union[str, Iterable[str], constants.BorderStyle]): style of border, defaults to const
-        strip (bool): whether to strip results, defaults to False
+        tree: tree to print
+        alias: node attribute to use for node name in tree as alias to `node_name`
+        node_name_or_path: node to print from, becomes the root node of printing
+        max_depth: maximum depth of tree to print, based on `depth` attribute
+        intermediate_node_name: indicator if intermediate nodes have node names
+        spacing: horizontal spacing between node displays
+        style: style of print
+        border_style: style of border
+        strip: whether to strip results
 
     Returns:
-        (List[str])
+        Yield tree in vertical format
     """
     from bigtree.tree.export._yield_tree import VYieldTree
 
@@ -1160,16 +1150,16 @@ def tree_to_newick(
         '((d:40[&&NHX:species=human],e:35[&&NHX:species=human])b:65[&&NHX:species=human],c:60[&&NHX:species=human])a[&&NHX:species=human]'
 
     Args:
-        tree (Node): tree to be exported
-        intermediate_node_name (bool): indicator if intermediate nodes have node names, defaults to True
-        length_attr (str): node length attribute to extract to beside name, optional
-        length_sep (str): separator between node name and length, used if length_attr is non-empty, defaults to ":"
-        attr_list (Iterable[str]): list of node attributes to extract into square bracket, optional
-        attr_prefix (str): prefix before all attributes, within square bracket, used if attr_list is non-empty, defaults to "&&NHX:"
-        attr_sep (str): separator between attributes, within square brackets, used if attr_list is non-empty, defaults to ":"
+        tree: tree to be exported
+        intermediate_node_name: indicator if intermediate nodes have node names
+        length_attr: node length attribute to extract to beside name
+        length_sep: separator between node name and length, used if length_attr is non-empty
+        attr_list: list of node attributes to extract into square bracket
+        attr_prefix: prefix before all attributes, within square bracket, used if attr_list is non-empty
+        attr_sep: separator between attributes, within square brackets, used if attr_list is non-empty
 
     Returns:
-        (str)
+        Newick string representation of tree
     """
     if not tree:
         return ""

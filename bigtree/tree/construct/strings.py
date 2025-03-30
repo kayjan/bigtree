@@ -24,8 +24,8 @@ def add_path_to_tree(
     duplicate_name_allowed: bool = True,
     node_attrs: Dict[str, Any] = {},
 ) -> T:
-    """Add nodes and attributes to existing tree *in-place*, return node of path added.
-    Adds to existing tree from list of path strings.
+    """Add nodes and attributes to existing tree *in-place*, return node of path added. Adds to existing tree from list
+    of path strings.
 
     Path should contain ``Node`` name, separated by `sep`.
 
@@ -53,14 +53,14 @@ def add_path_to_tree(
             └── c
 
     Args:
-        tree (Node): existing tree
-        path (str): path to be added to tree
-        sep (str): path separator for input `path`
-        duplicate_name_allowed (bool): indicator if nodes with duplicate ``Node`` name is allowed, defaults to True
-        node_attrs (Dict[str, Any]): attributes to add to node, key: attribute name, value: attribute value, optional
+        tree: existing tree
+        path: path to be added to tree
+        sep: path separator for input `path`
+        duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
+        node_attrs: attributes to add to node, key: attribute name, value: attribute value
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_length_not_empty(path, "Path", "path")
 
@@ -122,13 +122,13 @@ def str_to_tree(
             └── f
 
     Args:
-        tree_string (str): String to construct tree
-        tree_prefix_list (List[str]): List of prefix to mark the end of tree branch/stem and start of node name, optional.
-            If not specified, it will infer unicode characters and whitespace as prefix.
-        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+        tree_string: String to construct tree
+        tree_prefix_list: List of prefix to mark the end of tree branch/stem and start of node name, optional. If not
+            specified, it will infer unicode characters and whitespace as prefix
+        node_type: node type of tree to be created
 
     Returns:
-        (Node)
+        Node
     """
     tree_string = tree_string.strip("\n")
     assertions.assert_length_not_empty(tree_string, "Tree string", "tree_string")
@@ -219,13 +219,13 @@ def newick_to_tree(
         └── c [age=60, species=human]
 
     Args:
-        tree_string (str): Newick notation to construct tree
-        length_attr (str): attribute name to store node length, optional, defaults to 'length'
-        attr_prefix (str): prefix before all attributes, within square bracket, used to detect attributes, defaults to "&&NHX:"
-        node_type (Type[Node]): node type of tree to be created, defaults to ``Node``
+        tree_string: Newick notation to construct tree
+        length_attr: attribute name to store node length, optional
+        attr_prefix: prefix before all attributes, within square bracket, used to detect attributes
+        node_type: node type of tree to be created
 
     Returns:
-        (Node)
+        Node
     """
     assertions.assert_length_not_empty(tree_string, "Tree string", "tree_string")
 
@@ -251,14 +251,14 @@ def newick_to_tree(
         """Create node at checkpoint.
 
         Args:
-            _new_node (Optional[Node]): existing node (to add length attribute), or nothing (to create a node)
-            _cumulative_string (str): cumulative string, contains either node name or length attribute
-            _unlabelled_node_counter (int): number of unlabelled nodes, updates and returns counter
-            _depth_nodes (Dict[int, List[Node]]): list of nodes at each depth
-            _current_depth (int): depth of current node or node to be created
+            _new_node: existing node (to add length attribute), or nothing (to create a node)
+            _cumulative_string: cumulative string, contains either node name or length attribute
+            _unlabelled_node_counter: number of unlabelled nodes, updates and returns counter
+            _depth_nodes: list of nodes at each depth
+            _current_depth: depth of current node or node to be created
 
         Returns:
-            (Tuple[Node, int])
+            Node and the current depth of node
         """
         if not _new_node:
             if not _cumulative_string:
