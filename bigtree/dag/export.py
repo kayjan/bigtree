@@ -58,9 +58,8 @@ def dag_to_dict(
     attr_dict: Dict[str, str] = {},
     all_attrs: bool = False,
 ) -> Dict[str, Any]:
-    """Export DAG to dictionary.
-
-    Exported dictionary will have key as child name, and parent names and node attributes as a nested dictionary.
+    """Export DAG to dictionary. Exported dictionary will have key as child name, and values as a dictionary of parent
+    names and node attributes.
 
     Examples:
         >>> from bigtree import DAGNode, dag_to_dict
@@ -75,8 +74,8 @@ def dag_to_dict(
     Args:
         dag: DAG to be exported
         parent_key: dictionary key for `node.parent.node_name`
-        attr_dict: dictionary mapping node attributes to dictionary key,
-            key: node attributes, value: corresponding dictionary key
+        attr_dict: dictionary mapping node attributes to dictionary key, key: node attributes, value: corresponding
+            dictionary key
         all_attrs: indicator whether to retrieve all `Node` attributes
 
     Returns:
@@ -145,8 +144,8 @@ def dag_to_dataframe(
         dag: DAG to be exported
         name_col: column name for `node.node_name`
         parent_col: column name for `node.parent.node_name`
-        attr_dict: dictionary mapping node attributes to column name,
-            key: node attributes, value: corresponding column in dataframe
+        attr_dict: dictionary mapping node attributes to column name, key: node attributes, value: corresponding column
+            in dataframe
         all_attrs: indicator whether to retrieve all `Node` attributes
 
     Returns:
@@ -192,8 +191,8 @@ def dag_to_dot(
     node_attr: str = "",
     edge_attr: str = "",
 ) -> pydot.Dot:
-    r"""Export DAG or list of DAGs to image. Note that node names must be unique. Possible node attributes include
-    style, fillcolor, or shape.
+    r"""Export DAG or list of DAGs to image. Note that node names must be unique. Possible node attributes include style,
+    fillcolor, or shape.
 
     Examples:
         >>> from bigtree import DAGNode, dag_to_dot
@@ -225,15 +224,15 @@ def dag_to_dot(
 
     Args:
         dag: DAG or list of DAGs to be exported
-        rankdir: set direction of graph layout, can be 'TB', 'BT, 'LR', or 'RL'
+        rankdir: set direction of graph layout, accepts 'TB', 'BT, 'LR', or 'RL'
         bg_colour: background color of image
         node_colour: fill colour of nodes
         node_shape: shape of nodes. Possible node_shape include "circle", "square", "diamond", "triangle"
         edge_colour: colour of edges
-        node_attr: node attribute for style, overrides node_colour.
-            Possible node attributes include {"style": "filled", "fillcolor": "gold"}
-        edge_attr: edge attribute for style, overrides edge_colour.
-            Possible edge attributes include {"style": "bold", "label": "edge label", "color": "black"}
+        node_attr: node attribute for style, overrides node_colour. Possible node attributes include {"style": "filled",
+            "fillcolor": "gold"}
+        edge_attr: edge attribute for style, overrides edge_colour. Possible edge attributes include {"style": "bold",
+            "label": "edge label", "color": "black"}
 
     Returns:
         pydot object of DAG

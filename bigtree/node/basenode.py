@@ -642,7 +642,7 @@ class BaseNode:
             Node(/a, age=90)
 
         Args:
-            attrs.: attribute dictionary, key: attribute name, value: attribute value
+            attrs: attribute dictionary, key: attribute name, value: attribute value
         """
         self.__dict__.update(attrs)
 

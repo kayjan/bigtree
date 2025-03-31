@@ -14,10 +14,6 @@ Construct Directed Acyclic Graph (DAG) from list, dictionary, and pandas DataFra
 | Dictionary         | `dict_to_dag`               | Yes                 |
 | DataFrame          | `dataframe_to_dag`          | Yes                 |
 
-These functions are not standalone functions. Under the hood, they have the following dependency,
-
-![DAG Constructor Dependency Diagram](https://github.com/kayjan/bigtree/raw/master/assets/docs/dag_construct.png "DAG Constructor Dependency Diagram")
-
 -----
 
 ::: bigtree.dag.construct

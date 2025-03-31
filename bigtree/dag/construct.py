@@ -64,8 +64,8 @@ def dict_to_dag(
     parent_key: str = "parents",
     node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
-    """Construct DAG from nested dictionary, ``key``: child name, ``value``: dictionary of parent names, attribute
-    name, and attribute value. Note that node names must be unique.
+    """Construct DAG from nested dictionary, ``key``: child name, ``value``: dictionary of parent names and attributes.
+    Note that node names must be unique.
 
     Examples:
         >>> from bigtree import dict_to_dag, dag_iterator
@@ -82,7 +82,7 @@ def dict_to_dag(
 
     Args:
         relation_attrs: dictionary containing node, node parents, and node attribute information,
-            key: child name, value: dictionary of parent names, node attribute, and attribute value
+            key: child name, value: dictionary of parent names and attributes
         parent_key: key of dictionary to retrieve list of parents name
         node_type: node type of DAG to be created
 
