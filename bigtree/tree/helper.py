@@ -24,8 +24,7 @@ NodeT = TypeVar("NodeT", bound=node.Node)
 
 
 def clone_tree(tree: basenode.BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
-    """Clone tree to another ``Node`` type.
-    If the same type is needed, simply do a tree.copy().
+    """Clone tree to another ``Node`` type. If the same type is needed, simply do a tree.copy().
 
     Examples:
         >>> from bigtree import BaseNode, Node, clone_tree
@@ -39,7 +38,7 @@ def clone_tree(tree: basenode.BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT
         node_type: type of cloned tree
 
     Returns:
-        Cloned tree
+        Cloned tree of another Node type
     """
     assertions.assert_tree_type(tree, basenode.BaseNode, "BaseNode")
 
@@ -72,7 +71,8 @@ def get_subtree(
     node_name_or_path: str = "",
     max_depth: int = 0,
 ) -> NodeT:
-    """Get subtree based on node name or node path, and/or maximum depth of tree.
+    """Get subtree based on node name or node path, and/or maximum depth of tree. Subtrees are smaller trees with
+    different root. Returns a copy of the tree; does not affect original tree.
 
     Examples:
         >>> from bigtree import Node, get_subtree
@@ -130,22 +130,23 @@ def prune_tree(
     sep: str = "/",
     max_depth: int = 0,
 ) -> Union[BinaryNodeT, NodeT]:
-    """Prune tree by path or depth, returns the root of a *copy* of the original tree.
+    """Prune tree by path or depth. Pruned trees are smaller trees with same root. Returns a copy of the tree; does not
+    affect original tree.
 
     For pruning by `prune_path`,
 
-    - All siblings along the prune path will be removed. All descendants will be kept by default.
-    - If ``exact=True``, all descendants of prune path will be removed.
-    - Prune path can be string (only one path) or a list of strings (multiple paths).
-    - Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.
+    - All siblings along the prune path will be removed. All descendants will be kept by default
+    - If ``exact=True``, all descendants of prune path will be removed
+    - Prune path can be string (only one path) or a list of strings (multiple paths)
+    - Prune path name should be unique, can be full path, partial path (trailing part of path), or node name
 
     For pruning by `max_depth`,
 
-    - All nodes that are beyond `max_depth` will be removed.
+    - All nodes that are beyond `max_depth` will be removed
 
     Path should contain ``Node`` name, separated by `sep`.
 
-    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a")
 
     Examples:
         >>> from bigtree import Node, prune_tree
@@ -444,9 +445,9 @@ def get_tree_diff(
 
     # Comparing tree structure
 
-    - (+) and (-) will be added to node name relative to `tree`.
-    - For example: (+) refers to nodes that are in `other_tree` but not `tree`.
-    - For example: (-) refers to nodes that are in `tree` but not `other_tree`.
+    - (+) and (-) will be added to node name relative to `tree`
+    - For example: (+) refers to nodes that are in `other_tree` but not `tree`
+    - For example: (-) refers to nodes that are in `tree` but not `other_tree`
 
     If `detail=True`, (added) and (moved to) will be used instead of (+), (removed) and (moved from) will be used
     instead of (-).
@@ -550,7 +551,7 @@ def get_tree_diff(
 
         # Comparing tree attribute
 
-        - (~) will be added to node name if there are differences in tree attributes defined in `attr_list`.
+        - (~) will be added to node name if there are differences in tree attributes defined in `attr_list`
         - The node's attributes will be a list of [value in `tree`, value in `other_tree`]
 
         >>> # Create original tree
