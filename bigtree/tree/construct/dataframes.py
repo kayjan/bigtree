@@ -144,7 +144,7 @@ def add_dataframe_to_tree_by_name(
 
     - Only attributes in `attribute_cols` with non-null values will be added to the tree
     - Input data node names that are not existing node names will be ignored. Note that if multiple nodes have the same
-    name, attributes will be added to all nodes sharing same name
+        name, attributes will be added to all nodes sharing same name
 
     Examples:
         >>> import pandas as pd
@@ -309,7 +309,7 @@ def add_polars_to_tree_by_name(
 
     - Only attributes in `attribute_cols` with non-null values will be added to the tree
     - Input data node names that are not existing node names will be ignored. Note that if multiple nodes have the same
-    name, attributes will be added to all nodes sharing same name
+        name, attributes will be added to all nodes sharing same name
 
     Examples:
         >>> import polars as pl
