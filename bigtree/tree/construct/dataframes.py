@@ -142,8 +142,8 @@ def add_dataframe_to_tree_by_name(
     `name_col` and `attribute_cols` specify columns for node name and attributes to add to existing tree. If columns are
     not specified, the first column will be taken as name column and all other columns as attributes.
 
-     - Only attributes in `attribute_cols` with non-null values will be added to the tree
-     - Input data node names that are not existing node names will be ignored. Note that if multiple nodes have the same
+    - Only attributes in `attribute_cols` with non-null values will be added to the tree
+    - Input data node names that are not existing node names will be ignored. Note that if multiple nodes have the same
     name, attributes will be added to all nodes sharing same name
 
     Examples:

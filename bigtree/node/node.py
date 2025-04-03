@@ -61,9 +61,8 @@ class Node(basenode.BaseNode):
 
     Get `Node` configuration
 
-    1. ``node_name``: Get node name, without accessing `name` directly.
-        This is the preferred way to access node name as `node_name` is
-        immutable, whereas `name` is mutable.
+    1. ``node_name``: Get node name, without accessing `name` directly. This is the preferred way to access node name
+        as `node_name` is immutable, whereas `name` is mutable
     2. ``path_name``: Get path name from root, separated by `sep`
 
     **Node Methods**
@@ -74,7 +73,7 @@ class Node(basenode.BaseNode):
 
     1. ``show()``: Print tree to console
     2. ``hshow()``: Print tree in horizontal orientation to console
-    2. ``vshow()``: Print tree in vertical orientation to console
+    3. ``vshow()``: Print tree in vertical orientation to console
 
     ----
 
