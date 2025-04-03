@@ -10,9 +10,9 @@ There are two types of modification available
 2. **Replacing scenario**: Shift or copy nodes within same tree or between two trees *while replacing the to-node* using `from_paths` (list of paths) and `to_paths` (list of paths)
 
 
-## Available Configurations for Customization
+## Available Configurations for Customisation
 
-In **non-replacing scenario**, there are several configurations available for customization.
+In **non-replacing scenario**, there are several configurations available for customisation.
 
 | Configuration     | Description                                                                            | Default Value                                             |
 |-------------------|----------------------------------------------------------------------------------------|-----------------------------------------------------------|

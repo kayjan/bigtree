@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Docs: Clean up docstring where possible and relevant.
 
 ## [0.25.3] - 2025-03-30
 ### Changed:
@@ -230,7 +231,7 @@ If there are clashing attributes, only those that have values will be replaced.
 assertion checks twice. This leads to 5% improvement in timings for a tree with 10000 nodes, averaged across 10 runs.
 - Misc: Abstract out assertion checks for empty dataframe and duplicate attribute.
 - Misc: Abstract out logic for checking null and filtering attributes.
-- Misc: Optimization in dictionary and dataframe operations.
+- Misc: Optimisation in dictionary and dataframe operations.
 ### Fixed
 - Tree Constructor: `dict_to_tree` no longer uses dataframe operations, leading to 33% improvement in timings for
 a tree with 10000 nodes, averaged across 10 runs. The resulting data type of node follows the dictionary exactly,
@@ -658,7 +659,7 @@ ignore null attribute columns.
 
 ## [0.5.3] - 2022-11-11
 ### Added
-- DAG and Tree Exporter: More customizations allowed on edges.
+- DAG and Tree Exporter: More customisations allowed on edges.
 - Misc: Add Tips and Tricks to documentation (Weighted Trees, Merging Trees).
 ### Fixed
 - Tree Modifier: Fix issue with `merge_children` argument not working as expected.
@@ -725,7 +726,7 @@ ignore null attribute columns.
 
 ## [0.3.1] - 2022-11-07
 ### Added
-- Tree and DAG Exporter: More customizations for Node to dot and DAGNode to dot.
+- Tree and DAG Exporter: More customisations for Node to dot and DAGNode to dot.
 
 ## [0.3.0] - 2022-11-05
 ### Added
@@ -733,7 +734,7 @@ ignore null attribute columns.
 - Utility Iterator: DAG traversal methods.
 
 ### Changed
-- Tree Exporter and DAG Exporter: More customizations for Node to dot and DAGNode to dot.
+- Tree Exporter and DAG Exporter: More customisations for Node to dot and DAGNode to dot.
 
 ## [0.2.0] - 2022-11-03
 ### Added

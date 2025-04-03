@@ -382,7 +382,7 @@ vprint_tree(root) # (3)!
 2. Alternatively, `root.hshow()` can be used
 3. Alternatively, `root.vshow()` can be used
 
-Other customizations for printing are also available, such as:
+Other customisations for printing are also available, such as:
 
 - Printing alias instead of node name, if present
 - Printing subtree
@@ -504,7 +504,7 @@ Alternatively, the `plot_tree` method can be used, but remember to run the `rein
 first to retrieve the *x* and *y* coordinates.
 
 Arguments and keyword arguments can be passed in as long as they are compatible with the `plt.plot()`
-function. A *plt.Figure* object is returned if you want to do further customizations such as add title or
+function. A *plt.Figure* object is returned if you want to do further customisations such as add title or
 save the figure to image.
 
 ```python hl_lines="9-10"

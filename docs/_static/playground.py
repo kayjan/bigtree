@@ -376,7 +376,7 @@ def execute(cmd, no_except=True, inline=False, init="", g=None):
 
     console = ""
 
-    # Setup global initialization
+    # Setup global initialisation
     if g is None:
         g = {
             "Ramp": Ramp,
