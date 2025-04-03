@@ -3111,10 +3111,10 @@
     <div class="doc doc-contents ">
 
 
-        <p>BaseNode extends any Python class to a tree node.
-Nodes can have attributes if they are initialized from <code>Node</code>, <em>dictionary</em>, or <em>pandas DataFrame</em>.</p>
-<p>Nodes can be linked to each other with <code>parent</code> and <code>children</code> setter methods,
-or using bitshift operator with the convention <code>parent_node &gt;&gt; child_node</code> or <code>child_node &lt;&lt; parent_node</code>.</p>
+        <p>BaseNode extends any Python class to a tree node. Nodes can have attributes if they are initialized from <code>Node</code>,
+<em>dictionary</em>, or <em>pandas DataFrame</em>.</p>
+<p>Nodes can be linked to each other with <code>parent</code> and <code>children</code> setter methods, or using bitshift operator with the
+convention <code>parent_node &gt;&gt; child_node</code> or <code>child_node &lt;&lt; parent_node</code>.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -3160,8 +3160,8 @@ or using bitshift operator with the convention <code>parent_node &gt;&gt; child_
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
 </span></code></pre></div>
         <p><strong>BaseNode Creation</strong></p>
-<p>Node can be created by instantiating a <code>BaseNode</code> class or by using a <em>dictionary</em>.
-If node is created with dictionary, all keys of dictionary will be stored as class attributes.</p>
+<p>Node can be created by instantiating a <code>BaseNode</code> class or by using a <em>dictionary</em>. If node is created with
+dictionary, all keys of dictionary will be stored as class attributes.</p>
 <div class="language-text highlight"><pre><span></span><code>&gt;&gt;&gt; from bigtree import Node
 &gt;&gt;&gt; root = Node.from_dict({&quot;name&quot;: &quot;a&quot;, &quot;age&quot;: 90})
 </code></pre></div>
@@ -4309,9 +4309,10 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>attrs.</code>
+                <code>attrs</code>
             </td>
             <td>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">

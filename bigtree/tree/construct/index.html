@@ -3050,11 +3050,13 @@ Under the hood, they have the following dependency,</p>
     <div class="doc doc-contents ">
 
         <p>Add attributes to existing tree <em>in-place</em>. Adds to existing tree from pandas DataFrame.</p>
-<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
-<p><code>name_col</code> and <code>attribute_cols</code> specify columns for node name and attributes to add to existing tree.
-If columns are not specified, the first column will be taken as name column and all other columns as attributes.</p>
-<p>Input data node names that are not existing node names will be ignored.
-Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.</p>
+<p><code>name_col</code> and <code>attribute_cols</code> specify columns for node name and attributes to add to existing tree. If columns are
+not specified, the first column will be taken as name column and all other columns as attributes.</p>
+<ul>
+<li>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree</li>
+<li>Input data node names that are not existing node names will be ignored. Note that if multiple nodes have the same
+name, attributes will be added to all nodes sharing same name</li>
+</ul>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -3203,21 +3205,23 @@ of data except <code>path_col</code></p>
     <div class="doc doc-contents ">
 
         <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree. Adds to existing tree from pandas DataFrame.</p>
-<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
-<p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to add to existing tree.
-If columns are not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code></p>
+<p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to add to existing tree. If columns are
+not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code></p>
+<ul>
+<li>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree</li>
+</ul>
 <p>Path in path column should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
-<li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
-<li>Path separator <code>sep</code> is for the input <code>path</code> and can differ from existing tree.</li>
+<li>For example: Path string "a/b" refers to Node("b") with parent Node("a")</li>
+<li>Path separator <code>sep</code> is for the input <code>path</code> and can differ from existing tree</li>
 </ul>
 <p>Path in path column can start from root node <code>name</code>, or start with <code>sep</code>.</p>
 <ul>
-<li>For example: Path string can be "/a/b" or "a/b", if sep is "/".</li>
+<li>For example: Path string can be "/a/b" or "a/b", if sep is "/"</li>
 </ul>
 <p>All paths should start from the same root node.</p>
 <ul>
-<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.</li>
+<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node</li>
 </ul>
 
 
@@ -3405,11 +3409,13 @@ data except <code>path_col</code></p>
     <div class="doc doc-contents ">
 
         <p>Add attributes to existing tree <em>in-place</em>. Adds to existing tree from polars DataFrame.</p>
-<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
-<p><code>name_col</code> and <code>attribute_cols</code> specify columns for node name and attributes to add to existing tree.
-If columns are not specified, the first column will be taken as name column and all other columns as attributes.</p>
-<p>Input data node names that are not existing node names will be ignored.
-Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.</p>
+<p><code>name_col</code> and <code>attribute_cols</code> specify columns for node name and attributes to add to existing tree. If columns are
+not specified, the first column will be taken as name column and all other columns as attributes.</p>
+<ul>
+<li>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree</li>
+<li>Input data node names that are not existing node names will be ignored. Note that if multiple nodes have the same
+name, attributes will be added to all nodes sharing same name</li>
+</ul>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -3556,21 +3562,23 @@ of data except <code>path_col</code></p>
     <div class="doc doc-contents ">
 
         <p>Add nodes and attributes to tree <em>in-place</em>, return root of tree. Adds to existing tree from polars DataFrame.</p>
-<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
-<p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to add to existing tree.
-If columns are not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code></p>
+<p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to add to existing tree. If columns are
+not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code></p>
+<ul>
+<li>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree</li>
+</ul>
 <p>Path in path column should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
-<li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
-<li>Path separator <code>sep</code> is for the input <code>path</code> and can differ from existing tree.</li>
+<li>For example: Path string "a/b" refers to Node("b") with parent Node("a")</li>
+<li>Path separator <code>sep</code> is for the input <code>path</code> and can differ from existing tree</li>
 </ul>
 <p>Path in path column can start from root node <code>name</code>, or start with <code>sep</code>.</p>
 <ul>
-<li>For example: Path string can be "/a/b" or "a/b", if sep is "/".</li>
+<li>For example: Path string can be "/a/b" or "a/b", if sep is "/"</li>
 </ul>
 <p>All paths should start from the same root node.</p>
 <ul>
-<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.</li>
+<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node</li>
 </ul>
 
 
@@ -3671,8 +3679,8 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
             <td>
               <div class="doc-md-description">
-                <p>columns of data containing node attribute information, if not set, it will take all
-columns of data except <code>path_col</code></p>
+                <p>columns of data containing node attribute information, if not set, it will take all columns of
+data except <code>path_col</code></p>
               </div>
             </td>
             <td>
@@ -3763,20 +3771,22 @@ columns of data except <code>path_col</code></p>
     <div class="doc doc-contents ">
 
         <p>Construct tree from pandas DataFrame using path, return root of tree.</p>
-<p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to construct tree.
-If columns are not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code>.</p>
-<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
-<p>Path in path column can start from root node <code>name</code>, or start with <code>sep</code>.</p>
+<p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to construct tree. If columns are not
+specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code>.</p>
 <ul>
-<li>For example: Path string can be "/a/b" or "a/b", if sep is "/".</li>
+<li>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree</li>
 </ul>
 <p>Path in path column should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
-<li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
+<li>For example: Path string "a/b" refers to Node("b") with parent Node("a")</li>
+</ul>
+<p>Path in path column can start from root node <code>name</code>, or start with <code>sep</code>.</p>
+<ul>
+<li>For example: Path string can be "/a/b" or "a/b", if sep is "/"</li>
 </ul>
 <p>All paths should start from the same root node.</p>
 <ul>
-<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.</li>
+<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node</li>
 </ul>
 
 
@@ -3860,8 +3870,8 @@ If columns are not specified, <code>path_col</code> takes first column and all o
             </td>
             <td>
               <div class="doc-md-description">
-                <p>columns of data containing node attribute information, if not set, it will take all
-columns of data except <code>path_col</code></p>
+                <p>columns of data containing node attribute information, if not set, it will take all columns of
+data except <code>path_col</code></p>
               </div>
             </td>
             <td>
@@ -3969,14 +3979,15 @@ columns of data except <code>path_col</code></p>
 
         <p>Construct tree from pandas DataFrame using parent and child names, return root of tree.</p>
 <p>Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.</p>
-<p>Since tree is created from parent-child names, only names of leaf nodes may be repeated.
-Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
-This error can be ignored by setting <code>allow_duplicates</code> to be True.</p>
-<p><code>child_col</code> and <code>parent_col</code> specify columns for child name and parent name to construct tree.
-<code>attribute_cols</code> specify columns for node attribute for child name.
-If columns are not specified, <code>child_col</code> takes first column, <code>parent_col</code> takes second column, and all other
-columns are <code>attribute_cols</code>.</p>
-<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
+<p>Since tree is created from parent-child names, only names of leaf nodes may be repeated. Error will be thrown if
+names of intermediate nodes are repeated as there will be confusion. This error can be ignored by setting
+<code>allow_duplicates</code> to be True.</p>
+<p><code>child_col</code> and <code>parent_col</code> specify columns for child name and parent name to construct tree. <code>attribute_cols</code> specify
+columns for node attribute for child name. If columns are not specified, <code>child_col</code> takes first column, <code>parent_col</code>
+takes second column, and all other columns are <code>attribute_cols</code>.</p>
+<ul>
+<li>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree</li>
+</ul>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -4092,8 +4103,7 @@ data except <code>child_col</code> and <code>parent_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>allow duplicate intermediate nodes such that child node will
-be tagged to multiple parent nodes</p>
+                <p>allow duplicate intermediate nodes such that child node will be tagged to multiple parent nodes</p>
               </div>
             </td>
             <td>
@@ -4168,20 +4178,22 @@ be tagged to multiple parent nodes</p>
     <div class="doc doc-contents ">
 
         <p>Construct tree from polars DataFrame using path, return root of tree.</p>
-<p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to construct tree.
-If columns are not specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code>.</p>
-<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
-<p>Path in path column can start from root node <code>name</code>, or start with <code>sep</code>.</p>
+<p><code>path_col</code> and <code>attribute_cols</code> specify columns for node path and attributes to construct tree. If columns are not
+specified, <code>path_col</code> takes first column and all other columns are <code>attribute_cols</code>.</p>
 <ul>
-<li>For example: Path string can be "/a/b" or "a/b", if sep is "/".</li>
+<li>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree</li>
 </ul>
 <p>Path in path column should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
-<li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
+<li>For example: Path string "a/b" refers to Node("b") with parent Node("a")</li>
+</ul>
+<p>Path in path column can start from root node <code>name</code>, or start with <code>sep</code>.</p>
+<ul>
+<li>For example: Path string can be "/a/b" or "a/b", if sep is "/"</li>
 </ul>
 <p>All paths should start from the same root node.</p>
 <ul>
-<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.</li>
+<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node</li>
 </ul>
 
 
@@ -4374,14 +4386,15 @@ data except <code>path_col</code></p>
 
         <p>Construct tree from polars DataFrame using parent and child names, return root of tree.</p>
 <p>Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.</p>
-<p>Since tree is created from parent-child names, only names of leaf nodes may be repeated.
-Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
-This error can be ignored by setting <code>allow_duplicates</code> to be True.</p>
-<p><code>child_col</code> and <code>parent_col</code> specify columns for child name and parent name to construct tree.
-<code>attribute_cols</code> specify columns for node attribute for child name.
-If columns are not specified, <code>child_col</code> takes first column, <code>parent_col</code> takes second column, and all other
-columns are <code>attribute_cols</code>.</p>
-<p>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree.</p>
+<p>Since tree is created from parent-child names, only names of leaf nodes may be repeated. Error will be thrown if
+names of intermediate nodes are repeated as there will be confusion. This error can be ignored by setting
+<code>allow_duplicates</code> to be True.</p>
+<p><code>child_col</code> and <code>parent_col</code> specify columns for child name and parent name to construct tree. <code>attribute_cols</code> specify
+columns for node attribute for child name. If columns are not specified, <code>child_col</code> takes first column, <code>parent_col</code>
+takes second column, and all other columns are <code>attribute_cols</code>.</p>
+<ul>
+<li>Only attributes in <code>attribute_cols</code> with non-null values will be added to the tree</li>
+</ul>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -4497,8 +4510,7 @@ data except <code>child_col</code> and <code>parent_col</code></p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>allow duplicate intermediate nodes such that child node will
-be tagged to multiple parent nodes</p>
+                <p>allow duplicate intermediate nodes such that child node will be tagged to multiple parent nodes</p>
               </div>
             </td>
             <td>
@@ -4568,8 +4580,8 @@ be tagged to multiple parent nodes</p>
         <p>Add attributes to existing tree <em>in-place</em>. Adds to existing tree from nested dictionary, <code>key</code>: name,
 <code>value</code>: dict of attribute name and attribute value.</p>
 <p>All attributes in <code>name_attrs</code> will be added to the tree, including attributes with null values.</p>
-<p>Input dictionary keys that are not existing node names will be ignored.
-Note that if multiple nodes have the same name, attributes will be added to all nodes sharing the same name.</p>
+<p>Input dictionary keys that are not existing node names will be ignored. Note that if multiple nodes have the same
+name, attributes will be added to all nodes sharing the same name.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -4682,16 +4694,16 @@ attribute name and attribute value</p>
 <p>All attributes in <code>path_attrs</code> will be added to the tree, including attributes with null values.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
-<li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
-<li>Path separator <code>sep</code> is for the input <code>path</code> and can differ from existing tree.</li>
+<li>For example: Path string "a/b" refers to Node("b") with parent Node("a")</li>
+<li>Path separator <code>sep</code> is for the input <code>path</code> and can differ from existing tree</li>
 </ul>
 <p>Path can start from root node <code>name</code>, or start with <code>sep</code>.</p>
 <ul>
-<li>For example: Path string can be "/a/b" or "a/b", if sep is "/".</li>
+<li>For example: Path string can be "/a/b" or "a/b", if sep is "/"</li>
 </ul>
 <p>All paths should start from the same root node.</p>
 <ul>
-<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.</li>
+<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node</li>
 </ul>
 
 
@@ -4757,8 +4769,8 @@ attribute name and attribute value</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary containing node path and attribute information,
-key: node path, value: dict of node attribute name and attribute value</p>
+                <p>dictionary containing node path and attribute information, key: node path, value: dict of node
+attribute name and attribute value</p>
               </div>
             </td>
             <td>
@@ -4850,15 +4862,15 @@ key: node path, value: dict of node attribute name and attribute value</p>
 value.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
-<li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
+<li>For example: Path string "a/b" refers to Node("b") with parent Node("a")</li>
 </ul>
 <p>Path can start from root node <code>name</code>, or start with <code>sep</code>.</p>
 <ul>
-<li>For example: Path string can be "/a/b" or "a/b", if sep is "/".</li>
+<li>For example: Path string can be "/a/b" or "a/b", if sep is "/"</li>
 </ul>
 <p>All paths should start from the same root node.</p>
 <ul>
-<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.</li>
+<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node</li>
 </ul>
 <p>All attributes in <code>path_attrs</code> will be added to the tree, including attributes with null values.</p>
 
@@ -4908,8 +4920,8 @@ value.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary containing path and node attribute information,
-key: path, value: dict of tree attribute and attribute value</p>
+                <p>dictionary containing node path and attribute information, key: node path, value: dict of node
+attribute name and attribute value</p>
               </div>
             </td>
             <td>
@@ -5015,9 +5027,9 @@ key: path, value: dict of tree attribute and attribute value</p>
 
         <p>Construct tree from nested recursive dictionary.</p>
 <ul>
-<li><code>key</code>: <code>name_key</code>, <code>child_key</code>, or any attributes key.</li>
-<li><code>value</code> of <code>name_key</code>: node name.</li>
-<li><code>value</code> of <code>child_key</code>: list of dict containing <code>name_key</code> and <code>child_key</code> (recursive).</li>
+<li><code>key</code>: <code>name_key</code>, <code>child_key</code>, or any attributes key</li>
+<li><code>value</code> of <code>name_key</code>: node name</li>
+<li><code>value</code> of <code>child_key</code>: list of dict containing <code>name_key</code> and <code>child_key</code> (recursive)</li>
 </ul>
 
 
@@ -5177,15 +5189,15 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
         <p>Construct tree from list of path strings.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
-<li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
+<li>For example: Path string "a/b" refers to Node("b") with parent Node("a")</li>
 </ul>
 <p>Path can start from root node <code>name</code>, or start with <code>sep</code>.</p>
 <ul>
-<li>For example: Path string can be "/a/b" or "a/b", if sep is "/".</li>
+<li>For example: Path string can be "/a/b" or "a/b", if sep is "/"</li>
 </ul>
 <p>All paths should start from the same root node.</p>
 <ul>
-<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.</li>
+<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node</li>
 </ul>
 
 
@@ -5328,9 +5340,9 @@ value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing 
 
         <p>Construct tree from list of tuple containing parent-child names.</p>
 <p>Root node is inferred when parent is empty, or when name appears as parent but not as child.</p>
-<p>Since tree is created from parent-child names, only names of leaf nodes may be repeated.
-Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
-This error can be ignored by setting <code>allow_duplicates</code> to be True.</p>
+<p>Since tree is created from parent-child names, only names of leaf nodes may be repeated. Error will be thrown if
+names of intermediate nodes are repeated as there will be confusion. This error can be ignored by setting
+<code>allow_duplicates</code> to be True.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -5461,16 +5473,16 @@ This error can be ignored by setting <code>allow_duplicates</code> to be True.</
 of path strings.</p>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
-<li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
-<li>Path separator <code>sep</code> is for the input <code>path</code> and can differ from existing tree.</li>
+<li>For example: Path string "a/b" refers to Node("b") with parent Node("a")</li>
+<li>Path separator <code>sep</code> is for the input <code>path</code> and can differ from existing tree</li>
 </ul>
 <p>Path can start from root node <code>name</code>, or start with <code>sep</code>.</p>
 <ul>
-<li>For example: Path string can be "/a/b" or "a/b", if sep is "/".</li>
+<li>For example: Path string can be "/a/b" or "a/b", if sep is "/"</li>
 </ul>
 <p>All paths should start from the same root node.</p>
 <ul>
-<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc., and should not start with another root node.</li>
+<li>For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node</li>
 </ul>
 <p>All attributes in <code>node_attrs</code> will be added to the tree, including attributes with null values.</p>
 
@@ -5630,16 +5642,16 @@ of path strings.</p>
         <p>Construct tree from Newick notation, return root of tree.</p>
 <p>In the Newick Notation (or New Hampshire Notation)</p>
 <ul>
-<li>Tree is represented in round brackets i.e., <code>(child1,child2,child3)parent</code>.</li>
-<li>If there are nested trees, they will be in nested round brackets i.e., <code>((grandchild1)child1,(grandchild2,grandchild3)child2)parent</code>.</li>
-<li>If there is length attribute, they will be beside the name i.e., <code>(child1:0.5,child2:0.1)parent</code>.</li>
-<li>If there are other attributes, attributes are represented in square brackets i.e., <code>(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]</code>.</li>
+<li>Tree is represented in round brackets i.e., <code>(child1,child2,child3)parent</code></li>
+<li>If there are nested trees, they will be in nested round brackets i.e., <code>((grandchild1)child1,(grandchild2,grandchild3)child2)parent</code></li>
+<li>If there is length attribute, they will be beside the name i.e., <code>(child1:0.5,child2:0.1)parent</code></li>
+<li>If there are other attributes, attributes are represented in square brackets i.e., <code>(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]</code></li>
 </ul>
 <p>Variations supported</p>
 <ul>
 <li>Support special characters (<code>[</code>, <code>]</code>, <code>(</code>, <code>)</code>, <code>:</code>, <code>,</code>) in node name, attribute name, and attribute values if
-    they are enclosed in single quotes i.e., '(name:!)'.</li>
-<li>If there are no node names, it will be auto-filled with convention <code>nodeN</code> with N representing a number.</li>
+    they are enclosed in single quotes i.e., '(name:!)'</li>
+<li>If there are no node names, it will be auto-filled with convention <code>nodeN</code> with N representing a number</li>
 </ul>
 
 
@@ -5795,7 +5807,7 @@ of path strings.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Construct tree from tree string</p>
+        <p>Construct tree from tree string.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>

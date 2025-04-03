@@ -3221,8 +3221,8 @@
               Bases: <code><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.basenode.BaseNode&lt;/code&gt;" href="../basenode/#bigtree.node.basenode.BaseNode">BaseNode</a></code></p>
 
 
-        <p>Node is an extension of BaseNode, and is able to extend to any Python class.
-Nodes can have attributes if they are initialized from <code>Node</code>, <em>dictionary</em>, or <em>pandas DataFrame</em>.</p>
+        <p>Node is an extension of BaseNode, and is able to extend to any Python class. Nodes can have attributes if they are
+initialized from <code>Node</code>, <em>dictionary</em>, or <em>pandas DataFrame</em>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Node names cannot contain separator symbol! This will not throw error, but you might run into issues
@@ -3255,8 +3255,8 @@ when performing certain functions such as export-then-import of tree.</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">b</span><span class="p">])</span>
 </span></code></pre></div>
         <p><strong>Node Creation</strong></p>
-<p>Node can be created by instantiating a <code>Node</code> class or by using a <em>dictionary</em>.
-If node is created with dictionary, all keys of dictionary will be stored as class attributes.</p>
+<p>Node can be created by instantiating a <code>Node</code> class or by using a <em>dictionary</em>. If node is created with dictionary,
+all keys of dictionary will be stored as class attributes.</p>
 <div class="language-text highlight"><pre><span></span><code>&gt;&gt;&gt; from bigtree import Node
 &gt;&gt;&gt; a = Node.from_dict({&quot;name&quot;: &quot;a&quot;, &quot;age&quot;: 90})
 </code></pre></div>
@@ -4583,9 +4583,10 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>attrs.</code>
+                <code>attrs</code>
             </td>
             <td>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">

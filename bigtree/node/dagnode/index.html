@@ -2913,13 +2913,13 @@
     <div class="doc doc-contents ">
 
 
-        <p>Base DAGNode extends any Python class to a DAG node, for DAG implementation.
-In DAG implementation, a node can have multiple parents.</p>
+        <p>Base DAGNode extends any Python class to a DAG node, for DAG implementation. In DAG implementation, a node can have
+multiple parents.</p>
 <p>Parents and children cannot be reassigned once assigned, as Nodes are allowed to have multiple parents and children.
-If each node only has one parent, use <code>Node</code> class.
-DAGNodes can have attributes if they are initialized from <code>DAGNode</code> or dictionary.</p>
-<p>DAGNode can be linked to each other with <code>parents</code> and <code>children</code> setter methods,
-or using bitshift operator with the convention <code>parent_node &gt;&gt; child_node</code> or <code>child_node &lt;&lt; parent_node</code>.</p>
+If each node only has one parent, use <code>Node</code> class. DAGNodes can have attributes if they are initialized from
+<code>DAGNode</code> or dictionary.</p>
+<p>DAGNode can be linked to each other with <code>parents</code> and <code>children</code> setter methods, or using bitshift operator with
+the convention <code>parent_node &gt;&gt; child_node</code> or <code>child_node &lt;&lt; parent_node</code>.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -2955,8 +2955,8 @@ or using bitshift operator with the convention <code>parent_node &gt;&gt; child_
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
 </span></code></pre></div>
         <p><strong>DAGNode Creation</strong></p>
-<p>Node can be created by instantiating a <code>DAGNode</code> class or by using a <em>dictionary</em>.
-If node is created with dictionary, all keys of dictionary will be stored as class attributes.</p>
+<p>Node can be created by instantiating a <code>DAGNode</code> class or by using a <em>dictionary</em>. If node is created with dictionary,
+all keys of dictionary will be stored as class attributes.</p>
 <div class="language-text highlight"><pre><span></span><code>&gt;&gt;&gt; from bigtree import DAGNode
 &gt;&gt;&gt; a = DAGNode.from_dict({&quot;name&quot;: &quot;a&quot;, &quot;age&quot;: 90})
 </code></pre></div>

@@ -2800,8 +2800,7 @@
 
     <div class="doc doc-contents ">
 
-        <p>Clone tree to another <code>Node</code> type.
-If the same type is needed, simply do a tree.copy().</p>
+        <p>Clone tree to another <code>Node</code> type. If the same type is needed, simply do a tree.copy().</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -2875,7 +2874,7 @@ If the same type is needed, simply do a tree.copy().</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Cloned tree</p>
+                <p>Cloned tree of another Node type</p>
               </div>
             </td>
           </tr>
@@ -2900,7 +2899,8 @@ If the same type is needed, simply do a tree.copy().</p>
 
     <div class="doc doc-contents ">
 
-        <p>Get subtree based on node name or node path, and/or maximum depth of tree.</p>
+        <p>Get subtree based on node name or node path, and/or maximum depth of tree. Subtrees are smaller trees with
+different root. Returns a copy of the tree; does not affect original tree.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -3031,21 +3031,22 @@ If the same type is needed, simply do a tree.copy().</p>
 
     <div class="doc doc-contents ">
 
-        <p>Prune tree by path or depth, returns the root of a <em>copy</em> of the original tree.</p>
+        <p>Prune tree by path or depth. Pruned trees are smaller trees with same root. Returns a copy of the tree; does not
+affect original tree.</p>
 <p>For pruning by <code>prune_path</code>,</p>
 <ul>
-<li>All siblings along the prune path will be removed. All descendants will be kept by default.</li>
-<li>If <code>exact=True</code>, all descendants of prune path will be removed.</li>
-<li>Prune path can be string (only one path) or a list of strings (multiple paths).</li>
-<li>Prune path name should be unique, can be full path, partial path (trailing part of path), or node name.</li>
+<li>All siblings along the prune path will be removed. All descendants will be kept by default</li>
+<li>If <code>exact=True</code>, all descendants of prune path will be removed</li>
+<li>Prune path can be string (only one path) or a list of strings (multiple paths)</li>
+<li>Prune path name should be unique, can be full path, partial path (trailing part of path), or node name</li>
 </ul>
 <p>For pruning by <code>max_depth</code>,</p>
 <ul>
-<li>All nodes that are beyond <code>max_depth</code> will be removed.</li>
+<li>All nodes that are beyond <code>max_depth</code> will be removed</li>
 </ul>
 <p>Path should contain <code>Node</code> name, separated by <code>sep</code>.</p>
 <ul>
-<li>For example: Path string "a/b" refers to Node("b") with parent Node("a").</li>
+<li>For example: Path string "a/b" refers to Node("b") with parent Node("a")</li>
 </ul>
 
 
@@ -3603,9 +3604,9 @@ or both tree</p>
 Function can return only the differences (default), or all original tree nodes and differences.</p>
 <h4 id="bigtree.tree.helper.get_tree_diff--comparing-tree-structure">Comparing tree structure</h4>
 <ul>
-<li>(+) and (-) will be added to node name relative to <code>tree</code>.</li>
-<li>For example: (+) refers to nodes that are in <code>other_tree</code> but not <code>tree</code>.</li>
-<li>For example: (-) refers to nodes that are in <code>tree</code> but not <code>other_tree</code>.</li>
+<li>(+) and (-) will be added to node name relative to <code>tree</code></li>
+<li>For example: (+) refers to nodes that are in <code>other_tree</code> but not <code>tree</code></li>
+<li>For example: (-) refers to nodes that are in <code>tree</code> but not <code>other_tree</code></li>
 </ul>
 <p>If <code>detail=True</code>, (added) and (moved to) will be used instead of (+), (removed) and (moved from) will be used
 instead of (-).</p>
@@ -3704,7 +3705,7 @@ the parent-level. This is useful when a subtree is shifted, and we want the diff
 </span></code></pre></div>
     <h4 id="bigtree.tree.helper.get_tree_diff--comparing-tree-attribute">Comparing tree attribute</h4>
 <ul>
-<li>(~) will be added to node name if there are differences in tree attributes defined in <code>attr_list</code>.</li>
+<li>(~) will be added to node name if there are differences in tree attributes defined in <code>attr_list</code></li>
 <li>The node's attributes will be a list of [value in <code>tree</code>, value in <code>other_tree</code>]</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create original tree</span>

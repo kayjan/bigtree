@@ -1818,9 +1818,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#available-configurations-for-customization" class="md-nav__link">
+  <a href="#available-configurations-for-customisation" class="md-nav__link">
     <span class="md-ellipsis">
-      Available Configurations for Customization
+      Available Configurations for Customisation
     </span>
   </a>
   
@@ -2657,9 +2657,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#available-configurations-for-customization" class="md-nav__link">
+  <a href="#available-configurations-for-customisation" class="md-nav__link">
     <span class="md-ellipsis">
-      Available Configurations for Customization
+      Available Configurations for Customisation
     </span>
   </a>
   
@@ -2815,11 +2815,11 @@
 <h1 id="modify">📝 Modify</h1>
 <p>There are two types of modification available</p>
 <ol>
-<li><strong>Non-replacing scenario</strong>: Shift or copy nodes within same tree or between two trees using <code>from_paths</code> (list of paths) and <code>to_paths</code> (list of paths).</li>
-<li><strong>Replacing scenario</strong>: Shift or copy nodes within same tree or between two trees <em>while replacing the to-node</em> using <code>from_paths</code> (list of paths) and <code>to_paths</code> (list of paths).</li>
+<li><strong>Non-replacing scenario</strong>: Shift or copy nodes within same tree or between two trees using <code>from_paths</code> (list of paths) and <code>to_paths</code> (list of paths)</li>
+<li><strong>Replacing scenario</strong>: Shift or copy nodes within same tree or between two trees <em>while replacing the to-node</em> using <code>from_paths</code> (list of paths) and <code>to_paths</code> (list of paths)</li>
 </ol>
-<h2 id="available-configurations-for-customization">Available Configurations for Customization</h2>
-<p>In <strong>non-replacing scenario</strong>, there are several configurations available for customization.</p>
+<h2 id="available-configurations-for-customisation">Available Configurations for Customisation</h2>
+<p>In <strong>non-replacing scenario</strong>, there are several configurations available for customisation.</p>
 <table>
 <thead>
 <tr>
@@ -2872,8 +2872,8 @@
 </tbody>
 </table>
 <p>In <strong>replacing scenario</strong>, all the configurations are also available except <code>overriding</code>, <code>merge_attribute</code>,
-<code>merge_children</code>, and <code>merge_leaves</code> as it is doing a one-to-one replacement.
-It is by default overriding, and there is nothing to merge.</p>
+<code>merge_children</code>, and <code>merge_leaves</code> as it is doing a one-to-one replacement. It is by default overriding, and there is
+nothing to merge.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code>overriding</code> and <code>merge_attribute</code> cannot be simultaneously set to <code>True</code>. One deals with clashing nodes by
@@ -2888,9 +2888,9 @@ overriding, another deals with it by merging attributes of both nodes.</p>
 <p>Error will always be thrown if multiple from-nodes are found, paths in <code>from_paths</code> must be unique.</p>
 </div>
 <h2 id="tree-modification-permutations">Tree Modification Permutations</h2>
-<p>There are several ways you can mix and match the tree modification methods.
-If you know all the parameters to choose, feel free to use <code>copy_or_shift_logic</code> or <code>replace_logic</code> methods as they are the most customizable.
-All other methods calls these 2 methods directly.</p>
+<p>There are several ways you can mix and match the tree modification methods. If you know all the parameters to choose,
+feel free to use <code>copy_or_shift_logic</code> or <code>replace_logic</code> methods as they are the most customizable. All other
+methods call these 2 methods directly.</p>
 <table>
 <thead>
 <tr>
@@ -3084,14 +3084,14 @@ All other methods calls these 2 methods directly.</p>
 </li>
 <li>These parameters have some interaction:<ul>
 <li><code>overriding</code> and <code>merge_attribute</code> with <code>merge_children</code> and <code>merge_leaves</code></li>
-<li><code>overriding</code> + <code>merge_children</code>: Behaves like <code>merge_children</code> when there is no clash in node name, otherwise behaves like <code>overriding</code>.
-Note that clashes will preserve origin node parent and destination nodes' children.</li>
-<li><code>overriding</code> + <code>merge_leaves</code>: Behaves like <code>merge_leaves</code> when there is no clash in node name, otherwise behaves like <code>overriding</code>.
-Note that clashes will preserve origin node parent and destination nodes' leaves.</li>
-<li><code>merge_attribute</code> + <code>merge_children</code>: Behaves like <code>merge_children</code> when there is no clash in node name, otherwise behaves like <code>merge_attribute</code>.
-Note that attributes will be merged for node and all descendants, and will preserve origin and destination nodes' children.</li>
-<li><code>merge_attribute</code> + <code>merge_leaves</code>: Behaves like <code>merge_leaves</code> when there is no clash in node name, otherwise behaves like <code>merge_attribute</code>.
-Note that attributes will be merged for node and all descendants, and will preserve origin nodes' children and destination nodes' leaves.</li>
+<li><code>overriding</code> + <code>merge_children</code>: Behaves like <code>merge_children</code> when there is no clash in node name, otherwise behaves like <code>overriding</code>
+Note that clashes will preserve origin node parent and destination nodes' children</li>
+<li><code>overriding</code> + <code>merge_leaves</code>: Behaves like <code>merge_leaves</code> when there is no clash in node name, otherwise behaves like <code>overriding</code>
+Note that clashes will preserve origin node parent and destination nodes' leaves</li>
+<li><code>merge_attribute</code> + <code>merge_children</code>: Behaves like <code>merge_children</code> when there is no clash in node name, otherwise behaves like <code>merge_attribute</code>
+Note that attributes will be merged for node and all descendants, and will preserve origin and destination nodes' children</li>
+<li><code>merge_attribute</code> + <code>merge_leaves</code>: Behaves like <code>merge_leaves</code> when there is no clash in node name, otherwise behaves like <code>merge_attribute</code>
+Note that attributes will be merged for node and all descendants, and will preserve origin nodes' children and destination nodes' leaves</li>
 </ul>
 </li>
 </ul>
@@ -3156,45 +3156,45 @@ Note that attributes will be merged for node and all descendants, and will prese
         <p>Shift nodes from <code>from_paths</code> to <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
 <li>Creates intermediate nodes if to-path is not present</li>
-<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).</li>
-<li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).</li>
-<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).</li>
-<li>Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged).</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)</li>
+<li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)</li>
+<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge)</li>
+<li>Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged)</li>
 <li>Able to merge leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)</li>
-<li>Able to shift node only and delete children, defaults to False (nodes are shifted together with children).</li>
+<li>Able to shift node only and delete children, defaults to False (nodes are shifted together with children)</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
 <ul>
-<li>Path name can be with or without leading tree path separator symbol.</li>
+<li>Path name can be with or without leading tree path separator symbol</li>
 </ul>
 <p>For paths in <code>from_paths</code>,</p>
 <ul>
-<li>Path name can be partial path (trailing part of path) or node name.</li>
-<li>If <code>with_full_path=True</code>, path name must be full path.</li>
-<li>Path name must be unique to one node.</li>
+<li>Path name can be partial path (trailing part of path) or node name</li>
+<li>If <code>with_full_path=True</code>, path name must be full path</li>
+<li>Path name must be unique to one node</li>
 </ul>
 <p>For paths in <code>to_paths</code>,</p>
 <ul>
-<li>Path name must be full path.</li>
-<li>Can set to empty string or None to delete the path in <code>from_paths</code>, note that <code>copy</code> must be set to False.</li>
+<li>Path name must be full path</li>
+<li>Can set to empty string or None to delete the path in <code>from_paths</code>, note that <code>copy</code> must be set to False</li>
 </ul>
 <p>If <code>merge_children=True</code>,</p>
 <ul>
-<li>If <code>to_path</code> is not present, it shifts children of <code>from_path</code>.</li>
-<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original and new children are merged.</li>
-<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new children are retained.</li>
+<li>If <code>to_path</code> is not present, it shifts children of <code>from_path</code></li>
+<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original and new children are merged</li>
+<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new children are retained</li>
 </ul>
 <p>If <code>merge_leaves=True</code>,</p>
 <ul>
-<li>If <code>to_path</code> is not present, it shifts leaves of <code>from_path</code>.</li>
-<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged.</li>
+<li>If <code>to_path</code> is not present, it shifts leaves of <code>from_path</code></li>
+<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged</li>
 <li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained,
-    original non-leaf nodes in <code>from_path</code> are retained.</li>
+    original child nodes in <code>from_path</code> are retained</li>
 </ul>
 <p>Note:</p>
 <ul>
-<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time.</li>
-<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time.</li>
+<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time</li>
+<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time</li>
 </ul>
 
 
@@ -3256,8 +3256,8 @@ Note that attributes will be merged for node and all descendants, and will prese
 </span></code></pre></div>
     <p>In <code>merge_children=True</code> case, child nodes are shifted instead of the parent node.</p>
 <ul>
-<li>If the path already exists, child nodes are merged with existing children.</li>
-<li>Otherwise, the child nodes of the node are merged with the node's parent.</li>
+<li>If the path already exists, child nodes are merged with existing children</li>
+<li>Otherwise, the child nodes of the node are merged with the node's parent</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Downloads</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -3303,8 +3303,8 @@ Note that attributes will be merged for node and all descendants, and will prese
 </span></code></pre></div>
     <p>In <code>merge_leaves=True</code> case, leaf nodes are shifted instead of the parent node.</p>
 <ul>
-<li>If the path already exists, leaf nodes are merged with existing children.</li>
-<li>Otherwise, the leaf nodes of the node are merged with the node's parent.</li>
+<li>If the path already exists, leaf nodes are merged with existing children</li>
+<li>Otherwise, the leaf nodes of the node are merged with the node's parent</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Downloads</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -3601,43 +3601,44 @@ Note that attributes will be merged for node and all descendants, and will prese
         <p>Copy nodes from <code>from_paths</code> to <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
 <li>Creates intermediate nodes if to-path is not present</li>
-<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).</li>
-<li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).</li>
-<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).</li>
-<li>Able to merge children and remove intermediate parent node, defaults to False (nodes are copied; not merged).</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)</li>
+<li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)</li>
+<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge)</li>
+<li>Able to merge children and remove intermediate parent node, defaults to False (nodes are copied; not merged)</li>
 <li>Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are copied; not merged)</li>
-<li>Able to copy node only and delete children, defaults to False (nodes are copied together with children).</li>
+<li>Able to copy node only and delete children, defaults to False (nodes are copied together with children)</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
 <ul>
-<li>Path name can be with or without leading tree path separator symbol.</li>
+<li>Path name can be with or without leading tree path separator symbol</li>
 </ul>
 <p>For paths in <code>from_paths</code>,</p>
 <ul>
-<li>Path name can be partial path (trailing part of path) or node name.</li>
-<li>If <code>with_full_path=True</code>, path name must be full path.</li>
-<li>Path name must be unique to one node.</li>
+<li>Path name can be partial path (trailing part of path) or node name</li>
+<li>If <code>with_full_path=True</code>, path name must be full path</li>
+<li>Path name must be unique to one node</li>
 </ul>
 <p>For paths in <code>to_paths</code>,</p>
 <ul>
-<li>Path name must be full path.</li>
+<li>Path name must be full path</li>
 </ul>
 <p>If <code>merge_children=True</code>,</p>
 <ul>
-<li>If <code>to_path</code> is not present, it copies children of <code>from_path</code>.</li>
-<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original and new children are merged.</li>
-<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new children are retained.</li>
+<li>If <code>to_path</code> is not present, it copies children of <code>from_path</code></li>
+<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original and new children are merged</li>
+<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new children are retained</li>
 </ul>
 <p>If <code>merge_leaves=True</code>,</p>
 <ul>
-<li>If <code>to_path</code> is not present, it copies leaves of <code>from_path</code>.</li>
-<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged.</li>
-<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained.</li>
+<li>If <code>to_path</code> is not present, it copies leaves of <code>from_path</code></li>
+<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged</li>
+<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained,
+    original child nodes in <code>from_path</code> are retained</li>
 </ul>
 <p>Note:</p>
 <ul>
-<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time.</li>
-<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time.</li>
+<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time</li>
+<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time</li>
 </ul>
 
 
@@ -3692,8 +3693,8 @@ Note that attributes will be merged for node and all descendants, and will prese
 </span></code></pre></div>
     <p>In <code>merge_children=True</code> case, child nodes are copied instead of the parent node.</p>
 <ul>
-<li>If the path already exists, child nodes are merged with existing children.</li>
-<li>Otherwise, the child nodes of the node are merged with the node's parent.</li>
+<li>If the path already exists, child nodes are merged with existing children</li>
+<li>Otherwise, the child nodes of the node are merged with the node's parent</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Downloads</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -3743,8 +3744,8 @@ Note that attributes will be merged for node and all descendants, and will prese
 </span></code></pre></div>
     <p>In <code>merge_leaves=True</code> case, leaf nodes are copied instead of the parent node.</p>
 <ul>
-<li>If the path already exists, leaf nodes are merged with existing children.</li>
-<li>Otherwise, the leaf nodes of the node are merged with the node's parent.</li>
+<li>If the path already exists, leaf nodes are merged with existing children</li>
+<li>Otherwise, the leaf nodes of the node are merged with the node's parent</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Downloads</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -4042,23 +4043,23 @@ Note that attributes will be merged for node and all descendants, and will prese
         <p>Shift nodes from <code>from_paths</code> to <em>replace</em> <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
 <li>Creates intermediate nodes if to-path is not present</li>
-<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).</li>
-<li>Able to shift node only and delete children, defaults to False (nodes are shifted together with children).</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)</li>
+<li>Able to shift node only and delete children, defaults to False (nodes are shifted together with children)</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
 <ul>
-<li>Path name can be with or without leading tree path separator symbol.</li>
+<li>Path name can be with or without leading tree path separator symbol</li>
 </ul>
 <p>For paths in <code>from_paths</code>,</p>
 <ul>
-<li>Path name can be partial path (trailing part of path) or node name.</li>
-<li>If <code>with_full_path=True</code>, path name must be full path.</li>
-<li>Path name must be unique to one node.</li>
+<li>Path name can be partial path (trailing part of path) or node name</li>
+<li>If <code>with_full_path=True</code>, path name must be full path</li>
+<li>Path name must be unique to one node</li>
 </ul>
 <p>For paths in <code>to_paths</code>,</p>
 <ul>
-<li>Path name must be full path.</li>
-<li>Path must exist, node-to-be-replaced must be present.</li>
+<li>Path name must be full path</li>
+<li>Path must exist, node-to-be-replaced must be present</li>
 </ul>
 
 
@@ -4268,43 +4269,44 @@ Note that attributes will be merged for node and all descendants, and will prese
         <p>Copy nodes from <code>from_paths</code> to <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
 <li>Creates intermediate nodes if to-path is not present</li>
-<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).</li>
-<li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).</li>
-<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).</li>
-<li>Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged).</li>
-<li>Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)</li>
-<li>Able to copy node only and delete children, defaults to False (nodes are copied together with children).</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)</li>
+<li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)</li>
+<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge)</li>
+<li>Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged)</li>
+<li>Able to merge leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)</li>
+<li>Able to copy node only and delete children, defaults to False (nodes are copied together with children)</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
 <ul>
-<li>Path name can be with or without leading tree path separator symbol.</li>
+<li>Path name can be with or without leading tree path separator symbol</li>
 </ul>
 <p>For paths in <code>from_paths</code>,</p>
 <ul>
-<li>Path name can be partial path (trailing part of path) or node name.</li>
-<li>If <code>with_full_path=True</code>, path name must be full path.</li>
-<li>Path name must be unique to one node.</li>
+<li>Path name can be partial path (trailing part of path) or node name</li>
+<li>If <code>with_full_path=True</code>, path name must be full path</li>
+<li>Path name must be unique to one node</li>
 </ul>
 <p>For paths in <code>to_paths</code>,</p>
 <ul>
-<li>Path name must be full path.</li>
+<li>Path name must be full path</li>
 </ul>
 <p>If <code>merge_children=True</code>,</p>
 <ul>
 <li>If <code>to_path</code> is not present, it copies children of <code>from_path</code></li>
 <li>If <code>to_path</code> is present, and <code>overriding=False</code>, original and new children are merged</li>
-<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained.</li>
+<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new children are retained</li>
 </ul>
 <p>If <code>merge_leaves=True</code>,</p>
 <ul>
-<li>If <code>to_path</code> is not present, it copies leaves of <code>from_path</code>.</li>
-<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged.</li>
-<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained.</li>
+<li>If <code>to_path</code> is not present, it copies leaves of <code>from_path</code></li>
+<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged</li>
+<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained,
+    original child nodes in <code>from_path</code> are retained</li>
 </ul>
 <p>Note:</p>
 <ul>
-<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time.</li>
-<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time.</li>
+<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time</li>
+<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time</li>
 </ul>
 
 
@@ -4372,8 +4374,8 @@ Note that attributes will be merged for node and all descendants, and will prese
 </span></code></pre></div>
     <p>In <code>merge_children=True</code> case, child nodes are copied instead of the parent node.</p>
 <ul>
-<li>If the path already exists, child nodes are merged with existing children.</li>
-<li>Otherwise, the child nodes of the node are merged with the node's parent.</li>
+<li>If the path already exists, child nodes are merged with existing children</li>
+<li>Otherwise, the child nodes of the node are merged with the node's parent</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_other</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Documents</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -4402,8 +4404,8 @@ Note that attributes will be merged for node and all descendants, and will prese
 </span></code></pre></div>
     <p>In <code>merge_leaves=True</code> case, leaf nodes are copied instead of the parent node.</p>
 <ul>
-<li>If the path already exists, leaf nodes are merged with existing children.</li>
-<li>Otherwise, the leaf nodes of the node are merged with the node's parent.</li>
+<li>If the path already exists, leaf nodes are merged with existing children</li>
+<li>Otherwise, the leaf nodes of the node are merged with the node's parent</li>
 </ul>
     <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_other</span> <span class="o">=</span> <span class="n">str_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">... </span><span class="s2">&quot;Documents</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -4684,23 +4686,23 @@ Note that attributes will be merged for node and all descendants, and will prese
         <p>Copy nodes from <code>from_paths</code> to <em>replace</em> <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
 <li>Creates intermediate nodes if to-path is not present</li>
-<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).</li>
-<li>Able to copy node only and delete children, defaults to False (nodes are copied together with children).</li>
+<li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)</li>
+<li>Able to copy node only and delete children, defaults to False (nodes are copied together with children)</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
 <ul>
-<li>Path name can be with or without leading tree path separator symbol.</li>
+<li>Path name can be with or without leading tree path separator symbol</li>
 </ul>
 <p>For paths in <code>from_paths</code>,</p>
 <ul>
-<li>Path name can be partial path (trailing part of path) or node name.</li>
-<li>If <code>with_full_path=True</code>, path name must be full path.</li>
-<li>Path name must be unique to one node.</li>
+<li>Path name can be partial path (trailing part of path) or node name</li>
+<li>If <code>with_full_path=True</code>, path name must be full path</li>
+<li>Path name must be unique to one node</li>
 </ul>
 <p>For paths in <code>to_paths</code>,</p>
 <ul>
-<li>Path name must be full path.</li>
-<li>Path must exist, node-to-be-replaced must be present.</li>
+<li>Path name must be full path</li>
+<li>Path must exist, node-to-be-replaced must be present</li>
 </ul>
 
 
@@ -4956,47 +4958,47 @@ Note that attributes will be merged for node and all descendants, and will prese
         <p>Shift or copy nodes from <code>from_paths</code> to <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
 <li>Creates intermediate nodes if to-path is not present</li>
-<li>Able to copy node, defaults to False (nodes are shifted; not copied).</li>
+<li>Able to copy node, defaults to False (nodes are shifted; not copied)</li>
 <li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)</li>
 <li>Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)</li>
-<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).</li>
+<li>Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge)</li>
 <li>Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged)</li>
 <li>Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)</li>
-<li>Able to shift/copy node only and delete children, defaults to False (nodes are shifted/copied together with children).</li>
+<li>Able to shift/copy node only and delete children, defaults to False (nodes are shifted/copied together with children)</li>
 <li>Able to shift/copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
 <ul>
-<li>Path name can be with or without leading tree path separator symbol.</li>
+<li>Path name can be with or without leading tree path separator symbol</li>
 </ul>
 <p>For paths in <code>from_paths</code>,</p>
 <ul>
-<li>Path name can be partial path (trailing part of path) or node name.</li>
-<li>If <code>with_full_path=True</code>, path name must be full path.</li>
-<li>Path name must be unique to one node.</li>
+<li>Path name can be partial path (trailing part of path) or node name</li>
+<li>If <code>with_full_path=True</code>, path name must be full path</li>
+<li>Path name must be unique to one node</li>
 </ul>
 <p>For paths in <code>to_paths</code>,</p>
 <ul>
-<li>Path name must be full path.</li>
-<li>Can set to empty string or None to delete the path in <code>from_paths</code>, note that <code>copy</code> must be set to False.</li>
+<li>Path name must be full path</li>
+<li>Can set to empty string or None to delete the path in <code>from_paths</code>, note that <code>copy</code> must be set to False</li>
 </ul>
 <p>If <code>merge_children=True</code>,</p>
 <ul>
-<li>If <code>to_path</code> is not present, it shifts/copies children of <code>from_path</code>.</li>
-<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original and new children are merged.</li>
-<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new children are retained.</li>
+<li>If <code>to_path</code> is not present, it shifts/copies children of <code>from_path</code></li>
+<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original and new children are merged</li>
+<li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new children are retained</li>
 </ul>
 <p>If <code>merge_leaves=True</code>,</p>
 <ul>
-<li>If <code>to_path</code> is not present, it shifts/copies leaves of <code>from_path</code>.</li>
-<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged.</li>
+<li>If <code>to_path</code> is not present, it shifts/copies leaves of <code>from_path</code></li>
+<li>If <code>to_path</code> is present, and <code>overriding=False</code>, original children and leaves are merged</li>
 <li>If <code>to_path</code> is present and <code>overriding=True</code>, it behaves like overriding and only new leaves are retained,
-    original non-leaf nodes in <code>from_path</code> are retained.</li>
+    original child nodes in <code>from_path</code> are retained</li>
 </ul>
 <p>Note:</p>
 <ul>
-<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time.</li>
-<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time.</li>
+<li><code>merge_children</code> and <code>merge_leaves</code> cannot be both True at the same time</li>
+<li><code>overriding</code> and <code>merge_attribute</code> cannot be both True at the same time</li>
 </ul>
 
 
@@ -5253,25 +5255,25 @@ Note that attributes will be merged for node and all descendants, and will prese
         <p>Shift or copy nodes from <code>from_paths</code> to <em>replace</em> <code>to_paths</code> <em>in-place</em>.</p>
 <ul>
 <li>Creates intermediate nodes if to-path is not present</li>
-<li>Able to copy node, defaults to False (nodes are shifted; not copied).</li>
+<li>Able to copy node, defaults to False (nodes are shifted; not copied)</li>
 <li>Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)</li>
-<li>Able to replace node only and delete children, defaults to False (nodes are shifted/copied together with children).</li>
+<li>Able to replace node only and delete children, defaults to False (nodes are shifted/copied together with children)</li>
 <li>Able to shift/copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)</li>
 </ul>
 <p>For paths in <code>from_paths</code> and <code>to_paths</code>,</p>
 <ul>
-<li>Path name can be with or without leading tree path separator symbol.</li>
+<li>Path name can be with or without leading tree path separator symbol</li>
 </ul>
 <p>For paths in <code>from_paths</code>,</p>
 <ul>
-<li>Path name can be partial path (trailing part of path) or node name.</li>
-<li>If <code>with_full_path=True</code>, path name must be full path.</li>
-<li>Path name must be unique to one node.</li>
+<li>Path name can be partial path (trailing part of path) or node name</li>
+<li>If <code>with_full_path=True</code>, path name must be full path</li>
+<li>Path name must be unique to one node</li>
 </ul>
 <p>For paths in <code>to_paths</code>,</p>
 <ul>
-<li>Path name must be full path.</li>
-<li>Path must exist, node-to-be-replaced must be present.</li>
+<li>Path name must be full path</li>
+<li>Path must exist, node-to-be-replaced must be present</li>
 </ul>
 
 

@@ -2667,8 +2667,6 @@
 </tr>
 </tbody>
 </table>
-<p>These functions are not standalone functions. Under the hood, they have the following dependency,</p>
-<p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/docs/dag_construct.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="DAG Constructor Dependency Diagram" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/dag_construct.png" title="DAG Constructor Dependency Diagram" /></a></p>
 <hr />
 
 
@@ -2816,8 +2814,8 @@
 
     <div class="doc doc-contents ">
 
-        <p>Construct DAG from nested dictionary, <code>key</code>: child name, <code>value</code>: dictionary of parent names, attribute
-name, and attribute value. Note that node names must be unique.</p>
+        <p>Construct DAG from nested dictionary, <code>key</code>: child name, <code>value</code>: dictionary of parent names and attributes.
+Note that node names must be unique.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -2856,7 +2854,7 @@ name, and attribute value. Note that node names must be unique.</p>
             <td>
               <div class="doc-md-description">
                 <p>dictionary containing node, node parents, and node attribute information,
-key: child name, value: dictionary of parent names, node attribute, and attribute value</p>
+key: child name, value: dictionary of parent names and attributes</p>
               </div>
             </td>
             <td>
