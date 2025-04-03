@@ -4959,51 +4959,307 @@ be similar format as <code>print_tree</code>, accepts additional keyword argumen
     <div class="doc doc-contents ">
 
         <p>Export tree to PIL.Image.Image object. Object can be converted to other formats, such as jpg, or png. Image will
-    look like a tree/graph-like structure, accepts additional keyword arguments as input to <code>yield_tree</code>.</p>
-<div class="language-text highlight"><pre><span></span><code>Customisations:
-
-    - To change the margin of tree within diagram, vary `margin`
-    - To change the margin of the text within node, vary `rect_margin`
-    - For more separation between nodes, change `height_buffer` and `width_buffer`
-
-Examples:
-    &gt;&gt;&gt; from bigtree import Node, tree_to_pillow_graph
-    &gt;&gt;&gt; root = Node(&quot;a&quot;, age=90)
-    &gt;&gt;&gt; b = Node(&quot;b&quot;, age=65, parent=root)
-    &gt;&gt;&gt; c = Node(&quot;c&quot;, age=60, parent=root)
-    &gt;&gt;&gt; d = Node(&quot;d&quot;, age=40, parent=b)
-    &gt;&gt;&gt; e = Node(&quot;e&quot;, age=35, parent=b)
-    &gt;&gt;&gt; pillow_image = tree_to_pillow_graph(root, node_content=&quot;{node_name}
+look like a tree/graph-like structure, accepts additional keyword arguments as input to <code>yield_tree</code>.</p>
+<p>Customisations:</p>
+<div class="language-text highlight"><pre><span></span><code>- To change the margin of tree within diagram, vary `margin`
+- To change the margin of the text within node, vary `rect_margin`
+- For more separation between nodes, change `height_buffer` and `width_buffer`
 </code></pre></div>
-<p>Age: {age}")</p>
-<div class="language-text highlight"><pre><span></span><code>    Export to image (PNG, JPG) file, etc.
 
-    &gt;&gt;&gt; pillow_image.save(&quot;assets/tree_pillow_graph.png&quot;)
-    &gt;&gt;&gt; pillow_image.save(&quot;assets/tree_pillow_graph.jpg&quot;)
 
-    ![Export to Pillow Graph](https://github.com/kayjan/bigtree/raw/master/assets/tree_pillow_graph.png)
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">tree_to_pillow_graph</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">pillow_image</span> <span class="o">=</span> <span class="n">tree_to_pillow_graph</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_content</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{node_name}</span><span class="se">\n</span><span class="s2">Age: </span><span class="si">{age}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+    <p>Export to image (PNG, JPG) file, etc.</p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">pillow_image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;assets/tree_pillow_graph.png&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">pillow_image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;assets/tree_pillow_graph.jpg&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+    <p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/tree_pillow_graph.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Export to Pillow Graph" src="https://github.com/kayjan/bigtree/raw/master/assets/tree_pillow_graph.png" /></a></p>
 
-Args:
-    tree: tree to be exported
-    node_content: display text in node
-    margin: margin of diagram
-    height_buffer: height buffer between node layers, in pixels
-    width_buffer: width buffer between sibling nodes, in pixels
-    font_family: file path of font family, requires .ttf file, defaults to DejaVuSans
-    font_size: font size
-    font_colour: font colour, accepts tuple of RGB values or string
-    text_align: text align for multi-line text
-    bg_colour: background of image, accepts tuple of RGB values or string
-    rect_margin: (for rectangle) margin of text to rectangle, in pixels
-    rect_fill: (for rectangle) colour to use for fill
-    rect_cmap_attr: (for rectangle) if rect_fill is a colormap, attribute of node to retrieve fill from colormap,
-        must be a float/int attribute
-    rect_outline: (for rectangle) colour to use for outline
-    rect_width: (for rectangle) line width, in pixels
 
-Returns:
-    Pillow object of tree, in graph format
-</code></pre></div>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>tree</code>
+            </td>
+            <td>
+                  <code><span title="bigtree.tree.export.images.T">T</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tree to be exported</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>node_content</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>display text in node</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;{node_name}&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>margin</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="int">int</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>margin of diagram</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>height_buffer</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="int">int</span>, <span title="float">float</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>height buffer between node layers, in pixels</p>
+              </div>
+            </td>
+            <td>
+                  <code>20</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>width_buffer</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="int">int</span>, <span title="float">float</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>width buffer between sibling nodes, in pixels</p>
+              </div>
+            </td>
+            <td>
+                  <code>10</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>font_family</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>file path of font family, requires .ttf file, defaults to DejaVuSans</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>font_size</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>font size</p>
+              </div>
+            </td>
+            <td>
+                  <code>12</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>font_colour</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>, <span title="int">int</span>], <span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>font colour, accepts tuple of RGB values or string</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;black&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>text_align</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>text align for multi-line text</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;center&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>bg_colour</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>, <span title="int">int</span>], <span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>background of image, accepts tuple of RGB values or string</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;white&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rect_margin</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="int">int</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(for rectangle) margin of text to rectangle, in pixels</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rect_fill</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>, <span title="int">int</span>], <span title="str">str</span>, <span title="matplotlib.colors.Colormap">Colormap</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(for rectangle) colour to use for fill</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;white&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rect_cmap_attr</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(for rectangle) if rect_fill is a colormap, attribute of node to retrieve fill from colormap,
+must be a float/int attribute</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rect_outline</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.Tuple">Tuple</span>[<span title="int">int</span>, <span title="int">int</span>, <span title="int">int</span>], <span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(for rectangle) colour to use for outline</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;black&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rect_width</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(for rectangle) line width, in pixels</p>
+              </div>
+            </td>
+            <td>
+                  <code>1</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="PIL.Image.Image">Image</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Pillow object of tree, in graph format</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
     </div>
