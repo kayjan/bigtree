@@ -39,10 +39,9 @@ def inorder_iter(
     """Iterate through all children of a tree.
 
     In-Order Iteration Algorithm (LNR)
-
-    1. Recursively traverse the current node's left subtree
-    2. Visit the current node
-    3. Recursively traverse the current node's right subtree
+        1. Recursively traverse the current node's left subtree
+        2. Visit the current node
+        3. Recursively traverse the current node's right subtree
 
     Examples:
         >>> from bigtree import BinaryNode, list_to_binarytree, inorder_iter
@@ -91,10 +90,9 @@ def preorder_iter(
     """Iterate through all children of a tree.
 
     Pre-Order Iteration Algorithm (NLR)
-
-    1. Visit the current node
-    2. Recursively traverse the current node's left subtree
-    3. Recursively traverse the current node's right subtree
+        1. Visit the current node
+        2. Recursively traverse the current node's left subtree
+        3. Recursively traverse the current node's right subtree
 
     It is topologically sorted because a parent node is processed before its child nodes.
 
@@ -153,10 +151,9 @@ def postorder_iter(
     """Iterate through all children of a tree.
 
     Post-Order Iteration Algorithm (LRN)
-
-    1. Recursively traverse the current node's left subtree
-    2. Recursively traverse the current node's right subtree
-    3. Visit the current node
+        1. Recursively traverse the current node's left subtree
+        2. Recursively traverse the current node's right subtree
+        3. Visit the current node
 
     Examples:
         >>> from bigtree import Node, list_to_tree, postorder_iter
@@ -215,8 +212,7 @@ def levelorder_iter(
     """Iterate through all children of a tree.
 
     Level-Order Iteration Algorithm
-
-    1. Recursively traverse the nodes on same level
+        1. Recursively traverse the nodes on same level
 
     Examples:
         >>> from bigtree import Node, list_to_tree, levelorder_iter
@@ -287,8 +283,7 @@ def levelordergroup_iter(
     """Iterate through all children of a tree.
 
     Level-Order Group Iteration Algorithm
-
-    1. Recursively traverse the nodes on same level, returns nodes level by level in a nested list
+        1. Recursively traverse the nodes on same level, returns nodes level by level in a nested list
 
     Examples:
         >>> from bigtree import Node, list_to_tree, levelordergroup_iter
@@ -360,8 +355,7 @@ def zigzag_iter(
     """ "Iterate through all children of a tree.
 
     ZigZag Iteration Algorithm
-
-    1. Recursively traverse the nodes on same level, in a zigzag manner across different levels
+        1. Recursively traverse the nodes on same level, in a zigzag manner across different levels
 
     Examples:
         >>> from bigtree import Node, list_to_tree, zigzag_iter
@@ -440,9 +434,8 @@ def zigzaggroup_iter(
     """Iterate through all children of a tree.
 
     ZigZag Group Iteration Algorithm
-
-    1. Recursively traverse the nodes on same level, in a zigzag manner across different levels, returns nodes level
-    by level in a nested list
+        1. Recursively traverse the nodes on same level, in a zigzag manner across different levels, returns nodes level
+        by level in a nested list
 
     Examples:
         >>> from bigtree import Node, list_to_tree, zigzaggroup_iter
@@ -518,10 +511,9 @@ def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
     must at least have two nodes to be shown on graph.
 
     DAG Iteration
-
-    1. Visit the current node
-    2. Recursively traverse the current node's parents
-    3. Recursively traverse the current node's children
+        1. Visit the current node
+        2. Recursively traverse the current node's parents
+        3. Recursively traverse the current node's children
 
     Examples:
         >>> from bigtree import DAGNode, dag_iterator
