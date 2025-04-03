@@ -9,15 +9,15 @@ from bigtree.utils import exceptions, iterators
 
 class DAGNode:
     """
-    Base DAGNode extends any Python class to a DAG node, for DAG implementation.
-    In DAG implementation, a node can have multiple parents.
+    Base DAGNode extends any Python class to a DAG node, for DAG implementation. In DAG implementation, a node can have
+    multiple parents.
 
     Parents and children cannot be reassigned once assigned, as Nodes are allowed to have multiple parents and children.
-    If each node only has one parent, use `Node` class.
-    DAGNodes can have attributes if they are initialized from `DAGNode` or dictionary.
+    If each node only has one parent, use `Node` class. DAGNodes can have attributes if they are initialized from
+    `DAGNode` or dictionary.
 
-    DAGNode can be linked to each other with `parents` and `children` setter methods,
-    or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
+    DAGNode can be linked to each other with `parents` and `children` setter methods, or using bitshift operator with
+    the convention `parent_node >> child_node` or `child_node << parent_node`.
 
     Examples:
         >>> from bigtree import DAGNode
@@ -55,8 +55,8 @@ class DAGNode:
 
     **DAGNode Creation**
 
-    Node can be created by instantiating a `DAGNode` class or by using a *dictionary*.
-    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+    Node can be created by instantiating a `DAGNode` class or by using a *dictionary*. If node is created with dictionary,
+    all keys of dictionary will be stored as class attributes.
 
         >>> from bigtree import DAGNode
         >>> a = DAGNode.from_dict({"name": "a", "age": 90})
