@@ -13,8 +13,8 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 class AppToDo:
     """
     To-Do List Implementation with Big Tree.
-      - To-Do List has three levels - app name, list name, and item name.
-      - If list name is not given, item will be assigned to a `General` list.
+      - To-Do List has three levels - app name, list name, and item name
+      - If list name is not given, item will be assigned to a `General` list
 
     Examples:
         # *Initializing and Adding Items*

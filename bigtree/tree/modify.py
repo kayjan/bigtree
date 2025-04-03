@@ -36,45 +36,45 @@ def shift_nodes(
     """Shift nodes from `from_paths` to `to_paths` *in-place*.
 
     - Creates intermediate nodes if to-path is not present
-    - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).
-    - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).
-    - Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).
-    - Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged).
+    - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)
+    - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)
+    - Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge)
+    - Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged)
     - Able to merge leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)
-    - Able to shift node only and delete children, defaults to False (nodes are shifted together with children).
+    - Able to shift node only and delete children, defaults to False (nodes are shifted together with children)
 
     For paths in `from_paths` and `to_paths`,
 
-    - Path name can be with or without leading tree path separator symbol.
+    - Path name can be with or without leading tree path separator symbol
 
     For paths in `from_paths`,
 
-    - Path name can be partial path (trailing part of path) or node name.
-    - If ``with_full_path=True``, path name must be full path.
-    - Path name must be unique to one node.
+    - Path name can be partial path (trailing part of path) or node name
+    - If ``with_full_path=True``, path name must be full path
+    - Path name must be unique to one node
 
     For paths in `to_paths`,
 
-    - Path name must be full path.
-    - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False.
+    - Path name must be full path
+    - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False
 
     If ``merge_children=True``,
 
-    - If `to_path` is not present, it shifts children of `from_path`.
-    - If `to_path` is present, and ``overriding=False``, original and new children are merged.
-    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
+    - If `to_path` is not present, it shifts children of `from_path`
+    - If `to_path` is present, and ``overriding=False``, original and new children are merged
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained
 
     If ``merge_leaves=True``,
 
-    - If `to_path` is not present, it shifts leaves of `from_path`.
-    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
+    - If `to_path` is not present, it shifts leaves of `from_path`
+    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged
     - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
-        original non-leaf nodes in `from_path` are retained.
+        original child nodes in `from_path` are retained
 
     Note:
 
-    - `merge_children` and `merge_leaves` cannot be both True at the same time.
-    - `overriding` and `merge_attribute` cannot be both True at the same time.
+    - `merge_children` and `merge_leaves` cannot be both True at the same time
+    - `overriding` and `merge_attribute` cannot be both True at the same time
 
     Examples:
         >>> from bigtree import list_to_tree, str_to_tree, shift_nodes
@@ -136,8 +136,8 @@ def shift_nodes(
 
         In ``merge_children=True`` case, child nodes are shifted instead of the parent node.
 
-        - If the path already exists, child nodes are merged with existing children.
-        - Otherwise, the child nodes of the node are merged with the node's parent.
+        - If the path already exists, child nodes are merged with existing children
+        - Otherwise, the child nodes of the node are merged with the node's parent
 
         >>> root = str_to_tree(
         ... "Downloads\\n"
@@ -183,8 +183,8 @@ def shift_nodes(
 
         In ``merge_leaves=True`` case, leaf nodes are shifted instead of the parent node.
 
-        - If the path already exists, leaf nodes are merged with existing children.
-        - Otherwise, the leaf nodes of the node are merged with the node's parent.
+        - If the path already exists, leaf nodes are merged with existing children
+        - Otherwise, the leaf nodes of the node are merged with the node's parent
 
         >>> root = str_to_tree(
         ... "Downloads\\n"
@@ -303,43 +303,44 @@ def copy_nodes(
     """Copy nodes from `from_paths` to `to_paths` *in-place*.
 
     - Creates intermediate nodes if to-path is not present
-    - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).
-    - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).
-    - Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).
-    - Able to merge children and remove intermediate parent node, defaults to False (nodes are copied; not merged).
+    - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)
+    - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)
+    - Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge)
+    - Able to merge children and remove intermediate parent node, defaults to False (nodes are copied; not merged)
     - Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are copied; not merged)
-    - Able to copy node only and delete children, defaults to False (nodes are copied together with children).
+    - Able to copy node only and delete children, defaults to False (nodes are copied together with children)
 
     For paths in `from_paths` and `to_paths`,
 
-    - Path name can be with or without leading tree path separator symbol.
+    - Path name can be with or without leading tree path separator symbol
 
     For paths in `from_paths`,
 
-    - Path name can be partial path (trailing part of path) or node name.
-    - If ``with_full_path=True``, path name must be full path.
-    - Path name must be unique to one node.
+    - Path name can be partial path (trailing part of path) or node name
+    - If ``with_full_path=True``, path name must be full path
+    - Path name must be unique to one node
 
     For paths in `to_paths`,
 
-    - Path name must be full path.
+    - Path name must be full path
 
     If ``merge_children=True``,
 
-    - If `to_path` is not present, it copies children of `from_path`.
-    - If `to_path` is present, and ``overriding=False``, original and new children are merged.
-    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
+    - If `to_path` is not present, it copies children of `from_path`
+    - If `to_path` is present, and ``overriding=False``, original and new children are merged
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained
 
     If ``merge_leaves=True``,
 
-    - If `to_path` is not present, it copies leaves of `from_path`.
-    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
-    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
+    - If `to_path` is not present, it copies leaves of `from_path`
+    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
+        original child nodes in `from_path` are retained
 
     Note:
 
-    - `merge_children` and `merge_leaves` cannot be both True at the same time.
-    - `overriding` and `merge_attribute` cannot be both True at the same time.
+    - `merge_children` and `merge_leaves` cannot be both True at the same time
+    - `overriding` and `merge_attribute` cannot be both True at the same time
 
     Examples:
         >>> from bigtree import list_to_tree, str_to_tree, copy_nodes
@@ -393,8 +394,8 @@ def copy_nodes(
 
         In ``merge_children=True`` case, child nodes are copied instead of the parent node.
 
-        - If the path already exists, child nodes are merged with existing children.
-        - Otherwise, the child nodes of the node are merged with the node's parent.
+        - If the path already exists, child nodes are merged with existing children
+        - Otherwise, the child nodes of the node are merged with the node's parent
 
         >>> root = str_to_tree(
         ... "Downloads\\n"
@@ -444,8 +445,8 @@ def copy_nodes(
 
         In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
 
-        - If the path already exists, leaf nodes are merged with existing children.
-        - Otherwise, the leaf nodes of the node are merged with the node's parent.
+        - If the path already exists, leaf nodes are merged with existing children
+        - Otherwise, the leaf nodes of the node are merged with the node's parent
 
         >>> root = str_to_tree(
         ... "Downloads\\n"
@@ -565,23 +566,23 @@ def shift_and_replace_nodes(
     """Shift nodes from `from_paths` to *replace* `to_paths` *in-place*.
 
     - Creates intermediate nodes if to-path is not present
-    - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).
-    - Able to shift node only and delete children, defaults to False (nodes are shifted together with children).
+    - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)
+    - Able to shift node only and delete children, defaults to False (nodes are shifted together with children)
 
     For paths in `from_paths` and `to_paths`,
 
-    - Path name can be with or without leading tree path separator symbol.
+    - Path name can be with or without leading tree path separator symbol
 
     For paths in `from_paths`,
 
-    - Path name can be partial path (trailing part of path) or node name.
-    - If ``with_full_path=True``, path name must be full path.
-    - Path name must be unique to one node.
+    - Path name can be partial path (trailing part of path) or node name
+    - If ``with_full_path=True``, path name must be full path
+    - Path name must be unique to one node
 
     For paths in `to_paths`,
 
-    - Path name must be full path.
-    - Path must exist, node-to-be-replaced must be present.
+    - Path name must be full path
+    - Path must exist, node-to-be-replaced must be present
 
     Examples:
         >>> from bigtree import str_to_tree, shift_and_replace_nodes
@@ -667,43 +668,44 @@ def copy_nodes_from_tree_to_tree(
     """Copy nodes from `from_paths` to `to_paths` *in-place*.
 
     - Creates intermediate nodes if to-path is not present
-    - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).
-    - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden).
-    - Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).
-    - Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged).
-    - Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)
-    - Able to copy node only and delete children, defaults to False (nodes are copied together with children).
+    - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)
+    - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)
+    - Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge)
+    - Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged)
+    - Able to merge leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)
+    - Able to copy node only and delete children, defaults to False (nodes are copied together with children)
 
     For paths in `from_paths` and `to_paths`,
 
-    - Path name can be with or without leading tree path separator symbol.
+    - Path name can be with or without leading tree path separator symbol
 
     For paths in `from_paths`,
 
-    - Path name can be partial path (trailing part of path) or node name.
-    - If ``with_full_path=True``, path name must be full path.
-    - Path name must be unique to one node.
+    - Path name can be partial path (trailing part of path) or node name
+    - If ``with_full_path=True``, path name must be full path
+    - Path name must be unique to one node
 
     For paths in `to_paths`,
 
-    - Path name must be full path.
+    - Path name must be full path
 
     If ``merge_children=True``,
 
     - If `to_path` is not present, it copies children of `from_path`
     - If `to_path` is present, and ``overriding=False``, original and new children are merged
-    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained
 
     If ``merge_leaves=True``,
 
-    - If `to_path` is not present, it copies leaves of `from_path`.
-    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
-    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained.
+    - If `to_path` is not present, it copies leaves of `from_path`
+    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
+        original child nodes in `from_path` are retained
 
     Note:
 
-    - `merge_children` and `merge_leaves` cannot be both True at the same time.
-    - `overriding` and `merge_attribute` cannot be both True at the same time.
+    - `merge_children` and `merge_leaves` cannot be both True at the same time
+    - `overriding` and `merge_attribute` cannot be both True at the same time
 
     Examples:
         >>> from bigtree import Node, str_to_tree, copy_nodes_from_tree_to_tree
@@ -770,8 +772,8 @@ def copy_nodes_from_tree_to_tree(
 
         In ``merge_children=True`` case, child nodes are copied instead of the parent node.
 
-        - If the path already exists, child nodes are merged with existing children.
-        - Otherwise, the child nodes of the node are merged with the node's parent.
+        - If the path already exists, child nodes are merged with existing children
+        - Otherwise, the child nodes of the node are merged with the node's parent
 
         >>> root_other = str_to_tree(
         ... "Documents\\n"
@@ -800,8 +802,8 @@ def copy_nodes_from_tree_to_tree(
 
         In ``merge_leaves=True`` case, leaf nodes are copied instead of the parent node.
 
-        - If the path already exists, leaf nodes are merged with existing children.
-        - Otherwise, the leaf nodes of the node are merged with the node's parent.
+        - If the path already exists, leaf nodes are merged with existing children
+        - Otherwise, the leaf nodes of the node are merged with the node's parent
 
         >>> root_other = str_to_tree(
         ... "Documents\\n"
@@ -889,23 +891,23 @@ def copy_and_replace_nodes_from_tree_to_tree(
     """Copy nodes from `from_paths` to *replace* `to_paths` *in-place*.
 
     - Creates intermediate nodes if to-path is not present
-    - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable).
-    - Able to copy node only and delete children, defaults to False (nodes are copied together with children).
+    - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)
+    - Able to copy node only and delete children, defaults to False (nodes are copied together with children)
 
     For paths in `from_paths` and `to_paths`,
 
-    - Path name can be with or without leading tree path separator symbol.
+    - Path name can be with or without leading tree path separator symbol
 
     For paths in `from_paths`,
 
-    - Path name can be partial path (trailing part of path) or node name.
-    - If ``with_full_path=True``, path name must be full path.
-    - Path name must be unique to one node.
+    - Path name can be partial path (trailing part of path) or node name
+    - If ``with_full_path=True``, path name must be full path
+    - Path name must be unique to one node
 
     For paths in `to_paths`,
 
-    - Path name must be full path.
-    - Path must exist, node-to-be-replaced must be present.
+    - Path name must be full path
+    - Path must exist, node-to-be-replaced must be present
 
     Examples:
         >>> from bigtree import str_to_tree, copy_and_replace_nodes_from_tree_to_tree
@@ -1077,47 +1079,47 @@ def copy_or_shift_logic(
     """Shift or copy nodes from `from_paths` to `to_paths` *in-place*.
 
     - Creates intermediate nodes if to-path is not present
-    - Able to copy node, defaults to False (nodes are shifted; not copied).
+    - Able to copy node, defaults to False (nodes are shifted; not copied)
     - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)
     - Able to override existing node if it exists, defaults to False (to-nodes must not exist; not overridden)
-    - Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge).
+    - Able to merge attributes of node if it exists, defaults to False (to-nodes must not exist; no attributes to merge)
     - Able to merge children and remove intermediate parent node, defaults to False (nodes are shifted; not merged)
     - Able to merge only leaf nodes and remove all intermediate nodes, defaults to False (nodes are shifted; not merged)
-    - Able to shift/copy node only and delete children, defaults to False (nodes are shifted/copied together with children).
+    - Able to shift/copy node only and delete children, defaults to False (nodes are shifted/copied together with children)
     - Able to shift/copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)
 
     For paths in `from_paths` and `to_paths`,
 
-    - Path name can be with or without leading tree path separator symbol.
+    - Path name can be with or without leading tree path separator symbol
 
     For paths in `from_paths`,
 
-    - Path name can be partial path (trailing part of path) or node name.
-    - If ``with_full_path=True``, path name must be full path.
-    - Path name must be unique to one node.
+    - Path name can be partial path (trailing part of path) or node name
+    - If ``with_full_path=True``, path name must be full path
+    - Path name must be unique to one node
 
     For paths in `to_paths`,
 
-    - Path name must be full path.
-    - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False.
+    - Path name must be full path
+    - Can set to empty string or None to delete the path in `from_paths`, note that ``copy`` must be set to False
 
     If ``merge_children=True``,
 
-    - If `to_path` is not present, it shifts/copies children of `from_path`.
-    - If `to_path` is present, and ``overriding=False``, original and new children are merged.
-    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained.
+    - If `to_path` is not present, it shifts/copies children of `from_path`
+    - If `to_path` is present, and ``overriding=False``, original and new children are merged
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new children are retained
 
     If ``merge_leaves=True``,
 
-    - If `to_path` is not present, it shifts/copies leaves of `from_path`.
-    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged.
+    - If `to_path` is not present, it shifts/copies leaves of `from_path`
+    - If `to_path` is present, and ``overriding=False``, original children and leaves are merged
     - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
-        original non-leaf nodes in `from_path` are retained.
+        original child nodes in `from_path` are retained
 
     Note:
 
-    - `merge_children` and `merge_leaves` cannot be both True at the same time.
-    - `overriding` and `merge_attribute` cannot be both True at the same time.
+    - `merge_children` and `merge_leaves` cannot be both True at the same time
+    - `overriding` and `merge_attribute` cannot be both True at the same time
 
     Args:
         tree: tree to modify
@@ -1365,25 +1367,25 @@ def replace_logic(
     """Shift or copy nodes from `from_paths` to *replace* `to_paths` *in-place*.
 
     - Creates intermediate nodes if to-path is not present
-    - Able to copy node, defaults to False (nodes are shifted; not copied).
+    - Able to copy node, defaults to False (nodes are shifted; not copied)
     - Able to skip nodes if from-path is not found, defaults to False (from-nodes must be found; not skippable)
-    - Able to replace node only and delete children, defaults to False (nodes are shifted/copied together with children).
+    - Able to replace node only and delete children, defaults to False (nodes are shifted/copied together with children)
     - Able to shift/copy nodes from one tree to another tree, defaults to None (shifting/copying happens within same tree)
 
     For paths in `from_paths` and `to_paths`,
 
-    - Path name can be with or without leading tree path separator symbol.
+    - Path name can be with or without leading tree path separator symbol
 
     For paths in `from_paths`,
 
-    - Path name can be partial path (trailing part of path) or node name.
-    - If ``with_full_path=True``, path name must be full path.
-    - Path name must be unique to one node.
+    - Path name can be partial path (trailing part of path) or node name
+    - If ``with_full_path=True``, path name must be full path
+    - Path name must be unique to one node
 
     For paths in `to_paths`,
 
-    - Path name must be full path.
-    - Path must exist, node-to-be-replaced must be present.
+    - Path name must be full path
+    - Path must exist, node-to-be-replaced must be present
 
     Args:
         tree: tree to modify
@@ -1423,9 +1425,8 @@ def replace_logic(
             ]
         ):
             raise ValueError(
-                "Invalid path in `from_paths` not starting with the root node. "
-                "Check your `from_paths` parameter, alternatively set `with_full_path=False` to shift "
-                "partial path instead of full path."
+                "Invalid path in `from_paths` not starting with the root node. Check your `from_paths` parameter, "
+                "alternatively set `with_full_path=False` to shift partial path instead of full path."
             )
     if not all(
         [
@@ -1449,8 +1450,7 @@ def replace_logic(
         if not from_node:
             if not skippable:
                 raise exceptions.NotFoundError(
-                    f"Unable to find from_path {from_path}\n"
-                    f"Set `skippable` to True to skip shifting for nodes not found"
+                    f"Unable to find from_path {from_path}\nSet `skippable` to True to skip shifting for nodes not found"
                 )
             else:
                 logging.info(f"Unable to find from_path {from_path}")
@@ -1463,8 +1463,8 @@ def replace_logic(
             if to_node:
                 if from_node == to_node:
                     raise exceptions.TreeError(
-                        f"Attempting to replace the same node {from_node.node_name}\n"
-                        f"Check from path {from_path} and to path {to_path}"
+                        f"Attempting to replace the same node {from_node.node_name}\nCheck from path {from_path} and to "
+                        f"path {to_path}"
                     )
 
             # To node not found

@@ -15,11 +15,11 @@ except ImportError:  # pragma: no cover
 
 class BaseNode:
     """
-    BaseNode extends any Python class to a tree node.
-    Nodes can have attributes if they are initialized from `Node`, *dictionary*, or *pandas DataFrame*.
+    BaseNode extends any Python class to a tree node. Nodes can have attributes if they are initialized from `Node`,
+    *dictionary*, or *pandas DataFrame*.
 
-    Nodes can be linked to each other with `parent` and `children` setter methods,
-    or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
+    Nodes can be linked to each other with `parent` and `children` setter methods, or using bitshift operator with the
+    convention `parent_node >> child_node` or `child_node << parent_node`.
 
     Examples:
         >>> from bigtree import Node, print_tree
@@ -67,8 +67,8 @@ class BaseNode:
 
     **BaseNode Creation**
 
-    Node can be created by instantiating a `BaseNode` class or by using a *dictionary*.
-    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+    Node can be created by instantiating a `BaseNode` class or by using a *dictionary*. If node is created with
+    dictionary, all keys of dictionary will be stored as class attributes.
 
         >>> from bigtree import Node
         >>> root = Node.from_dict({"name": "a", "age": 90})

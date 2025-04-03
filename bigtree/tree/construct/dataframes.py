@@ -45,23 +45,23 @@ def add_dataframe_to_tree_by_path(
 ) -> T:
     """Add nodes and attributes to tree *in-place*, return root of tree. Adds to existing tree from pandas DataFrame.
 
-    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+    `path_col` and `attribute_cols` specify columns for node path and attributes to add to existing tree. If columns are
+    not specified, `path_col` takes first column and all other columns are `attribute_cols`
 
-    `path_col` and `attribute_cols` specify columns for node path and attributes to add to existing tree.
-    If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`
+    - Only attributes in `attribute_cols` with non-null values will be added to the tree
 
     Path in path column should contain ``Node`` name, separated by `sep`.
 
-    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
-    - Path separator `sep` is for the input `path` and can differ from existing tree.
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a")
+    - Path separator `sep` is for the input `path` and can differ from existing tree
 
     Path in path column can start from root node `name`, or start with `sep`.
 
-    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/"
 
     All paths should start from the same root node.
 
-    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node
 
     Examples:
         >>> import pandas as pd
@@ -139,13 +139,12 @@ def add_dataframe_to_tree_by_name(
 ) -> T:
     """Add attributes to existing tree *in-place*. Adds to existing tree from pandas DataFrame.
 
-    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+    `name_col` and `attribute_cols` specify columns for node name and attributes to add to existing tree. If columns are
+    not specified, the first column will be taken as name column and all other columns as attributes.
 
-    `name_col` and `attribute_cols` specify columns for node name and attributes to add to existing tree.
-    If columns are not specified, the first column will be taken as name column and all other columns as attributes.
-
-    Input data node names that are not existing node names will be ignored.
-    Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.
+    - Only attributes in `attribute_cols` with non-null values will be added to the tree
+    - Input data node names that are not existing node names will be ignored. Note that if multiple nodes have the same
+        name, attributes will be added to all nodes sharing same name
 
     Examples:
         >>> import pandas as pd
@@ -209,23 +208,23 @@ def add_polars_to_tree_by_path(
 ) -> T:
     """Add nodes and attributes to tree *in-place*, return root of tree. Adds to existing tree from polars DataFrame.
 
-    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+    `path_col` and `attribute_cols` specify columns for node path and attributes to add to existing tree. If columns are
+    not specified, `path_col` takes first column and all other columns are `attribute_cols`
 
-    `path_col` and `attribute_cols` specify columns for node path and attributes to add to existing tree.
-    If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`
+    - Only attributes in `attribute_cols` with non-null values will be added to the tree
 
     Path in path column should contain ``Node`` name, separated by `sep`.
 
-    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
-    - Path separator `sep` is for the input `path` and can differ from existing tree.
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a")
+    - Path separator `sep` is for the input `path` and can differ from existing tree
 
     Path in path column can start from root node `name`, or start with `sep`.
 
-    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/"
 
     All paths should start from the same root node.
 
-    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node
 
     Examples:
         >>> import polars as pl
@@ -258,8 +257,8 @@ def add_polars_to_tree_by_path(
         tree: existing tree
         data: data containing node path and attribute information
         path_col: column of data containing `path_name` information, if not set, it will take the first column of data
-        attribute_cols: columns of data containing node attribute information, if not set, it will take all
-            columns of data except `path_col`
+        attribute_cols: columns of data containing node attribute information, if not set, it will take all columns of
+            data except `path_col`
         sep: path separator for input `path_col`
         duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
 
@@ -305,13 +304,12 @@ def add_polars_to_tree_by_name(
 ) -> T:
     """Add attributes to existing tree *in-place*. Adds to existing tree from polars DataFrame.
 
-    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+    `name_col` and `attribute_cols` specify columns for node name and attributes to add to existing tree. If columns are
+    not specified, the first column will be taken as name column and all other columns as attributes.
 
-    `name_col` and `attribute_cols` specify columns for node name and attributes to add to existing tree.
-    If columns are not specified, the first column will be taken as name column and all other columns as attributes.
-
-    Input data node names that are not existing node names will be ignored.
-    Note that if multiple nodes have the same name, attributes will be added to all nodes sharing same name.
+    - Only attributes in `attribute_cols` with non-null values will be added to the tree
+    - Input data node names that are not existing node names will be ignored. Note that if multiple nodes have the same
+        name, attributes will be added to all nodes sharing same name
 
     Examples:
         >>> import polars as pl
@@ -373,22 +371,22 @@ def dataframe_to_tree(
 ) -> T:
     """Construct tree from pandas DataFrame using path, return root of tree.
 
-    `path_col` and `attribute_cols` specify columns for node path and attributes to construct tree.
-    If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`.
+    `path_col` and `attribute_cols` specify columns for node path and attributes to construct tree. If columns are not
+    specified, `path_col` takes first column and all other columns are `attribute_cols`.
 
-    Only attributes in `attribute_cols` with non-null values will be added to the tree.
-
-    Path in path column can start from root node `name`, or start with `sep`.
-
-    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+    - Only attributes in `attribute_cols` with non-null values will be added to the tree
 
     Path in path column should contain ``Node`` name, separated by `sep`.
 
-    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a")
+
+    Path in path column can start from root node `name`, or start with `sep`.
+
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/"
 
     All paths should start from the same root node.
 
-    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node
 
     Examples:
         >>> import pandas as pd
@@ -419,8 +417,8 @@ def dataframe_to_tree(
     Args:
         data: data containing path and node attribute information
         path_col: column of data containing `path_name` information, if not set, it will take the first column of data
-        attribute_cols: columns of data containing node attribute information, if not set, it will take all
-            columns of data except `path_col`
+        attribute_cols: columns of data containing node attribute information, if not set, it will take all columns of
+            data except `path_col`
         sep: path separator of input `path_col` and created tree
         duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
         node_type: node type of tree to be created
@@ -482,16 +480,15 @@ def dataframe_to_tree_by_relation(
 
     Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.
 
-    Since tree is created from parent-child names, only names of leaf nodes may be repeated.
-    Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
-    This error can be ignored by setting `allow_duplicates` to be True.
+    Since tree is created from parent-child names, only names of leaf nodes may be repeated. Error will be thrown if
+    names of intermediate nodes are repeated as there will be confusion. This error can be ignored by setting
+    `allow_duplicates` to be True.
 
-    `child_col` and `parent_col` specify columns for child name and parent name to construct tree.
-    `attribute_cols` specify columns for node attribute for child name.
-    If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
-    columns are `attribute_cols`.
+    `child_col` and `parent_col` specify columns for child name and parent name to construct tree. `attribute_cols` specify
+    columns for node attribute for child name. If columns are not specified, `child_col` takes first column, `parent_col`
+    takes second column, and all other columns are `attribute_cols`.
 
-    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+    - Only attributes in `attribute_cols` with non-null values will be added to the tree
 
     Examples:
         >>> import pandas as pd
@@ -525,8 +522,7 @@ def dataframe_to_tree_by_relation(
         parent_col: column of data containing parent name information, if not set, it will take the second column of data
         attribute_cols: columns of data containing node attribute information, if not set, it will take all columns of
             data except `child_col` and `parent_col`
-        allow_duplicates: allow duplicate intermediate nodes such that child node will
-            be tagged to multiple parent nodes
+        allow_duplicates: allow duplicate intermediate nodes such that child node will be tagged to multiple parent nodes
         node_type: node type of tree to be created
 
     Returns:
@@ -606,22 +602,22 @@ def polars_to_tree(
 ) -> T:
     """Construct tree from polars DataFrame using path, return root of tree.
 
-    `path_col` and `attribute_cols` specify columns for node path and attributes to construct tree.
-    If columns are not specified, `path_col` takes first column and all other columns are `attribute_cols`.
+    `path_col` and `attribute_cols` specify columns for node path and attributes to construct tree. If columns are not
+    specified, `path_col` takes first column and all other columns are `attribute_cols`.
 
-    Only attributes in `attribute_cols` with non-null values will be added to the tree.
-
-    Path in path column can start from root node `name`, or start with `sep`.
-
-    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+    - Only attributes in `attribute_cols` with non-null values will be added to the tree
 
     Path in path column should contain ``Node`` name, separated by `sep`.
 
-    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a")
+
+    Path in path column can start from root node `name`, or start with `sep`.
+
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/"
 
     All paths should start from the same root node.
 
-    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node
 
     Examples:
         >>> import polars as pl
@@ -716,16 +712,15 @@ def polars_to_tree_by_relation(
 
     Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.
 
-    Since tree is created from parent-child names, only names of leaf nodes may be repeated.
-    Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
-    This error can be ignored by setting `allow_duplicates` to be True.
+    Since tree is created from parent-child names, only names of leaf nodes may be repeated. Error will be thrown if
+    names of intermediate nodes are repeated as there will be confusion. This error can be ignored by setting
+    `allow_duplicates` to be True.
 
-    `child_col` and `parent_col` specify columns for child name and parent name to construct tree.
-    `attribute_cols` specify columns for node attribute for child name.
-    If columns are not specified, `child_col` takes first column, `parent_col` takes second column, and all other
-    columns are `attribute_cols`.
+    `child_col` and `parent_col` specify columns for child name and parent name to construct tree. `attribute_cols` specify
+    columns for node attribute for child name. If columns are not specified, `child_col` takes first column, `parent_col`
+    takes second column, and all other columns are `attribute_cols`.
 
-    Only attributes in `attribute_cols` with non-null values will be added to the tree.
+    - Only attributes in `attribute_cols` with non-null values will be added to the tree
 
     Examples:
         >>> import polars as pl
@@ -759,8 +754,7 @@ def polars_to_tree_by_relation(
         parent_col: column of data containing parent name information, if not set, it will take the second column of data
         attribute_cols: columns of data containing node attribute information, if not set, it will take all columns of
             data except `child_col` and `parent_col`
-        allow_duplicates: allow duplicate intermediate nodes such that child node will
-            be tagged to multiple parent nodes
+        allow_duplicates: allow duplicate intermediate nodes such that child node will be tagged to multiple parent nodes
         node_type: node type of tree to be created
 
     Returns:

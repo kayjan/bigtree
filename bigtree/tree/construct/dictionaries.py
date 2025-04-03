@@ -29,16 +29,16 @@ def add_dict_to_tree_by_path(
 
     Path should contain ``Node`` name, separated by `sep`.
 
-    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
-    - Path separator `sep` is for the input `path` and can differ from existing tree.
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a")
+    - Path separator `sep` is for the input `path` and can differ from existing tree
 
     Path can start from root node `name`, or start with `sep`.
 
-    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/"
 
     All paths should start from the same root node.
 
-    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node
 
     Examples:
         >>> from bigtree import Node, add_dict_to_tree_by_path
@@ -66,8 +66,8 @@ def add_dict_to_tree_by_path(
 
     Args:
         tree: existing tree
-        path_attrs: dictionary containing node path and attribute information,
-            key: node path, value: dict of node attribute name and attribute value
+        path_attrs: dictionary containing node path and attribute information, key: node path, value: dict of node
+            attribute name and attribute value
         sep: path separator for input `path_attrs`
         duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
 
@@ -95,8 +95,8 @@ def add_dict_to_tree_by_name(tree: T, name_attrs: Dict[str, Dict[str, Any]]) -> 
 
     All attributes in `name_attrs` will be added to the tree, including attributes with null values.
 
-    Input dictionary keys that are not existing node names will be ignored.
-    Note that if multiple nodes have the same name, attributes will be added to all nodes sharing the same name.
+    Input dictionary keys that are not existing node names will be ignored. Note that if multiple nodes have the same
+    name, attributes will be added to all nodes sharing the same name.
 
     Examples:
         >>> from bigtree import Node, add_dict_to_tree_by_name
@@ -145,15 +145,15 @@ def dict_to_tree(
 
     Path should contain ``Node`` name, separated by `sep`.
 
-    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a")
 
     Path can start from root node `name`, or start with `sep`.
 
-    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/"
 
     All paths should start from the same root node.
 
-    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node
 
     All attributes in `path_attrs` will be added to the tree, including attributes with null values.
 
@@ -181,8 +181,8 @@ def dict_to_tree(
             └── f [age=38]
 
     Args:
-        path_attrs: dictionary containing path and node attribute information,
-            key: path, value: dict of tree attribute and attribute value
+        path_attrs: dictionary containing node path and attribute information, key: node path, value: dict of node
+            attribute name and attribute value
         sep: path separator of input `path_attrs` and created tree
         duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
         node_type: node type of tree to be created
@@ -232,9 +232,9 @@ def nested_dict_to_tree(
 ) -> T:
     """Construct tree from nested recursive dictionary.
 
-    - ``key``: `name_key`, `child_key`, or any attributes key.
-    - ``value`` of `name_key`: node name.
-    - ``value`` of `child_key`: list of dict containing `name_key` and `child_key` (recursive).
+    - ``key``: `name_key`, `child_key`, or any attributes key
+    - ``value`` of `name_key`: node name
+    - ``value`` of `child_key`: list of dict containing `name_key` and `child_key` (recursive)
 
     Examples:
         >>> from bigtree import nested_dict_to_tree

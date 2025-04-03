@@ -54,9 +54,8 @@ def tree_to_dot(
     node_attr: Callable[[T], Dict[str, Any]] | str = "",
     edge_attr: Callable[[T], Dict[str, Any]] | str = "",
 ) -> pydot.Dot:
-    r"""Export tree or list of trees to pydot.Dot object. Object can be
-    converted to other format, such as png, dot file or dot string. Dot
-    string can be imported to work with networkx.
+    r"""Export tree or list of trees to pydot.Dot object. Object can be converted to other format, such as png, dot file
+    or dot string. Dot string can be imported to work with networkx.
 
     Possible node attributes include style, fillcolor, shape.
 
@@ -140,18 +139,18 @@ def tree_to_dot(
     Args:
         tree: tree or list of trees to be exported
         directed: indicator whether graph should be directed or undirected
-        rankdir: layout direction, accepts 'TB' (top to bottom), 'BT' (bottom to top), 'LR' (left to
-            right), or 'RL' (right to left)
+        rankdir: layout direction, accepts 'TB' (top to bottom), 'BT' (bottom to top), 'LR' (left to right), or 'RL'
+            (right to left)
         bg_colour: background color of image
         node_colour: fill colour of nodes
         node_shape: shape of nodes. Possible node_shape include "circle", "square", "diamond", "triangle"
         edge_colour: colour of edges
-        node_attr: If string type, it refers to ``Node`` attribute for node style. If callable type, it takes
-            in the node itself and returns the node style. This overrides `node_colour` and `node_shape`.
-            Possible node styles include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
-        edge_attr: If string type, it refers to ``Node`` attribute for edge style. If callable type, it takes
-            in the node itself and returns the edge style. This overrides `edge_colour`. Possible edge styles
-            include {"style": "bold", "label": "edge label", "color": "black"}
+        node_attr: If string type, it refers to ``Node`` attribute for node style. If callable type, it takes in the
+            node itself and returns the node style. This overrides `node_colour` and `node_shape`. Possible node styles
+            include {"style": "filled", "fillcolor": "gold", "shape": "diamond"}
+        edge_attr: If string type, it refers to ``Node`` attribute for edge style. If callable type, it takes in the
+            node itself and returns the edge style. This overrides `edge_colour`. Possible edge styles include
+            {"style": "bold", "label": "edge label", "color": "black"}
 
     Returns:
         Dot object of tree
@@ -204,14 +203,16 @@ def tree_to_dot(
             child_name = child_label + str(
                 name_dict[child_label].index(child_node.path_name)
             )
-            node = pydot.Node(name=child_name, label=child_label, **_node_style)
-            _graph.add_node(node)
+            pydot_child_node = pydot.Node(
+                name=child_name, label=child_label, **_node_style
+            )
+            _graph.add_node(pydot_child_node)
             if parent_name is not None:
                 edge = pydot.Edge(parent_name, child_name, **_edge_style)
                 _graph.add_edge(edge)
-            for child in child_node.children:
-                if child:
-                    _recursive_append(child_name, child)
+            for _child in child_node.children:
+                if _child:
+                    _recursive_append(child_name, _child)
 
         _recursive_append(None, _tree.root)
     return _graph
@@ -252,9 +253,8 @@ def tree_to_pillow_graph(
     rect_width: int = 1,
     **kwargs: Any,
 ) -> Image.Image:
-    r"""Export tree to PIL.Image.Image object. Object can be converted to other
-    formats, such as jpg, or png. Image will look like a tree/graph-like structure,
-    accepts additional keyword arguments as input to `yield_tree`.
+    r"""Export tree to PIL.Image.Image object. Object can be converted to other formats, such as jpg, or png. Image will
+    look like a tree/graph-like structure, accepts additional keyword arguments as input to `yield_tree`.
 
     Customisations:
 
@@ -440,9 +440,8 @@ def tree_to_pillow(
     bg_colour: Union[Tuple[int, int, int], str] = "white",
     **kwargs: Any,
 ) -> Image.Image:
-    """Export tree to PIL.Image.Image object. Object can be converted to other
-    formats, such as jpg, or png. Image will be similar format as `print_tree`,
-    accepts additional keyword arguments as input to `yield_tree`.
+    """Export tree to PIL.Image.Image object. Object can be converted to other formats, such as jpg, or png. Image will
+    be similar format as `print_tree`, accepts additional keyword arguments as input to `yield_tree`.
 
     Examples:
         >>> from bigtree import Node, tree_to_pillow
@@ -534,7 +533,7 @@ def tree_to_mermaid(
 ) -> str:
     r"""Export tree to mermaid Markdown text. Accepts additional keyword arguments as input to `yield_tree`.
 
-    Parameters for customizations that apply to entire flowchart include:
+    Parameters for customisations that apply to entire flowchart include:
         - Title, `title`
         - Theme, `theme`
         - Layout direction, `rankdir`
@@ -545,7 +544,7 @@ def tree_to_mermaid(
         - Node shape, `node_shape`
         - Edge arrow style, `edge_arrow`
 
-    Parameters for customizations that apply to customized nodes:
+    Parameters for customisations that apply to customised nodes:
         - Fill colour of nodes, fill under `node_attr`
         - Border colour of nodes, stroke under `node_attr`
         - Border width of nodes, stroke-width under `node_attr`
@@ -560,7 +559,7 @@ def tree_to_mermaid(
         - neutral: great for black and white documents
         - dark: great for dark-mode
         - forest: shades of geen
-        - base: theme that can be modified, use it for customizations
+        - base: theme that can be modified, use it for customisations
 
     Possible rankdir:
         - `TB`: top-to-bottom
@@ -638,7 +637,7 @@ def tree_to_mermaid(
         classDef default stroke-width:1
         ```
 
-        **Customize node shape, edge label, edge arrow, and custom node attributes**
+        **Customise node shape, edge label, edge arrow, and custom node attributes**
 
         >>> graph = tree_to_mermaid(
         ...     root,
@@ -668,21 +667,23 @@ def tree_to_mermaid(
         tree: tree to be exported
         title: title
         theme: theme or colour scheme
-        rankdir: layout direction, accepts 'TB' (top to bottom), 'BT' (bottom to top), 'LR' (left to right), 'RL' (right to left)
+        rankdir: layout direction, accepts 'TB' (top to bottom), 'BT' (bottom to top), 'LR' (left to right), 'RL' (right
+            to left)
         line_shape: line shape or curvature
         node_colour: fill colour of nodes, can be colour name or hexcode
         node_border_colour: border colour of nodes, can be colour name or hexcode
         node_border_width: width of node border
         node_shape: node shape, sets the shape of every node
-        node_shape_attr: If string type, it refers to ``Node`` attribute for node shape. If callable type, it takes in the node itself
-            and returns the node shape. This sets the shape of custom nodes, and overrides default `node_shape`
+        node_shape_attr: If string type, it refers to ``Node`` attribute for node shape. If callable type, it takes in
+            the node itself and returns the node shape. This sets the shape of custom nodes, and overrides default
+            `node_shape`
         edge_arrow: edge arrow style from parent to itself, sets the arrow style of every edge
-        edge_arrow_attr: If string type, it refers to ``Node`` attribute for edge arrow style. If callable type, it takes in the node
-            itself and returns the edge arrow style. This sets the edge arrow style of custom nodes from parent to itself, and
-            overrides default `edge_arrow`
+        edge_arrow_attr: If string type, it refers to ``Node`` attribute for edge arrow style. If callable type, it takes
+            in the node itself and returns the edge arrow style. This sets the edge arrow style of custom nodes from
+            parent to itself, and overrides default `edge_arrow`
         edge_label: ``Node`` attribute for edge label from parent to itself
-        node_attr: If string type, it refers to ``Node`` attribute for node style. If callable type, it takes in the node itself and
-            returns the node style. This overrides `node_colour`, `node_border_colour`, and `node_border_width`
+        node_attr: If string type, it refers to ``Node`` attribute for node style. If callable type, it takes in the node
+            itself and returns the node style. This overrides `node_colour`, `node_border_colour`, and `node_border_width`
 
     Returns:
         Mermaid string of tree

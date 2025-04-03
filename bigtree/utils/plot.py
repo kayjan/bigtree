@@ -29,17 +29,19 @@ def reingold_tilford(
     reverse: bool = False,
 ) -> None:
     """
-    Algorithm for drawing tree structure, retrieves `(x, y)` coordinates for a tree structure.
-    Adds `x` and `y` attributes to every node in the tree. Modifies tree in-place.
+    Algorithm for drawing tree structure, retrieves `(x, y)` coordinates for a tree structure. Adds `x` and `y`
+    attributes to every node in the tree. Modifies tree in-place.
 
     This algorithm[1] is an improvement over Reingold Tilford algorithm[2].
 
     According to Reingold Tilford's paper, a tree diagram should satisfy the following aesthetic rules,
 
-    1. Nodes at the same depth should lie along a straight line, and the straight lines defining the depths should be parallel.
-    2. A left child should be positioned to the left of its parent node and a right child to the right.
-    3. A parent should be centered over their children.
-    4. A tree and its mirror image should produce drawings that are reflections of one another; a subtree should be drawn the same way regardless of where it occurs in the tree.
+    1. Nodes at the same depth should lie along a straight line, and the straight lines defining the depths should be
+    parallel
+    2. A left child should be positioned to the left of its parent node and a right child to the right
+    3. A parent should be centered over their children
+    4. A tree and its mirror image should produce drawings that are reflections of one another; a subtree should be
+    drawn the same way regardless of where it occurs in the tree
 
     Examples:
         >>> from bigtree import reingold_tilford, list_to_tree
@@ -91,8 +93,8 @@ def reingold_tilford(
 def plot_tree(
     tree_node: T, *args: Any, ax: Optional[plt.Axes] = None, **kwargs: Any
 ) -> plt.Figure:
-    """Plot tree in line form. Tree should have `x` and `y` attribute from Reingold Tilford.
-    Accepts existing matplotlib Axes. Accepts args and kwargs for matplotlib.pyplot.plot() function.
+    """Plot tree in line form. Tree should have `x` and `y` attribute from Reingold Tilford. Accepts existing
+    matplotlib Axes. Accepts args and kwargs for matplotlib.pyplot.plot() function.
 
     Examples:
         >>> import matplotlib.pyplot as plt
@@ -134,8 +136,7 @@ def _first_pass(
     tree_node: T, sibling_separation: float, subtree_separation: float
 ) -> None:
     """
-    Performs post-order traversal of tree and assigns `x`, `mod` and `shift` values to each node.
-    Modifies tree in-place.
+    Performs post-order traversal of tree and assigns `x`, `mod` and `shift` values to each node. Modifies tree in-place.
 
     Notation:
       - `lsibling`: left-sibling of node
@@ -153,11 +154,13 @@ def _first_pass(
         - :math:`x = 0` for leftmost node and :math:`x = lsibling.x + sibling distance` for other nodes
         - Special case when leftmost node has children, then it will try to center itself, :math:`x = midpoint`
 
-      `mod` value is the amount to shift the subtree (all descendant nodes excluding itself) to make the children centered with itself
-        - :math:`mod = 0` for node does not have children (no need to shift subtree) or it is a leftmost node (parent is already centered, from above point)
+      `mod` value is the amount to shift the subtree (all descendant nodes excluding itself) to make the children
+      centered with itself
+        - :math:`mod = 0` for node does not have children (no need to shift subtree) or it is a leftmost node (parent
+        is already centered, from above point)
         - Special case when non-leftmost nodes have children, :math:`mod = x - midpoint`
 
-    2. In the second part, we assign `shift` value of nodes due to overlapping subtrees.
+    2. In the second part, we assign `shift` value of nodes due to overlapping subtrees
 
       For each node on the same level, ensure that the leftmost descendant does not intersect with the rightmost
       descendant of any left sibling at every subsequent level. Intersection happens when the subtrees are not
@@ -343,8 +346,7 @@ def _second_pass(
     x_adjustment: Optional[float] = 0.0,
 ) -> float:
     """
-    Performs pre-order traversal of tree and determines the final `x` and `y` values for each node.
-    Modifies tree in-place.
+    Performs pre-order traversal of tree and determines the final `x` and `y` values for each node. Modifies tree in-place.
 
     Notation:
       - `depth`: maximum depth of tree
@@ -402,8 +404,8 @@ def _second_pass(
 
 
 def _third_pass(tree_node: basenode.BaseNode, x_adjustment: float) -> None:
-    """Adjust all x-coordinates by an adjustment value so that every x-coordinate is greater than or equal to 0.
-    Modifies tree in-place.
+    """Adjust all x-coordinates by an adjustment value so that every x-coordinate is greater than or equal to 0. Modifies
+    tree in-place.
 
     Args:
         tree_node: tree to compute (x, y) coordinate

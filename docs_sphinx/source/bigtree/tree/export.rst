@@ -26,7 +26,7 @@ Export Tree to list, dictionary, and pandas DataFrame.
 
 While exporting to another data type, methods can take in arguments to determine what information to extract.
 
-.. list-table:: Tree Export Customizations
+.. list-table:: Tree Export Customisations
    :widths: 40 30 30 30 30 30
    :header-rows: 1
 

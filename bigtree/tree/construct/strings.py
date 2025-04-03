@@ -29,16 +29,16 @@ def add_path_to_tree(
 
     Path should contain ``Node`` name, separated by `sep`.
 
-    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
-    - Path separator `sep` is for the input `path` and can differ from existing tree.
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a")
+    - Path separator `sep` is for the input `path` and can differ from existing tree
 
     Path can start from root node `name`, or start with `sep`.
 
-    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/"
 
     All paths should start from the same root node.
 
-    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc., and should not start with another root node.
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node
 
     All attributes in `node_attrs` will be added to the tree, including attributes with null values.
 
@@ -105,7 +105,7 @@ def str_to_tree(
     tree_prefix_list: List[str] = [],
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
-    r"""Construct tree from tree string
+    r"""Construct tree from tree string.
 
     Examples:
         >>> from bigtree import str_to_tree
@@ -178,16 +178,16 @@ def newick_to_tree(
 
     In the Newick Notation (or New Hampshire Notation)
 
-    - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`.
-    - If there are nested trees, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
-    - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`.
-    - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`.
+    - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`
+    - If there are nested trees, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`
+    - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`
+    - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`
 
     Variations supported
 
     - Support special characters (`[`, `]`, `(`, `)`, `:`, `,`) in node name, attribute name, and attribute values if
-        they are enclosed in single quotes i.e., '(name:!)'.
-    - If there are no node names, it will be auto-filled with convention `nodeN` with N representing a number.
+        they are enclosed in single quotes i.e., '(name:!)'
+    - If there are no node names, it will be auto-filled with convention `nodeN` with N representing a number
 
     Examples:
         >>> from bigtree import newick_to_tree

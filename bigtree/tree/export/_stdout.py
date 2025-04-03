@@ -16,7 +16,7 @@ T = TypeVar("T", bound=node.Node)
 
 
 def calculate_stem_pos(length: int) -> int:
-    """Calculate stem position based on length
+    """Calculate stem position based on length.
 
     Args:
         length: length of node
@@ -40,7 +40,7 @@ def format_node(
     min_width: int = 0,
     add_buffer: bool = True,
 ) -> List[str]:
-    """Format node to be same width, able to customise whether to add border
+    """Format node to be same width, able to customise whether to add border.
 
     Args:
         _node: node to format
@@ -137,7 +137,7 @@ def format_node(
 
 
 def horizontal_join(node_displays: List[List[str]], spacing: int = 0) -> List[str]:
-    """Horizontally join multiple node displays, for displaying tree vertically
+    """Horizontally join multiple node displays, for displaying tree vertically.
 
     Args:
         node_displays: multiple node displays belonging to the same row
@@ -167,7 +167,7 @@ def horizontal_join(node_displays: List[List[str]], spacing: int = 0) -> List[st
 
 
 def vertical_join(node_displays: List[List[str]]) -> List[str]:
-    """Vertically join multiple node displays, for displaying tree horizontally
+    """Vertically join multiple node displays, for displaying tree horizontally.
 
     Args:
         node_displays: multiple node displays belonging to the same column

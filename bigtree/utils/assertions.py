@@ -76,7 +76,7 @@ def assert_not_reserved_keywords(
     parameter_dict_or_df: Union[Dict[str, Any], pd.DataFrame],
     reserved_keywords: List[str],
 ) -> None:
-    """Raise ValueError is parameter is in key of dictionary
+    """Raise ValueError is parameter is in key of dictionary.
 
     Args:
         parameter_dict_or_df (Dict[str, Any]/pd.DataFrame): argument input for parameter

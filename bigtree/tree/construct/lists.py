@@ -33,15 +33,15 @@ def list_to_tree(
 
     Path should contain ``Node`` name, separated by `sep`.
 
-    - For example: Path string "a/b" refers to Node("b") with parent Node("a").
+    - For example: Path string "a/b" refers to Node("b") with parent Node("a")
 
     Path can start from root node `name`, or start with `sep`.
 
-    - For example: Path string can be "/a/b" or "a/b", if sep is "/".
+    - For example: Path string can be "/a/b" or "a/b", if sep is "/"
 
     All paths should start from the same root node.
 
-    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node.
+    - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node
 
     Examples:
         >>> from bigtree import list_to_tree
@@ -93,9 +93,9 @@ def list_to_tree_by_relation(
 
     Root node is inferred when parent is empty, or when name appears as parent but not as child.
 
-    Since tree is created from parent-child names, only names of leaf nodes may be repeated.
-    Error will be thrown if names of intermediate nodes are repeated as there will be confusion.
-    This error can be ignored by setting `allow_duplicates` to be True.
+    Since tree is created from parent-child names, only names of leaf nodes may be repeated. Error will be thrown if
+    names of intermediate nodes are repeated as there will be confusion. This error can be ignored by setting
+    `allow_duplicates` to be True.
 
     Examples:
         >>> from bigtree import list_to_tree_by_relation

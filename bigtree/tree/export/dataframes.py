@@ -84,39 +84,39 @@ def tree_to_dataframe(
     """
     data_list = []
 
-    def _recursive_append(node: T) -> None:
+    def _recursive_append(_node: T) -> None:
         """Recursively iterate through node and its children to export to dataframe.
 
         Args:
-            node (Node): current node
+            _node: current node
         """
-        if node:
+        if _node:
             if (
-                (not max_depth or node.depth <= max_depth)
-                and (not skip_depth or node.depth > skip_depth)
-                and (not leaf_only or node.is_leaf)
+                (not max_depth or _node.depth <= max_depth)
+                and (not skip_depth or _node.depth > skip_depth)
+                and (not leaf_only or _node.is_leaf)
             ):
                 data_child: Dict[str, Any] = {}
                 if path_col:
-                    data_child[path_col] = node.path_name
+                    data_child[path_col] = _node.path_name
                 if name_col:
-                    data_child[name_col] = node.node_name
+                    data_child[name_col] = _node.node_name
                 if parent_col:
                     parent_name = None
-                    if node.parent:
-                        parent_name = node.parent.node_name
+                    if _node.parent:
+                        parent_name = _node.parent.node_name
                     data_child[parent_col] = parent_name
 
                 if all_attrs:
                     data_child.update(
-                        node.describe(exclude_attributes=["name"], exclude_prefix="_")
+                        _node.describe(exclude_attributes=["name"], exclude_prefix="_")
                     )
                 else:
                     for k, v in attr_dict.items():
-                        data_child[v] = node.get_attr(k)
+                        data_child[v] = _node.get_attr(k)
                 data_list.append(data_child)
-            for _node in node.children:
-                _recursive_append(_node)
+            for _child in _node.children:
+                _recursive_append(_child)
 
     _recursive_append(tree)
     return pd.DataFrame(data_list)
@@ -190,39 +190,39 @@ def tree_to_polars(
     """
     data_list = []
 
-    def _recursive_append(node: T) -> None:
+    def _recursive_append(_node: T) -> None:
         """Recursively iterate through node and its children to export to dataframe.
 
         Args:
-            node (Node): current node
+            _node: current node
         """
-        if node:
+        if _node:
             if (
-                (not max_depth or node.depth <= max_depth)
-                and (not skip_depth or node.depth > skip_depth)
-                and (not leaf_only or node.is_leaf)
+                (not max_depth or _node.depth <= max_depth)
+                and (not skip_depth or _node.depth > skip_depth)
+                and (not leaf_only or _node.is_leaf)
             ):
                 data_child: Dict[str, Any] = {}
                 if path_col:
-                    data_child[path_col] = node.path_name
+                    data_child[path_col] = _node.path_name
                 if name_col:
-                    data_child[name_col] = node.node_name
+                    data_child[name_col] = _node.node_name
                 if parent_col:
                     parent_name = None
-                    if node.parent:
-                        parent_name = node.parent.node_name
+                    if _node.parent:
+                        parent_name = _node.parent.node_name
                     data_child[parent_col] = parent_name
 
                 if all_attrs:
                     data_child.update(
-                        node.describe(exclude_attributes=["name"], exclude_prefix="_")
+                        _node.describe(exclude_attributes=["name"], exclude_prefix="_")
                     )
                 else:
                     for k, v in attr_dict.items():
-                        data_child[v] = node.get_attr(k)
+                        data_child[v] = _node.get_attr(k)
                 data_list.append(data_child)
-            for _node in node.children:
-                _recursive_append(_node)
+            for _child in _node.children:
+                _recursive_append(_child)
 
     _recursive_append(tree)
     return pl.DataFrame(data_list)

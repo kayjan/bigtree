@@ -9,8 +9,8 @@ from bigtree.utils import exceptions
 
 class Node(basenode.BaseNode):
     """
-    Node is an extension of BaseNode, and is able to extend to any Python class.
-    Nodes can have attributes if they are initialized from `Node`, *dictionary*, or *pandas DataFrame*.
+    Node is an extension of BaseNode, and is able to extend to any Python class. Nodes can have attributes if they are
+    initialized from `Node`, *dictionary*, or *pandas DataFrame*.
 
     !!! note
         Node names cannot contain separator symbol! This will not throw error, but you might run into issues
@@ -45,8 +45,8 @@ class Node(basenode.BaseNode):
 
     **Node Creation**
 
-    Node can be created by instantiating a `Node` class or by using a *dictionary*.
-    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+    Node can be created by instantiating a `Node` class or by using a *dictionary*. If node is created with dictionary,
+    all keys of dictionary will be stored as class attributes.
 
         >>> from bigtree import Node
         >>> a = Node.from_dict({"name": "a", "age": 90})
@@ -61,9 +61,8 @@ class Node(basenode.BaseNode):
 
     Get `Node` configuration
 
-    1. ``node_name``: Get node name, without accessing `name` directly.
-        This is the preferred way to access node name as `node_name` is
-        immutable, whereas `name` is mutable.
+    1. ``node_name``: Get node name, without accessing `name` directly. This is the preferred way to access node name
+        as `node_name` is immutable, whereas `name` is mutable
     2. ``path_name``: Get path name from root, separated by `sep`
 
     **Node Methods**
@@ -74,7 +73,7 @@ class Node(basenode.BaseNode):
 
     1. ``show()``: Print tree to console
     2. ``hshow()``: Print tree in horizontal orientation to console
-    2. ``vshow()``: Print tree in vertical orientation to console
+    3. ``vshow()``: Print tree in vertical orientation to console
 
     ----
 

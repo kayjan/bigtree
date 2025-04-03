@@ -12,8 +12,8 @@ class BinaryNode(node.Node):
     BinaryNode is an extension of Node, and is able to extend to any Python class for Binary Tree implementation.
     Nodes can have attributes if they are initialized from `BinaryNode`, *dictionary*, or *pandas DataFrame*.
 
-    BinaryNode can be linked to each other with `children`, `left`, or `right` setter methods.
-    If initialized with `children`, it must be length 2, denoting left and right child.
+    BinaryNode can be linked to each other with `children`, `left`, or `right` setter methods. If initialized with
+    `children`, it must be length 2, denoting left and right child.
 
     Examples:
         >>> from bigtree import BinaryNode, print_tree
@@ -39,8 +39,8 @@ class BinaryNode(node.Node):
 
     **BinaryNode Creation**
 
-    Node can be created by instantiating a `BinaryNode` class or by using a *dictionary*.
-    If node is created with dictionary, all keys of dictionary will be stored as class attributes.
+    Node can be created by instantiating a `BinaryNode` class or by using a *dictionary*. If node is created with
+    dictionary, all keys of dictionary will be stored as class attributes.
 
         >>> from bigtree import BinaryNode
         >>> a = BinaryNode.from_dict({"name": "1"})

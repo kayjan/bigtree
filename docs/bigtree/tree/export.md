@@ -20,7 +20,7 @@ Export Tree to list, dictionary, and pandas DataFrame.
 | Mermaid Markdown (for .md)              | `tree_to_mermaid`                          |
 
 
-## Tree Export Customizations
+## Tree Export Customisations
 
 While exporting to another data type, methods can take in arguments to determine what information to extract.
 

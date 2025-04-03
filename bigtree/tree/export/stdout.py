@@ -34,18 +34,18 @@ def print_tree(
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
-    - Able to customize for maximum depth to print, using `max_depth`
-    - Able to choose which attributes to show or show all attributes, using `attr_name_filter` and `all_attrs`
+    - Able to customise for maximum depth to print, using `max_depth`
+    - Able to choose which attributes to show or show all attributes, using `all_attrs` and `attr_list`
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
-    - Able to customize open and close brackets if attributes are shown, using `attr_bracket`
-    - Able to customize style, to choose from str, List[str], or inherit from constants.BasePrintStyle, using `style`
+    - Able to customise open and close brackets if attributes are shown, using `attr_bracket`
+    - Able to customise style, to choose from str, List[str], or inherit from constants.BasePrintStyle, using `style`
 
     For style,
 
-    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
     - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
-    - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
-        `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
+    - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`,
+        `RoundedPrintStyle`, `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
 
     Examples:
         **Printing tree**
@@ -226,15 +226,15 @@ def yield_tree(
     """Generator method for customizing printing of tree, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
-    - Able to customize for maximum depth to print, using `max_depth`
-    - Able to customize style, to choose from str, List[str], or inherit from constants.BasePrintStyle, using `style`
+    - Able to customise for maximum depth to print, using `max_depth`
+    - Able to customise style, to choose from str, List[str], or inherit from constants.BasePrintStyle, using `style`
 
     For style,
 
-    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
     - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
-    - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`, `RoundedPrintStyle`,
-        `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
+    - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`,
+        `RoundedPrintStyle`, `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
 
     Examples:
         **Yield tree**
@@ -374,20 +374,27 @@ def hprint_tree(
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
-    - Able to customize for maximum depth to print, using `max_depth`
+    - Able to customise for maximum depth to print, using `max_depth`
     - Able to hide names of intermediate nodes, using `intermediate_node_name`
     - Able to select horizontal spacing between nodes, using `spacing`
-    - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseHPrintStyle, using `style`
+    - Able to customise style, to choose from str, Iterable[str], or inherit from constants.BaseHPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
     - Able to have constant width output string or to strip the trailing spaces, using `strip`
 
     For style,
 
-    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
     - (Iterable[str]): Choose own style icons, they must have the same number of characters
     - (constants.BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
         `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from constants.BaseHPrintStyle
+
+    For border_style,
+
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
+    - (Iterable[str]): Choose own style icons, they must be 1 character long
+    - (constants.BorderStyle): `ANSIBorderStyle`, `ASCIIBorderStyle`, `ConstBorderStyle`, `ConstBoldBorderStyle`,
+        `RoundedBorderStyle`, `DoubleBorderStyle` style or inherit from constants.BorderStyle
 
     Examples:
         **Printing tree**
@@ -527,20 +534,27 @@ def hyield_tree(
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
-    - Able to customize for maximum depth to print, using `max_depth`
+    - Able to customise for maximum depth to print, using `max_depth`
     - Able to hide names of intermediate nodes, using `intermediate_node_name`
     - Able to select horizontal spacing between nodes, using `spacing`
-    - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseHPrintStyle, using `style`
+    - Able to customise style, to choose from str, Iterable[str], or inherit from constants.BaseHPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
     - Able to have constant width output string or to strip the trailing spaces, using `strip`
 
     For style,
 
-    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
     - (Iterable[str]): Choose own style icons, they must be 1 character long
     - (constants.BaseHPrintStyle): `ANSIHPrintStyle`, `ASCIIHPrintStyle`, `ConstHPrintStyle`, `ConstBoldHPrintStyle`,
         `RoundedHPrintStyle`, `DoubleHPrintStyle` style or inherit from constants.BaseHPrintStyle
+
+    For border_style,
+
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
+    - (Iterable[str]): Choose own style icons, they must be 1 character long
+    - (constants.BorderStyle): `ANSIBorderStyle`, `ASCIIBorderStyle`, `ConstBorderStyle`, `ConstBoldBorderStyle`,
+        `RoundedBorderStyle`, `DoubleBorderStyle` style or inherit from constants.BorderStyle
 
     Examples:
         **Printing tree**
@@ -681,29 +695,28 @@ def vprint_tree(
     strip: bool = False,
     **kwargs: Any,
 ) -> None:
-    """Print tree in vertical orientation to console, starting from `tree`.
-    Accepts kwargs for print() function.
+    """Print tree in vertical orientation to console, starting from `tree`. Accepts kwargs for print() function.
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
-    - Able to customize for maximum depth to print, using `max_depth`
+    - Able to customise for maximum depth to print, using `max_depth`
     - Able to hide names of intermediate nodes, using `intermediate_node_name`
     - Able to select horizontal spacing between nodes, using `spacing`
-    - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using `style`
+    - Able to customise style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
     - Able to have constant width output string or to strip the trailing spaces, using `strip`
 
     For style,
 
-    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
     - (Iterable[str]): Choose own style icons, they must be 1 character long
     - (constants.BaseVPrintStyle): `ANSIVPrintStyle`, `ASCIIVPrintStyle`, `ConstVPrintStyle`, `ConstBoldVPrintStyle`,
         `RoundedVPrintStyle`, `DoubleVPrintStyle` style or inherit from constants.BaseVPrintStyle
 
     For border_style,
 
-    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
     - (Iterable[str]): Choose own style icons, they must be 1 character long
     - (constants.BorderStyle): `ANSIBorderStyle`, `ASCIIBorderStyle`, `ConstBorderStyle`, `ConstBoldBorderStyle`,
         `RoundedBorderStyle`, `DoubleBorderStyle` style or inherit from constants.BorderStyle
@@ -904,24 +917,24 @@ def vyield_tree(
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
-    - Able to customize for maximum depth to print, using `max_depth`
+    - Able to customise for maximum depth to print, using `max_depth`
     - Able to hide names of intermediate nodes, using `intermediate_node_name`
     - Able to select horizontal spacing between nodes, using `spacing`
-    - Able to customize style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using `style`
+    - Able to customise style, to choose from str, Iterable[str], or inherit from constants.BaseVPrintStyle, using `style`
     - Able to toggle border, with border style to choose from str, Iterable[str], or inherit from constants.BorderStyle,
         using `border_style`
     - Able to have constant width output string or to strip the trailing spaces, using `strip`
 
     For style,
 
-    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
     - (Iterable[str]): Choose own style icons, they must be 1 character long
     - (constants.BaseVPrintStyle): `ANSIVPrintStyle`, `ASCIIVPrintStyle`, `ConstVPrintStyle`, `ConstBoldVPrintStyle`,
         `RoundedVPrintStyle`, `DoubleVPrintStyle` style or inherit from constants.BaseVPrintStyle
 
     For border_style,
 
-    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double`  style
+    - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
     - (Iterable[str]): Choose own style icons, they must be 1 character long
     - (constants.BorderStyle): `ANSIBorderStyle`, `ASCIIBorderStyle`, `ConstBorderStyle`, `ConstBoldBorderStyle`,
         `RoundedBorderStyle`, `DoubleBorderStyle` style or inherit from constants.BorderStyle
@@ -1114,17 +1127,19 @@ def tree_to_newick(
 ) -> str:
     """Export tree to Newick notation. Useful for describing phylogenetic tree.
 
-    In the Newick Notation (or New Hampshire Notation),
-      - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`.
-      - If there are nested trees, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`.
-      - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`.
-      - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`.
+    In the Newick Notation (or New Hampshire Notation)
 
-    Customizations include:
-      - Omitting names of root and intermediate nodes, default all node names are shown.
-      - Changing length separator to another symbol, default is `:`.
-      - Adding an attribute prefix, default is `&&NHX:`.
-      - Changing the attribute separator to another symbol, default is `:`.
+    - Tree is represented in round brackets i.e., `(child1,child2,child3)parent`
+    - If there are nested trees, they will be in nested round brackets i.e., `((grandchild1)child1,(grandchild2,grandchild3)child2)parent`
+    - If there is length attribute, they will be beside the name i.e., `(child1:0.5,child2:0.1)parent`
+    - If there are other attributes, attributes are represented in square brackets i.e., `(child1:0.5[S:human],child2:0.1[S:human])parent[S:parent]`
+
+    Customisations include
+
+    - Omitting names of root and intermediate nodes, default all node names are shown
+    - Changing length separator to another symbol, default is `:`
+    - Adding an attribute prefix, default is `&&NHX:`
+    - Changing the attribute separator to another symbol, default is `:`
 
     Examples:
         >>> from bigtree import Node, tree_to_newick
@@ -1169,13 +1184,13 @@ def tree_to_newick(
         attr_sep = attr_sep.value
 
     def _serialize(item: Any) -> Any:
-        """Serialize item if it contains special Newick characters.
+        """Serialise item if it contains special Newick characters.
 
         Args:
-            item (Any): item to serialize
+            item: item to serialise
 
         Returns:
-            (Any)
+            Serialised item
         """
         if isinstance(item, str) and set(item).intersection(
             constants.NewickCharacter.values()

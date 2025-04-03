@@ -6,13 +6,13 @@ title: Tree Modify
 
 There are two types of modification available
 
-1. **Non-replacing scenario**: Shift or copy nodes within same tree or between two trees using `from_paths` (list of paths) and `to_paths` (list of paths).
-2. **Replacing scenario**: Shift or copy nodes within same tree or between two trees *while replacing the to-node* using `from_paths` (list of paths) and `to_paths` (list of paths).
+1. **Non-replacing scenario**: Shift or copy nodes within same tree or between two trees using `from_paths` (list of paths) and `to_paths` (list of paths)
+2. **Replacing scenario**: Shift or copy nodes within same tree or between two trees *while replacing the to-node* using `from_paths` (list of paths) and `to_paths` (list of paths)
 
 
-## Available Configurations for Customization
+## Available Configurations for Customisation
 
-In **non-replacing scenario**, there are several configurations available for customization.
+In **non-replacing scenario**, there are several configurations available for customisation.
 
 | Configuration     | Description                                                                            | Default Value                                             |
 |-------------------|----------------------------------------------------------------------------------------|-----------------------------------------------------------|
@@ -26,8 +26,8 @@ In **non-replacing scenario**, there are several configurations available for cu
 | `delete_children` | Shift/copy node only and delete its children                                           | False (nodes are shifted/copied together with children)   |
 
 In **replacing scenario**, all the configurations are also available except `overriding`, `merge_attribute`,
-`merge_children`, and `merge_leaves` as it is doing a one-to-one replacement.
-It is by default overriding, and there is nothing to merge.
+`merge_children`, and `merge_leaves` as it is doing a one-to-one replacement. It is by default overriding, and there is
+nothing to merge.
 
 !!! note
 
@@ -44,9 +44,9 @@ It is by default overriding, and there is nothing to merge.
 
 ## Tree Modification Permutations
 
-There are several ways you can mix and match the tree modification methods.
-If you know all the parameters to choose, feel free to use ``copy_or_shift_logic`` or ``replace_logic`` methods as they are the most customizable.
-All other methods calls these 2 methods directly.
+There are several ways you can mix and match the tree modification methods. If you know all the parameters to choose,
+feel free to use ``copy_or_shift_logic`` or ``replace_logic`` methods as they are the most customizable. All other
+methods call these 2 methods directly.
 
 | Shift / Copy? | Same tree / Between two trees? | Replace destination node? | Method to use                                |
 |---------------|--------------------------------|---------------------------|----------------------------------------------|
@@ -117,14 +117,14 @@ What about the permutations between the parameters?
   - `copy`, `skippable`, `delete_children`
 - These parameters have some interaction:
   - `overriding` and `merge_attribute` with `merge_children` and `merge_leaves`
-  - `overriding` + `merge_children`: Behaves like `merge_children` when there is no clash in node name, otherwise behaves like `overriding`.
-  Note that clashes will preserve origin node parent and destination nodes' children.
-  - `overriding` + `merge_leaves`: Behaves like `merge_leaves` when there is no clash in node name, otherwise behaves like `overriding`.
-  Note that clashes will preserve origin node parent and destination nodes' leaves.
-  - `merge_attribute` + `merge_children`: Behaves like `merge_children` when there is no clash in node name, otherwise behaves like `merge_attribute`.
-  Note that attributes will be merged for node and all descendants, and will preserve origin and destination nodes' children.
-  - `merge_attribute` + `merge_leaves`: Behaves like `merge_leaves` when there is no clash in node name, otherwise behaves like `merge_attribute`.
-  Note that attributes will be merged for node and all descendants, and will preserve origin nodes' children and destination nodes' leaves.
+  - `overriding` + `merge_children`: Behaves like `merge_children` when there is no clash in node name, otherwise behaves like `overriding`
+  Note that clashes will preserve origin node parent and destination nodes' children
+  - `overriding` + `merge_leaves`: Behaves like `merge_leaves` when there is no clash in node name, otherwise behaves like `overriding`
+  Note that clashes will preserve origin node parent and destination nodes' leaves
+  - `merge_attribute` + `merge_children`: Behaves like `merge_children` when there is no clash in node name, otherwise behaves like `merge_attribute`
+  Note that attributes will be merged for node and all descendants, and will preserve origin and destination nodes' children
+  - `merge_attribute` + `merge_leaves`: Behaves like `merge_leaves` when there is no clash in node name, otherwise behaves like `merge_attribute`
+  Note that attributes will be merged for node and all descendants, and will preserve origin nodes' children and destination nodes' leaves
 
 -----
 
