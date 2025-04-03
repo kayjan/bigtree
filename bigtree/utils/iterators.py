@@ -38,7 +38,7 @@ def inorder_iter(
 ) -> Iterable[BinaryNodeT]:
     """Iterate through all children of a tree.
 
-    In-Order Iteration Algorithm (LNR)
+    In-Order Iteration Algorithm (LNR):
         1. Recursively traverse the current node's left subtree
         2. Visit the current node
         3. Recursively traverse the current node's right subtree
@@ -89,7 +89,7 @@ def preorder_iter(
 ) -> Iterable[T]:
     """Iterate through all children of a tree.
 
-    Pre-Order Iteration Algorithm (NLR)
+    Pre-Order Iteration Algorithm (NLR):
         1. Visit the current node
         2. Recursively traverse the current node's left subtree
         3. Recursively traverse the current node's right subtree
@@ -150,7 +150,7 @@ def postorder_iter(
 ) -> Iterable[BaseNodeT]:
     """Iterate through all children of a tree.
 
-    Post-Order Iteration Algorithm (LRN)
+    Post-Order Iteration Algorithm (LRN):
         1. Recursively traverse the current node's left subtree
         2. Recursively traverse the current node's right subtree
         3. Visit the current node
@@ -211,7 +211,7 @@ def levelorder_iter(
 ) -> Iterable[BaseNodeT]:
     """Iterate through all children of a tree.
 
-    Level-Order Iteration Algorithm
+    Level-Order Iteration Algorithm:
         1. Recursively traverse the nodes on same level
 
     Examples:
@@ -282,7 +282,7 @@ def levelordergroup_iter(
 ) -> Iterable[Iterable[BaseNodeT]]:
     """Iterate through all children of a tree.
 
-    Level-Order Group Iteration Algorithm
+    Level-Order Group Iteration Algorithm:
         1. Recursively traverse the nodes on same level, returns nodes level by level in a nested list
 
     Examples:
@@ -354,7 +354,7 @@ def zigzag_iter(
 ) -> Iterable[BaseNodeT]:
     """ "Iterate through all children of a tree.
 
-    ZigZag Iteration Algorithm
+    ZigZag Iteration Algorithm:
         1. Recursively traverse the nodes on same level, in a zigzag manner across different levels
 
     Examples:
@@ -433,7 +433,7 @@ def zigzaggroup_iter(
 ) -> Iterable[Iterable[BaseNodeT]]:
     """Iterate through all children of a tree.
 
-    ZigZag Group Iteration Algorithm
+    ZigZag Group Iteration Algorithm:
         1. Recursively traverse the nodes on same level, in a zigzag manner across different levels, returns nodes level
         by level in a nested list
 
@@ -510,7 +510,7 @@ def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
     """Iterate through all nodes of a Directed Acyclic Graph (DAG). Note that node names must be unique. Note that DAG
     must at least have two nodes to be shown on graph.
 
-    DAG Iteration
+    DAG Iteration:
         1. Visit the current node
         2. Recursively traverse the current node's parents
         3. Recursively traverse the current node's children
