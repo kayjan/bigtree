@@ -253,7 +253,7 @@ def tree_to_pillow_graph(
     rect_width: int = 1,
     **kwargs: Any,
 ) -> Image.Image:
-    """Export tree to PIL.Image.Image object. Object can be converted to other formats, such as jpg, or png. Image will
+    r"""Export tree to PIL.Image.Image object. Object can be converted to other formats, such as jpg, or png. Image will
     look like a tree/graph-like structure, accepts additional keyword arguments as input to `yield_tree`.
 
     Customisations:
