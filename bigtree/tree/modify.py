@@ -69,7 +69,7 @@ def shift_nodes(
     - If `to_path` is not present, it shifts leaves of `from_path`
     - If `to_path` is present, and ``overriding=False``, original children and leaves are merged
     - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
-        original non-leaf nodes in `from_path` are retained
+        original child nodes in `from_path` are retained
 
     Note:
 
@@ -334,7 +334,8 @@ def copy_nodes(
 
     - If `to_path` is not present, it copies leaves of `from_path`
     - If `to_path` is present, and ``overriding=False``, original children and leaves are merged
-    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
+        original child nodes in `from_path` are retained
 
     Note:
 
@@ -698,7 +699,8 @@ def copy_nodes_from_tree_to_tree(
 
     - If `to_path` is not present, it copies leaves of `from_path`
     - If `to_path` is present, and ``overriding=False``, original children and leaves are merged
-    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained
+    - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
+        original child nodes in `from_path` are retained
 
     Note:
 
@@ -1112,7 +1114,7 @@ def copy_or_shift_logic(
     - If `to_path` is not present, it shifts/copies leaves of `from_path`
     - If `to_path` is present, and ``overriding=False``, original children and leaves are merged
     - If `to_path` is present and ``overriding=True``, it behaves like overriding and only new leaves are retained,
-        original non-leaf nodes in `from_path` are retained
+        original child nodes in `from_path` are retained
 
     Note:
 
