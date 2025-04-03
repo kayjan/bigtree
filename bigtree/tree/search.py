@@ -29,7 +29,7 @@ DAGNodeT = TypeVar("DAGNodeT", bound=dagnode.DAGNode)
 def __check_result_count(
     result: Tuple[Any, ...], min_count: int, max_count: int
 ) -> None:
-    """Check result fulfil min_count and max_count requirements
+    """Check result fulfil min_count and max_count requirements.
 
     Args:
         result: result of search
@@ -173,7 +173,7 @@ def find_relative_path(tree: NodeT, path_name: str) -> NodeT:
 
     - Supports unix folder expression for relative path, i.e., '../../node_name'
     - Supports wildcards, i.e., '\*/node_name'
-    - If path name starts with leading separator symbol, it will start at root node.
+    - If path name starts with leading separator symbol, it will start at root node
 
     Examples:
         >>> from bigtree import Node, find_relative_path
@@ -215,7 +215,7 @@ def find_relative_paths(
 
     - Supports unix folder expression for relative path, i.e., '../../node_name'
     - Supports wildcards, i.e., '\*/node_name'
-    - If path name starts with leading separator symbol, it will start at root node.
+    - If path name starts with leading separator symbol, it will start at root node
 
     Examples:
         >>> from bigtree import Node, find_relative_paths
@@ -258,7 +258,7 @@ def find_relative_paths(
     resolved_nodes: List[NodeT] = []
 
     def resolve(_node: NodeT, path_idx: int) -> None:
-        """Resolve node based on path name
+        """Resolve node based on path name.
 
         Args:
             _node: current node
@@ -299,8 +299,8 @@ def find_full_path(tree: NodeT, path_name: str) -> NodeT:
     """
     Search tree for a single node matching path attribute.
 
-    - Path name can be with or without leading tree path separator symbol.
-    - Path name must be full path, works similar to `find_path` but faster.
+    - Path name can be with or without leading tree path separator symbol
+    - Path name must be full path, works similar to `find_path` but faster
 
     Examples:
         >>> from bigtree import Node, find_full_path
@@ -338,8 +338,8 @@ def find_path(tree: NodeT, path_name: str) -> NodeT:
     """
     Search tree for a single node matching path attribute.
 
-    - Path name can be with or without leading tree path separator symbol.
-    - Path name can be full path or partial path (trailing part of path) or node name.
+    - Path name can be with or without leading tree path separator symbol
+    - Path name can be full path or partial path (trailing part of path) or node name
 
     Examples:
         >>> from bigtree import Node, find_path
@@ -367,8 +367,8 @@ def find_paths(tree: NodeT, path_name: str) -> Iterable[NodeT]:
     """
     Search tree for one or more nodes matching path attribute.
 
-    - Path name can be with or without leading tree path separator symbol.
-    - Path name can be partial path (trailing part of path) or node name.
+    - Path name can be with or without leading tree path separator symbol
+    - Path name can be partial path (trailing part of path) or node name
 
     Examples:
         >>> from bigtree import Node, find_paths
