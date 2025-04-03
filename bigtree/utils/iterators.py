@@ -38,7 +38,7 @@ def inorder_iter(
 ) -> Iterable[BinaryNodeT]:
     """Iterate through all children of a tree.
 
-    In-Order Iteration Algorithm (LNR):
+    In-Order Iteration Algorithm LNR:
         1. Recursively traverse the current node's left subtree
         2. Visit the current node
         3. Recursively traverse the current node's right subtree
@@ -89,7 +89,7 @@ def preorder_iter(
 ) -> Iterable[T]:
     """Iterate through all children of a tree.
 
-    Pre-Order Iteration Algorithm (NLR):
+    Pre-Order Iteration Algorithm NLR:
         1. Visit the current node
         2. Recursively traverse the current node's left subtree
         3. Recursively traverse the current node's right subtree
@@ -150,7 +150,7 @@ def postorder_iter(
 ) -> Iterable[BaseNodeT]:
     """Iterate through all children of a tree.
 
-    Post-Order Iteration Algorithm (LRN):
+    Post-Order Iteration Algorithm LRN:
         1. Recursively traverse the current node's left subtree
         2. Recursively traverse the current node's right subtree
         3. Visit the current node
