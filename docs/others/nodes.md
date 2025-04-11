@@ -2,7 +2,7 @@
 
 Nodes can be extended from `BaseNode` or `Node` class to have extended functionalities or add pre-/post-assign checks.
 
- - For example, `Node` class extends `BaseNode` and added the ``name`` functionality with pre-assign checks to ensure no duplicate path names.
+ - For example, `Node` class extends `BaseNode` and added the ``name`` functionality with pre-assign checks to ensure no duplicate path names
 
 ## Population Node (add functionality/method/property)
 
