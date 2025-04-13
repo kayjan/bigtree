@@ -61,7 +61,6 @@ nav:
         - others/work_with_classes.md
       - Tree:
         - others/list_dir.md
-        - others/merging_trees.md
         - others/weighted_trees.md
         - others/custom_coordinates.md
 
