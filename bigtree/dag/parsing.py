@@ -11,8 +11,7 @@ T = TypeVar("T", bound=dagnode.DAGNode)
 
 
 def get_path_dag(from_node: T, to_node: T) -> List[List[T]]:
-    """Get path from origin node to destination node from the same tree. Path is inclusive of origin and destination
-    nodes.
+    """Get path from origin node to destination node. Path is inclusive of origin and destination nodes.
 
     Examples:
         >>> from bigtree import DAGNode, get_path_dag
@@ -38,7 +37,7 @@ def get_path_dag(from_node: T, to_node: T) -> List[List[T]]:
         to_node: end point of path, node to travel to
 
     Returns:
-        Path from origin to destination node from the same tree
+        Possible paths from origin to destination node from the same DAG
     """
     if not isinstance(from_node, dagnode.DAGNode):
         raise TypeError(

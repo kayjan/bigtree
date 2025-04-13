@@ -8,8 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.27.0] - 2025-14-13
 ### Added:
-- DAG/Tree Parsing: Add parsing module to get path from node to node, this was already avaiable in `.go_to()` function,
-but abstracted out to a parsing module.
+- DAG/Tree Parsing: Add parsing module to get path from origin node to destination node, this was already available in
+`.go_to()` function, but abstracted out to a parsing module. Tree parsing module has another method of getting common
+ancestors between multiple branches of the same tree.
 
 ## [0.26.0] - 2025-14-13
 ### Added:

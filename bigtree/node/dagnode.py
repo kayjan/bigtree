@@ -509,7 +509,7 @@ class DAGNode:
             node: node to travel to from current node, inclusive of start and end node
 
         Returns:
-            Path from current node to destination node
+            Possible paths from current node to destination node
         """
         from bigtree.dag.parsing import get_path_dag
 
