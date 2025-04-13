@@ -23,16 +23,16 @@ T = TypeVar("T", bound=node.Node)
 
 def merge_trees(
     trees: Union[List[T], Tuple[T, ...]],
-    keep_intermediate_attributes: bool = True,
+    exact: bool = False,
 ) -> T:
     """Merge multiple trees into a single tree. Returns a new tree.
 
     If trees have different root names, it will take the root name of the first tree. If same path exists, the
     attributes of both nodes will be combined, with priority given to the later tree.
 
-    - Able to retain all node attributes, defaults to True (the whole tree is merged), in the case when it is False, it
-        is meant to merge tree branches and only the paths and attributes in the branches are retained. All branches
-        must have the same root name
+    - Able to merge only the tree/branches provided exactly, defaults to False (the whole tree is merged), in the case
+        when it is True, it is meant to merge tree branches and only the paths and attributes in the branches are retained.
+        All branches must have the same root name
 
     Examples:
         >>> from bigtree import list_to_tree, merge_trees
@@ -97,13 +97,13 @@ def merge_trees(
 
     Args:
         trees: trees to merge, it can be the tree root or a branch of the tree
-        keep_intermediate_attributes: whether to keep the intermediate node attributes of tree to merge
+        exact: whether to merge the trees provided exactly; only the paths and attributes of the trees/branches are used.
+            If false, the whole tree is merged
 
     Returns:
         Merged tree
     """
-    if keep_intermediate_attributes:
-        # copy_nodes_from_tree_to_tree
+    if not exact:
         merged_tree = trees[0].copy()
         root_name = merged_tree.root.node_name
         for _tree in trees[1:]:

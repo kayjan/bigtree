@@ -117,10 +117,10 @@ class TestMergeTrees(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
 
-    def test_merge_trees_keep_intermediate_attr_false(self):
+    def test_merge_trees_exact(self):
         root = modify.merge_trees(
             [self.d, self.f, self.g, self.h],
-            keep_intermediate_attributes=False,
+            exact=True,
         )
 
         assert_tree_structure_basenode_root(root)
@@ -142,7 +142,7 @@ class TestMergeTrees(unittest.TestCase):
         )
         assert_tree_structure_node_root(root)
 
-    def test_merge_trees_keep_intermediate_attr_false_latest_attr_retained(self):
+    def test_merge_trees_exact_latest_attr_retained(self):
         g = node.Node(
             name="g",
             age=1,
@@ -150,7 +150,7 @@ class TestMergeTrees(unittest.TestCase):
         )
         root = modify.merge_trees(
             [self.d, self.f, self.g, g, self.h],
-            keep_intermediate_attributes=False,
+            exact=True,
         )
 
         assert_tree_structure_basenode_root(root)
@@ -172,7 +172,7 @@ class TestMergeTrees(unittest.TestCase):
         )
         assert_tree_structure_node_root(root)
 
-    def test_merge_trees_keep_intermediate_attr_false_attr_retain_before(self):
+    def test_merge_trees_exact_attr_retain_before(self):
         e = node.Node(name="e", age=1, parent=node.Node("b", parent=node.Node("a")))
         g = node.Node(
             name="g",
@@ -188,7 +188,7 @@ class TestMergeTrees(unittest.TestCase):
                 g,
                 self.h,
             ],
-            keep_intermediate_attributes=False,
+            exact=True,
         )
 
         assert_tree_structure_basenode_root(root)
@@ -210,7 +210,7 @@ class TestMergeTrees(unittest.TestCase):
         )
         assert_tree_structure_node_root(root)
 
-    def test_merge_trees_keep_intermediate_attr_false_attr_retain_after(self):
+    def test_merge_trees_exact_attr_retain_after(self):
         e = node.Node(name="e", age=1, parent=node.Node("b", parent=node.Node("a")))
         g = node.Node(
             name="g",
@@ -226,7 +226,7 @@ class TestMergeTrees(unittest.TestCase):
                 self.h,
                 e,
             ],
-            keep_intermediate_attributes=False,
+            exact=True,
         )
 
         assert_tree_structure_basenode_root(root)
@@ -248,12 +248,12 @@ class TestMergeTrees(unittest.TestCase):
         )
         assert_tree_structure_node_root(root)
 
-    def test_merge_trees_keep_intermediate_attr_false_diff_root_name_error(self):
+    def test_merge_trees_exact_diff_root_name_error(self):
         self.h.root.name = "test"
         with pytest.raises(exceptions.TreeError) as exc_info:
             modify.merge_trees(
                 [self.d, self.f, self.g, self.h],
-                keep_intermediate_attributes=False,
+                exact=True,
             )
         assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
             root1="a", root2="test"
