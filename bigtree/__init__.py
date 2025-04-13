@@ -1,4 +1,4 @@
-__version__ = "0.25.4"
+__version__ = "0.26.0"
 
 from bigtree.binarytree.construct import list_to_binarytree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
@@ -55,6 +55,7 @@ from bigtree.tree.modify import (
     copy_nodes,
     copy_nodes_from_tree_to_tree,
     copy_or_shift_logic,
+    merge_trees,
     replace_logic,
     shift_and_replace_nodes,
     shift_nodes,

@@ -1,5 +1,5 @@
 import logging
-from typing import List, Optional, TypeVar
+from typing import Any, Dict, List, Optional, Tuple, TypeVar, Union
 
 from bigtree.node import node
 from bigtree.tree import construct, search
@@ -8,6 +8,7 @@ from bigtree.utils import exceptions
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 __all__ = [
+    "merge_trees",
     "shift_nodes",
     "copy_nodes",
     "shift_and_replace_nodes",
@@ -18,6 +19,121 @@ __all__ = [
 ]
 
 T = TypeVar("T", bound=node.Node)
+
+
+def merge_trees(
+    trees: Union[List[T], Tuple[T, ...]],
+    exact: bool = False,
+) -> T:
+    """Merge multiple trees into a single tree. Returns a new tree.
+
+    If trees have different root names, it will take the root name of the first tree. If same path exists, the
+    attributes of both nodes will be combined, with priority given to the later tree.
+
+    - Able to merge only the tree/branches provided exactly, defaults to False (the whole tree is merged), in the case
+        when it is True, it is meant to merge tree branches and only the paths and attributes in the branches are retained.
+        All branches must have the same root name
+
+    Examples:
+        >>> from bigtree import list_to_tree, merge_trees
+        >>> downloads_folder = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc"])
+        >>> downloads_folder.show()
+        Downloads
+        ├── Pictures
+        │   └── photo1.jpg
+        └── file1.doc
+
+        >>> documents_folder = list_to_tree(["Documents/Pictures/photo2.jpg", "Documents/file1.doc"])
+        >>> documents_folder["file1.doc"].size = 100
+        >>> documents_folder.show(all_attrs=True)
+        Documents
+        ├── Pictures
+        │   └── photo2.jpg
+        └── file1.doc [size=100]
+
+        >>> root = merge_trees([downloads_folder, documents_folder])
+        >>> root.show(all_attrs=True)
+        Downloads
+        ├── Pictures
+        │   ├── photo1.jpg
+        │   └── photo2.jpg
+        └── file1.doc [size=100]
+
+        In ``keep_intermediate_attributes=False`` case, only path/attributes of branches are retained.
+
+        >>> from bigtree import dict_to_tree, merge_trees, find_attrs
+        >>> path_dict = {
+        ...     "a": {"age": 90},
+        ...     "a/b": {"age": 65},
+        ...     "a/c": {"age": 60},
+        ...     "a/b/d": {"age": 40},
+        ...     "a/b/e": {"age": 35},
+        ...     "a/c/f": {"age": 10},
+        ...     "a/b/e/g": {"age": 10},
+        ...     "a/b/e/h": {"age": 6},
+        ... }
+        >>> root = dict_to_tree(path_dict)
+        >>> root.show(attr_list=["age"])
+        a [age=90]
+        ├── b [age=65]
+        │   ├── d [age=40]
+        │   └── e [age=35]
+        │       ├── g [age=10]
+        │       └── h [age=6]
+        └── c [age=60]
+            └── f [age=10]
+
+        >>> nodes = find_attrs(root, "age", 10)
+        >>> nodes
+        (Node(/a/b/e/g, age=10), Node(/a/c/f, age=10))
+        >>> root_filtered = merge_trees(nodes, keep_intermediate_attributes=False)
+        >>> root_filtered.show(attr_list=["age"])
+        a
+        ├── b
+        │   └── e
+        │       └── g [age=10]
+        └── c
+            └── f [age=10]
+
+    Args:
+        trees: trees to merge, it can be the tree root or a branch of the tree
+        exact: whether to merge the trees provided exactly; only the paths and attributes of the trees/branches are used.
+            If false, the whole tree is merged
+
+    Returns:
+        Merged tree
+    """
+    if not exact:
+        merged_tree = trees[0].copy()
+        root_name = merged_tree.root.node_name
+        for _tree in trees[1:]:
+            _tree = _tree.root
+            child_names = [_child.node_name for _child in _tree.children]
+            for child_name in child_names:
+                path = f"{root_name}/{child_name}"
+                kwargs = (
+                    {"merge_children": True}
+                    if search.find_full_path(merged_tree, path)
+                    else {}
+                )
+                copy_nodes_from_tree_to_tree(
+                    from_tree=_tree,
+                    to_tree=merged_tree,
+                    from_paths=[f"{_tree.node_name}/{child_name}"],
+                    to_paths=[f"{root_name}/{child_name}"],
+                    merge_attribute=True,
+                    **kwargs,  # type: ignore
+                )
+    else:
+        path_attrs: Dict[str, Dict[str, Any]] = {}
+        for tree in trees:
+            tree_attr = dict(tree.describe(exclude_prefix="_"))
+            path_attrs[tree.path_name] = {
+                **path_attrs.get(tree.path_name, {}),
+                **tree_attr,
+            }
+        merged_tree = construct.dict_to_tree(path_attrs)
+    return merged_tree
 
 
 def shift_nodes(

@@ -5,12 +5,259 @@ import pytest
 from bigtree.node import node
 from bigtree.tree import export, modify, search
 from bigtree.utils import exceptions
+from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
 )
 from tests.node.test_node import assert_tree_structure_node_root
 from tests.test_constants import Constants
+
+
+class TestMergeTrees(unittest.TestCase):
+    def setUp(self):
+        """
+        Tree should have structure
+        a
+        |-- b
+        |   |-- d
+        |   +-- e
+        |       |-- g
+        |       +-- h
+        +-- c
+            +-- f
+        """
+        self.a = node.Node(name="a", age=90)
+        self.b = node.Node(name="b", age=65, parent=node.Node("a"))
+        self.c = node.Node(name="c", age=60, parent=node.Node("a"))
+        self.d = node.Node(
+            name="d", age=40, parent=node.Node("b", parent=node.Node("a"))
+        )
+        self.e = node.Node(
+            name="e", age=35, parent=node.Node("b", parent=node.Node("a"))
+        )
+        self.f = node.Node(
+            name="f", age=38, parent=node.Node("c", parent=node.Node("a"))
+        )
+        self.g = node.Node(
+            name="g",
+            age=10,
+            parent=node.Node("e", parent=node.Node("b", parent=node.Node("a"))),
+        )
+        self.h = node.Node(
+            name="h",
+            age=6,
+            parent=node.Node("e", parent=node.Node("b", parent=node.Node("a"))),
+        )
+
+    def tearDown(self):
+        self.a = None
+        self.b = None
+        self.c = None
+        self.d = None
+        self.e = None
+        self.f = None
+        self.g = None
+        self.h = None
+
+    def test_merge_trees(self):
+        root = modify.merge_trees(
+            [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        )
+
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_merge_trees_latest_attr_retained(self):
+        self.g.parent.age = 2
+        self.h.parent.age = 1
+        root = modify.merge_trees(
+            [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        )
+
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root, e=("e", 1))
+        assert_tree_structure_node_root(root)
+
+    def test_merge_trees_attr_retain_before(self):
+        e = node.Node(name="e", age=1, parent=node.Node("b", parent=node.Node("a")))
+
+        root = modify.merge_trees(
+            [self.a, self.b, self.c, self.d, e, self.f, self.g, self.h]
+        )
+
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root, e=("e", 1))
+        assert_tree_structure_node_root(root)
+
+    def test_merge_trees_attr_retain_after(self):
+        e = node.Node(name="e", parent=node.Node("b", parent=node.Node("a")))
+        h = node.Node(
+            name="h",
+            age=6,
+            parent=node.Node("e", age=1, parent=node.Node("b", parent=node.Node("a"))),
+        )
+
+        root = modify.merge_trees(
+            [self.a, self.b, self.c, self.d, e, self.f, self.g, h]
+        )
+
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root, e=("e", 1))
+        assert_tree_structure_node_root(root)
+
+    def test_merge_trees_diff_root_name(self):
+        self.h.root.name = "test"
+        root = modify.merge_trees(
+            [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
+        )
+
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_basenode_root_attr(root)
+        assert_tree_structure_node_root(root)
+
+    def test_merge_trees_exact(self):
+        root = modify.merge_trees(
+            [self.d, self.f, self.g, self.h],
+            exact=True,
+        )
+
+        assert_tree_structure_basenode_root(root)
+        expected_str = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d [age=40]\n"
+            "│   └── e\n"
+            "│       ├── g [age=10]\n"
+            "│       └── h [age=6]\n"
+            "└── c\n"
+            "    └── f [age=38]\n"
+        )
+        assert_print_statement(
+            export.print_tree,
+            expected_str,
+            tree=root,
+            all_attrs=True,
+        )
+        assert_tree_structure_node_root(root)
+
+    def test_merge_trees_exact_latest_attr_retained(self):
+        g = node.Node(
+            name="g",
+            age=1,
+            parent=node.Node("e", parent=node.Node("b", parent=node.Node("a"))),
+        )
+        root = modify.merge_trees(
+            [self.d, self.f, self.g, g, self.h],
+            exact=True,
+        )
+
+        assert_tree_structure_basenode_root(root)
+        expected_str = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d [age=40]\n"
+            "│   └── e\n"
+            "│       ├── g [age=1]\n"
+            "│       └── h [age=6]\n"
+            "└── c\n"
+            "    └── f [age=38]\n"
+        )
+        assert_print_statement(
+            export.print_tree,
+            expected_str,
+            tree=root,
+            all_attrs=True,
+        )
+        assert_tree_structure_node_root(root)
+
+    def test_merge_trees_exact_attr_retain_before(self):
+        e = node.Node(name="e", age=1, parent=node.Node("b", parent=node.Node("a")))
+        g = node.Node(
+            name="g",
+            age=1,
+            parent=node.Node("e", parent=node.Node("b", parent=node.Node("a"))),
+        )
+        root = modify.merge_trees(
+            [
+                self.d,
+                self.f,
+                e,
+                self.g,
+                g,
+                self.h,
+            ],
+            exact=True,
+        )
+
+        assert_tree_structure_basenode_root(root)
+        expected_str = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d [age=40]\n"
+            "│   └── e [age=1]\n"
+            "│       ├── g [age=1]\n"
+            "│       └── h [age=6]\n"
+            "└── c\n"
+            "    └── f [age=38]\n"
+        )
+        assert_print_statement(
+            export.print_tree,
+            expected_str,
+            tree=root,
+            all_attrs=True,
+        )
+        assert_tree_structure_node_root(root)
+
+    def test_merge_trees_exact_attr_retain_after(self):
+        e = node.Node(name="e", age=1, parent=node.Node("b", parent=node.Node("a")))
+        g = node.Node(
+            name="g",
+            age=1,
+            parent=node.Node("e", parent=node.Node("b", parent=node.Node("a"))),
+        )
+        root = modify.merge_trees(
+            [
+                self.d,
+                self.f,
+                self.g,
+                g,
+                self.h,
+                e,
+            ],
+            exact=True,
+        )
+
+        assert_tree_structure_basenode_root(root)
+        expected_str = (
+            "a\n"
+            "├── b\n"
+            "│   ├── d [age=40]\n"
+            "│   └── e [age=1]\n"
+            "│       ├── g [age=1]\n"
+            "│       └── h [age=6]\n"
+            "└── c\n"
+            "    └── f [age=38]\n"
+        )
+        assert_print_statement(
+            export.print_tree,
+            expected_str,
+            tree=root,
+            all_attrs=True,
+        )
+        assert_tree_structure_node_root(root)
+
+    def test_merge_trees_exact_diff_root_name_error(self):
+        self.h.root.name = "test"
+        with pytest.raises(exceptions.TreeError) as exc_info:
+            modify.merge_trees(
+                [self.d, self.f, self.g, self.h],
+                exact=True,
+            )
+        assert str(exc_info.value) == Constants.ERROR_NODE_DIFFERENT_ROOT.format(
+            root1="a", root2="test"
+        )
 
 
 class TestCopyNodes(unittest.TestCase):

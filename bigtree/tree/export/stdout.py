@@ -484,6 +484,7 @@ def hprint_tree(
                   ╰───────╯
 
         **Printing to a file**
+
         >>> import io
         >>> output = io.StringIO()
         >>> hprint_tree(root, file=output)
@@ -493,6 +494,7 @@ def hprint_tree(
              ┌─ b ─┤
         ─ a ─┤     └─ e
              └─ c
+        <BLANKLINE>
 
     Args:
         tree: tree to print
@@ -860,6 +862,7 @@ def vprint_tree(
         ╰───╯  ╰───╯
 
         **Printing to a file**
+
         >>> import io
         >>> output = io.StringIO()
         >>> vprint_tree(root, file=output, strip=True)
@@ -876,6 +879,7 @@ def vprint_tree(
         ┌─┴─┐  ┌─┴─┐
         │ d │  │ e │
         └───┘  └───┘
+        <BLANKLINE>
 
     Args:
         tree: tree to print
