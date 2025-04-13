@@ -49,33 +49,36 @@ For **Tree** implementation, there are 9 main components.
    4. Level-Order-Group Traversal
    5. ZigZag Traversal
    6. ZigZag-Group Traversal
-4. [**📝 Modifying Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/modify/)
+4. [**➰ Parsing Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/parsing/)
+   1. Get common ancestors between nodes
+   2. Get path from one node to another node
+5. [**📝 Modifying Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/modify/)
    1. Copy nodes from location to destination
    2. Shift nodes from location to destination
    3. Shift and replace nodes from location to destination
    4. Copy nodes from one tree to another
    5. Copy and replace nodes from one tree to another
-5. [**🔍 Tree Search**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/search/)
+6. [**🔍 Tree Search**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/search/)
    1. Find multiple nodes based on name, partial path, relative path, attribute value, user-defined condition
    2. Find single nodes based on name, partial path, relative path, full path, attribute value, user-defined condition
    3. Find multiple child nodes based on user-defined condition
    4. Find single child node based on name, user-defined condition
-6. [**🔧 Helper Function**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/helper/)
+7. [**🔧 Helper Function**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/helper/)
    1. Cloning tree to another `Node` type
    2. Get subtree (smaller tree with different root)
    3. Prune tree (smaller tree with same root)
    4. Get difference between two trees
-7. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/utils/plot/)
+8. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/utils/plot/)
    1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
    2. Plot tree using matplotlib (optional dependency)
-8. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/export/)
+9. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/export/)
    1. Print to console, in vertical or horizontal orientation
    2. Export to *Newick string notation*, *dictionary*, *nested dictionary*, *pandas DataFrame*, or *polars DataFrame*
    3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
    4. Export tree to *Pillow* (can save to .png, .jpg)
    5. Export tree to *Mermaid Flowchart* (can display on .md)
-9. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/stable/bigtree/workflows/app_todo)
-   1. Sample workflows for tree demonstration!
+10. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/stable/bigtree/workflows/app_todo)
+    1. Sample workflows for tree demonstration!
 
 --------
 
@@ -101,7 +104,9 @@ For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components
    3. From *pandas DataFrame*
 3. [**➰ Traversing DAG**](https://bigtree.readthedocs.io/en/stable/bigtree/utils/iterators/)
    1. Generic traversal method
-4. [**🔨 Exporting DAG**](https://bigtree.readthedocs.io/en/stable/bigtree/dag/export/)
+4. [**➰ Parsing DAG**](https://bigtree.readthedocs.io/en/stable/bigtree/dag/parsing/)
+   1. Get possible paths from one node to another node
+5. [**🔨 Exporting DAG**](https://bigtree.readthedocs.io/en/stable/bigtree/dag/export/)
    1. Export to *list*, *dictionary*, or *pandas DataFrame*
    2. Export DAG to *dot* (can save to .dot, .png, .svg, .jpeg files)
 

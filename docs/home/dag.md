@@ -17,6 +17,9 @@ For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components
 ## [**➰ Traversing DAG**](../bigtree/utils/iterators.md)
 - Generic traversal method
 
+## [**➰ Parsing Tree**](../bigtree/dag/parsing.md)
+- Get possible paths from one node to another node
+
 ## [**🔨 Exporting DAG**](../bigtree/dag/export.md)
 - Export to *list*, *dictionary*, or *pandas DataFrame*
 - Export DAG to *dot* (can save to .dot, .png, .svg, .jpeg files)
