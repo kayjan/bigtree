@@ -59,7 +59,7 @@ def merge_trees(
         │   └── photo2.jpg
         └── file1.doc [size=100]
 
-        In ``keep_intermediate_attributes=False`` case, only path/attributes of branches are retained.
+        In ``exact=True`` case, only path and attributes of branches are retained.
 
         >>> from bigtree import dict_to_tree, merge_trees, find_attrs
         >>> path_dict = {
@@ -86,7 +86,7 @@ def merge_trees(
         >>> nodes = find_attrs(root, "age", 10)
         >>> nodes
         (Node(/a/b/e/g, age=10), Node(/a/c/f, age=10))
-        >>> root_filtered = merge_trees(nodes, keep_intermediate_attributes=False)
+        >>> root_filtered = merge_trees(nodes, exact=True)
         >>> root_filtered.show(attr_list=["age"])
         a
         ├── b
