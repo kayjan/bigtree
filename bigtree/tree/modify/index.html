@@ -1818,6 +1818,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#merging-trees-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Merging trees modification
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shifting-and-copying-node-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shifting and copying node modification
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#available-configurations-for-customisation" class="md-nav__link">
     <span class="md-ellipsis">
       Available Configurations for Customisation
@@ -1886,6 +1904,15 @@
   
     <nav class="md-nav" aria-label=" modify">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.modify.merge_trees" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;merge_trees
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#bigtree.tree.modify.shift_nodes" class="md-nav__link">
@@ -2551,11 +2578,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../others/merging_trees/" class="md-nav__link">
+      <a href="../../../others/merging_trees.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Merging Trees
+    None
   </span>
   
 
@@ -2657,6 +2684,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#merging-trees-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Merging trees modification
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shifting-and-copying-node-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shifting and copying node modification
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#available-configurations-for-customisation" class="md-nav__link">
     <span class="md-ellipsis">
       Available Configurations for Customisation
@@ -2725,6 +2770,15 @@
   
     <nav class="md-nav" aria-label=" modify">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.modify.merge_trees" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;merge_trees
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#bigtree.tree.modify.shift_nodes" class="md-nav__link">
@@ -2813,6 +2867,21 @@
 
 
 <h1 id="modify">📝 Modify</h1>
+<h2 id="merging-trees-modification">Merging trees modification</h2>
+<p>There are two types of usage available</p>
+<ol>
+<li>Merge all nodes of multiple trees together<ul>
+<li>The root node name of the trees can be different, resulting tree will take the root name of the first tree</li>
+<li>Attributes are also merged, if there are clashes in attributes, it will take the attribute of the later tree</li>
+</ul>
+</li>
+<li>Create a tree with only branches provided (<code>`exact=True</code>)<ul>
+<li>The root node name of the tree must be the same</li>
+<li>Attributes, if any, exist only for the branches provided. Intermediate node(s) will be created, but without attributes</li>
+</ul>
+</li>
+</ol>
+<h2 id="shifting-and-copying-node-modification">Shifting and copying node modification</h2>
 <p>There are two types of modification available</p>
 <ol>
 <li><strong>Non-replacing scenario</strong>: Shift or copy nodes within same tree or between two trees using <code>from_paths</code> (list of paths) and <code>to_paths</code> (list of paths)</li>
@@ -3127,6 +3196,166 @@ Note that attributes will be merged for node and all descendants, and will prese
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="bigtree.tree.modify.merge_trees" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">merge_trees</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">merge_trees</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Merge multiple trees into a single tree. Returns a new tree.</p>
+<p>If trees have different root names, it will take the root name of the first tree. If same path exists, the
+attributes of both nodes will be combined, with priority given to the later tree.</p>
+<ul>
+<li>Able to merge only the tree/branches provided exactly, defaults to False (the whole tree is merged), in the case
+    when it is True, it is meant to merge tree branches and only the paths and attributes in the branches are retained.
+    All branches must have the same root name</li>
+</ul>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">list_to_tree</span><span class="p">,</span> <span class="n">merge_trees</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">downloads_folder</span> <span class="o">=</span> <span class="n">list_to_tree</span><span class="p">([</span><span class="s2">&quot;Downloads/Pictures/photo1.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloads/file1.doc&quot;</span><span class="p">])</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">downloads_folder</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">Downloads</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">├── Pictures</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│   └── photo1.jpg</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">└── file1.doc</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">documents_folder</span> <span class="o">=</span> <span class="n">list_to_tree</span><span class="p">([</span><span class="s2">&quot;Documents/Pictures/photo2.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;Documents/file1.doc&quot;</span><span class="p">])</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">documents_folder</span><span class="p">[</span><span class="s2">&quot;file1.doc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">100</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">documents_folder</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">all_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">Documents</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">├── Pictures</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│   └── photo2.jpg</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">└── file1.doc [size=100]</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">merge_trees</span><span class="p">([</span><span class="n">downloads_folder</span><span class="p">,</span> <span class="n">documents_folder</span><span class="p">])</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">all_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">Downloads</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">├── Pictures</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">│   ├── photo1.jpg</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│   └── photo2.jpg</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">└── file1.doc [size=100]</span>
+</span></code></pre></div>
+    <p>In <code>exact=True</code> case, only path and attributes of branches are retained.</p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">dict_to_tree</span><span class="p">,</span> <span class="n">merge_trees</span><span class="p">,</span> <span class="n">find_attrs</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">path_dict</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">... </span>    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">90</span><span class="p">},</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">... </span>    <span class="s2">&quot;a/b&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">65</span><span class="p">},</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">... </span>    <span class="s2">&quot;a/c&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">},</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">... </span>    <span class="s2">&quot;a/b/d&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">},</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">... </span>    <span class="s2">&quot;a/b/e&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">35</span><span class="p">},</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">... </span>    <span class="s2">&quot;a/c/f&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gp">... </span>    <span class="s2">&quot;a/b/e/g&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="gp">... </span>    <span class="s2">&quot;a/b/e/h&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">},</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gp">... </span><span class="p">}</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">dict_to_tree</span><span class="p">(</span><span class="n">path_dict</span><span class="p">)</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">])</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">a [age=90]</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="go">├── b [age=65]</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="go">│   ├── d [age=40]</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="go">│   └── e [age=35]</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="go">│       ├── g [age=10]</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="go">│       └── h [age=6]</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="go">└── c [age=60]</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="go">    └── f [age=10]</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">nodes</span> <span class="o">=</span> <span class="n">find_attrs</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">nodes</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">(Node(/a/b/e/g, age=10), Node(/a/c/f, age=10))</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_filtered</span> <span class="o">=</span> <span class="n">merge_trees</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root_filtered</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">])</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">a</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">├── b</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">│   └── e</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">│       └── g [age=10]</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">└── c</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">    └── f [age=10]</span>
+</span></code></pre></div>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>trees</code>
+            </td>
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="typing.List">List</span>[<span title="bigtree.tree.modify.T">T</span>], <span title="typing.Tuple">Tuple</span>[<span title="bigtree.tree.modify.T">T</span>, ...]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>trees to merge, it can be the tree root or a branch of the tree</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>exact</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>whether to merge the trees provided exactly; only the paths and attributes of the trees/branches are used.
+If false, the whole tree is merged</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="bigtree.tree.modify.T">T</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Merged tree</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
