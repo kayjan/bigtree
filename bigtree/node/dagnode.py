@@ -503,66 +503,17 @@ class DAGNode:
         self.__dict__.update(attrs)
 
     def go_to(self: T, node: T) -> List[List[T]]:
-        """Get list of possible paths from current node to specified node from same tree.
-
-        Examples:
-            >>> from bigtree import DAGNode
-            >>> a = DAGNode("a")
-            >>> b = DAGNode("b")
-            >>> c = DAGNode("c")
-            >>> d = DAGNode("d")
-            >>> a >> c
-            >>> b >> c
-            >>> c >> d
-            >>> a >> d
-            >>> a.go_to(c)
-            [[DAGNode(a, ), DAGNode(c, )]]
-            >>> a.go_to(d)
-            [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, )], [DAGNode(a, ), DAGNode(d, )]]
-            >>> a.go_to(b)
-            Traceback (most recent call last):
-                ...
-            bigtree.utils.exceptions.exceptions.TreeError: It is not possible to go to DAGNode(b, )
+        """Get list of possible paths from current node to specified node from same tree, uses `get_path_dag` function.
 
         Args:
             node: node to travel to from current node, inclusive of start and end node
 
         Returns:
-            Path from current node to destination node
+            Possible paths from current node to destination node
         """
-        if not isinstance(node, DAGNode):
-            raise TypeError(
-                f"Expect node to be DAGNode type, received input type {type(node)}"
-            )
-        if self == node:
-            return [[self]]
-        if node not in self.descendants:
-            raise exceptions.TreeError(f"It is not possible to go to {node}")
+        from bigtree.dag.parsing import get_path_dag
 
-        self.__path: List[List[T]] = []
-
-        def _recursive_path(_node: T, _path: List[T]) -> Optional[List[T]]:
-            """Get path to specified node.
-
-            Args:
-                _node: current node
-                _path: current path, from start node to current node, excluding current node
-
-            Returns:
-                Path from current node to destination node
-            """
-            if _node:  # pragma: no cover
-                _path.append(_node)
-                if _node == node:
-                    return _path
-                for _child in _node.children:
-                    ans = _recursive_path(_child, _path.copy())
-                    if ans:
-                        self.__path.append(ans)
-            return None
-
-        _recursive_path(self, [])
-        return self.__path
+        return get_path_dag(self, node)
 
     def copy(self: T) -> T:
         """Deep copy self; clone DAGNode.
