@@ -36,6 +36,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://kayjan.github.io/bigtree/bigtree/dag/parsing/</loc>
+         <lastmod>2025-04-13</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://kayjan.github.io/bigtree/bigtree/node/basenode/</loc>
          <lastmod>2025-04-13</lastmod>
          <changefreq>daily</changefreq>
@@ -72,6 +77,11 @@
     </url>
     <url>
          <loc>https://kayjan.github.io/bigtree/bigtree/tree/modify/</loc>
+         <lastmod>2025-04-13</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://kayjan.github.io/bigtree/bigtree/tree/parsing/</loc>
          <lastmod>2025-04-13</lastmod>
          <changefreq>daily</changefreq>
     </url>

@@ -1557,6 +1557,8 @@
       
         
       
+        
+      
     
     
       
@@ -1637,6 +1639,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dag/parsing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DAG Parsing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1655,6 +1678,8 @@
   
     
     
+      
+        
       
         
       
@@ -1925,6 +1950,27 @@
   
   <span class="md-ellipsis">
     Tree Modify
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parsing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tree Parsing
   </span>
   
 
@@ -2456,8 +2502,6 @@
       
         
       
-        
-      
     
     
       
@@ -2505,27 +2549,6 @@
   
   <span class="md-ellipsis">
     List Directory
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../others/merging_trees.md" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    None
   </span>
   
 
@@ -3251,9 +3274,9 @@ pandas DataFrame, merge them, and adds new suffix column to indicate the type of
 <p>By default, suffix will be '+' and '-' for the tree differences, and np.nan for the others.</p>
 <ul>
 <li>If <code>detail=True</code>, 'added' and 'moved to' will be used instead of '+', and 'removed' and 'moved from' will be used
-instead of '-'</li>
+    instead of '-'</li>
 <li>If <code>aggregate=True</code>, suffix will only be indicated at the parent-level. This is useful when a subtree is shifted
-and we want the differences shown only at the top node</li>
+    and we want the differences shown only at the top node</li>
 </ul>
 <h4 id="bigtree.tree.helper.get_tree_diff_dataframe--compare-tree-attribute">Compare tree attribute</h4>
 <p>Attributes indicated in <code>attr_list</code> will be exported in the pandas DataFrame with suffixes representing attributes
