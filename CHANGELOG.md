@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.26.0] - 2025-14-13
+### Added:
+- Tree Modify: Merge trees to merge multiple trees/branches into a single tree.
+
 ## [0.25.4] - 2025-04-04
 - Docs: Clean up docstring where possible and relevant.
 
@@ -755,7 +759,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.25.4...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.26.0...HEAD
+[0.26.0]: https://github.com/kayjan/bigtree/compare/0.25.4...0.26.0
 [0.25.4]: https://github.com/kayjan/bigtree/compare/0.25.3...0.25.4
 [0.25.3]: https://github.com/kayjan/bigtree/compare/0.25.2...0.25.3
 [0.25.2]: https://github.com/kayjan/bigtree/compare/0.25.1...0.25.2
