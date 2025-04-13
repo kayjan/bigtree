@@ -1,8 +1,9 @@
-__version__ = "0.26.0"
+__version__ = "0.27.0"
 
 from bigtree.binarytree.construct import list_to_binarytree
 from bigtree.dag.construct import dataframe_to_dag, dict_to_dag, list_to_dag
 from bigtree.dag.export import dag_to_dataframe, dag_to_dict, dag_to_dot, dag_to_list
+from bigtree.dag.parsing import get_path_dag
 from bigtree.node.basenode import BaseNode
 from bigtree.node.binarynode import BinaryNode
 from bigtree.node.dagnode import DAGNode
@@ -60,6 +61,7 @@ from bigtree.tree.modify import (
     shift_and_replace_nodes,
     shift_nodes,
 )
+from bigtree.tree.parsing import get_common_ancestors, get_path
 from bigtree.tree.search import (
     find,
     find_attr,

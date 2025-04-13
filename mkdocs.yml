@@ -40,11 +40,13 @@ nav:
     - 🌴 DAG:
         - bigtree/dag/construct.md
         - bigtree/dag/export.md
+        - bigtree/dag/parsing.md
     - 🌲 Tree:
       - bigtree/tree/construct.md
       - bigtree/tree/export.md
       - bigtree/tree/helper.md
       - bigtree/tree/modify.md
+      - bigtree/tree/parsing.md
       - bigtree/tree/search.md
     - 🔧 Utils:
         - bigtree/utils/iterators.md

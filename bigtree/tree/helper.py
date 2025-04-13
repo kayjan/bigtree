@@ -275,9 +275,9 @@ def get_tree_diff_dataframe(
     By default, suffix will be '+' and '-' for the tree differences, and np.nan for the others.
 
     - If `detail=True`, 'added' and 'moved to' will be used instead of '+', and 'removed' and 'moved from' will be used
-    instead of '-'
+        instead of '-'
     - If `aggregate=True`, suffix will only be indicated at the parent-level. This is useful when a subtree is shifted
-    and we want the differences shown only at the top node
+        and we want the differences shown only at the top node
 
     # Compare tree attribute
 

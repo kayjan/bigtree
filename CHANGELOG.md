@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.27.0] - 2025-14-13
+### Added:
+- DAG/Tree Parsing: Add parsing module to get path from node to node, this was already avaiable in `.go_to()` function,
+but abstracted out to a parsing module.
+
 ## [0.26.0] - 2025-14-13
 ### Added:
 - Tree Modify: Merge trees to merge multiple trees/branches into a single tree.
@@ -759,7 +764,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.26.0...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.27.0...HEAD
+[0.27.0]: https://github.com/kayjan/bigtree/compare/0.26.4...0.27.0
 [0.26.0]: https://github.com/kayjan/bigtree/compare/0.25.4...0.26.0
 [0.25.4]: https://github.com/kayjan/bigtree/compare/0.25.3...0.25.4
 [0.25.3]: https://github.com/kayjan/bigtree/compare/0.25.2...0.25.3

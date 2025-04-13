@@ -647,33 +647,7 @@ class BaseNode:
         self.__dict__.update(attrs)
 
     def go_to(self: T, node: T) -> Iterable[T]:
-        """Get path from current node to specified node from same tree.
-
-        Examples:
-            >>> from bigtree import Node, print_tree
-            >>> a = Node(name="a")
-            >>> b = Node(name="b", parent=a)
-            >>> c = Node(name="c", parent=a)
-            >>> d = Node(name="d", parent=b)
-            >>> e = Node(name="e", parent=b)
-            >>> f = Node(name="f", parent=c)
-            >>> g = Node(name="g", parent=e)
-            >>> h = Node(name="h", parent=e)
-            >>> print_tree(a)
-            a
-            ├── b
-            │   ├── d
-            │   └── e
-            │       ├── g
-            │       └── h
-            └── c
-                └── f
-            >>> d.go_to(d)
-            [Node(/a/b/d, )]
-            >>> d.go_to(g)
-            [Node(/a/b/d, ), Node(/a/b, ), Node(/a/b/e, ), Node(/a/b/e/g, )]
-            >>> d.go_to(f)
-            [Node(/a/b/d, ), Node(/a/b, ), Node(/a, ), Node(/a/c, ), Node(/a/c/f, )]
+        """Get path from current node to specified node from same tree, uses `get_path` function.
 
         Args:
             node: node to travel to from current node, inclusive of start and end node
@@ -681,24 +655,9 @@ class BaseNode:
         Returns:
             Path from current node to destination node
         """
-        if not isinstance(node, BaseNode):
-            raise TypeError(
-                f"Expect node to be BaseNode type, received input type {type(node)}"
-            )
-        if self.root != node.root:
-            raise exceptions.TreeError(
-                f"Nodes are not from the same tree. Check {self} and {node}"
-            )
-        if self == node:
-            return [self]
-        self_path = [self] + list(self.ancestors)
-        node_path = ([node] + list(node.ancestors))[::-1]
-        common_nodes = set(self_path).intersection(set(node_path))
-        self_min_index, min_common_node = sorted(
-            [(self_path.index(_node), _node) for _node in common_nodes]
-        )[0]
-        node_min_index = node_path.index(min_common_node)
-        return self_path[:self_min_index] + node_path[node_min_index:]
+        from bigtree.tree.parsing import get_path
+
+        return get_path(self, node)
 
     def append(self: T, other: T) -> None:
         """Add other as child of self.
