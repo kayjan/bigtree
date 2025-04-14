@@ -240,6 +240,16 @@ class TestBaseNode(unittest.TestCase):
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
 
+    def test_set_children_append_chain(self):
+        self.a.append(self.b).append(self.c)
+        self.b.append(self.d).append(self.e)
+        self.c.append(self.f)
+        self.e.append(self.g).append(self.h)
+
+        assert_tree_structure_basenode_root(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
     def test_set_children_extend(self):
         self.a.children = [self.b]
         self.b.children = [self.d]
@@ -247,6 +257,16 @@ class TestBaseNode(unittest.TestCase):
 
         self.a.extend([self.c])
         self.b.extend([self.e])
+        self.e.extend([self.g, self.h])
+
+        assert_tree_structure_basenode_root(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+
+    def test_set_children_extend_chain(self):
+        self.a.extend([self.b]).extend([self.c])
+        self.b.extend([self.d]).extend([self.e])
+        self.c.extend([self.f])
         self.e.extend([self.g, self.h])
 
         assert_tree_structure_basenode_root(self.a)

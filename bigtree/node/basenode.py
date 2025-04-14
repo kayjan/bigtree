@@ -659,25 +659,27 @@ class BaseNode:
 
         return get_path(self, node)
 
-    def append(self: T, other: T) -> None:
-        """Add other as child of self.
+    def append(self: T, other: T) -> T:
+        """Add other as child of self. Can be chained.
 
         Args:
             other: other node, child to be added
         """
         other.parent = self
+        return self
 
-    def extend(self: T, others: List[T]) -> None:
-        """Add others as children of self.
+    def extend(self: T, others: List[T]) -> T:
+        """Add others as children of self. Can be chained.
 
         Args:
             others: other nodes, children to be added
         """
         for child in others:
             child.parent = self
+        return self
 
     def copy(self: T) -> T:
-        """Deep copy self; clone self.
+        """Deep copy self; clone BaseNode.
 
         Examples:
             >>> from bigtree.node.node import Node
@@ -689,9 +691,9 @@ class BaseNode:
         """
         return copy.deepcopy(self)
 
-    def sort(self: T, **kwargs: Any) -> None:
+    def sort(self: T, **kwargs: Any) -> T:
         """Sort children, possible keyword arguments include ``key=lambda node: node.node_name``, ``reverse=True``.
-        Accepts kwargs for sort() function.
+        Accepts kwargs for sort() function. Can be chained.
 
         Examples:
             >>> from bigtree import Node, print_tree
@@ -711,6 +713,7 @@ class BaseNode:
         children = list(self.children)
         children.sort(**kwargs)
         self.__children = children
+        return self
 
     def plot(self, *args: Any, **kwargs: Any) -> plt.Figure:
         """Plot tree in line form. Accepts args and kwargs for matplotlib.pyplot.plot() function.
