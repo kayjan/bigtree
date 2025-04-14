@@ -15,6 +15,7 @@ DAGNodes can be linked to each other in the following ways:
 - Using `parents` and `children` setter methods
 - Directly passing `parents` or `children` argument
 - Using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`
+- Using `.append(child)` or `.extend([child1, child2])` methods
 
 ```python hl_lines="5-8 10"
 from bigtree import DAGNode, dag_to_dot
@@ -113,26 +114,28 @@ node_a = dag.parents[0]
 
 Below are the tables of attributes available to `DAGNode` class.
 
-| Attributes wrt self                  | Code             | Returns |
-|--------------------------------------|------------------|---------|
-| Check if root                        | `node_a.is_root` | True    |
-| Check if leaf node                   | `dag.is_leaf`    | False   |
-| Get node name (only for `Node`)      | `dag.node_name`  | 'd'     |
+| Attributes wrt self             | Code             | Returns |
+|---------------------------------|------------------|---------|
+| Check if root                   | `node_a.is_root` | True    |
+| Check if leaf node              | `dag.is_leaf`    | False   |
+| Get node name (only for `Node`) | `dag.node_name`  | 'd'     |
 
-| Attributes wrt structure     | Code                  | Returns                                                              |
-|------------------------------|-----------------------|----------------------------------------------------------------------|
-| Get child/children           | `node_a.children`     | (DAGNode(c, ), DAGNode(d, ))                                         |
-| Get parents                  | `dag.parents`         | (DAGNode(a, ), DAGNode(c, ))                                         |
-| Get siblings                 | `dag.siblings`        | (DAGNode(c, ),)                                                      |
-| Get ancestors                | `dag.ancestors`       | [DAGNode(a, ), DAGNode(b, ), DAGNode(c, )]                           |
-| Get descendants              | `dag.descendants`     | [DAGNode(e, )]                                                       |
+| Attributes wrt structure | Code               | Returns                                    |
+|--------------------------|--------------------|--------------------------------------------|
+| Get child/children       | `node_a.children`  | (DAGNode(c, ), DAGNode(d, ))               |
+| Get parents              | `dag.parents`      | (DAGNode(a, ), DAGNode(c, ))               |
+| Get siblings             | `dag.siblings`     | (DAGNode(c, ),)                            |
+| Get ancestors            | `dag.ancestors`    | [DAGNode(a, ), DAGNode(b, ), DAGNode(c, )] |
+| Get descendants          | `dag.descendants`  | [DAGNode(e, )]                             |
 
 Below is the table of operations available to `DAGNode` class.
 
-| Operations                            | Code                                                       | Returns                                                                                                          |
-|---------------------------------------|------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| Get node information                  | `dag.describe(exclude_prefix="_")`                         | [('name', 'd')]                                                                                                  |
-| Find path(s) from one node to another | `node_a.go_to(dag)`                                        | [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, description=dag-tag)], [DAGNode(a, ), DAGNode(d, description=dag-tag)]] |
-| Set attribute(s)                      | `dag.set_attrs({"description": "dag-tag"})`                | None                                                                                                             |
-| Get attribute                         | `dag.get_attr("description")`                              | 'dag-tag'                                                                                                        |
-| Copy DAG                              | `dag.copy()`                                               | None                                                                                                             |
+| Operations                            | Code                                          | Returns                                                                                                          |
+|---------------------------------------|-----------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| Get node information                  | `dag.describe(exclude_prefix="_")`            | [('name', 'd')]                                                                                                  |
+| Find path(s) from one node to another | `node_a.go_to(dag)`                           | [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, description=dag-tag)], [DAGNode(a, ), DAGNode(d, description=dag-tag)]] |
+| Add child to node                     | `node_a.append(DAGNode("j"))`                 | DAGNode(a, )                                                                                                     |
+| Add multiple children to node         | `node_a.extend([DAGNode("k"), DAGNode("l")])` | DAGNode(a, )                                                                                                     |
+| Set attribute(s)                      | `dag.set_attrs({"description": "dag-tag"})`   | None                                                                                                             |
+| Get attribute                         | `dag.get_attr("description")`                 | 'dag-tag'                                                                                                        |
+| Copy DAG                              | `dag.copy()`                                  | None                                                                                                             |
