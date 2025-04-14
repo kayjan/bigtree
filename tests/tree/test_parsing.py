@@ -103,6 +103,53 @@ class TestParsing(unittest.TestCase):
                 actual_path == expected_path
             ), f"Wrong path for {node_pair}, expected {expected_path}, received {actual_path}"
 
+    def test_go_to(self):
+        assert_tree_structure_basenode_root(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+        assert_tree_structure_node_root(self.a)
+        assert_tree_structure_node_self(self)
+
+        expected_paths = [
+            ["a", "b"],
+            ["a", "b", "d"],
+            ["a", "b", "e"],
+            ["a", "b", "e", "g"],
+            ["a", "b", "e", "h"],
+            ["a", "c"],
+            ["a", "c", "f"],
+            ["b", "d"],
+            ["b", "e"],
+            ["b", "e", "g"],
+            ["b", "e", "h"],
+            ["b", "a", "c"],
+            ["b", "a", "c", "f"],
+            ["d", "b", "e"],
+            ["d", "b", "e", "g"],
+            ["d", "b", "e", "h"],
+            ["d", "b", "a", "c"],
+            ["d", "b", "a", "c", "f"],
+            ["e", "g"],
+            ["e", "h"],
+            ["e", "b", "a", "c"],
+            ["e", "b", "a", "c", "f"],
+            ["g", "e", "h"],
+            ["g", "e", "b", "a", "c"],
+            ["g", "e", "b", "a", "c", "f"],
+            ["h", "e", "b", "a", "c"],
+            ["h", "e", "b", "a", "c", "f"],
+            ["c", "f"],
+        ]
+        for node_pair, expected_path in zip(
+            combinations(list(iterators.preorder_iter(self.a)), 2), expected_paths
+        ):
+            actual_path = [
+                _node.node_name for _node in node_pair[0].go_to(node_pair[1])
+            ]
+            assert (
+                actual_path == expected_path
+            ), f"Wrong path for {node_pair}, expected {expected_path}, received {actual_path}"
+
     def test_get_path_same_node(self):
         for _node in iterators.preorder_iter(self.a):
             actual_path = [
