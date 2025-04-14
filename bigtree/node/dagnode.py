@@ -96,7 +96,9 @@ class DAGNode:
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
     4. ``go_to(node: Self)``: Get a path from own node to another node from same DAG
-    5. ``copy()``: Deep copy self
+    5. ``append(node: Self)``: Add child to node
+    6. ``extend(nodes: List[Self])``: Add multiple children to node
+    7. ``copy()``: Deep copy self
 
     ----
 
@@ -514,6 +516,25 @@ class DAGNode:
         from bigtree.dag.parsing import get_path_dag
 
         return get_path_dag(self, node)
+
+    def append(self: T, other: T) -> T:
+        """Add other as child of self. Can be chained.
+
+        Args:
+            other: other node, child to be added
+        """
+        other.parents = [self]
+        return self
+
+    def extend(self: T, others: List[T]) -> T:
+        """Add others as children of self. Can be chained.
+
+        Args:
+            others: other nodes, children to be added
+        """
+        for child in others:
+            child.parents = [self]
+        return self
 
     def copy(self: T) -> T:
         """Deep copy self; clone DAGNode.

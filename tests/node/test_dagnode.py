@@ -197,6 +197,48 @@ class TestDAGNode(unittest.TestCase):
         assert_dag_structure_self(self)
         assert_dag_structure_root(self.a)
 
+    def test_set_children_append(self):
+        self.a.append(self.c)
+        self.a.children = [self.d]
+        self.b.append(self.c)
+        self.c.children = [self.d, self.f]
+        self.c.append(self.g)
+        self.d.children = [self.e, self.f]
+        self.g.children = [self.h]
+
+        assert_dag_structure_self(self)
+        assert_dag_structure_root(self.a)
+
+    def test_set_children_append_chain(self):
+        self.a.append(self.c).append(self.d)
+        self.b.append(self.c)
+        self.c.append(self.d).append(self.f).append(self.g)
+        self.d.children = [self.e, self.f]
+        self.g.children = [self.h]
+
+        assert_dag_structure_self(self)
+        assert_dag_structure_root(self.a)
+
+    def test_set_children_extend(self):
+        self.a.extend([self.c, self.d])
+        self.b.extend([self.c])
+        self.c.children = [self.d, self.f, self.g]
+        self.d.children = [self.e, self.f]
+        self.g.children = [self.h]
+
+        assert_dag_structure_self(self)
+        assert_dag_structure_root(self.a)
+
+    def test_set_children_extend_chain(self):
+        self.a.extend([self.c]).extend([self.d])
+        self.b.extend([self.c])
+        self.c.extend([self.d, self.f]).extend([self.g])
+        self.d.children = [self.e, self.f]
+        self.g.children = [self.h]
+
+        assert_dag_structure_self(self)
+        assert_dag_structure_root(self.a)
+
     def test_set_children_constructor(self):
         self.h = dagnode.DAGNode(name="h", age=6)
         self.g = dagnode.DAGNode(name="g", age=10, children=[self.h])
