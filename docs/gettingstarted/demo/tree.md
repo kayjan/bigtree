@@ -589,8 +589,8 @@ Below is the table of operations available to `BaseNode` and `Node` classes.
 | Visualize tree (vertically) (only for `Node`)   | `root.vshow()`                                             | None                                       |
 | Get node information                            | `root.describe(exclude_prefix="_")`                        | [('name', 'a')]                            |
 | Find path from one node to another              | `root.go_to(node_e)`                                       | [Node(/a, ), Node(/a/b, ), Node(/a/b/e, )] |
-| Add child to node                               | `root.append(Node("j"))`                                   | None                                       |
-| Add multiple children to node                   | `root.extend([Node("k"), Node("l")])`                      | None                                       |
+| Add child to node                               | `root.append(Node("j"))`                                   | Node(/a, )                                 |
+| Add multiple children to node                   | `root.extend([Node("k"), Node("l")])`                      | Node(/a, )                                 |
 | Set attribute(s)                                | `root.set_attrs({"description": "root-tag"})`              | None                                       |
 | Get attribute                                   | `root.get_attr("description")`                             | 'root-tag'                                 |
 | Copy tree                                       | `root.copy()`                                              | None                                       |

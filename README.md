@@ -49,7 +49,7 @@ For **Tree** implementation, there are 9 main components.
    4. Level-Order-Group Traversal
    5. ZigZag Traversal
    6. ZigZag-Group Traversal
-4. [**➰ Parsing Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/parsing/)
+4. [**🧩 Parsing Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/parsing/)
    1. Get common ancestors between nodes
    2. Get path from one node to another node
 5. [**📝 Modifying Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/modify/)
@@ -104,7 +104,7 @@ For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components
    3. From *pandas DataFrame*
 3. [**➰ Traversing DAG**](https://bigtree.readthedocs.io/en/stable/bigtree/utils/iterators/)
    1. Generic traversal method
-4. [**➰ Parsing DAG**](https://bigtree.readthedocs.io/en/stable/bigtree/dag/parsing/)
+4. [**🧩 Parsing DAG**](https://bigtree.readthedocs.io/en/stable/bigtree/dag/parsing/)
    1. Get possible paths from one node to another node
 5. [**🔨 Exporting DAG**](https://bigtree.readthedocs.io/en/stable/bigtree/dag/export/)
    1. Export to *list*, *dictionary*, or *pandas DataFrame*
