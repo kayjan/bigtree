@@ -11,4 +11,6 @@ site/
 .cache
 .benchmarks
 
+tests/*.html
+tests/*.png
 docs/_static/playground-config.js

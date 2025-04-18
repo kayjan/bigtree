@@ -711,6 +711,12 @@ class TestTreeToPillowGraph:
             pillow_image.save("tests/tree_pillow_graph.png")
 
     @staticmethod
+    def test_tree_to_pillow_graph_big(tree_node_big):
+        pillow_image = export.tree_to_pillow_graph(tree_node_big)
+        if LOCAL:
+            pillow_image.save("tests/tree_pillow_graph_big.png")
+
+    @staticmethod
     def test_tree_to_pillow_graph_multiline(tree_node):
         pillow_image = export.tree_to_pillow_graph(
             tree_node, node_content="{node_name}\nAge: {age}"

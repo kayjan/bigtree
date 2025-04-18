@@ -43,10 +43,14 @@ all = [
   "polars",
   "pydot",
   "Pillow",
+  "pyvis",
 ]
 image = [
   "pydot",
   "Pillow",
+]
+vis = [
+  "pyvis"
 ]
 matplotlib = ["matplotlib"]
 pandas = ["pandas"]

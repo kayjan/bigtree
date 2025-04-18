@@ -5,6 +5,43 @@ from bigtree.tree import helper, modify
 
 
 @pytest.fixture
+def tree_node_big():
+    from bigtree.tree.construct import list_to_tree
+
+    tree_node = list_to_tree(
+        [
+            "a/b/b1",
+            "a/b/b2",
+            "a/b/b3",
+            "a/b/b4",
+            "a/b/b5",
+            "a/c/c1/c11",
+            "a/c/c1/c12",
+            "a/d/d1",
+            "a/d/d2",
+            "a/d/d3",
+            "a/d/d4",
+            "a/d/d5/d51",
+            "a/d/d5/d52",
+            "a/d/d5/d53",
+            "a/d/d5/d54",
+            "a/d/d6",
+            "a/e/e1/e11",
+            "a/e/e1/e12",
+            "a/e/e1/e13",
+            "a/e/e1/e14",
+            "a/e/e1/e15",
+            "a/e/e1/e16",
+            "a/e/e2",
+            "a/e/e3/e311",
+            "a/e/e3/e312",
+            "a/e/e3/e313",
+        ]
+    )
+    return tree_node
+
+
+@pytest.fixture
 def tree_node_plot():
     z = node.Node("z")
     y = node.Node("y")

@@ -1186,6 +1186,7 @@ Tree can be exported to other data types:
 5. Dot (can save to .dot, .png, .svg, .jpeg files)
 6. Pillow (can save to .png, .jpg)
 7. Mermaid Flowchart (can display on .md)
+8. Pyvis Network (can display interactive .html)
 
 ```python
 from bigtree import Node
@@ -1338,6 +1339,14 @@ root.show()
 
     mermaid_md = tree_to_mermaid(root)
     print(mermaid_md)
+    ```
+
+=== "Pyvis Network"
+    ```python hl_lines="3"
+    from bigtree import tree_to_vis
+
+    net = tree_to_vis(root)
+    net.save_graph("assets/demo/vis.html")
     ```
 
 - dot.png

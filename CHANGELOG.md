@@ -6,9 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added:
+- Tree Export: Add export to visualisation with pyvis.
 - DAGNode: Methods for .add, .extend methods, available for chaining.
 ### Changed:
 - BaseNode: Able to have method chaining for .add, .extend, .sort method
+- Type Hint: Type hint to use Optional and default argument to None instead of empty string.
 
 ## [0.27.0] - 2025-14-13
 ### Added:
