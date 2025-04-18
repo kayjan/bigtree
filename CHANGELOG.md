@@ -13,11 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed:
 - BaseNode: Able to have method chaining for .add, .extend, .sort method
 - Type Hint: Type hint to use Optional and default argument to None instead of empty string.
-<<<<<<< HEAD
 ### Fixed:
 - Tree Plot: Reingold Tilford discovered edge case that caused subtrees to overlap, fixed the logic to account for this.
-=======
->>>>>>> 4d352c82a1f2dd1fe20018ffce5eae380cce30f1
 
 ## [0.27.0] - 2025-04-13
 ### Added:
