@@ -15,6 +15,7 @@ from .stdout import (  # noqa
     vyield_tree,
     yield_tree,
 )
+from .vis import tree_to_vis  # noqa
 
 __all__ = [
     "print_tree",
@@ -32,4 +33,5 @@ __all__ = [
     "tree_to_pillow_graph",
     "tree_to_mermaid",
     "tree_to_newick",
+    "tree_to_vis",
 ]

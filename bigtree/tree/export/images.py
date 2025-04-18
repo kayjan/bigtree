@@ -47,12 +47,12 @@ def tree_to_dot(
     tree: Union[T, List[T]],
     directed: bool = True,
     rankdir: str = "TB",
-    bg_colour: str = "",
-    node_colour: str = "",
-    node_shape: str = "",
-    edge_colour: str = "",
-    node_attr: Callable[[T], Dict[str, Any]] | str = "",
-    edge_attr: Callable[[T], Dict[str, Any]] | str = "",
+    bg_colour: Optional[str] = None,
+    node_colour: Optional[str] = None,
+    node_shape: Optional[str] = None,
+    edge_colour: Optional[str] = None,
+    node_attr: Callable[[T], Dict[str, Any]] | Optional[str] = None,
+    edge_attr: Callable[[T], Dict[str, Any]] | Optional[str] = None,
 ) -> pydot.Dot:
     r"""Export tree or list of trees to pydot.Dot object. Object can be converted to other format, such as png, dot file
     or dot string. Dot string can be imported to work with networkx.
@@ -218,7 +218,9 @@ def tree_to_dot(
     return _graph
 
 
-def _load_font(font_family: str, font_size: int) -> ImageFont.truetype:
+def _load_font(
+    font_family: Optional[str] = None, font_size: int = 12
+) -> ImageFont.truetype:
     if not font_family:
         from urllib.request import urlopen
 
@@ -241,7 +243,7 @@ def tree_to_pillow_graph(
     margin: Optional[Dict[str, int]] = None,
     height_buffer: Union[int, float] = 20,
     width_buffer: Union[int, float] = 10,
-    font_family: str = "",
+    font_family: Optional[str] = None,
     font_size: int = 12,
     font_colour: Union[Tuple[int, int, int], str] = "black",
     text_align: str = "center",
@@ -434,7 +436,7 @@ def tree_to_pillow(
     width: int = 0,
     height: int = 0,
     start_pos: Tuple[int, int] = (10, 10),
-    font_family: str = "",
+    font_family: Optional[str] = None,
     font_size: int = 12,
     font_colour: Union[Tuple[int, int, int], str] = "black",
     bg_colour: Union[Tuple[int, int, int], str] = "white",
@@ -516,19 +518,19 @@ def tree_to_pillow(
 
 def tree_to_mermaid(
     tree: T,
-    title: str = "",
+    title: Optional[str] = None,
     theme: Optional[str] = None,
     rankdir: str = "TB",
     line_shape: str = "basis",
-    node_colour: str = "",
-    node_border_colour: str = "",
+    node_colour: Optional[str] = None,
+    node_border_colour: Optional[str] = None,
     node_border_width: float = 1,
     node_shape: str = "rounded_edge",
-    node_shape_attr: Callable[[T], str] | str = "",
+    node_shape_attr: Callable[[T], str] | Optional[str] = None,
     edge_arrow: str = "normal",
-    edge_arrow_attr: Callable[[T], str] | str = "",
-    edge_label: str = "",
-    node_attr: Callable[[T], str] | str = "",
+    edge_arrow_attr: Callable[[T], str] | Optional[str] = None,
+    edge_label: Optional[str] = None,
+    node_attr: Callable[[T], str] | Optional[str] = None,
     **kwargs: Any,
 ) -> str:
     r"""Export tree to mermaid Markdown text. Accepts additional keyword arguments as input to `yield_tree`.
@@ -815,7 +817,9 @@ def tree_to_mermaid(
             # Get custom style (edge_arrow_attr, edge_label)
             _arrow = edge_arrows[_get_attr(_node, edge_arrow_attr, edge_arrow)]
             _arrow_label = (
-                f"|{_node.get_attr(edge_label)}|" if _node.get_attr(edge_label) else ""
+                f"|{_node.get_attr(edge_label)}|"
+                if edge_label and _node.get_attr(edge_label)
+                else ""
             )
 
             # Get custom style (node_attr)

@@ -62,6 +62,7 @@ For **Tree** implementation, there are 9 main components.
 - Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
 - Export tree to *Pillow* (can save to .png, .jpg)
 - Export tree to *Mermaid Flowchart* (can display on .md)
+- Export tree to *Pyvis Network* (can display interactive .html)
 
 ## [**✔️ Workflows**](../bigtree/workflows/app_todo.md)
 - Sample workflows for tree demonstration!

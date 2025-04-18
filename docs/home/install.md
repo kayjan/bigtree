@@ -35,6 +35,7 @@ Examples of extra packages include:
 - `matplotlib`: for plotting trees
 - `pandas`: for pandas methods
 - `polars`: for polars methods
+- `vis`: for pyvis visualisation
 
 For `image` extra dependency, you may need to install more plugins.
 

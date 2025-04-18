@@ -40,6 +40,7 @@ from bigtree.tree.export import (
     tree_to_pillow,
     tree_to_pillow_graph,
     tree_to_polars,
+    tree_to_vis,
     vprint_tree,
     vyield_tree,
     yield_tree,

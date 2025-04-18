@@ -167,3 +167,25 @@ def optional_dependencies_image(
         return wrapper
 
     return decorator
+
+
+def optional_dependencies_pyvis(
+    func: Callable[..., T],
+) -> Callable[..., T]:  # pragma: no cover
+    """
+    This is a decorator which can be used to import optional pyvis dependency. It will raise an ImportError if the
+    module is not found.
+    """
+
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> T:
+        try:
+            import pyvis  # noqa: F401
+        except ImportError:
+            raise ImportError(
+                "pyvis not available. Please perform a\n\n"
+                "pip install 'bigtree[vis]'\n\nto install required dependencies"
+            ) from None
+        return func(*args, **kwargs)
+
+    return wrapper

@@ -6,7 +6,7 @@ title: Tree Export
 
 ## Tree Export Methods
 
-Export Tree to list, dictionary, and pandas DataFrame.
+Export Tree to list, dictionary, pandas/polars DataFrame, and various formats.
 
 | Export Tree to                          | Method                                     |
 |-----------------------------------------|--------------------------------------------|
@@ -18,6 +18,8 @@ Export Tree to list, dictionary, and pandas DataFrame.
 | Dot (for .dot, .png, .svg, .jpeg, etc.) | `tree_to_dot`                              |
 | Pillow (for .png, .jpg, .jpeg, etc.)    | `tree_to_pillow`, `tree_to_pillow_graph`   |
 | Mermaid Markdown (for .md)              | `tree_to_mermaid`                          |
+| Visualization                           | `tree_to_vis`                              |
+
 
 
 ## Tree Export Customisations
@@ -37,10 +39,11 @@ While exporting to another data type, methods can take in arguments to determine
 | `tree_to_nested_dict`  | Yes with `attr_dict` or `all_attrs` | Yes                   | No         | No                                    | Dict key for node name and node children              |
 | `tree_to_dataframe`    | Yes with `attr_dict` or `all_attrs` | Yes                   | Yes        | Yes with `leaf_only`                  | Column name for path, node name, node parent          |
 | `tree_to_polars`       | Yes with `attr_dict` or `all_attrs` | Yes                   | Yes        | Yes with `leaf_only`                  | Column name for path, node name, node parent          |
-| `tree_to_dot`          | No                                  | No                    | No         | No                                    | Graph attributes, background, node, edge colour, etc. |
-| `tree_to_pillow_graph` | Yes with `node_content`             | Yes                   | No         | No                                    | Font (family, size, colour), background colour, etc.  |
-| `tree_to_pillow`       | No                                  | Yes                   | No         | No                                    | Font (family, size, colour), background colour, etc.  |
+| `tree_to_dot`          | No                                  | No                    | No         | No                                    | Graph attributes, background, node, edge colour etc.  |
+| `tree_to_pillow_graph` | Yes with `node_content`             | Yes                   | No         | No                                    | Font (family, size, colour), background colour etc.   |
+| `tree_to_pillow`       | No                                  | Yes                   | No         | No                                    | Font (family, size, colour), background colour etc.   |
 | `tree_to_mermaid`      | No                                  | Yes                   | No         | No                                    | Node shape, node fill, edge arrow, edge label etc.    |
+| `tree_to_vis`          | No                                  | Yes                   | No         | No                                    | Background style, node style, edge style etc.         |
 
 -----
 

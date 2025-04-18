@@ -705,6 +705,7 @@ class BaseNode:
             ├── c
             └── b
             >>> a.sort(key=lambda node: node.node_name)
+            Node(/a, )
             >>> print_tree(a)
             a
             ├── b
