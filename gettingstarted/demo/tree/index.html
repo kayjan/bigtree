@@ -3606,12 +3606,12 @@ and operations (methods).</p>
 <tr>
 <td>Add child to node</td>
 <td><code>root.append(Node("j"))</code></td>
-<td>None</td>
+<td>Node(/a, )</td>
 </tr>
 <tr>
 <td>Add multiple children to node</td>
 <td><code>root.extend([Node("k"), Node("l")])</code></td>
-<td>None</td>
+<td>Node(/a, )</td>
 </tr>
 <tr>
 <td>Set attribute(s)</td>
@@ -4221,6 +4221,7 @@ dataframe of the tree differences can be retrieved with <code>get_tree_diff_data
 <li>Dot (can save to .dot, .png, .svg, .jpeg files)</li>
 <li>Pillow (can save to .png, .jpg)</li>
 <li>Mermaid Flowchart (can display on .md)</li>
+<li>Pyvis Network (can display interactive .html)</li>
 </ol>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span>
 </span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>
@@ -4236,7 +4237,7 @@ dataframe of the tree differences can be retrieved with <code>get_tree_diff_data
 </span><span id="__span-44-12"><a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a><span class="c1"># │   └── e</span>
 </span><span id="__span-44-13"><a id="__codelineno-44-13" name="__codelineno-44-13" href="#__codelineno-44-13"></a><span class="c1"># └── c</span>
 </span></code></pre></div>
-<div class="tabbed-set tabbed-alternate" data-tabs="13:9"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><input id="__tabbed_13_3" name="__tabbed_13" type="radio" /><input id="__tabbed_13_4" name="__tabbed_13" type="radio" /><input id="__tabbed_13_5" name="__tabbed_13" type="radio" /><input id="__tabbed_13_6" name="__tabbed_13" type="radio" /><input id="__tabbed_13_7" name="__tabbed_13" type="radio" /><input id="__tabbed_13_8" name="__tabbed_13" type="radio" /><input id="__tabbed_13_9" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Newick string notation</label><label for="__tabbed_13_2">Dictionary (flat structure)</label><label for="__tabbed_13_3">Dictionary (recursive structure)</label><label for="__tabbed_13_4">pandas DataFrame</label><label for="__tabbed_13_5">polars DataFrame</label><label for="__tabbed_13_6">Dot</label><label for="__tabbed_13_7">Pillow Graph</label><label for="__tabbed_13_8">Pillow</label><label for="__tabbed_13_9">Mermaid Flowchart</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:10"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><input id="__tabbed_13_3" name="__tabbed_13" type="radio" /><input id="__tabbed_13_4" name="__tabbed_13" type="radio" /><input id="__tabbed_13_5" name="__tabbed_13" type="radio" /><input id="__tabbed_13_6" name="__tabbed_13" type="radio" /><input id="__tabbed_13_7" name="__tabbed_13" type="radio" /><input id="__tabbed_13_8" name="__tabbed_13" type="radio" /><input id="__tabbed_13_9" name="__tabbed_13" type="radio" /><input id="__tabbed_13_10" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Newick string notation</label><label for="__tabbed_13_2">Dictionary (flat structure)</label><label for="__tabbed_13_3">Dictionary (recursive structure)</label><label for="__tabbed_13_4">pandas DataFrame</label><label for="__tabbed_13_5">polars DataFrame</label><label for="__tabbed_13_6">Dot</label><label for="__tabbed_13_7">Pillow Graph</label><label for="__tabbed_13_8">Pillow</label><label for="__tabbed_13_9">Mermaid Flowchart</label><label for="__tabbed_13_10">Pyvis Network</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="language-python highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">tree_to_newick</span>
@@ -4364,6 +4365,13 @@ dataframe of the tree differences can be retrieved with <code>get_tree_diff_data
 </span><span id="__span-53-2"><a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>
 </span><span id="__span-53-3"><a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a><span class="hll"><span class="n">mermaid_md</span> <span class="o">=</span> <span class="n">tree_to_mermaid</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
 </span></span><span id="__span-53-4"><a id="__codelineno-53-4" name="__codelineno-53-4" href="#__codelineno-53-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">mermaid_md</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">tree_to_vis</span>
+</span><span id="__span-54-2"><a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>
+</span><span id="__span-54-3"><a id="__codelineno-54-3" name="__codelineno-54-3" href="#__codelineno-54-3"></a><span class="hll"><span class="n">net</span> <span class="o">=</span> <span class="n">tree_to_vis</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+</span></span><span id="__span-54-4"><a id="__codelineno-54-4" name="__codelineno-54-4" href="#__codelineno-54-4"></a><span class="n">net</span><span class="o">.</span><span class="n">save_graph</span><span class="p">(</span><span class="s2">&quot;assets/demo/vis.html&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 </div>
 </div>
