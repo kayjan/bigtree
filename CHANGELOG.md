@@ -11,8 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tree Export: Add export to visualisation with pyvis.
 - DAGNode: Methods for .add, .extend methods, available for chaining.
 ### Changed:
-- BaseNode: Able to have method chaining for .add, .extend, .sort method
+- BaseNode: Able to have method chaining for .add, .extend, .sort method.
 - Type Hint: Type hint to use Optional and default argument to None instead of empty string.
+- Docs: Fix the link to article to point to Medium.
 ### Fixed:
 - Tree Plot: Reingold Tilford discovered edge case that caused subtrees to overlap, fixed the logic to account for this.
 
