@@ -10,7 +10,7 @@ class Constants:
     3. Error message to throw should assertion fail
     """
 
-    LOCAL = True
+    LOCAL = False
 
     # binarytree/construct
     ERROR_BINARY_DAG_LIST_EMPTY = (
