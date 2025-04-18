@@ -5,20 +5,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.28.0] - 2025-04-19
 ### Added:
 - Tree Export: Add export to visualisation with pyvis.
 - DAGNode: Methods for .add, .extend methods, available for chaining.
 ### Changed:
 - BaseNode: Able to have method chaining for .add, .extend, .sort method
 - Type Hint: Type hint to use Optional and default argument to None instead of empty string.
+### Fixed:
+- Tree Plot: Reingold Tilford discovered edge case that caused subtrees to overlap, fixed the logic to account for this.
 
-## [0.27.0] - 2025-14-13
+## [0.27.0] - 2025-04-13
 ### Added:
 - DAG/Tree Parsing: Add parsing module to get path from origin node to destination node, this was already available in
 `.go_to()` function, but abstracted out to a parsing module. Tree parsing module has another method of getting common
 ancestors between multiple branches of the same tree.
 
-## [0.26.0] - 2025-14-13
+## [0.26.0] - 2025-04-13
 ### Added:
 - Tree Modify: Merge trees to merge multiple trees/branches into a single tree.
 
@@ -771,8 +775,9 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.27.0...HEAD
-[0.27.0]: https://github.com/kayjan/bigtree/compare/0.26.4...0.27.0
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.28.0...HEAD
+[0.28.0]: https://github.com/kayjan/bigtree/compare/0.27.0...0.28.0
+[0.27.0]: https://github.com/kayjan/bigtree/compare/0.26.0...0.27.0
 [0.26.0]: https://github.com/kayjan/bigtree/compare/0.25.4...0.26.0
 [0.25.4]: https://github.com/kayjan/bigtree/compare/0.25.3...0.25.4
 [0.25.3]: https://github.com/kayjan/bigtree/compare/0.25.2...0.25.3
