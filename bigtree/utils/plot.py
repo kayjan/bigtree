@@ -287,8 +287,12 @@ def _get_subtree_shift(
     new_shift = 0.0
 
     if not initial_run:
+        cum_shift_temp = cum_shift * left_idx / right_idx
         x_left = (
-            left_subtree.get_attr("x") + left_subtree.get_attr("shift") + left_cum_shift
+            left_subtree.get_attr("x")
+            + left_subtree.get_attr("shift")
+            + left_cum_shift
+            + cum_shift_temp
         )
         x_right = (
             right_subtree.get_attr("x")
@@ -296,6 +300,7 @@ def _get_subtree_shift(
             + right_cum_shift
             + cum_shift
         )
+        # Take into account that right_subtree shift will also cause left_subtree to shift
         new_shift = max(
             (x_left + subtree_separation - x_right) / (1 - left_idx / right_idx), 0
         )

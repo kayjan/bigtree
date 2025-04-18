@@ -4,7 +4,7 @@ from typing import Any, Dict, Optional, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.export.stdout import yield_tree
-from bigtree.utils import exceptions
+from bigtree.utils import exceptions, plot
 
 try:
     import pyvis
@@ -92,9 +92,7 @@ def tree_to_vis(
     network_kwargs = network_kwargs or {}
 
     # Get x, y, coordinates of diagram
-    from bigtree.utils.plot import reingold_tilford
-
-    reingold_tilford(tree, reverse=True, **plot_kwargs)
+    plot.reingold_tilford(tree, reverse=True, **plot_kwargs)
 
     from pyvis.network import Network
 
