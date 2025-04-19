@@ -68,7 +68,7 @@ def tree_to_vis(
         custom_node_kwargs: mapping of pyvis Node kwarg to tree node attribute if present. This allows custom node
             attributes to be set. Possible keys include value (for node size), color (for node colour)
         node_kwargs: kwargs for Node for all nodes, accepts keys: color etc.
-        custom_node_kwargs: mapping of pyvis Edge kwarg to tree node attribute if present. This allows custom edge
+        custom_edge_kwargs: mapping of pyvis Edge kwarg to tree node attribute if present. This allows custom edge
             attributes to be set. Possible keys include width (for edge weight)
         edge_kwargs: kwargs for Edge for all edges, accept keys: weight etc.
         network_kwargs: kwargs for Network, accepts keys: height, width, bgcolor, font_color, notebook, select_menu etc.
