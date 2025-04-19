@@ -4,7 +4,7 @@ title: Tree
 
 # 🌲 Tree
 
-For **Tree** implementation, there are 9 main components.
+For **Tree** implementation, there are 10 main components.
 
 ## [**🌺 Node**](../bigtree/node/node.md)
 - ``BaseNode``, extendable class
