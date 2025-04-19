@@ -27,7 +27,7 @@ Related Links:
 ## Components
 There are 3 segments to Big Tree consisting of Tree, Binary Tree, and Directed Acyclic Graph (DAG) implementation.
 
-For **Tree** implementation, there are 9 main components.
+For **Tree** implementation, there are 10 main components.
 
 1. [**🌺 Node**](https://bigtree.readthedocs.io/en/stable/bigtree/node/node)
    1. ``BaseNode``, extendable class
@@ -95,7 +95,7 @@ Binary Node inherits from Node, so the components in Tree implementation are als
 
 -----
 
-For **Directed Acyclic Graph (DAG)** implementation, there are 4 main components.
+For **Directed Acyclic Graph (DAG)** implementation, there are 5 main components.
 
 1. [**🌼 Node**](https://bigtree.readthedocs.io/en/stable/bigtree/node/dagnode)
    1. ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
