@@ -20,6 +20,14 @@ __all__ = [
 
 T = TypeVar("T", bound=node.Node)
 
+DEFAULT_PLOT_KWARGS = {
+    "sibling_separation": 100,
+    "subtree_separation": 100,
+    "level_separation": 100,
+}
+DEFAULT_CUSTOM_NODE_KWARGS = {"title": "node_name"}
+DEFAULT_NODE_KWARGS = {"value": 10}
+
 
 @exceptions.optional_dependencies_pyvis
 def tree_to_vis(
@@ -76,14 +84,6 @@ def tree_to_vis(
     Returns:
         pyvis object for display
     """
-    DEFAULT_PLOT_KWARGS = {
-        "sibling_separation": 100,
-        "subtree_separation": 100,
-        "level_separation": 100,
-    }
-    DEFAULT_CUSTOM_NODE_KWARGS = {"title": "node_name"}
-    DEFAULT_NODE_KWARGS = {"value": 10}
-
     plot_kwargs = {**DEFAULT_PLOT_KWARGS, **(plot_kwargs or {})}
     custom_node_kwargs = {**DEFAULT_CUSTOM_NODE_KWARGS, **(custom_node_kwargs or {})}
     node_kwargs = {**DEFAULT_NODE_KWARGS, **(node_kwargs or {})}
