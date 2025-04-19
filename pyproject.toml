@@ -74,6 +74,7 @@ dependencies = [
   "pytest",
   "pytest-cov",
   "pytest-benchmark[histogram]",
+  "pyvis",
 ]
 
 [tool.hatch.envs.default.scripts]
