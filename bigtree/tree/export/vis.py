@@ -4,7 +4,7 @@ from typing import Any, Dict, Optional, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.export.stdout import yield_tree
-from bigtree.utils import exceptions, plot
+from bigtree.utils import constants, exceptions, plot
 
 try:
     import pyvis
@@ -19,14 +19,6 @@ __all__ = [
 ]
 
 T = TypeVar("T", bound=node.Node)
-
-DEFAULT_PLOT_KWARGS = {
-    "sibling_separation": 100,
-    "subtree_separation": 100,
-    "level_separation": 100,
-}
-DEFAULT_CUSTOM_NODE_KWARGS = {"title": "node_name"}
-DEFAULT_NODE_KWARGS = {"value": 10}
 
 
 @exceptions.optional_dependencies_pyvis
@@ -84,9 +76,13 @@ def tree_to_vis(
     Returns:
         pyvis object for display
     """
-    plot_kwargs = {**DEFAULT_PLOT_KWARGS, **(plot_kwargs or {})}
-    custom_node_kwargs = {**DEFAULT_CUSTOM_NODE_KWARGS, **(custom_node_kwargs or {})}
-    node_kwargs = {**DEFAULT_NODE_KWARGS, **(node_kwargs or {})}
+    pyvis_params = constants.PyVisParameters
+    plot_kwargs = {**pyvis_params.DEFAULT_PLOT_KWARGS, **(plot_kwargs or {})}
+    custom_node_kwargs = {
+        **pyvis_params.DEFAULT_CUSTOM_NODE_KWARGS,
+        **(custom_node_kwargs or {}),
+    }
+    node_kwargs = {**pyvis_params.DEFAULT_NODE_KWARGS, **(node_kwargs or {})}
     custom_edge_kwargs = custom_edge_kwargs or {}
     edge_kwargs = edge_kwargs or {}
     network_kwargs = network_kwargs or {}
