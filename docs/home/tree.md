@@ -29,7 +29,7 @@ For **Tree** implementation, there are 11 main components.
 - ZigZag Traversal
 - ZigZag-Group Traversal
 
-## [**➰ Parsing Tree**](../bigtree/tree/parsing.md)
+## [**🧭 Parsing Tree**](../bigtree/tree/parsing.md)
 - Get common ancestors between nodes
 - Get path from one node to another node
 
@@ -40,7 +40,7 @@ For **Tree** implementation, there are 11 main components.
 - Copy nodes from one tree to another
 - Copy and replace nodes from one tree to another
 
-## [**➰ Querying Tree**](../bigtree/tree/query.md)
+## [**📌 Querying Tree**](../bigtree/tree/query.md)
 - Filter tree using Tree Query Language
 
 ## [**🔍 Tree Search**](../bigtree/tree/search.md)
