@@ -20,55 +20,24 @@ __all__ = [
 T = TypeVar("T", bound=basenode.BaseNode)
 
 
-OPERATORS = {
-    "==": operator.eq,
-    "!=": operator.ne,
-    ">": operator.gt,
-    "<": operator.lt,
-    ">=": operator.ge,
-    "<=": operator.le,
-    "contains": lambda a, b: b in a,
-    "in": lambda a, b: a in b,
-}
-
-query_grammar = """
-    ?start: expr
-
-    ?term: term "AND" factor  -> and_expr
-         | factor
-
-    ?expr: expr "OR" term     -> or_expr
-         | term
-
-    ?factor: "(" expr ")"
-           | condition
-           | unary_condition
-
-    ?condition: object_attr OP value   -> condition_expr
-            | object_attr OP_IN list   -> condition_expr
-    ?unary_condition: object_attr      -> unary_expr
-
-    ?attr: /[a-zA-Z_][a-zA-Z0-9_]*/
-    ?object_attr: attr ("." attr)*
-    ?value: ESCAPED_STRING | SIGNED_NUMBER
-    ?item: ESCAPED_STRING
-    ?list: "[" [item ("," item)*] "]"
-
-    OP: "==" | "!=" | ">" | "<" | ">=" | "<=" | "contains"
-    OP_IN: "in"
-
-    %import common.ESCAPED_STRING
-    %import common.SIGNED_NUMBER
-    %import common.WS
-    %ignore WS
-"""
-
-
 class QueryTransformer(Transformer):  # type: ignore
-    def and_expr(self, args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
+    OPERATORS = {
+        "==": operator.eq,
+        "!=": operator.ne,
+        ">": operator.gt,
+        "<": operator.lt,
+        ">=": operator.ge,
+        "<=": operator.le,
+        "contains": lambda a, b: b in a,
+        "in": lambda a, b: a in b,
+    }
+
+    @staticmethod
+    def and_expr(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
         return lambda node: all(cond(node) for cond in args)
 
-    def or_expr(self, args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
+    @staticmethod
+    def or_expr(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
         return lambda node: any(cond(node) for cond in args)
 
     def condition_expr(self, args: List[Token]) -> Callable[[T], bool]:
@@ -77,7 +46,7 @@ class QueryTransformer(Transformer):  # type: ignore
             attr = self.object_attr([attr])
         if op != "in":
             value = self.value([value])
-        op_func = OPERATORS[op]
+        op_func = self.OPERATORS[op]
         if op in ("contains", "in"):
             return lambda node: op_func(attr(node) or "", value)
         return lambda node: op_func(attr(node), value)
@@ -88,7 +57,8 @@ class QueryTransformer(Transformer):  # type: ignore
             attr = self.object_attr([attr])
         return lambda node: bool(attr(node))
 
-    def object_attr(self, args: List[Token]) -> Callable[[T], Any]:
+    @staticmethod
+    def object_attr(args: List[Token]) -> Callable[[T], Any]:
         # e.g., ['parent', 'name'] => lambda node: node.parent.name
         def accessor(node: T) -> Any:
             obj = node
@@ -103,7 +73,8 @@ class QueryTransformer(Transformer):  # type: ignore
     def list(self, args: List[Token]) -> Any:
         return [self.value([arg]) for arg in args]
 
-    def value(self, args: List[Token]) -> Any:
+    @staticmethod
+    def value(args: List[Token]) -> Any:
         val = args[0]
         if val.type == "ESCAPED_STRING":
             return val[1:-1]
@@ -168,6 +139,39 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
     """
     if not query.strip():
         raise ValueError("Please enter a valid query.")
+
+    query_grammar = """
+        ?start: expr
+
+        ?term: term "AND" factor  -> and_expr
+             | factor
+
+        ?expr: expr "OR" term     -> or_expr
+             | term
+
+        ?factor: "(" expr ")"
+               | condition
+               | unary_condition
+
+        ?condition: object_attr OP value   -> condition_expr
+                | object_attr OP_IN list   -> condition_expr
+        ?unary_condition: object_attr      -> unary_expr
+
+        ?attr: /[a-zA-Z_][a-zA-Z0-9_]*/
+        ?object_attr: attr ("." attr)*
+        ?value: ESCAPED_STRING | SIGNED_NUMBER
+        ?item: ESCAPED_STRING
+        ?list: "[" [item ("," item)*] "]"
+
+        OP: "==" | "!=" | ">" | "<" | ">=" | "<=" | "contains"
+        OP_IN: "in"
+
+        %import common.ESCAPED_STRING
+        %import common.SIGNED_NUMBER
+        %import common.WS
+        %ignore WS
+    """
+
     parser = Lark(query_grammar, start="start", parser="lalr")
     tree = parser.parse(query)
     if debug:
