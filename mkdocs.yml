@@ -48,6 +48,7 @@ nav:
       - bigtree/tree/modify.md
       - bigtree/tree/parsing.md
       - bigtree/tree/search.md
+      - bigtree/tree/query.md
     - 🔧 Utils:
         - bigtree/utils/iterators.md
         - bigtree/utils/plot.md

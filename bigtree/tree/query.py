@@ -1,0 +1,178 @@
+import operator
+from typing import Any, Callable, List, TypeVar
+
+from bigtree.node import basenode
+from bigtree.utils import exceptions, iterators
+
+try:
+    from lark import Lark, Token, Transformer
+except ImportError:  # pragma: no cover
+    from unittest.mock import MagicMock
+
+    Lark = MagicMock()
+    Token = MagicMock()
+    Transformer = MagicMock()
+
+__all__ = [
+    "query_tree",
+]
+
+T = TypeVar("T", bound=basenode.BaseNode)
+
+
+OPERATORS = {
+    "==": operator.eq,
+    "!=": operator.ne,
+    ">": operator.gt,
+    "<": operator.lt,
+    ">=": operator.ge,
+    "<=": operator.le,
+    "contains": lambda a, b: b in a,
+    "in": lambda a, b: a in b,
+}
+
+query_grammar = """
+    ?start: expr
+
+    ?term: term "AND" factor  -> and_expr
+         | factor
+
+    ?expr: expr "OR" term     -> or_expr
+         | term
+
+    ?factor: "(" expr ")"
+           | condition
+           | unary_condition
+
+    ?condition: object_attr OP value   -> condition_expr
+            | object_attr OP_IN list   -> condition_expr
+    ?unary_condition: object_attr      -> unary_expr
+
+    ?attr: /[a-zA-Z_][a-zA-Z0-9_]*/
+    ?object_attr: attr ("." attr)*
+    ?value: ESCAPED_STRING | SIGNED_NUMBER
+    ?item: ESCAPED_STRING
+    ?list: "[" [item ("," item)*] "]"
+
+    OP: "==" | "!=" | ">" | "<" | ">=" | "<=" | "contains"
+    OP_IN: "in"
+
+    %import common.ESCAPED_STRING
+    %import common.SIGNED_NUMBER
+    %import common.WS
+    %ignore WS
+"""
+
+
+class QueryTransformer(Transformer):  # type: ignore
+    def and_expr(self, args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
+        return lambda node: all(cond(node) for cond in args)
+
+    def or_expr(self, args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
+        return lambda node: any(cond(node) for cond in args)
+
+    def condition_expr(self, args: List[Token]) -> Callable[[T], bool]:
+        attr, op, value = args
+        if not isinstance(attr, Callable):  # type: ignore
+            attr = self.object_attr([attr])
+        if op != "in":
+            value = self.value([value])
+        op_func = OPERATORS[op]
+        if op in ("contains", "in"):
+            return lambda node: op_func(attr(node) or "", value)
+        return lambda node: op_func(attr(node), value)
+
+    def unary_expr(self, args: List[Token]) -> Callable[[T], bool]:
+        attr = args[0]
+        if not isinstance(attr, Callable):  # type: ignore
+            attr = self.object_attr([attr])
+        return lambda node: bool(attr(node))
+
+    def object_attr(self, args: List[Token]) -> Callable[[T], Any]:
+        # e.g., ['parent', 'name'] => lambda node: node.parent.name
+        def accessor(node: T) -> Any:
+            obj = node
+            for arg in args:
+                obj = obj.get_attr(arg.value)
+                if obj is None:
+                    break
+            return obj
+
+        return accessor
+
+    def list(self, args: List[Token]) -> Any:
+        return [self.value([arg]) for arg in args]
+
+    def value(self, args: List[Token]) -> Any:
+        val = args[0]
+        if val.type == "ESCAPED_STRING":
+            return val[1:-1]
+        try:
+            return int(val.value)
+        except ValueError:
+            return float(val.value)
+
+
+@exceptions.optional_dependencies_query
+def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
+    """Query tree using Tree Definition Language.
+
+    Examples:
+        >>> from bigtree import Node, dict_to_tree, query_tree
+        >>> paths = {
+        ...     "a": {"age": 90},
+        ...     "a/b": {"age": 65},
+        ...     "a/c": {"age": 60},
+        ...     "a/b/d": {"age": 40},
+        ...     "a/b/e": {"age": 35},
+        ...     "a/c/f": {"age": 38},
+        ...     "a/b/e/g": {"age": 10},
+        ...     "a/b/e/h": {"age": 6},
+        ... }
+        >>> root = dict_to_tree(paths)
+        >>> root.show(all_attrs=True)
+        a [age=90]
+        ├── b [age=65]
+        │   ├── d [age=40]
+        │   └── e [age=35]
+        │       ├── g [age=10]
+        │       └── h [age=6]
+        └── c [age=60]
+            └── f [age=38]
+
+        **Field-based comparisons**
+
+        >>> results = query_tree(root, 'age >= 30 AND is_leaf OR node_name in ["a"]')
+        >>> [result.node_name for result in results]
+        ['a', 'd', 'f']
+
+        **Path-based conditions**
+
+        >>> results = query_tree(root, 'path_name contains "/b/"')
+        >>> [result.node_name for result in results]
+        ['d', 'e', 'g', 'h']
+
+        **Nested attribute conditions**
+
+        >>> results = query_tree(root, "parent.is_root")
+        >>> [result.node_name for result in results]
+        ['b', 'c']
+
+    Args:
+        tree_node: tree to query
+        query: query
+        debug: if True, will print out the parsed query
+
+    Returns:
+        List of nodes that fulfil the condition of query
+    """
+    if not query.strip():
+        raise ValueError("Please enter a valid query.")
+    parser = Lark(query_grammar, start="start", parser="lalr")
+    tree = parser.parse(query)
+    if debug:
+        print(tree)
+        print(tree.pretty())
+
+    func = QueryTransformer().transform(tree)
+    return [node for node in iterators.preorder_iter(tree_node) if func(node)]

@@ -38,6 +38,7 @@ Source = "https://github.com/kayjan/bigtree"
 
 [project.optional-dependencies]
 all = [
+  "lark",
   "matplotlib",
   "pandas",
   "polars",
@@ -49,12 +50,13 @@ image = [
   "pydot",
   "Pillow",
 ]
-vis = [
-  "pyvis"
-]
 matplotlib = ["matplotlib"]
 pandas = ["pandas"]
 polars = ["polars"]
+query = ["lark"]
+vis = [
+  "pyvis"
+]
 
 [tool.hatch.version]
 path = "bigtree/__init__.py"
@@ -64,6 +66,7 @@ dependencies = [
   "black",
   "coverage",
   "isort",
+  "lark",
   "matplotlib",
   "mypy",
   "pandas",

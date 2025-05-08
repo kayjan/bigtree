@@ -63,6 +63,7 @@ from bigtree.tree.modify import (
     shift_nodes,
 )
 from bigtree.tree.parsing import get_common_ancestors, get_path
+from bigtree.tree.query import query_tree
 from bigtree.tree.search import (
     find,
     find_attr,
