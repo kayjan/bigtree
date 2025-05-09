@@ -721,7 +721,6 @@ class BaseNode:
         """Plot tree in line form. Accepts args and kwargs for matplotlib.pyplot.plot() function.
 
         Examples:
-            >>> import matplotlib.pyplot as plt
             >>> from bigtree import list_to_tree
             >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
             >>> root = list_to_tree(path_list)
@@ -736,6 +735,13 @@ class BaseNode:
 
     def query(self, query: str, debug: bool = False) -> List[T]:
         """Query tree using Tree Definition Language.
+
+        Examples:
+            >>> from bigtree import list_to_tree
+            >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
+            >>> root = list_to_tree(path_list)
+            >>> root.query("depth == 2")
+            [Node(/a/b, ), Node(/a/c, )]
 
         Args:
             query: query
