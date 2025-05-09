@@ -33,12 +33,12 @@ class QueryTransformer(Transformer):  # type: ignore
     }
 
     @staticmethod
-    def and_clause(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
-        return lambda node: all(cond(node) for cond in args)
-
-    @staticmethod
     def or_clause(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
         return lambda node: any(cond(node) for cond in args)
+
+    @staticmethod
+    def and_clause(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
+        return lambda node: all(cond(node) for cond in args)
 
     def comparison(self, args: List[Token]) -> Callable[[T], bool]:
         attr, op, value = args
@@ -166,10 +166,10 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
 
         ?attr: /[a-zA-Z_][a-zA-Z0-9_]*/
         object_attr: attr ("." attr)*
+        list: "[" [value ("," value)*] "]"
         value: string | number
         string: ESCAPED_STRING
         number: SIGNED_NUMBER
-        list: "[" [value ("," value)*] "]"
 
         OP: "==" | "!=" | ">" | "<" | ">=" | "<="
         OP_CONTAINS: "contains"
