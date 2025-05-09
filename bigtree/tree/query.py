@@ -176,9 +176,13 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
         %ignore WS
     """
 
-    parser = Lark(query_grammar, start="start", parser="lalr")
+    parser = Lark(
+        query_grammar, start="start", parser="lalr", transformer=QueryTransformer()
+    )
     tree = parser.parse(query)
     if debug:
+        parser = Lark(query_grammar, start="start", parser="lalr")
+        tree = parser.parse(query)
         print(tree)
         print(tree.pretty())
 
