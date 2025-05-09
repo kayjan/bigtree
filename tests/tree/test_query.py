@@ -43,6 +43,15 @@ class TestQueryTree:
             actual == expected
         ), f"Wrong query results, expected {expected}, received {actual}"
 
+    @staticmethod
+    def test_query_tree_object_attr_not(tree_node):
+        results = query.query_tree(tree_node, "NOT parent.name")
+        expected = ["a"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
     # unary
     @staticmethod
     def test_query_tree_unary(tree_node):
@@ -75,6 +84,15 @@ class TestQueryTree:
     def test_query_tree_unary_or(tree_node):
         results = query.query_tree(tree_node, "is_leaf OR is_root")
         expected = ["a", "d", "g", "h", "f"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_unary_not(tree_node):
+        results = query.query_tree(tree_node, "NOT is_leaf")
+        expected = ["a", "b", "e", "c"]
         actual = [_node.node_name for _node in results]
         assert (
             actual == expected
@@ -156,6 +174,16 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
+    def test_query_tree_op_contains_not(tree_node):
+        tree_node["b"].parameter = "something"
+        results = query.query_tree(tree_node, 'NOT parameter contains "thing"')
+        expected = ["a", "d", "e", "g", "h", "c", "f"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
     def test_query_tree_op_in(tree_node):
         tree_node["b"].parameter = "something"
         tree_node["c"].parameter = "thing"
@@ -171,6 +199,15 @@ class TestQueryTree:
     def test_query_tree_op_in_int(tree_node):
         results = query.query_tree(tree_node, "age in [90, 60]")
         expected = ["a", "c"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_op_in_not(tree_node):
+        results = query.query_tree(tree_node, "NOT age in [90, 60]")
+        expected = ["b", "d", "e", "g", "h", "f"]
         actual = [_node.node_name for _node in results]
         assert (
             actual == expected

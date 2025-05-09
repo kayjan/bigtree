@@ -57,6 +57,12 @@ class QueryTransformer(Transformer):  # type: ignore
             attr = self.object_attr([attr])
         return lambda node: bool(attr(node))
 
+    def not_comparison(self, args: List[Token]) -> Callable[[T], bool]:
+        attr = args[0]
+        if not isinstance(attr, Callable):  # type: ignore
+            attr = self.object_attr([attr])
+        return lambda node: not attr(node)
+
     @staticmethod
     def attr(args: List[Token]) -> Any:
         return args[0]
@@ -99,7 +105,7 @@ class QueryTransformer(Transformer):  # type: ignore
 def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
     """Query tree using Tree Definition Language.
 
-    - Supports clauses: AND, OR
+    - Supports clauses: AND, OR, NOT
     - Supports operation: ==, !=, >, <, >=, <=, contains, in
     - Note that string match in query must be in double quotes
 
@@ -165,11 +171,13 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
         ?predicate: "(" predicate ")"
                | comparison
                | unary
+               | not_comparison
 
         comparison: object_attr OP value
                 | object_attr OP_CONTAINS string
                 | object_attr OP_IN list
         unary: object_attr
+        not_comparison: "NOT" predicate
 
         attr: /[a-zA-Z_][a-zA-Z0-9_]*/
         object_attr: attr ("." attr)*
