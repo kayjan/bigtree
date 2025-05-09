@@ -211,6 +211,9 @@ class Constants:
     ERROR_MODIFY_SHIFT_SAME_NODE = "Attempting to shift the same node "
     ERROR_MODIFY_REPLACE_SAME_NODE = "Attempting to replace the same node "
 
+    # tree/query
+    ERROR_QUERY_EMPTY = "Please enter a valid query."
+
     # tree/search
     ERROR_SEARCH_RELATIVE_INVALID_PATH = (
         "Invalid path name. Path goes beyond root node."

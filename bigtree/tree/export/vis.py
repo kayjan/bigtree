@@ -21,7 +21,7 @@ __all__ = [
 T = TypeVar("T", bound=node.Node)
 
 
-@exceptions.optional_dependencies_pyvis
+@exceptions.optional_dependencies_vis
 def tree_to_vis(
     tree: T,
     alias: str = "node_name",

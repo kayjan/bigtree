@@ -4,7 +4,7 @@ title: Tree
 
 # 🌲 Tree
 
-For **Tree** implementation, there are 10 main components.
+For **Tree** implementation, there are 11 main components.
 
 ## [**🌺 Node**](../bigtree/node/node.md)
 - ``BaseNode``, extendable class
@@ -29,7 +29,7 @@ For **Tree** implementation, there are 10 main components.
 - ZigZag Traversal
 - ZigZag-Group Traversal
 
-## [**➰ Parsing Tree**](../bigtree/tree/parsing.md)
+## [**🧭 Parsing Tree**](../bigtree/tree/parsing.md)
 - Get common ancestors between nodes
 - Get path from one node to another node
 
@@ -39,6 +39,9 @@ For **Tree** implementation, there are 10 main components.
 - Shift and replace nodes from location to destination
 - Copy nodes from one tree to another
 - Copy and replace nodes from one tree to another
+
+## [**📌 Querying Tree**](../bigtree/tree/query.md)
+- Filter tree using Tree Query Language
 
 ## [**🔍 Tree Search**](../bigtree/tree/search.md)
 - Find multiple nodes based on name, partial path, relative path, attribute value, user-defined condition

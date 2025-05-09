@@ -120,6 +120,7 @@ class BaseNode:
     7. ``copy()``: Deep copy self
     8. ``sort()``: Sort child nodes
     9. ``plot()``: Plot tree in line form
+    10. ``query(query: str)``: Filter tree using Tree Query Language
 
     ----
 
@@ -720,7 +721,6 @@ class BaseNode:
         """Plot tree in line form. Accepts args and kwargs for matplotlib.pyplot.plot() function.
 
         Examples:
-            >>> import matplotlib.pyplot as plt
             >>> from bigtree import list_to_tree
             >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
             >>> root = list_to_tree(path_list)
@@ -732,6 +732,27 @@ class BaseNode:
         if self.get_attr("x") is None or self.get_attr("y") is None:
             reingold_tilford(self)
         return plot_tree(self, *args, **kwargs)
+
+    def query(self, query: str, debug: bool = False) -> List[T]:
+        """Query tree using Tree Definition Language.
+
+        Examples:
+            >>> from bigtree import list_to_tree
+            >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
+            >>> root = list_to_tree(path_list)
+            >>> root.query("depth == 2")
+            [Node(/a/b, ), Node(/a/c, )]
+
+        Args:
+            query: query
+            debug: if True, will print out the parsed query
+
+        Returns:
+            List of nodes that fulfil the condition of query
+        """
+        from bigtree.tree.query import query_tree
+
+        return query_tree(self, query, debug)
 
     def __copy__(self: T) -> T:
         """Shallow copy self.

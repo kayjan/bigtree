@@ -412,6 +412,14 @@ def assert_tree_structure_node_self(self):
         expected_str,
     )
 
+    # Test query()
+    results = self.a.query("age >= 30")
+    expected = ["a", "b", "d", "e", "c", "f"]
+    actual = [_node.node_name for _node in results]
+    assert (
+        actual == expected
+    ), f"Wrong query results, expected {expected}, received {actual}"
+
 
 def assert_tree_structure_node_root_sep(root):
     # Test path_name
