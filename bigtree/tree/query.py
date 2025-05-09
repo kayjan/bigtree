@@ -88,6 +88,10 @@ class QueryTransformer(Transformer):  # type: ignore
 def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
     """Query tree using Tree Definition Language.
 
+    - Supports clauses: AND, OR
+    - Supports operation: ==, !=, >, <, >=, <=, contains, in
+    - Note that string match in query must be in double quotes
+
     Examples:
         >>> from bigtree import Node, dict_to_tree, query_tree
         >>> paths = {

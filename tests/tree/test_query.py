@@ -43,7 +43,7 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
-    def test_query_tree_unary_expr(tree_node):
+    def test_query_tree_unary(tree_node):
         results = query.query_tree(tree_node, "is_leaf")
         expected = ["d", "g", "h", "f"]
         actual = [_node.node_name for _node in results]
@@ -52,7 +52,7 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
-    def test_query_tree_unary_expr_object_attr(tree_node):
+    def test_query_tree_unary_object_attr(tree_node):
         results = query.query_tree(tree_node, "parent.siblings")
         expected = ["d", "e", "g", "h", "f"]
         actual = [_node.node_name for _node in results]
@@ -61,7 +61,7 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
-    def test_query_tree_unary_expr_and(tree_node):
+    def test_query_tree_unary_and(tree_node):
         results = query.query_tree(tree_node, "is_leaf AND siblings")
         expected = ["d", "g", "h"]
         actual = [_node.node_name for _node in results]
@@ -70,7 +70,7 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
-    def test_query_tree_unary_expr_or(tree_node):
+    def test_query_tree_unary_or(tree_node):
         results = query.query_tree(tree_node, "is_leaf OR is_root")
         expected = ["a", "d", "g", "h", "f"]
         actual = [_node.node_name for _node in results]
@@ -92,6 +92,51 @@ class TestQueryTree:
         tree_node["b"].age = 65.5
         results = query.query_tree(tree_node, "age == 65.5")
         expected = ["b"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_op_not_equal(tree_node):
+        results = query.query_tree(tree_node, "age != 65")
+        expected = ["a", "d", "e", "g", "h", "c", "f"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_op_more_than(tree_node):
+        results = query.query_tree(tree_node, "age > 60")
+        expected = ["a", "b"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_op_more_than_equal(tree_node):
+        results = query.query_tree(tree_node, "age >= 60")
+        expected = ["a", "b", "c"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_op_less_than(tree_node):
+        results = query.query_tree(tree_node, "age < 60")
+        expected = ["d", "e", "g", "h", "f"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_op_less_than_equal(tree_node):
+        results = query.query_tree(tree_node, "age <= 60")
+        expected = ["d", "e", "g", "h", "c", "f"]
         actual = [_node.node_name for _node in results]
         assert (
             actual == expected
@@ -120,7 +165,7 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
-    def test_query_tree_and_expr_multiple(tree_node):
+    def test_query_tree_and_clause_multiple(tree_node):
         results = query.query_tree(tree_node, 'age == 40 AND name == "d" AND is_leaf')
         expected = ["d"]
         actual = [_node.node_name for _node in results]
@@ -129,7 +174,7 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
-    def test_query_tree_and_expr_multiple_parenthesis(tree_node):
+    def test_query_tree_and_clause_multiple_parenthesis(tree_node):
         results = query.query_tree(
             tree_node, '(age == 40) AND (name == "d") AND is_leaf'
         )
@@ -140,7 +185,7 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
-    def test_query_tree_or_expr_multiple(tree_node):
+    def test_query_tree_or_clause_multiple(tree_node):
         results = query.query_tree(tree_node, 'age == 38 OR name == "d" OR is_root')
         expected = ["a", "d", "f"]
         actual = [_node.node_name for _node in results]
@@ -149,7 +194,7 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
-    def test_query_tree_or_expr_multiple_parenthesis(tree_node):
+    def test_query_tree_or_clause_multiple_parenthesis(tree_node):
         results = query.query_tree(tree_node, '(age == 38) OR (name == "d") OR is_root')
         expected = ["a", "d", "f"]
         actual = [_node.node_name for _node in results]
