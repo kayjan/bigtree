@@ -167,6 +167,15 @@ class TestQueryTree:
             actual == expected
         ), f"Wrong query results, expected {expected}, received {actual}"
 
+    @staticmethod
+    def test_query_tree_op_in_int(tree_node):
+        results = query.query_tree(tree_node, "age in [90, 60]")
+        expected = ["a", "c"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
     # and_clause
     @staticmethod
     def test_query_tree_and_clause_multiple(tree_node):

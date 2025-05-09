@@ -44,8 +44,6 @@ class QueryTransformer(Transformer):  # type: ignore
         attr, op, value = args
         if not isinstance(attr, Callable):  # type: ignore
             attr = self.object_attr([attr])
-        if op != "in":
-            value = self.value([value])
         op_func = self.OPERATORS[op]
         if op in ("contains", "in"):
             return lambda node: op_func(attr(node) or "", value)
@@ -71,7 +69,7 @@ class QueryTransformer(Transformer):  # type: ignore
         return accessor
 
     def list(self, args: List[Token]) -> Any:
-        return [self.value([arg]) for arg in args]
+        return list(args)
 
     @staticmethod
     def value(args: List[Token]) -> Any:
@@ -161,10 +159,9 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
         ?unary: object_attr                       -> unary
 
         ?attr: /[a-zA-Z_][a-zA-Z0-9_]*/
-        ?object_attr: attr ("." attr)*
-        ?value: ESCAPED_STRING | SIGNED_NUMBER
-        ?item: ESCAPED_STRING
-        ?list: "[" [item ("," item)*] "]"
+        object_attr: attr ("." attr)*
+        value: ESCAPED_STRING | SIGNED_NUMBER
+        list: "[" [value ("," value)*] "]"
 
         OP: "==" | "!=" | ">" | "<" | ">=" | "<="
         OP_CONTAINS: "contains"
