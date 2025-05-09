@@ -129,8 +129,28 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
+    def test_query_tree_and_expr_multiple_parenthesis(tree_node):
+        results = query.query_tree(
+            tree_node, '(age == 40) AND (name == "d") AND is_leaf'
+        )
+        expected = ["d"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
     def test_query_tree_or_expr_multiple(tree_node):
         results = query.query_tree(tree_node, 'age == 38 OR name == "d" OR is_root')
+        expected = ["a", "d", "f"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_or_expr_multiple_parenthesis(tree_node):
+        results = query.query_tree(tree_node, '(age == 38) OR (name == "d") OR is_root')
         expected = ["a", "d", "f"]
         actual = [_node.node_name for _node in results]
         assert (

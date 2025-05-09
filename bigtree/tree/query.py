@@ -143,13 +143,12 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
     query_grammar = """
         ?start: expr
 
-        ?term: term "AND" factor  -> and_expr
-             | factor
+        ?and_clause: predicate ("AND" predicate)*   -> and_expr
 
-        ?expr: expr "OR" term     -> or_expr
-             | term
+        ?expr: expr "OR" and_clause     -> or_expr
+             | and_clause
 
-        ?factor: "(" expr ")"
+        ?predicate: "(" predicate ")"
                | condition
                | unary_condition
 
