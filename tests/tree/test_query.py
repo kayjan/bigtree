@@ -24,6 +24,7 @@ class TestQueryTree:
             query.query_tree(tree_node, "  ")
         assert str(exc_info.value) == Constants.ERROR_QUERY_EMPTY
 
+    # object_attr
     @staticmethod
     def test_query_tree_object_attr_str(tree_node):
         results = query.query_tree(tree_node, 'parent.name == "b"')
@@ -42,6 +43,7 @@ class TestQueryTree:
             actual == expected
         ), f"Wrong query results, expected {expected}, received {actual}"
 
+    # unary
     @staticmethod
     def test_query_tree_unary(tree_node):
         results = query.query_tree(tree_node, "is_leaf")
@@ -78,6 +80,7 @@ class TestQueryTree:
             actual == expected
         ), f"Wrong query results, expected {expected}, received {actual}"
 
+    # condition
     @staticmethod
     def test_query_tree_op_equal_int(tree_node):
         results = query.query_tree(tree_node, "age == 65")
@@ -164,6 +167,7 @@ class TestQueryTree:
             actual == expected
         ), f"Wrong query results, expected {expected}, received {actual}"
 
+    # and_clause
     @staticmethod
     def test_query_tree_and_clause_multiple(tree_node):
         results = query.query_tree(tree_node, 'age == 40 AND name == "d" AND is_leaf')
@@ -184,6 +188,7 @@ class TestQueryTree:
             actual == expected
         ), f"Wrong query results, expected {expected}, received {actual}"
 
+    # or_clause
     @staticmethod
     def test_query_tree_or_clause_multiple(tree_node):
         results = query.query_tree(tree_node, 'age == 38 OR name == "d" OR is_root')

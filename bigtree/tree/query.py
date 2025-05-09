@@ -175,14 +175,14 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
         %import common.WS
         %ignore WS
     """
-
-    parser = Lark(
-        query_grammar, start="start", parser="lalr", transformer=QueryTransformer()
-    )
+    if debug:
+        parser = Lark(query_grammar, start="start", parser="lalr", debug=True)
+    else:
+        parser = Lark(
+            query_grammar, start="start", parser="lalr", transformer=QueryTransformer()
+        )
     tree = parser.parse(query)
     if debug:
-        parser = Lark(query_grammar, start="start", parser="lalr")
-        tree = parser.parse(query)
         print(tree)
         print(tree.pretty())
 
