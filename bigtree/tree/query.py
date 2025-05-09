@@ -74,8 +74,16 @@ class QueryTransformer(Transformer):  # type: ignore
     @staticmethod
     def value(args: List[Token]) -> Any:
         val = args[0]
-        if val.type == "ESCAPED_STRING":
-            return val[1:-1]
+        return val
+
+    @staticmethod
+    def string(args: List[Token]) -> Any:
+        val = args[0]
+        return val[1:-1]
+
+    @staticmethod
+    def number(args: List[Token]) -> Any:
+        val = args[0]
         try:
             return int(val.value)
         except ValueError:
@@ -153,14 +161,16 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
                | comparison
                | unary
 
-        ?comparison: object_attr OP value         -> comparison
-                | object_attr OP_CONTAINS value   -> comparison
-                | object_attr OP_IN list          -> comparison
-        ?unary: object_attr                       -> unary
+        ?comparison: object_attr OP value          -> comparison
+                | object_attr OP_CONTAINS string   -> comparison
+                | object_attr OP_IN list           -> comparison
+        ?unary: object_attr                        -> unary
 
         ?attr: /[a-zA-Z_][a-zA-Z0-9_]*/
         object_attr: attr ("." attr)*
-        value: ESCAPED_STRING | SIGNED_NUMBER
+        value: string | number
+        string: ESCAPED_STRING
+        number: SIGNED_NUMBER
         list: "[" [value ("," value)*] "]"
 
         OP: "==" | "!=" | ">" | "<" | ">=" | "<="
