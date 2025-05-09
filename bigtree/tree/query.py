@@ -44,8 +44,6 @@ class QueryTransformer(Transformer):  # type: ignore
 
     def comparison(self, args: List[Token]) -> Callable[[T], bool]:
         attr, op, value = args
-        if not isinstance(attr, Callable):  # type: ignore
-            attr = self.object_attr([attr])
         op_func = self.OPERATORS[op]
         if op in ("contains", "in"):
             return lambda node: op_func(attr(node) or "", value)
@@ -53,14 +51,10 @@ class QueryTransformer(Transformer):  # type: ignore
 
     def unary(self, args: List[Token]) -> Callable[[T], bool]:
         attr = args[0]
-        if not isinstance(attr, Callable):  # type: ignore
-            attr = self.object_attr([attr])
         return lambda node: bool(attr(node))
 
     def not_comparison(self, args: List[Token]) -> Callable[[T], bool]:
         attr = args[0]
-        if not isinstance(attr, Callable):  # type: ignore
-            attr = self.object_attr([attr])
         return lambda node: not attr(node)
 
     @staticmethod
