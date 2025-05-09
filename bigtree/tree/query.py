@@ -166,10 +166,10 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
                | comparison
                | unary
 
-        ?comparison: object_attr OP value          -> comparison
-                | object_attr OP_CONTAINS string   -> comparison
-                | object_attr OP_IN list           -> comparison
-        ?unary: object_attr                        -> unary
+        comparison: object_attr OP value
+                | object_attr OP_CONTAINS string
+                | object_attr OP_IN list
+        unary: object_attr
 
         attr: /[a-zA-Z_][a-zA-Z0-9_]*/
         object_attr: attr ("." attr)*
