@@ -58,10 +58,6 @@ class QueryTransformer(Transformer):  # type: ignore
         return lambda node: not attr(node)
 
     @staticmethod
-    def attr(args: List[Token]) -> Any:
-        return args[0]
-
-    @staticmethod
     def object_attr(args: List[Token]) -> Callable[[T], Any]:
         # e.g., ['parent', 'name'] => lambda node: node.parent.name
         def accessor(node: T) -> Any:
@@ -77,10 +73,6 @@ class QueryTransformer(Transformer):  # type: ignore
     @staticmethod
     def list(args: List[Token]) -> Any:
         return list(args)
-
-    @staticmethod
-    def value(args: List[Token]) -> Any:
-        return args[0]
 
     @staticmethod
     def string(args: List[Token]) -> Any:
@@ -167,16 +159,16 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
                | unary
                | not_comparison
 
-        comparison: object_attr OP value
+        comparison: object_attr OP _value
                 | object_attr OP_CONTAINS string
                 | object_attr OP_IN list
         unary: object_attr
         not_comparison: "NOT" predicate
 
-        attr: /[a-zA-Z_][a-zA-Z0-9_]*/
-        object_attr: attr ("." attr)*
-        list: "[" [value ("," value)*] "]"
-        value: string | number
+        _attr: /[a-zA-Z_][a-zA-Z0-9_]*/
+        object_attr: _attr ("." _attr)*
+        list: "[" [_value ("," _value)*] "]"
+        _value: string | number
         string: ESCAPED_STRING
         number: SIGNED_NUMBER
 
