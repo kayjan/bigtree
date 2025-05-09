@@ -73,13 +73,11 @@ class QueryTransformer(Transformer):  # type: ignore
 
     @staticmethod
     def value(args: List[Token]) -> Any:
-        val = args[0]
-        return val
+        return args[0]
 
     @staticmethod
     def string(args: List[Token]) -> Any:
-        val = args[0]
-        return val[1:-1]
+        return args[0][1:-1]
 
     @staticmethod
     def number(args: List[Token]) -> Any:
