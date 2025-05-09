@@ -21,6 +21,8 @@ T = TypeVar("T", bound=basenode.BaseNode)
 
 
 class QueryTransformer(Transformer):  # type: ignore
+    # Tree is made up of Token
+    # Token has .type and .value
     OPERATORS = {
         "==": operator.eq,
         "!=": operator.ne,
@@ -56,19 +58,24 @@ class QueryTransformer(Transformer):  # type: ignore
         return lambda node: bool(attr(node))
 
     @staticmethod
+    def attr(args: List[Token]) -> Any:
+        return args[0]
+
+    @staticmethod
     def object_attr(args: List[Token]) -> Callable[[T], Any]:
         # e.g., ['parent', 'name'] => lambda node: node.parent.name
         def accessor(node: T) -> Any:
             obj = node
             for arg in args:
-                obj = obj.get_attr(arg.value)
+                obj = obj.get_attr(arg)
                 if obj is None:
                     break
             return obj
 
         return accessor
 
-    def list(self, args: List[Token]) -> Any:
+    @staticmethod
+    def list(args: List[Token]) -> Any:
         return list(args)
 
     @staticmethod
@@ -83,9 +90,9 @@ class QueryTransformer(Transformer):  # type: ignore
     def number(args: List[Token]) -> Any:
         val = args[0]
         try:
-            return int(val.value)
+            return int(val)
         except ValueError:
-            return float(val.value)
+            return float(val)
 
 
 @exceptions.optional_dependencies_query
@@ -164,7 +171,7 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
                 | object_attr OP_IN list           -> comparison
         ?unary: object_attr                        -> unary
 
-        ?attr: /[a-zA-Z_][a-zA-Z0-9_]*/
+        attr: /[a-zA-Z_][a-zA-Z0-9_]*/
         object_attr: attr ("." attr)*
         list: "[" [value ("," value)*] "]"
         value: string | number
