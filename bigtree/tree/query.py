@@ -33,14 +33,14 @@ class QueryTransformer(Transformer):  # type: ignore
     }
 
     @staticmethod
-    def and_expr(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
+    def and_clause(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
         return lambda node: all(cond(node) for cond in args)
 
     @staticmethod
-    def or_expr(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
+    def or_clause(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
         return lambda node: any(cond(node) for cond in args)
 
-    def condition_expr(self, args: List[Token]) -> Callable[[T], bool]:
+    def comparison(self, args: List[Token]) -> Callable[[T], bool]:
         attr, op, value = args
         if not isinstance(attr, Callable):  # type: ignore
             attr = self.object_attr([attr])
@@ -51,7 +51,7 @@ class QueryTransformer(Transformer):  # type: ignore
             return lambda node: op_func(attr(node) or "", value)
         return lambda node: op_func(attr(node), value)
 
-    def unary_expr(self, args: List[Token]) -> Callable[[T], bool]:
+    def unary(self, args: List[Token]) -> Callable[[T], bool]:
         attr = args[0]
         if not isinstance(attr, Callable):  # type: ignore
             attr = self.object_attr([attr])
@@ -143,18 +143,18 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
     query_grammar = """
         ?start: expr
 
-        ?and_clause: predicate ("AND" predicate)*   -> and_expr
-
-        ?expr: expr "OR" and_clause     -> or_expr
-             | and_clause
+        ?expr: or_clause+
+        ?or_clause: and_clause ("OR" and_clause)*
+        ?and_clause: predicate ("AND" predicate)*
 
         ?predicate: "(" predicate ")"
-               | condition
-               | unary_condition
+               | comparison
+               | unary
 
-        ?condition: object_attr OP value   -> condition_expr
-                | object_attr OP_IN list   -> condition_expr
-        ?unary_condition: object_attr      -> unary_expr
+        ?comparison: object_attr OP value         -> comparison
+                | object_attr OP_CONTAINS value   -> comparison
+                | object_attr OP_IN list          -> comparison
+        ?unary: object_attr                       -> unary
 
         ?attr: /[a-zA-Z_][a-zA-Z0-9_]*/
         ?object_attr: attr ("." attr)*
@@ -162,7 +162,8 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
         ?item: ESCAPED_STRING
         ?list: "[" [item ("," item)*] "]"
 
-        OP: "==" | "!=" | ">" | "<" | ">=" | "<=" | "contains"
+        OP: "==" | "!=" | ">" | "<" | ">=" | "<="
+        OP_CONTAINS: "contains"
         OP_IN: "in"
 
         %import common.ESCAPED_STRING
