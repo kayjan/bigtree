@@ -27,7 +27,7 @@ Related Links:
 ## Components
 There are 3 segments to Big Tree consisting of Tree, Binary Tree, and Directed Acyclic Graph (DAG) implementation.
 
-For **Tree** implementation, there are 10 main components.
+For **Tree** implementation, there are 11 main components.
 
 1. [**🌺 Node**](https://bigtree.readthedocs.io/en/stable/bigtree/node/node)
    1. ``BaseNode``, extendable class
@@ -58,27 +58,29 @@ For **Tree** implementation, there are 10 main components.
    3. Shift and replace nodes from location to destination
    4. Copy nodes from one tree to another
    5. Copy and replace nodes from one tree to another
-6. [**🔍 Tree Search**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/search/)
+6. [**📌 Querying Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/query/)
+   1. Filter tree using Tree Query Language
+7. [**🔍 Tree Search**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/search/)
    1. Find multiple nodes based on name, partial path, relative path, attribute value, user-defined condition
    2. Find single nodes based on name, partial path, relative path, full path, attribute value, user-defined condition
    3. Find multiple child nodes based on user-defined condition
    4. Find single child node based on name, user-defined condition
-7. [**🔧 Helper Function**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/helper/)
+8. [**🔧 Helper Function**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/helper/)
    1. Cloning tree to another `Node` type
    2. Get subtree (smaller tree with different root)
    3. Prune tree (smaller tree with same root)
    4. Get difference between two trees
-8. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/utils/plot/)
+9. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/utils/plot/)
    1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
    2. Plot tree using matplotlib (optional dependency)
-9. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/export/)
-   1. Print to console, in vertical or horizontal orientation
-   2. Export to *Newick string notation*, *dictionary*, *nested dictionary*, *pandas DataFrame*, or *polars DataFrame*
-   3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
-   4. Export tree to *Pillow* (can save to .png, .jpg)
-   5. Export tree to *Mermaid Flowchart* (can display on .md)
-   6. Export tree to *Pyvis Network* (can display interactive .html)
-10. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/stable/bigtree/workflows/app_todo)
+10. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/en/stable/bigtree/tree/export/)
+    1. Print to console, in vertical or horizontal orientation
+    2. Export to *Newick string notation*, *dictionary*, *nested dictionary*, *pandas DataFrame*, or *polars DataFrame*
+    3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
+    4. Export tree to *Pillow* (can save to .png, .jpg)
+    5. Export tree to *Mermaid Flowchart* (can display on .md)
+    6. Export tree to *Pyvis Network* (can display interactive .html)
+11. [**✔️ Workflows**](https://bigtree.readthedocs.io/en/stable/bigtree/workflows/app_todo)
     1. Sample workflows for tree demonstration!
 
 --------
