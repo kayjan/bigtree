@@ -257,7 +257,7 @@ def get_tree_diff_dataframe(
     only_diff: bool = True,
     detail: bool = False,
     aggregate: bool = False,
-    attr_list: List[str] = [],
+    attr_list: Optional[List[str]] = None,
     fallback_sep: str = "/",
     name_col: str = "name",
     path_col: str = "path",
@@ -352,6 +352,8 @@ def get_tree_diff_dataframe(
     Returns:
         Dataframe of tree differences
     """
+    if not attr_list:
+        attr_list = []
     if tree.sep != other_tree.sep:
         raise ValueError("`sep` must be the same for tree and other_tree")
 
@@ -435,7 +437,7 @@ def get_tree_diff(
     only_diff: bool = True,
     detail: bool = False,
     aggregate: bool = False,
-    attr_list: List[str] = [],
+    attr_list: Optional[Iterable[str]] = None,
     fallback_sep: str = "/",
 ) -> node.Node:
     """Get difference of `tree` to `other_tree`, changes are relative to `tree`.
