@@ -56,8 +56,6 @@ def tree_to_dict(
     Returns:
         Dictionary containing tree information
     """
-    if not attr_dict:
-        attr_dict = {}
     data_dict = {}
 
     def _recursive_append(_node: T) -> None:
@@ -88,7 +86,7 @@ def tree_to_dict(
                             )
                         )
                     )
-                else:
+                elif attr_dict:
                     for k, v in attr_dict.items():
                         data_child[v] = _node.get_attr(k)
                 data_dict[_node.path_name] = data_child
@@ -134,8 +132,6 @@ def tree_to_nested_dict(
     Returns:
         Dictionary containing tree information
     """
-    if not attr_dict:
-        attr_dict = {}
     data_dict: Dict[str, List[Dict[str, Any]]] = {}
 
     def _recursive_append(_node: T, parent_dict: Dict[str, Any]) -> None:
@@ -156,7 +152,7 @@ def tree_to_nested_dict(
                             )
                         )
                     )
-                else:
+                elif attr_dict:
                     for k, v in attr_dict.items():
                         data_child[v] = _node.get_attr(k)
                 if child_key in parent_dict:

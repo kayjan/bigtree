@@ -81,8 +81,6 @@ def tree_to_dataframe(
     Returns:
         pandas DataFrame containing tree information
     """
-    if not attr_dict:
-        attr_dict = {}
     data_list = []
 
     def _recursive_append(_node: T) -> None:
@@ -112,7 +110,7 @@ def tree_to_dataframe(
                     data_child.update(
                         _node.describe(exclude_attributes=["name"], exclude_prefix="_")
                     )
-                else:
+                elif attr_dict:
                     for k, v in attr_dict.items():
                         data_child[v] = _node.get_attr(k)
                 data_list.append(data_child)
@@ -188,8 +186,6 @@ def tree_to_polars(
     Returns:
         polars DataFrame containing tree information
     """
-    if not attr_dict:
-        attr_dict = {}
     data_list = []
 
     def _recursive_append(_node: T) -> None:
@@ -219,7 +215,7 @@ def tree_to_polars(
                     data_child.update(
                         _node.describe(exclude_attributes=["name"], exclude_prefix="_")
                     )
-                else:
+                elif attr_dict:
                     for k, v in attr_dict.items():
                         data_child[v] = _node.get_attr(k)
                 data_list.append(data_child)

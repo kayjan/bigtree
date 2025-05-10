@@ -80,8 +80,6 @@ def dag_to_dict(
     Returns:
         Dictionary of node names to their attributes
     """
-    if not attr_dict:
-        attr_dict = {}
     dag = dag.copy()
     data_dict = {}
 
@@ -94,7 +92,7 @@ def dag_to_dict(
                         exclude_attributes=["name"], exclude_prefix="_"
                     )
                 )
-            else:
+            elif attr_dict:
                 for k, v in attr_dict.items():
                     data_parent[v] = parent_node.get_attr(k)
             data_dict[parent_node.node_name] = data_parent
@@ -151,8 +149,6 @@ def dag_to_dataframe(
     Returns:
         pandas DataFrame of DAG information
     """
-    if not attr_dict:
-        attr_dict = {}
     dag = dag.copy()
     data_list: List[Dict[str, Any]] = []
 
@@ -165,7 +161,7 @@ def dag_to_dataframe(
                         exclude_attributes=["name"], exclude_prefix="_"
                     )
                 )
-            else:
+            elif attr_dict:
                 for k, v in attr_dict.items():
                     data_parent[v] = parent_node.get_attr(k)
             data_list.append(data_parent)
