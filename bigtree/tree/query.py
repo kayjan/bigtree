@@ -1,4 +1,5 @@
 import operator
+import re
 from typing import Any, Callable, List, TypeVar
 
 from bigtree.node import basenode
@@ -30,8 +31,9 @@ class QueryTransformer(Transformer):  # type: ignore
         "<": operator.lt,
         ">=": operator.ge,
         "<=": operator.le,
-        "contains": lambda a, b: b in a,
-        "in": lambda a, b: a in b,
+        "contains": lambda attr, value: value in attr,
+        "in": lambda attr, value: attr in value,
+        "LIKE": lambda attr, value: re.match(value, attr),
     }
 
     @staticmethod
@@ -45,7 +47,7 @@ class QueryTransformer(Transformer):  # type: ignore
     def comparison(self, args: List[Token]) -> Callable[[T], bool]:
         attr, op, value = args
         op_func = self.OPERATORS[op]
-        if op in ("contains", "in"):
+        if op in ("contains", "in", "LIKE"):
             return lambda node: op_func(attr(node) or "", value)
         return lambda node: op_func(attr(node), value)
 
@@ -92,7 +94,7 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
     """Query tree using Tree Definition Language.
 
     - Supports clauses: AND, OR, NOT
-    - Supports operation: ==, !=, >, <, >=, <=, contains, in
+    - Supports operation: ==, !=, >, <, >=, <=, contains, in, LIKE
     - Note that string match in query must be in double quotes
 
     Examples:
@@ -162,6 +164,7 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
         comparison: object_attr OP _value
                 | object_attr OP_CONTAINS string
                 | object_attr OP_IN list
+                | object_attr OP_LIKE string
         unary: object_attr
         not_comparison: "NOT" predicate
 
@@ -175,6 +178,7 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
         OP: "==" | "!=" | ">" | "<" | ">=" | "<="
         OP_CONTAINS: "contains"
         OP_IN: "in"
+        OP_LIKE: "LIKE"
 
         %import common.ESCAPED_STRING
         %import common.SIGNED_NUMBER

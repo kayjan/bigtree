@@ -252,3 +252,24 @@ class TestQueryTree:
         assert (
             actual == expected
         ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_like(tree_node):
+        results = query.query_tree(tree_node, r'path_name LIKE ".*/b/.*"')
+        expected = ["d", "e", "g", "h"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_like_parameter(tree_node):
+        tree_node["b"].parameter = "something"
+        tree_node["c"].parameter = "thing"
+        tree_node["b"]["d"].parameter = "nothing"
+        results = query.query_tree(tree_node, 'parameter LIKE ".+thing"')
+        expected = ["b", "d"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
