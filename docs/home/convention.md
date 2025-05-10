@@ -23,6 +23,14 @@ when writing commit messages.
 As much as possible, this project follows the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html).
 During pre-commit checks, this project checks and formats code using `black`, `flake8`, `isort`, and `mypy`.
 
+Some general rules to follow for type hints
+- Keep input types generic and output types specific
+- Use immutable defaults
+- Use `Optional` type if the input is nullable
+
+Some general rules to follow for docstrings
+- Do not mention the type as it is implied from the type hint
+
 ## Testing
 
 For testing, this project uses `pytest` and `coverage` package for testing of codes,

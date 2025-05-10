@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import copy
-from typing import Any, Dict, Generator, Iterable, List, Optional, Tuple, TypeVar
+from typing import Any, Generator, Iterable, List, Mapping, Optional, Tuple, TypeVar
 
 from bigtree.globals import ASSERTIONS
 from bigtree.utils import exceptions, iterators
@@ -439,7 +439,7 @@ class DAGNode:
         return not len(list(self.children))
 
     @classmethod
-    def from_dict(cls, input_dict: Dict[str, Any]) -> DAGNode:
+    def from_dict(cls, input_dict: Mapping[str, Any]) -> DAGNode:
         """Construct node from dictionary, all keys of dictionary will be stored as class attributes.
         Input dictionary must have key `name` if not `Node` will not have any name.
 
@@ -448,7 +448,7 @@ class DAGNode:
             >>> a = DAGNode.from_dict({"name": "a", "age": 90})
 
         Args:
-            input_dict: dictionary with node information, key: attribute name, value: attribute value
+            input_dict: node information, key: attribute name, value: attribute value
 
         Returns:
             DAG node
@@ -489,7 +489,7 @@ class DAGNode:
         except AttributeError:
             return default_value
 
-    def set_attrs(self, attrs: Dict[str, Any]) -> None:
+    def set_attrs(self, attrs: Mapping[str, Any]) -> None:
         """Set node attributes.
 
         Examples:
@@ -500,7 +500,7 @@ class DAGNode:
             DAGNode(a, age=90)
 
         Args:
-            attrs: attribute dictionary, key: attribute name, value: attribute value
+            attrs: attribute information, key: attribute name, value: attribute value
         """
         self.__dict__.update(attrs)
 

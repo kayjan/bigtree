@@ -2,7 +2,17 @@ from __future__ import annotations
 
 import copy
 import heapq
-from typing import Any, Dict, Generator, Iterable, List, Optional, Set, Tuple, TypeVar
+from typing import (
+    Any,
+    Generator,
+    Iterable,
+    List,
+    Mapping,
+    Optional,
+    Set,
+    Tuple,
+    TypeVar,
+)
 
 from bigtree.globals import ASSERTIONS
 from bigtree.utils import exceptions, iterators
@@ -566,7 +576,7 @@ class BaseNode:
         )
 
     @classmethod
-    def from_dict(cls, input_dict: Dict[str, Any]) -> BaseNode:
+    def from_dict(cls, input_dict: Mapping[str, Any]) -> BaseNode:
         """Construct node from dictionary, all keys of dictionary will be stored as class attributes.
         Input dictionary must have key `name` if not `Node` will not have any name.
 
@@ -575,7 +585,7 @@ class BaseNode:
             >>> a = Node.from_dict({"name": "a", "age": 90})
 
         Args:
-            input_dict: dictionary with node information, key: attribute name, value: attribute value
+            input_dict: node information, key: attribute name, value: attribute value
 
         Returns:
             Base node
@@ -632,7 +642,7 @@ class BaseNode:
         except AttributeError:
             return default_value
 
-    def set_attrs(self, attrs: Dict[str, Any]) -> None:
+    def set_attrs(self, attrs: Mapping[str, Any]) -> None:
         """Set node attributes.
 
         Examples:
@@ -643,7 +653,7 @@ class BaseNode:
             Node(/a, age=90)
 
         Args:
-            attrs: attribute dictionary, key: attribute name, value: attribute value
+            attrs: attribute information, key: attribute name, value: attribute value
         """
         self.__dict__.update(attrs)
 

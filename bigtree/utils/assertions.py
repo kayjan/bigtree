@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, List, Sized, Type, Union
+from typing import TYPE_CHECKING, Any, Collection, Dict, List, Type, Union
 
 try:
     import pandas as pd
@@ -73,7 +73,7 @@ def assert_str_in_list(
 
 
 def assert_not_reserved_keywords(
-    parameter_dict_or_df: Union[Dict[str, Any], pd.DataFrame],
+    parameter_dict_or_df: Union[List[str], Dict[str, Any], pd.DataFrame],
     reserved_keywords: List[str],
 ) -> None:
     """Raise ValueError is parameter is in key of dictionary.
@@ -107,7 +107,9 @@ def assert_key_in_dict(
         )
 
 
-def assert_length_not_empty(data: Sized, argument_name: str, argument: str) -> None:
+def assert_length_not_empty(
+    data: Collection[Any], argument_name: str, argument: str
+) -> None:
     """Raise ValueError if data does not have length.
 
     Args:

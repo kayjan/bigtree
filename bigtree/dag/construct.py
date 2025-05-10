@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple, Type, TypeVar
+from typing import Any, Collection, Dict, List, Mapping, Optional, Tuple, Type, TypeVar
 
 from bigtree.node import dagnode
 from bigtree.utils import assertions, exceptions
@@ -18,7 +18,7 @@ T = TypeVar("T", bound=dagnode.DAGNode)
 
 
 def list_to_dag(
-    relations: List[Tuple[str, str]],
+    relations: Collection[Tuple[str, str]],
     node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
     """Construct DAG from list of tuples containing parent-child names. Note that node names must be unique.
@@ -31,7 +31,7 @@ def list_to_dag(
         [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
-        relations: list containing tuple of parent-child names
+        relations: contains pairs of parent-child names
         node_type: node type of DAG to be created
 
     Returns:
@@ -60,7 +60,7 @@ def list_to_dag(
 
 
 def dict_to_dag(
-    relation_attrs: Dict[str, Any],
+    relation_attrs: Mapping[str, Any],
     parent_key: str = "parents",
     node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
@@ -126,9 +126,9 @@ def dict_to_dag(
 @exceptions.optional_dependencies_pandas
 def dataframe_to_dag(
     data: pd.DataFrame,
-    child_col: str = "",
-    parent_col: str = "",
-    attribute_cols: List[str] = [],
+    child_col: Optional[str] = None,
+    parent_col: Optional[str] = None,
+    attribute_cols: Optional[List[str]] = None,
     node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
     """Construct DAG from pandas DataFrame. Note that node names must be unique.
@@ -169,6 +169,8 @@ def dataframe_to_dag(
     Returns:
         DAG node
     """
+    if not attribute_cols:
+        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not child_col:
