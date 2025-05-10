@@ -1,92 +1,21 @@
-import operator
-import re
-from typing import Any, Callable, List, TypeVar
+from typing import List, TypeVar
 
 from bigtree.node import basenode
+from bigtree.tree._query import QUERY_GRAMMAR, QueryTransformer
 from bigtree.utils import exceptions, iterators
 
 try:
-    from lark import Lark, Token, Transformer
+    from lark import Lark
 except ImportError:  # pragma: no cover
     from unittest.mock import MagicMock
 
     Lark = MagicMock()
-    Token = MagicMock()
-    Transformer = MagicMock()
 
 __all__ = [
     "query_tree",
 ]
 
 T = TypeVar("T", bound=basenode.BaseNode)
-
-
-class QueryTransformer(Transformer):  # type: ignore
-    # Tree is made up of Token
-    # Token has .type and .value
-    OPERATORS = {
-        "==": operator.eq,
-        "!=": operator.ne,
-        ">": operator.gt,
-        "<": operator.lt,
-        ">=": operator.ge,
-        "<=": operator.le,
-        "contains": lambda attr, value: value in attr,
-        "in": lambda attr, value: attr in value,
-        "LIKE": lambda attr, value: re.match(value, attr),
-    }
-
-    @staticmethod
-    def or_clause(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
-        return lambda node: any(cond(node) for cond in args)
-
-    @staticmethod
-    def and_clause(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
-        return lambda node: all(cond(node) for cond in args)
-
-    def comparison(self, args: List[Token]) -> Callable[[T], bool]:
-        attr, op, value = args
-        op_func = self.OPERATORS[op]
-        if op in ("contains", "in", "LIKE"):
-            return lambda node: op_func(attr(node) or "", value)
-        return lambda node: op_func(attr(node), value)
-
-    def unary(self, args: List[Token]) -> Callable[[T], bool]:
-        attr = args[0]
-        return lambda node: bool(attr(node))
-
-    def not_comparison(self, args: List[Token]) -> Callable[[T], bool]:
-        attr = args[0]
-        return lambda node: not attr(node)
-
-    @staticmethod
-    def object_attr(args: List[Token]) -> Callable[[T], Any]:
-        # e.g., ['parent', 'name'] => lambda node: node.parent.name
-        def accessor(node: T) -> Any:
-            obj = node
-            for arg in args:
-                obj = obj.get_attr(arg)
-                if obj is None:
-                    break
-            return obj
-
-        return accessor
-
-    @staticmethod
-    def list(args: List[Token]) -> Any:
-        return list(args)
-
-    @staticmethod
-    def string(args: List[Token]) -> Any:
-        return args[0][1:-1]
-
-    @staticmethod
-    def number(args: List[Token]) -> Any:
-        val = args[0]
-        try:
-            return int(val)
-        except ValueError:
-            return float(val)
 
 
 @exceptions.optional_dependencies_query
@@ -149,47 +78,11 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
     if not query.strip():
         raise ValueError("Please enter a valid query.")
 
-    query_grammar = """
-        ?start: expr
-
-        ?expr: or_clause+
-        ?or_clause: and_clause ("OR" and_clause)*
-        ?and_clause: predicate ("AND" predicate)*
-
-        ?predicate: "(" predicate ")"
-               | comparison
-               | unary
-               | not_comparison
-
-        comparison: object_attr OP _value
-                | object_attr OP_CONTAINS string
-                | object_attr OP_IN list
-                | object_attr OP_LIKE string
-        unary: object_attr
-        not_comparison: "NOT" predicate
-
-        _attr: /[a-zA-Z_][a-zA-Z0-9_]*/
-        object_attr: _attr ("." _attr)*
-        list: "[" [_value ("," _value)*] "]"
-        _value: string | number
-        string: ESCAPED_STRING
-        number: SIGNED_NUMBER
-
-        OP: "==" | "!=" | ">" | "<" | ">=" | "<="
-        OP_CONTAINS: "contains"
-        OP_IN: "in"
-        OP_LIKE: "LIKE"
-
-        %import common.ESCAPED_STRING
-        %import common.SIGNED_NUMBER
-        %import common.WS
-        %ignore WS
-    """
     if debug:
-        parser = Lark(query_grammar, start="start", parser="lalr", debug=True)
+        parser = Lark(QUERY_GRAMMAR, start="start", parser="lalr", debug=True)
     else:
         parser = Lark(
-            query_grammar, start="start", parser="lalr", transformer=QueryTransformer()
+            QUERY_GRAMMAR, start="start", parser="lalr", transformer=QueryTransformer()
         )
     tree = parser.parse(query)
     if debug:
