@@ -24,7 +24,9 @@ As much as possible, this project follows the [Google Python Style Guide](https:
 During pre-commit checks, this project checks and formats code using `black`, `flake8`, `isort`, and `mypy`.
 
 Some general rules to follow for type hints
-- Keep input types generic and output types specific
+- Keep input types generic and output types specific. From more general to less general:
+  - Iterable > Collection > Sequence > List/Set/Tuple
+  - Mapping > MutableMapping > Dictionary
 - Use immutable defaults
 - Use `Optional` type if the input is nullable
 
