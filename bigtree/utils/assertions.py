@@ -1,6 +1,17 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Collection, Dict, List, Mapping, Type, Union
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Collection,
+    Dict,
+    Iterable,
+    List,
+    Mapping,
+    Sequence,
+    Type,
+    Union,
+)
 
 try:
     import pandas as pd
@@ -57,7 +68,7 @@ def assert_style_in_dict(
 def assert_str_in_list(
     parameter_name: str,
     parameter: Any,
-    accepted_parameters: List[Any],
+    accepted_parameters: Iterable[Any],
 ) -> None:
     """Raise ValueError is parameter is not in accepted parameters.
 
@@ -73,8 +84,8 @@ def assert_str_in_list(
 
 
 def assert_not_reserved_keywords(
-    parameter_dict_or_df: Union[List[str], Mapping[str, Any], pd.DataFrame],
-    reserved_keywords: List[str],
+    parameter_dict_or_df: Union[Iterable[str], Mapping[str, Any], pd.DataFrame],
+    reserved_keywords: Sequence[str],
 ) -> None:
     """Raise ValueError is parameter is in list/dictionary/dataframe.
 
