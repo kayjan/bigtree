@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Iterable, List, Optional, Tuple, TypeVar, Union
+from typing import Any, Collection, Iterable, List, Optional, Tuple, TypeVar, Union
 
 from bigtree.node import node
 from bigtree.utils import assertions, constants
@@ -21,12 +21,12 @@ T = TypeVar("T", bound=node.Node)
 def print_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     all_attrs: bool = False,
-    attr_list: Iterable[str] = [],
+    attr_list: Optional[Iterable[str]] = None,
     attr_omit_null: bool = False,
-    attr_bracket: List[str] = ["[", "]"],
+    attr_bracket: Collection[str] = ("[", "]"),
     style: Union[str, Iterable[str], constants.BasePrintStyle] = "const",
     **kwargs: Any,
 ) -> None:
@@ -174,7 +174,7 @@ def print_tree(
         node_name_or_path: node to print from, becomes the root node of printing
         max_depth: maximum depth of tree to print, based on `depth` attribute
         all_attrs: indicator to show all attributes, overrides `attr_list` and `attr_omit_null`
-        attr_list: list of node attributes to print
+        attr_list: node attributes to print
         attr_omit_null: indicator whether to omit showing of null attributes
         attr_bracket: open and close bracket for `all_attrs` or `attr_list`
         style: style of print
@@ -219,7 +219,7 @@ def print_tree(
 
 def yield_tree(
     tree: T,
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     style: Union[str, Iterable[str], constants.BasePrintStyle] = "const",
 ) -> Iterable[Tuple[str, str, T]]:
@@ -361,7 +361,7 @@ def yield_tree(
 def hprint_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 0,
@@ -524,7 +524,7 @@ def hprint_tree(
 def hyield_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 0,
@@ -688,7 +688,7 @@ def hyield_tree(
 def vprint_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 2,
@@ -909,7 +909,7 @@ def vprint_tree(
 def vyield_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 2,
@@ -1123,9 +1123,9 @@ def vyield_tree(
 def tree_to_newick(
     tree: T,
     intermediate_node_name: bool = True,
-    length_attr: str = "",
+    length_attr: Optional[str] = None,
     length_sep: Union[str, constants.NewickCharacter] = constants.NewickCharacter.SEP,
-    attr_list: Iterable[str] = [],
+    attr_list: Optional[Iterable[str]] = None,
     attr_prefix: str = "&&NHX:",
     attr_sep: Union[str, constants.NewickCharacter] = constants.NewickCharacter.SEP,
 ) -> str:
@@ -1173,7 +1173,7 @@ def tree_to_newick(
         intermediate_node_name: indicator if intermediate nodes have node names
         length_attr: node length attribute to extract to beside name
         length_sep: separator between node name and length, used if length_attr is non-empty
-        attr_list: list of node attributes to extract into square bracket
+        attr_list: node attributes to extract into square bracket
         attr_prefix: prefix before all attributes, within square bracket, used if attr_list is non-empty
         attr_sep: separator between attributes, within square brackets, used if attr_list is non-empty
 

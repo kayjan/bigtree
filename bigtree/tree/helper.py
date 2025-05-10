@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Set, Type, TypeVar, Union
+from typing import Any, Dict, Iterable, List, Optional, Set, Type, TypeVar, Union
 
 from bigtree.node import basenode, binarynode, node
 from bigtree.tree import construct, export, search
@@ -68,7 +68,7 @@ def clone_tree(tree: basenode.BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT
 
 def get_subtree(
     tree: NodeT,
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
 ) -> NodeT:
     """Get subtree based on node name or node path, and/or maximum depth of tree. Subtrees are smaller trees with
@@ -125,7 +125,7 @@ def get_subtree(
 
 def prune_tree(
     tree: Union[BinaryNodeT, NodeT],
-    prune_path: Union[List[str], str] = "",
+    prune_path: Optional[Union[Iterable[str], str]] = None,
     exact: bool = False,
     sep: str = "/",
     max_depth: int = 0,
@@ -208,13 +208,13 @@ def prune_tree(
     if isinstance(prune_path, str):
         prune_path = [prune_path] if prune_path else []
 
-    if not len(prune_path) and not max_depth:
+    if not prune_path and not max_depth:
         raise ValueError("Please specify either `prune_path` or `max_depth` or both.")
 
     tree_copy = tree.copy()
 
     # Prune by path (prune bottom-up)
-    if len(prune_path):
+    if prune_path:
         ancestors_to_prune: Set[Union[BinaryNodeT, NodeT]] = set()
         nodes_to_prune: Set[Union[BinaryNodeT, NodeT]] = set()
         for path in prune_path:
@@ -257,7 +257,7 @@ def get_tree_diff_dataframe(
     only_diff: bool = True,
     detail: bool = False,
     aggregate: bool = False,
-    attr_list: List[str] = [],
+    attr_list: Optional[List[str]] = None,
     fallback_sep: str = "/",
     name_col: str = "name",
     path_col: str = "path",
@@ -352,6 +352,8 @@ def get_tree_diff_dataframe(
     Returns:
         Dataframe of tree differences
     """
+    if not attr_list:
+        attr_list = []
     if tree.sep != other_tree.sep:
         raise ValueError("`sep` must be the same for tree and other_tree")
 
@@ -435,7 +437,7 @@ def get_tree_diff(
     only_diff: bool = True,
     detail: bool = False,
     aggregate: bool = False,
-    attr_list: List[str] = [],
+    attr_list: Optional[Iterable[str]] = None,
     fallback_sep: str = "/",
 ) -> node.Node:
     """Get difference of `tree` to `other_tree`, changes are relative to `tree`.

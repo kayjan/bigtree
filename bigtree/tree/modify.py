@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List, Optional, Tuple, TypeVar, Union
+from typing import Any, Collection, Dict, Optional, Sequence, TypeVar
 
 from bigtree.node import node
 from bigtree.tree import construct, search
@@ -22,7 +22,7 @@ T = TypeVar("T", bound=node.Node)
 
 
 def merge_trees(
-    trees: Union[List[T], Tuple[T, ...]],
+    trees: Sequence[T],
     exact: bool = False,
 ) -> T:
     """Merge multiple trees into a single tree. Returns a new tree.
@@ -138,8 +138,8 @@ def merge_trees(
 
 def shift_nodes(
     tree: T,
-    from_paths: List[str],
-    to_paths: List[Optional[str]],
+    from_paths: Collection[str],
+    to_paths: Collection[Optional[str]],
     sep: str = "/",
     skippable: bool = False,
     overriding: bool = False,
@@ -405,8 +405,8 @@ def shift_nodes(
 
 def copy_nodes(
     tree: T,
-    from_paths: List[str],
-    to_paths: List[Optional[str]],
+    from_paths: Collection[str],
+    to_paths: Collection[Optional[str]],
     sep: str = "/",
     skippable: bool = False,
     overriding: bool = False,
@@ -672,8 +672,8 @@ def copy_nodes(
 
 def shift_and_replace_nodes(
     tree: T,
-    from_paths: List[str],
-    to_paths: List[str],
+    from_paths: Collection[str],
+    to_paths: Collection[str],
     sep: str = "/",
     skippable: bool = False,
     delete_children: bool = False,
@@ -770,8 +770,8 @@ def shift_and_replace_nodes(
 def copy_nodes_from_tree_to_tree(
     from_tree: T,
     to_tree: T,
-    from_paths: List[str],
-    to_paths: List[Optional[str]],
+    from_paths: Collection[str],
+    to_paths: Collection[Optional[str]],
     sep: str = "/",
     skippable: bool = False,
     overriding: bool = False,
@@ -997,8 +997,8 @@ def copy_nodes_from_tree_to_tree(
 def copy_and_replace_nodes_from_tree_to_tree(
     from_tree: T,
     to_tree: T,
-    from_paths: List[str],
-    to_paths: List[str],
+    from_paths: Collection[str],
+    to_paths: Collection[str],
     sep: str = "/",
     skippable: bool = False,
     delete_children: bool = False,
@@ -1179,8 +1179,8 @@ def _merge_attribute(
 
 def copy_or_shift_logic(
     tree: T,
-    from_paths: List[str],
-    to_paths: List[Optional[str]],
+    from_paths: Collection[str],
+    to_paths: Collection[Optional[str]],
     sep: str = "/",
     copy: bool = False,
     skippable: bool = False,
@@ -1471,8 +1471,8 @@ def copy_or_shift_logic(
 
 def replace_logic(
     tree: T,
-    from_paths: List[str],
-    to_paths: List[str],
+    from_paths: Collection[str],
+    to_paths: Collection[str],
     sep: str = "/",
     copy: bool = False,
     skippable: bool = False,

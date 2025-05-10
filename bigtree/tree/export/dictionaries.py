@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, TypeVar
+from typing import Any, Dict, List, Optional, TypeVar
 
 from bigtree.node import node
 
@@ -14,9 +14,9 @@ T = TypeVar("T", bound=node.Node)
 
 def tree_to_dict(
     tree: T,
-    name_key: str = "name",
-    parent_key: str = "",
-    attr_dict: Dict[str, str] = {},
+    name_key: Optional[str] = "name",
+    parent_key: Optional[str] = None,
+    attr_dict: Optional[Dict[str, str]] = None,
     all_attrs: bool = False,
     max_depth: int = 0,
     skip_depth: int = 0,
@@ -47,8 +47,7 @@ def tree_to_dict(
         tree: tree to be exported
         name_key: dictionary key for `node.node_name`
         parent_key: dictionary key for `node.parent.node_name`
-        attr_dict: dictionary mapping node attributes to dictionary key, key: node attributes, value: corresponding
-            dictionary key
+        attr_dict: node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key
         all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
         max_depth: maximum depth to export tree
         skip_depth: number of initial depths to skip
@@ -87,7 +86,7 @@ def tree_to_dict(
                             )
                         )
                     )
-                else:
+                elif attr_dict:
                     for k, v in attr_dict.items():
                         data_child[v] = _node.get_attr(k)
                 data_dict[_node.path_name] = data_child
@@ -102,7 +101,7 @@ def tree_to_nested_dict(
     tree: T,
     name_key: str = "name",
     child_key: str = "children",
-    attr_dict: Dict[str, str] = {},
+    attr_dict: Optional[Dict[str, str]] = None,
     all_attrs: bool = False,
     max_depth: int = 0,
 ) -> Dict[str, Any]:
@@ -126,8 +125,7 @@ def tree_to_nested_dict(
         tree: tree to be exported
         name_key: dictionary key for `node.node_name`
         child_key: dictionary key for list of children
-        attr_dict: dictionary mapping node attributes to dictionary key, key: node attributes, value: corresponding
-            dictionary key
+        attr_dict: node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key
         all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
         max_depth: maximum depth to export tree
 
@@ -154,7 +152,7 @@ def tree_to_nested_dict(
                             )
                         )
                     )
-                else:
+                elif attr_dict:
                     for k, v in attr_dict.items():
                         data_child[v] = _node.get_attr(k)
                 if child_key in parent_dict:

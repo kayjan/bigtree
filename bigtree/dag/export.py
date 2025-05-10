@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple, TypeVar, Union
+from typing import Any, Dict, List, Mapping, Optional, Tuple, TypeVar, Union
 
 from bigtree.node import dagnode
 from bigtree.utils import assertions, exceptions, iterators
@@ -55,7 +55,7 @@ def dag_to_list(
 def dag_to_dict(
     dag: T,
     parent_key: str = "parents",
-    attr_dict: Dict[str, str] = {},
+    attr_dict: Optional[Mapping[str, str]] = None,
     all_attrs: bool = False,
 ) -> Dict[str, Any]:
     """Export DAG to dictionary. Exported dictionary will have key as child name, and values as a dictionary of parent
@@ -74,8 +74,7 @@ def dag_to_dict(
     Args:
         dag: DAG to be exported
         parent_key: dictionary key for `node.parent.node_name`
-        attr_dict: dictionary mapping node attributes to dictionary key, key: node attributes, value: corresponding
-            dictionary key
+        attr_dict: node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key
         all_attrs: indicator whether to retrieve all `Node` attributes
 
     Returns:
@@ -93,7 +92,7 @@ def dag_to_dict(
                         exclude_attributes=["name"], exclude_prefix="_"
                     )
                 )
-            else:
+            elif attr_dict:
                 for k, v in attr_dict.items():
                     data_parent[v] = parent_node.get_attr(k)
             data_dict[parent_node.node_name] = data_parent
@@ -118,7 +117,7 @@ def dag_to_dataframe(
     dag: T,
     name_col: str = "name",
     parent_col: str = "parent",
-    attr_dict: Dict[str, str] = {},
+    attr_dict: Optional[Mapping[str, str]] = None,
     all_attrs: bool = False,
 ) -> pd.DataFrame:
     """Export DAG to pandas DataFrame.
@@ -144,8 +143,7 @@ def dag_to_dataframe(
         dag: DAG to be exported
         name_col: column name for `node.node_name`
         parent_col: column name for `node.parent.node_name`
-        attr_dict: dictionary mapping node attributes to column name, key: node attributes, value: corresponding column
-            in dataframe
+        attr_dict: node attributes mapped to column name, key: node attributes, value: corresponding column in dataframe
         all_attrs: indicator whether to retrieve all `Node` attributes
 
     Returns:
@@ -163,7 +161,7 @@ def dag_to_dataframe(
                         exclude_attributes=["name"], exclude_prefix="_"
                     )
                 )
-            else:
+            elif attr_dict:
                 for k, v in attr_dict.items():
                     data_parent[v] = parent_node.get_attr(k)
             data_list.append(data_parent)
@@ -184,12 +182,12 @@ def dag_to_dataframe(
 def dag_to_dot(
     dag: Union[T, List[T]],
     rankdir: str = "TB",
-    bg_colour: str = "",
-    node_colour: str = "",
-    node_shape: str = "",
-    edge_colour: str = "",
-    node_attr: str = "",
-    edge_attr: str = "",
+    bg_colour: Optional[str] = None,
+    node_colour: Optional[str] = None,
+    node_shape: Optional[str] = None,
+    edge_colour: Optional[str] = None,
+    node_attr: Optional[str] = None,
+    edge_attr: Optional[str] = None,
 ) -> pydot.Dot:
     r"""Export DAG or list of DAGs to image. Note that node names must be unique. Possible node attributes include style,
     fillcolor, or shape.
@@ -223,7 +221,7 @@ def dag_to_dot(
         'strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nb [label=b];\nb -> c;\nd [label=d];\nc [label=c];\nc -> d;\ne [label=e];\nd [label=d];\nd -> e;\n}\n'
 
     Args:
-        dag: DAG or list of DAGs to be exported
+        dag: DAG(s) to be exported
         rankdir: set direction of graph layout, accepts 'TB', 'BT, 'LR', or 'RL'
         bg_colour: background color of image
         node_colour: fill colour of nodes

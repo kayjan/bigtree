@@ -1,6 +1,17 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, List, Sized, Type, Union
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Collection,
+    Dict,
+    Iterable,
+    List,
+    Mapping,
+    Sequence,
+    Type,
+    Union,
+)
 
 try:
     import pandas as pd
@@ -40,13 +51,13 @@ __all__ = [
 
 def assert_style_in_dict(
     parameter: Any,
-    accepted_parameters: Dict[str, Any],
+    accepted_parameters: Mapping[str, Any],
 ) -> None:
-    """Raise ValueError is parameter is not in list of accepted parameters.
+    """Raise ValueError is parameter is not in accepted parameters.
 
     Args:
         parameter: argument input for parameter
-        accepted_parameters: list of accepted parameters
+        accepted_parameters: accepted parameters
     """
     if parameter not in accepted_parameters:
         raise ValueError(
@@ -57,14 +68,14 @@ def assert_style_in_dict(
 def assert_str_in_list(
     parameter_name: str,
     parameter: Any,
-    accepted_parameters: List[Any],
+    accepted_parameters: Iterable[Any],
 ) -> None:
-    """Raise ValueError is parameter is not in list of accepted parameters.
+    """Raise ValueError is parameter is not in accepted parameters.
 
     Args:
         parameter_name: parameter name for error message
         parameter: argument input for parameter
-        accepted_parameters: list of accepted parameters
+        accepted_parameters: accepted parameters
     """
     if parameter not in accepted_parameters:
         raise ValueError(
@@ -73,14 +84,14 @@ def assert_str_in_list(
 
 
 def assert_not_reserved_keywords(
-    parameter_dict_or_df: Union[Dict[str, Any], pd.DataFrame],
-    reserved_keywords: List[str],
+    parameter_dict_or_df: Union[Iterable[str], Mapping[str, Any], pd.DataFrame],
+    reserved_keywords: Sequence[str],
 ) -> None:
-    """Raise ValueError is parameter is in key of dictionary.
+    """Raise ValueError is parameter is in list/dictionary/dataframe.
 
     Args:
-        parameter_dict_or_df (Dict[str, Any]/pd.DataFrame): argument input for parameter
-        reserved_keywords (List[str]): list of not accepted parameters
+        parameter_dict_or_df: argument input for parameter
+        reserved_keywords: not accepted parameters
     """
     for parameter in parameter_dict_or_df:
         if parameter in reserved_keywords:
@@ -92,14 +103,14 @@ def assert_not_reserved_keywords(
 def assert_key_in_dict(
     parameter_name: str,
     parameter: Any,
-    accepted_parameters: Dict[Any, Any],
+    accepted_parameters: Mapping[Any, Any],
 ) -> None:
     """Raise ValueError is parameter is not in key of dictionary.
 
     Args:
         parameter_name: parameter name for error message
         parameter: argument input for parameter
-        accepted_parameters: dictionary of accepted parameters
+        accepted_parameters: accepted parameters
     """
     if parameter not in accepted_parameters:
         raise ValueError(
@@ -107,7 +118,9 @@ def assert_key_in_dict(
         )
 
 
-def assert_length_not_empty(data: Sized, argument_name: str, argument: str) -> None:
+def assert_length_not_empty(
+    data: Collection[Any], argument_name: str, argument: str
+) -> None:
     """Raise ValueError if data does not have length.
 
     Args:
@@ -241,15 +254,15 @@ def isnull(value: Any) -> bool:
 
 
 def filter_attributes(
-    node_attributes: Dict[str, Any],
-    omit_keys: List[str],
+    node_attributes: Mapping[str, Any],
+    omit_keys: Collection[str],
     omit_null_values: bool,
 ) -> Dict[str, Any]:
     """Filter node attributes to remove certain keys and/or values.
 
     Args:
-        node_attributes: node attribute dictionary
-        omit_keys: list of keys to omit
+        node_attributes: node attributes information
+        omit_keys: keys to omit
         omit_null_values: indicator whether to omit values that are null
 
     Returns:

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, TypeVar
+from typing import Any, Dict, Optional, TypeVar
 
 from bigtree.node import node
 from bigtree.utils import exceptions
@@ -31,10 +31,10 @@ T = TypeVar("T", bound=node.Node)
 @exceptions.optional_dependencies_pandas
 def tree_to_dataframe(
     tree: T,
-    path_col: str = "path",
-    name_col: str = "name",
-    parent_col: str = "",
-    attr_dict: Dict[str, str] = {},
+    path_col: Optional[str] = "path",
+    name_col: Optional[str] = "name",
+    parent_col: Optional[str] = None,
+    attr_dict: Optional[Dict[str, str]] = None,
     all_attrs: bool = False,
     max_depth: int = 0,
     skip_depth: int = 0,
@@ -72,8 +72,7 @@ def tree_to_dataframe(
         path_col: column name for `node.path_name`
         name_col: column name for `node.node_name`
         parent_col: column name for `node.parent.node_name`
-        attr_dict: dictionary mapping node attributes to column name, key: node attributes, value: corresponding column
-            in dataframe
+        attr_dict: node attributes mapped to column name, key: node attributes, value: corresponding column in dataframe
         all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
         max_depth: maximum depth to export tree
         skip_depth: number of initial depths to skip
@@ -111,7 +110,7 @@ def tree_to_dataframe(
                     data_child.update(
                         _node.describe(exclude_attributes=["name"], exclude_prefix="_")
                     )
-                else:
+                elif attr_dict:
                     for k, v in attr_dict.items():
                         data_child[v] = _node.get_attr(k)
                 data_list.append(data_child)
@@ -125,10 +124,10 @@ def tree_to_dataframe(
 @exceptions.optional_dependencies_polars
 def tree_to_polars(
     tree: T,
-    path_col: str = "path",
-    name_col: str = "name",
-    parent_col: str = "",
-    attr_dict: Dict[str, str] = {},
+    path_col: Optional[str] = "path",
+    name_col: Optional[str] = "name",
+    parent_col: Optional[str] = None,
+    attr_dict: Optional[Dict[str, str]] = None,
     all_attrs: bool = False,
     max_depth: int = 0,
     skip_depth: int = 0,
@@ -178,8 +177,7 @@ def tree_to_polars(
         path_col: column name for `node.path_name`
         name_col: column name for `node.node_name`
         parent_col: column name for `node.parent.node_name`
-        attr_dict: dictionary mapping node attributes to column name, key: node attributes, value: corresponding column
-            in dataframe
+        attr_dict: node attributes mapped to column name, key: node attributes, value: corresponding column in dataframe
         all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
         max_depth: maximum depth to export tree
         skip_depth: number of initial depths to skip
@@ -217,7 +215,7 @@ def tree_to_polars(
                     data_child.update(
                         _node.describe(exclude_attributes=["name"], exclude_prefix="_")
                     )
-                else:
+                elif attr_dict:
                     for k, v in attr_dict.items():
                         data_child[v] = _node.get_attr(k)
                 data_list.append(data_child)
