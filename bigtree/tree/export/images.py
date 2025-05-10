@@ -54,8 +54,8 @@ def tree_to_dot(
     node_attr: Callable[[T], Dict[str, Any]] | Optional[str] = None,
     edge_attr: Callable[[T], Dict[str, Any]] | Optional[str] = None,
 ) -> pydot.Dot:
-    r"""Export tree or list of trees to pydot.Dot object. Object can be converted to other format, such as png, dot file
-    or dot string. Dot string can be imported to work with networkx.
+    r"""Export tree(s) to pydot.Dot object. Object can be converted to other format, such as png, dot file or dot string.
+    Dot string can be imported to work with networkx.
 
     Possible node attributes include style, fillcolor, shape.
 
@@ -137,7 +137,7 @@ def tree_to_dot(
         ![Export to dot (callable)](https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png)
 
     Args:
-        tree: tree or list of trees to be exported
+        tree: tree(s) to be exported
         directed: indicator whether graph should be directed or undirected
         rankdir: layout direction, accepts 'TB' (top to bottom), 'BT' (bottom to top), 'LR' (left to right), or 'RL'
             (right to left)
@@ -161,7 +161,6 @@ def tree_to_dot(
     node_style.update({"shape": node_shape} if node_shape else {})
     edge_style = dict(color=edge_colour) if edge_colour else {}
 
-    tree = tree.copy()
     _graph = (
         pydot.Dot(graph_type="digraph", strict=True, rankdir=rankdir, **graph_style)
         if directed
@@ -484,19 +483,21 @@ def tree_to_pillow(
 
     # Calculate image dimension from text, otherwise override with argument
     def get_list_of_text_dimensions(
-        text_list: List[str],
+        text_lines: List[str],
     ) -> List[Tuple[int, int, int, int]]:
         """Get list dimensions.
 
         Args:
-            text_list: list of texts
+            text_lines: texts
 
         Returns:
             Bounding box dimensions (left, top, right, bottom)
         """
         _image = Image.new("RGB", (0, 0))
         _draw = ImageDraw.Draw(_image)
-        return [_draw.textbbox((0, 0), text_line, font=font) for text_line in text_list]
+        return [
+            _draw.textbbox((0, 0), text_line, font=font) for text_line in text_lines
+        ]
 
     text_dimensions = get_list_of_text_dimensions(image_text)
     text_height = sum(

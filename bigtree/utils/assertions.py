@@ -42,11 +42,11 @@ def assert_style_in_dict(
     parameter: Any,
     accepted_parameters: Mapping[str, Any],
 ) -> None:
-    """Raise ValueError is parameter is not in list of accepted parameters.
+    """Raise ValueError is parameter is not in accepted parameters.
 
     Args:
         parameter: argument input for parameter
-        accepted_parameters: list of accepted parameters
+        accepted_parameters: accepted parameters
     """
     if parameter not in accepted_parameters:
         raise ValueError(
@@ -59,7 +59,7 @@ def assert_str_in_list(
     parameter: Any,
     accepted_parameters: List[Any],
 ) -> None:
-    """Raise ValueError is parameter is not in list of accepted parameters.
+    """Raise ValueError is parameter is not in accepted parameters.
 
     Args:
         parameter_name: parameter name for error message
@@ -76,7 +76,7 @@ def assert_not_reserved_keywords(
     parameter_dict_or_df: Union[List[str], Mapping[str, Any], pd.DataFrame],
     reserved_keywords: List[str],
 ) -> None:
-    """Raise ValueError is parameter is in key of dictionary.
+    """Raise ValueError is parameter is in list/dictionary/dataframe.
 
     Args:
         parameter_dict_or_df: argument input for parameter
@@ -244,14 +244,14 @@ def isnull(value: Any) -> bool:
 
 def filter_attributes(
     node_attributes: Mapping[str, Any],
-    omit_keys: List[str],
+    omit_keys: Collection[str],
     omit_null_values: bool,
 ) -> Dict[str, Any]:
     """Filter node attributes to remove certain keys and/or values.
 
     Args:
         node_attributes: node attributes information
-        omit_keys: list of keys to omit
+        omit_keys: keys to omit
         omit_null_values: indicator whether to omit values that are null
 
     Returns:

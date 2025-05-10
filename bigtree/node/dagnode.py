@@ -456,12 +456,12 @@ class DAGNode:
         return cls(**input_dict)
 
     def describe(
-        self, exclude_attributes: List[str] = [], exclude_prefix: str = ""
+        self, exclude_attributes: Iterable[str] = (), exclude_prefix: str = ""
     ) -> List[Tuple[str, Any]]:
         """Get node information sorted by attribute name, returns list of tuples.
 
         Args:
-            exclude_attributes: list of attributes to exclude
+            exclude_attributes: attributes to exclude
             exclude_prefix: prefix of attributes to exclude
 
         Returns:

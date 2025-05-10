@@ -221,7 +221,7 @@ def dag_to_dot(
         'strict digraph G {\nrankdir=TB;\nc [label=c];\na [label=a];\na -> c;\nd [label=d];\na [label=a];\na -> d;\nc [label=c];\nb [label=b];\nb -> c;\nd [label=d];\nc [label=c];\nc -> d;\ne [label=e];\nd [label=d];\nd -> e;\n}\n'
 
     Args:
-        dag: DAG or list of DAGs to be exported
+        dag: DAG(s) to be exported
         rankdir: set direction of graph layout, accepts 'TB', 'BT, 'LR', or 'RL'
         bg_colour: background color of image
         node_colour: fill colour of nodes

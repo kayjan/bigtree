@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Set, Type, TypeVar, Union
+from typing import Any, Dict, Iterable, List, Optional, Set, Type, TypeVar, Union
 
 from bigtree.node import basenode, binarynode, node
 from bigtree.tree import construct, export, search
@@ -125,7 +125,7 @@ def get_subtree(
 
 def prune_tree(
     tree: Union[BinaryNodeT, NodeT],
-    prune_path: Union[List[str], str] = "",
+    prune_path: Optional[Union[Iterable[str], str]] = None,
     exact: bool = False,
     sep: str = "/",
     max_depth: int = 0,
@@ -208,13 +208,13 @@ def prune_tree(
     if isinstance(prune_path, str):
         prune_path = [prune_path] if prune_path else []
 
-    if not len(prune_path) and not max_depth:
+    if not prune_path and not max_depth:
         raise ValueError("Please specify either `prune_path` or `max_depth` or both.")
 
     tree_copy = tree.copy()
 
     # Prune by path (prune bottom-up)
-    if len(prune_path):
+    if prune_path:
         ancestors_to_prune: Set[Union[BinaryNodeT, NodeT]] = set()
         nodes_to_prune: Set[Union[BinaryNodeT, NodeT]] = set()
         for path in prune_path:
