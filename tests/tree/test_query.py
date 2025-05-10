@@ -164,31 +164,11 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
-    def test_query_tree_op_contains(tree_node):
-        tree_node["b"].parameter = "something"
-        results = query.query_tree(tree_node, 'parameter contains "thing"')
-        expected = ["b"]
-        actual = [_node.node_name for _node in results]
-        assert (
-            actual == expected
-        ), f"Wrong query results, expected {expected}, received {actual}"
-
-    @staticmethod
-    def test_query_tree_op_contains_not(tree_node):
-        tree_node["b"].parameter = "something"
-        results = query.query_tree(tree_node, 'NOT parameter contains "thing"')
-        expected = ["a", "d", "e", "g", "h", "c", "f"]
-        actual = [_node.node_name for _node in results]
-        assert (
-            actual == expected
-        ), f"Wrong query results, expected {expected}, received {actual}"
-
-    @staticmethod
     def test_query_tree_op_in(tree_node):
         tree_node["b"].parameter = "something"
         tree_node["c"].parameter = "thing"
         tree_node["b"]["d"].parameter = "nothing"
-        results = query.query_tree(tree_node, 'parameter in ["thing", "something"]')
+        results = query.query_tree(tree_node, 'parameter IN ["thing", "something"]')
         expected = ["b", "c"]
         actual = [_node.node_name for _node in results]
         assert (
@@ -197,7 +177,7 @@ class TestQueryTree:
 
     @staticmethod
     def test_query_tree_op_in_int(tree_node):
-        results = query.query_tree(tree_node, "age in [90, 60]")
+        results = query.query_tree(tree_node, "age IN [90, 60]")
         expected = ["a", "c"]
         actual = [_node.node_name for _node in results]
         assert (
@@ -206,8 +186,50 @@ class TestQueryTree:
 
     @staticmethod
     def test_query_tree_op_in_not(tree_node):
-        results = query.query_tree(tree_node, "NOT age in [90, 60]")
+        results = query.query_tree(tree_node, "NOT age IN [90, 60]")
         expected = ["b", "d", "e", "g", "h", "f"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_like(tree_node):
+        results = query.query_tree(tree_node, r'path_name LIKE ".*/b/.*"')
+        expected = ["d", "e", "g", "h"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_like_parameter(tree_node):
+        tree_node["b"].parameter = "something"
+        tree_node["c"].parameter = "thing"
+        tree_node["b"]["d"].parameter = "nothing"
+        results = query.query_tree(tree_node, 'parameter LIKE ".+thing"')
+        expected = ["b", "d"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_like_not(tree_node):
+        tree_node["b"].parameter = "something"
+        tree_node["c"].parameter = "thing"
+        tree_node["b"]["d"].parameter = "nothing"
+        results = query.query_tree(tree_node, 'NOT parameter LIKE ".+thing"')
+        expected = ["a", "e", "g", "h", "c", "f"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
+    def test_query_tree_between(tree_node):
+        results = query.query_tree(tree_node, "age BETWEEN 6 AND 10")
+        expected = ["g", "h"]
         actual = [_node.node_name for _node in results]
         assert (
             actual == expected
