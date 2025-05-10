@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from typing import Any, Dict, List, Optional, Tuple, Type, TypeVar
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Type, TypeVar
 
 from bigtree.node import node
 from bigtree.tree import search
@@ -22,7 +22,7 @@ def add_path_to_tree(
     path: str,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_attrs: Dict[str, Any] = {},
+    node_attrs: Optional[Dict[str, Any]] = None,
 ) -> T:
     """Add nodes and attributes to existing tree *in-place*, return node of path added. Adds to existing tree from list
     of path strings.
@@ -62,6 +62,8 @@ def add_path_to_tree(
     Returns:
         Node
     """
+    if not node_attrs:
+        node_attrs = {}
     assertions.assert_length_not_empty(path, "Path", "path")
 
     root_node = tree.root
@@ -102,7 +104,7 @@ def add_path_to_tree(
 
 def str_to_tree(
     tree_string: str,
-    tree_prefix_list: List[str] = [],
+    tree_prefix_list: Iterable[str] = (),
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     r"""Construct tree from tree string.
@@ -122,8 +124,8 @@ def str_to_tree(
             └── f
 
     Args:
-        tree_string: String to construct tree
-        tree_prefix_list: List of prefix to mark the end of tree branch/stem and start of node name, optional. If not
+        tree_string: string to construct tree
+        tree_prefix_list: prefixes to mark the end of tree branch/stem and start of node name, optional. If not
             specified, it will infer unicode characters and whitespace as prefix
         node_type: node type of tree to be created
 
@@ -139,7 +141,7 @@ def str_to_tree(
     prefix_length = None
     cur_parent = root_node
     for node_str in tree_list[1:]:
-        if len(tree_prefix_list):
+        if tree_prefix_list:
             node_name = re.split("|".join(tree_prefix_list), node_str)[-1].lstrip()
         else:
             node_name = node_str.encode("ascii", "ignore").decode("ascii").lstrip()

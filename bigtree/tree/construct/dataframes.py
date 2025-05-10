@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Type, TypeVar
+from typing import Any, Dict, List, Optional, Type, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.construct.dictionaries import add_dict_to_tree_by_name
@@ -38,8 +38,8 @@ T = TypeVar("T", bound=node.Node)
 def add_dataframe_to_tree_by_path(
     tree: T,
     data: pd.DataFrame,
-    path_col: str = "",
-    attribute_cols: List[str] = [],
+    path_col: Optional[str] = None,
+    attribute_cols: Optional[List[str]] = None,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
 ) -> T:
@@ -102,15 +102,17 @@ def add_dataframe_to_tree_by_path(
     Returns:
         Node
     """
+    if not attribute_cols:
+        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
         path_col = data.columns[0]
-    if not len(attribute_cols):
+    if not attribute_cols:
         attribute_cols = list(data.columns)
         attribute_cols.remove(path_col)
 
-    data = data[[path_col] + attribute_cols].copy()
+    data = data[[path_col] + list(attribute_cols)].copy()
     data[path_col] = data[path_col].str.lstrip(sep).str.rstrip(sep)
     assertions.assert_dataframe_no_duplicate_attribute(
         data, "path", path_col, attribute_cols
@@ -134,8 +136,8 @@ def add_dataframe_to_tree_by_path(
 def add_dataframe_to_tree_by_name(
     tree: T,
     data: pd.DataFrame,
-    name_col: str = "",
-    attribute_cols: List[str] = [],
+    name_col: Optional[str] = None,
+    attribute_cols: Optional[List[str]] = None,
 ) -> T:
     """Add attributes to existing tree *in-place*. Adds to existing tree from pandas DataFrame.
 
@@ -172,6 +174,8 @@ def add_dataframe_to_tree_by_name(
     Returns:
         Node
     """
+    if not attribute_cols:
+        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not name_col:
@@ -201,8 +205,8 @@ def add_dataframe_to_tree_by_name(
 def add_polars_to_tree_by_path(
     tree: T,
     data: pl.DataFrame,
-    path_col: str = "",
-    attribute_cols: List[str] = [],
+    path_col: Optional[str] = None,
+    attribute_cols: Optional[List[str]] = None,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
 ) -> T:
@@ -265,6 +269,8 @@ def add_polars_to_tree_by_path(
     Returns:
         Node
     """
+    if not attribute_cols:
+        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
@@ -299,8 +305,8 @@ def add_polars_to_tree_by_path(
 def add_polars_to_tree_by_name(
     tree: T,
     data: pl.DataFrame,
-    name_col: str = "",
-    attribute_cols: List[str] = [],
+    name_col: Optional[str] = None,
+    attribute_cols: Optional[List[str]] = None,
 ) -> T:
     """Add attributes to existing tree *in-place*. Adds to existing tree from polars DataFrame.
 
@@ -335,6 +341,8 @@ def add_polars_to_tree_by_name(
     Returns:
         Node
     """
+    if not attribute_cols:
+        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not name_col:
@@ -363,8 +371,8 @@ def add_polars_to_tree_by_name(
 
 def dataframe_to_tree(
     data: pd.DataFrame,
-    path_col: str = "",
-    attribute_cols: List[str] = [],
+    path_col: Optional[str] = None,
+    attribute_cols: Optional[List[str]] = None,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
@@ -426,6 +434,8 @@ def dataframe_to_tree(
     Returns:
         Node
     """
+    if not attribute_cols:
+        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
@@ -470,9 +480,9 @@ def dataframe_to_tree(
 
 def dataframe_to_tree_by_relation(
     data: pd.DataFrame,
-    child_col: str = "",
-    parent_col: str = "",
-    attribute_cols: List[str] = [],
+    child_col: Optional[str] = None,
+    parent_col: Optional[str] = None,
+    attribute_cols: Optional[List[str]] = None,
     allow_duplicates: bool = False,
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
@@ -528,6 +538,8 @@ def dataframe_to_tree_by_relation(
     Returns:
         Node
     """
+    if not attribute_cols:
+        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not child_col:
@@ -594,8 +606,8 @@ def dataframe_to_tree_by_relation(
 
 def polars_to_tree(
     data: pl.DataFrame,
-    path_col: str = "",
-    attribute_cols: List[str] = [],
+    path_col: Optional[str] = None,
+    attribute_cols: Optional[List[str]] = None,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
@@ -657,6 +669,8 @@ def polars_to_tree(
     Returns:
         Node
     """
+    if not attribute_cols:
+        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
@@ -702,9 +716,9 @@ def polars_to_tree(
 
 def polars_to_tree_by_relation(
     data: pl.DataFrame,
-    child_col: str = "",
-    parent_col: str = "",
-    attribute_cols: List[str] = [],
+    child_col: Optional[str] = None,
+    parent_col: Optional[str] = None,
+    attribute_cols: Optional[List[str]] = None,
     allow_duplicates: bool = False,
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
@@ -760,6 +774,8 @@ def polars_to_tree_by_relation(
     Returns:
         Node
     """
+    if not attribute_cols:
+        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not child_col:

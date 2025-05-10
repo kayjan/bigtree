@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple, TypeVar, Union
+from typing import Any, Dict, List, Optional, Tuple, TypeVar, Union
 
 from bigtree.node import dagnode
 from bigtree.utils import assertions, exceptions, iterators
@@ -55,7 +55,7 @@ def dag_to_list(
 def dag_to_dict(
     dag: T,
     parent_key: str = "parents",
-    attr_dict: Dict[str, str] = {},
+    attr_dict: Optional[Dict[str, str]] = None,
     all_attrs: bool = False,
 ) -> Dict[str, Any]:
     """Export DAG to dictionary. Exported dictionary will have key as child name, and values as a dictionary of parent
@@ -74,13 +74,14 @@ def dag_to_dict(
     Args:
         dag: DAG to be exported
         parent_key: dictionary key for `node.parent.node_name`
-        attr_dict: dictionary mapping node attributes to dictionary key, key: node attributes, value: corresponding
-            dictionary key
+        attr_dict: node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key
         all_attrs: indicator whether to retrieve all `Node` attributes
 
     Returns:
         Dictionary of node names to their attributes
     """
+    if not attr_dict:
+        attr_dict = {}
     dag = dag.copy()
     data_dict = {}
 
@@ -118,7 +119,7 @@ def dag_to_dataframe(
     dag: T,
     name_col: str = "name",
     parent_col: str = "parent",
-    attr_dict: Dict[str, str] = {},
+    attr_dict: Optional[Dict[str, str]] = None,
     all_attrs: bool = False,
 ) -> pd.DataFrame:
     """Export DAG to pandas DataFrame.
@@ -144,13 +145,14 @@ def dag_to_dataframe(
         dag: DAG to be exported
         name_col: column name for `node.node_name`
         parent_col: column name for `node.parent.node_name`
-        attr_dict: dictionary mapping node attributes to column name, key: node attributes, value: corresponding column
-            in dataframe
+        attr_dict: node attributes mapped to column name, key: node attributes, value: corresponding column in dataframe
         all_attrs: indicator whether to retrieve all `Node` attributes
 
     Returns:
         pandas DataFrame of DAG information
     """
+    if not attr_dict:
+        attr_dict = {}
     dag = dag.copy()
     data_list: List[Dict[str, Any]] = []
 

@@ -64,7 +64,7 @@ def assert_str_in_list(
     Args:
         parameter_name: parameter name for error message
         parameter: argument input for parameter
-        accepted_parameters: list of accepted parameters
+        accepted_parameters: accepted parameters
     """
     if parameter not in accepted_parameters:
         raise ValueError(
@@ -79,8 +79,8 @@ def assert_not_reserved_keywords(
     """Raise ValueError is parameter is in key of dictionary.
 
     Args:
-        parameter_dict_or_df (Dict[str, Any]/pd.DataFrame): argument input for parameter
-        reserved_keywords (List[str]): list of not accepted parameters
+        parameter_dict_or_df: argument input for parameter
+        reserved_keywords: not accepted parameters
     """
     for parameter in parameter_dict_or_df:
         if parameter in reserved_keywords:
@@ -99,7 +99,7 @@ def assert_key_in_dict(
     Args:
         parameter_name: parameter name for error message
         parameter: argument input for parameter
-        accepted_parameters: dictionary of accepted parameters
+        accepted_parameters: accepted parameters
     """
     if parameter not in accepted_parameters:
         raise ValueError(
