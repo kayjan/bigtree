@@ -24,16 +24,16 @@ QUERY_GRAMMAR = """
     ?and_clause: predicate ("AND" predicate)*
 
     ?predicate: "(" predicate ")"
-           | comparison
+           | condition
            | unary
-           | not_comparison
+           | not_predicate
 
-    comparison: object_attr OP _value
-            | object_attr OP_CONTAINS string  -> string_comparison
-            | object_attr OP_IN list          -> string_comparison
-            | object_attr OP_LIKE string      -> string_comparison
+    condition: object_attr OP _value
+            | object_attr OP_IN list          -> string_condition
+            | object_attr OP_LIKE string      -> string_condition
+            | object_attr OP_BETWEEN number "AND" number  -> between_condition
     unary: object_attr
-    not_comparison: "NOT" predicate
+    not_predicate: "NOT" predicate
 
     _attr: /[a-zA-Z_][a-zA-Z0-9_]*/
     object_attr: _attr ("." _attr)*
@@ -43,9 +43,9 @@ QUERY_GRAMMAR = """
     number: SIGNED_NUMBER
 
     OP: "==" | "!=" | ">" | "<" | ">=" | "<="
-    OP_CONTAINS: "contains"
-    OP_IN: "in"
+    OP_IN: "IN"
     OP_LIKE: "LIKE"
+    OP_BETWEEN: "BETWEEN"
 
     %import common.ESCAPED_STRING
     %import common.SIGNED_NUMBER
@@ -64,9 +64,12 @@ class QueryTransformer(Transformer):  # type: ignore
         "<": operator.lt,
         ">=": operator.ge,
         "<=": operator.le,
-        "contains": lambda attr, value: value in attr,
-        "in": lambda attr, value: attr in value,
+        "IN": lambda attr, value: attr in value,
         "LIKE": lambda attr, value: re.match(value, attr),
+    }
+
+    OPERATOR_BETWEEN = {
+        "BETWEEN": lambda attr, value_from, value_to: value_from <= attr <= value_to
     }
 
     @staticmethod
@@ -77,21 +80,26 @@ class QueryTransformer(Transformer):  # type: ignore
     def and_clause(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
         return lambda node: all(cond(node) for cond in args)
 
-    def comparison(self, args: List[Token]) -> Callable[[T], bool]:
+    def condition(self, args: List[Token]) -> Callable[[T], bool]:
         attr, op, value = args
         op_func = self.OPERATORS[op]
         return lambda node: op_func(attr(node), value)
 
-    def string_comparison(self, args: List[Token]) -> Callable[[T], bool]:
+    def string_condition(self, args: List[Token]) -> Callable[[T], bool]:
         attr, op, value = args
         op_func = self.OPERATORS[op]
         return lambda node: op_func(attr(node) or "", value)
+
+    def between_condition(self, args: List[Token]) -> Callable[[T], bool]:
+        attr, op, value_from, value_to = args
+        op_func = self.OPERATOR_BETWEEN[op]
+        return lambda node: op_func(attr(node) or float("inf"), value_from, value_to)
 
     def unary(self, args: List[Token]) -> Callable[[T], bool]:
         attr = args[0]
         return lambda node: bool(attr(node))
 
-    def not_comparison(self, args: List[Token]) -> Callable[[T], bool]:
+    def not_predicate(self, args: List[Token]) -> Callable[[T], bool]:
         attr = args[0]
         return lambda node: not attr(node)
 

@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added:
-- Tree Query: Support "LIKE" operations.
+- Tree Query: Support "LIKE", "IN", and "BETWEEN" operations, remove support for "contains" and "in" operations.
 ### Fixed:
 - Docs: Relax type hints, remove mutable defaults.
 

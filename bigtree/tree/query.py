@@ -23,7 +23,7 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
     """Query tree using Tree Definition Language.
 
     - Supports clauses: AND, OR, NOT
-    - Supports operation: ==, !=, >, <, >=, <=, contains, in, LIKE
+    - Supports operation: ==, !=, >, <, >=, <=, BETWEEN, IN, LIKE
     - Note that string match in query must be in double quotes
 
     Examples:
@@ -51,13 +51,13 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
 
         **Field-based comparisons**
 
-        >>> results = query_tree(root, 'age >= 30 AND is_leaf OR node_name in ["a"]')
+        >>> results = query_tree(root, 'age >= 30 AND is_leaf OR node_name IN ["a"]')
         >>> [result.node_name for result in results]
         ['a', 'd', 'f']
 
         **Path-based conditions**
 
-        >>> results = query_tree(root, 'path_name contains "/b/"')
+        >>> results = query_tree(root, 'path_name LIKE ".*/b/.*"')
         >>> [result.node_name for result in results]
         ['d', 'e', 'g', 'h']
 
