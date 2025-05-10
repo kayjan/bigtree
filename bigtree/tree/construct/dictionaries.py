@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Type, TypeVar
+from typing import Any, List, Mapping, Optional, Type, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.construct.strings import add_path_to_tree
@@ -18,7 +18,7 @@ T = TypeVar("T", bound=node.Node)
 
 def add_dict_to_tree_by_path(
     tree: T,
-    path_attrs: Dict[str, Dict[str, Any]],
+    path_attrs: Mapping[str, Mapping[str, Any]],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
 ) -> T:
@@ -66,8 +66,8 @@ def add_dict_to_tree_by_path(
 
     Args:
         tree: existing tree
-        path_attrs: dictionary containing node path and attribute information, key: node path, value: dict of node
-            attribute name and attribute value
+        path_attrs: node path and attribute information, key: node path, value: dict of node attribute name and
+            attribute value
         sep: path separator for input `path_attrs`
         duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
 
@@ -89,7 +89,7 @@ def add_dict_to_tree_by_path(
     return root_node
 
 
-def add_dict_to_tree_by_name(tree: T, name_attrs: Dict[str, Dict[str, Any]]) -> T:
+def add_dict_to_tree_by_name(tree: T, name_attrs: Mapping[str, Mapping[str, Any]]) -> T:
     """Add attributes to existing tree *in-place*. Adds to existing tree from nested dictionary, ``key``: name,
     ``value``: dict of attribute name and attribute value.
 
@@ -113,8 +113,8 @@ def add_dict_to_tree_by_name(tree: T, name_attrs: Dict[str, Dict[str, Any]]) -> 
 
     Args:
         tree: existing tree
-        name_attrs: dictionary containing node name and attribute information, key: node name, value: dict of node
-            attribute name and attribute value
+        name_attrs: node name and attribute information, key: node name, value: dict of node attribute name and
+            attribute value
 
     Returns:
         Node
@@ -135,7 +135,7 @@ def add_dict_to_tree_by_name(tree: T, name_attrs: Dict[str, Dict[str, Any]]) -> 
 
 
 def dict_to_tree(
-    path_attrs: Dict[str, Any],
+    path_attrs: Mapping[str, Any],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
@@ -181,8 +181,8 @@ def dict_to_tree(
             └── f [age=38]
 
     Args:
-        path_attrs: dictionary containing node path and attribute information, key: node path, value: dict of node
-            attribute name and attribute value
+        path_attrs: node path and attribute information, key: node path, value: dict of node attribute name and
+            attribute value
         sep: path separator of input `path_attrs` and created tree
         duplicate_name_allowed: indicator if nodes with duplicate ``Node`` name is allowed
         node_type: node type of tree to be created
@@ -225,7 +225,7 @@ def dict_to_tree(
 
 
 def nested_dict_to_tree(
-    node_attrs: Dict[str, Any],
+    node_attrs: Mapping[str, Any],
     name_key: str = "name",
     child_key: str = "children",
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
@@ -261,10 +261,10 @@ def nested_dict_to_tree(
                 └── g [age=10]
 
     Args:
-        node_attrs: dictionary containing node, children, and node attribute information,
+        node_attrs: node, children, and node attribute information,
             key: `name_key` and `child_key`
             value of `name_key` (str): node name
-            value of `child_key` (List[Dict[str, Any]]): list of dict containing `name_key` and `child_key` (recursive)
+            value of `child_key` (List[Mapping[str, Any]]): list of dict containing `name_key` and `child_key` (recursive)
         name_key: key of node name, value is type str
         child_key: key of child list, value is type list
         node_type: node type of tree to be created
@@ -275,7 +275,7 @@ def nested_dict_to_tree(
     assertions.assert_length_not_empty(node_attrs, "Dictionary", "node_attrs")
 
     def _recursive_add_child(
-        child_dict: Dict[str, Any], parent_node: Optional[T] = None
+        child_dict: Mapping[str, Any], parent_node: Optional[T] = None
     ) -> T:
         """Recursively add child to tree, given child attributes and parent node.
 
@@ -286,7 +286,7 @@ def nested_dict_to_tree(
         Returns:
             Node
         """
-        child_dict = child_dict.copy()
+        child_dict = dict(child_dict)
         node_name = child_dict.pop(name_key)
         node_children = child_dict.pop(child_key, [])
         if not isinstance(node_children, List):

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Collection, Dict, List, Type, Union
+from typing import TYPE_CHECKING, Any, Collection, Dict, List, Mapping, Type, Union
 
 try:
     import pandas as pd
@@ -40,7 +40,7 @@ __all__ = [
 
 def assert_style_in_dict(
     parameter: Any,
-    accepted_parameters: Dict[str, Any],
+    accepted_parameters: Mapping[str, Any],
 ) -> None:
     """Raise ValueError is parameter is not in list of accepted parameters.
 
@@ -73,7 +73,7 @@ def assert_str_in_list(
 
 
 def assert_not_reserved_keywords(
-    parameter_dict_or_df: Union[List[str], Dict[str, Any], pd.DataFrame],
+    parameter_dict_or_df: Union[List[str], Mapping[str, Any], pd.DataFrame],
     reserved_keywords: List[str],
 ) -> None:
     """Raise ValueError is parameter is in key of dictionary.
@@ -92,7 +92,7 @@ def assert_not_reserved_keywords(
 def assert_key_in_dict(
     parameter_name: str,
     parameter: Any,
-    accepted_parameters: Dict[Any, Any],
+    accepted_parameters: Mapping[Any, Any],
 ) -> None:
     """Raise ValueError is parameter is not in key of dictionary.
 
@@ -243,14 +243,14 @@ def isnull(value: Any) -> bool:
 
 
 def filter_attributes(
-    node_attributes: Dict[str, Any],
+    node_attributes: Mapping[str, Any],
     omit_keys: List[str],
     omit_null_values: bool,
 ) -> Dict[str, Any]:
     """Filter node attributes to remove certain keys and/or values.
 
     Args:
-        node_attributes: node attribute dictionary
+        node_attributes: node attributes information
         omit_keys: list of keys to omit
         omit_null_values: indicator whether to omit values that are null
 
