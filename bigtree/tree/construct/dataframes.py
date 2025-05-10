@@ -102,8 +102,6 @@ def add_dataframe_to_tree_by_path(
     Returns:
         Node
     """
-    if not attribute_cols:
-        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
@@ -174,13 +172,11 @@ def add_dataframe_to_tree_by_name(
     Returns:
         Node
     """
-    if not attribute_cols:
-        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not name_col:
         name_col = data.columns[0]
-    if not len(attribute_cols):
+    if not attribute_cols:
         attribute_cols = list(data.columns)
         attribute_cols.remove(name_col)
 
@@ -269,13 +265,11 @@ def add_polars_to_tree_by_path(
     Returns:
         Node
     """
-    if not attribute_cols:
-        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
         path_col = data.columns[0]
-    if not len(attribute_cols):
+    if not attribute_cols:
         attribute_cols = list(data.columns)
         attribute_cols.remove(path_col)
 
@@ -341,13 +335,11 @@ def add_polars_to_tree_by_name(
     Returns:
         Node
     """
-    if not attribute_cols:
-        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not name_col:
         name_col = data.columns[0]
-    if not len(attribute_cols):
+    if not attribute_cols:
         attribute_cols = list(data.columns)
         attribute_cols.remove(name_col)
 
@@ -434,13 +426,11 @@ def dataframe_to_tree(
     Returns:
         Node
     """
-    if not attribute_cols:
-        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
         path_col = data.columns[0]
-    if not len(attribute_cols):
+    if not attribute_cols:
         attribute_cols = list(data.columns)
         attribute_cols.remove(path_col)
 
@@ -538,15 +528,13 @@ def dataframe_to_tree_by_relation(
     Returns:
         Node
     """
-    if not attribute_cols:
-        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not child_col:
         child_col = data.columns[0]
     if not parent_col:
         parent_col = data.columns[1]
-    if not len(attribute_cols):
+    if not attribute_cols:
         attribute_cols = list(data.columns)
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
@@ -669,13 +657,11 @@ def polars_to_tree(
     Returns:
         Node
     """
-    if not attribute_cols:
-        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not path_col:
         path_col = data.columns[0]
-    if not len(attribute_cols):
+    if not attribute_cols:
         attribute_cols = list(data.columns)
         attribute_cols.remove(path_col)
 
@@ -774,15 +760,13 @@ def polars_to_tree_by_relation(
     Returns:
         Node
     """
-    if not attribute_cols:
-        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not child_col:
         child_col = data.columns[0]
     if not parent_col:
         parent_col = data.columns[1]
-    if not len(attribute_cols):
+    if not attribute_cols:
         attribute_cols = list(data.columns)
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)

@@ -169,8 +169,6 @@ def dataframe_to_dag(
     Returns:
         DAG node
     """
-    if not attribute_cols:
-        attribute_cols = []
     assertions.assert_dataframe_not_empty(data)
 
     if not child_col:
@@ -181,7 +179,7 @@ def dataframe_to_dag(
         parent_col = data.columns[1]
     elif parent_col not in data.columns:
         raise ValueError(f"Parent column not in data, check `parent_col`: {parent_col}")
-    if not len(attribute_cols):
+    if not attribute_cols:
         attribute_cols = list(data.columns)
         attribute_cols.remove(child_col)
         attribute_cols.remove(parent_col)
