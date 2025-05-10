@@ -60,7 +60,7 @@ class BaseYieldTree:
     def __init__(
         self,
         tree: T,
-        node_name_or_path: str = "",
+        node_name_or_path: Optional[str] = None,
         max_depth: int = 0,
         style: Union[
             str,
@@ -81,7 +81,8 @@ class BaseYieldTree:
             border_style: style of border
         """
         self._style_class: Type[constants.BaseStyle]
-        tree = get_subtree(tree, node_name_or_path, max_depth)
+        if node_name_or_path or max_depth:
+            tree = get_subtree(tree, node_name_or_path, max_depth)
 
         # Set style
         style_class = _get_style_class(self._style_class, style, "style")
@@ -112,7 +113,7 @@ class YieldTree(BaseYieldTree):
     def __init__(
         self,
         tree: T,
-        node_name_or_path: str = "",
+        node_name_or_path: Optional[str] = None,
         max_depth: int = 0,
         style: Union[str, Iterable[str], constants.BasePrintStyle] = "const",
     ):
@@ -174,7 +175,7 @@ class HYieldTree(BaseYieldTree):
         self,
         tree: T,
         alias: str = "node_name",
-        node_name_or_path: str = "",
+        node_name_or_path: Optional[str] = None,
         max_depth: int = 0,
         intermediate_node_name: bool = True,
         spacing: int = 0,
@@ -344,7 +345,7 @@ class VYieldTree(BaseYieldTree):
         self,
         tree: T,
         alias: str = "node_name",
-        node_name_or_path: str = "",
+        node_name_or_path: Optional[str] = None,
         max_depth: int = 0,
         intermediate_node_name: bool = True,
         spacing: int = 2,

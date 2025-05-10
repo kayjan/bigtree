@@ -68,7 +68,7 @@ def clone_tree(tree: basenode.BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT
 
 def get_subtree(
     tree: NodeT,
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
 ) -> NodeT:
     """Get subtree based on node name or node path, and/or maximum depth of tree. Subtrees are smaller trees with

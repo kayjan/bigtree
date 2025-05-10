@@ -219,7 +219,7 @@ def print_tree(
 
 def yield_tree(
     tree: T,
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     style: Union[str, Iterable[str], constants.BasePrintStyle] = "const",
 ) -> Iterable[Tuple[str, str, T]]:
@@ -361,7 +361,7 @@ def yield_tree(
 def hprint_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 0,
@@ -524,7 +524,7 @@ def hprint_tree(
 def hyield_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 0,
@@ -688,7 +688,7 @@ def hyield_tree(
 def vprint_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 2,
@@ -909,7 +909,7 @@ def vprint_tree(
 def vyield_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: str = "",
+    node_name_or_path: Optional[str] = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 2,
