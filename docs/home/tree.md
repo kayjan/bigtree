@@ -17,6 +17,7 @@ For **Tree** implementation, there are 11 main components.
 - From *nested dictionary*, using path-attribute key-value pairs or recursive structure
 - From *pandas DataFrame*, using paths or parent-child columns
 - From *polars DataFrame*, using paths or parent-child columns
+- From *interactive UI*
 - Add nodes to existing tree using path string
 - Add nodes and attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using path
 - Add only attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using node name

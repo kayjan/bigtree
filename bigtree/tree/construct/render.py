@@ -44,7 +44,6 @@ class TkinterTree:
 
         # Insert nodes
         tree_root = tree.insert("", "end", iid=self.get_iid(), text=root_name)
-        tree.insert(tree_root, "end", iid=self.get_iid(), text="Child 1")
 
         # Add button
         tk.Button(root, text="Add Child", command=self.on_plus).pack()
@@ -124,7 +123,7 @@ class TkinterTree:
         elif parent:
             # Add node
             self.validate_name(parent, name)
-            self.tree.insert(parent, "end", text=name, iid=self.get_iid())
+            self.tree.insert(parent, "end", iid=self.get_iid(), text=name)
         self.entry_place_forget()
 
     def on_plus(self, event: TkEvent = None) -> None:
