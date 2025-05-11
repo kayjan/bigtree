@@ -77,6 +77,7 @@ dependencies = [
   "pytest",
   "pytest-cov",
   "pytest-benchmark[histogram]",
+  "pyvis",
 ]
 
 [tool.hatch.envs.default.scripts]
@@ -137,6 +138,7 @@ parallel = true
 omit = [
   "*/tests/*",
   "*/workflows/*",
+  "bigtree/tree/construct/render.py"
 ]
 
 [tool.coverage.report]

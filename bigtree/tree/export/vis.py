@@ -4,7 +4,7 @@ from typing import Any, Dict, Optional, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.export.stdout import yield_tree
-from bigtree.utils import exceptions, plot
+from bigtree.utils import constants, exceptions, plot
 
 try:
     import pyvis
@@ -68,7 +68,7 @@ def tree_to_vis(
         custom_node_kwargs: mapping of pyvis Node kwarg to tree node attribute if present. This allows custom node
             attributes to be set. Possible keys include value (for node size), color (for node colour)
         node_kwargs: kwargs for Node for all nodes, accepts keys: color etc.
-        custom_node_kwargs: mapping of pyvis Edge kwarg to tree node attribute if present. This allows custom edge
+        custom_edge_kwargs: mapping of pyvis Edge kwarg to tree node attribute if present. This allows custom edge
             attributes to be set. Possible keys include width (for edge weight)
         edge_kwargs: kwargs for Edge for all edges, accept keys: weight etc.
         network_kwargs: kwargs for Network, accepts keys: height, width, bgcolor, font_color, notebook, select_menu etc.
@@ -76,17 +76,19 @@ def tree_to_vis(
     Returns:
         pyvis object for display
     """
-    DEFAULT_PLOT_KWARGS = {
-        "sibling_separation": 100,
-        "subtree_separation": 100,
-        "level_separation": 100,
+    pyvis_params = constants.PyVisParameters
+    plot_kwargs = {**pyvis_params.DEFAULT_PLOT_KWARGS, **(plot_kwargs or {})}
+    custom_node_kwargs = {
+        **pyvis_params.DEFAULT_CUSTOM_NODE_KWARGS,
+        **(custom_node_kwargs or {}),
     }
-    DEFAULT_CUSTOM_NODE_KWARGS = {"title": "node_name"}
-    DEFAULT_NODE_KWARGS = {"value": 10}
 
-    plot_kwargs = {**DEFAULT_PLOT_KWARGS, **(plot_kwargs or {})}
-    custom_node_kwargs = {**DEFAULT_CUSTOM_NODE_KWARGS, **(custom_node_kwargs or {})}
-    node_kwargs = {**DEFAULT_NODE_KWARGS, **(node_kwargs or {})}
+    plot_kwargs = {**pyvis_params.DEFAULT_PLOT_KWARGS, **(plot_kwargs or {})}
+    custom_node_kwargs = {
+        **pyvis_params.DEFAULT_CUSTOM_NODE_KWARGS,
+        **(custom_node_kwargs or {}),
+    }
+    node_kwargs = {**pyvis_params.DEFAULT_NODE_KWARGS, **(node_kwargs or {})}
     custom_edge_kwargs = custom_edge_kwargs or {}
     edge_kwargs = edge_kwargs or {}
     network_kwargs = network_kwargs or {}

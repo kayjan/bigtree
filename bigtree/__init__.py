@@ -25,6 +25,7 @@ from bigtree.tree.construct import (
     newick_to_tree,
     polars_to_tree,
     polars_to_tree_by_relation,
+    render_tree,
     str_to_tree,
 )
 from bigtree.tree.export import (
