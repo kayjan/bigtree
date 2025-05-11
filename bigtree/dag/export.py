@@ -171,7 +171,7 @@ def dag_to_dataframe(
             data_child.update(
                 child_node.describe(exclude_attributes=["name"], exclude_prefix="_")
             )
-        else:
+        elif attr_dict:
             for k, v in attr_dict.items():
                 data_child[v] = child_node.get_attr(k)
         data_list.append(data_child)

@@ -91,6 +91,27 @@ class TestDAGToDataFrame:
     def test_dag_to_dataframe(dag_node):
         expected = pd.DataFrame(
             [
+                ["a", None],
+                ["c", "a"],
+                ["d", "a"],
+                ["b", None],
+                ["c", "b"],
+                ["d", "c"],
+                ["f", "c"],
+                ["g", "c"],
+                ["e", "d"],
+                ["f", "d"],
+                ["h", "g"],
+            ],
+            columns=["name", "parent"],
+        )
+        actual = export.dag_to_dataframe(dag_node)
+        pd.testing.assert_frame_equal(expected, actual)
+
+    @staticmethod
+    def test_dag_to_dataframe_all_attrs(dag_node):
+        expected = pd.DataFrame(
+            [
                 ["a", None, 90],
                 ["c", "a", 60],
                 ["d", "a", 40],

@@ -138,6 +138,7 @@ parallel = true
 omit = [
   "*/tests/*",
   "*/workflows/*",
+  "bigtree/tree/construct/render.py"
 ]
 
 [tool.coverage.report]
