@@ -151,13 +151,13 @@ class TkinterTree:
 
     def print_tree(self) -> None:
         """Export tree, print tree to console. Tree can be constructed into a bigtree object using
-        bigtree.tree.construct.str_to_tree."""
+        `bigtree.tree.construct.str_to_tree`."""
         tree = self.get_tree()
         tree.show()
 
     def export_tree(self) -> None:
         """Export tree, print tree dictionary to console. Tree can be constructed into a bigtree object using
-        bigtree.tree.construct.dict_to_tree"""
+        `bigtree.tree.construct.dict_to_tree`"""
         from pprint import pprint
 
         from bigtree.tree import export
@@ -227,7 +227,7 @@ def render_tree(
     title: str = "Tree Render",
     root_name: str = "Root",
 ) -> None:
-    """Renders tree with tkinter, exports tree to JSON file.
+    """Renders tree in windows pop-up, powered by tkinter. Able to export tree to console.
 
     Viewing Interaction:
 
@@ -250,7 +250,7 @@ def render_tree(
         root_name: initial root name of tree
 
     Returns:
-        Tree render in window pop-up
+        Tree rendered in window pop-up
     """
     root = tk.Tk()
     TkinterTree(root, title, root_name)
