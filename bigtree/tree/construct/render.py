@@ -124,7 +124,6 @@ class TkinterTree:
             # Add node
             self.validate_name(parent, name)
             self.tree.insert(parent, "end", iid=self.get_iid(), text=name)
-
         self.entry_place_forget()
 
     def on_plus(self, event: TkEvent = None) -> None:
