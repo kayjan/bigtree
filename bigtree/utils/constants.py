@@ -399,3 +399,13 @@ class NewickCharacter(str, Enum):
     @classmethod
     def values(cls) -> List[str]:
         return [c.value for c in cls]
+
+
+class PyVisParameters:
+    DEFAULT_PLOT_KWARGS = {
+        "sibling_separation": 100,
+        "subtree_separation": 100,
+        "level_separation": 100,
+    }
+    DEFAULT_CUSTOM_NODE_KWARGS = {"title": "node_name"}
+    DEFAULT_NODE_KWARGS = {"value": 10}
