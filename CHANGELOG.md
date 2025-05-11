@@ -790,7 +790,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.29.0...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.29.1...HEAD
+[0.29.1]: https://github.com/kayjan/bigtree/compare/0.29.0...0.29.1
 [0.29.0]: https://github.com/kayjan/bigtree/compare/0.28.0...0.29.0
 [0.28.0]: https://github.com/kayjan/bigtree/compare/0.27.0...0.28.0
 [0.27.0]: https://github.com/kayjan/bigtree/compare/0.26.0...0.27.0
