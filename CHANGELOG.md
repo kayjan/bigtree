@@ -7,12 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - Tree Query: Support "LIKE", "IN", and "BETWEEN" operations, remove support for "contains" and "in" operations.
+- Tree Render: Construct trees dynamically using interactive UI, using `render_tree`, powered by Tkinter.
 ### Fixed:
 - Docs: Relax type hints, remove mutable defaults.
 
 ## [0.29.0] - 2025-05-09
 ### Added:
-- Tree Query: Query tree using SQL-like syntax.
+- Tree Query: Query tree using SQL-like syntax, using `query_tree`, powered by Lark parser.
 
 ## [0.28.0] - 2025-04-19
 ### Added:

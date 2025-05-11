@@ -1,5 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
+from typing import TYPE_CHECKING, Any
+
+from bigtree.node import node
+
+if TYPE_CHECKING:
+    TkEvent = tk.Event[tk.Widget]
+else:
+    TkEvent = Any
 
 __all__ = ["render_tree"]
 
@@ -20,8 +28,11 @@ class TkinterTree:
 
         # Hidden entry for inline editing
         entry = tk.Entry(root)
-        entry.bind("<Return>", self.on_return)
         entry.bind("<FocusOut>", lambda e: entry.place_forget())
+        entry.bind("<Return>", self.on_return)
+        entry.bind("<plus>", self.on_plus)
+        tree.bind("<plus>", self.on_plus)
+        tree.bind("<Delete>", self.on_delete)
         tree.bind("<Double-1>", self.on_double_click)
 
         # Insert nodes
@@ -29,8 +40,8 @@ class TkinterTree:
         tree.insert(tree_root, "end", iid=self.get_iid(), text="Child 1")
 
         # Add button
-        tk.Button(root, text="Add Child", command=self.add_node).pack()
-        tk.Button(root, text="Delete Child", command=self.delete_node).pack()
+        tk.Button(root, text="Add Child", command=self.on_plus).pack()
+        tk.Button(root, text="Print Tree", command=self.print_tree).pack()
         tk.Button(root, text="Export Tree", command=self.export_tree).pack()
 
         self.tree = tree
@@ -46,24 +57,79 @@ class TkinterTree:
         self.counter += 1
         return str(self.counter)
 
+    def validate_name(self, parent: str, name: str) -> None:
+        """Validate name to ensure it is not empty and there is no duplicated name.
+
+        Args:
+            parent: parent iid
+            name: name of child to be validate
+        """
+        if not name:
+            raise ValueError("No text detected. Please key in a valid entry.")
+        for child in self.tree.get_children(parent):
+            if self.tree.item(child, "text") == name:
+                raise ValueError("No duplicate names allowed")
+
     def entry_place_forget(self) -> None:
         """Reset self.entry"""
         self.entry.place_forget()
         self.entry._target_parent = None  # type: ignore
         self.entry._current_item = None  # type: ignore
 
-    def add_node(self) -> None:
+    def get_tree(self) -> node.Node:
+        """Get bigtree node.Node from tkinter tree"""
+
+        def _add_child(_node: node.Node, node_iid: str) -> None:
+            for child_iid in self.tree.get_children(node_iid):
+                child_name = self.tree.item(child_iid)["text"]
+                child_node = node.Node(child_name, parent=_node)
+                _add_child(child_node, child_iid)
+
+        root = node.Node(self.tree.item(self.tree_root)["text"])
+        _add_child(root, self.tree_root)
+        return root
+
+    def print_tree(self) -> None:
+        """Export tree, print tree to console. Tree can be constructed into a bigtree object using
+        bigtree.tree.construct.str_to_tree."""
+        tree = self.get_tree()
+        tree.show()
+
+    def export_tree(self) -> None:
+        """Export tree, print tree dictionary to console. Tree can be constructed into a bigtree object using
+        bigtree.tree.construct.dict_to_tree"""
+        from pprint import pprint
+
+        from bigtree.tree import export
+
+        tree = self.get_tree()
+        pprint(export.tree_to_dict(tree))
+
+    def on_return(self, event: TkEvent) -> None:
+        """Add or rename node"""
+        item_id = getattr(self.entry, "_current_item", None)
+        parent = getattr(self.entry, "_target_parent", None)
+        name = self.entry.get().strip()
+        if item_id:
+            # Rename node
+            self.validate_name(self.tree.parent(item_id), name)
+            self.tree.item(item_id, text=name)
+        elif parent:
+            # Add node
+            self.validate_name(parent, name)
+            self.tree.insert(parent, "end", text=name, iid=self.get_iid())
+        self.entry_place_forget()
+
+    def on_plus(self, event: TkEvent = None) -> None:
         """Add node, assigns _target_parent to entry"""
         parent = self.tree.selection()[0] if self.tree.selection() else self.tree_root
-        # tree.insert(parent, 'end', text="hello")
-        # Position the entry field inline below the parent
+        self.tree.item(parent, open=True)
+
+        # Focus entry below parent
         bbox = self.tree.bbox(parent)
         if bbox:
             cum_height = sum(
-                [
-                    self.tree.bbox(child)[3] if self.tree.bbox(child) else 0  # type: ignore
-                    for child in self.tree.get_children(parent)
-                ]
+                [self.tree.bbox(child)[3] for child in self.tree.get_children(parent)]  # type: ignore
             )
             x, y, width, height = bbox
             self.entry.place(
@@ -73,16 +139,13 @@ class TkinterTree:
             self.entry.focus()
             self.entry._target_parent = parent  # type: ignore
 
-    def delete_node(self) -> None:
-        """Delete node"""
-        if self.tree.selection():
-            self.tree.delete(self.tree.selection()[0])
+    def on_delete(self, event: TkEvent) -> None:
+        """Delete selected node(s)"""
+        for item in self.tree.selection():
+            if item is not self.tree_root:
+                self.tree.delete(item)
 
-    def export_tree(self) -> None:
-        """Export tree"""
-        print(self.tree)
-
-    def on_double_click(self, event: tk.Event[tk.Widget]) -> None:
+    def on_double_click(self, event: TkEvent) -> None:
         """Rename node, assigns _current_item to entry"""
         # Identify item
         item_id = self.tree.identify_row(event.y)
@@ -99,23 +162,6 @@ class TkinterTree:
             self.entry.focus()
             self.entry._current_item = item_id  # type: ignore
 
-    def on_return(self, event: tk.Event[tk.Widget]) -> None:
-        """Add or rename node"""
-        item_id = getattr(self.entry, "_current_item", None)
-        name = self.entry.get().strip()
-        if not name:
-            self.entry_place_forget()
-            return
-        if item_id:
-            # Rename node
-            self.tree.item(item_id, text=name)
-            self.entry_place_forget()
-        else:
-            # Add node
-            parent = getattr(self.entry, "_target_parent")
-            self.tree.insert(parent, "end", text=name, iid=self.get_iid())
-            self.entry_place_forget()
-
 
 def render_tree(
     title: str = "Tree Render",
@@ -123,11 +169,16 @@ def render_tree(
 ) -> None:
     """Renders tree with tkinter, exports tree to JSON file.
 
-    Interaction:
+    Viewing Interaction:
 
-    - Add node: Press "Enter" / Click "Add Child" button
-    - Rename node: Double click
+    - Expand/Hide Children: Press "Enter"
+
+    Editing Interaction:
+
+    - Add node: Press "+" / Click "Add Child" button
     - Delete node: Press "Delete"
+    - Rename node: Double click
+    - Export tree: Click "Export Tree" button
 
     Args:
         title: title of tkinter render for window pop-up
@@ -142,18 +193,4 @@ def render_tree(
 
 
 if __name__ == "__main__":
-    """
-    Action	Method
-    Add item	tree.insert()
-    Modify item	tree.item(item_id, ...)
-    Delete item	tree.delete(item_id) with Allow deleting nodes with a button or keyboard key
-    Move item	tree.move(item_id, new_parent, index)
-    Get children	tree.get_children(item_id)
-    Set focus / selection	tree.focus(), tree.selection()
-
-    Prevent duplicated names
-    Add right click for renaming or deleting or adding nodes
-    Add adding nodes via Enter button tree.selection()
-    """
-
     render_tree()
