@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Optional
 
 from bigtree.node import node
 
@@ -10,6 +10,58 @@ else:
     TkEvent = Any
 
 __all__ = ["render_tree"]
+
+
+class DragDropTree(ttk.Treeview):
+    def __init__(self, master: tk.Tk, **kwargs: Any):
+        super().__init__(master, **kwargs)
+        self.bind("<ButtonPress-1>", self.on_button_press)
+        self.bind("<B1-Motion>", self.on_motion)
+        self.bind("<ButtonRelease-1>", self.on_button_release)
+        self.tag_configure("highlight", background="lightblue")
+
+        self._dragging_item: Optional[str] = None
+        self._drop_target: Optional[str] = None
+
+    def on_button_press(self, event: TkEvent) -> None:
+        """Assign dragging item to pressed object"""
+        item = self.identify_row(event.y)
+        if item:
+            self._dragging_item = item
+
+    def on_motion(self, event: TkEvent) -> None:
+        """Highlight drop target"""
+        if not self._dragging_item:
+            return
+
+        # Highlight drop target
+        new_target = self.identify_row(event.y)
+        if new_target != self._drop_target:
+            self._clear_highlight()
+            if new_target and new_target != self._dragging_item:
+                self.item(new_target, tags=("highlight",))
+                self._drop_target = new_target
+
+    def _clear_highlight(self) -> None:
+        """Clear highlight"""
+        if self._drop_target:
+            self.item(self._drop_target, tags=())
+            self._drop_target = None
+
+    def on_button_release(self, event: TkEvent) -> None:
+        """Assign dragging item to first child of drop target"""
+        if not self._dragging_item:
+            return
+
+        target = self.identify_row(event.y)
+        if target and target != self._dragging_item:
+            index = self.index(target)
+            self.item(target, open=True)
+            self.move(self._dragging_item, target, index)
+
+        self._clear_highlight()
+        self._dragging_item = None
+        self._drop_target = None
 
 
 class TkinterTree:
@@ -30,7 +82,7 @@ class TkinterTree:
 
         root.title(title)
 
-        tree = ttk.Treeview(root)
+        tree = DragDropTree(root)
         tree.pack(fill=tk.BOTH, expand=True)
 
         # Hidden entry for inline editing
@@ -184,6 +236,7 @@ def render_tree(
     - Add node: Press "+" / Click "Add Child" button
     - Delete node: Press "Delete"
     - Rename node: Double click
+    - Move node: Drag-and-drop to assign as (first) child
 
     Export Interaction:
 
