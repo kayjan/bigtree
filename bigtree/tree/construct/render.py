@@ -19,6 +19,13 @@ class TkinterTree:
         title: str = "Tree Render",
         root_name: str = "Root",
     ):
+        """Tree render using Tkinter.
+
+        Args:
+            root: existing Tkinter object
+            title: title of render for window pop-up
+            root_name: initial root name of tree
+        """
         self.counter = 0
 
         root.title(title)
@@ -171,7 +178,7 @@ def render_tree(
 
     Viewing Interaction:
 
-    - Expand/Hide Children: Press "Enter"
+    - Expand/Hide Children: Press "Enter" (might have to re-click on item to expand/hide)
 
     Editing Interaction:
 
@@ -181,7 +188,7 @@ def render_tree(
     - Export tree: Click "Export Tree" button
 
     Args:
-        title: title of tkinter render for window pop-up
+        title: title of render for window pop-up
         root_name: initial root name of tree
 
     Returns:
