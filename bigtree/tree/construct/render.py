@@ -185,7 +185,11 @@ def render_tree(
     - Add node: Press "+" / Click "Add Child" button
     - Delete node: Press "Delete"
     - Rename node: Double click
-    - Export tree: Click "Export Tree" button
+
+    Export Interaction:
+
+    - Print tree to console: Click "Print Tree" button
+    - Print tree dictionary to console: Click "Export Tree" button
 
     Args:
         title: title of render for window pop-up
