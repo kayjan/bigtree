@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from typing import Any
 
 __all__ = ["render_tree"]
 
@@ -83,7 +82,7 @@ class TkinterTree:
         """Export tree"""
         print(self.tree)
 
-    def on_double_click(self, event: tk.Event[Any]) -> None:
+    def on_double_click(self, event: tk.Event[tk.Widget]) -> None:
         """Rename node, assigns _current_item to entry"""
         # Identify item
         item_id = self.tree.identify_row(event.y)
@@ -100,7 +99,7 @@ class TkinterTree:
             self.entry.focus()
             self.entry._current_item = item_id  # type: ignore
 
-    def on_return(self, event: tk.Event[Any]) -> None:
+    def on_return(self, event: tk.Event[tk.Widget]) -> None:
         """Add or rename node"""
         item_id = getattr(self.entry, "_current_item", None)
         name = self.entry.get().strip()

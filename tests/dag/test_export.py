@@ -37,6 +37,21 @@ class TestDAGToDict:
     @staticmethod
     def test_dag_to_dict(dag_node):
         expected = {
+            "a": {},
+            "c": {"PARENTS": ["a", "b"]},
+            "d": {"PARENTS": ["a", "c"]},
+            "b": {},
+            "f": {"PARENTS": ["c", "d"]},
+            "g": {"PARENTS": ["c"]},
+            "e": {"PARENTS": ["d"]},
+            "h": {"PARENTS": ["g"]},
+        }
+        actual = export.dag_to_dict(dag_node, parent_key="PARENTS")
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_dag_to_dict_all_attrs(dag_node):
+        expected = {
             "a": {"age": 90},
             "c": {"parents": ["a", "b"], "age": 60},
             "d": {"parents": ["a", "c"], "age": 40},
