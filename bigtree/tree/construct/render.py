@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Optional
 
 from bigtree.node import node
 
@@ -10,6 +10,57 @@ else:
     TkEvent = Any
 
 __all__ = ["render_tree"]
+
+
+class DragDropTree(ttk.Treeview):
+    def __init__(self, master: tk.Tk, **kwargs: Any):
+        super().__init__(master, **kwargs)
+        self.bind("<ButtonPress-1>", self.on_button_press)
+        self.bind("<B1-Motion>", self.on_motion)
+        self.bind("<ButtonRelease-1>", self.on_button_release)
+        self.tag_configure("highlight", background="lightblue")
+
+        self._dragging_item: Optional[str] = None
+        self._drop_target: Optional[str] = None
+
+    def on_button_press(self, event: TkEvent) -> None:
+        """Assign dragging item to pressed object"""
+        item = self.identify_row(event.y)
+        if item:
+            self._dragging_item = item
+
+    def on_motion(self, event: TkEvent) -> None:
+        """Highlight drop target"""
+        if not self._dragging_item:
+            return
+
+        # Highlight drop target
+        new_target = self.identify_row(event.y)
+        if new_target != self._drop_target:
+            self._clear_highlight()
+            if new_target and new_target != self._dragging_item:
+                self.item(new_target, tags=("highlight",))
+                self._drop_target = new_target
+
+    def _clear_highlight(self) -> None:
+        """Clear highlight"""
+        if self._drop_target:
+            self.item(self._drop_target, tags=())
+            self._drop_target = None
+
+    def on_button_release(self, event: TkEvent) -> None:
+        """Assign dragging item to first child of drop target"""
+        if not self._dragging_item:
+            return
+
+        target = self.identify_row(event.y)
+        if target and target != self._dragging_item:
+            self.item(target, open=True)
+            self.move(self._dragging_item, target, 0)
+
+        self._clear_highlight()
+        self._dragging_item = None
+        self._drop_target = None
 
 
 class TkinterTree:
@@ -29,11 +80,10 @@ class TkinterTree:
         self.counter = 0
 
         root.title(title)
-
-        tree = ttk.Treeview(root)
+        root.minsize(width=400, height=200)
+        tree = DragDropTree(root)
         tree.pack(fill=tk.BOTH, expand=True)
 
-        # Hidden entry for inline editing
         entry = tk.Entry(root)
         entry.bind("<FocusOut>", lambda e: entry.place_forget())
         entry.bind("<Return>", self.on_return)
@@ -45,10 +95,14 @@ class TkinterTree:
         # Insert nodes
         tree_root = tree.insert("", "end", iid=self.get_iid(), text=root_name)
 
-        # Add button
-        tk.Button(root, text="Add Child", command=self.on_plus).pack()
-        tk.Button(root, text="Print Tree", command=self.print_tree).pack()
-        tk.Button(root, text="Export Tree", command=self.export_tree).pack()
+        # Add buttons
+        button_frame = tk.Frame(root)
+        button_frame.pack()
+        b_add = tk.Button(button_frame, text="Add Child", command=self.on_plus)
+        b_print = tk.Button(button_frame, text="Print Tree", command=self.print_tree)
+        b_export = tk.Button(button_frame, text="Export Tree", command=self.export_tree)
+        for button in [b_add, b_print, b_export]:
+            button.pack(side="left", padx=5)
 
         self.tree = tree
         self.tree_root = tree_root
@@ -97,13 +151,13 @@ class TkinterTree:
 
     def print_tree(self) -> None:
         """Export tree, print tree to console. Tree can be constructed into a bigtree object using
-        bigtree.tree.construct.str_to_tree."""
+        `bigtree.tree.construct.str_to_tree`."""
         tree = self.get_tree()
         tree.show()
 
     def export_tree(self) -> None:
         """Export tree, print tree dictionary to console. Tree can be constructed into a bigtree object using
-        bigtree.tree.construct.dict_to_tree"""
+        `bigtree.tree.construct.dict_to_tree`"""
         from pprint import pprint
 
         from bigtree.tree import export
@@ -173,7 +227,7 @@ def render_tree(
     title: str = "Tree Render",
     root_name: str = "Root",
 ) -> None:
-    """Renders tree with tkinter, exports tree to JSON file.
+    """Renders tree in windows pop-up, powered by tkinter. Able to export tree to console.
 
     Viewing Interaction:
 
@@ -184,6 +238,7 @@ def render_tree(
     - Add node: Press "+" / Click "Add Child" button
     - Delete node: Press "Delete"
     - Rename node: Double click
+    - Move node: Drag-and-drop to assign as (first) child
 
     Export Interaction:
 
@@ -195,7 +250,7 @@ def render_tree(
         root_name: initial root name of tree
 
     Returns:
-        Tree render in window pop-up
+        Tree rendered in window pop-up
     """
     root = tk.Tk()
     TkinterTree(root, title, root_name)
