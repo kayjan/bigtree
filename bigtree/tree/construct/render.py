@@ -55,9 +55,8 @@ class DragDropTree(ttk.Treeview):
 
         target = self.identify_row(event.y)
         if target and target != self._dragging_item:
-            index = self.index(target)
             self.item(target, open=True)
-            self.move(self._dragging_item, target, index)
+            self.move(self._dragging_item, target, 0)
 
         self._clear_highlight()
         self._dragging_item = None
@@ -81,11 +80,10 @@ class TkinterTree:
         self.counter = 0
 
         root.title(title)
-
+        root.minsize(width=400, height=200)
         tree = DragDropTree(root)
         tree.pack(fill=tk.BOTH, expand=True)
 
-        # Hidden entry for inline editing
         entry = tk.Entry(root)
         entry.bind("<FocusOut>", lambda e: entry.place_forget())
         entry.bind("<Return>", self.on_return)
@@ -97,10 +95,12 @@ class TkinterTree:
         # Insert nodes
         tree_root = tree.insert("", "end", iid=self.get_iid(), text=root_name)
 
-        # Add button
-        tk.Button(root, text="Add Child", command=self.on_plus).pack()
-        tk.Button(root, text="Print Tree", command=self.print_tree).pack()
-        tk.Button(root, text="Export Tree", command=self.export_tree).pack()
+        # Add buttons
+        add_button = tk.Button(root, text="Add Child", command=self.on_plus)
+        print_button = tk.Button(root, text="Print Tree", command=self.print_tree)
+        export_button = tk.Button(root, text="Export Tree", command=self.export_tree)
+        for button in [add_button, print_button, export_button]:
+            button.pack(side="left", padx=5)
 
         self.tree = tree
         self.tree_root = tree_root
