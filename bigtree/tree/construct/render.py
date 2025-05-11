@@ -96,10 +96,12 @@ class TkinterTree:
         tree_root = tree.insert("", "end", iid=self.get_iid(), text=root_name)
 
         # Add buttons
-        add_button = tk.Button(root, text="Add Child", command=self.on_plus)
-        print_button = tk.Button(root, text="Print Tree", command=self.print_tree)
-        export_button = tk.Button(root, text="Export Tree", command=self.export_tree)
-        for button in [add_button, print_button, export_button]:
+        button_frame = tk.Frame(root)
+        button_frame.pack()
+        b_add = tk.Button(button_frame, text="Add Child", command=self.on_plus)
+        b_print = tk.Button(button_frame, text="Print Tree", command=self.print_tree)
+        b_export = tk.Button(button_frame, text="Export Tree", command=self.export_tree)
+        for button in [b_add, b_print, b_export]:
             button.pack(side="left", padx=5)
 
         self.tree = tree
