@@ -1,8 +1,15 @@
-import tkinter as tk
-from tkinter import ttk
 from typing import TYPE_CHECKING, Any, Optional
 
 from bigtree.node import node
+
+try:
+    import tkinter as tk
+    from tkinter import ttk
+except ImportError:  # pragma: no cover
+    from unittest.mock import MagicMock
+
+    tk = MagicMock()
+    ttk = MagicMock()
 
 if TYPE_CHECKING:
     TkEvent = tk.Event[tk.Widget]
