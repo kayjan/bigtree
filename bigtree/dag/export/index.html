@@ -2864,8 +2864,11 @@
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">dag_to_dict</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">dag</span><span class="p">,</span> <span class="n">parent_key</span><span class="o">=</span><span class="s2">&quot;parents&quot;</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="p">{},</span> <span class="n">all_attrs</span><span class="o">=</span><span class="kc">False</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">dag</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">parent_key</span><span class="o">=</span><span class="s2">&quot;parents&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">all_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2934,16 +2937,15 @@ names and node attributes.</p>
                 <code>attr_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary mapping node attributes to dictionary key, key: node attributes, value: corresponding
-dictionary key</p>
+                <p>node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key</p>
               </div>
             </td>
             <td>
-                  <code>{}</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3005,7 +3007,7 @@ dictionary key</p>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">dag</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">name_col</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="s2">&quot;parent&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="p">{},</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">all_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
 </span></code></pre></div>
@@ -3098,16 +3100,15 @@ dictionary key</p>
                 <code>attr_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary mapping node attributes to column name, key: node attributes, value: corresponding column
-in dataframe</p>
+                <p>node attributes mapped to column name, key: node attributes, value: corresponding column in dataframe</p>
               </div>
             </td>
             <td>
-                  <code>{}</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3168,12 +3169,12 @@ in dataframe</p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">dag_to_dot</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">dag</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">rankdir</span><span class="o">=</span><span class="s2">&quot;TB&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">bg_colour</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_colour</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">node_shape</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">edge_colour</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">node_attr</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">edge_attr</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">bg_colour</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_colour</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">node_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">edge_colour</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">node_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">edge_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
 </span></code></pre></div>
 
@@ -3229,7 +3230,7 @@ fillcolor, or shape.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>DAG or list of DAGs to be exported</p>
+                <p>DAG(s) to be exported</p>
               </div>
             </td>
             <td>
@@ -3257,7 +3258,7 @@ fillcolor, or shape.</p>
                 <code>bg_colour</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3265,7 +3266,7 @@ fillcolor, or shape.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3273,7 +3274,7 @@ fillcolor, or shape.</p>
                 <code>node_colour</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3281,7 +3282,7 @@ fillcolor, or shape.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3289,7 +3290,7 @@ fillcolor, or shape.</p>
                 <code>node_shape</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3297,7 +3298,7 @@ fillcolor, or shape.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3305,7 +3306,7 @@ fillcolor, or shape.</p>
                 <code>edge_colour</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3313,7 +3314,7 @@ fillcolor, or shape.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3321,7 +3322,7 @@ fillcolor, or shape.</p>
                 <code>node_attr</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3330,7 +3331,7 @@ fillcolor, or shape.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3338,7 +3339,7 @@ fillcolor, or shape.</p>
                 <code>edge_attr</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3347,7 +3348,7 @@ fillcolor, or shape.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
       </tbody>

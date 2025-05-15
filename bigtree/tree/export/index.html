@@ -3174,8 +3174,8 @@
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">path_col</span><span class="o">=</span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">name_col</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="p">{},</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">all_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">skip_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -3245,7 +3245,7 @@
                 <code>path_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3261,7 +3261,7 @@
                 <code>name_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3277,7 +3277,7 @@
                 <code>parent_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3285,7 +3285,7 @@
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3293,16 +3293,15 @@
                 <code>attr_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary mapping node attributes to column name, key: node attributes, value: corresponding column
-in dataframe</p>
+                <p>node attributes mapped to column name, key: node attributes, value: corresponding column in dataframe</p>
               </div>
             </td>
             <td>
-                  <code>{}</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3412,8 +3411,8 @@ in dataframe</p>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">path_col</span><span class="o">=</span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">name_col</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="p">{},</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">all_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">skip_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -3495,7 +3494,7 @@ in dataframe</p>
                 <code>path_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3511,7 +3510,7 @@ in dataframe</p>
                 <code>name_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3527,7 +3526,7 @@ in dataframe</p>
                 <code>parent_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3535,7 +3534,7 @@ in dataframe</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3543,16 +3542,15 @@ in dataframe</p>
                 <code>attr_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary mapping node attributes to column name, key: node attributes, value: corresponding column
-in dataframe</p>
+                <p>node attributes mapped to column name, key: node attributes, value: corresponding column in dataframe</p>
               </div>
             </td>
             <td>
-                  <code>{}</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3661,8 +3659,8 @@ in dataframe</p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">tree_to_dict</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">name_key</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_key</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="p">{},</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">all_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">skip_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -3725,7 +3723,7 @@ in dataframe</p>
                 <code>name_key</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3741,7 +3739,7 @@ in dataframe</p>
                 <code>parent_key</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3749,7 +3747,7 @@ in dataframe</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3757,16 +3755,15 @@ in dataframe</p>
                 <code>attr_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary mapping node attributes to dictionary key, key: node attributes, value: corresponding
-dictionary key</p>
+                <p>node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key</p>
               </div>
             </td>
             <td>
-                  <code>{}</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3876,7 +3873,7 @@ dictionary key</p>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">name_key</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">child_key</span><span class="o">=</span><span class="s2">&quot;children&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="p">{},</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attr_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">all_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
@@ -3965,16 +3962,15 @@ dictionary key</p>
                 <code>attr_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary mapping node attributes to dictionary key, key: node attributes, value: corresponding
-dictionary key</p>
+                <p>node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key</p>
               </div>
             </td>
             <td>
-                  <code>{}</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4063,8 +4059,8 @@ dictionary key</p>
 
     <div class="doc doc-contents ">
 
-        <p>Export tree or list of trees to pydot.Dot object. Object can be converted to other format, such as png, dot file
-or dot string. Dot string can be imported to work with networkx.</p>
+        <p>Export tree(s) to pydot.Dot object. Object can be converted to other format, such as png, dot file or dot string.
+Dot string can be imported to work with networkx.</p>
 <p>Possible node attributes include style, fillcolor, shape.</p>
 
 
@@ -4159,7 +4155,7 @@ or dot string. Dot string can be imported to work with networkx.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>tree or list of trees to be exported</p>
+                <p>tree(s) to be exported</p>
               </div>
             </td>
             <td>
@@ -5353,7 +5349,7 @@ must be a float/int attribute</p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">hprint_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;node_name&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">spacing</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -5537,7 +5533,7 @@ must be a float/int attribute</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5545,7 +5541,7 @@ must be a float/int attribute</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -5663,7 +5659,7 @@ must be a float/int attribute</p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">hyield_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;node_name&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">spacing</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -5846,7 +5842,7 @@ must be a float/int attribute</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5854,7 +5850,7 @@ must be a float/int attribute</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -5995,12 +5991,12 @@ must be a float/int attribute</p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">print_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;node_name&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">all_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">attr_list</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">attr_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">attr_omit_null</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">attr_bracket</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">],</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">attr_bracket</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">),</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="o">**</span><span class="n">kwargs</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
@@ -6190,7 +6186,7 @@ must be a float/int attribute</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6198,7 +6194,7 @@ must be a float/int attribute</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -6238,15 +6234,15 @@ must be a float/int attribute</p>
                 <code>attr_list</code>
             </td>
             <td>
-                  <code><span title="typing.Iterable">Iterable</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Iterable">Iterable</span>[<span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>list of node attributes to print</p>
+                <p>node attributes to print</p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -6270,7 +6266,7 @@ must be a float/int attribute</p>
                 <code>attr_bracket</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Collection">Collection</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6278,7 +6274,7 @@ must be a float/int attribute</p>
               </div>
             </td>
             <td>
-                  <code>[&#39;[&#39;, &#39;]&#39;]</code>
+                  <code>(&#39;[&#39;, &#39;]&#39;)</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -6316,9 +6312,9 @@ must be a float/int attribute</p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">tree_to_newick</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">length_attr</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">length_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">length_sep</span><span class="o">=</span><span class="n"><span title="bigtree.utils.constants.NewickCharacter.SEP">SEP</span></span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">attr_list</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">attr_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">attr_prefix</span><span class="o">=</span><span class="s2">&quot;&amp;&amp;NHX:&quot;</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">attr_sep</span><span class="o">=</span><span class="n"><span title="bigtree.utils.constants.NewickCharacter.SEP">SEP</span></span><span class="p">,</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">)</span>
@@ -6416,7 +6412,7 @@ must be a float/int attribute</p>
                 <code>length_attr</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6424,7 +6420,7 @@ must be a float/int attribute</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -6448,15 +6444,15 @@ must be a float/int attribute</p>
                 <code>attr_list</code>
             </td>
             <td>
-                  <code><span title="typing.Iterable">Iterable</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Iterable">Iterable</span>[<span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>list of node attributes to extract into square bracket</p>
+                <p>node attributes to extract into square bracket</p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -6533,7 +6529,7 @@ must be a float/int attribute</p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">vprint_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;node_name&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">spacing</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -6776,7 +6772,7 @@ must be a float/int attribute</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6784,7 +6780,7 @@ must be a float/int attribute</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -6902,7 +6898,7 @@ must be a float/int attribute</p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">vyield_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;node_name&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_name_or_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">intermediate_node_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">spacing</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -7136,7 +7132,7 @@ must be a float/int attribute</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -7144,7 +7140,7 @@ must be a float/int attribute</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -7283,7 +7279,7 @@ must be a float/int attribute</p>
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">yield_tree</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">node_name_or_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;const&quot;</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
@@ -7435,7 +7431,7 @@ must be a float/int attribute</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -7443,7 +7439,7 @@ must be a float/int attribute</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -7656,7 +7652,7 @@ attributes to be set. Possible keys include value (for node size), color (for no
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>custom_node_kwargs</code>
+                <code>custom_edge_kwargs</code>
             </td>
             <td>
                   <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>

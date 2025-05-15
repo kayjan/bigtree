@@ -2672,7 +2672,7 @@
         <p>Query tree using Tree Definition Language.</p>
 <ul>
 <li>Supports clauses: AND, OR, NOT</li>
-<li>Supports operation: ==, !=, &gt;, &lt;, &gt;=, &lt;=, contains, in</li>
+<li>Supports operation: ==, !=, &gt;, &lt;, &gt;=, &lt;=, BETWEEN, IN, LIKE</li>
 <li>Note that string match in query must be in double quotes</li>
 </ul>
 
@@ -2701,12 +2701,12 @@
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="go">    └── f [age=38]</span>
 </span></code></pre></div>
     <p><strong>Field-based comparisons</strong></p>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">query_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;age &gt;= 30 AND is_leaf OR node_name in [&quot;a&quot;]&#39;</span><span class="p">)</span>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">query_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;age &gt;= 30 AND is_leaf OR node_name IN [&quot;a&quot;]&#39;</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">result</span><span class="o">.</span><span class="n">node_name</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">[&#39;a&#39;, &#39;d&#39;, &#39;f&#39;]</span>
 </span></code></pre></div>
     <p><strong>Path-based conditions</strong></p>
-    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">query_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;path_name contains &quot;/b/&quot;&#39;</span><span class="p">)</span>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">query_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;path_name LIKE &quot;.*/b/.*&quot;&#39;</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">result</span><span class="o">.</span><span class="n">node_name</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">[&#39;d&#39;, &#39;e&#39;, &#39;g&#39;, &#39;h&#39;]</span>
 </span></code></pre></div>

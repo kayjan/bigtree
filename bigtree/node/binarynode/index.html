@@ -4465,11 +4465,11 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
                 <code>input_dict</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
+                  <code><span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary with node information, key: attribute name, value: attribute value</p>
+                <p>node information, key: attribute name, value: attribute value</p>
               </div>
             </td>
             <td>
@@ -4515,7 +4515,7 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">describe</span><span class="p">(</span><span class="n">exclude_attributes</span><span class="o">=</span><span class="p">[],</span> <span class="n">exclude_prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">describe</span><span class="p">(</span><span class="n">exclude_attributes</span><span class="o">=</span><span class="p">(),</span> <span class="n">exclude_prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4551,15 +4551,15 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
                 <code>exclude_attributes</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Iterable">Iterable</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>list of attributes to exclude</p>
+                <p>attributes to exclude</p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>()</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4748,11 +4748,11 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
                 <code>attrs</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
+                  <code><span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>attribute dictionary, key: attribute name, value: attribute value</p>
+                <p>attribute information, key: attribute name, value: attribute value</p>
               </div>
             </td>
             <td>

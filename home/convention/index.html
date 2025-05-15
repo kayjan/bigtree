@@ -2638,6 +2638,23 @@ when writing commit messages.</p>
 <h2 id="code-style-and-format">Code Style and Format</h2>
 <p>As much as possible, this project follows the <a href="https://google.github.io/styleguide/pyguide.html">Google Python Style Guide</a>.
 During pre-commit checks, this project checks and formats code using <code>black</code>, <code>flake8</code>, <code>isort</code>, and <code>mypy</code>.</p>
+<p>Some general rules to follow:</p>
+<ul>
+<li>For <strong>type hints</strong><ul>
+<li>Keep input types generic and output types specific. From more general to less general:<ul>
+<li>Iterable &gt; Collection &gt; Sequence &gt; List/Set/Tuple</li>
+<li>Mapping &gt; MutableMapping &gt; Dictionary</li>
+</ul>
+</li>
+<li>Use immutable defaults</li>
+<li>Use <code>Optional</code> type if the input is nullable</li>
+</ul>
+</li>
+<li>For <strong>docstrings</strong><ul>
+<li>Do not mention the type as it is implied from the type hint</li>
+</ul>
+</li>
+</ul>
 <h2 id="testing">Testing</h2>
 <p>For testing, this project uses <code>pytest</code> and <code>coverage</code> package for testing of codes,
 and <code>doctest</code> and <code>docstr-coverage</code> package for testing of docstrings.</p>

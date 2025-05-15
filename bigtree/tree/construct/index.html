@@ -1936,6 +1936,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.construct.render_tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;render_tree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.construct.add_path_to_tree" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;add_path_to_tree
@@ -2905,6 +2914,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.construct.render_tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;render_tree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.construct.add_path_to_tree" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;add_path_to_tree
@@ -3004,6 +3022,13 @@
 <td>NA</td>
 <td>Yes</td>
 </tr>
+<tr>
+<td>Interactive UI</td>
+<td>NA</td>
+<td><code>render_tree</code></td>
+<td>NA</td>
+<td>No</td>
+</tr>
 </tbody>
 </table>
 <h2 id="tree-add-attributes-methods">Tree Add Attributes Methods</h2>
@@ -3089,7 +3114,7 @@ Under the hood, they have the following dependency,</p>
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">add_dataframe_to_tree_by_name</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">name_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[]</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">name_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">attribute_cols</span><span class="o">=</span><span class="kc">None</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
@@ -3171,7 +3196,7 @@ not specified, the first column will be taken as name column and all other colum
                 <code>name_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3179,7 +3204,7 @@ not specified, the first column will be taken as name column and all other colum
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3187,7 +3212,7 @@ not specified, the first column will be taken as name column and all other colum
                 <code>attribute_cols</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3196,7 +3221,7 @@ of data except <code>path_col</code></p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>None</code>
             </td>
           </tr>
       </tbody>
@@ -3241,8 +3266,8 @@ of data except <code>path_col</code></p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">add_dataframe_to_tree_by_path</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">data</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">path_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">path_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
@@ -3348,7 +3373,7 @@ not specified, <code>path_col</code> takes first column and all other columns ar
                 <code>path_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3356,7 +3381,7 @@ not specified, <code>path_col</code> takes first column and all other columns ar
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3364,7 +3389,7 @@ not specified, <code>path_col</code> takes first column and all other columns ar
                 <code>attribute_cols</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3373,7 +3398,7 @@ data except <code>path_col</code></p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3448,7 +3473,7 @@ data except <code>path_col</code></p>
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">add_polars_to_tree_by_name</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">name_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[]</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">name_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">attribute_cols</span><span class="o">=</span><span class="kc">None</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
@@ -3528,7 +3553,7 @@ not specified, the first column will be taken as name column and all other colum
                 <code>name_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3536,7 +3561,7 @@ not specified, the first column will be taken as name column and all other colum
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3544,7 +3569,7 @@ not specified, the first column will be taken as name column and all other colum
                 <code>attribute_cols</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3553,7 +3578,7 @@ of data except <code>path_col</code></p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>None</code>
             </td>
           </tr>
       </tbody>
@@ -3598,8 +3623,8 @@ of data except <code>path_col</code></p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">add_polars_to_tree_by_path</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">data</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">path_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">path_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
@@ -3705,7 +3730,7 @@ not specified, <code>path_col</code> takes first column and all other columns ar
                 <code>path_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3713,7 +3738,7 @@ not specified, <code>path_col</code> takes first column and all other columns ar
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3721,7 +3746,7 @@ not specified, <code>path_col</code> takes first column and all other columns ar
                 <code>attribute_cols</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3730,7 +3755,7 @@ data except <code>path_col</code></p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3806,8 +3831,8 @@ data except <code>path_col</code></p>
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">dataframe_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">data</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">path_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">path_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
@@ -3896,7 +3921,7 @@ specified, <code>path_col</code> takes first column and all other columns are <c
                 <code>path_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3904,7 +3929,7 @@ specified, <code>path_col</code> takes first column and all other columns are <c
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -3912,7 +3937,7 @@ specified, <code>path_col</code> takes first column and all other columns are <c
                 <code>attribute_cols</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3921,7 +3946,7 @@ data except <code>path_col</code></p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4013,9 +4038,9 @@ data except <code>path_col</code></p>
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">dataframe_to_tree_by_relation</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">data</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">child_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">child_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">allow_duplicates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
@@ -4096,7 +4121,7 @@ takes second column, and all other columns are <code>attribute_cols</code>.</p>
                 <code>child_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4104,7 +4129,7 @@ takes second column, and all other columns are <code>attribute_cols</code>.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4112,7 +4137,7 @@ takes second column, and all other columns are <code>attribute_cols</code>.</p>
                 <code>parent_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4120,7 +4145,7 @@ takes second column, and all other columns are <code>attribute_cols</code>.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4128,7 +4153,7 @@ takes second column, and all other columns are <code>attribute_cols</code>.</p>
                 <code>attribute_cols</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4137,7 +4162,7 @@ data except <code>child_col</code> and <code>parent_col</code></p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4213,8 +4238,8 @@ data except <code>child_col</code> and <code>parent_col</code></p>
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">polars_to_tree</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">data</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">path_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">path_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
@@ -4303,7 +4328,7 @@ specified, <code>path_col</code> takes first column and all other columns are <c
                 <code>path_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4311,7 +4336,7 @@ specified, <code>path_col</code> takes first column and all other columns are <c
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4319,7 +4344,7 @@ specified, <code>path_col</code> takes first column and all other columns are <c
                 <code>attribute_cols</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4328,7 +4353,7 @@ data except <code>path_col</code></p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4420,9 +4445,9 @@ data except <code>path_col</code></p>
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">polars_to_tree_by_relation</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">data</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">child_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">child_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">parent_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">attribute_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">allow_duplicates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
@@ -4503,7 +4528,7 @@ takes second column, and all other columns are <code>attribute_cols</code>.</p>
                 <code>child_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4511,7 +4536,7 @@ takes second column, and all other columns are <code>attribute_cols</code>.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4519,7 +4544,7 @@ takes second column, and all other columns are <code>attribute_cols</code>.</p>
                 <code>parent_col</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4527,7 +4552,7 @@ takes second column, and all other columns are <code>attribute_cols</code>.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4535,7 +4560,7 @@ takes second column, and all other columns are <code>attribute_cols</code>.</p>
                 <code>attribute_cols</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="str">str</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4544,7 +4569,7 @@ data except <code>child_col</code> and <code>parent_col</code></p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -4677,12 +4702,12 @@ name, attributes will be added to all nodes sharing the same name.</p>
                 <code>name_attrs</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary containing node name and attribute information, key: node name, value: dict of node
-attribute name and attribute value</p>
+                <p>node name and attribute information, key: node name, value: dict of node attribute name and
+attribute value</p>
               </div>
             </td>
             <td>
@@ -4811,12 +4836,12 @@ attribute name and attribute value</p>
                 <code>path_attrs</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary containing node path and attribute information, key: node path, value: dict of node
-attribute name and attribute value</p>
+                <p>node path and attribute information, key: node path, value: dict of node attribute name and
+attribute value</p>
               </div>
             </td>
             <td>
@@ -4962,12 +4987,12 @@ value.</p>
                 <code>path_attrs</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
+                  <code><span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary containing node path and attribute information, key: node path, value: dict of node
-attribute name and attribute value</p>
+                <p>node path and attribute information, key: node path, value: dict of node attribute name and
+attribute value</p>
               </div>
             </td>
             <td>
@@ -5121,14 +5146,14 @@ attribute name and attribute value</p>
                 <code>node_attrs</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
+                  <code><span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dictionary containing node, children, and node attribute information,
+                <p>node, children, and node attribute information,
 key: <code>name_key</code> and <code>child_key</code>
 value of <code>name_key</code> (str): node name
-value of <code>child_key</code> (List[Dict[str, Any]]): list of dict containing <code>name_key</code> and <code>child_key</code> (recursive)</p>
+value of <code>child_key</code> (List[Mapping[str, Any]]): list of dict containing <code>name_key</code> and <code>child_key</code> (recursive)</p>
               </div>
             </td>
             <td>
@@ -5499,6 +5524,112 @@ names of intermediate nodes are repeated as there will be confusion. This error 
 <div class="doc doc-object doc-function">
 
 
+<h3 id="bigtree.tree.construct.render_tree" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">render_tree</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">render_tree</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Tree Render&#39;</span><span class="p">,</span> <span class="n">root_name</span><span class="o">=</span><span class="s1">&#39;Root&#39;</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Renders tree in windows pop-up, powered by tkinter. Able to export tree to console.</p>
+<p>Viewing Interaction:</p>
+<ul>
+<li>Expand/Hide Children: Press "Enter" (might have to re-click on item to expand/hide)</li>
+</ul>
+<p>Editing Interaction:</p>
+<ul>
+<li>Add node: Press "+" / Click "Add Child" button</li>
+<li>Delete node: Press "Delete"</li>
+<li>Rename node: Double click</li>
+<li>Move node: Drag-and-drop to assign as (first) child</li>
+</ul>
+<p>Export Interaction:</p>
+<ul>
+<li>Print tree to console: Click "Print Tree" button</li>
+<li>Print tree dictionary to console: Click "Export Tree" button</li>
+</ul>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>title</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>title of render for window pop-up</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;Tree Render&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>root_name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>initial root name of tree</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;Root&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Tree rendered in window pop-up</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h3 id="bigtree.tree.construct.add_path_to_tree" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">add_path_to_tree</span>
 
@@ -5509,7 +5640,7 @@ names of intermediate nodes are repeated as there will be confusion. This error 
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">path</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">duplicate_name_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">node_attrs</span><span class="o">=</span><span class="p">{},</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">node_attrs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
 </span></code></pre></div>
 
@@ -5625,7 +5756,7 @@ of path strings.</p>
                 <code>node_attrs</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Mapping">Mapping</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5633,7 +5764,7 @@ of path strings.</p>
               </div>
             </td>
             <td>
-                  <code>{}</code>
+                  <code>None</code>
             </td>
           </tr>
       </tbody>
@@ -5847,7 +5978,7 @@ of path strings.</p>
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">str_to_tree</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree_string</span><span class="p">,</span> <span class="n">tree_prefix_list</span><span class="o">=</span><span class="p">[],</span> <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree_string</span><span class="p">,</span> <span class="n">tree_prefix_list</span><span class="o">=</span><span class="p">(),</span> <span class="n">node_type</span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;bigtree.node.node.Node&lt;/code&gt;" href="../../node/node/#bigtree.node.node.Node">Node</a></span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
@@ -5892,7 +6023,7 @@ of path strings.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>String to construct tree</p>
+                <p>string to construct tree</p>
               </div>
             </td>
             <td>
@@ -5904,16 +6035,16 @@ of path strings.</p>
                 <code>tree_prefix_list</code>
             </td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Iterable">Iterable</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>List of prefix to mark the end of tree branch/stem and start of node name, optional. If not
+                <p>prefixes to mark the end of tree branch/stem and start of node name, optional. If not
 specified, it will infer unicode characters and whitespace as prefix</p>
               </div>
             </td>
             <td>
-                  <code>[]</code>
+                  <code>()</code>
             </td>
           </tr>
           <tr class="doc-section-item">
