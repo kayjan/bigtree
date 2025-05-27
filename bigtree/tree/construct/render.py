@@ -76,6 +76,7 @@ class TkinterTree:
         root: tk.Tk,
         title: str = "Tree Render",
         root_name: str = "Root",
+        theme: str = "aqua",
     ):
         """Tree render using Tkinter.
 
@@ -83,6 +84,7 @@ class TkinterTree:
             root: existing Tkinter object
             title: title of render for window pop-up
             root_name: initial root name of tree
+            theme: theme of Tkinter object
         """
         self.counter = 0
 
@@ -90,6 +92,10 @@ class TkinterTree:
         root.minsize(width=400, height=200)
         tree = DragDropTree(root)
         tree.pack(fill=tk.BOTH, expand=True)
+
+        # Set theme
+        s = ttk.Style()
+        s.theme_use(theme)
 
         entry = tk.Entry(root)
         entry.bind("<FocusOut>", lambda e: entry.place_forget())
