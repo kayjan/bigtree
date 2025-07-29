@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - Tree Render: `render_tree` to accept theme argument.
+- Docs: Add pyvis html render to Tree Demonstration.
 
 ## [0.29.2] - 2025-05-15
 ### Added:

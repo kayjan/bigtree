@@ -343,7 +343,7 @@ After tree is constructed, it can be viewed by printing to console using `show`,
 for compact, horizontal, and vertical orientation respectively.
 Alternatively, the `print_tree`, `hprint_tree`, or `vprint_tree` method can be used.
 
-```python hl_lines="8 15"
+```python hl_lines="8 15 21"
 from bigtree import Node, print_tree, hprint_tree, vprint_tree
 
 root = Node("a", alias="alias-a", age=90, gender="F")
@@ -1372,3 +1372,14 @@ flowchart TB
 0("a") --> 0-1("c")
 classDef default stroke-width:1
 ```
+
+- Pyvis network
+
+<div style="background-color: white;">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{%
+    include-markdown "../../../assets/demo/vis.html"
+    start="<body>"
+    end="</body>"
+%}
+</div>

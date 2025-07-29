@@ -113,6 +113,7 @@ dependencies = [
   "IPython",
   "mkdocs==1.5.3",
   "mkdocs-glightbox",
+  "mkdocs-include-markdown-plugin",
   "mkdocs-jupyter",
   "mkdocs-material[imaging]==9.5.17",
   "mdx_truly_sane_lists==1.3",
