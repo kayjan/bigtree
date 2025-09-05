@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.30.0] - 2025-09-05
 ### Added:
+- Tree Construct: `nested_dict_key_to_tree` to construct trees with nested dictionary of another format.
+- Tree Export: `tree_to_nested_dict_key` to export trees to nested dictionary of another format.
 - Tree Render: `render_tree` to accept theme argument.
 - Docs: Add pyvis html render to Tree Demonstration.
 
@@ -799,7 +803,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.29.2...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.30.0...HEAD
+[0.30.0]: https://github.com/kayjan/bigtree/compare/0.29.2...0.30.0
 [0.29.2]: https://github.com/kayjan/bigtree/compare/0.29.1...0.29.2
 [0.29.1]: https://github.com/kayjan/bigtree/compare/0.29.0...0.29.1
 [0.29.0]: https://github.com/kayjan/bigtree/compare/0.28.0...0.29.0
