@@ -613,7 +613,7 @@ class TestNestedDictToTree(unittest.TestCase):
         +-- c (age=60)
             +-- f (age=38)
         """
-        self.path_dict = {
+        self.nested_dict = {
             "name": "a",
             "age": 90,
             "children": [
@@ -637,10 +637,10 @@ class TestNestedDictToTree(unittest.TestCase):
         }
 
     def tearDown(self):
-        self.path_dict = None
+        self.nested_dict = None
 
     def test_nested_dict_to_tree(self):
-        root = construct.nested_dict_to_tree(self.path_dict)
+        root = construct.nested_dict_to_tree(self.nested_dict)
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
@@ -656,7 +656,7 @@ class TestNestedDictToTree(unittest.TestCase):
     def test_nested_dict_to_tree_null_children_error():
         child_key = "children"
         child = None
-        path_dict = {
+        nested_dict = {
             "name": "a",
             "age": 90,
             "children": [
@@ -677,7 +677,7 @@ class TestNestedDictToTree(unittest.TestCase):
             ],
         }
         with pytest.raises(TypeError) as exc_info:
-            construct.nested_dict_to_tree(path_dict)
+            construct.nested_dict_to_tree(nested_dict)
         assert str(exc_info.value) == Constants.ERROR_NODE_DICT_CHILD_TYPE.format(
             child_key=child_key, type="List", child=child
         )
@@ -686,7 +686,7 @@ class TestNestedDictToTree(unittest.TestCase):
     def test_nested_dict_to_tree_int_children_error():
         child_key = "children"
         child = 1
-        path_dict = {
+        nested_dict = {
             "name": "a",
             "age": 90,
             "children": [
@@ -707,7 +707,7 @@ class TestNestedDictToTree(unittest.TestCase):
             ],
         }
         with pytest.raises(TypeError) as exc_info:
-            construct.nested_dict_to_tree(path_dict)
+            construct.nested_dict_to_tree(nested_dict)
         assert str(exc_info.value) == Constants.ERROR_NODE_DICT_CHILD_TYPE.format(
             child_key=child_key, type="List", child=child
         )
@@ -716,7 +716,7 @@ class TestNestedDictToTree(unittest.TestCase):
     def test_nested_dict_to_tree_key_name():
         name_key = "node_name"
         child_key = "node_children"
-        path_dict = {
+        nested_dict = {
             name_key: "a",
             "age": 90,
             child_key: [
@@ -743,14 +743,14 @@ class TestNestedDictToTree(unittest.TestCase):
             ],
         }
         root = construct.nested_dict_to_tree(
-            path_dict, name_key=name_key, child_key=child_key
+            nested_dict, name_key=name_key, child_key=child_key
         )
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_basenode_root_attr(root)
         assert_tree_structure_node_root(root)
 
     def test_nested_dict_to_tree_node_type(self):
-        root = construct.nested_dict_to_tree(self.path_dict, node_type=NodeA)
+        root = construct.nested_dict_to_tree(self.nested_dict, node_type=NodeA)
         assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
         assert all(
             isinstance(_node, NodeA) for _node in root.children
@@ -761,7 +761,7 @@ class TestNestedDictToTree(unittest.TestCase):
 
     @staticmethod
     def test_nested_dict_to_tree_custom_node_type():
-        path_dict = {
+        nested_dict = {
             "name": "a",
             "custom_field": 90,
             "custom_field_str": "a",
@@ -805,7 +805,7 @@ class TestNestedDictToTree(unittest.TestCase):
                 },
             ],
         }
-        root = construct.nested_dict_to_tree(path_dict, node_type=CustomNode)
+        root = construct.nested_dict_to_tree(nested_dict, node_type=CustomNode)
         assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
             type="CustomNode"
         )

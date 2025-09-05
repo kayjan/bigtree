@@ -239,7 +239,7 @@ def nested_dict_to_tree(
 
     Examples:
         >>> from bigtree import nested_dict_to_tree
-        >>> path_dict = {
+        >>> nested_dict = {
         ...     "name": "a",
         ...     "age": 90,
         ...     "children": [
@@ -253,7 +253,7 @@ def nested_dict_to_tree(
         ...          ]},
         ...     ],
         ... }
-        >>> root = nested_dict_to_tree(path_dict)
+        >>> root = nested_dict_to_tree(nested_dict)
         >>> root.show(attr_list=["age"])
         a [age=90]
         └── b [age=65]
