@@ -1,5 +1,9 @@
 from .dataframes import tree_to_dataframe, tree_to_polars  # noqa
-from .dictionaries import tree_to_dict, tree_to_nested_dict  # noqa
+from .dictionaries import (  # noqa
+    tree_to_dict,
+    tree_to_nested_dict,
+    tree_to_nested_dict_key,
+)
 from .images import (  # noqa
     tree_to_dot,
     tree_to_mermaid,
@@ -22,6 +26,7 @@ __all__ = [
     "tree_to_polars",
     "tree_to_dict",
     "tree_to_nested_dict",
+    "tree_to_nested_dict_key",
     "tree_to_dot",
     "tree_to_mermaid",
     "tree_to_pillow",

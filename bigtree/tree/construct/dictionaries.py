@@ -308,7 +308,7 @@ def nested_dict_key_to_tree(
     child_key: str = "children",
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
-    """Construct tree from nested recursive dictionary, where the keys are are node names.
+    """Construct tree from nested recursive dictionary, where the keys are node names.
 
     - ``key``: node name
     - ``value``: dict of node attributes and node children (recursive)

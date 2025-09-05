@@ -1,3 +1,4 @@
+from bigtree.node import node
 from bigtree.tree import export
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root,
@@ -197,6 +198,13 @@ class TestTreeToNestedDict:
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
+    def test_tree_to_nested_dict_empty():
+        root = node.Node("a")
+        expected = {"name": "a"}
+        actual = export.tree_to_nested_dict(root)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
     def test_tree_to_nested_dict_name_key(tree_node):
         name_key = "NAME"
         child_key = "children"
@@ -353,6 +361,181 @@ class TestTreeToNestedDict:
 
         d = export.tree_to_nested_dict(tree_node, all_attrs=True)
         tree = nested_dict_to_tree(d)
+        assert_tree_structure_basenode_root(tree)
+        assert_tree_structure_basenode_root_attr(tree)
+        assert_tree_structure_node_root(tree)
+
+
+class TestTreeToNestedDictKey:
+    @staticmethod
+    def test_tree_to_nested_dict_key(tree_node):
+        child_key = "children"
+        expected = {
+            "a": {
+                child_key: {
+                    "b": {
+                        child_key: {
+                            "d": {},
+                            "e": {child_key: {"g": {}, "h": {}}},
+                        },
+                    },
+                    "c": {child_key: {"f": {}}},
+                }
+            }
+        }
+        actual = export.tree_to_nested_dict_key(tree_node)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_empty():
+        root = node.Node("a")
+        expected = {"a": {}}
+        actual = export.tree_to_nested_dict_key(root)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_child_key(tree_node):
+        child_key = "CHILDREN"
+        expected = {
+            "a": {
+                child_key: {
+                    "b": {
+                        child_key: {
+                            "d": {},
+                            "e": {child_key: {"g": {}, "h": {}}},
+                        },
+                    },
+                    "c": {child_key: {"f": {}}},
+                }
+            }
+        }
+        actual = export.tree_to_nested_dict_key(tree_node, child_key=child_key)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_attr_dict(tree_node):
+        child_key = "children"
+        age_key = "AGE"
+        expected = {
+            "a": {
+                age_key: 90,
+                child_key: {
+                    "b": {
+                        age_key: 65,
+                        child_key: {
+                            "d": {age_key: 40},
+                            "e": {
+                                age_key: 35,
+                                child_key: {
+                                    "g": {age_key: 10},
+                                    "h": {age_key: 6},
+                                },
+                            },
+                        },
+                    },
+                    "c": {age_key: 60, child_key: {"f": {age_key: 38}}},
+                },
+            }
+        }
+        actual = export.tree_to_nested_dict_key(tree_node, attr_dict={"age": "AGE"})
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_all_attr(tree_node):
+        child_key = "children"
+        age_key = "age"
+        expected = {
+            "a": {
+                age_key: 90,
+                child_key: {
+                    "b": {
+                        age_key: 65,
+                        child_key: {
+                            "d": {age_key: 40},
+                            "e": {
+                                age_key: 35,
+                                child_key: {
+                                    "g": {age_key: 10},
+                                    "h": {age_key: 6},
+                                },
+                            },
+                        },
+                    },
+                    "c": {age_key: 60, child_key: {"f": {age_key: 38}}},
+                },
+            }
+        }
+        actual = export.tree_to_nested_dict_key(tree_node, all_attrs=True)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_max_depth(tree_node):
+        expected = {"a": {"children": {"b": {}, "c": {}}}}
+        actual = export.tree_to_nested_dict_key(tree_node, max_depth=2)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_multiple_keys(tree_node):
+        child_key = "CHILDREN"
+        age_key = "AGE"
+        expected = {
+            "a": {
+                age_key: 90,
+                child_key: {
+                    "b": {
+                        age_key: 65,
+                        child_key: {
+                            "d": {age_key: 40},
+                            "e": {
+                                age_key: 35,
+                                child_key: {
+                                    "g": {age_key: 10},
+                                    "h": {age_key: 6},
+                                },
+                            },
+                        },
+                    },
+                    "c": {age_key: 60, child_key: {"f": {age_key: 38}}},
+                },
+            }
+        }
+        actual = export.tree_to_nested_dict_key(
+            tree_node, child_key=child_key, attr_dict={"age": age_key}
+        )
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_multiple_keys_subset_tree(tree_node):
+        child_key = "CHILDREN"
+        age_key = "AGE"
+        expected = {
+            "b": {
+                age_key: 65,
+                child_key: {
+                    "d": {age_key: 40},
+                    "e": {
+                        age_key: 35,
+                        child_key: {
+                            "g": {age_key: 10},
+                            "h": {age_key: 6},
+                        },
+                    },
+                },
+            },
+        }
+        actual = export.tree_to_nested_dict_key(
+            tree_node.children[0],
+            child_key=child_key,
+            attr_dict={"age": age_key},
+        )
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_to_tree(tree_node):
+        from bigtree.tree.construct import nested_dict_key_to_tree
+
+        d = export.tree_to_nested_dict_key(tree_node, all_attrs=True)
+        tree = nested_dict_key_to_tree(d)
         assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
         assert_tree_structure_node_root(tree)
