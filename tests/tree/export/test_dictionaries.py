@@ -178,17 +178,19 @@ class TestTreeToDict:
 class TestTreeToNestedDict:
     @staticmethod
     def test_tree_to_nested_dict(tree_node):
+        name_key = "name"
+        child_key = "children"
         expected = {
-            "name": "a",
-            "children": [
+            name_key: "a",
+            child_key: [
                 {
-                    "name": "b",
-                    "children": [
-                        {"name": "d"},
-                        {"name": "e", "children": [{"name": "g"}, {"name": "h"}]},
+                    name_key: "b",
+                    child_key: [
+                        {name_key: "d"},
+                        {name_key: "e", child_key: [{name_key: "g"}, {name_key: "h"}]},
                     ],
                 },
-                {"name": "c", "children": [{"name": "f"}]},
+                {name_key: "c", child_key: [{name_key: "f"}]},
             ],
         }
         actual = export.tree_to_nested_dict(tree_node)
@@ -196,38 +198,42 @@ class TestTreeToNestedDict:
 
     @staticmethod
     def test_tree_to_nested_dict_name_key(tree_node):
+        name_key = "NAME"
+        child_key = "children"
         expected = {
-            "NAME": "a",
-            "children": [
+            name_key: "a",
+            child_key: [
                 {
-                    "NAME": "b",
-                    "children": [
-                        {"NAME": "d"},
-                        {"NAME": "e", "children": [{"NAME": "g"}, {"NAME": "h"}]},
+                    name_key: "b",
+                    child_key: [
+                        {name_key: "d"},
+                        {name_key: "e", child_key: [{name_key: "g"}, {name_key: "h"}]},
                     ],
                 },
-                {"NAME": "c", "children": [{"NAME": "f"}]},
+                {name_key: "c", child_key: [{name_key: "f"}]},
             ],
         }
-        actual = export.tree_to_nested_dict(tree_node, name_key="NAME")
+        actual = export.tree_to_nested_dict(tree_node, name_key=name_key)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_tree_to_nested_dict_child_key(tree_node):
+        name_key = "name"
+        child_key = "CHILDREN"
         expected = {
-            "name": "a",
-            "CHILDREN": [
+            name_key: "a",
+            child_key: [
                 {
-                    "name": "b",
-                    "CHILDREN": [
-                        {"name": "d"},
-                        {"name": "e", "CHILDREN": [{"name": "g"}, {"name": "h"}]},
+                    name_key: "b",
+                    child_key: [
+                        {name_key: "d"},
+                        {name_key: "e", child_key: [{name_key: "g"}, {name_key: "h"}]},
                     ],
                 },
-                {"name": "c", "CHILDREN": [{"name": "f"}]},
+                {name_key: "c", child_key: [{name_key: "f"}]},
             ],
         }
-        actual = export.tree_to_nested_dict(tree_node, child_key="CHILDREN")
+        actual = export.tree_to_nested_dict(tree_node, child_key=child_key)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
