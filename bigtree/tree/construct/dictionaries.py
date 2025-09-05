@@ -363,6 +363,7 @@ def nested_dict_key_to_tree(
         """Recursively add child to tree, given child attributes and parent node.
 
         Args:
+            child_name: child name to be added to tree
             child_dict: child to be added to tree, from dictionary
             parent_node: parent node to be assigned to child node
 
