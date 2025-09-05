@@ -103,8 +103,9 @@ class Constants:
         "Unable to determine root node\nPossible root nodes: {root_nodes}"
     )
     ERROR_NODE_DICT_EMPTY = "Dictionary does not contain any data, check `{parameter}`"
+    ERROR_NODE_DICT_LEN = "Dictionary is not of length {length}, check `{parameter}`"
     ERROR_NODE_DICT_CHILD_TYPE = (
-        "child_key {child_key} should be List type, received {child}"
+        "child_key {child_key} should be {type} type, received {child}"
     )
     ERROR_NODE_LIST_EMPTY = "Path list does not contain any data, check `{parameter}`"
     ERROR_NODE_PATH_EMPTY = "Path does not contain any data, check `path`"

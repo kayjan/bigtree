@@ -12,6 +12,7 @@ from .dictionaries import (
     add_dict_to_tree_by_name,
     add_dict_to_tree_by_path,
     dict_to_tree,
+    nested_dict_key_to_tree,
     nested_dict_to_tree,
 )
 from .lists import list_to_tree, list_to_tree_by_relation
@@ -31,6 +32,7 @@ __all__ = [
     "add_dict_to_tree_by_path",
     "dict_to_tree",
     "nested_dict_to_tree",
+    "nested_dict_key_to_tree",
     "list_to_tree",
     "list_to_tree_by_relation",
     "render_tree",
