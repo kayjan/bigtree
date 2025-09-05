@@ -134,6 +134,23 @@ def assert_length_not_empty(
         )
 
 
+def assert_length(
+    data: Collection[Any], length: int, argument_name: str, argument: str
+) -> None:
+    """Raise ValueError if data does not have specific length.
+
+    Args:
+        data: data to check
+        length: length to check
+        argument_name: argument name for data, for error message
+        argument: argument for data, for error message
+    """
+    if len(data) != length:
+        raise ValueError(
+            f"{argument_name} is not of length {length}, check `{argument}`"
+        )
+
+
 def assert_dataframe_not_empty(data: pd.DataFrame) -> None:
     """Raise ValueError is dataframe is empty.
 
