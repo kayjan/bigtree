@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional, Type, TypeVar
 from bigtree.node import node
 from bigtree.tree.construct.dictionaries import add_dict_to_tree_by_name
 from bigtree.tree.construct.strings import add_path_to_tree
-from bigtree.utils import assertions
+from bigtree.utils import assertions, common
 
 try:
     import pandas as pd
@@ -118,7 +118,7 @@ def add_dataframe_to_tree_by_path(
 
     root_node = tree.root
     for row in data.to_dict(orient="index").values():
-        node_attrs = assertions.filter_attributes(
+        node_attrs = common.filter_attributes(
             row, omit_keys=["name", path_col], omit_null_values=True
         )
         add_path_to_tree(
@@ -191,7 +191,7 @@ def add_dataframe_to_tree_by_name(
         .to_dict(orient="index")
     )
     name_attrs = {
-        k1: {k2: v2 for k2, v2 in v1.items() if not assertions.isnull(v2)}
+        k1: {k2: v2 for k2, v2 in v1.items() if not common.isnull(v2)}
         for k1, v1 in name_attrs.items()
     }
 
@@ -283,7 +283,7 @@ def add_polars_to_tree_by_path(
 
     root_node = tree.root
     for row_kwargs in data.to_dicts():
-        node_attrs = assertions.filter_attributes(
+        node_attrs = common.filter_attributes(
             row_kwargs, omit_keys=["name", path_col], omit_null_values=True
         )
         add_path_to_tree(
@@ -354,7 +354,7 @@ def add_polars_to_tree_by_name(
         .rows_by_key(key=name_col, named=True)
     )
     name_attrs = {
-        k1: {k2: v2 for k2, v2 in v1[0].items() if not assertions.isnull(v2)}
+        k1: {k2: v2 for k2, v2 in v1[0].items() if not common.isnull(v2)}
         for k1, v1 in name_attrs.items()
     }
 
@@ -446,7 +446,7 @@ def dataframe_to_tree(
         root_node_kwargs = list(
             root_node_data[attribute_cols].to_dict(orient="index").values()
         )[0]
-        root_node_kwargs = assertions.filter_attributes(
+        root_node_kwargs = common.filter_attributes(
             root_node_kwargs, omit_keys=["name", path_col], omit_null_values=True
         )
         root_node = node_type(root_name, **root_node_kwargs)
@@ -454,7 +454,7 @@ def dataframe_to_tree(
         root_node = node_type(root_name)
 
     for row in data.to_dict(orient="index").values():
-        node_attrs = assertions.filter_attributes(
+        node_attrs = common.filter_attributes(
             row, omit_keys=["name", path_col], omit_null_values=True
         )
         add_path_to_tree(
@@ -562,7 +562,7 @@ def dataframe_to_tree_by_relation(
         Returns:
             Attribute dictionary
         """
-        node_attrs = assertions.filter_attributes(
+        node_attrs = common.filter_attributes(
             _row, omit_keys=[child_col, parent_col], omit_null_values=True
         )
         node_attrs["name"] = _row[child_col]
@@ -678,7 +678,7 @@ def polars_to_tree(
     if len(root_node_data):
         root_node_kwargs_list = root_node_data[attribute_cols].to_dicts()
         root_node_kwargs = root_node_kwargs_list[0] if root_node_kwargs_list else {}
-        root_node_kwargs = assertions.filter_attributes(
+        root_node_kwargs = common.filter_attributes(
             root_node_kwargs, omit_keys=["name", path_col], omit_null_values=True
         )
         root_node = node_type(root_name, **root_node_kwargs)
@@ -686,7 +686,7 @@ def polars_to_tree(
         root_node = node_type(root_name)
 
     for row in data.to_dicts():
-        node_attrs = assertions.filter_attributes(
+        node_attrs = common.filter_attributes(
             row, omit_keys=["name", path_col], omit_null_values=True
         )
         add_path_to_tree(
@@ -794,7 +794,7 @@ def polars_to_tree_by_relation(
         Returns:
             Attribute dictionary
         """
-        node_attrs = assertions.filter_attributes(
+        node_attrs = common.filter_attributes(
             _row, omit_keys=[child_col, parent_col], omit_null_values=True
         )
         node_attrs["name"] = _row[child_col]

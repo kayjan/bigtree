@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Dict, Optional, TypeVar
 
 from bigtree.node import node
-from bigtree.utils import exceptions
+from bigtree.utils import common, exceptions
 
 try:
     import pandas as pd
@@ -106,13 +106,9 @@ def tree_to_dataframe(
                         parent_name = _node.parent.node_name
                     data_child[parent_col] = parent_name
 
-                if all_attrs:
-                    data_child.update(
-                        _node.describe(exclude_attributes=["name"], exclude_prefix="_")
-                    )
-                elif attr_dict:
-                    for k, v in attr_dict.items():
-                        data_child[v] = _node.get_attr(k)
+                data_child = common.assemble_attributes(
+                    _node, attr_dict, all_attrs, data_child
+                )
                 data_list.append(data_child)
             for _child in _node.children:
                 _recursive_append(_child)
@@ -211,13 +207,9 @@ def tree_to_polars(
                         parent_name = _node.parent.node_name
                     data_child[parent_col] = parent_name
 
-                if all_attrs:
-                    data_child.update(
-                        _node.describe(exclude_attributes=["name"], exclude_prefix="_")
-                    )
-                elif attr_dict:
-                    for k, v in attr_dict.items():
-                        data_child[v] = _node.get_attr(k)
+                data_child = common.assemble_attributes(
+                    _node, attr_dict, all_attrs, data_child
+                )
                 data_list.append(data_child)
             for _child in _node.children:
                 _recursive_append(_child)

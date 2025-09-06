@@ -4,7 +4,7 @@ from typing import Any, List, Mapping, Optional, Type, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.construct.strings import add_path_to_tree
-from bigtree.utils import assertions
+from bigtree.utils import assertions, common
 
 __all__ = [
     "add_dict_to_tree_by_path",
@@ -127,7 +127,7 @@ def add_dict_to_tree_by_name(tree: T, name_attrs: Mapping[str, Mapping[str, Any]
     attr_dict_names = set(name_attrs.keys())
 
     for _node in findall(tree, lambda _node1: _node1.node_name in attr_dict_names):
-        node_attrs = assertions.filter_attributes(
+        node_attrs = common.filter_attributes(
             name_attrs[_node.node_name], omit_keys=["name"], omit_null_values=False
         )
         _node.set_attrs(node_attrs)
@@ -201,7 +201,7 @@ def dict_to_tree(
         or path_attrs.get(root_name + sep, {})
         or path_attrs.get(sep + root_name + sep, {})
     )
-    root_node_attrs = assertions.filter_attributes(
+    root_node_attrs = common.filter_attributes(
         root_node_attrs, omit_keys=["name"], omit_null_values=False
     )
     root_node = node_type(
@@ -212,7 +212,7 @@ def dict_to_tree(
 
     # Convert dictionary to dataframe
     for node_path, node_attrs in path_attrs.items():
-        node_attrs = assertions.filter_attributes(
+        node_attrs = common.filter_attributes(
             node_attrs, omit_keys=["name"], omit_null_values=False
         )
         add_path_to_tree(

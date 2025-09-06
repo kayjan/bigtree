@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, TypeVar
 
 from bigtree.node import node
+from bigtree.utils import common
 
 __all__ = [
     "tree_to_dict",
@@ -107,7 +108,7 @@ def tree_to_dict(
                     if _node.parent:
                         parent_name = _node.parent.node_name
                     data_child[parent_key] = parent_name
-                data_child = _assemble_attributes(
+                data_child = common.assemble_attributes(
                     _node, attr_dict, all_attrs, data_child
                 )
                 data_dict[_node.path_name] = data_child
@@ -165,7 +166,7 @@ def tree_to_nested_dict(
         if _node:
             if not max_depth or _node.depth <= max_depth:
                 data_child = {name_key: _node.node_name}
-                data_child = _assemble_attributes(
+                data_child = common.assemble_attributes(
                     _node, attr_dict, all_attrs, data_child
                 )
                 if child_key in parent_dict:
@@ -224,7 +225,7 @@ def tree_to_nested_dict_key(
         """
         if _node:
             if not max_depth or _node.depth <= max_depth:
-                data_child = _assemble_attributes(_node, attr_dict, all_attrs)
+                data_child = common.assemble_attributes(_node, attr_dict, all_attrs)
                 if child_key in parent_dict:
                     parent_dict[child_key][_node.node_name] = data_child
                 else:

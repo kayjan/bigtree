@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Mapping, Optional, Tuple, TypeVar, Union
 
 from bigtree.node import dagnode
-from bigtree.utils import assertions, exceptions, iterators
+from bigtree.utils import assertions, common, exceptions, iterators
 
 try:
     import pandas as pd
@@ -86,28 +86,18 @@ def dag_to_dict(
     for parent_node, child_node in iterators.dag_iterator(dag):
         if parent_node.is_root:
             data_parent: Dict[str, Any] = {}
-            if all_attrs:
-                data_parent.update(
-                    parent_node.describe(
-                        exclude_attributes=["name"], exclude_prefix="_"
-                    )
-                )
-            elif attr_dict:
-                for k, v in attr_dict.items():
-                    data_parent[v] = parent_node.get_attr(k)
+            data_parent = common.assemble_attributes(
+                parent_node, attr_dict, all_attrs, data_parent
+            )
             data_dict[parent_node.node_name] = data_parent
 
         if data_dict.get(child_node.node_name):
             data_dict[child_node.node_name][parent_key].append(parent_node.node_name)
         else:
             data_child = {parent_key: [parent_node.node_name]}
-            if all_attrs:
-                data_child.update(
-                    child_node.describe(exclude_attributes=["name"], exclude_prefix="_")
-                )
-            elif attr_dict:
-                for k, v in attr_dict.items():
-                    data_child[v] = child_node.get_attr(k)
+            data_child = common.assemble_attributes(
+                child_node, attr_dict, all_attrs, data_child
+            )
             data_dict[child_node.node_name] = data_child
     return data_dict
 
@@ -155,25 +145,15 @@ def dag_to_dataframe(
     for parent_node, child_node in iterators.dag_iterator(dag):
         if parent_node.is_root:
             data_parent = {name_col: parent_node.node_name, parent_col: None}
-            if all_attrs:
-                data_parent.update(
-                    parent_node.describe(
-                        exclude_attributes=["name"], exclude_prefix="_"
-                    )
-                )
-            elif attr_dict:
-                for k, v in attr_dict.items():
-                    data_parent[v] = parent_node.get_attr(k)
+            data_parent = common.assemble_attributes(
+                parent_node, attr_dict, all_attrs, data_parent
+            )
             data_list.append(data_parent)
 
         data_child = {name_col: child_node.node_name, parent_col: parent_node.node_name}
-        if all_attrs:
-            data_child.update(
-                child_node.describe(exclude_attributes=["name"], exclude_prefix="_")
-            )
-        elif attr_dict:
-            for k, v in attr_dict.items():
-                data_child[v] = child_node.get_attr(k)
+        data_child = common.assemble_attributes(
+            child_node, attr_dict, all_attrs, data_child
+        )
         data_list.append(data_child)
     return pd.DataFrame(data_list).drop_duplicates().reset_index(drop=True)
 
