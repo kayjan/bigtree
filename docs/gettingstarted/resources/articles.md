@@ -14,7 +14,7 @@ hide:
     Integrating trees with Python lists, dictionaries, and pandas DataFrames
 
     [:octicons-arrow-right-24: Read article](https://medium.com/data-science/python-tree-implementation-with-bigtree-13cdabd77adc)
--
+
 - :material-graph-outline:{ .lg .middle } __The Reingold Tilford Algorithm Explained, with Walkthrough__
 
     ---
