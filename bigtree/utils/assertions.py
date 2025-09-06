@@ -4,7 +4,6 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Collection,
-    Dict,
     Iterable,
     List,
     Mapping,
@@ -44,8 +43,6 @@ __all__ = [
     "assert_dataframe_no_duplicate_attribute",
     "assert_dataframe_no_duplicate_children",
     "assert_tree_type",
-    "isnull",
-    "filter_attributes",
 ]
 
 
@@ -252,43 +249,3 @@ def assert_tree_type(
         raise TypeError(
             f"Tree should be of type `{tree_type_name}`, or inherit from `{tree_type_name}`"
         )
-
-
-def isnull(value: Any) -> bool:
-    """Check if value is null.
-
-    Args:
-        value: value to check
-
-    Returns:
-        Flag if value is null
-    """
-    import math
-
-    if value is None or (isinstance(value, float) and math.isnan(value)):
-        return True
-    return False
-
-
-def filter_attributes(
-    node_attributes: Mapping[str, Any],
-    omit_keys: Collection[str],
-    omit_null_values: bool,
-) -> Dict[str, Any]:
-    """Filter node attributes to remove certain keys and/or values.
-
-    Args:
-        node_attributes: node attributes information
-        omit_keys: keys to omit
-        omit_null_values: indicator whether to omit values that are null
-
-    Returns:
-        Filtered node attributes
-    """
-    if omit_null_values:
-        return {
-            k: v
-            for k, v in node_attributes.items()
-            if not isnull(v) and k not in omit_keys
-        }
-    return {k: v for k, v in node_attributes.items() if k not in omit_keys}

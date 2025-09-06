@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Collection, Dict, List, Mapping, Optional, Tuple, Type, TypeVar
 
 from bigtree.node import dagnode
-from bigtree.utils import assertions, exceptions
+from bigtree.utils import assertions, common, exceptions
 
 try:
     import pandas as pd
@@ -201,14 +201,14 @@ def dataframe_to_dag(
     for row in data.reset_index(drop=True).to_dict(orient="index").values():
         child_name = row[child_col]
         parent_name = row[parent_col]
-        node_attrs = assertions.filter_attributes(
+        node_attrs = common.filter_attributes(
             row, omit_keys=["name", child_col, parent_col], omit_null_values=True
         )
         child_node = node_dict.get(child_name, node_type(child_name, **node_attrs))
         child_node.set_attrs(node_attrs)
         node_dict[child_name] = child_node
 
-        if not assertions.isnull(parent_name):
+        if not common.isnull(parent_name):
             parent_node = node_dict.get(parent_name, node_type(parent_name))
             node_dict[parent_name] = parent_node
             child_node.parents = [parent_node]

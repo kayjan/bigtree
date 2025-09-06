@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Collection, Iterable, List, Optional, Tuple, TypeVar, Union
 
 from bigtree.node import node
-from bigtree.utils import assertions, constants
+from bigtree.utils import common, constants
 
 __all__ = [
     "print_tree",
@@ -201,7 +201,7 @@ def print_tree(
                     attr_str_list = [
                         f"{attr_name}={_node.get_attr(attr_name)}"
                         for attr_name in attr_list
-                        if not assertions.isnull(_node.get_attr(attr_name))
+                        if not common.isnull(_node.get_attr(attr_name))
                     ]
                 else:
                     attr_str_list = [
