@@ -14,6 +14,34 @@ __all__ = [
 T = TypeVar("T", bound=node.Node)
 
 
+def _assemble_attributes(
+    _node: T,
+    attr_dict: Optional[Dict[str, str]],
+    all_attrs: bool,
+    data_child: Dict[str, Any] = None,
+) -> Dict[str, Any]:
+    """Assemble attributes of node into a dictionary.
+
+    Args:
+        _node: node
+        attr_dict: node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key
+        all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
+        data_child: existing attributes, if any
+
+    Returns:
+        node attributes
+    """
+    data_child = data_child or {}
+    if all_attrs:
+        data_child.update(
+            dict(_node.describe(exclude_attributes=["name"], exclude_prefix="_"))
+        )
+    elif attr_dict:
+        for k, v in attr_dict.items():
+            data_child[v] = _node.get_attr(k)
+    return data_child
+
+
 def tree_to_dict(
     tree: T,
     name_key: Optional[str] = "name",
