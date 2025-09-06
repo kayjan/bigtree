@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, Collection, Dict, Mapping, Optional, TypeVar
+from typing import Any, Collection, Dict, Mapping, Optional, TypeVar, Union
 
-from bigtree.node import node
+from bigtree.node import dagnode, node
 
-T = TypeVar("T", bound=node.Node)
-
+T = TypeVar("T", bound=Union[node.Node, dagnode.DAGNode])
 
 __all__ = [
     "isnull",
@@ -56,7 +55,7 @@ def filter_attributes(
 
 def assemble_attributes(
     _node: T,
-    attr_dict: Optional[Dict[str, str]],
+    attr_dict: Optional[Mapping[str, str]],
     all_attrs: bool,
     existing_data: Dict[str, Any] = None,
 ) -> Dict[str, Any]:
