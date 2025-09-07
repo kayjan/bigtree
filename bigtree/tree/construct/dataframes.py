@@ -576,8 +576,8 @@ def dataframe_to_tree_by_relation(
         """
         child_rows = data[data[parent_col] == parent_node.node_name]
 
-        for row in child_rows.to_dict(orient="index").values():
-            child_node = node_type(**_retrieve_attr(row))
+        for _row in child_rows.to_dict(orient="index").values():
+            child_node = node_type(**_retrieve_attr(_row))
             child_node.parent = parent_node
             _recursive_add_child(child_node)
 

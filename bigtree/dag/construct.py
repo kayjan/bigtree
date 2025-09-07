@@ -43,17 +43,10 @@ def list_to_dag(
     parent_node: T = dagnode.DAGNode()  # type: ignore[assignment]
 
     for parent_name, child_name in relations:
-        if parent_name not in node_dict:
-            parent_node = node_type(parent_name)
-            node_dict[parent_name] = parent_node
-        else:
-            parent_node = node_dict[parent_name]
-        if child_name not in node_dict:
-            child_node = node_type(child_name)
-            node_dict[child_name] = child_node
-        else:
-            child_node = node_dict[child_name]
-
+        node_dict[parent_name] = node_dict.get(parent_name, node_type(parent_name))
+        parent_node = node_dict[parent_name]
+        node_dict[child_name] = node_dict.get(child_name, node_type(child_name))
+        child_node = node_dict[child_name]
         child_node.parents = [parent_node]
 
     return parent_node
