@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Collection, Dict, Mapping, Optional, TypeVar, Union
+from typing import Any, Collection, Dict, Mapping, Optional, Tuple, TypeVar, Union
 
 from bigtree.node import dagnode, node
 
@@ -57,7 +57,9 @@ def assemble_attributes(
     _node: T,
     attr_dict: Optional[Mapping[str, str]],
     all_attrs: bool,
-    existing_data: Dict[str, Any] = None,
+    path_col: Optional[str] = None,
+    name_col: Optional[str] = None,
+    parent_col: Optional[Union[str, Tuple[str, Any]]] = None,
 ) -> Dict[str, Any]:
     """Assemble attributes of node into a dictionary.
 
@@ -65,12 +67,30 @@ def assemble_attributes(
         _node: node
         attr_dict: node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key
         all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
-        existing_data: existing attributes, if any
+        path_col: column name for `_node.path_name`, if present
+        name_col: column name for `_node.node_name`, if present
+        parent_col: column name for `_node.parent.node_name`, if present
 
     Returns:
         node attributes
     """
-    data_attrs = existing_data or {}
+    data_attrs = {}
+
+    # Main attributes
+    if isinstance(_node, node.Node) and path_col:
+        data_attrs[path_col] = _node.path_name
+    if name_col:
+        data_attrs[name_col] = _node.node_name
+    if isinstance(_node, node.Node) and parent_col:
+        assert isinstance(parent_col, str)
+        parent_name = None
+        if _node.parent:
+            parent_name = _node.parent.node_name
+        data_attrs[parent_col] = parent_name
+    if isinstance(_node, dagnode.DAGNode) and isinstance(parent_col, tuple):
+        data_attrs[parent_col[0]] = parent_col[1]
+
+    # Other attributes
     if all_attrs:
         data_attrs.update(
             dict(_node.describe(exclude_attributes=["name"], exclude_prefix="_"))
@@ -78,4 +98,5 @@ def assemble_attributes(
     elif attr_dict:
         for k, v in attr_dict.items():
             data_attrs[v] = _node.get_attr(k)
+
     return data_attrs

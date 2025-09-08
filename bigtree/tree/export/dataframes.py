@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional, TypeVar
+from typing import Dict, Optional, TypeVar
 
 from bigtree.node import node
 from bigtree.utils import common, exceptions
@@ -95,19 +95,13 @@ def tree_to_dataframe(
                 and (not skip_depth or _node.depth > skip_depth)
                 and (not leaf_only or _node.is_leaf)
             ):
-                data_child: Dict[str, Any] = {}
-                if path_col:
-                    data_child[path_col] = _node.path_name
-                if name_col:
-                    data_child[name_col] = _node.node_name
-                if parent_col:
-                    parent_name = None
-                    if _node.parent:
-                        parent_name = _node.parent.node_name
-                    data_child[parent_col] = parent_name
-
                 data_child = common.assemble_attributes(
-                    _node, attr_dict, all_attrs, data_child
+                    _node,
+                    attr_dict,
+                    all_attrs,
+                    path_col=path_col,
+                    name_col=name_col,
+                    parent_col=parent_col,
                 )
                 data_list.append(data_child)
             for _child in _node.children:
@@ -196,19 +190,13 @@ def tree_to_polars(
                 and (not skip_depth or _node.depth > skip_depth)
                 and (not leaf_only or _node.is_leaf)
             ):
-                data_child: Dict[str, Any] = {}
-                if path_col:
-                    data_child[path_col] = _node.path_name
-                if name_col:
-                    data_child[name_col] = _node.node_name
-                if parent_col:
-                    parent_name = None
-                    if _node.parent:
-                        parent_name = _node.parent.node_name
-                    data_child[parent_col] = parent_name
-
                 data_child = common.assemble_attributes(
-                    _node, attr_dict, all_attrs, data_child
+                    _node,
+                    attr_dict,
+                    all_attrs,
+                    path_col=path_col,
+                    name_col=name_col,
+                    parent_col=parent_col,
                 )
                 data_list.append(data_child)
             for _child in _node.children:

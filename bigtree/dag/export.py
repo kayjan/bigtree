@@ -85,18 +85,17 @@ def dag_to_dict(
 
     for parent_node, child_node in iterators.dag_iterator(dag):
         if parent_node.is_root:
-            data_parent: Dict[str, Any] = {}
-            data_parent = common.assemble_attributes(
-                parent_node, attr_dict, all_attrs, data_parent
-            )
+            data_parent = common.assemble_attributes(parent_node, attr_dict, all_attrs)
             data_dict[parent_node.node_name] = data_parent
 
         if data_dict.get(child_node.node_name):
             data_dict[child_node.node_name][parent_key].append(parent_node.node_name)
         else:
-            data_child = {parent_key: [parent_node.node_name]}
             data_child = common.assemble_attributes(
-                child_node, attr_dict, all_attrs, data_child
+                child_node,
+                attr_dict,
+                all_attrs,
+                parent_col=(parent_key, [parent_node.node_name]),
             )
             data_dict[child_node.node_name] = data_child
     return data_dict
@@ -144,15 +143,21 @@ def dag_to_dataframe(
 
     for parent_node, child_node in iterators.dag_iterator(dag):
         if parent_node.is_root:
-            data_parent = {name_col: parent_node.node_name, parent_col: None}
             data_parent = common.assemble_attributes(
-                parent_node, attr_dict, all_attrs, data_parent
+                parent_node,
+                attr_dict,
+                all_attrs,
+                name_col=name_col,
+                parent_col=(parent_col, None),
             )
             data_list.append(data_parent)
 
-        data_child = {name_col: child_node.node_name, parent_col: parent_node.node_name}
         data_child = common.assemble_attributes(
-            child_node, attr_dict, all_attrs, data_child
+            child_node,
+            attr_dict,
+            all_attrs,
+            name_col=name_col,
+            parent_col=(parent_col, parent_node.node_name),
         )
         data_list.append(data_child)
     return pd.DataFrame(data_list).drop_duplicates().reset_index(drop=True)
