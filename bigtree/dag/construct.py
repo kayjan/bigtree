@@ -103,7 +103,7 @@ def dict_to_dag(
     if _parent_name is None:
         raise ValueError("No parent specified, check `relation_attrs` and `parent_key`")
 
-    return node_dict[parent_name]
+    return node_dict[_parent_name]
 
 
 @exceptions.optional_dependencies_pandas
