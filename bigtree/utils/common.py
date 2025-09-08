@@ -69,7 +69,8 @@ def assemble_attributes(
         all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
         path_col: column name for `_node.path_name`, if present
         name_col: column name for `_node.node_name`, if present
-        parent_col: column name for `_node.parent.node_name`, if present
+        parent_col: if Node, column name for `_node.parent.node_name`. If DAGNode, tuple of column name and value for
+            `_node.parent.node_name`.
 
     Returns:
         node attributes
@@ -77,18 +78,21 @@ def assemble_attributes(
     data_attrs = {}
 
     # Main attributes
-    if isinstance(_node, node.Node) and path_col:
+    if path_col:
+        assert isinstance(_node, node.Node)
         data_attrs[path_col] = _node.path_name
     if name_col:
         data_attrs[name_col] = _node.node_name
-    if isinstance(_node, node.Node) and parent_col:
-        assert isinstance(parent_col, str)
-        parent_name = None
-        if _node.parent:
-            parent_name = _node.parent.node_name
-        data_attrs[parent_col] = parent_name
-    if isinstance(_node, dagnode.DAGNode) and isinstance(parent_col, tuple):
-        data_attrs[parent_col[0]] = parent_col[1]
+    if parent_col:
+        if isinstance(_node, node.Node):
+            assert isinstance(parent_col, str)
+            parent_name = None
+            if _node.parent:
+                parent_name = _node.parent.node_name
+            data_attrs[parent_col] = parent_name
+        else:
+            assert isinstance(parent_col, tuple)
+            data_attrs[parent_col[0]] = parent_col[1]
 
     # Other attributes
     if all_attrs:
