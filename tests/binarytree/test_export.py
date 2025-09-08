@@ -92,6 +92,26 @@ class TestTreeToNestedDict:
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
 
+class TestTreeToNestedDictKey:
+    @staticmethod
+    def test_tree_to_nested_dict_key(binarytree_node):
+        expected = {
+            "1": {
+                "children": {
+                    "2": {
+                        "children": {
+                            "4": {"children": {"8": {}}},
+                            "5": {},
+                        },
+                    },
+                    "3": {"children": {"6": {}, "7": {}}},
+                },
+            }
+        }
+        actual = export.tree_to_nested_dict_key(binarytree_node)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+
 class TestTreeToDot:
     @staticmethod
     def test_tree_to_dot(binarytree_node):

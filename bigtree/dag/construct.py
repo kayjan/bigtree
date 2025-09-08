@@ -40,23 +40,14 @@ def list_to_dag(
     assertions.assert_length_not_empty(relations, "Input list", "relations")
 
     node_dict: Dict[str, T] = dict()
-    parent_node: T = dagnode.DAGNode()  # type: ignore[assignment]
+    child_name: str = ""
 
     for parent_name, child_name in relations:
-        if parent_name not in node_dict:
-            parent_node = node_type(parent_name)
-            node_dict[parent_name] = parent_node
-        else:
-            parent_node = node_dict[parent_name]
-        if child_name not in node_dict:
-            child_node = node_type(child_name)
-            node_dict[child_name] = child_node
-        else:
-            child_node = node_dict[child_name]
+        node_dict[parent_name] = node_dict.get(parent_name, node_type(parent_name))
+        node_dict[child_name] = node_dict.get(child_name, node_type(child_name))
+        node_dict[child_name].parents = [node_dict[parent_name]]
 
-        child_node.parents = [parent_node]
-
-    return parent_node
+    return node_dict[child_name]
 
 
 def dict_to_dag(
@@ -92,35 +83,27 @@ def dict_to_dag(
     assertions.assert_length_not_empty(relation_attrs, "Dictionary", "relation_attrs")
 
     node_dict: Dict[str, T] = dict()
-    parent_node: T | None = None
+    _parent_name: Optional[str] = None
 
     for child_name, node_attrs in relation_attrs.items():
         node_attrs = node_attrs.copy()
-        parent_names: List[str] = []
-        if parent_key in node_attrs:
-            parent_names = node_attrs.pop(parent_key)
+        parent_names = node_attrs.pop(parent_key, [])
         assertions.assert_not_reserved_keywords(
             node_attrs, ["parent", "parents", "children"]
         )
 
-        if child_name in node_dict:
-            child_node = node_dict[child_name]
-            child_node.set_attrs(node_attrs)
-        else:
-            child_node = node_type(child_name, **node_attrs)
-            node_dict[child_name] = child_node
+        node_dict[child_name] = node_dict.get(child_name, node_type(child_name))
+        node_dict[child_name].set_attrs(node_attrs)
 
         for parent_name in parent_names:
-            parent_node = node_dict.get(parent_name, node_type(parent_name))
-            node_dict[parent_name] = parent_node
-            child_node.parents = [parent_node]
+            node_dict[parent_name] = node_dict.get(parent_name, node_type(parent_name))
+            node_dict[child_name].parents = [node_dict[parent_name]]
+            _parent_name = parent_name
 
-    if parent_node is None:
-        raise ValueError(
-            f"Parent key {parent_key} not in dictionary, check `relation_attrs` and `parent_key`"
-        )
+    if _parent_name is None:
+        raise ValueError("No parent specified, check `relation_attrs` and `parent_key`")
 
-    return parent_node
+    return node_dict[_parent_name]
 
 
 @exceptions.optional_dependencies_pandas
@@ -196,7 +179,7 @@ def dataframe_to_dag(
         raise ValueError(f"Child name cannot be empty, check column: {child_col}")
 
     node_dict: Dict[str, T] = dict()
-    parent_node: T = dagnode.DAGNode()  # type: ignore[assignment]
+    _parent_name: Optional[str] = None
 
     for row in data.reset_index(drop=True).to_dict(orient="index").values():
         child_name = row[child_col]
@@ -204,13 +187,15 @@ def dataframe_to_dag(
         node_attrs = common.filter_attributes(
             row, omit_keys=["name", child_col, parent_col], omit_null_values=True
         )
-        child_node = node_dict.get(child_name, node_type(child_name, **node_attrs))
-        child_node.set_attrs(node_attrs)
-        node_dict[child_name] = child_node
+        node_dict[child_name] = node_dict.get(child_name, node_type(child_name))
+        node_dict[child_name].set_attrs(node_attrs)
 
         if not common.isnull(parent_name):
-            parent_node = node_dict.get(parent_name, node_type(parent_name))
-            node_dict[parent_name] = parent_node
-            child_node.parents = [parent_node]
+            node_dict[parent_name] = node_dict.get(parent_name, node_type(parent_name))
+            node_dict[child_name].parents = [node_dict[parent_name]]
+            _parent_name = parent_name
 
-    return parent_node
+    if _parent_name is None:
+        raise ValueError("No parent specified, check `data` and `parent_col`")
+
+    return node_dict[_parent_name]

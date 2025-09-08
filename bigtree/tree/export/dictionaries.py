@@ -14,34 +14,6 @@ __all__ = [
 T = TypeVar("T", bound=node.Node)
 
 
-def _assemble_attributes(
-    _node: T,
-    attr_dict: Optional[Dict[str, str]],
-    all_attrs: bool,
-    data_child: Dict[str, Any] = None,
-) -> Dict[str, Any]:
-    """Assemble attributes of node into a dictionary.
-
-    Args:
-        _node: node
-        attr_dict: node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key
-        all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
-        data_child: existing attributes, if any
-
-    Returns:
-        node attributes
-    """
-    data_child = data_child or {}
-    if all_attrs:
-        data_child.update(
-            dict(_node.describe(exclude_attributes=["name"], exclude_prefix="_"))
-        )
-    elif attr_dict:
-        for k, v in attr_dict.items():
-            data_child[v] = _node.get_attr(k)
-    return data_child
-
-
 def tree_to_dict(
     tree: T,
     name_key: Optional[str] = "name",
@@ -100,16 +72,12 @@ def tree_to_dict(
                 and (not skip_depth or _node.depth > skip_depth)
                 and (not leaf_only or _node.is_leaf)
             ):
-                data_child: Dict[str, Any] = {}
-                if name_key:
-                    data_child[name_key] = _node.node_name
-                if parent_key:
-                    parent_name = None
-                    if _node.parent:
-                        parent_name = _node.parent.node_name
-                    data_child[parent_key] = parent_name
                 data_child = common.assemble_attributes(
-                    _node, attr_dict, all_attrs, data_child
+                    _node,
+                    attr_dict,
+                    all_attrs,
+                    name_col=name_key,
+                    parent_col=parent_key,
                 )
                 data_dict[_node.path_name] = data_child
             for _child in _node.children:
@@ -165,9 +133,8 @@ def tree_to_nested_dict(
         """
         if _node:
             if not max_depth or _node.depth <= max_depth:
-                data_child = {name_key: _node.node_name}
                 data_child = common.assemble_attributes(
-                    _node, attr_dict, all_attrs, data_child
+                    _node, attr_dict, all_attrs, name_col=name_key
                 )
                 if child_key in parent_dict:
                     parent_dict[child_key].append(data_child)

@@ -94,9 +94,7 @@ class TestDictToDAG(unittest.TestCase):
         }
         with pytest.raises(ValueError) as exc_info:
             construct.dict_to_dag(relation_dict)
-        assert str(exc_info.value) == Constants.ERROR_DAG_DICT_PARENT_KEY.format(
-            parent_key="parents"
-        )
+        assert str(exc_info.value).startswith(Constants.ERROR_DAG_INVALID_PARENT)
 
     def test_dict_to_dag_parent_key_reserved_keyword_parents_error(self):
         with pytest.raises(ValueError) as exc_info:
@@ -250,6 +248,19 @@ class TestDataFrameToDAG(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_DAG_DATAFRAME_PARENT_COL.format(
             parent_col=parent_col
         )
+
+    @staticmethod
+    def test_dataframe_to_dag_parent_col_null_error():
+        data = pd.DataFrame(
+            [
+                ["a", None, 90],
+                ["b", None, 65],
+            ],
+            columns=["child", "parent", "age"],
+        )
+        with pytest.raises(ValueError) as exc_info:
+            construct.dataframe_to_dag(data)
+        assert str(exc_info.value).startswith(Constants.ERROR_DAG_INVALID_PARENT)
 
     @staticmethod
     def test_dataframe_to_dag_parent_col_reserved_keyword_parents_error():

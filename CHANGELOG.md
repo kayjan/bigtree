@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Misc: Some code refactoring
+- Misc: Some code refactoring, enhance assemble_attributes.
+### Fixed
+- Test: Test for `tree_to_nested_dict_key` for BinaryNode.
+- Error: Check and throw error for `dataframe_to_dag`, previously this error will not have been found out.
 
 ## [0.30.0] - 2025-09-05
 ### Added:
