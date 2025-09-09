@@ -40,14 +40,14 @@ def list_to_dag(
     assertions.assert_length_not_empty(relations, "Input list", "relations")
 
     node_dict: Dict[str, T] = dict()
-    child_name: str = ""
+    parent_name: str = ""
 
     for parent_name, child_name in relations:
         node_dict[parent_name] = node_dict.get(parent_name, node_type(parent_name))
         node_dict[child_name] = node_dict.get(child_name, node_type(child_name))
         node_dict[child_name].parents = [node_dict[parent_name]]
 
-    return node_dict[child_name]
+    return node_dict[parent_name]
 
 
 def dict_to_dag(
