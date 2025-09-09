@@ -305,10 +305,12 @@ def nested_dict_to_tree(
 
 def nested_dict_key_to_tree(
     node_attrs: Mapping[str, Mapping[str, Any]],
-    child_key: str = "children",
+    child_key: Optional[str] = "children",
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from nested recursive dictionary, where the keys are node names.
+
+    If child_key is a string
 
     - ``key``: node name
     - ``value``: dict of node attributes and node children (recursive)
@@ -317,6 +319,15 @@ def nested_dict_key_to_tree(
 
     - ``key`` that is not ``child_key`` has node attribute as value
     - ``key`` that is ``child_key`` has dictionary of node children as value (recursive)
+
+    ---
+
+    If child_key is None
+
+    - ``key``: node name
+    - ``value``: dict of node children (recursive), there are no node attributes
+
+    Value dictionary consist of ``key`` that is node names of children
 
     Examples:
         >>> from bigtree import nested_dict_key_to_tree
@@ -345,6 +356,23 @@ def nested_dict_key_to_tree(
             └── e [age=35]
                 └── g [age=10]
 
+        >>> from bigtree import nested_dict_key_to_tree
+        >>> nested_dict = {
+        ...     "a": {
+        ...         "b": {
+        ...             "d": {},
+        ...             "e": {"g": {}},
+        ...         },
+        ...     }
+        ... }
+        >>> root = nested_dict_key_to_tree(nested_dict, child_key=None)
+        >>> root.show()
+        a
+        └── b
+            ├── d
+            └── e
+                └── g
+
     Args:
         node_attrs: node, children, and node attribute information,
             key: node name
@@ -370,8 +398,12 @@ def nested_dict_key_to_tree(
         Returns:
             Node
         """
-        child_dict = dict(child_dict)
-        node_children = child_dict.pop(child_key, {})
+        if child_key:
+            child_dict = dict(child_dict)
+            node_children = child_dict.pop(child_key, {})
+        else:
+            node_children = child_dict
+            child_dict = {}
         if not isinstance(node_children, Mapping):
             raise TypeError(
                 f"child_key {child_key} should be Dict type, received {node_children}"

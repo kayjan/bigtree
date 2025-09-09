@@ -1,3 +1,5 @@
+import pytest
+
 from bigtree.node import node
 from bigtree.tree import export
 from tests.node.test_basenode import (
@@ -5,6 +7,7 @@ from tests.node.test_basenode import (
     assert_tree_structure_basenode_root_attr,
 )
 from tests.node.test_node import assert_tree_structure_node_root
+from tests.test_constants import Constants
 
 
 class TestTreeToDict:
@@ -437,7 +440,7 @@ class TestTreeToNestedDictKey:
                 },
             }
         }
-        actual = export.tree_to_nested_dict_key(tree_node, attr_dict={"age": "AGE"})
+        actual = export.tree_to_nested_dict_key(tree_node, attr_dict={"age": age_key})
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -538,4 +541,59 @@ class TestTreeToNestedDictKey:
         tree = nested_dict_key_to_tree(d)
         assert_tree_structure_basenode_root(tree)
         assert_tree_structure_basenode_root_attr(tree)
+        assert_tree_structure_node_root(tree)
+
+
+class TestTreeToNestedDictKeyNullKey:
+    @staticmethod
+    def test_tree_to_nested_dict_key(tree_node):
+        expected = {
+            "a": {
+                "b": {
+                    "d": {},
+                    "e": {
+                        "g": {},
+                        "h": {},
+                    },
+                },
+                "c": {"f": {}},
+            }
+        }
+        actual = export.tree_to_nested_dict_key(tree_node, child_key=None)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_empty():
+        root = node.Node("a")
+        expected = {"a": {}}
+        actual = export.tree_to_nested_dict_key(root, child_key=None)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_attr_dict_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            export.tree_to_nested_dict_key(
+                tree_node, child_key=None, attr_dict={"age": "AGE"}
+            )
+        assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_DICT_NO_ATTRS
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_all_attr_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            export.tree_to_nested_dict_key(tree_node, child_key=None, all_attrs=True)
+        assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_DICT_NO_ATTRS
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_max_depth(tree_node):
+        expected = {"a": {"b": {}, "c": {}}}
+        actual = export.tree_to_nested_dict_key(tree_node, child_key=None, max_depth=2)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_tree_to_nested_dict_key_to_tree(tree_node):
+        from bigtree.tree.construct import nested_dict_key_to_tree
+
+        d = export.tree_to_nested_dict_key(tree_node, child_key=None)
+        tree = nested_dict_key_to_tree(d, child_key=None)
+        assert_tree_structure_basenode_root(tree)
         assert_tree_structure_node_root(tree)
