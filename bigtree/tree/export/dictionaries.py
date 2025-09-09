@@ -150,7 +150,7 @@ def tree_to_nested_dict(
 
 def tree_to_nested_dict_key(
     tree: T,
-    child_key: str = "children",
+    child_key: Optional[str] = "children",
     attr_dict: Optional[Dict[str, str]] = None,
     all_attrs: bool = False,
     max_depth: int = 0,
@@ -160,6 +160,7 @@ def tree_to_nested_dict_key(
     All descendants from `tree` will be exported, `tree` can be the root node or child node of tree.
 
     Exported dictionary will have key as node names, and children as node attributes and nested recursive dictionary.
+    If child_key is None, the children key is nested recursive dictionary of node names (there will be no attributes).
 
     Examples:
         >>> from bigtree import Node, tree_to_nested_dict_key
@@ -170,6 +171,9 @@ def tree_to_nested_dict_key(
         >>> e = Node("e", age=35, parent=b)
         >>> tree_to_nested_dict_key(root, all_attrs=True)
         {'a': {'age': 90, 'children': {'b': {'age': 65, 'children': {'d': {'age': 40}, 'e': {'age': 35}}}, 'c': {'age': 60}}}}
+
+        >>> tree_to_nested_dict_key(root, child_key=None)
+        {'a': {'b': {'d': {}, 'e': {}}, 'c': {}}}
 
     Args:
         tree: tree to be exported
@@ -190,16 +194,25 @@ def tree_to_nested_dict_key(
             _node: current node
             parent_dict: parent dictionary
         """
+        if child_key is None:
+            if attr_dict or all_attrs:
+                raise ValueError(
+                    "If child_key is None, no node attributes can be exported"
+                )
+
         if _node:
             if not max_depth or _node.depth <= max_depth:
                 data_child = common.assemble_attributes(_node, attr_dict, all_attrs)
-                if child_key in parent_dict:
-                    parent_dict[child_key][_node.node_name] = data_child
+                if child_key:
+                    if child_key in parent_dict:
+                        parent_dict[child_key][_node.node_name] = data_child
+                    else:
+                        parent_dict[child_key] = {_node.node_name: data_child}
                 else:
-                    parent_dict[child_key] = {_node.node_name: data_child}
+                    parent_dict[_node.node_name] = data_child
 
                 for _child in _node.children:
                     _recursive_append(_child, data_child)
 
     _recursive_append(tree, data_dict)
-    return data_dict[child_key]
+    return data_dict[child_key] if child_key else data_dict

@@ -136,6 +136,9 @@ class Constants:
 
     # tree/export
     ERROR_NODE_TYPE = "Tree should be of type `{type}`, or inherit from `{type}`"
+    ERROR_NODE_EXPORT_DICT_NO_ATTRS = (
+        "If child_key is None, no node attributes can be exported"
+    )
     ERROR_NODE_EXPORT_PRINT_ATTR_BRACKET = (
         "Expect open and close brackets in `attr_bracket`, received {attr_bracket}"
     )
