@@ -1016,3 +1016,93 @@ class TestNestedDictKeyToTree(unittest.TestCase):
         assert_tree_structure_basenode_root(root)
         assert_tree_structure_customnode_root_attr(root)
         assert_tree_structure_node_root(root)
+
+
+class TestNestedDictKeyToTreeNullKey(unittest.TestCase):
+    def setUp(self):
+        """
+        Tree should have structure
+        a
+        |-- b
+        |   |-- d
+        |   +-- e
+        |       |-- g
+        |       +-- h
+        +-- c
+            +-- f
+        """
+        self.nested_dict = {
+            "a": {
+                "b": {
+                    "d": {},
+                    "e": {
+                        "g": {},
+                        "h": {},
+                    },
+                },
+                "c": {"f": {}},
+            }
+        }
+
+    def tearDown(self):
+        self.nested_dict = None
+
+    def test_nested_dict_key_to_tree(self):
+        root = construct.nested_dict_key_to_tree(self.nested_dict, child_key=None)
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
+
+    @staticmethod
+    def test_nested_dict_key_to_tree_null_children_error():
+        child_key = None
+        child = None
+        nested_dict = {
+            "a": {
+                "b": {
+                    "d": {},
+                    "e": {
+                        "g": child,
+                        "h": {},
+                    },
+                },
+                "c": {"f": {}},
+            }
+        }
+        with pytest.raises(TypeError) as exc_info:
+            construct.nested_dict_key_to_tree(nested_dict, child_key=child_key)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DICT_CHILD_TYPE.format(
+            child_key=child_key, type="Dict", child=child
+        )
+
+    @staticmethod
+    def test_nested_dict_key_to_tree_int_children_error():
+        child_key = None
+        child = 1
+        nested_dict = {
+            "a": {
+                "b": {
+                    "d": {},
+                    "e": {
+                        "g": child,
+                        "h": {},
+                    },
+                },
+                "c": {"f": {}},
+            }
+        }
+        with pytest.raises(TypeError) as exc_info:
+            construct.nested_dict_key_to_tree(nested_dict, child_key=child_key)
+        assert str(exc_info.value) == Constants.ERROR_NODE_DICT_CHILD_TYPE.format(
+            child_key=child_key, type="Dict", child=child
+        )
+
+    def test_nested_dict_key_to_tree_node_type(self):
+        root = construct.nested_dict_key_to_tree(
+            self.nested_dict, child_key=None, node_type=NodeA
+        )
+        assert isinstance(root, NodeA), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
+        assert all(
+            isinstance(_node, NodeA) for _node in root.children
+        ), Constants.ERROR_CUSTOM_TYPE.format(type="NodeA")
+        assert_tree_structure_basenode_root(root)
+        assert_tree_structure_node_root(root)
