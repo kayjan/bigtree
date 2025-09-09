@@ -111,8 +111,17 @@ def str_to_tree(
 
     Examples:
         >>> from bigtree import str_to_tree
-        >>> tree_str = 'a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f'
-        >>> root = str_to_tree(tree_str, tree_prefix_list=["├──", "└──"])
+        >>> tree_str = (
+        ...     'a\n'
+        ...     '├── b\n'
+        ...     '│   ├── d\n'
+        ...     '│   └── e\n'
+        ...     '│       ├── g\n'
+        ...     '│       └── h\n'
+        ...     '└── c\n'
+        ...     '    └── f'
+        ... )
+        >>> root = str_to_tree(tree_str)
         >>> root.show()
         a
         ├── b
