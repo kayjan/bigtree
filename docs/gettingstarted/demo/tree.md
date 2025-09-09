@@ -229,8 +229,8 @@ names and `value` is node attribute values, and list of children (recursive).
     # └── c [age=60]
     ```
 
-=== "Recursive structure 2"
-    ```python hl_lines="17"
+=== "Recursive structure by key"
+    ```python hl_lines="17 31"
     from bigtree import nested_dict_key_to_tree
 
     nested_dict = {
@@ -254,6 +254,20 @@ names and `value` is node attribute values, and list of children (recursive).
     # ├── b [age=65]
     # │   └── d [age=40]
     # └── c [age=60]
+
+    nested_dict = {
+        "a": {
+            "b": {"d": {}},
+            "c": {},
+        }
+    }
+    root = nested_dict_key_to_tree(nested_dict, child_key=None)
+
+    root.show()
+    # a
+    # ├── b
+    # │   └── d
+    # └── c
     ```
 
 
@@ -1294,8 +1308,8 @@ root.show()
     # }
     ```
 
-=== "Dictionary (recursive structure 2)"
-    ```python hl_lines="3"
+=== "Dictionary (recursive structure by key)"
+    ```python hl_lines="3 9"
     from bigtree import tree_to_nested_dict_key
 
     tree_to_nested_dict_key(root, all_attrs=True)
@@ -1303,6 +1317,9 @@ root.show()
     #        'children': {'b': {'age': 65,
     #                           'children': {'d': {'age': 40}, 'e': {'age': 35}}},
     #                     'c': {'age': 60}}}}
+
+    tree_to_nested_dict_key(root, child_key=None)
+    # {'a': {'b': {'d': {}, 'e': {}}, 'c': {}}}
     ```
 
 === "pandas DataFrame"
