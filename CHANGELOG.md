@@ -4,13 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Changed:
+- Docs: Enhanced docs.
+
 ## [0.30.1] - 2025-09-10
 ### Added:
 - Tree Construct: `nested_dict_key_to_tree` to support child_key=None.
 - Tree Export: `tree_to_nested_dict_key` to support child_key=None.
-### Changed
+### Changed:
 - Misc: Some code refactoring, enhance assemble_attributes.
-### Fixed
+### Fixed:
 - Test: Test for `tree_to_nested_dict_key` for BinaryNode.
 - Error: Check and throw error for `dataframe_to_dag`, previously this error will not have been found out.
 
