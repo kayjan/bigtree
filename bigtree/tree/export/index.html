@@ -4083,7 +4083,8 @@
 
         <p>Export tree to nested dictionary, where the keys are node names.</p>
 <p>All descendants from <code>tree</code> will be exported, <code>tree</code> can be the root node or child node of tree.</p>
-<p>Exported dictionary will have key as node names, and children as node attributes and nested recursive dictionary.</p>
+<p>Exported dictionary will have key as node names, and children as node attributes and nested recursive dictionary.
+If child_key is None, the children key is nested recursive dictionary of node names (there will be no attributes).</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -4095,6 +4096,9 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_to_nested_dict_key</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">all_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">{&#39;a&#39;: {&#39;age&#39;: 90, &#39;children&#39;: {&#39;b&#39;: {&#39;age&#39;: 65, &#39;children&#39;: {&#39;d&#39;: {&#39;age&#39;: 40}, &#39;e&#39;: {&#39;age&#39;: 35}}}, &#39;c&#39;: {&#39;age&#39;: 60}}}}</span>
+</span></code></pre></div>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree_to_nested_dict_key</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">child_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">{&#39;a&#39;: {&#39;b&#39;: {&#39;d&#39;: {}, &#39;e&#39;: {}}, &#39;c&#39;: {}}}</span>
 </span></code></pre></div>
 
 
@@ -4130,7 +4134,7 @@
                 <code>child_key</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
