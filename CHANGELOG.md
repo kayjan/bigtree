@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed:
 - Docs: Enhanced docs.
+- Docs: Add ruff.
 
 ## [0.30.1] - 2025-09-10
 ### Added:
