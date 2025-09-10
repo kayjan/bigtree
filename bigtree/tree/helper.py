@@ -634,7 +634,7 @@ def get_tree_diff(
 
     # Check tree structure difference
     data_diff = data_diff_all.dropna(subset=[suffix_col])
-    path_to_suffix = dict(zip(data_diff[path_col], data_diff[suffix_col]))
+    path_to_suffix = dict(zip(data_diff[path_col], data_diff[suffix_col], strict=True))
 
     # Check tree attribute difference
     path_attr_diff: Dict[str, Dict[str, Any]] = {}

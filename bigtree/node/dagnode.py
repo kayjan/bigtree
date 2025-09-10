@@ -234,7 +234,7 @@ class DAGNode:
                 if new_parent not in current_parents:
                     self.__parents.remove(new_parent)
                     new_parent.__children.remove(self)
-            raise exceptions.TreeError(exc_info)
+            raise exceptions.TreeError(exc_info) from None
 
     def __pre_assign_parents(self: T, new_parents: List[T]) -> None:
         """Custom method to check before attaching parent. Can be overridden with `_DAGNode__pre_assign_parent()`.
@@ -332,7 +332,7 @@ class DAGNode:
                 if new_child not in current_children:
                     new_child.__parents.remove(self)
                     self.__children.remove(new_child)
-            raise exceptions.TreeError(exc_info)
+            raise exceptions.TreeError(exc_info) from None
 
     @children.deleter
     def children(self) -> None:

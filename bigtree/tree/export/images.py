@@ -175,7 +175,11 @@ def tree_to_dot(
 
         name_dict: Dict[str, List[str]] = collections.defaultdict(list)
 
-        def _recursive_append(parent_name: Optional[str], child_node: T) -> None:
+        def _recursive_append(
+            parent_name: Optional[str],
+            child_node: T,
+            _name_dict: Dict[str, List[str]] = name_dict,
+        ) -> None:
             """Recursively iterate through node and its children to export to dot by creating node and edges.
 
             Args:
@@ -197,10 +201,10 @@ def tree_to_dot(
                     _edge_style.update(edge_attr(child_node))  # type: ignore
 
             child_label = child_node.node_name
-            if child_node.path_name not in name_dict[child_label]:  # pragma: no cover
-                name_dict[child_label].append(child_node.path_name)
+            if child_node.path_name not in _name_dict[child_label]:  # pragma: no cover
+                _name_dict[child_label].append(child_node.path_name)
             child_name = child_label + str(
-                name_dict[child_label].index(child_node.path_name)
+                _name_dict[child_label].index(child_node.path_name)
             )
             pydot_child_node = pydot.Node(
                 name=child_name, label=child_label, **_node_style
@@ -227,10 +231,10 @@ def _load_font(
         font_family = urlopen(dejavusans_url)
     try:
         font = ImageFont.truetype(font_family, font_size)
-    except OSError:
+    except OSError as err:
         raise ValueError(
             f"Font file {font_family} is not found, set `font_family` parameter to point to a valid .ttf file."
-        )
+        ) from err
     return font
 
 
@@ -349,7 +353,7 @@ def tree_to_pillow_graph(
         norm = Normalize(vmin=min(cmap_range), vmax=max(cmap_range))
         cmap_range_list = [norm(c) for c in cmap_range]
         cmap_colour_list = rect_fill(cmap_range_list)  # type: ignore
-        cmap_dict = dict(zip(cmap_range_list, cmap_colour_list))
+        cmap_dict = dict(zip(cmap_range_list, cmap_colour_list, strict=True))
 
     # Get x, y, coordinates and height, width of diagram
     from bigtree.utils.plot import reingold_tilford

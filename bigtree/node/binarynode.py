@@ -212,7 +212,7 @@ class BinaryNode(node.Node):
             self.__parent = current_parent
             if current_child_idx is not None:
                 current_parent.__children[current_child_idx] = self
-            raise exceptions.TreeError(exc_info)
+            raise exceptions.TreeError(exc_info) from None
 
     def __pre_assign_parent(self: T, new_parent: Optional[T]) -> None:
         """Custom method to check before attaching parent. Can be overridden with `_BinaryNode__pre_assign_parent()`.
@@ -345,7 +345,7 @@ class BinaryNode(node.Node):
             for child in current_children:
                 if child:
                     child.__parent = self
-            raise exceptions.TreeError(exc_info)
+            raise exceptions.TreeError(exc_info) from None
 
     @children.deleter
     def children(self) -> None:
