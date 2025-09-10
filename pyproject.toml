@@ -175,9 +175,9 @@ line-length = 88
 target-version = "py311"
 select = ["B", "E", "F", "I", "N", "UP", "W"]
 ignore = [
-  "E501",
+  "E501", # line too long
   "E741",  # ambiguous variable name
-  "F401",
+  "F401",  # imported but not used / explicit reexport
   "N802",  # function should be lowercase
   "UP006",  # type annotation use object instead of typing
   "UP007",  # use | instead of Union
