@@ -171,18 +171,16 @@ disallow_untyped_calls = false
 [tool.ruff]
 line-length = 88
 target-version = "py38"
+include = ["*.py", "*.pyi"]
+exclude = ["assets", "dist", "docs*", "tests"]
+
+[tool.ruff.lint]
 select = ["B", "E", "F", "I", "N", "UP", "W"]
 ignore = [
   "E501", # line too long
   "E741",  # ambiguous variable name
   "F401",  # imported but not used / explicit reexport
   "N802",  # function should be lowercase
-  "UP006",  # type annotation use object instead of typing
-  "UP007",  # use | instead of Union
   "UP015",  # unnecessry mode argument for open
-  "UP035",  # typing.List is deprecated
   "UP037",  # Remove quotes from type annotation
-  "UP045",  # use | instead of Optional
 ]
-include = ["*.py", "*.pyi"]
-exclude = ["dist", "docs*", "tests"]

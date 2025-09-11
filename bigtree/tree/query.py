@@ -1,4 +1,4 @@
-from typing import List, TypeVar
+from typing import TypeVar
 
 from bigtree.node import basenode
 from bigtree.tree._query import QUERY_GRAMMAR, QueryTransformer
@@ -19,7 +19,7 @@ T = TypeVar("T", bound=basenode.BaseNode)
 
 
 @exceptions.optional_dependencies_query
-def query_tree(tree_node: T, query: str, debug: bool = False) -> List[T]:
+def query_tree(tree_node: T, query: str, debug: bool = False) -> list[T]:
     """Query tree using Tree Definition Language.
 
     - Supports clauses: AND, OR, NOT

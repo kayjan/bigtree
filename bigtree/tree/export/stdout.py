@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Collection, Iterable, List, Optional, Tuple, TypeVar, Union
+from typing import Any, Collection, Iterable, TypeVar
 
 from bigtree.node import node
 from bigtree.utils import common, constants
@@ -21,13 +21,13 @@ T = TypeVar("T", bound=node.Node)
 def print_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: Optional[str] = None,
+    node_name_or_path: str | None = None,
     max_depth: int = 0,
     all_attrs: bool = False,
-    attr_list: Optional[Iterable[str]] = None,
+    attr_list: Iterable[str] | None = None,
     attr_omit_null: bool = False,
     attr_bracket: Collection[str] = ("[", "]"),
-    style: Union[str, Iterable[str], constants.BasePrintStyle] = "const",
+    style: str | Iterable[str] | constants.BasePrintStyle = "const",
     **kwargs: Any,
 ) -> None:
     """Print tree to console, starting from `tree`. Accepts kwargs for print() function.
@@ -38,12 +38,12 @@ def print_tree(
     - Able to choose which attributes to show or show all attributes, using `all_attrs` and `attr_list`
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
     - Able to customise open and close brackets if attributes are shown, using `attr_bracket`
-    - Able to customise style, to choose from str, List[str], or inherit from constants.BasePrintStyle, using `style`
+    - Able to customise style, to choose from str, list[str], or inherit from constants.BasePrintStyle, using `style`
 
     For style,
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
-    - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
+    - (list[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
     - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`,
         `RoundedPrintStyle`, `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
 
@@ -219,20 +219,20 @@ def print_tree(
 
 def yield_tree(
     tree: T,
-    node_name_or_path: Optional[str] = None,
+    node_name_or_path: str | None = None,
     max_depth: int = 0,
-    style: Union[str, Iterable[str], constants.BasePrintStyle] = "const",
-) -> Iterable[Tuple[str, str, T]]:
+    style: str | Iterable[str] | constants.BasePrintStyle = "const",
+) -> Iterable[tuple[str, str, T]]:
     """Generator method for customizing printing of tree, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customise for maximum depth to print, using `max_depth`
-    - Able to customise style, to choose from str, List[str], or inherit from constants.BasePrintStyle, using `style`
+    - Able to customise style, to choose from str, list[str], or inherit from constants.BasePrintStyle, using `style`
 
     For style,
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
-    - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
+    - (list[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
     - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`,
         `RoundedPrintStyle`, `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
 
@@ -361,12 +361,12 @@ def yield_tree(
 def hprint_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: Optional[str] = None,
+    node_name_or_path: str | None = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 0,
-    style: Union[str, Iterable[str], constants.BaseHPrintStyle] = "const",
-    border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = None,
+    style: str | Iterable[str] | constants.BaseHPrintStyle = "const",
+    border_style: str | Iterable[str] | constants.BorderStyle | None = None,
     strip: bool = True,
     **kwargs: Any,
 ) -> None:
@@ -524,14 +524,14 @@ def hprint_tree(
 def hyield_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: Optional[str] = None,
+    node_name_or_path: str | None = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 0,
-    style: Union[str, Iterable[str], constants.BaseHPrintStyle] = "const",
-    border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = None,
+    style: str | Iterable[str] | constants.BaseHPrintStyle = "const",
+    border_style: str | Iterable[str] | constants.BorderStyle | None = None,
     strip: bool = True,
-) -> List[str]:
+) -> list[str]:
     """Yield tree in horizontal orientation to console, starting from `tree`.
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
@@ -688,12 +688,12 @@ def hyield_tree(
 def vprint_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: Optional[str] = None,
+    node_name_or_path: str | None = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 2,
-    style: Union[str, Iterable[str], constants.BaseVPrintStyle] = "const",
-    border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = "const",
+    style: str | Iterable[str] | constants.BaseVPrintStyle = "const",
+    border_style: str | Iterable[str] | constants.BorderStyle | None = "const",
     strip: bool = False,
     **kwargs: Any,
 ) -> None:
@@ -909,14 +909,14 @@ def vprint_tree(
 def vyield_tree(
     tree: T,
     alias: str = "node_name",
-    node_name_or_path: Optional[str] = None,
+    node_name_or_path: str | None = None,
     max_depth: int = 0,
     intermediate_node_name: bool = True,
     spacing: int = 2,
-    style: Union[str, Iterable[str], constants.BaseVPrintStyle] = "const",
-    border_style: Optional[Union[str, Iterable[str], constants.BorderStyle]] = "const",
+    style: str | Iterable[str] | constants.BaseVPrintStyle = "const",
+    border_style: str | Iterable[str] | constants.BorderStyle | None = "const",
     strip: bool = False,
-) -> List[str]:
+) -> list[str]:
     """Yield tree in vertical orientation to console, starting from `tree`.
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
@@ -1123,11 +1123,11 @@ def vyield_tree(
 def tree_to_newick(
     tree: T,
     intermediate_node_name: bool = True,
-    length_attr: Optional[str] = None,
-    length_sep: Union[str, constants.NewickCharacter] = constants.NewickCharacter.SEP,
-    attr_list: Optional[Iterable[str]] = None,
+    length_attr: str | None = None,
+    length_sep: str | constants.NewickCharacter = constants.NewickCharacter.SEP,
+    attr_list: Iterable[str] | None = None,
     attr_prefix: str = "&&NHX:",
-    attr_sep: Union[str, constants.NewickCharacter] = constants.NewickCharacter.SEP,
+    attr_sep: str | constants.NewickCharacter = constants.NewickCharacter.SEP,
 ) -> str:
     """Export tree to Newick notation. Useful for describing phylogenetic tree.
 

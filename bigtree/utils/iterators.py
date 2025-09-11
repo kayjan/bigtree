@@ -1,15 +1,6 @@
 from __future__ import annotations
 
-from typing import (
-    TYPE_CHECKING,
-    Callable,
-    Iterable,
-    List,
-    Optional,
-    Tuple,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Callable, Iterable, TypeVar, Union
 
 if TYPE_CHECKING:
     from bigtree.node import basenode, binarynode, dagnode
@@ -33,7 +24,7 @@ __all__ = [
 
 def inorder_iter(
     tree: BinaryNodeT,
-    filter_condition: Optional[Callable[[BinaryNodeT], bool]] = None,
+    filter_condition: Callable[[BinaryNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[BinaryNodeT]:
     """Iterate through all children of a tree.
@@ -83,8 +74,8 @@ def inorder_iter(
 
 def preorder_iter(
     tree: T,
-    filter_condition: Optional[Callable[[T], bool]] = None,
-    stop_condition: Optional[Callable[[T], bool]] = None,
+    filter_condition: Callable[[T], bool] | None = None,
+    stop_condition: Callable[[T], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[T]:
     """Iterate through all children of a tree.
@@ -144,8 +135,8 @@ def preorder_iter(
 
 def postorder_iter(
     tree: BaseNodeT,
-    filter_condition: Optional[Callable[[BaseNodeT], bool]] = None,
-    stop_condition: Optional[Callable[[BaseNodeT], bool]] = None,
+    filter_condition: Callable[[BaseNodeT], bool] | None = None,
+    stop_condition: Callable[[BaseNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[BaseNodeT]:
     """Iterate through all children of a tree.
@@ -205,8 +196,8 @@ def postorder_iter(
 
 def levelorder_iter(
     tree: BaseNodeT,
-    filter_condition: Optional[Callable[[BaseNodeT], bool]] = None,
-    stop_condition: Optional[Callable[[BaseNodeT], bool]] = None,
+    filter_condition: Callable[[BaseNodeT], bool] | None = None,
+    stop_condition: Callable[[BaseNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[BaseNodeT]:
     """Iterate through all children of a tree.
@@ -250,7 +241,7 @@ def levelorder_iter(
         Iterable of nodes
     """
 
-    def _levelorder_iter(trees: List[BaseNodeT]) -> Iterable[BaseNodeT]:
+    def _levelorder_iter(trees: list[BaseNodeT]) -> Iterable[BaseNodeT]:
         """Iterate through all children of a tree.
 
         Args:
@@ -276,8 +267,8 @@ def levelorder_iter(
 
 def levelordergroup_iter(
     tree: BaseNodeT,
-    filter_condition: Optional[Callable[[BaseNodeT], bool]] = None,
-    stop_condition: Optional[Callable[[BaseNodeT], bool]] = None,
+    filter_condition: Callable[[BaseNodeT], bool] | None = None,
+    stop_condition: Callable[[BaseNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[Iterable[BaseNodeT]]:
     """Iterate through all children of a tree.
@@ -321,7 +312,7 @@ def levelordergroup_iter(
         List of iterable of nodes
     """
 
-    def _levelordergroup_iter(trees: List[BaseNodeT]) -> Iterable[Iterable[BaseNodeT]]:
+    def _levelordergroup_iter(trees: list[BaseNodeT]) -> Iterable[Iterable[BaseNodeT]]:
         """Iterate through all children of a tree.
 
         Args:
@@ -348,8 +339,8 @@ def levelordergroup_iter(
 
 def zigzag_iter(
     tree: BaseNodeT,
-    filter_condition: Optional[Callable[[BaseNodeT], bool]] = None,
-    stop_condition: Optional[Callable[[BaseNodeT], bool]] = None,
+    filter_condition: Callable[[BaseNodeT], bool] | None = None,
+    stop_condition: Callable[[BaseNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[BaseNodeT]:
     """ "Iterate through all children of a tree.
@@ -394,7 +385,7 @@ def zigzag_iter(
     """
 
     def _zigzag_iter(
-        trees: List[BaseNodeT], reverse_indicator: bool = False
+        trees: list[BaseNodeT], reverse_indicator: bool = False
     ) -> Iterable[BaseNodeT]:
         """Iterate through all children of a tree.
 
@@ -427,8 +418,8 @@ def zigzag_iter(
 
 def zigzaggroup_iter(
     tree: BaseNodeT,
-    filter_condition: Optional[Callable[[BaseNodeT], bool]] = None,
-    stop_condition: Optional[Callable[[BaseNodeT], bool]] = None,
+    filter_condition: Callable[[BaseNodeT], bool] | None = None,
+    stop_condition: Callable[[BaseNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[Iterable[BaseNodeT]]:
     """Iterate through all children of a tree.
@@ -474,7 +465,7 @@ def zigzaggroup_iter(
     """
 
     def _zigzaggroup_iter(
-        trees: List[BaseNodeT], reverse_indicator: bool = False
+        trees: list[BaseNodeT], reverse_indicator: bool = False
     ) -> Iterable[Iterable[BaseNodeT]]:
         """Iterate through all children of a tree.
 
@@ -506,7 +497,7 @@ def zigzaggroup_iter(
     yield from _zigzaggroup_iter([tree])
 
 
-def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
+def dag_iterator(dag: DAGNodeT) -> Iterable[tuple[DAGNodeT, DAGNodeT]]:
     """Iterate through all nodes of a Directed Acyclic Graph (DAG). Note that node names must be unique. Note that DAG
     must at least have two nodes to be shown on graph.
 
@@ -533,7 +524,7 @@ def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
     """
     visited_nodes = set()
 
-    def _dag_iterator(node: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
+    def _dag_iterator(node: DAGNodeT) -> Iterable[tuple[DAGNodeT, DAGNodeT]]:
         """Iterate through all children of a DAG.
 
         Args:

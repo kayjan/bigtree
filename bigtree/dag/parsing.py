@@ -1,4 +1,4 @@
-from typing import List, Optional, TypeVar
+from typing import TypeVar
 
 from bigtree.node import dagnode
 from bigtree.utils import exceptions
@@ -10,7 +10,7 @@ __all__ = [
 T = TypeVar("T", bound=dagnode.DAGNode)
 
 
-def get_path_dag(from_node: T, to_node: T) -> List[List[T]]:
+def get_path_dag(from_node: T, to_node: T) -> list[list[T]]:
     """Get path from origin node to destination node. Path is inclusive of origin and destination nodes.
 
     Examples:
@@ -52,9 +52,9 @@ def get_path_dag(from_node: T, to_node: T) -> List[List[T]]:
     if to_node not in from_node.descendants:
         raise exceptions.TreeError(f"It is not possible to go to {to_node}")
 
-    paths: List[List[T]] = []
+    paths: list[list[T]] = []
 
-    def _recursive_path(_node: T, _path: List[T]) -> Optional[List[T]]:
+    def _recursive_path(_node: T, _path: list[T]) -> list[T] | None:
         """Get path to specified node.
 
         Args:

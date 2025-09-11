@@ -1,7 +1,7 @@
 import io
 import logging
 import sys
-from typing import List, Union
+from typing import Union
 
 import pytest
 
@@ -196,7 +196,7 @@ def assert_print_statement(func, expected, *args, **kwargs):
     assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
 
-def assert_console_output(expected: Union[List[str], str]):
+def assert_console_output(expected: Union[list[str], str]):
     def _decorator(func):
         def wrapper(caplog, *args, **kwargs):
             caplog.set_level(logging.DEBUG)

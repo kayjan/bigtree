@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import copy
-from typing import Any, Generator, Iterable, List, Mapping, Optional, Tuple, TypeVar
+from typing import Any, Generator, Iterable, Mapping, TypeVar
 
 from bigtree.globals import ASSERTIONS
 from bigtree.utils import exceptions, iterators
@@ -97,7 +97,7 @@ class DAGNode:
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
     4. ``go_to(node: Self)``: Get a path from own node to another node from same DAG
     5. ``append(node: Self)``: Add child to node
-    6. ``extend(nodes: List[Self])``: Add multiple children to node
+    6. ``extend(nodes: list[Self])``: Add multiple children to node
     7. ``copy()``: Deep copy self
 
     ----
@@ -107,13 +107,13 @@ class DAGNode:
     def __init__(
         self,
         name: str = "",
-        parents: Optional[List[T]] = None,
-        children: Optional[List[T]] = None,
+        parents: list[T] | None = None,
+        children: list[T] | None = None,
         **kwargs: Any,
     ):
         self.name = name
-        self.__parents: List[T] = []
-        self.__children: List[T] = []
+        self.__parents: list[T] = []
+        self.__children: list[T] = []
         if parents is None:
             parents = []
         if children is None:
@@ -152,7 +152,7 @@ class DAGNode:
         )
 
     @staticmethod
-    def __check_parent_type(new_parents: List[T]) -> None:
+    def __check_parent_type(new_parents: list[T]) -> None:
         """Check parent type.
 
         Args:
@@ -163,7 +163,7 @@ class DAGNode:
                 f"Parents input should be list type, received input type {type(new_parents)}"
             )
 
-    def __check_parent_loop(self: T, new_parents: List[T]) -> None:
+    def __check_parent_loop(self: T, new_parents: list[T]) -> None:
         """Check parent type.
 
         Args:
@@ -206,7 +206,7 @@ class DAGNode:
         return tuple(self.__parents)
 
     @parents.setter
-    def parents(self: T, new_parents: List[T]) -> None:
+    def parents(self: T, new_parents: list[T]) -> None:
         """Set parent node.
 
         Args:
@@ -236,7 +236,7 @@ class DAGNode:
                     new_parent.__children.remove(self)
             raise exceptions.TreeError(exc_info) from None
 
-    def __pre_assign_parents(self: T, new_parents: List[T]) -> None:
+    def __pre_assign_parents(self: T, new_parents: list[T]) -> None:
         """Custom method to check before attaching parent. Can be overridden with `_DAGNode__pre_assign_parent()`.
 
         Args:
@@ -244,7 +244,7 @@ class DAGNode:
         """
         pass
 
-    def __post_assign_parents(self: T, new_parents: List[T]) -> None:
+    def __post_assign_parents(self: T, new_parents: list[T]) -> None:
         """Custom method to check after attaching parent. Can be overridden with `_DAGNode__post_assign_parent()`.
 
         Args:
@@ -457,7 +457,7 @@ class DAGNode:
 
     def describe(
         self, exclude_attributes: Iterable[str] = (), exclude_prefix: str = ""
-    ) -> List[Tuple[str, Any]]:
+    ) -> list[tuple[str, Any]]:
         """Get node information sorted by attribute name, returns list of tuples.
 
         Args:
@@ -504,7 +504,7 @@ class DAGNode:
         """
         self.__dict__.update(attrs)
 
-    def go_to(self: T, node: T) -> List[List[T]]:
+    def go_to(self: T, node: T) -> list[list[T]]:
         """Get list of possible paths from current node to specified node from same tree, uses `get_path_dag` function.
 
         Args:
@@ -526,7 +526,7 @@ class DAGNode:
         other.parents = [self]
         return self
 
-    def extend(self: T, others: List[T]) -> T:
+    def extend(self: T, others: list[T]) -> T:
         """Add others as children of self. Can be chained.
 
         Args:
