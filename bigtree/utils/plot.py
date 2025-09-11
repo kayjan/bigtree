@@ -124,11 +124,11 @@ def plot_tree(
                     *args,
                     **kwargs,
                 )
-            except AttributeError:
+            except AttributeError as err:
                 raise RuntimeError(
                     "No x or y coordinates detected. "
                     "Please run reingold_tilford algorithm to retrieve coordinates."
-                )
+                ) from err
     return fig
 
 

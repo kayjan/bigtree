@@ -54,10 +54,7 @@ def deprecated(
         def wrapper(*args: Any, **kwargs: Any) -> T:
             simplefilter("always", DeprecationWarning)
             warn(
-                "{old_func} is going to be deprecated, use {new_func} instead".format(
-                    old_func=func.__name__,
-                    new_func=alias,
-                ),
+                f"{func.__name__} is going to be deprecated, use {alias} instead",
                 category=DeprecationWarning,
                 stacklevel=2,
             )
