@@ -54,7 +54,7 @@ def get_path_dag(from_node: T, to_node: T) -> List[List[T]]:
 
     paths: List[List[T]] = []
 
-    def _recursive_path(_node: T, _path: List[T]) -> Optional[List[T]]:
+    def _recursive_path(_node: T, _path: List[T]) -> List[T] | None:
         """Get path to specified node.
 
         Args:

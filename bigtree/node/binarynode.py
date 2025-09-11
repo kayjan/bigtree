@@ -63,10 +63,10 @@ class BinaryNode(node.Node):
     def __init__(
         self,
         name: str | int = "",
-        left: Optional[T] = None,
-        right: Optional[T] = None,
-        parent: Optional[T] = None,
-        children: Optional[List[Optional[T]]] = None,
+        left: T | None = None,
+        right: T | None = None,
+        parent: T | None = None,
+        children: Optional[List[T | None]] = None,
         **kwargs: Any,
     ):
         try:
@@ -75,8 +75,8 @@ class BinaryNode(node.Node):
             self.val = str(name)
         self.name = str(name)
         self._sep = "/"
-        self.__parent: Optional[T] = None
-        self.__children: List[Optional[T]] = [None, None]
+        self.__parent: T | None = None
+        self.__children: List[T | None] = [None, None]
         if not children:
             children = []
         if len(children):
@@ -112,7 +112,7 @@ class BinaryNode(node.Node):
         return self.__children[0]
 
     @left.setter
-    def left(self: T, left_child: Optional[T]) -> None:
+    def left(self: T, left_child: T | None) -> None:
         """Set left children.
 
         Args:
@@ -130,7 +130,7 @@ class BinaryNode(node.Node):
         return self.__children[1]
 
     @right.setter
-    def right(self: T, right_child: Optional[T]) -> None:
+    def right(self: T, right_child: T | None) -> None:
         """Set right children.
 
         Args:
@@ -139,7 +139,7 @@ class BinaryNode(node.Node):
         self.children = [self.left, right_child]  # type: ignore
 
     @staticmethod
-    def __check_parent_type(new_parent: Optional[T]) -> None:
+    def __check_parent_type(new_parent: T | None) -> None:
         """Check parent type.
 
         Args:
@@ -151,7 +151,7 @@ class BinaryNode(node.Node):
             )
 
     @property
-    def parent(self: T) -> Optional[T]:
+    def parent(self: T) -> T | None:
         """Get parent node.
 
         Returns:
@@ -160,7 +160,7 @@ class BinaryNode(node.Node):
         return self.__parent
 
     @parent.setter
-    def parent(self: T, new_parent: Optional[T]) -> None:
+    def parent(self: T, new_parent: T | None) -> None:
         """Set parent node.
 
         Args:
@@ -214,7 +214,7 @@ class BinaryNode(node.Node):
                 current_parent.__children[current_child_idx] = self
             raise exceptions.TreeError(exc_info) from None
 
-    def __pre_assign_parent(self: T, new_parent: Optional[T]) -> None:
+    def __pre_assign_parent(self: T, new_parent: T | None) -> None:
         """Custom method to check before attaching parent. Can be overridden with `_BinaryNode__pre_assign_parent()`.
 
         Args:
@@ -222,7 +222,7 @@ class BinaryNode(node.Node):
         """
         pass
 
-    def __post_assign_parent(self: T, new_parent: Optional[T]) -> None:
+    def __post_assign_parent(self: T, new_parent: T | None) -> None:
         """Custom method to check after attaching parent. Can be overridden with `_BinaryNode__post_assign_parent()`.
 
         Args:
@@ -230,9 +230,7 @@ class BinaryNode(node.Node):
         """
         pass
 
-    def __check_children_type(
-        self: T, new_children: List[Optional[T]]
-    ) -> List[Optional[T]]:
+    def __check_children_type(self: T, new_children: List[T | None]) -> List[T | None]:
         """Check child type.
 
         Args:
@@ -247,7 +245,7 @@ class BinaryNode(node.Node):
             raise ValueError("Children input must have length 2")
         return new_children
 
-    def __check_children_loop(self: T, new_children: List[Optional[T]]) -> None:
+    def __check_children_loop(self: T, new_children: List[T | None]) -> None:
         """Check child loop.
 
         Args:
@@ -290,7 +288,7 @@ class BinaryNode(node.Node):
         return tuple(self.__children)
 
     @children.setter
-    def children(self: T, _new_children: List[Optional[T]]) -> None:
+    def children(self: T, _new_children: List[T | None]) -> None:
         """Set child nodes.
 
         Args:
@@ -355,7 +353,7 @@ class BinaryNode(node.Node):
                 child.parent.__children.remove(child)  # type: ignore
                 child.__parent = None
 
-    def __pre_assign_children(self: T, new_children: List[Optional[T]]) -> None:
+    def __pre_assign_children(self: T, new_children: List[T | None]) -> None:
         """Custom method to check before attaching children. Can be overridden with `_BinaryNode__pre_assign_children()`.
 
         Args:
@@ -363,7 +361,7 @@ class BinaryNode(node.Node):
         """
         pass
 
-    def __post_assign_children(self: T, new_children: List[Optional[T]]) -> None:
+    def __post_assign_children(self: T, new_children: List[T | None]) -> None:
         """Custom method to check after attaching children. Can be overridden with `_BinaryNode__post_assign_children()`.
 
         Args:

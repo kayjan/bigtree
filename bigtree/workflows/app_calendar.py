@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import datetime as dt
-from typing import Any, Optional
+from typing import Any
 
 from bigtree.node import node
 from bigtree.tree import construct, export, search
@@ -96,9 +96,7 @@ class Calendar:
         )
         self.__sorted = False
 
-    def delete_event(
-        self, event_name: str, event_date: Optional[dt.date] = None
-    ) -> None:
+    def delete_event(self, event_name: str, event_date: dt.date | None = None) -> None:
         """Delete event from calendar.
 
         Args:

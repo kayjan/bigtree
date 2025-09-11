@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Mapping, Optional, Tuple, TypeVar
+from typing import Any, Dict, List, Mapping, Tuple, TypeVar
 
 from bigtree.node import dagnode
 from bigtree.utils import assertions, common, exceptions, iterators
@@ -55,7 +55,7 @@ def dag_to_list(
 def dag_to_dict(
     dag: T,
     parent_key: str = "parents",
-    attr_dict: Optional[Mapping[str, str]] = None,
+    attr_dict: Mapping[str, str] | None = None,
     all_attrs: bool = False,
 ) -> Dict[str, Any]:
     """Export DAG to dictionary. Exported dictionary will have key as child name, and values as a dictionary of parent
@@ -106,7 +106,7 @@ def dag_to_dataframe(
     dag: T,
     name_col: str = "name",
     parent_col: str = "parent",
-    attr_dict: Optional[Mapping[str, str]] = None,
+    attr_dict: Mapping[str, str] | None = None,
     all_attrs: bool = False,
 ) -> pd.DataFrame:
     """Export DAG to pandas DataFrame.
@@ -167,12 +167,12 @@ def dag_to_dataframe(
 def dag_to_dot(
     dag: T | List[T],
     rankdir: str = "TB",
-    bg_colour: Optional[str] = None,
-    node_colour: Optional[str] = None,
-    node_shape: Optional[str] = None,
-    edge_colour: Optional[str] = None,
-    node_attr: Optional[str] = None,
-    edge_attr: Optional[str] = None,
+    bg_colour: str | None = None,
+    node_colour: str | None = None,
+    node_shape: str | None = None,
+    edge_colour: str | None = None,
+    node_attr: str | None = None,
+    edge_attr: str | None = None,
 ) -> pydot.Dot:
     r"""Export DAG or list of DAGs to image. Note that node names must be unique. Possible node attributes include style,
     fillcolor, or shape.

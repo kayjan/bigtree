@@ -68,7 +68,7 @@ def clone_tree(tree: basenode.BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT
 
 def get_subtree(
     tree: NodeT,
-    node_name_or_path: Optional[str] = None,
+    node_name_or_path: str | None = None,
     max_depth: int = 0,
 ) -> NodeT:
     """Get subtree based on node name or node path, and/or maximum depth of tree. Subtrees are smaller trees with
@@ -257,7 +257,7 @@ def get_tree_diff_dataframe(
     only_diff: bool = True,
     detail: bool = False,
     aggregate: bool = False,
-    attr_list: Optional[List[str]] = None,
+    attr_list: List[str] | None = None,
     fallback_sep: str = "/",
     name_col: str = "name",
     path_col: str = "path",

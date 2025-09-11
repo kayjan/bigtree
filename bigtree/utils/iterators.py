@@ -5,7 +5,6 @@ from typing import (
     Callable,
     Iterable,
     List,
-    Optional,
     Tuple,
     TypeVar,
     Union,
@@ -33,7 +32,7 @@ __all__ = [
 
 def inorder_iter(
     tree: BinaryNodeT,
-    filter_condition: Optional[Callable[[BinaryNodeT], bool]] = None,
+    filter_condition: Callable[[BinaryNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[BinaryNodeT]:
     """Iterate through all children of a tree.
@@ -83,8 +82,8 @@ def inorder_iter(
 
 def preorder_iter(
     tree: T,
-    filter_condition: Optional[Callable[[T], bool]] = None,
-    stop_condition: Optional[Callable[[T], bool]] = None,
+    filter_condition: Callable[[T], bool] | None = None,
+    stop_condition: Callable[[T], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[T]:
     """Iterate through all children of a tree.
@@ -144,8 +143,8 @@ def preorder_iter(
 
 def postorder_iter(
     tree: BaseNodeT,
-    filter_condition: Optional[Callable[[BaseNodeT], bool]] = None,
-    stop_condition: Optional[Callable[[BaseNodeT], bool]] = None,
+    filter_condition: Callable[[BaseNodeT], bool] | None = None,
+    stop_condition: Callable[[BaseNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[BaseNodeT]:
     """Iterate through all children of a tree.
@@ -205,8 +204,8 @@ def postorder_iter(
 
 def levelorder_iter(
     tree: BaseNodeT,
-    filter_condition: Optional[Callable[[BaseNodeT], bool]] = None,
-    stop_condition: Optional[Callable[[BaseNodeT], bool]] = None,
+    filter_condition: Callable[[BaseNodeT], bool] | None = None,
+    stop_condition: Callable[[BaseNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[BaseNodeT]:
     """Iterate through all children of a tree.
@@ -276,8 +275,8 @@ def levelorder_iter(
 
 def levelordergroup_iter(
     tree: BaseNodeT,
-    filter_condition: Optional[Callable[[BaseNodeT], bool]] = None,
-    stop_condition: Optional[Callable[[BaseNodeT], bool]] = None,
+    filter_condition: Callable[[BaseNodeT], bool] | None = None,
+    stop_condition: Callable[[BaseNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[Iterable[BaseNodeT]]:
     """Iterate through all children of a tree.
@@ -348,8 +347,8 @@ def levelordergroup_iter(
 
 def zigzag_iter(
     tree: BaseNodeT,
-    filter_condition: Optional[Callable[[BaseNodeT], bool]] = None,
-    stop_condition: Optional[Callable[[BaseNodeT], bool]] = None,
+    filter_condition: Callable[[BaseNodeT], bool] | None = None,
+    stop_condition: Callable[[BaseNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[BaseNodeT]:
     """ "Iterate through all children of a tree.
@@ -427,8 +426,8 @@ def zigzag_iter(
 
 def zigzaggroup_iter(
     tree: BaseNodeT,
-    filter_condition: Optional[Callable[[BaseNodeT], bool]] = None,
-    stop_condition: Optional[Callable[[BaseNodeT], bool]] = None,
+    filter_condition: Callable[[BaseNodeT], bool] | None = None,
+    stop_condition: Callable[[BaseNodeT], bool] | None = None,
     max_depth: int = 0,
 ) -> Iterable[Iterable[BaseNodeT]]:
     """Iterate through all children of a tree.

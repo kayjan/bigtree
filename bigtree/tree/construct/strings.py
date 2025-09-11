@@ -248,12 +248,12 @@ def newick_to_tree(
 
     # Store states (for assertions and checks)
     current_state: constants.NewickState = constants.NewickState.PARSE_STRING
-    current_node: Optional[T] = None
+    current_node: T | None = None
     cumulative_string: str = ""
     cumulative_string_value: str = ""
 
     def _create_node(
-        _new_node: Optional[T],
+        _new_node: T | None,
         _cumulative_string: str,
         _unlabelled_node_counter: int,
         _depth_nodes: Dict[int, List[T]],

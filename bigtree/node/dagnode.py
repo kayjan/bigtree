@@ -107,8 +107,8 @@ class DAGNode:
     def __init__(
         self,
         name: str = "",
-        parents: Optional[List[T]] = None,
-        children: Optional[List[T]] = None,
+        parents: List[T] | None = None,
+        children: List[T] | None = None,
         **kwargs: Any,
     ):
         self.name = name

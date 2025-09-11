@@ -31,9 +31,9 @@ T = TypeVar("T", bound=node.Node)
 @exceptions.optional_dependencies_pandas
 def tree_to_dataframe(
     tree: T,
-    path_col: Optional[str] = "path",
-    name_col: Optional[str] = "name",
-    parent_col: Optional[str] = None,
+    path_col: str | None = "path",
+    name_col: str | None = "name",
+    parent_col: str | None = None,
     attr_dict: Optional[Dict[str, str]] = None,
     all_attrs: bool = False,
     max_depth: int = 0,
@@ -114,9 +114,9 @@ def tree_to_dataframe(
 @exceptions.optional_dependencies_polars
 def tree_to_polars(
     tree: T,
-    path_col: Optional[str] = "path",
-    name_col: Optional[str] = "name",
-    parent_col: Optional[str] = None,
+    path_col: str | None = "path",
+    name_col: str | None = "name",
+    parent_col: str | None = None,
     attr_dict: Optional[Dict[str, str]] = None,
     all_attrs: bool = False,
     max_depth: int = 0,

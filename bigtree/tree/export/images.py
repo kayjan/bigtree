@@ -47,12 +47,12 @@ def tree_to_dot(
     tree: T | List[T],
     directed: bool = True,
     rankdir: str = "TB",
-    bg_colour: Optional[str] = None,
-    node_colour: Optional[str] = None,
-    node_shape: Optional[str] = None,
-    edge_colour: Optional[str] = None,
-    node_attr: Callable[[T], Dict[str, Any]] | Optional[str] = None,
-    edge_attr: Callable[[T], Dict[str, Any]] | Optional[str] = None,
+    bg_colour: str | None = None,
+    node_colour: str | None = None,
+    node_shape: str | None = None,
+    edge_colour: str | None = None,
+    node_attr: Callable[[T], Dict[str, Any]] | str | None = None,
+    edge_attr: Callable[[T], Dict[str, Any]] | str | None = None,
 ) -> pydot.Dot:
     r"""Export tree(s) to pydot.Dot object. Object can be converted to other format, such as png, dot file or dot string.
     Dot string can be imported to work with networkx.
@@ -176,7 +176,7 @@ def tree_to_dot(
         name_dict: Dict[str, List[str]] = collections.defaultdict(list)
 
         def _recursive_append(
-            parent_name: Optional[str],
+            parent_name: str | None,
             child_node: T,
             _name_dict: Dict[str, List[str]] = name_dict,
         ) -> None:
@@ -222,7 +222,7 @@ def tree_to_dot(
 
 
 def _load_font(
-    font_family: Optional[str] = None, font_size: int = 12
+    font_family: str | None = None, font_size: int = 12
 ) -> ImageFont.truetype:
     if not font_family:
         from urllib.request import urlopen
@@ -246,14 +246,14 @@ def tree_to_pillow_graph(
     margin: Optional[Dict[str, int]] = None,
     height_buffer: int | float = 20,
     width_buffer: int | float = 10,
-    font_family: Optional[str] = None,
+    font_family: str | None = None,
     font_size: int = 12,
     font_colour: Tuple[int, int, int] | str = "black",
     text_align: str = "center",
     bg_colour: Tuple[int, int, int] | str = "white",
     rect_margin: Optional[Dict[str, int]] = None,
     rect_fill: Tuple[int, int, int] | str | mpl.colors.Colormap = "white",
-    rect_cmap_attr: Optional[str] = None,
+    rect_cmap_attr: str | None = None,
     rect_outline: Tuple[int, int, int] | str = "black",
     rect_width: int = 1,
     **kwargs: Any,
@@ -439,7 +439,7 @@ def tree_to_pillow(
     width: int = 0,
     height: int = 0,
     start_pos: Tuple[int, int] = (10, 10),
-    font_family: Optional[str] = None,
+    font_family: str | None = None,
     font_size: int = 12,
     font_colour: Tuple[int, int, int] | str = "black",
     bg_colour: Tuple[int, int, int] | str = "white",
@@ -523,19 +523,19 @@ def tree_to_pillow(
 
 def tree_to_mermaid(
     tree: T,
-    title: Optional[str] = None,
-    theme: Optional[str] = None,
+    title: str | None = None,
+    theme: str | None = None,
     rankdir: str = "TB",
     line_shape: str = "basis",
-    node_colour: Optional[str] = None,
-    node_border_colour: Optional[str] = None,
+    node_colour: str | None = None,
+    node_border_colour: str | None = None,
     node_border_width: float = 1,
     node_shape: str = "rounded_edge",
-    node_shape_attr: Callable[[T], str] | Optional[str] = None,
+    node_shape_attr: Callable[[T], str] | str | None = None,
     edge_arrow: str = "normal",
-    edge_arrow_attr: Callable[[T], str] | Optional[str] = None,
-    edge_label: Optional[str] = None,
-    node_attr: Callable[[T], str] | Optional[str] = None,
+    edge_arrow_attr: Callable[[T], str] | str | None = None,
+    edge_label: str | None = None,
+    node_attr: Callable[[T], str] | str | None = None,
     **kwargs: Any,
 ) -> str:
     r"""Export tree to mermaid Markdown text. Accepts additional keyword arguments as input to `yield_tree`.

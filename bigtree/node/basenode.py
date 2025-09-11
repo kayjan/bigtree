@@ -138,11 +138,11 @@ class BaseNode:
 
     def __init__(
         self,
-        parent: Optional[T] = None,
-        children: Optional[List[T]] = None,
+        parent: T | None = None,
+        children: List[T] | None = None,
         **kwargs: Any,
     ):
-        self.__parent: Optional[T] = None
+        self.__parent: T | None = None
         self.__children: List[T] = []
         if children is None:
             children = []
@@ -187,7 +187,7 @@ class BaseNode:
                 )
 
     @property
-    def parent(self: T) -> Optional[T]:
+    def parent(self: T) -> T | None:
         """Get parent node.
 
         Returns:
@@ -457,7 +457,7 @@ class BaseNode:
         return tuple(child for child in self.parent.children if child is not self)
 
     @property
-    def left_sibling(self: T) -> Optional[T]:
+    def left_sibling(self: T) -> T | None:
         """Get sibling left of self.
 
         Returns:
@@ -470,7 +470,7 @@ class BaseNode:
                 return self.parent.children[child_idx - 1]
 
     @property
-    def right_sibling(self: T) -> Optional[T]:
+    def right_sibling(self: T) -> T | None:
         """Get sibling right of self.
 
         Returns:

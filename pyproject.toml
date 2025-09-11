@@ -172,7 +172,7 @@ disallow_untyped_calls = false
 line-length = 88
 target-version = "py38"
 include = ["*.py", "*.pyi"]
-exclude = ["dist", "docs*", "tests"]
+exclude = ["assets", "dist", "docs*", "tests"]
 
 [tool.ruff.lint]
 select = ["B", "E", "F", "I", "N", "UP", "W"]

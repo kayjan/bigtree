@@ -38,8 +38,8 @@ T = TypeVar("T", bound=node.Node)
 def add_dataframe_to_tree_by_path(
     tree: T,
     data: pd.DataFrame,
-    path_col: Optional[str] = None,
-    attribute_cols: Optional[List[str]] = None,
+    path_col: str | None = None,
+    attribute_cols: List[str] | None = None,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
 ) -> T:
@@ -134,8 +134,8 @@ def add_dataframe_to_tree_by_path(
 def add_dataframe_to_tree_by_name(
     tree: T,
     data: pd.DataFrame,
-    name_col: Optional[str] = None,
-    attribute_cols: Optional[List[str]] = None,
+    name_col: str | None = None,
+    attribute_cols: List[str] | None = None,
 ) -> T:
     """Add attributes to existing tree *in-place*. Adds to existing tree from pandas DataFrame.
 
@@ -201,8 +201,8 @@ def add_dataframe_to_tree_by_name(
 def add_polars_to_tree_by_path(
     tree: T,
     data: pl.DataFrame,
-    path_col: Optional[str] = None,
-    attribute_cols: Optional[List[str]] = None,
+    path_col: str | None = None,
+    attribute_cols: List[str] | None = None,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
 ) -> T:
@@ -299,8 +299,8 @@ def add_polars_to_tree_by_path(
 def add_polars_to_tree_by_name(
     tree: T,
     data: pl.DataFrame,
-    name_col: Optional[str] = None,
-    attribute_cols: Optional[List[str]] = None,
+    name_col: str | None = None,
+    attribute_cols: List[str] | None = None,
 ) -> T:
     """Add attributes to existing tree *in-place*. Adds to existing tree from polars DataFrame.
 
@@ -363,8 +363,8 @@ def add_polars_to_tree_by_name(
 
 def dataframe_to_tree(
     data: pd.DataFrame,
-    path_col: Optional[str] = None,
-    attribute_cols: Optional[List[str]] = None,
+    path_col: str | None = None,
+    attribute_cols: List[str] | None = None,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
@@ -470,9 +470,9 @@ def dataframe_to_tree(
 
 def dataframe_to_tree_by_relation(
     data: pd.DataFrame,
-    child_col: Optional[str] = None,
-    parent_col: Optional[str] = None,
-    attribute_cols: Optional[List[str]] = None,
+    child_col: str | None = None,
+    parent_col: str | None = None,
+    attribute_cols: List[str] | None = None,
     allow_duplicates: bool = False,
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
@@ -594,8 +594,8 @@ def dataframe_to_tree_by_relation(
 
 def polars_to_tree(
     data: pl.DataFrame,
-    path_col: Optional[str] = None,
-    attribute_cols: Optional[List[str]] = None,
+    path_col: str | None = None,
+    attribute_cols: List[str] | None = None,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
@@ -702,9 +702,9 @@ def polars_to_tree(
 
 def polars_to_tree_by_relation(
     data: pl.DataFrame,
-    child_col: Optional[str] = None,
-    parent_col: Optional[str] = None,
-    attribute_cols: Optional[List[str]] = None,
+    child_col: str | None = None,
+    parent_col: str | None = None,
+    attribute_cols: List[str] | None = None,
     allow_duplicates: bool = False,
     node_type: Type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:

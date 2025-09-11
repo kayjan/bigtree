@@ -139,7 +139,7 @@ def merge_trees(
 def shift_nodes(
     tree: T,
     from_paths: Collection[str],
-    to_paths: Collection[Optional[str]],
+    to_paths: Collection[str | None],
     sep: str = "/",
     skippable: bool = False,
     overriding: bool = False,
@@ -406,7 +406,7 @@ def shift_nodes(
 def copy_nodes(
     tree: T,
     from_paths: Collection[str],
-    to_paths: Collection[Optional[str]],
+    to_paths: Collection[str | None],
     sep: str = "/",
     skippable: bool = False,
     overriding: bool = False,
@@ -771,7 +771,7 @@ def copy_nodes_from_tree_to_tree(
     from_tree: T,
     to_tree: T,
     from_paths: Collection[str],
-    to_paths: Collection[Optional[str]],
+    to_paths: Collection[str | None],
     sep: str = "/",
     skippable: bool = False,
     overriding: bool = False,
@@ -1180,7 +1180,7 @@ def _merge_attribute(
 def copy_or_shift_logic(
     tree: T,
     from_paths: Collection[str],
-    to_paths: Collection[Optional[str]],
+    to_paths: Collection[str | None],
     sep: str = "/",
     copy: bool = False,
     skippable: bool = False,
@@ -1189,7 +1189,7 @@ def copy_or_shift_logic(
     merge_children: bool = False,
     merge_leaves: bool = False,
     delete_children: bool = False,
-    to_tree: Optional[T] = None,
+    to_tree: T | None = None,
     with_full_path: bool = False,
 ) -> None:
     """Shift or copy nodes from `from_paths` to `to_paths` *in-place*.
@@ -1477,7 +1477,7 @@ def replace_logic(
     copy: bool = False,
     skippable: bool = False,
     delete_children: bool = False,
-    to_tree: Optional[T] = None,
+    to_tree: T | None = None,
     with_full_path: bool = False,
 ) -> None:
     """Shift or copy nodes from `from_paths` to *replace* `to_paths` *in-place*.

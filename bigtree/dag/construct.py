@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Collection, Dict, List, Mapping, Optional, Tuple, Type, TypeVar
+from typing import Any, Collection, Dict, List, Mapping, Tuple, Type, TypeVar
 
 from bigtree.node import dagnode
 from bigtree.utils import assertions, common, exceptions
@@ -83,7 +83,7 @@ def dict_to_dag(
     assertions.assert_length_not_empty(relation_attrs, "Dictionary", "relation_attrs")
 
     node_dict: Dict[str, T] = dict()
-    _parent_name: Optional[str] = None
+    _parent_name: str | None = None
 
     for child_name, node_attrs in relation_attrs.items():
         node_attrs = node_attrs.copy()
@@ -109,9 +109,9 @@ def dict_to_dag(
 @exceptions.optional_dependencies_pandas
 def dataframe_to_dag(
     data: pd.DataFrame,
-    child_col: Optional[str] = None,
-    parent_col: Optional[str] = None,
-    attribute_cols: Optional[List[str]] = None,
+    child_col: str | None = None,
+    parent_col: str | None = None,
+    attribute_cols: List[str] | None = None,
     node_type: Type[T] = dagnode.DAGNode,  # type: ignore[assignment]
 ) -> T:
     """Construct DAG from pandas DataFrame. Note that node names must be unique.
@@ -179,7 +179,7 @@ def dataframe_to_dag(
         raise ValueError(f"Child name cannot be empty, check column: {child_col}")
 
     node_dict: Dict[str, T] = dict()
-    _parent_name: Optional[str] = None
+    _parent_name: str | None = None
 
     for row in data.reset_index(drop=True).to_dict(orient="index").values():
         child_name = row[child_col]

@@ -57,8 +57,8 @@ def assemble_attributes(
     _node: T,
     attr_dict: Optional[Mapping[str, str]],
     all_attrs: bool,
-    path_col: Optional[str] = None,
-    name_col: Optional[str] = None,
+    path_col: str | None = None,
+    name_col: str | None = None,
     parent_col: Optional[str | Tuple[str, Any]] = None,
 ) -> Dict[str, Any]:
     """Assemble attributes of node into a dictionary.

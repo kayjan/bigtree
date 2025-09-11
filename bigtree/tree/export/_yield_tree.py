@@ -60,7 +60,7 @@ class BaseYieldTree:
     def __init__(
         self,
         tree: T,
-        node_name_or_path: Optional[str] = None,
+        node_name_or_path: str | None = None,
         max_depth: int = 0,
         style: Union[
             str,
@@ -343,7 +343,7 @@ class VYieldTree(BaseYieldTree):
         self,
         tree: T,
         alias: str = "node_name",
-        node_name_or_path: Optional[str] = None,
+        node_name_or_path: str | None = None,
         max_depth: int = 0,
         intermediate_node_name: bool = True,
         spacing: int = 2,
