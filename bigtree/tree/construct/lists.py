@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import OrderedDict
-from typing import List, Tuple, Type, TypeVar
+from typing import TypeVar
 
 from bigtree.node import node
 from bigtree.tree.construct.dataframes import dataframe_to_tree_by_relation
@@ -24,10 +24,10 @@ T = TypeVar("T", bound=node.Node)
 
 
 def list_to_tree(
-    paths: List[str],
+    paths: list[str],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_type: Type[T] = node.Node,  # type: ignore[assignment]
+    node_type: type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from list of path strings.
 
@@ -85,9 +85,9 @@ def list_to_tree(
 
 @exceptions.optional_dependencies_pandas
 def list_to_tree_by_relation(
-    relations: List[Tuple[str, str]],
+    relations: list[tuple[str, str]],
     allow_duplicates: bool = False,
-    node_type: Type[T] = node.Node,  # type: ignore[assignment]
+    node_type: type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from list of tuple containing parent-child names.
 

@@ -1,4 +1,4 @@
-from typing import Any, Callable, Iterable, List, Tuple, TypeVar, Union
+from typing import Any, Callable, Iterable, TypeVar
 
 from bigtree.node import basenode, dagnode, node
 from bigtree.utils import exceptions, iterators
@@ -27,7 +27,7 @@ DAGNodeT = TypeVar("DAGNodeT", bound=dagnode.DAGNode)
 
 
 def __check_result_count(
-    result: Tuple[Any, ...], min_count: int, max_count: int
+    result: tuple[Any, ...], min_count: int, max_count: int
 ) -> None:
     """Check result fulfil min_count and max_count requirements.
 
@@ -54,7 +54,7 @@ def findall(
     max_depth: int = 0,
     min_count: int = 0,
     max_count: int = 0,
-) -> Tuple[T, ...]:
+) -> tuple[T, ...]:
     """
     Search tree for one or more nodes matching condition (callable function).
 
@@ -209,7 +209,7 @@ def find_relative_paths(
     path_name: str,
     min_count: int = 0,
     max_count: int = 0,
-) -> Tuple[NodeT, ...]:
+) -> tuple[NodeT, ...]:
     r"""
     Search tree for one or more nodes matching relative path attribute.
 
@@ -255,7 +255,7 @@ def find_relative_paths(
     path_name = path_name.rstrip(sep).lstrip(sep)
     path_list = path_name.split(sep)
     wildcard_indicator = "*" in path_name
-    resolved_nodes: List[NodeT] = []
+    resolved_nodes: list[NodeT] = []
 
     def resolve(_node: NodeT, path_idx: int) -> None:
         """Resolve node based on path name.
@@ -455,11 +455,11 @@ def find_attrs(
 
 
 def find_children(
-    tree: Union[T, DAGNodeT],
-    condition: Callable[[Union[T, DAGNodeT]], bool],
+    tree: T | DAGNodeT,
+    condition: Callable[[T | DAGNodeT], bool],
     min_count: int = 0,
     max_count: int = 0,
-) -> Tuple[Union[T, DAGNodeT], ...]:
+) -> tuple[T | DAGNodeT, ...]:
     """
     Search children for one or more nodes matching condition (callable function).
 
@@ -489,9 +489,9 @@ def find_children(
 
 
 def find_child(
-    tree: Union[T, DAGNodeT],
-    condition: Callable[[Union[T, DAGNodeT]], bool],
-) -> Union[T, DAGNodeT]:
+    tree: T | DAGNodeT,
+    condition: Callable[[T | DAGNodeT], bool],
+) -> T | DAGNodeT:
     """
     Search children for a single node matching condition (callable function).
 
@@ -516,9 +516,7 @@ def find_child(
         return result[0]
 
 
-def find_child_by_name(
-    tree: Union[NodeT, DAGNodeT], name: str
-) -> Union[NodeT, DAGNodeT]:
+def find_child_by_name(tree: NodeT | DAGNodeT, name: str) -> NodeT | DAGNodeT:
     """
     Search tree for a single node matching name attribute.
 

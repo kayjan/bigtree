@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Dict, List, Tuple
 
 from bigtree.utils import assertions
 
@@ -47,7 +46,7 @@ class ExportConstants:
     HORIZONTAL_UP_DOUBLE = "\u2569"
     HORIZONTAL_DOWN_DOUBLE = "\u2566"
 
-    BORDER_STYLES: Dict[str, Tuple[str, str, str, str, str, str]] = {
+    BORDER_STYLES: dict[str, tuple[str, str, str, str, str, str]] = {
         "ansi": ("`", "`", "`", "`", "-", "|"),
         "ascii": ("+", "+", "+", "+", "-", "|"),
         "const": (DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT, HORIZONTAL, VERTICAL),
@@ -77,7 +76,7 @@ class ExportConstants:
         ),
     }
 
-    PRINT_STYLES: Dict[str, Tuple[str, str, str]] = {
+    PRINT_STYLES: dict[str, tuple[str, str, str]] = {
         "ansi": ("|   ", "|-- ", "`-- "),
         "ascii": ("|   ", "|-- ", "+-- "),
         "const": (
@@ -102,7 +101,7 @@ class ExportConstants:
         ),
     }
 
-    HPRINT_STYLES: Dict[str, Tuple[str, str, str, str, str, str, str]] = {
+    HPRINT_STYLES: dict[str, tuple[str, str, str, str, str, str, str]] = {
         "ansi": ("/", "+", "+", "+", "\\", "|", "-"),
         "ascii": ("+", "+", "+", "+", "+", "|", "-"),
         "const": (
@@ -143,7 +142,7 @@ class ExportConstants:
         ),
     }
 
-    VPRINT_STYLES: Dict[str, Tuple[str, str, str, str, str, str, str]] = {
+    VPRINT_STYLES: dict[str, tuple[str, str, str, str, str, str, str]] = {
         "ansi": ("/", "+", "+", "+", "\\", "-", "|"),
         "ascii": ("+", "+", "+", "+", "+", "-", "|"),
         "const": (
@@ -333,9 +332,9 @@ DoubleVPrintStyle = BaseVPrintStyle.from_style("double")
 
 
 class MermaidConstants:
-    THEMES: List[str] = ["default", "neutral", "dark", "forest", "base"]
-    RANK_DIR: List[str] = ["TB", "BT", "LR", "RL"]
-    LINE_SHAPES: List[str] = [
+    THEMES: list[str] = ["default", "neutral", "dark", "forest", "base"]
+    RANK_DIR: list[str] = ["TB", "BT", "LR", "RL"]
+    LINE_SHAPES: list[str] = [
         "basis",
         "bumpX",
         "bumpY",
@@ -349,7 +348,7 @@ class MermaidConstants:
         "stepAfter",
         "stepBefore",
     ]
-    NODE_SHAPES: Dict[str, str] = {
+    NODE_SHAPES: dict[str, str] = {
         "rounded_edge": """("{label}")""",
         "stadium": """(["{label}"])""",
         "subroutine": """[["{label}"]]""",
@@ -364,7 +363,7 @@ class MermaidConstants:
         "trapezoid_alt": """[\\"{label}"/]""",
         "double_circle": """((("{label}")))""",
     }
-    EDGE_ARROWS: Dict[str, str] = {
+    EDGE_ARROWS: dict[str, str] = {
         "normal": "-->",
         "bold": "==>",
         "dotted": "-.->",
@@ -397,7 +396,7 @@ class NewickCharacter(str, Enum):
     NODE_SEP = ","
 
     @classmethod
-    def values(cls) -> List[str]:
+    def values(cls) -> list[str]:
         return [c.value for c in cls]
 
 

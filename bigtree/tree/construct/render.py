@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 from bigtree.node import node
 
@@ -27,8 +27,8 @@ class DragDropTree(ttk.Treeview):
         self.bind("<ButtonRelease-1>", self.on_button_release)
         self.tag_configure("highlight", background="lightblue")
 
-        self._dragging_item: Optional[str] = None
-        self._drop_target: Optional[str] = None
+        self._dragging_item: str | None = None
+        self._drop_target: str | None = None
 
     def on_button_press(self, event: TkEvent) -> None:
         """Assign dragging item to pressed object"""

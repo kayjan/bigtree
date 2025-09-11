@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional, TypeVar
+from typing import Any, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.export.stdout import yield_tree
@@ -25,12 +25,12 @@ T = TypeVar("T", bound=node.Node)
 def tree_to_vis(
     tree: T,
     alias: str = "node_name",
-    plot_kwargs: Optional[Dict[str, Any]] = None,
-    custom_node_kwargs: Optional[Dict[str, str]] = None,
-    node_kwargs: Optional[Dict[str, Any]] = None,
-    custom_edge_kwargs: Optional[Dict[str, str]] = None,
-    edge_kwargs: Optional[Dict[str, Any]] = None,
-    network_kwargs: Optional[Dict[str, Any]] = None,
+    plot_kwargs: dict[str, Any] | None = None,
+    custom_node_kwargs: dict[str, str] | None = None,
+    node_kwargs: dict[str, Any] | None = None,
+    custom_edge_kwargs: dict[str, str] | None = None,
+    edge_kwargs: dict[str, Any] | None = None,
+    network_kwargs: dict[str, Any] | None = None,
     **kwargs: Any,
 ) -> pyvis.network.Network:
     """Export tree to pyvis for visualisations.

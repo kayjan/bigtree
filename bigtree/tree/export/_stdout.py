@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Optional, TypeVar, Union
+from typing import TypeVar
 
 from bigtree.node import node
 from bigtree.utils.constants import BaseHPrintStyle, BaseVPrintStyle, BorderStyle
@@ -35,11 +35,11 @@ def format_node(
     _node: T,
     alias: str = "node_name",
     intermediate_node_name: bool = True,
-    style: Union[BaseHPrintStyle, BaseVPrintStyle] = default_vstyle,
-    border_style: Optional[BorderStyle] = None,
+    style: BaseHPrintStyle | BaseVPrintStyle = default_vstyle,
+    border_style: BorderStyle | None = None,
     min_width: int = 0,
     add_buffer: bool = True,
-) -> List[str]:
+) -> list[str]:
     """Format node to be same width, able to customise whether to add border.
 
     Args:
@@ -72,7 +72,7 @@ def format_node(
     )
     height = len(node_title_lines)
 
-    node_display_lines: List[str] = []
+    node_display_lines: list[str] = []
     if border_style:
         width += 2
         node_display_lines.append(
@@ -136,7 +136,7 @@ def format_node(
     return node_display_lines
 
 
-def horizontal_join(node_displays: List[List[str]], spacing: int = 0) -> List[str]:
+def horizontal_join(node_displays: list[list[str]], spacing: int = 0) -> list[str]:
     """Horizontally join multiple node displays, for displaying tree vertically.
 
     Args:
@@ -166,7 +166,7 @@ def horizontal_join(node_displays: List[List[str]], spacing: int = 0) -> List[st
     return [row_display[k] for k in sorted(row_display)]
 
 
-def vertical_join(node_displays: List[List[str]]) -> List[str]:
+def vertical_join(node_displays: list[list[str]]) -> list[str]:
     """Vertically join multiple node displays, for displaying tree horizontally.
 
     Args:

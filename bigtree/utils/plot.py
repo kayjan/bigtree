@@ -1,4 +1,4 @@
-from typing import Any, Optional, TypeVar
+from typing import Any, TypeVar
 
 from bigtree.node import basenode
 from bigtree.utils import exceptions, iterators
@@ -91,7 +91,7 @@ def reingold_tilford(
 
 @exceptions.optional_dependencies_matplotlib
 def plot_tree(
-    tree_node: T, *args: Any, ax: Optional[plt.Axes] = None, **kwargs: Any
+    tree_node: T, *args: Any, ax: plt.Axes | None = None, **kwargs: Any
 ) -> plt.Figure:
     """Plot tree in line form. Tree should have `x` and `y` attribute from Reingold Tilford. Accepts existing
     matplotlib Axes. Accepts args and kwargs for matplotlib.pyplot.plot() function.
@@ -346,9 +346,9 @@ def _second_pass(
     x_offset: float,
     y_offset: float,
     reverse: bool,
-    cum_mod: Optional[float] = 0.0,
-    max_depth: Optional[int] = None,
-    x_adjustment: Optional[float] = 0.0,
+    cum_mod: float | None = 0.0,
+    max_depth: int | None = None,
+    x_adjustment: float | None = 0.0,
 ) -> float:
     """
     Performs pre-order traversal of tree and determines the final `x` and `y` values for each node. Modifies tree in-place.

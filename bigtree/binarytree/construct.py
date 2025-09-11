@@ -1,4 +1,4 @@
-from typing import Sequence, Type, TypeVar
+from typing import Sequence, TypeVar
 
 from bigtree.node import binarynode
 from bigtree.utils import assertions
@@ -10,7 +10,7 @@ T = TypeVar("T", bound=binarynode.BinaryNode)
 
 def list_to_binarytree(
     heapq_list: Sequence[int],
-    node_type: Type[T] = binarynode.BinaryNode,  # type: ignore[assignment]
+    node_type: type[T] = binarynode.BinaryNode,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from a list of numbers (int or float) in heapq format.
 

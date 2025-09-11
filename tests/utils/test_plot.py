@@ -1,5 +1,5 @@
 import unittest
-from typing import Any, List
+from typing import Any
 
 import matplotlib.pyplot as plt
 import pytest
@@ -856,7 +856,7 @@ class TestPlotTreeCumulativeShift(unittest.TestCase):
         assert_x_y_coordinate(self.root, expected, approx=True)
 
 
-def assert_x_y_coordinate(tree: node.Node, expected: List[Any], approx: bool = False):
+def assert_x_y_coordinate(tree: node.Node, expected: list[Any], approx: bool = False):
     actual = [
         (
             _node.node_name,
@@ -874,7 +874,7 @@ def assert_x_y_coordinate(tree: node.Node, expected: List[Any], approx: bool = F
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
 
-def assert_x_mod_shift(tree: node.Node, expected: List[Any], approx: bool = False):
+def assert_x_mod_shift(tree: node.Node, expected: list[Any], approx: bool = False):
     actual = [
         (
             _node.node_name,
