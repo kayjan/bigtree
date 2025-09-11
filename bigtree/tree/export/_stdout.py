@@ -14,6 +14,8 @@ __all__ = [
 
 T = TypeVar("T", bound=node.Node)
 
+default_vstyle = BaseVPrintStyle.from_style("const")
+
 
 def calculate_stem_pos(length: int) -> int:
     """Calculate stem position based on length.
@@ -33,9 +35,7 @@ def format_node(
     _node: T,
     alias: str = "node_name",
     intermediate_node_name: bool = True,
-    style: Union[BaseHPrintStyle, BaseVPrintStyle] = BaseVPrintStyle.from_style(
-        "const"
-    ),
+    style: Union[BaseHPrintStyle, BaseVPrintStyle] = default_vstyle,
     border_style: Optional[BorderStyle] = None,
     min_width: int = 0,
     add_buffer: bool = True,

@@ -1283,7 +1283,7 @@ def copy_or_shift_logic(
         path.rstrip(sep).replace(sep, tree_sep) if path else None for path in to_paths
     ]
 
-    for from_path, to_path in zip(from_paths, to_paths):
+    for from_path, to_path in zip(from_paths, to_paths, strict=True):
         if to_path:
             if from_path.split(tree.sep)[-1] != to_path.split(tree_sep)[-1]:
                 raise ValueError(
@@ -1316,7 +1316,7 @@ def copy_or_shift_logic(
         )
 
     # Perform shifting/copying
-    for from_path, to_path in zip(from_paths, to_paths):
+    for from_path, to_path in zip(from_paths, to_paths, strict=True):
         if with_full_path:
             from_node = search.find_full_path(tree, from_path)
         else:
@@ -1556,7 +1556,7 @@ def replace_logic(
         )
 
     # Perform shifting/copying to replace destination node
-    for from_path, to_path in zip(from_paths, to_paths):
+    for from_path, to_path in zip(from_paths, to_paths, strict=True):
         if with_full_path:
             from_node = search.find_full_path(tree, from_path)
         else:

@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "bigtree"
 description = "Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = {text = "MIT"}
 keywords = [
   "tree",
@@ -18,8 +18,6 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -78,6 +76,7 @@ dependencies = [
   "pytest-cov",
   "pytest-benchmark[histogram]",
   "pyvis",
+  "ruff",
 ]
 
 [tool.hatch.envs.default.scripts]
@@ -88,6 +87,8 @@ test = "pytest . {args}"
 lint = "black -l 88 ."
 sort = "isort --profile black ."
 mypy-type = "mypy bigtree"
+ruff-check = "ruff check ."
+ruff-fix = "ruff check . --fix"
 
 [tool.hatch.envs.docs]
 dependencies = [
@@ -119,6 +120,7 @@ dependencies = [
   "mdx_truly_sane_lists==1.3",
   "mkdocstrings[python]>=0.25.0",
   "requests",
+  "ruff",
   "termynal==0.11.1",
 ]
 
@@ -131,7 +133,7 @@ serve = "refresh-js && mkdocs serve"
 deploy = "mkdocs gh-deploy"
 
 [[tool.hatch.envs.test.matrix]]
-python = ["37", "38", "39", "310", "311"]
+python = ["310", "311", "312", "313"]
 
 [tool.coverage.run]
 branch = true
@@ -165,3 +167,22 @@ strict = true
 strict_optional = false
 warn_no_return = false
 disallow_untyped_calls = false
+
+[tool.ruff]
+line-length = 88
+target-version = "py38"
+select = ["B", "E", "F", "I", "N", "UP", "W"]
+ignore = [
+  "E501", # line too long
+  "E741",  # ambiguous variable name
+  "F401",  # imported but not used / explicit reexport
+  "N802",  # function should be lowercase
+  "UP006",  # type annotation use object instead of typing
+  "UP007",  # use | instead of Union
+  "UP015",  # unnecessry mode argument for open
+  "UP035",  # typing.List is deprecated
+  "UP037",  # Remove quotes from type annotation
+  "UP045",  # use | instead of Optional
+]
+include = ["*.py", "*.pyi"]
+exclude = ["dist", "docs*", "tests"]

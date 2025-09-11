@@ -255,7 +255,7 @@ class HYieldTree(BaseYieldTree):
 
         result_children, result_idx = [], []
         cumulative_height = 0
-        for idx, child in enumerate(children):
+        for child in children:
             result_child, result_branch_idx = self.recursive(child, _cur_depth + 1)
             result_idx.append(cumulative_height + result_branch_idx)
             cumulative_height += len(result_child)
@@ -296,7 +296,7 @@ class HYieldTree(BaseYieldTree):
             line_prefix = space * (first + 1)
             line = space * first + style_class.FIRST_CHILD
             line_suffix = space * first + style_class.BRANCH
-            for idx, (bef, aft) in enumerate(zip(result_idx, result_idx[1:])):
+            for bef, aft in zip(result_idx, result_idx[1:], strict=False):
                 line_prefix += space * (aft - bef)
                 line += (
                     style_class.STEM * (aft - bef - 1) + style_class.SUBSEQUENT_CHILD
@@ -402,7 +402,7 @@ class VYieldTree(BaseYieldTree):
 
         result_children, result_idx = [], []
         cumulative_width = 0
-        for idx, child in enumerate(children):
+        for child in children:
             result_child, result_branch_idx = self.recursive(child)
             result_idx.append(cumulative_width + result_branch_idx)
             cumulative_width += len(result_child[0]) + self.spacing
@@ -424,7 +424,7 @@ class VYieldTree(BaseYieldTree):
             line = space * first + style_class.BRANCH + space * (total - first - 1)
         else:
             line = space * first + style_class.FIRST_CHILD
-            for idx, (bef, aft) in enumerate(zip(result_idx, result_idx[1:])):
+            for bef, aft in zip(result_idx, result_idx[1:], strict=False):
                 line += style_class.STEM * (aft - bef - 1)
                 line += style_class.SUBSEQUENT_CHILD
             line = line[:-1] + style_class.LAST_CHILD

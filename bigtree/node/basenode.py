@@ -239,7 +239,7 @@ class BaseNode:
             self.__parent = current_parent
             if current_child_idx is not None:
                 current_parent.__children.insert(current_child_idx, self)
-            raise exceptions.TreeError(exc_info)
+            raise exceptions.TreeError(exc_info) from None
 
     def __pre_assign_parent(self, new_parent: T) -> None:
         """Custom method to check before attaching parent. Can be overridden with `_BaseNode__pre_assign_parent()`.
@@ -386,7 +386,7 @@ class BaseNode:
             self.__children = current_children
             for child in current_children:
                 child.__parent = self
-            raise exceptions.TreeError(exc_info)
+            raise exceptions.TreeError(exc_info) from None
 
     @children.deleter
     def children(self) -> None:
