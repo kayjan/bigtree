@@ -183,6 +183,5 @@ ignore = [
   "N802",  # function should be lowercase
   "UP006",  # type annotation use object instead of typing
   "UP015",  # unnecessry mode argument for open
-  "UP035",  # typing.List is deprecated
   "UP037",  # Remove quotes from type annotation
 ]
