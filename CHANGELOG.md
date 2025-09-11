@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed:
+- General: Remove support for Python 3.8, 3.9.
 - Docs: Enhanced docs.
 - Docs: Add ruff.
 
