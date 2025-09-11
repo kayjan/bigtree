@@ -19,7 +19,10 @@ repos:
     hooks:
       - id: ruff
         args: [--fix]
-      - id: ruff-format
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.10.0
     hooks:
