@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any, List
+from typing import Any
 
 from bigtree.node import node
 from bigtree.tree import construct, export, search
@@ -125,7 +125,7 @@ class AppToDo:
         self._root.children = current_children  # type: ignore
 
     def add_item(
-        self, item_name: str | List[str], list_name: str = "", **kwargs: Any
+        self, item_name: str | list[str], list_name: str = "", **kwargs: Any
     ) -> None:
         """Add items to list.
 
@@ -149,7 +149,7 @@ class AppToDo:
             _ = node.Node(_item, parent=list_node, **kwargs)
         logging.info(f"Created item(s) {', '.join(item_name)}")
 
-    def remove_item(self, item_name: str | List[str], list_name: str = "") -> None:
+    def remove_item(self, item_name: str | list[str], list_name: str = "") -> None:
         """Remove items from list.
 
         Args:

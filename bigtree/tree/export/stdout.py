@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Collection, Iterable, List, Tuple, TypeVar
+from typing import Any, Collection, Iterable, TypeVar
 
 from bigtree.node import node
 from bigtree.utils import common, constants
@@ -38,12 +38,12 @@ def print_tree(
     - Able to choose which attributes to show or show all attributes, using `all_attrs` and `attr_list`
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
     - Able to customise open and close brackets if attributes are shown, using `attr_bracket`
-    - Able to customise style, to choose from str, List[str], or inherit from constants.BasePrintStyle, using `style`
+    - Able to customise style, to choose from str, list[str], or inherit from constants.BasePrintStyle, using `style`
 
     For style,
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
-    - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
+    - (list[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
     - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`,
         `RoundedPrintStyle`, `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
 
@@ -222,17 +222,17 @@ def yield_tree(
     node_name_or_path: str | None = None,
     max_depth: int = 0,
     style: str | Iterable[str] | constants.BasePrintStyle = "const",
-) -> Iterable[Tuple[str, str, T]]:
+) -> Iterable[tuple[str, str, T]]:
     """Generator method for customizing printing of tree, starting from `tree`.
 
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customise for maximum depth to print, using `max_depth`
-    - Able to customise style, to choose from str, List[str], or inherit from constants.BasePrintStyle, using `style`
+    - Able to customise style, to choose from str, list[str], or inherit from constants.BasePrintStyle, using `style`
 
     For style,
 
     - (str): `ansi`, `ascii`, `const` (default), `const_bold`, `rounded`, `double` style
-    - (List[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
+    - (list[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
     - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`,
         `RoundedPrintStyle`, `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
 
@@ -531,7 +531,7 @@ def hyield_tree(
     style: str | Iterable[str] | constants.BaseHPrintStyle = "const",
     border_style: str | Iterable[str] | constants.BorderStyle | None = None,
     strip: bool = True,
-) -> List[str]:
+) -> list[str]:
     """Yield tree in horizontal orientation to console, starting from `tree`.
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`
@@ -916,7 +916,7 @@ def vyield_tree(
     style: str | Iterable[str] | constants.BaseVPrintStyle = "const",
     border_style: str | Iterable[str] | constants.BorderStyle | None = "const",
     strip: bool = False,
-) -> List[str]:
+) -> list[str]:
     """Yield tree in vertical orientation to console, starting from `tree`.
 
     - Able to have alias for node name if alias attribute is present, else it falls back to node_name, using `alias`

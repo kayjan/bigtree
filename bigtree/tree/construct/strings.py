@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from typing import Any, Dict, Iterable, List, Mapping, Tuple, Type, TypeVar
+from typing import Any, Iterable, Mapping, TypeVar
 
 from bigtree.node import node
 from bigtree.tree import search
@@ -105,7 +105,7 @@ def add_path_to_tree(
 def str_to_tree(
     tree_string: str,
     tree_prefix_list: Iterable[str] = (),
-    node_type: Type[T] = node.Node,  # type: ignore[assignment]
+    node_type: type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     r"""Construct tree from tree string.
 
@@ -183,7 +183,7 @@ def newick_to_tree(
     tree_string: str,
     length_attr: str = "length",
     attr_prefix: str = "&&NHX:",
-    node_type: Type[T] = node.Node,  # type: ignore[assignment]
+    node_type: type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from Newick notation, return root of tree.
 
@@ -241,7 +241,7 @@ def newick_to_tree(
     assertions.assert_length_not_empty(tree_string, "Tree string", "tree_string")
 
     # Store results (for tracking)
-    depth_nodes: Dict[int, List[T]] = defaultdict(list)
+    depth_nodes: dict[int, list[T]] = defaultdict(list)
     unlabelled_node_counter: int = 0
     current_depth: int = 1
     tree_string_idx: int = 0
@@ -256,9 +256,9 @@ def newick_to_tree(
         _new_node: T | None,
         _cumulative_string: str,
         _unlabelled_node_counter: int,
-        _depth_nodes: Dict[int, List[T]],
+        _depth_nodes: dict[int, list[T]],
         _current_depth: int,
-    ) -> Tuple[T, int]:
+    ) -> tuple[T, int]:
         """Create node at checkpoint.
 
         Args:
@@ -316,9 +316,9 @@ def newick_to_tree(
                 _raise_value_error(tree_string_idx)
             if cumulative_string:
                 _raise_value_error(tree_string_idx)
-            assert not cumulative_string_value, (
-                f"{state_title}, should not have cumulative_string_value"
-            )
+            assert (
+                not cumulative_string_value
+            ), f"{state_title}, should not have cumulative_string_value"
             tree_string_idx += 1
             continue
 
@@ -354,9 +354,9 @@ def newick_to_tree(
             if character == constants.NewickCharacter.NODE_SEP:
                 current_node = None
             cumulative_string = ""
-            assert not cumulative_string_value, (
-                f"{state_title}, should not have cumulative_string_value"
-            )
+            assert (
+                not cumulative_string_value
+            ), f"{state_title}, should not have cumulative_string_value"
             tree_string_idx += 1
             continue
 
@@ -384,9 +384,9 @@ def newick_to_tree(
             assert current_node, f"{state_title}, should have current_node"
             if not cumulative_string:
                 _raise_value_error(tree_string_idx)
-            assert not cumulative_string_value, (
-                f"{state_title}, should not have cumulative_string_value"
-            )
+            assert (
+                not cumulative_string_value
+            ), f"{state_title}, should not have cumulative_string_value"
             tree_string_idx += 1
             continue
 
@@ -403,12 +403,14 @@ def newick_to_tree(
             ]:
                 if cumulative_string:
                     _raise_value_error(tree_string_idx)
-                cumulative_string = tree_string[tree_string_idx + 1 : quote_end_idx]
+                cumulative_string = tree_string[
+                    tree_string_idx + 1 : quote_end_idx  # noqa: E203
+                ]
             else:
                 if cumulative_string_value:
                     _raise_value_error(tree_string_idx)
                 cumulative_string_value = tree_string[
-                    tree_string_idx + 1 : quote_end_idx
+                    tree_string_idx + 1 : quote_end_idx  # noqa: E203
                 ]
             tree_string_idx = quote_end_idx + 1
             continue
@@ -433,9 +435,9 @@ def newick_to_tree(
                     current_depth,
                 )
                 cumulative_string = ""
-                assert not cumulative_string_value, (
-                    f"{state_title}, should not have cumulative_string_value"
-                )
+                assert (
+                    not cumulative_string_value
+                ), f"{state_title}, should not have cumulative_string_value"
                 tree_string_idx += 1
                 continue
             else:

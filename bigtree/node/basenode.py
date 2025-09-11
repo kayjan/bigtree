@@ -2,17 +2,7 @@ from __future__ import annotations
 
 import copy
 import heapq
-from typing import (
-    Any,
-    Generator,
-    Iterable,
-    List,
-    Mapping,
-    Optional,
-    Set,
-    Tuple,
-    TypeVar,
-)
+from typing import Any, Generator, Iterable, Mapping, TypeVar
 
 from bigtree.globals import ASSERTIONS
 from bigtree.utils import exceptions, iterators
@@ -126,7 +116,7 @@ class BaseNode:
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
     4. ``go_to(node: Self)``: Get a path from own node to another node from same tree
     5. ``append(node: Self)``: Add child to node
-    6. ``extend(nodes: List[Self])``: Add multiple children to node
+    6. ``extend(nodes: list[Self])``: Add multiple children to node
     7. ``copy()``: Deep copy self
     8. ``sort()``: Sort child nodes
     9. ``plot()``: Plot tree in line form
@@ -139,11 +129,11 @@ class BaseNode:
     def __init__(
         self,
         parent: T | None = None,
-        children: List[T] | None = None,
+        children: list[T] | None = None,
         **kwargs: Any,
     ):
         self.__parent: T | None = None
-        self.__children: List[T] = []
+        self.__children: list[T] = []
         if children is None:
             children = []
         self.parent = parent
@@ -330,7 +320,7 @@ class BaseNode:
                 seen_children.append(id(new_child))
 
     @property
-    def children(self: T) -> Tuple[T, ...]:
+    def children(self: T) -> tuple[T, ...]:
         """Get child nodes.
 
         Returns:
@@ -339,7 +329,7 @@ class BaseNode:
         return tuple(self.__children)
 
     @children.setter
-    def children(self: T, new_children: List[T] | Tuple[T] | Set[T]) -> None:
+    def children(self: T, new_children: list[T] | tuple[T] | set[T]) -> None:
         """Set child nodes.
 
         Args:
@@ -594,7 +584,7 @@ class BaseNode:
 
     def describe(
         self, exclude_attributes: Iterable[str] = (), exclude_prefix: str = ""
-    ) -> List[Tuple[str, Any]]:
+    ) -> list[tuple[str, Any]]:
         """Get node information sorted by attribute name, returns list of tuples.
 
         Examples:
@@ -679,7 +669,7 @@ class BaseNode:
         other.parent = self
         return self
 
-    def extend(self: T, others: List[T]) -> T:
+    def extend(self: T, others: list[T]) -> T:
         """Add others as children of self. Can be chained.
 
         Args:
@@ -743,7 +733,7 @@ class BaseNode:
             reingold_tilford(self)
         return plot_tree(self, *args, **kwargs)
 
-    def query(self, query: str, debug: bool = False) -> List[T]:
+    def query(self, query: str, debug: bool = False) -> list[T]:
         """Query tree using Tree Definition Language.
 
         Examples:

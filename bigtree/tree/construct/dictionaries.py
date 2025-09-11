@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, List, Mapping, Optional, Type, TypeVar
+from typing import Any, Mapping, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.construct.strings import add_path_to_tree
@@ -139,7 +139,7 @@ def dict_to_tree(
     path_attrs: Mapping[str, Any],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_type: Type[T] = node.Node,  # type: ignore[assignment]
+    node_type: type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from nested dictionary using path, ``key``: path, ``value``: dict of attribute name and attribute
     value.
@@ -229,7 +229,7 @@ def nested_dict_to_tree(
     node_attrs: Mapping[str, Any],
     name_key: str = "name",
     child_key: str = "children",
-    node_type: Type[T] = node.Node,  # type: ignore[assignment]
+    node_type: type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from nested recursive dictionary.
 
@@ -265,7 +265,7 @@ def nested_dict_to_tree(
         node_attrs: node, children, and node attribute information,
             key: `name_key` and `child_key`
             value of `name_key` (str): node name
-            value of `child_key` (List[Mapping[str, Any]]): list of dict containing `name_key` and `child_key` (recursive)
+            value of `child_key` (list[Mapping[str, Any]]): list of dict containing `name_key` and `child_key` (recursive)
         name_key: key of node name, value is type str
         child_key: key of child list, value is type list
         node_type: node type of tree to be created
@@ -290,7 +290,7 @@ def nested_dict_to_tree(
         child_dict = dict(child_dict)
         node_name = child_dict.pop(name_key)
         node_children = child_dict.pop(child_key, [])
-        if not isinstance(node_children, List):
+        if not isinstance(node_children, list):
             raise TypeError(
                 f"child_key {child_key} should be List type, received {node_children}"
             )
@@ -306,7 +306,7 @@ def nested_dict_to_tree(
 def nested_dict_key_to_tree(
     node_attrs: Mapping[str, Mapping[str, Any]],
     child_key: str | None = "children",
-    node_type: Type[T] = node.Node,  # type: ignore[assignment]
+    node_type: type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
     """Construct tree from nested recursive dictionary, where the keys are node names.
 

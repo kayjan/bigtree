@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Collection, Dict, Optional, Sequence, TypeVar
+from typing import Any, Collection, Sequence, TypeVar
 
 from bigtree.node import node
 from bigtree.tree import construct, search
@@ -125,7 +125,7 @@ def merge_trees(
                     **kwargs,  # type: ignore
                 )
     else:
-        path_attrs: Dict[str, Dict[str, Any]] = {}
+        path_attrs: dict[str, dict[str, Any]] = {}
         for tree in trees:
             tree_attr = dict(tree.describe(exclude_prefix="_"))
             path_attrs[tree.path_name] = {

@@ -1,14 +1,6 @@
 from __future__ import annotations
 
-from typing import (
-    TYPE_CHECKING,
-    Callable,
-    Iterable,
-    List,
-    Tuple,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Callable, Iterable, TypeVar, Union
 
 if TYPE_CHECKING:
     from bigtree.node import basenode, binarynode, dagnode
@@ -249,7 +241,7 @@ def levelorder_iter(
         Iterable of nodes
     """
 
-    def _levelorder_iter(trees: List[BaseNodeT]) -> Iterable[BaseNodeT]:
+    def _levelorder_iter(trees: list[BaseNodeT]) -> Iterable[BaseNodeT]:
         """Iterate through all children of a tree.
 
         Args:
@@ -320,7 +312,7 @@ def levelordergroup_iter(
         List of iterable of nodes
     """
 
-    def _levelordergroup_iter(trees: List[BaseNodeT]) -> Iterable[Iterable[BaseNodeT]]:
+    def _levelordergroup_iter(trees: list[BaseNodeT]) -> Iterable[Iterable[BaseNodeT]]:
         """Iterate through all children of a tree.
 
         Args:
@@ -393,7 +385,7 @@ def zigzag_iter(
     """
 
     def _zigzag_iter(
-        trees: List[BaseNodeT], reverse_indicator: bool = False
+        trees: list[BaseNodeT], reverse_indicator: bool = False
     ) -> Iterable[BaseNodeT]:
         """Iterate through all children of a tree.
 
@@ -473,7 +465,7 @@ def zigzaggroup_iter(
     """
 
     def _zigzaggroup_iter(
-        trees: List[BaseNodeT], reverse_indicator: bool = False
+        trees: list[BaseNodeT], reverse_indicator: bool = False
     ) -> Iterable[Iterable[BaseNodeT]]:
         """Iterate through all children of a tree.
 
@@ -505,7 +497,7 @@ def zigzaggroup_iter(
     yield from _zigzaggroup_iter([tree])
 
 
-def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
+def dag_iterator(dag: DAGNodeT) -> Iterable[tuple[DAGNodeT, DAGNodeT]]:
     """Iterate through all nodes of a Directed Acyclic Graph (DAG). Note that node names must be unique. Note that DAG
     must at least have two nodes to be shown on graph.
 
@@ -532,7 +524,7 @@ def dag_iterator(dag: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
     """
     visited_nodes = set()
 
-    def _dag_iterator(node: DAGNodeT) -> Iterable[Tuple[DAGNodeT, DAGNodeT]]:
+    def _dag_iterator(node: DAGNodeT) -> Iterable[tuple[DAGNodeT, DAGNodeT]]:
         """Iterate through all children of a DAG.
 
         Args:

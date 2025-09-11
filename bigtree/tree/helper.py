@@ -1,4 +1,4 @@
-from typing import Any, Dict, Iterable, List, Optional, Set, Type, TypeVar
+from typing import Any, Iterable, TypeVar
 
 from bigtree.node import basenode, binarynode, node
 from bigtree.tree import construct, export, search
@@ -23,7 +23,7 @@ BinaryNodeT = TypeVar("BinaryNodeT", bound=binarynode.BinaryNode)
 NodeT = TypeVar("NodeT", bound=node.Node)
 
 
-def clone_tree(tree: basenode.BaseNode, node_type: Type[BaseNodeT]) -> BaseNodeT:
+def clone_tree(tree: basenode.BaseNode, node_type: type[BaseNodeT]) -> BaseNodeT:
     """Clone tree to another ``Node`` type. If the same type is needed, simply do a tree.copy().
 
     Examples:
@@ -215,8 +215,8 @@ def prune_tree(
 
     # Prune by path (prune bottom-up)
     if prune_path:
-        ancestors_to_prune: Set[BinaryNodeT | NodeT] = set()
-        nodes_to_prune: Set[BinaryNodeT | NodeT] = set()
+        ancestors_to_prune: set[BinaryNodeT | NodeT] = set()
+        nodes_to_prune: set[BinaryNodeT | NodeT] = set()
         for path in prune_path:
             path = path.replace(sep, tree.sep)
             child = search.find_path(tree_copy, path)
@@ -257,7 +257,7 @@ def get_tree_diff_dataframe(
     only_diff: bool = True,
     detail: bool = False,
     aggregate: bool = False,
-    attr_list: List[str] | None = None,
+    attr_list: list[str] | None = None,
     fallback_sep: str = "/",
     name_col: str = "name",
     path_col: str = "path",
@@ -437,7 +437,7 @@ def get_tree_diff(
     only_diff: bool = True,
     detail: bool = False,
     aggregate: bool = False,
-    attr_list: Optional[Iterable[str]] = None,
+    attr_list: Iterable[str] | None = None,
     fallback_sep: str = "/",
 ) -> node.Node:
     """Get difference of `tree` to `other_tree`, changes are relative to `tree`.
@@ -637,7 +637,7 @@ def get_tree_diff(
     path_to_suffix = dict(zip(data_diff[path_col], data_diff[suffix_col], strict=True))
 
     # Check tree attribute difference
-    path_attr_diff: Dict[str, Dict[str, Any]] = {}
+    path_attr_diff: dict[str, dict[str, Any]] = {}
     if attr_list:
         data_both = data_diff_all[data_diff_all[indicator_col] == "both"]
         condition_attr_diff = (

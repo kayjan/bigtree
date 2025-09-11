@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Collection, Dict, Mapping, Tuple, TypeVar, Union
+from typing import Any, Collection, Mapping, TypeVar, Union
 
 from bigtree.node import dagnode, node
 
@@ -33,7 +33,7 @@ def filter_attributes(
     node_attributes: Mapping[str, Any],
     omit_keys: Collection[str],
     omit_null_values: bool,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Filter node attributes to remove certain keys and/or values.
 
     Args:
@@ -59,8 +59,8 @@ def assemble_attributes(
     all_attrs: bool,
     path_col: str | None = None,
     name_col: str | None = None,
-    parent_col: str | Tuple[str, Any] | None = None,
-) -> Dict[str, Any]:
+    parent_col: str | tuple[str, Any] | None = None,
+) -> dict[str, Any]:
     """Assemble attributes of node into a dictionary.
 
     Args:

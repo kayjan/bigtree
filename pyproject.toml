@@ -181,7 +181,6 @@ ignore = [
   "E741",  # ambiguous variable name
   "F401",  # imported but not used / explicit reexport
   "N802",  # function should be lowercase
-  "UP006",  # type annotation use object instead of typing
   "UP015",  # unnecessry mode argument for open
   "UP037",  # Remove quotes from type annotation
 ]

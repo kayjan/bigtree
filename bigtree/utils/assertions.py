@@ -1,15 +1,6 @@
 from __future__ import annotations
 
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Collection,
-    Iterable,
-    List,
-    Mapping,
-    Sequence,
-    Type,
-)
+from typing import TYPE_CHECKING, Any, Collection, Iterable, Mapping, Sequence
 
 try:
     import pandas as pd
@@ -163,7 +154,7 @@ def assert_dataframe_no_duplicate_attribute(
     data: pd.DataFrame | pl.DataFrame,
     id_type: str,
     id_col: str,
-    attribute_cols: List[str],
+    attribute_cols: list[str],
 ) -> None:
     """Raise ValueError is dataframe contains different attributes for same path.
 
@@ -234,7 +225,7 @@ def assert_dataframe_no_duplicate_children(
 
 def assert_tree_type(
     tree: BaseNode | Node | DAGNode,
-    tree_type: Type[BaseNode] | Type[Node] | Type[DAGNode],
+    tree_type: type[BaseNode] | type[Node] | type[DAGNode],
     tree_type_name: str,
 ) -> None:
     """Raise TypeError is tree is not of `tree_type`.

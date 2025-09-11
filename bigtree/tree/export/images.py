@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import collections
 import re
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, TypeVar
+from typing import Any, Callable, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.export.stdout import yield_tree
@@ -44,15 +44,15 @@ T = TypeVar("T", bound=node.Node)
 
 @exceptions.optional_dependencies_image("pydot")
 def tree_to_dot(
-    tree: T | List[T],
+    tree: T | list[T],
     directed: bool = True,
     rankdir: str = "TB",
     bg_colour: str | None = None,
     node_colour: str | None = None,
     node_shape: str | None = None,
     edge_colour: str | None = None,
-    node_attr: Callable[[T], Dict[str, Any]] | str | None = None,
-    edge_attr: Callable[[T], Dict[str, Any]] | str | None = None,
+    node_attr: Callable[[T], dict[str, Any]] | str | None = None,
+    edge_attr: Callable[[T], dict[str, Any]] | str | None = None,
 ) -> pydot.Dot:
     r"""Export tree(s) to pydot.Dot object. Object can be converted to other format, such as png, dot file or dot string.
     Dot string can be imported to work with networkx.
@@ -173,12 +173,12 @@ def tree_to_dot(
     for _tree in tree:
         assertions.assert_tree_type(_tree, node.Node, "Node")
 
-        name_dict: Dict[str, List[str]] = collections.defaultdict(list)
+        name_dict: dict[str, list[str]] = collections.defaultdict(list)
 
         def _recursive_append(
             parent_name: str | None,
             child_node: T,
-            _name_dict: Dict[str, List[str]] = name_dict,
+            _name_dict: dict[str, list[str]] = name_dict,
         ) -> None:
             """Recursively iterate through node and its children to export to dot by creating node and edges.
 
@@ -243,18 +243,18 @@ def tree_to_pillow_graph(
     tree: T,
     node_content: str = "{node_name}",
     *,
-    margin: Dict[str, int] | None = None,
+    margin: dict[str, int] | None = None,
     height_buffer: int | float = 20,
     width_buffer: int | float = 10,
     font_family: str | None = None,
     font_size: int = 12,
-    font_colour: Tuple[int, int, int] | str = "black",
+    font_colour: tuple[int, int, int] | str = "black",
     text_align: str = "center",
-    bg_colour: Tuple[int, int, int] | str = "white",
-    rect_margin: Dict[str, int] | None = None,
-    rect_fill: Tuple[int, int, int] | str | mpl.colors.Colormap = "white",
+    bg_colour: tuple[int, int, int] | str = "white",
+    rect_margin: dict[str, int] | None = None,
+    rect_fill: tuple[int, int, int] | str | mpl.colors.Colormap = "white",
     rect_cmap_attr: str | None = None,
-    rect_outline: Tuple[int, int, int] | str = "black",
+    rect_outline: tuple[int, int, int] | str = "black",
     rect_width: int = 1,
     **kwargs: Any,
 ) -> Image.Image:
@@ -334,7 +334,7 @@ def tree_to_pillow_graph(
             )
         return _node_content
 
-    cmap_range: Set[float | int] = set()
+    cmap_range: set[float | int] = set()
     for _, _, _node in yield_tree(tree, **kwargs):
         l, t, r, b = _draw.multiline_textbbox(
             (0, 0), get_node_text(_node, node_content), font=font
@@ -438,11 +438,11 @@ def tree_to_pillow(
     tree: T,
     width: int = 0,
     height: int = 0,
-    start_pos: Tuple[int, int] = (10, 10),
+    start_pos: tuple[int, int] = (10, 10),
     font_family: str | None = None,
     font_size: int = 12,
-    font_colour: Tuple[int, int, int] | str = "black",
-    bg_colour: Tuple[int, int, int] | str = "white",
+    font_colour: tuple[int, int, int] | str = "black",
+    bg_colour: tuple[int, int, int] | str = "white",
     **kwargs: Any,
 ) -> Image.Image:
     """Export tree to PIL.Image.Image object. Object can be converted to other formats, such as jpg, or png. Image will
@@ -487,8 +487,8 @@ def tree_to_pillow(
 
     # Calculate image dimension from text, otherwise override with argument
     def get_list_of_text_dimensions(
-        text_lines: List[str],
-    ) -> List[Tuple[int, int, int, int]]:
+        text_lines: list[str],
+    ) -> list[tuple[int, int, int, int]]:
         """Get list dimensions.
 
         Args:

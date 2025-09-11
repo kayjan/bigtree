@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import Counter
-from typing import Any, List, TypeVar
+from typing import Any, TypeVar
 
 from bigtree.node import basenode
 from bigtree.utils import exceptions
@@ -126,16 +126,16 @@ class Node(basenode.BaseNode):
         sep = ancestors[-1].sep
         return sep + sep.join([str(node.node_name) for node in reversed(ancestors)])
 
-    def __pre_assign_children(self: T, new_children: List[T]) -> None:
+    def __pre_assign_children(self: T, new_children: list[T]) -> None:
         """Custom method to check before attaching children
         Can be overridden with `_Node__pre_assign_children()`
 
         Args:
-            new_children (List[Self]): new children to be added
+            new_children (list[Self]): new children to be added
         """
         pass
 
-    def __post_assign_children(self: T, new_children: List[T]) -> None:
+    def __post_assign_children(self: T, new_children: list[T]) -> None:
         """Custom method to check after attaching children. Can be overridden with `_Node__post_assign_children()`.
 
         Args:
@@ -184,7 +184,7 @@ class Node(basenode.BaseNode):
         """
         self.__post_assign_parent(new_parent)
 
-    def _BaseNode__pre_assign_children(self: T, new_children: List[T]) -> None:
+    def _BaseNode__pre_assign_children(self: T, new_children: list[T]) -> None:
         """Do not allow duplicate nodes of same path.
 
         Args:
@@ -204,7 +204,7 @@ class Node(basenode.BaseNode):
                 f"Attempting to add nodes with same path {duplicate_names_str}"
             )
 
-    def _BaseNode__post_assign_children(self: T, new_children: List[T]) -> None:
+    def _BaseNode__post_assign_children(self: T, new_children: list[T]) -> None:
         """No rules.
 
         Args:

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, List, Tuple, TypeVar
+from typing import Any, TypeVar
 
 from bigtree.globals import ASSERTIONS
 from bigtree.node import node
@@ -66,7 +66,7 @@ class BinaryNode(node.Node):
         left: T | None = None,
         right: T | None = None,
         parent: T | None = None,
-        children: List[T | None] | None = None,
+        children: list[T | None] | None = None,
         **kwargs: Any,
     ):
         try:
@@ -76,7 +76,7 @@ class BinaryNode(node.Node):
         self.name = str(name)
         self._sep = "/"
         self.__parent: T | None = None
-        self.__children: List[T | None] = [None, None]
+        self.__children: list[T | None] = [None, None]
         if not children:
             children = []
         if len(children):
@@ -230,7 +230,7 @@ class BinaryNode(node.Node):
         """
         pass
 
-    def __check_children_type(self: T, new_children: List[T | None]) -> List[T | None]:
+    def __check_children_type(self: T, new_children: list[T | None]) -> list[T | None]:
         """Check child type.
 
         Args:
@@ -245,7 +245,7 @@ class BinaryNode(node.Node):
             raise ValueError("Children input must have length 2")
         return new_children
 
-    def __check_children_loop(self: T, new_children: List[T | None]) -> None:
+    def __check_children_loop(self: T, new_children: list[T | None]) -> None:
         """Check child loop.
 
         Args:
@@ -279,7 +279,7 @@ class BinaryNode(node.Node):
                     seen_children.append(id(new_child))
 
     @property
-    def children(self: T) -> Tuple[T, ...]:
+    def children(self: T) -> tuple[T, ...]:
         """Get child nodes.
 
         Returns:
@@ -288,7 +288,7 @@ class BinaryNode(node.Node):
         return tuple(self.__children)
 
     @children.setter
-    def children(self: T, _new_children: List[T | None]) -> None:
+    def children(self: T, _new_children: list[T | None]) -> None:
         """Set child nodes.
 
         Args:
@@ -353,7 +353,7 @@ class BinaryNode(node.Node):
                 child.parent.__children.remove(child)  # type: ignore
                 child.__parent = None
 
-    def __pre_assign_children(self: T, new_children: List[T | None]) -> None:
+    def __pre_assign_children(self: T, new_children: list[T | None]) -> None:
         """Custom method to check before attaching children. Can be overridden with `_BinaryNode__pre_assign_children()`.
 
         Args:
@@ -361,7 +361,7 @@ class BinaryNode(node.Node):
         """
         pass
 
-    def __post_assign_children(self: T, new_children: List[T | None]) -> None:
+    def __post_assign_children(self: T, new_children: list[T | None]) -> None:
         """Custom method to check after attaching children. Can be overridden with `_BinaryNode__post_assign_children()`.
 
         Args:

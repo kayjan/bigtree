@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Mapping, Tuple, TypeVar
+from typing import Any, Mapping, TypeVar
 
 from bigtree.node import dagnode
 from bigtree.utils import assertions, common, exceptions, iterators
@@ -27,7 +27,7 @@ T = TypeVar("T", bound=dagnode.DAGNode)
 
 def dag_to_list(
     dag: T,
-) -> List[Tuple[str, str]]:
+) -> list[tuple[str, str]]:
     """Export DAG to list of tuples containing parent-child names.
 
     Examples:
@@ -57,7 +57,7 @@ def dag_to_dict(
     parent_key: str = "parents",
     attr_dict: Mapping[str, str] | None = None,
     all_attrs: bool = False,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Export DAG to dictionary. Exported dictionary will have key as child name, and values as a dictionary of parent
     names and node attributes.
 
@@ -139,7 +139,7 @@ def dag_to_dataframe(
         pandas DataFrame of DAG information
     """
     dag = dag.copy()
-    data_list: List[Dict[str, Any]] = []
+    data_list: list[dict[str, Any]] = []
 
     for parent_node, child_node in iterators.dag_iterator(dag):
         if parent_node.is_root:
@@ -165,7 +165,7 @@ def dag_to_dataframe(
 
 @exceptions.optional_dependencies_image("pydot")
 def dag_to_dot(
-    dag: T | List[T],
+    dag: T | list[T],
     rankdir: str = "TB",
     bg_colour: str | None = None,
     node_colour: str | None = None,

@@ -1,5 +1,5 @@
 import collections
-from typing import Iterable, List, Optional, Tuple, Type, TypeVar, Union
+from typing import Iterable, TypeVar, Union
 
 from bigtree.node import node
 from bigtree.tree.export._stdout import (
@@ -30,7 +30,7 @@ TStyle = TypeVar(
 
 
 def _get_style_class(
-    base_style: Type[TStyle],
+    base_style: type[TStyle],
     style: str | Iterable[str] | TStyle,
     param_name: str,
 ) -> TStyle:
@@ -80,13 +80,13 @@ class BaseYieldTree:
             style: style of print
             border_style: style of border
         """
-        self._style_class: Type[constants.BaseStyle]
+        self._style_class: type[constants.BaseStyle]
         if node_name_or_path or max_depth:
             tree = get_subtree(tree, node_name_or_path, max_depth)
 
         # Set style
         style_class = _get_style_class(self._style_class, style, "style")
-        border_style_class: Optional[constants.BorderStyle] = None
+        border_style_class: constants.BorderStyle | None = None
         if border_style:
             border_style_class = _get_style_class(
                 constants.BorderStyle, border_style, "border_style"
@@ -97,7 +97,7 @@ class BaseYieldTree:
         self.border_style_class = border_style_class
         self.space = " "
 
-    def yield_tree(self, strip: bool) -> List[str] | Iterable[Tuple[str, str, T]]:
+    def yield_tree(self, strip: bool) -> list[str] | Iterable[tuple[str, str, T]]:
         """Yield tree.
 
         Args:
@@ -129,7 +129,7 @@ class YieldTree(BaseYieldTree):
         super().__init__(tree, node_name_or_path, max_depth, style, None)
         self.style_class: constants.BasePrintStyle
 
-    def yield_tree(self, strip: bool = True) -> Iterable[Tuple[str, str, T]]:
+    def yield_tree(self, strip: bool = True) -> Iterable[tuple[str, str, T]]:
         """Yield tree.
 
         Args:
@@ -221,7 +221,7 @@ class HYieldTree(BaseYieldTree):
         self.intermediate_node_name = intermediate_node_name
         self.spacing = spacing
 
-    def recursive(self, _node: T | node.Node, _cur_depth: int) -> Tuple[List[str], int]:
+    def recursive(self, _node: T | node.Node, _cur_depth: int) -> tuple[list[str], int]:
         """Get string for tree horizontally. Recursively iterate the nodes in post-order traversal manner.
 
         Args:
@@ -323,7 +323,7 @@ class HYieldTree(BaseYieldTree):
         )
         return result, mid + line_buffer
 
-    def yield_tree(self, strip: bool = True) -> List[str]:
+    def yield_tree(self, strip: bool = True) -> list[str]:
         """Yield tree.
 
         Args:
@@ -369,7 +369,7 @@ class VYieldTree(BaseYieldTree):
         self.intermediate_node_name = intermediate_node_name
         self.spacing = spacing
 
-    def recursive(self, _node: T | node.Node) -> Tuple[List[str], int]:
+    def recursive(self, _node: T | node.Node) -> tuple[list[str], int]:
         """Get string for tree vertically. Recursively iterate the nodes in post-order traversal manner.
 
         Args:
@@ -450,7 +450,7 @@ class VYieldTree(BaseYieldTree):
         )
         return result, mid + line_buffer
 
-    def yield_tree(self, strip: bool = False) -> List[str]:
+    def yield_tree(self, strip: bool = False) -> list[str]:
         """Yield tree.
 
         Args:

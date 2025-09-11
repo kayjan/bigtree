@@ -73,38 +73,38 @@ class QueryTransformer(Transformer):  # type: ignore
     }
 
     @staticmethod
-    def or_clause(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
+    def or_clause(args: list[Callable[[T], bool]]) -> Callable[[T], bool]:
         return lambda node: any(cond(node) for cond in args)
 
     @staticmethod
-    def and_clause(args: List[Callable[[T], bool]]) -> Callable[[T], bool]:
+    def and_clause(args: list[Callable[[T], bool]]) -> Callable[[T], bool]:
         return lambda node: all(cond(node) for cond in args)
 
-    def condition(self, args: List[Token]) -> Callable[[T], bool]:
+    def condition(self, args: list[Token]) -> Callable[[T], bool]:
         attr, op, value = args
         op_func = self.OPERATORS[op]
         return lambda node: op_func(attr(node), value)
 
-    def string_condition(self, args: List[Token]) -> Callable[[T], bool]:
+    def string_condition(self, args: list[Token]) -> Callable[[T], bool]:
         attr, op, value = args
         op_func = self.OPERATORS[op]
         return lambda node: op_func(attr(node) or "", value)
 
-    def between_condition(self, args: List[Token]) -> Callable[[T], bool]:
+    def between_condition(self, args: list[Token]) -> Callable[[T], bool]:
         attr, op, value_from, value_to = args
         op_func = self.OPERATOR_BETWEEN[op]
         return lambda node: op_func(attr(node) or float("inf"), value_from, value_to)
 
-    def unary(self, args: List[Token]) -> Callable[[T], bool]:
+    def unary(self, args: list[Token]) -> Callable[[T], bool]:
         attr = args[0]
         return lambda node: bool(attr(node))
 
-    def not_predicate(self, args: List[Token]) -> Callable[[T], bool]:
+    def not_predicate(self, args: list[Token]) -> Callable[[T], bool]:
         attr = args[0]
         return lambda node: not attr(node)
 
     @staticmethod
-    def object_attr(args: List[Token]) -> Callable[[T], Any]:
+    def object_attr(args: list[Token]) -> Callable[[T], Any]:
         # e.g., ['parent', 'name'] => lambda node: node.parent.name
         def accessor(node: T) -> Any:
             obj = node
@@ -117,7 +117,7 @@ class QueryTransformer(Transformer):  # type: ignore
         return accessor
 
     @staticmethod
-    def list(args: List[Token]) -> Any:
+    def list(args: list[Token]) -> Any:
         return list(args)
 
     @staticmethod

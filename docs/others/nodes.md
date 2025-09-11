@@ -51,7 +51,6 @@ print_tree(root, attr_list=["population", "percentage"])
 import pytest
 
 from bigtree import Node
-from typing import List
 
 
 class ReadOnlyNode(Node):
@@ -65,7 +64,7 @@ class ReadOnlyNode(Node):
         if self.__readonly:
             raise RuntimeError("Nodes cannot be reassigned for ReadOnlyNode")
 
-    def _Node__pre_assign_children(self, new_children: List[Node]):
+    def _Node__pre_assign_children(self, new_children: list[Node]):
         if self.__readonly:
             raise RuntimeError("Nodes cannot be reassigned for ReadOnlyNode")
 
