@@ -59,7 +59,7 @@ def assemble_attributes(
     all_attrs: bool,
     path_col: Optional[str] = None,
     name_col: Optional[str] = None,
-    parent_col: Optional[Union[str, Tuple[str, Any]]] = None,
+    parent_col: Optional[str | Tuple[str, Any]] = None,
 ) -> Dict[str, Any]:
     """Assemble attributes of node into a dictionary.
 

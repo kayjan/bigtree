@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Optional, TypeVar, Union
+from typing import List, Optional, TypeVar
 
 from bigtree.node import node
 from bigtree.utils.constants import BaseHPrintStyle, BaseVPrintStyle, BorderStyle
@@ -35,7 +35,7 @@ def format_node(
     _node: T,
     alias: str = "node_name",
     intermediate_node_name: bool = True,
-    style: Union[BaseHPrintStyle, BaseVPrintStyle] = default_vstyle,
+    style: BaseHPrintStyle | BaseVPrintStyle = default_vstyle,
     border_style: Optional[BorderStyle] = None,
     min_width: int = 0,
     add_buffer: bool = True,

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import datetime as dt
-from typing import Any, Optional, Union
+from typing import Any, Optional
 
 from bigtree.node import node
 from bigtree.tree import construct, export, search
@@ -63,7 +63,7 @@ class Calendar:
     def add_event(
         self,
         event_name: str,
-        event_datetime: Union[str, dt.datetime],
+        event_datetime: str | dt.datetime,
         date_format: str = "%Y-%m-%d %H:%M",
         **kwargs: Any,
     ) -> None:

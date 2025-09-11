@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, List, Optional, Tuple, TypeVar, Union
+from typing import Any, List, Optional, Tuple, TypeVar
 
 from bigtree.globals import ASSERTIONS
 from bigtree.node import node
@@ -62,7 +62,7 @@ class BinaryNode(node.Node):
 
     def __init__(
         self,
-        name: Union[str, int] = "",
+        name: str | int = "",
         left: Optional[T] = None,
         right: Optional[T] = None,
         parent: Optional[T] = None,
@@ -70,7 +70,7 @@ class BinaryNode(node.Node):
         **kwargs: Any,
     ):
         try:
-            self.val: Union[str, int] = int(name)
+            self.val: str | int = int(name)
         except ValueError:
             self.val = str(name)
         self.name = str(name)

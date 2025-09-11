@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Mapping, Optional, Tuple, TypeVar, Union
+from typing import Any, Dict, List, Mapping, Optional, Tuple, TypeVar
 
 from bigtree.node import dagnode
 from bigtree.utils import assertions, common, exceptions, iterators
@@ -165,7 +165,7 @@ def dag_to_dataframe(
 
 @exceptions.optional_dependencies_image("pydot")
 def dag_to_dot(
-    dag: Union[T, List[T]],
+    dag: T | List[T],
     rankdir: str = "TB",
     bg_colour: Optional[str] = None,
     node_colour: Optional[str] = None,

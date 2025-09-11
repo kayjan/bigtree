@@ -1,4 +1,4 @@
-from typing import Any, Dict, Iterable, List, Optional, Set, Type, TypeVar, Union
+from typing import Any, Dict, Iterable, List, Optional, Set, Type, TypeVar
 
 from bigtree.node import basenode, binarynode, node
 from bigtree.tree import construct, export, search
@@ -124,12 +124,12 @@ def get_subtree(
 
 
 def prune_tree(
-    tree: Union[BinaryNodeT, NodeT],
-    prune_path: Optional[Union[Iterable[str], str]] = None,
+    tree: BinaryNodeT | NodeT,
+    prune_path: Iterable[str] | str | None = None,
     exact: bool = False,
     sep: str = "/",
     max_depth: int = 0,
-) -> Union[BinaryNodeT, NodeT]:
+) -> BinaryNodeT | NodeT:
     """Prune tree by path or depth. Pruned trees are smaller trees with same root. Returns a copy of the tree; does not
     affect original tree.
 
@@ -215,8 +215,8 @@ def prune_tree(
 
     # Prune by path (prune bottom-up)
     if prune_path:
-        ancestors_to_prune: Set[Union[BinaryNodeT, NodeT]] = set()
-        nodes_to_prune: Set[Union[BinaryNodeT, NodeT]] = set()
+        ancestors_to_prune: Set[BinaryNodeT | NodeT] = set()
+        nodes_to_prune: Set[BinaryNodeT | NodeT] = set()
         for path in prune_path:
             path = path.replace(sep, tree.sep)
             child = search.find_path(tree_copy, path)

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import collections
 import re
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, TypeVar, Union
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.export.stdout import yield_tree
@@ -44,7 +44,7 @@ T = TypeVar("T", bound=node.Node)
 
 @exceptions.optional_dependencies_image("pydot")
 def tree_to_dot(
-    tree: Union[T, List[T]],
+    tree: T | List[T],
     directed: bool = True,
     rankdir: str = "TB",
     bg_colour: Optional[str] = None,
@@ -244,17 +244,17 @@ def tree_to_pillow_graph(
     node_content: str = "{node_name}",
     *,
     margin: Optional[Dict[str, int]] = None,
-    height_buffer: Union[int, float] = 20,
-    width_buffer: Union[int, float] = 10,
+    height_buffer: int | float = 20,
+    width_buffer: int | float = 10,
     font_family: Optional[str] = None,
     font_size: int = 12,
-    font_colour: Union[Tuple[int, int, int], str] = "black",
+    font_colour: Tuple[int, int, int] | str = "black",
     text_align: str = "center",
-    bg_colour: Union[Tuple[int, int, int], str] = "white",
+    bg_colour: Tuple[int, int, int] | str = "white",
     rect_margin: Optional[Dict[str, int]] = None,
-    rect_fill: Union[Tuple[int, int, int], str, mpl.colors.Colormap] = "white",
+    rect_fill: Tuple[int, int, int] | str | mpl.colors.Colormap = "white",
     rect_cmap_attr: Optional[str] = None,
-    rect_outline: Union[Tuple[int, int, int], str] = "black",
+    rect_outline: Tuple[int, int, int] | str = "black",
     rect_width: int = 1,
     **kwargs: Any,
 ) -> Image.Image:
@@ -334,7 +334,7 @@ def tree_to_pillow_graph(
             )
         return _node_content
 
-    cmap_range: Set[Union[float, int]] = set()
+    cmap_range: Set[float | int] = set()
     for _, _, _node in yield_tree(tree, **kwargs):
         l, t, r, b = _draw.multiline_textbbox(
             (0, 0), get_node_text(_node, node_content), font=font
@@ -441,8 +441,8 @@ def tree_to_pillow(
     start_pos: Tuple[int, int] = (10, 10),
     font_family: Optional[str] = None,
     font_size: int = 12,
-    font_colour: Union[Tuple[int, int, int], str] = "black",
-    bg_colour: Union[Tuple[int, int, int], str] = "white",
+    font_colour: Tuple[int, int, int] | str = "black",
+    bg_colour: Tuple[int, int, int] | str = "white",
     **kwargs: Any,
 ) -> Image.Image:
     """Export tree to PIL.Image.Image object. Object can be converted to other formats, such as jpg, or png. Image will

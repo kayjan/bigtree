@@ -9,7 +9,6 @@ from typing import (
     Mapping,
     Sequence,
     Type,
-    Union,
 )
 
 try:
@@ -81,7 +80,7 @@ def assert_str_in_list(
 
 
 def assert_not_reserved_keywords(
-    parameter_dict_or_df: Union[Iterable[str], Mapping[str, Any], pd.DataFrame],
+    parameter_dict_or_df: Iterable[str] | Mapping[str, Any] | pd.DataFrame,
     reserved_keywords: Sequence[str],
 ) -> None:
     """Raise ValueError is parameter is in list/dictionary/dataframe.
@@ -161,7 +160,7 @@ def assert_dataframe_not_empty(data: pd.DataFrame) -> None:
 
 
 def assert_dataframe_no_duplicate_attribute(
-    data: Union[pd.DataFrame, pl.DataFrame],
+    data: pd.DataFrame | pl.DataFrame,
     id_type: str,
     id_col: str,
     attribute_cols: List[str],
@@ -195,7 +194,7 @@ def assert_dataframe_no_duplicate_attribute(
 
 
 def assert_dataframe_no_duplicate_children(
-    data: Union[pd.DataFrame, pl.DataFrame],
+    data: pd.DataFrame | pl.DataFrame,
     child_col: str,
     parent_col: str,
 ) -> None:
@@ -234,8 +233,8 @@ def assert_dataframe_no_duplicate_children(
 
 
 def assert_tree_type(
-    tree: Union[BaseNode, Node, DAGNode],
-    tree_type: Union[Type[BaseNode], Type[Node], Type[DAGNode]],
+    tree: BaseNode | Node | DAGNode,
+    tree_type: Type[BaseNode] | Type[Node] | Type[DAGNode],
     tree_type_name: str,
 ) -> None:
     """Raise TypeError is tree is not of `tree_type`.
