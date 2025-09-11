@@ -171,6 +171,10 @@ disallow_untyped_calls = false
 [tool.ruff]
 line-length = 88
 target-version = "py38"
+include = ["*.py", "*.pyi"]
+exclude = ["dist", "docs*", "tests"]
+
+[tool.ruff.lint]
 select = ["B", "E", "F", "I", "N", "UP", "W"]
 ignore = [
   "E501", # line too long
@@ -184,5 +188,3 @@ ignore = [
   "UP037",  # Remove quotes from type annotation
   "UP045",  # use | instead of Optional
 ]
-include = ["*.py", "*.pyi"]
-exclude = ["dist", "docs*", "tests"]

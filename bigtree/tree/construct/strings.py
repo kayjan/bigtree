@@ -316,9 +316,9 @@ def newick_to_tree(
                 _raise_value_error(tree_string_idx)
             if cumulative_string:
                 _raise_value_error(tree_string_idx)
-            assert (
-                not cumulative_string_value
-            ), f"{state_title}, should not have cumulative_string_value"
+            assert not cumulative_string_value, (
+                f"{state_title}, should not have cumulative_string_value"
+            )
             tree_string_idx += 1
             continue
 
@@ -354,9 +354,9 @@ def newick_to_tree(
             if character == constants.NewickCharacter.NODE_SEP:
                 current_node = None
             cumulative_string = ""
-            assert (
-                not cumulative_string_value
-            ), f"{state_title}, should not have cumulative_string_value"
+            assert not cumulative_string_value, (
+                f"{state_title}, should not have cumulative_string_value"
+            )
             tree_string_idx += 1
             continue
 
@@ -384,9 +384,9 @@ def newick_to_tree(
             assert current_node, f"{state_title}, should have current_node"
             if not cumulative_string:
                 _raise_value_error(tree_string_idx)
-            assert (
-                not cumulative_string_value
-            ), f"{state_title}, should not have cumulative_string_value"
+            assert not cumulative_string_value, (
+                f"{state_title}, should not have cumulative_string_value"
+            )
             tree_string_idx += 1
             continue
 
@@ -403,14 +403,12 @@ def newick_to_tree(
             ]:
                 if cumulative_string:
                     _raise_value_error(tree_string_idx)
-                cumulative_string = tree_string[
-                    tree_string_idx + 1 : quote_end_idx  # noqa: E203
-                ]
+                cumulative_string = tree_string[tree_string_idx + 1 : quote_end_idx]
             else:
                 if cumulative_string_value:
                     _raise_value_error(tree_string_idx)
                 cumulative_string_value = tree_string[
-                    tree_string_idx + 1 : quote_end_idx  # noqa: E203
+                    tree_string_idx + 1 : quote_end_idx
                 ]
             tree_string_idx = quote_end_idx + 1
             continue
@@ -435,9 +433,9 @@ def newick_to_tree(
                     current_depth,
                 )
                 cumulative_string = ""
-                assert (
-                    not cumulative_string_value
-                ), f"{state_title}, should not have cumulative_string_value"
+                assert not cumulative_string_value, (
+                    f"{state_title}, should not have cumulative_string_value"
+                )
                 tree_string_idx += 1
                 continue
             else:
