@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, Optional, TypeVar
+from typing import Dict, TypeVar
 
 from bigtree.node import node
 from bigtree.utils import common, exceptions
@@ -34,7 +34,7 @@ def tree_to_dataframe(
     path_col: str | None = "path",
     name_col: str | None = "name",
     parent_col: str | None = None,
-    attr_dict: Optional[Dict[str, str]] = None,
+    attr_dict: Dict[str, str] | None = None,
     all_attrs: bool = False,
     max_depth: int = 0,
     skip_depth: int = 0,
@@ -117,7 +117,7 @@ def tree_to_polars(
     path_col: str | None = "path",
     name_col: str | None = "name",
     parent_col: str | None = None,
-    attr_dict: Optional[Dict[str, str]] = None,
+    attr_dict: Dict[str, str] | None = None,
     all_attrs: bool = False,
     max_depth: int = 0,
     skip_depth: int = 0,

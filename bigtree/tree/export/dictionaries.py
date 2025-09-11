@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, TypeVar
+from typing import Any, Dict, List, TypeVar
 
 from bigtree.node import node
 from bigtree.utils import common
@@ -18,7 +18,7 @@ def tree_to_dict(
     tree: T,
     name_key: str | None = "name",
     parent_key: str | None = None,
-    attr_dict: Optional[Dict[str, str]] = None,
+    attr_dict: Dict[str, str] | None = None,
     all_attrs: bool = False,
     max_depth: int = 0,
     skip_depth: int = 0,
@@ -91,7 +91,7 @@ def tree_to_nested_dict(
     tree: T,
     name_key: str = "name",
     child_key: str = "children",
-    attr_dict: Optional[Dict[str, str]] = None,
+    attr_dict: Dict[str, str] | None = None,
     all_attrs: bool = False,
     max_depth: int = 0,
 ) -> Dict[str, Any]:
@@ -151,7 +151,7 @@ def tree_to_nested_dict(
 def tree_to_nested_dict_key(
     tree: T,
     child_key: str | None = "children",
-    attr_dict: Optional[Dict[str, str]] = None,
+    attr_dict: Dict[str, str] | None = None,
     all_attrs: bool = False,
     max_depth: int = 0,
 ) -> Dict[str, Any]:

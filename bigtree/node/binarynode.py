@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, List, Optional, Tuple, TypeVar
+from typing import Any, List, Tuple, TypeVar
 
 from bigtree.globals import ASSERTIONS
 from bigtree.node import node
@@ -66,7 +66,7 @@ class BinaryNode(node.Node):
         left: T | None = None,
         right: T | None = None,
         parent: T | None = None,
-        children: Optional[List[T | None]] = None,
+        children: List[T | None] | None = None,
         **kwargs: Any,
     ):
         try:

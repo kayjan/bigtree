@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple, Type, TypeVar
+from typing import Any, Dict, Iterable, List, Mapping, Tuple, Type, TypeVar
 
 from bigtree.node import node
 from bigtree.tree import search
@@ -22,7 +22,7 @@ def add_path_to_tree(
     path: str,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_attrs: Optional[Mapping[str, Any]] = None,
+    node_attrs: Mapping[str, Any] | None = None,
 ) -> T:
     """Add nodes and attributes to existing tree *in-place*, return node of path added. Adds to existing tree from list
     of path strings.

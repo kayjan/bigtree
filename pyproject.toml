@@ -185,5 +185,4 @@ ignore = [
   "UP015",  # unnecessry mode argument for open
   "UP035",  # typing.List is deprecated
   "UP037",  # Remove quotes from type annotation
-  "UP045",  # use | instead of Optional
 ]
