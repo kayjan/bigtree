@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - General: Switch to use Python 3.10 conventions.
+- Docs: Update docs on the Python version update.
 
 ## [0.31.0] - 2025-09-11
 ### Changed:
