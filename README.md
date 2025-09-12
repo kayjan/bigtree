@@ -118,7 +118,7 @@ For **Directed Acyclic Graph (DAG)** implementation, there are 5 main components
 
 ## Installation
 
-`bigtree` requires Python 3.8+. There are two ways to install `bigtree`, with pip (recommended) or conda.
+`bigtree` requires Python 3.10+. There are two ways to install `bigtree`, with pip (recommended) or conda.
 
 ### a) Installation with pip
 
