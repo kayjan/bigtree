@@ -4,7 +4,11 @@ title: Installation
 
 # 💻 Installation
 
-`bigtree` requires Python 3.8+. There are two ways to install `bigtree`, with pip (recommended) or conda.
+`bigtree` requires Python 3.10+. There are two ways to install `bigtree`, with pip (recommended) or conda.
+
+!!! note
+
+    For Python 3.8 and 3.9, use `bigtree<0.31.0`
 
 ## Installation with pip
 
