@@ -51,6 +51,12 @@ except ImportError:  # pragma: no cover
 
 
 class Tree:
+    """
+    Tree wraps around Node class to provide an intuitive, Pythonic API for quick construction of tree with dataframe,
+    dictionary, or string, and quick export to dataframe, dictionary, string, or images. Do refer to the various
+    construct and export modules respectively on the keyword parameters.
+    """
+
     def __init__(self, root: node.Node):
         self.root = root
 
