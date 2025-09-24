@@ -6,6 +6,7 @@ from typing import Union
 import pytest
 
 from bigtree.node import basenode, binarynode, dagnode, node
+from bigtree.tree import tree
 
 
 @pytest.fixture
@@ -70,6 +71,11 @@ def tree_node():
     g.parent = e
     h.parent = e
     return a
+
+
+@pytest.fixture
+def tree_tree(tree_node):
+    return tree.Tree(tree_node)
 
 
 @pytest.fixture

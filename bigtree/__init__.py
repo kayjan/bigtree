@@ -83,6 +83,7 @@ from bigtree.tree.search import (
     find_relative_paths,
     findall,
 )
+from bigtree.tree.tree import Tree
 from bigtree.utils.constants import (
     ANSIBorderStyle,
     ANSIHPrintStyle,
