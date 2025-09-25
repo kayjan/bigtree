@@ -291,3 +291,11 @@ class TestBinaryTreeHelper:
             "    └── 7\n"
         )
         assert_print_statement(root_clone.show, expected_str)
+
+
+class TestBinaryTreeIterators:
+    @staticmethod
+    def test_inorder_iter(binarytree_tree):
+        expected = ["4", "8", "2", "5", "1", "6", "3", "7"]
+        actual = [node.node_name for node in binarytree_tree.inorder_iter()]
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"

@@ -35,10 +35,10 @@ def inorder_iter(
         3. Recursively traverse the current node's right subtree
 
     Examples:
-        >>> from bigtree import BinaryNode, list_to_binarytree, inorder_iter
+        >>> from bigtree import BinaryTree
         >>> num_list = [1, 2, 3, 4, 5, 6, 7, 8]
-        >>> root = list_to_binarytree(num_list)
-        >>> root.show()
+        >>> tree = BinaryTree.from_heapq_list(num_list)
+        >>> tree.show()
         1
         ├── 2
         │   ├── 4
@@ -48,13 +48,13 @@ def inorder_iter(
             ├── 6
             └── 7
 
-        >>> [node.node_name for node in inorder_iter(root)]
+        >>> [node.node_name for node in tree.inorder_iter()]
         ['8', '4', '2', '5', '1', '6', '3', '7']
 
-        >>> [node.node_name for node in inorder_iter(root, filter_condition=lambda x: x.node_name in ["1", "4", "3", "6", "7"])]
+        >>> [node.node_name for node in tree.inorder_iter( filter_condition=lambda x: x.node_name in ["1", "4", "3", "6", "7"])]
         ['4', '1', '6', '3', '7']
 
-        >>> [node.node_name for node in inorder_iter(root, max_depth=3)]
+        >>> [node.node_name for node in tree.inorder_iter( max_depth=3)]
         ['4', '2', '5', '1', '6', '3', '7']
 
     Args:
@@ -88,10 +88,10 @@ def preorder_iter(
     It is topologically sorted because a parent node is processed before its child nodes.
 
     Examples:
-        >>> from bigtree import Node, list_to_tree, preorder_iter
+        >>> from bigtree import Node, Tree
         >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        >>> root = list_to_tree(path_list)
-        >>> root.show()
+        >>> tree = Tree.from_list(path_list)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
@@ -101,16 +101,16 @@ def preorder_iter(
         └── c
             └── f
 
-        >>> [node.node_name for node in preorder_iter(root)]
+        >>> [node.node_name for node in tree.preorder_iter()]
         ['a', 'b', 'd', 'e', 'g', 'h', 'c', 'f']
 
-        >>> [node.node_name for node in preorder_iter(root, filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
+        >>> [node.node_name for node in tree.preorder_iter(filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
         ['a', 'd', 'e', 'g', 'f']
 
-        >>> [node.node_name for node in preorder_iter(root, stop_condition=lambda x: x.node_name == "e")]
+        >>> [node.node_name for node in tree.preorder_iter(stop_condition=lambda x: x.node_name == "e")]
         ['a', 'b', 'd', 'c', 'f']
 
-        >>> [node.node_name for node in preorder_iter(root, max_depth=3)]
+        >>> [node.node_name for node in tree.preorder_iter(max_depth=3)]
         ['a', 'b', 'd', 'e', 'c', 'f']
 
     Args:
@@ -147,10 +147,10 @@ def postorder_iter(
         3. Visit the current node
 
     Examples:
-        >>> from bigtree import Node, list_to_tree, postorder_iter
+        >>> from bigtree import Node, Tree
         >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        >>> root = list_to_tree(path_list)
-        >>> root.show()
+        >>> tree = Tree.from_list(path_list)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
@@ -160,16 +160,16 @@ def postorder_iter(
         └── c
             └── f
 
-        >>> [node.node_name for node in postorder_iter(root)]
+        >>> [node.node_name for node in tree.postorder_iter()]
         ['d', 'g', 'h', 'e', 'b', 'f', 'c', 'a']
 
-        >>> [node.node_name for node in postorder_iter(root, filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
+        >>> [node.node_name for node in tree.postorder_iter(filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
         ['d', 'g', 'e', 'f', 'a']
 
-        >>> [node.node_name for node in postorder_iter(root, stop_condition=lambda x: x.node_name == "e")]
+        >>> [node.node_name for node in tree.postorder_iter(stop_condition=lambda x: x.node_name == "e")]
         ['d', 'b', 'f', 'c', 'a']
 
-        >>> [node.node_name for node in postorder_iter(root, max_depth=3)]
+        >>> [node.node_name for node in tree.postorder_iter(max_depth=3)]
         ['d', 'e', 'b', 'f', 'c', 'a']
 
     Args:
@@ -206,10 +206,10 @@ def levelorder_iter(
         1. Recursively traverse the nodes on same level
 
     Examples:
-        >>> from bigtree import Node, list_to_tree, levelorder_iter
+        >>> from bigtree import Node, Tree
         >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        >>> root = list_to_tree(path_list)
-        >>> root.show()
+        >>> tree = Tree.from_list(path_list)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
@@ -219,16 +219,16 @@ def levelorder_iter(
         └── c
             └── f
 
-        >>> [node.node_name for node in levelorder_iter(root)]
+        >>> [node.node_name for node in tree.levelorder_iter()]
         ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
-        >>> [node.node_name for node in levelorder_iter(root, filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
+        >>> [node.node_name for node in tree.levelorder_iter(filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
         ['a', 'd', 'e', 'f', 'g']
 
-        >>> [node.node_name for node in levelorder_iter(root, stop_condition=lambda x: x.node_name == "e")]
+        >>> [node.node_name for node in tree.levelorder_iter(stop_condition=lambda x: x.node_name == "e")]
         ['a', 'b', 'c', 'd', 'f']
 
-        >>> [node.node_name for node in levelorder_iter(root, max_depth=3)]
+        >>> [node.node_name for node in tree.levelorder_iter(max_depth=3)]
         ['a', 'b', 'c', 'd', 'e', 'f']
 
     Args:
@@ -277,10 +277,10 @@ def levelordergroup_iter(
         1. Recursively traverse the nodes on same level, returns nodes level by level in a nested list
 
     Examples:
-        >>> from bigtree import Node, list_to_tree, levelordergroup_iter
+        >>> from bigtree import Node, Tree
         >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        >>> root = list_to_tree(path_list)
-        >>> root.show()
+        >>> tree = Tree.from_list(path_list)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
@@ -290,16 +290,16 @@ def levelordergroup_iter(
         └── c
             └── f
 
-        >>> [[node.node_name for node in group] for group in levelordergroup_iter(root)]
+        >>> [[node.node_name for node in group] for group in tree.levelordergroup_iter()]
         [['a'], ['b', 'c'], ['d', 'e', 'f'], ['g', 'h']]
 
-        >>> [[node.node_name for node in group] for group in levelordergroup_iter(root, filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
+        >>> [[node.node_name for node in group] for group in tree.levelordergroup_iter(filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
         [['a'], [], ['d', 'e', 'f'], ['g']]
 
-        >>> [[node.node_name for node in group] for group in levelordergroup_iter(root, stop_condition=lambda x: x.node_name == "e")]
+        >>> [[node.node_name for node in group] for group in tree.levelordergroup_iter(stop_condition=lambda x: x.node_name == "e")]
         [['a'], ['b', 'c'], ['d', 'f']]
 
-        >>> [[node.node_name for node in group] for group in levelordergroup_iter(root, max_depth=3)]
+        >>> [[node.node_name for node in group] for group in tree.levelordergroup_iter(max_depth=3)]
         [['a'], ['b', 'c'], ['d', 'e', 'f']]
 
     Args:
@@ -349,10 +349,10 @@ def zigzag_iter(
         1. Recursively traverse the nodes on same level, in a zigzag manner across different levels
 
     Examples:
-        >>> from bigtree import Node, list_to_tree, zigzag_iter
+        >>> from bigtree import Node, Tree
         >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        >>> root = list_to_tree(path_list)
-        >>> root.show()
+        >>> tree = Tree.from_list(path_list)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
@@ -362,16 +362,16 @@ def zigzag_iter(
         └── c
             └── f
 
-        >>> [node.node_name for node in zigzag_iter(root)]
+        >>> [node.node_name for node in tree.zigzag_iter()]
         ['a', 'c', 'b', 'd', 'e', 'f', 'h', 'g']
 
-        >>> [node.node_name for node in zigzag_iter(root, filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
+        >>> [node.node_name for node in tree.zigzag_iter(filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
         ['a', 'd', 'e', 'f', 'g']
 
-        >>> [node.node_name for node in zigzag_iter(root, stop_condition=lambda x: x.node_name == "e")]
+        >>> [node.node_name for node in tree.zigzag_iter(stop_condition=lambda x: x.node_name == "e")]
         ['a', 'c', 'b', 'd', 'f']
 
-        >>> [node.node_name for node in zigzag_iter(root, max_depth=3)]
+        >>> [node.node_name for node in tree.zigzag_iter(max_depth=3)]
         ['a', 'c', 'b', 'd', 'e', 'f']
 
     Args:
@@ -429,10 +429,10 @@ def zigzaggroup_iter(
         by level in a nested list
 
     Examples:
-        >>> from bigtree import Node, list_to_tree, zigzaggroup_iter
+        >>> from bigtree import Node, Tree
         >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
-        >>> root = list_to_tree(path_list)
-        >>> root.show()
+        >>> tree = Tree.from_list(path_list)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
@@ -442,16 +442,16 @@ def zigzaggroup_iter(
         └── c
             └── f
 
-        >>> [[node.node_name for node in group] for group in zigzaggroup_iter(root)]
+        >>> [[node.node_name for node in group] for group in tree.zigzaggroup_iter()]
         [['a'], ['c', 'b'], ['d', 'e', 'f'], ['h', 'g']]
 
-        >>> [[node.node_name for node in group] for group in zigzaggroup_iter(root, filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
+        >>> [[node.node_name for node in group] for group in tree.zigzaggroup_iter(filter_condition=lambda x: x.node_name in ["a", "d", "e", "f", "g"])]
         [['a'], [], ['d', 'e', 'f'], ['g']]
 
-        >>> [[node.node_name for node in group] for group in zigzaggroup_iter(root, stop_condition=lambda x: x.node_name == "e")]
+        >>> [[node.node_name for node in group] for group in tree.zigzaggroup_iter(stop_condition=lambda x: x.node_name == "e")]
         [['a'], ['c', 'b'], ['d', 'f']]
 
-        >>> [[node.node_name for node in group] for group in zigzaggroup_iter(root, max_depth=3)]
+        >>> [[node.node_name for node in group] for group in tree.zigzaggroup_iter(max_depth=3)]
         [['a'], ['c', 'b'], ['d', 'e', 'f']]
 
     Args:
@@ -507,13 +507,14 @@ def dag_iterator(dag: DAGNodeT) -> Iterable[tuple[DAGNodeT, DAGNodeT]]:
         3. Recursively traverse the current node's children
 
     Examples:
-        >>> from bigtree import DAGNode, dag_iterator
+        >>> from bigtree import DAGNode, DAG
         >>> a = DAGNode("a", step=1)
         >>> b = DAGNode("b", step=1)
         >>> c = DAGNode("c", step=2, parents=[a, b])
         >>> d = DAGNode("d", step=2, parents=[a, c])
         >>> e = DAGNode("e", step=3, parents=[d])
-        >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(a)]
+        >>> dag = DAG(a)
+        >>> [(parent.node_name, child.node_name) for parent, child in dag.iterate()]
         [('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]
 
     Args:
