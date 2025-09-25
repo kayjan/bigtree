@@ -27,7 +27,7 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> list[T]:
     - Note that string match in query must be in double quotes
 
     Examples:
-        >>> from bigtree import Node, dict_to_tree, query_tree
+        >>> from bigtree import Node, Tree
         >>> paths = {
         ...     "a": {"age": 90},
         ...     "a/b": {"age": 65},
@@ -38,8 +38,8 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> list[T]:
         ...     "a/b/e/g": {"age": 10},
         ...     "a/b/e/h": {"age": 6},
         ... }
-        >>> root = dict_to_tree(paths)
-        >>> root.show(all_attrs=True)
+        >>> tree = Tree.from_dict(paths)
+        >>> tree.show(all_attrs=True)
         a [age=90]
         ├── b [age=65]
         │   ├── d [age=40]
@@ -51,13 +51,13 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> list[T]:
 
         **Field-based comparisons**
 
-        >>> results = query_tree(root, 'age >= 30 AND is_leaf OR node_name IN ["a"]')
+        >>> results = tree.query('age >= 30 AND is_leaf OR node_name IN ["a"]')
         >>> [result.node_name for result in results]
         ['a', 'd', 'f']
 
         **Path-based conditions**
 
-        >>> results = query_tree(root, 'path_name LIKE ".*/b/.*"')
+        >>> results = tree.query('path_name LIKE ".*/b/.*"')
         >>> [result.node_name for result in results]
         ['d', 'e', 'g', 'h']
 

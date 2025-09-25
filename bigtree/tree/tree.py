@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import copy
 from typing import Any, Iterable, Mapping, TypeVar
 
 from bigtree.node import basenode, binarynode, node
@@ -238,6 +241,13 @@ class Tree:
     def prune(self, *args: Any, **kwargs: Any) -> BinaryNodeT | NodeT:
         return helper.prune_tree(self.root, *args, **kwargs)  # type: ignore
 
+    def diff_dataframe(
+        self, other_tree: node.Node, *args: Any, **kwargs: Any
+    ) -> pd.DataFrame:
+        return helper.get_tree_diff_dataframe(
+            self.root, other_tree.root, *args, **kwargs
+        )
+
     def diff(self, other_tree: node.Node, *args: Any, **kwargs: Any) -> node.Node:
         return helper.get_tree_diff(self.root, other_tree.root, *args, **kwargs)
 
@@ -274,3 +284,72 @@ class Tree:
 
     def find_attrs(self, *args: Any, **kwargs: Any) -> Iterable[basenode.BaseNode]:
         return search.find_attrs(self.root, *args, **kwargs)
+
+    def find_children(self, *args: Any, **kwargs: Any) -> tuple[node.Node, ...]:
+        return search.find_children(self.root, *args, **kwargs)
+
+    def find_child(self, *args: Any, **kwargs: Any) -> node.Node:
+        return search.find_child(self.root, *args, **kwargs)
+
+    def find_child_by_name(self, *args: Any, **kwargs: Any) -> node.Node:
+        return search.find_child_by_name(self.root, *args, **kwargs)
+
+    def __getitem__(self, child_name: str) -> "Tree":
+        """Get child by name identifier.
+
+        Args:
+            child_name: name of child node
+
+        Returns:
+            Child node as tree
+        """
+        return type(self)(self.root[child_name])
+
+    def __delitem__(self, child_name: str) -> None:
+        """Delete child by name identifier, will not throw error if child does not exist.
+
+        Args:
+            child_name: name of child node
+        """
+        from bigtree.tree.search import find_child_by_name
+
+        child = find_child_by_name(self.root, child_name)
+        if child:
+            child.parent = None
+
+    def copy(self: T) -> T:
+        """Deep copy self; clone BaseNode.
+
+        Examples:
+            >>> from bigtree.node.node import Node
+            >>> a = Node('a')
+            >>> a_copy = a.copy()
+
+        Returns:
+            Cloned copy of node
+        """
+        return copy.deepcopy(self)
+
+    def __copy__(self: T) -> T:
+        """Shallow copy self.
+
+        Returns:
+            Shallow copy of node
+        """
+        obj: T = type(self).__new__(self.__class__)
+        obj.__dict__.update(self.__dict__)
+        return obj
+
+    def __repr__(self) -> str:
+        """Print format of Tree.
+
+        Returns:
+            Print format of Tree
+        """
+        class_name = self.__class__.__name__
+        node_dict = self.root.describe(exclude_prefix="_", exclude_attributes=["name"])
+        node_description = ", ".join([f"{k}={v}" for k, v in node_dict])
+        return f"{class_name}({self.root.path_name}, {node_description})"
+
+
+T = TypeVar("T", bound=Tree)

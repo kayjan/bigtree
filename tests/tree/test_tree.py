@@ -3,7 +3,7 @@ import unittest
 import pandas as pd
 import polars as pl
 
-from bigtree.node import basenode
+from bigtree.node import basenode, node
 from bigtree.tree.tree import Tree
 from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
@@ -18,6 +18,22 @@ from tests.tree.export.test_stdout import (
     tree_node_vstr,
 )
 from tests.tree.test_helper import EXPECTED_TREE_NODE_DIFF
+
+
+class TestTree:
+    @staticmethod
+    def test_tree_magic_methods(tree_tree):
+        # Test __repr__
+        assert_print_statement(print, "Tree(/a, age=90)\n", tree_tree)
+
+        # Test __copy__, __getitem__, __delitem__
+        import copy
+
+        tree_copy = copy.copy(tree_tree)
+        del tree_copy["b"]
+        del tree_copy["something"]
+        assert len(tree_copy.root.children) == 1
+        assert len(tree_tree.root.children) == 1
 
 
 class TestTreeConstruct(unittest.TestCase):
@@ -222,6 +238,143 @@ class TestTreeConstruct(unittest.TestCase):
         assert_tree_structure_basenode_root(tree.root)
 
 
+class TestTreeAdd(unittest.TestCase):
+
+    def setUp(self):
+        root = node.Node("a", age=1)
+        b = node.Node("b", parent=root, age=1)
+        c = node.Node("c", parent=root, age=1)
+        _ = node.Node("d", parent=b, age=1)
+        e = node.Node("e", parent=b)
+        _ = node.Node("f", parent=c)
+        _ = node.Node("g", parent=e)
+        _ = node.Node("h", parent=e)
+        self.tree = Tree(root)
+
+    def tearDown(self):
+        self.tree = None
+
+    @staticmethod
+    def test_add_dataframe_by_path():
+        tree = Tree(node.Node("a", age=1))
+        data = pd.DataFrame(
+            [
+                ["a", 90],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            columns=["PATH", "age"],
+        )
+        tree.add_dataframe_by_path(data)
+        assert_tree_structure_basenode_tree(tree)
+        assert_tree_structure_basenode_root(tree.root)
+        assert_tree_structure_basenode_root_attr(tree.root)
+        assert_tree_structure_node_root(tree.root)
+
+    def test_add_dataframe_by_name(self):
+        data = pd.DataFrame(
+            [
+                ["a", 90],
+                ["b", 65],
+                ["c", 60],
+                ["d", 40],
+                ["e", 35],
+                ["f", 38],
+                ["g", 10],
+                ["h", 6],
+            ],
+            columns=["NAME", "age"],
+        )
+        self.tree.add_dataframe_by_name(data)
+        assert_tree_structure_basenode_tree(self.tree)
+        assert_tree_structure_basenode_root(self.tree.root)
+        assert_tree_structure_basenode_root_attr(self.tree.root)
+        assert_tree_structure_node_root(self.tree.root)
+
+    @staticmethod
+    def test_add_polars_by_path():
+        tree = Tree(node.Node("a", age=1))
+        data = pl.DataFrame(
+            [
+                ["a", 90],
+                ["a/b", 65],
+                ["a/c", 60],
+                ["a/b/d", 40],
+                ["a/b/e", 35],
+                ["a/c/f", 38],
+                ["a/b/e/g", 10],
+                ["a/b/e/h", 6],
+            ],
+            schema=["PATH", "age"],
+        )
+        tree.add_polars_by_path(data)
+        assert_tree_structure_basenode_tree(tree)
+        assert_tree_structure_basenode_root(tree.root)
+        assert_tree_structure_basenode_root_attr(tree.root)
+        assert_tree_structure_node_root(tree.root)
+
+    def test_add_polars_by_name(self):
+        data = pl.DataFrame(
+            [
+                ["a", 90],
+                ["b", 65],
+                ["c", 60],
+                ["d", 40],
+                ["e", 35],
+                ["f", 38],
+                ["g", 10],
+                ["h", 6],
+            ],
+            schema=["NAME", "age"],
+        )
+        self.tree.add_polars_by_name(data)
+        assert_tree_structure_basenode_tree(self.tree)
+        assert_tree_structure_basenode_root(self.tree.root)
+        assert_tree_structure_basenode_root_attr(self.tree.root)
+        assert_tree_structure_node_root(self.tree.root)
+
+    @staticmethod
+    def test_add_dict_by_path():
+        tree = Tree(node.Node("a", age=1))
+        paths = {
+            "a": {"age": 90},
+            "a/b": {"age": 65},
+            "a/c": {"age": 60},
+            "a/b/d": {"age": 40},
+            "a/b/e": {"age": 35},
+            "a/c/f": {"age": 38},
+            "a/b/e/g": {"age": 10},
+            "a/b/e/h": {"age": 6},
+        }
+        tree.add_dict_by_path(paths)
+        assert_tree_structure_basenode_tree(tree)
+        assert_tree_structure_basenode_root(tree.root)
+        assert_tree_structure_basenode_root_attr(tree.root)
+        assert_tree_structure_node_root(tree.root)
+
+    def test_add_dict_by_name(self):
+        name_dict = {
+            "a": {"age": 90},
+            "b": {"age": 65},
+            "c": {"age": 60},
+            "d": {"age": 40},
+            "e": {"age": 35},
+            "f": {"age": 38},
+            "g": {"age": 10},
+            "h": {"age": 6},
+        }
+        self.tree.add_dict_by_name(name_dict)
+        assert_tree_structure_basenode_tree(self.tree)
+        assert_tree_structure_basenode_root(self.tree.root)
+        assert_tree_structure_basenode_root_attr(self.tree.root)
+        assert_tree_structure_node_root(self.tree.root)
+
+
 class TestTreeExport:
     @staticmethod
     def test_to_dataframe(tree_tree):
@@ -420,6 +573,28 @@ class TestTreeHelper:
         assert len(tree_prune.children[0].children[1].children) == 2
 
     @staticmethod
+    def test_diff_dataframe(tree_tree):
+        tree_tree_diff = tree_tree.copy()
+        del tree_tree_diff["c"]
+        actual = tree_tree.diff_dataframe(tree_tree_diff, only_diff=True)
+        expected = pd.DataFrame(
+            [
+                ["/a", "a", None, "both", None],
+                ["/a/b", "b", "a", "both", None],
+                ["/a/b/d", "d", "b", "both", None],
+                ["/a/b/e", "e", "b", "both", None],
+                ["/a/b/e/g", "g", "e", "both", None],
+                ["/a/b/e/h", "h", "e", "both", None],
+                ["/a/c", "c", "a", "left_only", "-"],
+                ["/a/c/f", "f", "c", "left_only", "-"],
+            ],
+            columns=["path", "name", "parent", "Exists", "suffix"],
+        )
+        pd.testing.assert_frame_equal(
+            expected, actual, check_dtype=False, check_categorical=False
+        )
+
+    @staticmethod
     def test_diff(tree_tree, tree_tree_diff):
         tree_diff = tree_tree.diff(tree_tree_diff)
         assert_print_statement(tree_diff.show, EXPECTED_TREE_NODE_DIFF)
@@ -557,6 +732,49 @@ class TestTreeSearch:
         )
         for input_, expected in zip(inputs, expected_ans):
             actual = tree_tree.find_attrs("age", input_)
+            assert (
+                actual == expected
+            ), f"Expected find_attr to return {expected}, received {actual}"
+
+    @staticmethod
+    def test_find_children(tree_tree):
+        actual = tree_tree.find_children(lambda _node: _node.age > 1)
+        expected = (tree_tree.root["b"], tree_tree.root["c"])
+        assert (
+            actual == expected
+        ), f"Expected find_attr to return {expected}, received {actual}"
+
+    @staticmethod
+    def test_find_child(tree_tree):
+        inputs = [tree_tree, tree_tree["b"], tree_tree["c"], tree_tree["b"]["e"]]
+        expected_ans = (
+            tree_tree.root["b"],
+            tree_tree.root["b"]["e"],
+            tree_tree.root["c"]["f"],
+            tree_tree.root["b"]["e"]["g"],
+        )
+        for input_, expected in zip(inputs, expected_ans):
+            actual = input_.find_child(
+                lambda _node: any(
+                    _node.node_name.startswith(_name) for _name in ["b", "e", "f", "g"]
+                )
+            )
+            assert (
+                actual == expected
+            ), f"Expected find_attr to return {expected}, received {actual}"
+
+    @staticmethod
+    def test_find_child_by_name(tree_tree):
+        inputs1 = [tree_tree, tree_tree["b"], tree_tree["c"], tree_tree["b"]["e"]]
+        inputs2 = ["b", "e", "f", "g"]
+        expected_ans = (
+            tree_tree.root["b"],
+            tree_tree.root["b"]["e"],
+            tree_tree.root["c"]["f"],
+            tree_tree.root["b"]["e"]["g"],
+        )
+        for input1_, input2_, expected in zip(inputs1, inputs2, expected_ans):
+            actual = input1_.find_child_by_name(input2_)
             assert (
                 actual == expected
             ), f"Expected find_attr to return {expected}, received {actual}"

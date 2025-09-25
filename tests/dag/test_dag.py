@@ -132,3 +132,28 @@ class TestDAGExport:
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
+
+
+class TestDAGIterator:
+    @staticmethod
+    def test_iterate(dag_dag):
+        expected = [
+            ("a", "c"),
+            ("a", "d"),
+            ("b", "c"),
+            ("c", "d"),
+            ("c", "f"),
+            ("c", "g"),
+            ("d", "e"),
+            ("d", "f"),
+            ("g", "h"),
+        ]
+        actual = [
+            (parent.node_name, child.node_name) for parent, child in dag_dag.iterate()
+        ]
+        len_expected = 9
+        len_actual = len(actual)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+        assert (
+            len_expected == len_actual
+        ), f"Expected\n{len_expected}\nReceived\n{len_actual}"

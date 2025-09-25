@@ -27,10 +27,11 @@ def clone_tree(tree: basenode.BaseNode, node_type: type[BaseNodeT]) -> BaseNodeT
     """Clone tree to another ``Node`` type. If the same type is needed, simply do a tree.copy().
 
     Examples:
-        >>> from bigtree import BaseNode, Node, clone_tree
+        >>> from bigtree import BaseNode, Node, Tree
         >>> root = BaseNode(name="a")
         >>> b = BaseNode(name="b", parent=root)
-        >>> clone_tree(root, Node)
+        >>> tree = Tree(root)
+        >>> tree.clone(Node)
         Node(/a, )
 
     Args:
@@ -149,13 +150,14 @@ def prune_tree(
     - For example: Path string "a/b" refers to Node("b") with parent Node("a")
 
     Examples:
-        >>> from bigtree import Node, prune_tree
+        >>> from bigtree import Node, Tree
         >>> root = Node("a")
         >>> b = Node("b", parent=root)
         >>> c = Node("c", parent=b)
         >>> d = Node("d", parent=b)
         >>> e = Node("e", parent=root)
-        >>> root.show()
+        >>> tree = Tree(root)
+        >>> tree.show()
         a
         ├── b
         │   ├── c
@@ -164,7 +166,7 @@ def prune_tree(
 
         Prune tree
 
-        >>> root_pruned = prune_tree(root, "a/b")
+        >>> root_pruned = tree.prune("a/b")
         >>> root_pruned.show()
         a
         └── b
@@ -173,14 +175,14 @@ def prune_tree(
 
         Prune by exact path
 
-        >>> root_pruned = prune_tree(root, "a/b", exact=True)
+        >>> root_pruned = tree.prune("a/b", exact=True)
         >>> root_pruned.show()
         a
         └── b
 
         Prune by multiple paths
 
-        >>> root_pruned = prune_tree(root, ["a/b/d", "a/e"])
+        >>> root_pruned = tree.prune(["a/b/d", "a/e"])
         >>> root_pruned.show()
         a
         ├── b
@@ -189,7 +191,7 @@ def prune_tree(
 
         Prune by depth
 
-        >>> root_pruned = prune_tree(root, max_depth=2)
+        >>> root_pruned = tree.prune(max_depth=2)
         >>> root_pruned.show()
         a
         ├── b
@@ -286,9 +288,9 @@ def get_tree_diff_dataframe(
 
     Examples:
         >>> # Create original tree
-        >>> from bigtree import Node, get_tree_diff_dataframe, list_to_tree
-        >>> root = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/Trip/photo2.jpg"])
-        >>> root.show()
+        >>> from bigtree import Node, get_tree_diff_dataframe, Tree
+        >>> tree = Tree.from_list(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/Trip/photo2.jpg"])
+        >>> tree.show()
         Downloads
         ├── Pictures
         │   └── photo1.jpg
@@ -297,10 +299,10 @@ def get_tree_diff_dataframe(
             └── photo2.jpg
 
         >>> # Create other tree
-        >>> root_other = list_to_tree(
+        >>> tree_other = Tree.from_list(
         ...     ["Downloads/Pictures/photo1.jpg", "Downloads/Pictures/Trip/photo2.jpg", "Downloads/file1.doc", "Downloads/file2.doc"]
         ... )
-        >>> root_other.show()
+        >>> tree_other.show()
         Downloads
         ├── Pictures
         │   ├── photo1.jpg
@@ -311,7 +313,7 @@ def get_tree_diff_dataframe(
 
         Comparing tree structure
 
-        >>> get_tree_diff_dataframe(root, root_other, detail=True)
+        >>> tree.diff_dataframe(tree_other, detail=True)
                                           path        name     parent      Exists      suffix
         0                           /Downloads   Downloads       None        both         NaN
         1                  /Downloads/Pictures    Pictures  Downloads        both         NaN
@@ -459,9 +461,9 @@ def get_tree_diff(
 
     Examples:
         >>> # Create original tree
-        >>> from bigtree import Node, get_tree_diff, list_to_tree
-        >>> root = list_to_tree(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/Trip/photo2.jpg"])
-        >>> root.show()
+        >>> from bigtree import Node, Tree
+        >>> tree = Tree.from_list(["Downloads/Pictures/photo1.jpg", "Downloads/file1.doc", "Downloads/Trip/photo2.jpg"])
+        >>> tree.show()
         Downloads
         ├── Pictures
         │   └── photo1.jpg
@@ -470,10 +472,10 @@ def get_tree_diff(
             └── photo2.jpg
 
         >>> # Create other tree
-        >>> root_other = list_to_tree(
+        >>> tree_other = Tree.from_list(
         ...     ["Downloads/Pictures/photo1.jpg", "Downloads/Pictures/Trip/photo2.jpg", "Downloads/file1.doc", "Downloads/file2.doc"]
         ... )
-        >>> root_other.show()
+        >>> tree_other.show()
         Downloads
         ├── Pictures
         │   ├── photo1.jpg
@@ -484,7 +486,7 @@ def get_tree_diff(
 
         Comparing tree structure
 
-        >>> tree_diff = get_tree_diff(root, root_other)
+        >>> tree_diff = tree.diff(tree_other)
         >>> tree_diff.show()
         Downloads
         ├── Pictures
@@ -496,7 +498,7 @@ def get_tree_diff(
 
         All differences
 
-        >>> tree_diff = get_tree_diff(root, root_other, only_diff=False)
+        >>> tree_diff = tree.diff(tree_other, only_diff=False)
         >>> tree_diff.show()
         Downloads
         ├── Pictures
@@ -510,9 +512,7 @@ def get_tree_diff(
 
         All differences with details
 
-        >>> tree_diff = get_tree_diff(
-        ...     root, root_other, only_diff=False, detail=True
-        ... )
+        >>> tree_diff = tree.diff(tree_other, only_diff=False, detail=True)
         >>> tree_diff.show()
         Downloads
         ├── Pictures
@@ -526,9 +526,7 @@ def get_tree_diff(
 
         All differences with details on aggregated level
 
-        >>> tree_diff = get_tree_diff(
-        ...     root, root_other, only_diff=False, detail=True, aggregate=True
-        ... )
+        >>> tree_diff = tree.diff(tree_other, only_diff=False, detail=True, aggregate=True)
         >>> tree_diff.show()
         Downloads
         ├── Pictures
@@ -542,7 +540,7 @@ def get_tree_diff(
 
         Only differences with details on aggregated level
 
-        >>> tree_diff = get_tree_diff(root, root_other, detail=True, aggregate=True)
+        >>> tree_diff = tree.diff(tree_other, detail=True, aggregate=True)
         >>> tree_diff.show()
         Downloads
         ├── Pictures
@@ -561,7 +559,8 @@ def get_tree_diff(
         >>> picture_folder = Node("Pictures", parent=root)
         >>> photo2 = Node("photo1.jpg", tags="photo1", parent=picture_folder)
         >>> file1 = Node("file1.doc", tags="file1", parent=root)
-        >>> root.show(attr_list=["tags"])
+        >>> tree = Tree(root)
+        >>> tree.show(attr_list=["tags"])
         Downloads
         ├── Pictures
         │   └── photo1.jpg [tags=photo1]
@@ -573,7 +572,8 @@ def get_tree_diff(
         >>> photo1 = Node("photo1.jpg", tags="photo1-edited", parent=picture_folder)
         >>> photo2 = Node("photo2.jpg", tags="photo2-new", parent=picture_folder)
         >>> file1 = Node("file1.doc", tags="file1", parent=root_other)
-        >>> root_other.show(attr_list=["tags"])
+        >>> tree_other = Tree(root_other)
+        >>> tree_other.show(attr_list=["tags"])
         Downloads
         ├── Pictures
         │   ├── photo1.jpg [tags=photo1-edited]
@@ -581,7 +581,7 @@ def get_tree_diff(
         └── file1.doc [tags=file1]
 
         >>> # Get tree attribute differences
-        >>> tree_diff = get_tree_diff(root, root_other, attr_list=["tags"])
+        >>> tree_diff = tree.diff(tree_other, attr_list=["tags"])
         >>> tree_diff.show(attr_list=["tags"])
         Downloads
         └── Pictures
