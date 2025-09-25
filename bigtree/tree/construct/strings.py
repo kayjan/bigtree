@@ -110,7 +110,7 @@ def str_to_tree(
     r"""Construct tree from tree string.
 
     Examples:
-        >>> from bigtree import str_to_tree
+        >>> from bigtree import Tree
         >>> tree_str = (
         ...     'a\n'
         ...     '├── b\n'
@@ -121,8 +121,8 @@ def str_to_tree(
         ...     '└── c\n'
         ...     '    └── f'
         ... )
-        >>> root = str_to_tree(tree_str)
-        >>> root.show()
+        >>> tree = Tree.from_str(tree_str)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
@@ -201,28 +201,28 @@ def newick_to_tree(
     - If there are no node names, it will be auto-filled with convention `nodeN` with N representing a number
 
     Examples:
-        >>> from bigtree import newick_to_tree
-        >>> root = newick_to_tree("((d,e)b,c)a")
-        >>> root.show()
+        >>> from bigtree import Tree
+        >>> tree = Tree.from_newick("((d,e)b,c)a")
+        >>> tree.show()
         a
         ├── b
         │   ├── d
         │   └── e
         └── c
 
-        >>> root = newick_to_tree("((d:40,e:35)b:65,c:60)a", length_attr="age")
-        >>> root.show(attr_list=["age"])
+        >>> tree = Tree.from_newick("((d:40,e:35)b:65,c:60)a", length_attr="age")
+        >>> tree.show(attr_list=["age"])
         a
         ├── b [age=65]
         │   ├── d [age=40]
         │   └── e [age=35]
         └── c [age=60]
 
-        >>> root = newick_to_tree(
+        >>> tree = Tree.from_newick(
         ...     "((d:40[&&NHX:species=human],e:35[&&NHX:species=human])b:65[&&NHX:species=human],c:60[&&NHX:species=human])a[&&NHX:species=human]",
         ...     length_attr="age",
         ... )
-        >>> root.show(all_attrs=True)
+        >>> tree.show(all_attrs=True)
         a [species=human]
         ├── b [age=65, species=human]
         │   ├── d [age=40, species=human]

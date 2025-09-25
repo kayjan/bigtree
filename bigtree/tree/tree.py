@@ -68,7 +68,7 @@ class Tree:
     construct_kwargs: dict[str, Any] = dict()
 
     def __init__(self, root: node.Node):
-        self.root = root
+        self.root = root.root
 
     def show(self, **kwargs: Any) -> None:
         self.root.show(**kwargs)
@@ -167,6 +167,31 @@ class Tree:
         construct_kwargs = {**cls.construct_kwargs, **kwargs}
         root_node = construct.newick_to_tree(tree_string, **construct_kwargs)
         return cls(root_node)
+
+    # Append methods
+    def add_dataframe_by_path(
+        self, data: pd.DataFrame, *args: Any, **kwargs: Any
+    ) -> None:
+        construct.add_dataframe_to_tree_by_path(self.root, data, *args, **kwargs)
+
+    def add_dataframe_by_name(
+        self, data: pd.DataFrame, *args: Any, **kwargs: Any
+    ) -> None:
+        construct.add_dataframe_to_tree_by_name(self.root, data, *args, **kwargs)
+
+    def add_polars_by_path(self, data: pl.DataFrame, *args: Any, **kwargs: Any) -> None:
+        construct.add_polars_to_tree_by_path(self.root, data, *args, **kwargs)
+
+    def add_polars_by_name(self, data: pl.DataFrame, *args: Any, **kwargs: Any) -> None:
+        construct.add_polars_to_tree_by_name(self.root, data, *args, **kwargs)
+
+    def add_dict_by_path(
+        self, path_attrs: Mapping[str, Mapping[str, Any]], *args: Any, **kwargs: Any
+    ) -> None:
+        construct.add_dict_to_tree_by_path(self.root, path_attrs, *args, **kwargs)
+
+    def add_dict_by_name(self, name_attrs: Mapping[str, Mapping[str, Any]]) -> None:
+        construct.add_dict_to_tree_by_name(self.root, name_attrs)
 
     # Export methods
     def to_dataframe(self, *args: Any, **kwargs: Any) -> pd.DataFrame:

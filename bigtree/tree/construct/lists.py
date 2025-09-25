@@ -44,10 +44,10 @@ def list_to_tree(
     - For example: Path strings should be "a/b", "a/c", "a/b/d" etc. and should not start with another root node
 
     Examples:
-        >>> from bigtree import list_to_tree
+        >>> from bigtree import Tree
         >>> path_list = ["a/b", "a/c", "a/b/d", "a/b/e", "a/c/f", "a/b/e/g", "a/b/e/h"]
-        >>> root = list_to_tree(path_list)
-        >>> root.show()
+        >>> tree = Tree.from_list(path_list)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
@@ -98,10 +98,10 @@ def list_to_tree_by_relation(
     `allow_duplicates` to be True.
 
     Examples:
-        >>> from bigtree import list_to_tree_by_relation
+        >>> from bigtree import Tree
         >>> relations_list = [("a", "b"), ("a", "c"), ("b", "d"), ("b", "e"), ("c", "f"), ("e", "g"), ("e", "h")]
-        >>> root = list_to_tree_by_relation(relations_list)
-        >>> root.show()
+        >>> tree = Tree.from_list_relation(relations_list)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
