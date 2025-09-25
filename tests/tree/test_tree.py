@@ -4,11 +4,17 @@ import pandas as pd
 import polars as pl
 
 from bigtree.tree.tree import Tree
+from tests.conftest import assert_print_statement
 from tests.node.test_basenode import (
     assert_tree_structure_basenode_root,
     assert_tree_structure_basenode_root_attr,
 )
 from tests.node.test_node import assert_tree_structure_node_root
+from tests.tree.export.test_stdout import (
+    tree_node_hstr,
+    tree_node_no_attr_str,
+    tree_node_vstr,
+)
 
 
 class TestTreeConstruct(unittest.TestCase):
@@ -292,6 +298,33 @@ class TestTreeExport:
         }
         actual = tree_tree.to_nested_dict_key()
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_print_tree(tree_tree):
+        assert_print_statement(
+            tree_tree.show,
+            tree_node_no_attr_str,
+        )
+
+    @staticmethod
+    def test_hprint_tree(tree_tree):
+        assert_print_statement(
+            tree_tree.hshow,
+            tree_node_hstr,
+        )
+
+    @staticmethod
+    def test_vprint_tree(tree_tree):
+        assert_print_statement(
+            tree_tree.vshow,
+            tree_node_vstr,
+        )
+
+    @staticmethod
+    def test_to_newick(tree_tree):
+        newick_str = tree_tree.to_newick()
+        expected_str = "((d,(g,h)e)b,(f)c)a"
+        assert newick_str == expected_str
 
     @staticmethod
     def test_to_dot(tree_tree):

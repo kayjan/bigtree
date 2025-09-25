@@ -5,6 +5,7 @@ from typing import Union
 
 import pytest
 
+from bigtree.binarytree import binarytree
 from bigtree.node import basenode, binarynode, dagnode, node
 from bigtree.tree import tree
 
@@ -179,6 +180,11 @@ def binarytree_node():
     f.parent = c
     g.parent = c
     return a
+
+
+@pytest.fixture
+def binarytree_tree(binarytree_node):
+    return binarytree.BinaryTree(binarytree_node)
 
 
 def pytest_benchmark_scale_unit(config, unit, benchmarks, best, worst, sort):
