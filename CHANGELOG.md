@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.31.1] - 2025-09-25
+### Added:
+- Tree Print: Add customisation for attribute display and attribute separator.
+### Changed:
 - General: Switch to use Python 3.10 conventions.
 - Docs: Update docs on the Python version update.
 
@@ -821,7 +826,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.31.0...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/0.31.1...HEAD
+[0.31.1]: https://github.com/kayjan/bigtree/compare/0.31.0...0.31.1
 [0.31.0]: https://github.com/kayjan/bigtree/compare/0.30.1...0.31.0
 [0.30.1]: https://github.com/kayjan/bigtree/compare/0.30.0...0.30.1
 [0.30.0]: https://github.com/kayjan/bigtree/compare/0.29.2...0.30.0
