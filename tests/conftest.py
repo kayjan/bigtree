@@ -6,6 +6,7 @@ from typing import Union
 import pytest
 
 from bigtree.binarytree import binarytree
+from bigtree.dag import dag
 from bigtree.node import basenode, binarynode, dagnode, node
 from bigtree.tree import tree
 
@@ -137,6 +138,11 @@ def dag_node():
     g.parents = [c]
     h.parents = [g]
     return a
+
+
+@pytest.fixture
+def dag_dag(dag_node):
+    return dag.DAG(dag_node)
 
 
 @pytest.fixture
