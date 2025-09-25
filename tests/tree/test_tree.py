@@ -778,3 +778,46 @@ class TestTreeSearch:
             assert (
                 actual == expected
             ), f"Expected find_attr to return {expected}, received {actual}"
+
+
+class TestTreeIterators:
+    @staticmethod
+    def test_preorder_iter(tree_tree):
+        expected = ["a", "b", "d", "e", "g", "h", "c", "f"]
+        actual = [node.node_name for node in tree_tree.preorder_iter()]
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_postorder_iter(tree_tree):
+        expected = ["d", "g", "h", "e", "b", "f", "c", "a"]
+        actual = [node.node_name for node in tree_tree.postorder_iter()]
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_levelorder_iter(tree_tree):
+        expected = ["a", "b", "c", "d", "e", "f", "g", "h"]
+        actual = [node.node_name for node in tree_tree.levelorder_iter()]
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_levelordergroup_iter(tree_tree):
+        expected = [["a"], ["b", "c"], ["d", "e", "f"], ["g", "h"]]
+        actual = [
+            [node.node_name for node in group]
+            for group in tree_tree.levelordergroup_iter()
+        ]
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzag_iter(tree_tree):
+        expected = ["a", "c", "b", "d", "e", "f", "h", "g"]
+        actual = [node.node_name for node in tree_tree.zigzag_iter()]
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    def test_zigzaggroup_iter(tree_tree):
+        expected = [["a"], ["c", "b"], ["d", "e", "f"], ["h", "g"]]
+        actual = [
+            [node.node_name for node in group] for group in tree_tree.zigzaggroup_iter()
+        ]
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
