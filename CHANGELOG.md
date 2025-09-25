@@ -10,14 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added:
 - Improved API: Introduced BinaryTree, DAG, and Tree classes as a wrapper for all construct, export, helper, iterator
 methods instead of calling the various functions.
+### Changed:
+- Tree Construct: `add_dataframe_to_tree_by_path`, `add_dataframe_to_tree_by_name`, `add_polars_to_tree_by_path`,
+`add_polars_to_tree_by_name`, `add_dict_to_tree_by_path` has parameter name changed from tree to node to avoid confusion on the convention.
 
 ## [0.31.1] - 2025-09-25
 ### Added:
 - Tree Print: Add customisation for attribute display and attribute separator.
 ### Changed:
 - General: Switch to use Python 3.10 conventions.
-- Tree Construct: `add_dataframe_to_tree_by_path`, `add_dataframe_to_tree_by_name`, `add_polars_to_tree_by_path`,
-`add_polars_to_tree_by_name`, `add_dict_to_tree_by_path` has parameter name changed from tree to node to avoid confusion on the convention.
 - Docs: Update docs on the Python version update.
 
 ## [0.31.0] - 2025-09-11
