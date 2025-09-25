@@ -24,10 +24,10 @@ def list_to_dag(
     """Construct DAG from list of tuples containing parent-child names. Note that node names must be unique.
 
     Examples:
-        >>> from bigtree import list_to_dag, dag_iterator
+        >>> from bigtree import DAG, dag_iterator
         >>> relations_list = [("a", "c"), ("a", "d"), ("b", "c"), ("c", "d"), ("d", "e")]
-        >>> dag = list_to_dag(relations_list)
-        >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
+        >>> dag = DAG.from_list(relations_list)
+        >>> [(parent.node_name, child.node_name) for parent, child in dag.iterate()]
         [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
@@ -59,7 +59,7 @@ def dict_to_dag(
     Note that node names must be unique.
 
     Examples:
-        >>> from bigtree import dict_to_dag, dag_iterator
+        >>> from bigtree import DAG
         >>> relation_dict = {
         ...     "a": {"step": 1},
         ...     "b": {"step": 1},
@@ -67,8 +67,8 @@ def dict_to_dag(
         ...     "d": {"parents": ["a", "c"], "step": 2},
         ...     "e": {"parents": ["d"], "step": 3},
         ... }
-        >>> dag = dict_to_dag(relation_dict, parent_key="parents")
-        >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
+        >>> dag = DAG.from_dict(relation_dict, parent_key="parents")
+        >>> [(parent.node_name, child.node_name) for parent, child in dag.iterate()]
         [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:
@@ -125,7 +125,7 @@ def dataframe_to_dag(
 
     Examples:
         >>> import pandas as pd
-        >>> from bigtree import dataframe_to_dag, dag_iterator
+        >>> from bigtree import DAG
         >>> relation_data = pd.DataFrame([
         ...     ["a", None, 1],
         ...     ["b", None, 1],
@@ -137,8 +137,8 @@ def dataframe_to_dag(
         ... ],
         ...     columns=["child", "parent", "step"]
         ... )
-        >>> dag = dataframe_to_dag(relation_data)
-        >>> [(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)]
+        >>> dag = DAG.from_dataframe(relation_data)
+        >>> [(parent.node_name, child.node_name) for parent, child in dag.iterate()]
         [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 
     Args:

@@ -13,6 +13,7 @@ class BinaryTree(Tree):
         - Helper methods for cloning, pruning, getting tree diff
         - Query and Search methods to find one or more Nodes
 
+
     Do refer to the various modules respectively on the keyword parameters.
     """
 
@@ -22,7 +23,13 @@ class BinaryTree(Tree):
         super().__init__(root)
 
     @classmethod
-    def from_heapq_list(cls, heapq_list: Sequence[int], **kwargs: Any) -> "BinaryTree":
+    def from_heapq_list(
+        cls, heapq_list: Sequence[int], *args: Any, **kwargs: Any
+    ) -> "BinaryTree":
+        """See `list_to_binarytree` for full details.
+
+        Accepts the same arguments as `list_to_binarytree`.
+        """
         construct_kwargs = {**cls.construct_kwargs, **kwargs}
-        root_node = construct.list_to_binarytree(heapq_list, **construct_kwargs)
+        root_node = construct.list_to_binarytree(heapq_list, *args, **construct_kwargs)
         return cls(root_node)
