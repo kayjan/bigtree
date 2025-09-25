@@ -18,7 +18,7 @@ T = TypeVar("T", bound=node.Node)
 
 
 def add_dict_to_tree_by_path(
-    node: T,
+    tree: T,
     path_attrs: Mapping[str, Mapping[str, Any]],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
@@ -66,7 +66,7 @@ def add_dict_to_tree_by_path(
             └── f
 
     Args:
-        node: existing tree
+        tree: existing tree
         path_attrs: node path and attribute information, key: node path, value: dict of node attribute name and
             attribute value
         sep: path separator for input `path_attrs`
@@ -77,7 +77,7 @@ def add_dict_to_tree_by_path(
     """
     assertions.assert_length_not_empty(path_attrs, "Dictionary", "path_attrs")
 
-    root_node = node.root
+    root_node = tree.root
 
     for path, node_attrs in path_attrs.items():
         add_path_to_tree(

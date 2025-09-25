@@ -36,7 +36,7 @@ T = TypeVar("T", bound=_node.Node)
 
 
 def add_dataframe_to_tree_by_path(
-    node: T,
+    tree: T,
     data: pd.DataFrame,
     path_col: str | None = None,
     attribute_cols: list[str] | None = None,
@@ -91,7 +91,7 @@ def add_dataframe_to_tree_by_path(
             └── f [age=38]
 
     Args:
-        node: existing tree
+        tree: existing tree
         data: data containing node path and attribute information
         path_col: column of data containing `path_name` information, if not set, it will take the first column of data
         attribute_cols: columns of data containing node attribute information, if not set, it will take all columns of
@@ -116,7 +116,7 @@ def add_dataframe_to_tree_by_path(
         data, "path", path_col, attribute_cols
     )
 
-    root_node = node.root
+    root_node = tree.root
     for row in data.to_dict(orient="index").values():
         node_attrs = common.filter_attributes(
             row, omit_keys=["name", path_col], omit_null_values=True
@@ -132,7 +132,7 @@ def add_dataframe_to_tree_by_path(
 
 
 def add_dataframe_to_tree_by_name(
-    node: T,
+    tree: T,
     data: pd.DataFrame,
     name_col: str | None = None,
     attribute_cols: list[str] | None = None,
@@ -164,7 +164,7 @@ def add_dataframe_to_tree_by_name(
         └── b [age=65]
 
     Args:
-        node: existing tree
+        tree: existing tree
         data: data containing node name and attribute information
         name_col: column of data containing `name` information, if not set, it will take the first column of data
         attribute_cols: column(s) of data containing node attribute information, if not set, it will take all columns
@@ -196,11 +196,11 @@ def add_dataframe_to_tree_by_name(
         for k1, v1 in name_attrs.items()
     }
 
-    return add_dict_to_tree_by_name(node, name_attrs)
+    return add_dict_to_tree_by_name(tree, name_attrs)
 
 
 def add_polars_to_tree_by_path(
-    node: T,
+    tree: T,
     data: pl.DataFrame,
     path_col: str | None = None,
     attribute_cols: list[str] | None = None,
@@ -255,7 +255,7 @@ def add_polars_to_tree_by_path(
             └── f [age=38]
 
     Args:
-        node: existing tree
+        tree: existing tree
         data: data containing node path and attribute information
         path_col: column of data containing `path_name` information, if not set, it will take the first column of data
         attribute_cols: columns of data containing node attribute information, if not set, it will take all columns of
@@ -282,7 +282,7 @@ def add_polars_to_tree_by_path(
         data, "path", path_col, attribute_cols
     )
 
-    root_node = node.root
+    root_node = tree.root
     for row_kwargs in data.to_dicts():
         node_attrs = common.filter_attributes(
             row_kwargs, omit_keys=["name", path_col], omit_null_values=True
@@ -298,7 +298,7 @@ def add_polars_to_tree_by_path(
 
 
 def add_polars_to_tree_by_name(
-    node: T,
+    tree: T,
     data: pl.DataFrame,
     name_col: str | None = None,
     attribute_cols: list[str] | None = None,
@@ -328,7 +328,7 @@ def add_polars_to_tree_by_name(
         └── b [age=65]
 
     Args:
-        node: existing tree
+        tree: existing tree
         data: data containing node name and attribute information
         name_col: column of data containing `name` information, if not set, it will take the first column of data
         attribute_cols: column(s) of data containing node attribute information, if not set, it will take all columns
@@ -360,7 +360,7 @@ def add_polars_to_tree_by_name(
         for k1, v1 in name_attrs.items()
     }
 
-    return add_dict_to_tree_by_name(node, name_attrs)
+    return add_dict_to_tree_by_name(tree, name_attrs)
 
 
 def dataframe_to_tree(
