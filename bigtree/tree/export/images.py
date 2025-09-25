@@ -60,13 +60,14 @@ def tree_to_dot(
     Possible node attributes include style, fillcolor, shape.
 
     Examples:
-        >>> from bigtree import Node, tree_to_dot
+        >>> from bigtree import Node, Tree
         >>> root = Node("a", age=90)
         >>> b = Node("b", age=65, parent=root)
         >>> c = Node("c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=b)
         >>> e = Node("e", age=35, parent=b)
-        >>> graph = tree_to_dot(root)
+        >>> tree = Tree(root)
+        >>> graph = tree.to_dot(root)
 
         Display image directly without saving (requires IPython)
 
@@ -113,7 +114,8 @@ def tree_to_dot(
         >>> c = CustomNode("c", edge_label="child", parent=root)
         >>> d = CustomNode("d", node_shape="square", edge_label="child", parent=b)
         >>> e = CustomNode("e", node_shape="square", edge_label="child", parent=b)
-        >>> graph = tree_to_dot(root, node_colour="gold", node_shape="diamond", node_attr="node_attr", edge_attr="edge_attr")
+        >>> tree = Tree(root)
+        >>> graph = tree.to_dot(node_colour="gold", node_shape="diamond", node_attr="node_attr", edge_attr="edge_attr")
         >>> graph.write_png("assets/export_tree_dot.png")
 
         ![Export to dot](https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot.png)
@@ -131,7 +133,8 @@ def tree_to_dot(
         >>> c = CustomNode("c", parent=root)
         >>> d = CustomNode("d", parent=b)
         >>> e = CustomNode("e", parent=b)
-        >>> graph = tree_to_dot(root, node_colour="gold", node_attr=get_node_attribute)
+        >>> tree = Tree(root)
+        >>> graph = tree.to_dot(node_colour="gold", node_attr=get_node_attribute)
         >>> graph.write_png("assets/export_tree_dot_callable.png")
 
         ![Export to dot (callable)](https://github.com/kayjan/bigtree/raw/master/assets/export_tree_dot_callable.png)
@@ -178,7 +181,7 @@ def tree_to_dot(
         def _recursive_append(
             parent_name: str | None,
             child_node: T,
-            _name_dict: dict[str, list[str]] = name_dict,
+            _name_dict: dict[str, list[str]],
         ) -> None:
             """Recursively iterate through node and its children to export to dot by creating node and edges.
 
@@ -215,9 +218,9 @@ def tree_to_dot(
                 _graph.add_edge(edge)
             for _child in child_node.children:
                 if _child:
-                    _recursive_append(child_name, _child)
+                    _recursive_append(child_name, _child, _name_dict)
 
-        _recursive_append(None, _tree.root)
+        _recursive_append(None, _tree.root, name_dict)
     return _graph
 
 
@@ -268,13 +271,14 @@ def tree_to_pillow_graph(
         - For more separation between nodes, change `height_buffer` and `width_buffer`
 
     Examples:
-        >>> from bigtree import Node, tree_to_pillow_graph
+        >>> from bigtree import Node, Tree
         >>> root = Node("a", age=90)
         >>> b = Node("b", age=65, parent=root)
         >>> c = Node("c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=b)
         >>> e = Node("e", age=35, parent=b)
-        >>> pillow_image = tree_to_pillow_graph(root, node_content="{node_name}\nAge: {age}")
+        >>> tree = Tree(root)
+        >>> pillow_image = tree.to_pillow_graph(node_content="{node_name}\nAge: {age}")
 
         Export to image (PNG, JPG) file, etc.
 
@@ -449,13 +453,14 @@ def tree_to_pillow(
     be similar format as `print_tree`, accepts additional keyword arguments as input to `yield_tree`.
 
     Examples:
-        >>> from bigtree import Node, tree_to_pillow
+        >>> from bigtree import Node, Tree
         >>> root = Node("a", age=90)
         >>> b = Node("b", age=65, parent=root)
         >>> c = Node("c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=b)
         >>> e = Node("e", age=35, parent=b)
-        >>> pillow_image = tree_to_pillow(root)
+        >>> tree = Tree(root)
+        >>> pillow_image = tree.to_pillow()
 
         Export to image (PNG, JPG) file, etc.
 
@@ -626,13 +631,14 @@ def tree_to_mermaid(
         Advanced mermaid flowchart functionalities such as subgraphs and interactions (script, click) are not supported.
 
     Examples:
-        >>> from bigtree import tree_to_mermaid
+        >>> from bigtree import Tree
         >>> root = Node("a", node_shape="rhombus")
         >>> b = Node("b", edge_arrow="bold", edge_label="Child 1", parent=root)
         >>> c = Node("c", edge_arrow="dotted", edge_label="Child 2", parent=root)
         >>> d = Node("d", node_style="fill:yellow, stroke:black", parent=b)
         >>> e = Node("e", parent=b)
-        >>> graph = tree_to_mermaid(root)
+        >>> tree = Tree(root)
+        >>> graph = tree.to_mermaid()
         >>> print(graph)
         ```mermaid
         %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
@@ -646,8 +652,7 @@ def tree_to_mermaid(
 
         **Customise node shape, edge label, edge arrow, and custom node attributes**
 
-        >>> graph = tree_to_mermaid(
-        ...     root,
+        >>> graph = tree.to_mermaid(
         ...     title="Mermaid Diagram",
         ...     theme="forest",
         ...     node_shape_attr="node_shape",

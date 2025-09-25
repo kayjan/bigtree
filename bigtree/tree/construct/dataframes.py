@@ -149,7 +149,9 @@ def add_dataframe_to_tree_by_name(
     Examples:
         >>> import pandas as pd
         >>> from bigtree import Node, Tree
-        >>> tree = Tree(Node("b", parent=Node("a")))
+        >>> root = Node("a")
+        >>> b = Node("b", parent=root)
+        >>> tree = Tree(root)
         >>> name_data = pd.DataFrame([
         ...     ["a", 90],
         ...     ["b", 65],
@@ -313,7 +315,9 @@ def add_polars_to_tree_by_name(
     Examples:
         >>> import polars as pl
         >>> from bigtree import Node, Tree
-        >>> tree = Tree(Node("b", parent=Node("a")))
+        >>> root = Node("a")
+        >>> b = Node("b", parent=root)
+        >>> tree = Tree(root)
         >>> name_data = pl.DataFrame({
         ...     "NAME": ["a", "b"],
         ...     "age": [90, 65],

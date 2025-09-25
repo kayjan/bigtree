@@ -101,7 +101,9 @@ def add_dict_to_tree_by_name(tree: T, name_attrs: Mapping[str, Mapping[str, Any]
 
     Examples:
         >>> from bigtree import Node, Tree
-        >>> tree = Tree(Node("b", parent=Node("a")))
+        >>> root = Node("a")
+        >>> b = Node("b", parent=root)
+        >>> tree = Tree(root)
         >>> name_dict = {
         ...     "a": {"age": 90},
         ...     "b": {"age": 65},

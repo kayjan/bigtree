@@ -45,13 +45,14 @@ def tree_to_dataframe(
     All descendants from `tree` will be exported, `tree` can be the root node or child node of tree.
 
     Examples:
-        >>> from bigtree import Node, tree_to_dataframe
+        >>> from bigtree import Node, Tree
         >>> root = Node("a", age=90)
         >>> b = Node("b", age=65, parent=root)
         >>> c = Node("c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=b)
         >>> e = Node("e", age=35, parent=b)
-        >>> tree_to_dataframe(root, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
+        >>> tree = Tree(root)
+        >>> tree.to_dataframe(name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
              path name parent  person age
         0      /a    a   None          90
         1    /a/b    b      a          65
@@ -61,7 +62,8 @@ def tree_to_dataframe(
 
         For a subset of a tree.
 
-        >>> tree_to_dataframe(b, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
+        >>> b_tree = Tree(b)
+        >>> b_tree.to_dataframe(name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
              path name parent  person age
         0    /a/b    b      a          65
         1  /a/b/d    d      b          40
@@ -128,13 +130,14 @@ def tree_to_polars(
     All descendants from `tree` will be exported, `tree` can be the root node or child node of tree.
 
     Examples:
-        >>> from bigtree import Node, tree_to_polars
+        >>> from bigtree import Node, Tree
         >>> root = Node("a", age=90)
         >>> b = Node("b", age=65, parent=root)
         >>> c = Node("c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=b)
         >>> e = Node("e", age=35, parent=b)
-        >>> tree_to_polars(root, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
+        >>> tree = Tree(root)
+        >>> tree.to_polars(name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
         shape: (5, 4)
         ┌────────┬──────┬────────┬────────────┐
         │ path   ┆ name ┆ parent ┆ person age │
@@ -150,7 +153,8 @@ def tree_to_polars(
 
         For a subset of a tree.
 
-        >>> tree_to_polars(b, name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
+        >>> b_tree = Tree(b)
+        >>> b_tree.to_polars(name_col="name", parent_col="parent", path_col="path", attr_dict={"age": "person age"})
         shape: (3, 4)
         ┌────────┬──────┬────────┬────────────┐
         │ path   ┆ name ┆ parent ┆ person age │

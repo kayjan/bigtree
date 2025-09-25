@@ -50,13 +50,14 @@ def print_tree(
     Examples:
         **Printing tree**
 
-        >>> from bigtree import Node, print_tree
+        >>> from bigtree import Node, Tree
         >>> root = Node("a", alias="alias-a", age=90)
         >>> b = Node("b", age=65, parent=root)
         >>> c = Node("c", alias="alias-c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=b)
         >>> e = Node("e", age=35, parent=b)
-        >>> print_tree(root)
+        >>> tree = Tree(root)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
@@ -65,7 +66,7 @@ def print_tree(
 
         **Printing alias**
 
-        >>> print_tree(root, alias="alias")
+        >>> tree.show(alias="alias")
         alias-a
         ├── b
         │   ├── d
@@ -74,26 +75,26 @@ def print_tree(
 
         **Printing Sub-tree**
 
-        >>> print_tree(root, node_name_or_path="b")
+        >>> tree.show(node_name_or_path="b")
         b
         ├── d
         └── e
 
-        >>> print_tree(root, max_depth=2)
+        >>> tree.show(max_depth=2)
         a
         ├── b
         └── c
 
         **Printing Attributes**
 
-        >>> print_tree(root, attr_list=["age"])
+        >>> tree.show(attr_list=["age"])
         a [age=90]
         ├── b [age=65]
         │   ├── d [age=40]
         │   └── e [age=35]
         └── c [age=60]
 
-        >>> print_tree(root, attr_list=["age"], attr_bracket=["*(", ")"])
+        >>> tree.show(attr_list=["age"], attr_bracket=["*(", ")"])
         a *(age=90)
         ├── b *(age=65)
         │   ├── d *(age=40)
@@ -102,42 +103,42 @@ def print_tree(
 
         **Available Styles**
 
-        >>> print_tree(root, style="ansi")
+        >>> tree.show(style="ansi")
         a
         |-- b
         |   |-- d
         |   `-- e
         `-- c
 
-        >>> print_tree(root, style="ascii")
+        >>> tree.show(style="ascii")
         a
         |-- b
         |   |-- d
         |   +-- e
         +-- c
 
-        >>> print_tree(root, style="const")
+        >>> tree.show(style="const")
         a
         ├── b
         │   ├── d
         │   └── e
         └── c
 
-        >>> print_tree(root, style="const_bold")
+        >>> tree.show(style="const_bold")
         a
         ┣━━ b
         ┃   ┣━━ d
         ┃   ┗━━ e
         ┗━━ c
 
-        >>> print_tree(root, style="rounded")
+        >>> tree.show(style="rounded")
         a
         ├── b
         │   ├── d
         │   ╰── e
         ╰── c
 
-        >>> print_tree(root, style="double")
+        >>> tree.show(style="double")
         a
         ╠══ b
         ║   ╠══ d
@@ -147,7 +148,7 @@ def print_tree(
         **Custom Styles**
 
         >>> from bigtree import ANSIPrintStyle
-        >>> print_tree(root, style=ANSIPrintStyle)
+        >>> tree.show(style=ANSIPrintStyle)
         a
         |-- b
         |   |-- d
@@ -158,7 +159,7 @@ def print_tree(
 
         >>> import io
         >>> output = io.StringIO()
-        >>> print_tree(root, file=output)
+        >>> tree.show(file=output)
         >>> tree_string = output.getvalue()
         >>> print(tree_string)
         a

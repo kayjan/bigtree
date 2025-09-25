@@ -68,7 +68,7 @@ class Tree:
     construct_kwargs: dict[str, Any] = dict()
 
     def __init__(self, root: node.Node):
-        self.root = root.root
+        self.root = root
 
     def show(self, **kwargs: Any) -> None:
         self.root.show(**kwargs)
