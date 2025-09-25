@@ -1,7 +1,7 @@
-from typing import Any, Mapping, TypeVar
+from typing import Any, Iterable, Mapping, TypeVar
 
 from bigtree.node import basenode, binarynode, node
-from bigtree.tree import construct, export, helper
+from bigtree.tree import construct, export, helper, query, search
 from bigtree.utils import exceptions
 
 try:
@@ -167,49 +167,83 @@ class Tree:
         return cls(root_node)
 
     # Export methods
-    def to_dataframe(self, **kwargs: Any) -> pd.DataFrame:
-        return export.tree_to_dataframe(self.root, **kwargs)
+    def to_dataframe(self, *args: Any, **kwargs: Any) -> pd.DataFrame:
+        return export.tree_to_dataframe(self.root, *args, **kwargs)
 
-    def to_polars(self, **kwargs: Any) -> pl.DataFrame:
-        return export.tree_to_polars(self.root, **kwargs)
+    def to_polars(self, *args: Any, **kwargs: Any) -> pl.DataFrame:
+        return export.tree_to_polars(self.root, *args, **kwargs)
 
-    def to_dict(self, **kwargs: Any) -> dict[str, Any]:
-        return export.tree_to_dict(self.root, **kwargs)
+    def to_dict(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+        return export.tree_to_dict(self.root, *args, **kwargs)
 
-    def to_nested_dict(self, **kwargs: Any) -> dict[str, Any]:
-        return export.tree_to_nested_dict(self.root, **kwargs)
+    def to_nested_dict(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+        return export.tree_to_nested_dict(self.root, *args, **kwargs)
 
-    def to_nested_dict_key(self, **kwargs: Any) -> dict[str, Any]:
-        return export.tree_to_nested_dict_key(self.root, **kwargs)
+    def to_nested_dict_key(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+        return export.tree_to_nested_dict_key(self.root, *args, **kwargs)
 
-    def to_newick(self, **kwargs: Any) -> str:
-        return export.tree_to_newick(self.root, **kwargs)
+    def to_newick(self, *args: Any, **kwargs: Any) -> str:
+        return export.tree_to_newick(self.root, *args, **kwargs)
 
     @exceptions.optional_dependencies_image("pydot")
-    def to_dot(self, **kwargs: Any) -> pydot.Dot:
-        return export.tree_to_dot(self.root, **kwargs)
+    def to_dot(self, *args: Any, **kwargs: Any) -> pydot.Dot:
+        return export.tree_to_dot(self.root, *args, **kwargs)
 
     @exceptions.optional_dependencies_image("Pillow")
-    def to_pillow_graph(self, **kwargs: Any) -> Image.Image:
-        return export.tree_to_pillow_graph(self.root, **kwargs)
+    def to_pillow_graph(self, *args: Any, **kwargs: Any) -> Image.Image:
+        return export.tree_to_pillow_graph(self.root, *args, **kwargs)
 
     @exceptions.optional_dependencies_image("Pillow")
-    def to_pillow(self, **kwargs: Any) -> Image.Image:
-        return export.tree_to_pillow(self.root, **kwargs)
+    def to_pillow(self, *args: Any, **kwargs: Any) -> Image.Image:
+        return export.tree_to_pillow(self.root, *args, **kwargs)
 
-    def to_mermaid(self, **kwargs: Any) -> str:
-        return export.tree_to_mermaid(self.root, **kwargs)
+    def to_mermaid(self, *args: Any, **kwargs: Any) -> str:
+        return export.tree_to_mermaid(self.root, *args, **kwargs)
 
     @exceptions.optional_dependencies_vis
-    def to_vis(self, **kwargs: Any) -> pyvis.network.Network:
-        return export.tree_to_vis(self.root, **kwargs)
+    def to_vis(self, *args: Any, **kwargs: Any) -> pyvis.network.Network:
+        return export.tree_to_vis(self.root, *args, **kwargs)
 
     # Helper methods
     def clone(self, node_type: type[BaseNodeT]) -> BaseNodeT:
         return helper.clone_tree(self.root, node_type)
 
-    def prune(self, **kwargs: Any) -> BinaryNodeT | NodeT:
-        return helper.prune_tree(self.root, **kwargs)  # type: ignore
+    def prune(self, *args: Any, **kwargs: Any) -> BinaryNodeT | NodeT:
+        return helper.prune_tree(self.root, *args, **kwargs)  # type: ignore
 
-    def diff(self, other_tree: node.Node, **kwargs: Any) -> node.Node:
-        return helper.get_tree_diff(self.root, other_tree, **kwargs)
+    def diff(self, other_tree: node.Node, *args: Any, **kwargs: Any) -> node.Node:
+        return helper.get_tree_diff(self.root, other_tree.root, *args, **kwargs)
+
+    # Query methods
+    def query(
+        self, query_str: str, *args: Any, **kwargs: Any
+    ) -> list[basenode.BaseNode]:
+        return query.query_tree(self.root, query_str, *args, **kwargs)
+
+    # Search methods
+    def findall(self, *args: Any, **kwargs: Any) -> tuple[basenode.BaseNode, ...]:
+        return search.findall(self.root, *args, **kwargs)
+
+    def find(self, *args: Any, **kwargs: Any) -> basenode.BaseNode:
+        return search.find(self.root, *args, **kwargs)
+
+    def find_name(self, *args: Any, **kwargs: Any) -> node.Node:
+        return search.find_name(self.root, *args, **kwargs)
+
+    def find_names(self, *args: Any, **kwargs: Any) -> Iterable[node.Node]:
+        return search.find_names(self.root, *args, **kwargs)
+
+    def find_full_path(self, *args: Any, **kwargs: Any) -> node.Node:
+        return search.find_full_path(self.root, *args, **kwargs)
+
+    def find_path(self, *args: Any, **kwargs: Any) -> node.Node:
+        return search.find_path(self.root, *args, **kwargs)
+
+    def find_paths(self, *args: Any, **kwargs: Any) -> Iterable[node.Node]:
+        return search.find_paths(self.root, *args, **kwargs)
+
+    def find_attr(self, *args: Any, **kwargs: Any) -> basenode.BaseNode:
+        return search.find_attr(self.root, *args, **kwargs)
+
+    def find_attrs(self, *args: Any, **kwargs: Any) -> Iterable[basenode.BaseNode]:
+        return search.find_attrs(self.root, *args, **kwargs)

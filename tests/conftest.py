@@ -80,6 +80,11 @@ def tree_tree(tree_node):
 
 
 @pytest.fixture
+def tree_tree_diff(tree_node_diff):
+    return tree.Tree(tree_node_diff)
+
+
+@pytest.fixture
 def tree_node2():
     """
     Tree should have structure
