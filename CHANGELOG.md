@@ -14,6 +14,10 @@ methods instead of calling the various functions.
 - Tree Construct: `add_dataframe_to_tree_by_path`, `add_dataframe_to_tree_by_name`, `add_polars_to_tree_by_path`,
 `add_polars_to_tree_by_name`, `add_dict_to_tree_by_path` has parameter name changed from tree to node to avoid confusion on the convention.
 
+## [0.31.2] - 2025-09-25
+### Fixed:
+- Docs: Upgrade docs to use Python 3.10.
+
 ## [0.31.1] - 2025-09-25
 ### Added:
 - Tree Print: Add customisation for attribute display and attribute separator.
@@ -835,7 +839,8 @@ ignore null attribute columns.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
 [Unreleased]: https://github.com/kayjan/bigtree/compare/1.0.0...HEAD
-[1.0.0]: https://github.com/kayjan/bigtree/compare/0.31.1...1.0.0
+[1.0.0]: https://github.com/kayjan/bigtree/compare/0.31.2...1.0.0
+[0.31.2]: https://github.com/kayjan/bigtree/compare/0.31.1...0.31.2
 [0.31.1]: https://github.com/kayjan/bigtree/compare/0.31.0...0.31.1
 [0.31.0]: https://github.com/kayjan/bigtree/compare/0.30.1...0.31.0
 [0.30.1]: https://github.com/kayjan/bigtree/compare/0.30.0...0.30.1
