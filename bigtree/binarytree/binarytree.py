@@ -7,9 +7,11 @@ from bigtree.tree.tree import Tree
 
 class BinaryTree(Tree):
     """
-    BinaryTree wraps around BinaryNode class to provide an intuitive, Pythonic API for
-        - Quick construction of tree with dataframe, dictionary, list, or string
-        - Quick export to dataframe, dictionary, list, string, or images
+    BinaryTree wraps around BinaryNode class to provide a quick, intuitive, Pythonic API for
+        - Construction with dataframe, dictionary, list, or string
+        - Export to dataframe, dictionary, list, string, or images
+        - Helper methods for cloning, pruning, getting tree diff
+        - Query and Search methods to find one or more Nodes
 
     Do refer to the various modules respectively on the keyword parameters.
     """
