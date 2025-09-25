@@ -1,4 +1,7 @@
-from typing import Any, Collection, Iterable, Mapping
+from __future__ import annotations
+
+import copy
+from typing import Any, Collection, Iterable, Mapping, TypeVar
 
 import pandas as pd
 
@@ -90,3 +93,64 @@ class DAG:
     def iterate(self) -> Iterable[tuple[dagnode.DAGNode, dagnode.DAGNode]]:
         """See `dag_iterator` for full details."""
         return iterators.dag_iterator(self.dag)
+
+    # Magic methods
+    def __getitem__(self, child_name: str) -> "DAG":
+        """Get child by name identifier.
+
+        Args:
+            child_name: name of child node
+
+        Returns:
+            Child node
+        """
+        from bigtree.tree.search import find_child_by_name
+
+        return type(self)(find_child_by_name(self.dag, child_name))
+
+    def __delitem__(self, child_name: str) -> None:
+        """Delete child by name identifier, will not throw error if child does not exist.
+
+        Args:
+            child_name: name of child node
+        """
+        from bigtree.tree.search import find_child_by_name
+
+        child = find_child_by_name(self.dag, child_name)
+        if child:
+            self.dag._DAGNode__children.remove(child)  # type: ignore
+            child._DAGNode__parents.remove(self.dag)  # type: ignore
+
+    def copy(self: T) -> T:
+        """Deep copy self; clone DAG.
+
+        Returns:
+            Cloned copy of DAG
+        """
+        return copy.deepcopy(self)
+
+    def __copy__(self: T) -> T:
+        """Shallow copy self.
+
+        Returns:
+            Shallow copy of DAG
+        """
+        obj: T = type(self).__new__(self.__class__)
+        obj.__dict__.update(self.__dict__)
+        return obj
+
+    def __repr__(self) -> str:
+        """Print format of DAGNode.
+
+        Returns:
+            Print format of DAGNode
+        """
+        class_name = self.__class__.__name__
+        node_dict = self.dag.describe(exclude_attributes=["name"])
+        node_description = ", ".join(
+            [f"{k}={v}" for k, v in node_dict if not k.startswith("_")]
+        )
+        return f"{class_name}({self.dag.node_name}, {node_description})"
+
+
+T = TypeVar("T", bound=DAG)

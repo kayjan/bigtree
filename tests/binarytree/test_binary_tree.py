@@ -278,8 +278,8 @@ class TestBinaryTreeExport:
 class TestBinaryTreeHelper:
     @staticmethod
     def test_clone(binarytree_tree):
-        root_clone = binarytree_tree.clone(node_type=node.Node)
-        assert isinstance(root_clone, node.Node), "Wrong type returned"
+        tree_clone = binarytree_tree.clone(node_type=node.Node)
+        assert isinstance(tree_clone.root, node.Node), "Wrong type returned"
         expected_str = (
             "1\n"
             "├── 2\n"
@@ -290,7 +290,7 @@ class TestBinaryTreeHelper:
             "    ├── 6\n"
             "    └── 7\n"
         )
-        assert_print_statement(root_clone.show, expected_str)
+        assert_print_statement(tree_clone.show, expected_str)
 
 
 class TestBinaryTreeIterators:

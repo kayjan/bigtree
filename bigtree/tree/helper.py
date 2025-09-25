@@ -32,7 +32,7 @@ def clone_tree(tree: basenode.BaseNode, node_type: type[BaseNodeT]) -> BaseNodeT
         >>> b = BaseNode(name="b", parent=root)
         >>> tree = Tree(root)
         >>> tree.clone(Node)
-        Node(/a, )
+        Tree(/a, )
 
     Args:
         tree: tree to be cloned, must inherit from BaseNode

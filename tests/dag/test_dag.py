@@ -3,6 +3,7 @@ import unittest
 import pandas as pd
 
 from bigtree.dag.dag import DAG
+from tests.conftest import assert_print_statement
 from tests.node.test_dagnode import (
     assert_dag_structure_root,
     assert_dag_structure_root_attr,
@@ -10,6 +11,25 @@ from tests.node.test_dagnode import (
 from tests.test_constants import Constants
 
 LOCAL = Constants.LOCAL
+
+
+class TestDAG:
+    @staticmethod
+    def test_tree_magic_methods(dag_dag):
+        # Test __repr__
+        assert_print_statement(print, "DAG(a, age=90)\n", dag_dag)
+        assert_print_statement(print, "DAG(c, age=60)\n", dag_dag["c"])
+
+        # Test __copy__, __getitem__, __delitem__
+        import copy
+
+        dag_deep_copy = dag_dag.copy()
+        dag_shallow_copy = copy.copy(dag_dag)
+        del dag_dag["c"]
+        del dag_dag["something"]
+        assert len(list(dag_dag.iterate())) == 8
+        assert len(list(dag_shallow_copy.iterate())) == 8
+        assert len(list(dag_deep_copy.iterate())) == 9
 
 
 class TestDAGConstruct(unittest.TestCase):

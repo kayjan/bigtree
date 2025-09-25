@@ -14,7 +14,6 @@ class BinaryTree(Tree):
         - Helper methods for cloning, pruning, getting tree diff
         - Query and Search methods to find one or more Nodes
 
-
     Do refer to the various modules respectively on the keyword parameters.
     """
 

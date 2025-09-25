@@ -363,19 +363,19 @@ class Tree:
         return export.tree_to_vis(self.root, *args, **kwargs)
 
     # Helper methods
-    def clone(self, node_type: type[BaseNodeT]) -> BaseNodeT:
+    def clone(self, node_type: type[BaseNodeT]) -> "Tree":
         """See `clone_tree` for full details.
 
         Accepts the same arguments as `clone_tree`.
         """
-        return helper.clone_tree(self.root, node_type)
+        return type(self)(helper.clone_tree(self.root, node_type))  # type: ignore
 
-    def prune(self, *args: Any, **kwargs: Any) -> BinaryNodeT | NodeT:
+    def prune(self, *args: Any, **kwargs: Any) -> "Tree":
         """See `prune_tree` for full details.
 
         Accepts the same arguments as `prune_tree`.
         """
-        return helper.prune_tree(self.root, *args, **kwargs)  # type: ignore
+        return type(self)(helper.prune_tree(self.root, *args, **kwargs))
 
     def diff_dataframe(
         self, other_tree: node.Node, *args: Any, **kwargs: Any
@@ -562,15 +562,10 @@ class Tree:
             child.parent = None
 
     def copy(self: T) -> T:
-        """Deep copy self; clone BaseNode.
-
-        Examples:
-            >>> from bigtree.node.node import Node
-            >>> a = Node('a')
-            >>> a_copy = a.copy()
+        """Deep copy self; clone Tree.
 
         Returns:
-            Cloned copy of node
+            Cloned copy of Tree
         """
         return copy.deepcopy(self)
 
@@ -578,7 +573,7 @@ class Tree:
         """Shallow copy self.
 
         Returns:
-            Shallow copy of node
+            Shallow copy of Tree
         """
         obj: T = type(self).__new__(self.__class__)
         obj.__dict__.update(self.__dict__)

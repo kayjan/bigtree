@@ -29,11 +29,13 @@ class TestTree:
         # Test __copy__, __getitem__, __delitem__
         import copy
 
-        tree_copy = copy.copy(tree_tree)
-        del tree_copy["b"]
-        del tree_copy["something"]
-        assert len(tree_copy.root.children) == 1
+        tree_deep_copy = tree_tree.copy()
+        tree_shallow_copy = copy.copy(tree_tree)
+        del tree_shallow_copy["b"]
+        del tree_shallow_copy["something"]
         assert len(tree_tree.root.children) == 1
+        assert len(tree_shallow_copy.root.children) == 1
+        assert len(tree_deep_copy.root.children) == 2
 
 
 class TestTreeConstruct(unittest.TestCase):
@@ -557,20 +559,20 @@ class TestTreeExport:
 class TestTreeHelper:
     @staticmethod
     def test_clone(tree_tree):
-        root_clone = tree_tree.clone(node_type=basenode.BaseNode)
-        assert isinstance(root_clone, basenode.BaseNode), "Wrong type returned"
-        assert_tree_structure_basenode_root(root_clone)
-        assert_tree_structure_basenode_root_attr(root_clone)
+        tree_clone = tree_tree.clone(node_type=basenode.BaseNode)
+        assert isinstance(tree_clone.root, basenode.BaseNode), "Wrong type returned"
+        assert_tree_structure_basenode_root(tree_clone.root)
+        assert_tree_structure_basenode_root_attr(tree_clone.root)
 
     @staticmethod
     def test_prune(tree_tree):
         # Pruned tree is a/b/d, a/b/e/g, a/b/e/h
         tree_prune = tree_tree.prune("a/b")
 
-        assert len(list(tree_prune.children)) == 1
-        assert len(tree_prune.children[0].children) == 2
-        assert len(tree_prune.children[0].children[0].children) == 0
-        assert len(tree_prune.children[0].children[1].children) == 2
+        assert len(list(tree_prune.root.children)) == 1
+        assert len(tree_prune.root.children[0].children) == 2
+        assert len(tree_prune.root.children[0].children[0].children) == 0
+        assert len(tree_prune.root.children[0].children[1].children) == 2
 
     @staticmethod
     def test_diff_dataframe(tree_tree):
