@@ -2890,7 +2890,7 @@
                 <code>node_type</code>
             </td>
             <td>
-                  <code><span title="typing.Type">Type</span>[<span title="bigtree.tree.helper.BaseNodeT">BaseNodeT</span>]</code>
+                  <code><span title="type">type</span>[<span title="bigtree.tree.helper.BaseNodeT">BaseNodeT</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3004,7 +3004,7 @@ different root. Returns a copy of the tree; does not affect original tree.</p>
                 <code>node_name_or_path</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+                  <code><span title="str">str</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3157,7 +3157,7 @@ affect original tree.</p>
                 <code>tree</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="bigtree.tree.helper.BinaryNodeT">BinaryNodeT</span>, <span title="bigtree.tree.helper.NodeT">NodeT</span>]</code>
+                  <code><span title="bigtree.tree.helper.BinaryNodeT">BinaryNodeT</span> | <span title="bigtree.tree.helper.NodeT">NodeT</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3173,7 +3173,7 @@ affect original tree.</p>
                 <code>prune_path</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Iterable">Iterable</span>[<span title="str">str</span>], <span title="str">str</span>]]</code>
+                  <code><span title="typing.Iterable">Iterable</span>[<span title="str">str</span>] | <span title="str">str</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3247,7 +3247,7 @@ affect original tree.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="bigtree.tree.helper.BinaryNodeT">BinaryNodeT</span>, <span title="bigtree.tree.helper.NodeT">NodeT</span>]</code>
+                  <code><span title="bigtree.tree.helper.BinaryNodeT">BinaryNodeT</span> | <span title="bigtree.tree.helper.NodeT">NodeT</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3452,7 +3452,7 @@ only parent-level node have suffixes and nodes that have different paths but sam
                 <code>attr_list</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="str">str</span>]]</code>
+                  <code><span title="list">list</span>[<span title="str">str</span>] | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3892,7 +3892,7 @@ the parent-level. This is useful when a subtree is shifted, and we want the diff
                 <code>attr_list</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Iterable">Iterable</span>[<span title="str">str</span>]]</code>
+                  <code><span title="typing.Iterable">Iterable</span>[<span title="str">str</span>] | None</code>
             </td>
             <td>
               <div class="doc-md-description">
