@@ -16,13 +16,13 @@ Using these x- and y- coordinates, we can display it on a pydot plot using the `
 below, we will make use of option (2) to generate our tree plot with custom coordinates.
 
 ```python hl_lines="25"
-from bigtree import Node, clone_tree, list_to_tree, reingold_tilford, tree_to_dot
+from bigtree import Node, Tree, reingold_tilford
 
 # Create tree
-root = list_to_tree(["a/b/d", "a/c"])
+tree = Tree.from_list(["a/b/d", "a/c"])
 
 # Modify from the Reingold Tilford algorithm
-reingold_tilford(root)
+reingold_tilford(tree.root)
 
 
 class CoordinateNode(Node):
@@ -31,7 +31,7 @@ class CoordinateNode(Node):
         self.y = 2 * self.y  # example
 
 
-root_coordinate = clone_tree(root, CoordinateNode)
+tree_coordinate = tree.clone(CoordinateNode)
 
 
 # Export tree to dot (pydot)
@@ -39,7 +39,7 @@ def node_pos(_node):
     return {"pos": f"{_node.x},{_node.y}!"}
 
 
-graph = tree_to_dot(root_coordinate, node_attr=node_pos)
+graph = tree_coordinate.to_dot(node_attr=node_pos)
 graph.write_png("assets/docs/coordinate_tree.png", prog="neato")
 ```
 

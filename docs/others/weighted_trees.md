@@ -8,7 +8,7 @@ We can simply add `weight` attribute to the `Node` class.
 However, if we want to visualize the weighted tree, we can create a `WeightedNode` class to generate the edge attribute dictionary.
 
 ```python hl_lines="8-13"
-from bigtree import Node, tree_to_dot
+from bigtree import Node, Tree
 
 class WeightedNode(Node):
     def __init__(self, name, weight=0, **kwargs):
@@ -28,7 +28,7 @@ b = WeightedNode("b", parent=root, weight=1)
 c = WeightedNode("c", parent=root, weight=2)
 d = WeightedNode("d", parent=b, weight=3)
 
-graph = tree_to_dot(root, node_colour="gold", edge_attr="edge_attr")
+graph = Tree(root).to_dot(node_colour="gold", edge_attr="edge_attr")
 graph.write_png("assets/docs/weighted_tree.png")
 ```
 

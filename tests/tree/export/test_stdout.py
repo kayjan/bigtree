@@ -222,6 +222,67 @@ class TestPrintTree:
             attr_omit_null=True,
         )
 
+    # attr_format
+    @staticmethod
+    def test_print_tree_attr_format(tree_node):
+        expected_str = (
+            "a [90]\n"
+            "├── b [65]\n"
+            "│   ├── d [40]\n"
+            "│   └── e [35]\n"
+            "│       ├── g [10]\n"
+            "│       └── h [6]\n"
+            "└── c [60]\n"
+            "    └── f [38]\n"
+        )
+        assert_print_statement(
+            export.print_tree,
+            expected_str,
+            tree=tree_node,
+            attr_list=["age"],
+            attr_format="{v}",
+        )
+
+    @staticmethod
+    def test_print_tree_attr_format_all_attrs(tree_node):
+        expected_str = (
+            "a [90]\n"
+            "├── b [65]\n"
+            "│   ├── d [40]\n"
+            "│   └── e [35]\n"
+            "│       ├── g [10]\n"
+            "│       └── h [6]\n"
+            "└── c [60]\n"
+            "    └── f [38]\n"
+        )
+        assert_print_statement(
+            export.print_tree,
+            expected_str,
+            tree=tree_node,
+            all_attrs=True,
+            attr_format="{v}",
+        )
+
+    @staticmethod
+    def test_print_tree_attr_sep(tree_node):
+        expected_str = (
+            "a [name=a age=90]\n"
+            "├── b [name=b age=65]\n"
+            "│   ├── d [name=d age=40]\n"
+            "│   └── e [name=e age=35]\n"
+            "│       ├── g [name=g age=10]\n"
+            "│       └── h [name=h age=6]\n"
+            "└── c [name=c age=60]\n"
+            "    └── f [name=f age=38]\n"
+        )
+        assert_print_statement(
+            export.print_tree,
+            expected_str,
+            tree=tree_node,
+            attr_list=["name", "age"],
+            attr_sep=" ",
+        )
+
     # attr_bracket
     @staticmethod
     def test_print_tree_attr_bracket(tree_node):

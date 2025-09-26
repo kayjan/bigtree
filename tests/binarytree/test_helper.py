@@ -1,24 +1,5 @@
-from bigtree.node import node
 from bigtree.tree import export, helper
 from tests.conftest import assert_print_statement
-
-
-class TestCloneTree:
-    @staticmethod
-    def test_clone_tree(binarytree_node):
-        root_clone = helper.clone_tree(binarytree_node, node_type=node.Node)
-        assert isinstance(root_clone, node.Node), "Wrong type returned"
-        expected_str = (
-            "1\n"
-            "├── 2\n"
-            "│   ├── 4\n"
-            "│   │   └── 8\n"
-            "│   └── 5\n"
-            "└── 3\n"
-            "    ├── 6\n"
-            "    └── 7\n"
-        )
-        assert_print_statement(export.print_tree, expected_str, tree=binarytree_node)
 
 
 class TestPruneTree:

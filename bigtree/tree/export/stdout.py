@@ -25,6 +25,8 @@ def print_tree(
     max_depth: int = 0,
     all_attrs: bool = False,
     attr_list: Iterable[str] | None = None,
+    attr_format: str = "{k}={v}",
+    attr_sep: str = ", ",
     attr_omit_null: bool = False,
     attr_bracket: Collection[str] = ("[", "]"),
     style: str | Iterable[str] | constants.BasePrintStyle = "const",
@@ -36,6 +38,7 @@ def print_tree(
     - Able to select which node to print from, resulting in a subtree, using `node_name_or_path`
     - Able to customise for maximum depth to print, using `max_depth`
     - Able to choose which attributes to show or show all attributes, using `all_attrs` and `attr_list`
+    - For showing attributes, able to customise the format of attributes and separator of attributes
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
     - Able to customise open and close brackets if attributes are shown, using `attr_bracket`
     - Able to customise style, to choose from str, list[str], or inherit from constants.BasePrintStyle, using `style`
@@ -50,13 +53,14 @@ def print_tree(
     Examples:
         **Printing tree**
 
-        >>> from bigtree import Node, print_tree
+        >>> from bigtree import Node, Tree
         >>> root = Node("a", alias="alias-a", age=90)
         >>> b = Node("b", age=65, parent=root)
         >>> c = Node("c", alias="alias-c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=b)
         >>> e = Node("e", age=35, parent=b)
-        >>> print_tree(root)
+        >>> tree = Tree(root)
+        >>> tree.show()
         a
         ├── b
         │   ├── d
@@ -65,7 +69,7 @@ def print_tree(
 
         **Printing alias**
 
-        >>> print_tree(root, alias="alias")
+        >>> tree.show(alias="alias")
         alias-a
         ├── b
         │   ├── d
@@ -74,26 +78,33 @@ def print_tree(
 
         **Printing Sub-tree**
 
-        >>> print_tree(root, node_name_or_path="b")
+        >>> tree.show(node_name_or_path="b")
         b
         ├── d
         └── e
 
-        >>> print_tree(root, max_depth=2)
+        >>> tree.show(max_depth=2)
         a
         ├── b
         └── c
 
         **Printing Attributes**
 
-        >>> print_tree(root, attr_list=["age"])
+        >>> tree.show(attr_list=["age"])
         a [age=90]
         ├── b [age=65]
         │   ├── d [age=40]
         │   └── e [age=35]
         └── c [age=60]
 
-        >>> print_tree(root, attr_list=["age"], attr_bracket=["*(", ")"])
+        >>> tree.show(attr_list=["name", "age"], attr_format="{k}:{v}", attr_sep="; ")
+        a [name:a; age:90]
+        ├── b [name:b; age:65]
+        │   ├── d [name:d; age:40]
+        │   └── e [name:e; age:35]
+        └── c [name:c; age:60]
+
+        >>> tree.show(attr_list=["age"], attr_bracket=["*(", ")"])
         a *(age=90)
         ├── b *(age=65)
         │   ├── d *(age=40)
@@ -102,42 +113,42 @@ def print_tree(
 
         **Available Styles**
 
-        >>> print_tree(root, style="ansi")
+        >>> tree.show(style="ansi")
         a
         |-- b
         |   |-- d
         |   `-- e
         `-- c
 
-        >>> print_tree(root, style="ascii")
+        >>> tree.show(style="ascii")
         a
         |-- b
         |   |-- d
         |   +-- e
         +-- c
 
-        >>> print_tree(root, style="const")
+        >>> tree.show(style="const")
         a
         ├── b
         │   ├── d
         │   └── e
         └── c
 
-        >>> print_tree(root, style="const_bold")
+        >>> tree.show(style="const_bold")
         a
         ┣━━ b
         ┃   ┣━━ d
         ┃   ┗━━ e
         ┗━━ c
 
-        >>> print_tree(root, style="rounded")
+        >>> tree.show(style="rounded")
         a
         ├── b
         │   ├── d
         │   ╰── e
         ╰── c
 
-        >>> print_tree(root, style="double")
+        >>> tree.show(style="double")
         a
         ╠══ b
         ║   ╠══ d
@@ -147,7 +158,7 @@ def print_tree(
         **Custom Styles**
 
         >>> from bigtree import ANSIPrintStyle
-        >>> print_tree(root, style=ANSIPrintStyle)
+        >>> tree.show(style=ANSIPrintStyle)
         a
         |-- b
         |   |-- d
@@ -158,7 +169,7 @@ def print_tree(
 
         >>> import io
         >>> output = io.StringIO()
-        >>> print_tree(root, file=output)
+        >>> tree.show(file=output)
         >>> tree_string = output.getvalue()
         >>> print(tree_string)
         a
@@ -175,6 +186,9 @@ def print_tree(
         max_depth: maximum depth of tree to print, based on `depth` attribute
         all_attrs: indicator to show all attributes, overrides `attr_list` and `attr_omit_null`
         attr_list: node attributes to print
+        attr_format: if attributes are displayed, the format in which to display, uses k,v to correspond to
+            attribute name and attribute value
+        attr_list_sep: if attributes are displayed, the separator of attributes, defaults to comma
         attr_omit_null: indicator whether to omit showing of null attributes
         attr_bracket: open and close bracket for `all_attrs` or `attr_list`
         style: style of print
@@ -195,21 +209,25 @@ def print_tree(
             attr_bracket_open, attr_bracket_close = attr_bracket
             if all_attrs:
                 attrs = _node.describe(exclude_attributes=["name"], exclude_prefix="_")
-                attr_str_list = [f"{k}={v}" for k, v in attrs]
+                attr_str_list = [attr_format.format(k=k, v=v) for k, v in attrs]
             else:
                 if attr_omit_null:
                     attr_str_list = [
-                        f"{attr_name}={_node.get_attr(attr_name)}"
+                        attr_format.replace("{k}", attr_name).replace(
+                            "{v}", str(_node.get_attr(attr_name))
+                        )
                         for attr_name in attr_list
                         if not common.isnull(_node.get_attr(attr_name))
                     ]
                 else:
                     attr_str_list = [
-                        f"{attr_name}={_node.get_attr(attr_name)}"
+                        attr_format.replace("{k}", attr_name).replace(
+                            "{v}", str(_node.get_attr(attr_name))
+                        )
                         for attr_name in attr_list
                         if hasattr(_node, attr_name)
                     ]
-            attr_str = ", ".join(attr_str_list)
+            attr_str = attr_sep.join(attr_str_list)
             if attr_str:
                 attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
         name_str = _node.get_attr(alias) or _node.node_name

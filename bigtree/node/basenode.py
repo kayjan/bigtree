@@ -761,7 +761,7 @@ class BaseNode:
             >>> import copy
             >>> from bigtree.node.node import Node
             >>> a = Node('a')
-            >>> a_copy = copy.deepcopy(a)
+            >>> a_copy = copy.copy(a)
 
         Returns:
             Shallow copy of node

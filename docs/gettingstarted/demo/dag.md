@@ -4,6 +4,10 @@ title: DAG Demonstration
 
 # 📋 DAG Demonstration
 
+Conceptually, DAGs are made up of nodes, and they are synonymous; a dag is a node. In bigtree implementation, node
+refers to the `DAGNode` class, whereas dag refers to the `DAG` class. DAG is implemented as a wrapper around a DAGNode
+to implement dag-level methods (for construct/export etc.) for a more intuitive API.
+
 Compared to nodes in tree, nodes in DAG are able to have multiple parents.
 
 ## Construct DAG
@@ -18,7 +22,7 @@ DAGNodes can be linked to each other in the following ways:
 - Using `.append(child)` or `.extend([child1, child2])` methods
 
 ```python hl_lines="5-8 10"
-from bigtree import DAGNode, dag_to_dot
+from bigtree import DAGNode, DAG
 
 a = DAGNode("a")
 b = DAGNode("b")
@@ -29,7 +33,7 @@ f = DAGNode("f", parents=[c, d])
 h = DAGNode("h")
 g = DAGNode("g", parents=[c], children=[h])
 
-graph = dag_to_dot(a, node_colour="gold")
+graph = DAG(a).to_dot(node_colour="gold")
 graph.write_png("assets/demo/dag.png")
 ```
 
@@ -39,13 +43,13 @@ graph.write_png("assets/demo/dag.png")
 
 Construct nodes only, list contains parent-child tuples.
 
-```python hl_lines="3"
-from bigtree import list_to_dag, dag_iterator
+```python hl_lines="4"
+from bigtree import DAG
 
 relations_list = [("a", "c"), ("a", "d"), ("b", "c"), ("c", "d"), ("d", "e")]
-dag = list_to_dag(relations_list)
+dag = DAG.from_list(relations_list)
 
-print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
+print([(parent.node_name, child.node_name) for parent, child in dag.iterate()])
 # [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 ```
 
@@ -54,7 +58,7 @@ print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag
 Construct nodes with attributes, `key`: child name, `value`: dict of parent name, child node attributes.
 
 ```python hl_lines="10"
-from bigtree import dict_to_dag, dag_iterator
+from bigtree import DAG
 
 relation_dict = {
     "a": {"step": 1},
@@ -63,9 +67,9 @@ relation_dict = {
     "d": {"parents": ["a", "c"], "step": 2},
     "e": {"parents": ["d"], "step": 3},
 }
-dag = dict_to_dag(relation_dict, parent_key="parents")
+dag = DAG.from_dict(relation_dict, parent_key="parents")
 
-print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
+print([(parent.node_name, child.node_name) for parent, child in dag.iterate()])
 # [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 ```
 
@@ -75,7 +79,7 @@ Construct nodes with attributes, *pandas DataFrame* contains child column, paren
 
 ```python hl_lines="16"
 import pandas as pd
-from bigtree import dataframe_to_dag, dag_iterator
+from bigtree import DAG
 
 path_data = pd.DataFrame(
     [
@@ -89,9 +93,9 @@ path_data = pd.DataFrame(
     ],
     columns=["child", "parent", "step"],
 )
-dag = dataframe_to_dag(path_data)
+dag = DAG.from_dataframe(path_data)
 
-print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag)])
+print([(parent.node_name, child.node_name) for parent, child in dag.iterate()])
 # [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 ```
 
@@ -100,10 +104,10 @@ print([(parent.node_name, child.node_name) for parent, child in dag_iterator(dag
 Note that using `DAGNode` as superclass inherits the default class attributes (properties) and operations (methods).
 
 ```python
-from bigtree import list_to_dag
+from bigtree import DAG
 
 relations_list = [("a", "c"), ("a", "d"), ("b", "c"), ("c", "d"), ("d", "e")]
-dag = list_to_dag(relations_list)
+dag = DAG.from_list(relations_list).dag
 dag
 # DAGNode(d, )
 
@@ -130,12 +134,12 @@ Below are the tables of attributes available to `DAGNode` class.
 
 Below is the table of operations available to `DAGNode` class.
 
-| Operations                            | Code                                          | Returns                                                                                                          |
-|---------------------------------------|-----------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| Get node information                  | `dag.describe(exclude_prefix="_")`            | [('name', 'd')]                                                                                                  |
-| Find path(s) from one node to another | `node_a.go_to(dag)`                           | [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, description=dag-tag)], [DAGNode(a, ), DAGNode(d, description=dag-tag)]] |
-| Add child to node                     | `node_a.append(DAGNode("j"))`                 | DAGNode(a, )                                                                                                     |
-| Add multiple children to node         | `node_a.extend([DAGNode("k"), DAGNode("l")])` | DAGNode(a, )                                                                                                     |
-| Set attribute(s)                      | `dag.set_attrs({"description": "dag-tag"})`   | None                                                                                                             |
-| Get attribute                         | `dag.get_attr("description")`                 | 'dag-tag'                                                                                                        |
-| Copy DAG                              | `dag.copy()`                                  | None                                                                                                             |
+| Operations                            | Code                                          | Returns                                                                    |
+|---------------------------------------|-----------------------------------------------|----------------------------------------------------------------------------|
+| Get node information                  | `dag.describe(exclude_prefix="_")`            | [('name', 'd')]                                                            |
+| Find path(s) from one node to another | `node_a.go_to(dag)`                           | [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, )], [DAGNode(a, ), DAGNode(d, )]] |
+| Add child to node                     | `node_a.append(DAGNode("j"))`                 | DAGNode(a, )                                                               |
+| Add multiple children to node         | `node_a.extend([DAGNode("k"), DAGNode("l")])` | DAGNode(a, )                                                               |
+| Set attribute(s)                      | `dag.set_attrs({"description": "dag-tag"})`   | None                                                                       |
+| Get attribute                         | `dag.get_attr("description")`                 | 'dag-tag'                                                                  |
+| Copy DAG                              | `dag.copy()`                                  | None                                                                       |

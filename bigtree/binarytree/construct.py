@@ -15,10 +15,10 @@ def list_to_binarytree(
     """Construct tree from a list of numbers (int or float) in heapq format.
 
     Examples:
-        >>> from bigtree import list_to_binarytree, tree_to_dot
+        >>> from bigtree import BinaryTree
         >>> nums_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        >>> root = list_to_binarytree(nums_list)
-        >>> root.show()
+        >>> tree = BinaryTree.from_heapq_list(nums_list)
+        >>> tree.show()
         1
         ├── 2
         │   ├── 4
@@ -29,7 +29,7 @@ def list_to_binarytree(
         └── 3
             ├── 6
             └── 7
-        >>> graph = tree_to_dot(root, node_colour="gold")
+        >>> graph = tree.to_dot(node_colour="gold")
         >>> graph.write_png("assets/construct_binarytree.png")
 
         ![Sample Binary Tree](https://github.com/kayjan/bigtree/raw/master/assets/construct_binarytree.png)

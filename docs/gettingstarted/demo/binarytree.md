@@ -4,6 +4,10 @@ title: Binary Tree Demonstration
 
 # 📋 Binary Tree Demonstration
 
+Conceptually, binary trees are made up of binary nodes, and they are synonymous; a tree is a node. In bigtree
+implementation, node refers to the `BinaryNode` class, whereas tree refers to the `BinaryTree` class. BinaryTree is
+implemented as a wrapper around a BinaryNode to implement tree-level methods for a more intuitive API.
+
 Compared to nodes in tree, nodes in Binary Tree are only allowed maximum of 2 children.
 Since BinaryNode extends from Node, construct, traverse, search, export methods from Node are applicable to
 Binary Tree as well.
@@ -16,7 +20,7 @@ BinaryNode can be linked to each other with `parent`, `children`, `left`, and `r
 or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
 
 ```python hl_lines="6-10"
-from bigtree import BinaryNode, tree_to_dot
+from bigtree import BinaryNode, BinaryTree
 
 e = BinaryNode(5)
 d = BinaryNode(4)
@@ -27,7 +31,7 @@ f = BinaryNode(6, parent=c)
 g = BinaryNode(7, parent=c)
 h = BinaryNode(8, parent=d)
 
-graph = tree_to_dot(a, node_colour="gold")
+graph = BinaryTree(a).to_dot(node_colour="gold")
 graph.write_png("assets/demo/binarytree.png")
 ```
 
@@ -38,11 +42,11 @@ graph.write_png("assets/demo/binarytree.png")
 Construct nodes only, list has similar format as `heapq` list.
 
 ```python hl_lines="4"
-from bigtree import list_to_binarytree
+from bigtree import BinaryTree
 
 nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
-root = list_to_binarytree(nums_list)
-root.show()
+tree = BinaryTree.from_heapq_list(nums_list)
+tree.show()
 # 1
 # ├── 2
 # │   ├── 4
@@ -57,21 +61,12 @@ root.show()
 
 In addition to the traversal methods in the usual tree, binary tree includes in-order traversal method.
 
-```python hl_lines="24 27 30 33 36 39 42"
-from bigtree import (
-    inorder_iter,
-    levelorder_iter,
-    levelordergroup_iter,
-    list_to_binarytree,
-    postorder_iter,
-    preorder_iter,
-    zigzag_iter,
-    zigzaggroup_iter,
-)
+```python hl_lines="15 18 21 24 27 30 33"
+from bigtree import BinaryTree
 
 nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
-root = list_to_binarytree(nums_list)
-root.show()
+tree = tree.from_heapq_list(nums_list)
+tree.show()
 # 1
 # ├── 2
 # │   ├── 4
@@ -81,24 +76,24 @@ root.show()
 #     ├── 6
 #     └── 7
 
-[node.node_name for node in inorder_iter(root)]
+[node.node_name for node in tree.inorder_iter()]
 # ['8', '4', '2', '5', '1', '6', '3', '7']
 
-[node.node_name for node in preorder_iter(root)]
+[node.node_name for node in tree.preorder_iter()]
 # ['1', '2', '4', '8', '5', '3', '6', '7']
 
-[node.node_name for node in postorder_iter(root)]
+[node.node_name for node in tree.postorder_iter()]
 # ['8', '4', '5', '2', '6', '7', '3', '1']
 
-[node.node_name for node in levelorder_iter(root)]
+[node.node_name for node in tree.levelorder_iter()]
 # ['1', '2', '3', '4', '5', '6', '7', '8']
 
-[[node.node_name for node in node_group] for node_group in levelordergroup_iter(root)]
+[[node.node_name for node in node_group] for node_group in tree.levelordergroup_iter()]
 # [['1'], ['2', '3'], ['4', '5', '6', '7'], ['8']]
 
-[node.node_name for node in zigzag_iter(root)]
+[node.node_name for node in tree.zigzag_iter()]
 # ['1', '3', '2', '4', '5', '6', '7', '8']
 
-[[node.node_name for node in node_group] for node_group in zigzaggroup_iter(root)]
+[[node.node_name for node in node_group] for node_group in tree.zigzaggroup_iter()]
 # [['1'], ['3', '2'], ['4', '5', '6', '7'], ['8']]
 ```
