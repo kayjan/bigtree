@@ -11,6 +11,7 @@ class Constants:
     """
 
     LOCAL = False
+    LOCAL_FILE = "tests/files"
 
     # binarytree/construct
     ERROR_BINARY_DAG_LIST_EMPTY = (

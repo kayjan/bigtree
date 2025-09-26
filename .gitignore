@@ -13,4 +13,5 @@ site/
 
 tests/*.html
 tests/*.png
+tests/files
 docs/_static/playground-config.js

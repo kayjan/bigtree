@@ -12,12 +12,15 @@ from tests.node.test_basenode import (
     assert_tree_structure_basenode_tree,
 )
 from tests.node.test_node import assert_tree_structure_node_root
+from tests.test_constants import Constants
 from tests.tree.export.test_stdout import (
     tree_node_hstr,
     tree_node_no_attr_str,
     tree_node_vstr,
 )
 from tests.tree.test_helper import EXPECTED_TREE_NODE_DIFF
+
+LOCAL = Constants.LOCAL
 
 
 class TestTree:
@@ -841,3 +844,16 @@ class TestTreeIterators:
             [node.node_name for node in group] for group in tree_tree.zigzaggroup_iter()
         ]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+
+class TestTreePlot:
+    @staticmethod
+    def test_plot(tree_tree):
+        root = node.Node("a", children=[node.Node("b"), node.Node("c")])
+        tree = Tree(root)
+        fig = tree.plot()
+        if LOCAL:
+            fig.savefig(f"{Constants.LOCAL_FILE}/tree.test_plot.png")
+        import matplotlib.pyplot as plt
+
+        assert isinstance(fig, plt.Figure)
