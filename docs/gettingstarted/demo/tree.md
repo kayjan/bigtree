@@ -4,6 +4,10 @@ title: Tree Demonstration
 
 # 📋 Tree Demonstration
 
+Conceptually, trees are made up of nodes, and they are synonymous; a tree is a node. In bigtree implementation, node
+refers to the `Node` class, whereas tree refers to the `Tree` class. Tree is implemented as a wrapper around a Node to
+implement tree-level methods for a more intuitive API.
+
 Here are some codes to get started.
 
 ## Construct Tree
@@ -559,23 +563,23 @@ function. A *plt.Figure* object is returned if you want to do further customisat
 save the figure to image.
 
 ```python hl_lines="9-10"
-from bigtree import Node, reingold_tilford
+from bigtree import Node, Tree
 
 root = Node("a", age=90, gender="F")
 b = Node("b", age=65, gender="M", parent=root)
 c = Node("c", age=60, gender="M", parent=root)
 d = Node("d", age=40, gender="F", parent=b)
 e = Node("e", age=35, gender="M", parent=b)
+tree = Tree(root)
 
-reingold_tilford(root)
-fig = root.plot("-ok") # (1)!
+fig = tree.plot("-ok") # (1)!
 fig.axes[0].set_title("Tree Plot Demonstration")
 
 fig.show()  # Show figure
 fig.savefig("assets/demo/tree_plot.png")  # Save figure
 ```
 
-1. Alternatively, `plot_tree(root, "-ok")` can be used
+1. Alternatively, `plot_tree(tree.node, "-ok")` can be used
 
 ![Tree Plot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/tree_plot.png "Tree Plot Image Output")
 

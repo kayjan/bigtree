@@ -4,6 +4,10 @@ title: Tree
 
 # 🎄 Tree
 
+Conceptually, trees are made up of nodes, and they are synonymous; a tree is a node. In bigtree implementation, node
+refers to the `Node` class, whereas tree refers to the `Tree` class. Tree is implemented as a wrapper around a Node to
+implement tree-level methods for a more intuitive API.
+
 Construct, export, helper, query, search, and iterator methods encapsulated in Tree class.
 
 ## Tree Construct Methods
@@ -18,7 +22,7 @@ To decide which method to use, consider your data type and data values.
 | List                | `Tree.from_list`      | `Tree.from_list_relation`                            | NA                 | No                                                       |
 | Dictionary          | `Tree.from_dict`      | `Tree.from_nested_dict`, `Tree.from_nested_dict_key` | NA                 | Yes                                                      |
 | pandas DataFrame    | `Tree.from_dataframe` | `Tree.from_dataframe_relation`                       | NA                 | Yes                                                      |
-| polars DataFrame    | `Tree. from_polars`   | `Tree.from_polars`                                   | NA                 | Yes                                                      |
+| polars DataFrame    | `Tree.from_polars`    | `Tree.from_polars_relation`                          | NA                 | Yes                                                      |
 
 To add attributes to an existing tree,
 

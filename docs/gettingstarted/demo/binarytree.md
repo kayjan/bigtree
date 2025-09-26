@@ -4,6 +4,10 @@ title: Binary Tree Demonstration
 
 # 📋 Binary Tree Demonstration
 
+Conceptually, binary trees are made up of binary nodes, and they are synonymous; a tree is a node. In bigtree
+implementation, node refers to the `BinaryNode` class, whereas tree refers to the `BinaryTree` class. BinaryTree is
+implemented as a wrapper around a BinaryNode to implement tree-level methods for a more intuitive API.
+
 Compared to nodes in tree, nodes in Binary Tree are only allowed maximum of 2 children.
 Since BinaryNode extends from Node, construct, traverse, search, export methods from Node are applicable to
 Binary Tree as well.

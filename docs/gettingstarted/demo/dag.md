@@ -4,6 +4,10 @@ title: DAG Demonstration
 
 # 📋 DAG Demonstration
 
+Conceptually, DAGs are made up of nodes, and they are synonymous; a dag is a node. In bigtree implementation, node
+refers to the `DAGNode` class, whereas dag refers to the `DAG` class. DAG is implemented as a wrapper around a DAGNode
+to implement dag-level methods (for construct/export etc.) for a more intuitive API.
+
 Compared to nodes in tree, nodes in DAG are able to have multiple parents.
 
 ## Construct DAG
