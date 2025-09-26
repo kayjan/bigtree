@@ -42,5 +42,5 @@ class BinaryTree(Tree):
 
         Accepts the same arguments as `inorder_iter`.
         """
-        self.root: binarynode.BinaryNode
-        return iterators.inorder_iter(self.root, *args, **kwargs)
+        self.node: binarynode.BinaryNode
+        return iterators.inorder_iter(self.node, *args, **kwargs)

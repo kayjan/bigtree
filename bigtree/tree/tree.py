@@ -71,16 +71,16 @@ class Tree:
     construct_kwargs: dict[str, Any] = dict()
 
     def __init__(self, root: node.Node):
-        self.root = root
+        self.node = root
 
     def show(self, **kwargs: Any) -> None:
-        self.root.show(**kwargs)
+        self.node.show(**kwargs)
 
     def hshow(self, **kwargs: Any) -> None:
-        self.root.hshow(**kwargs)
+        self.node.hshow(**kwargs)
 
     def vshow(self, **kwargs: Any) -> None:
-        self.root.vshow(**kwargs)
+        self.node.vshow(**kwargs)
 
     @property
     def diameter(self) -> int:
@@ -89,7 +89,7 @@ class Tree:
         Returns:
             Diameter of tree
         """
-        return self.root.diameter
+        return self.node.diameter
 
     @property
     def depth(self) -> int:
@@ -98,7 +98,7 @@ class Tree:
         Returns:
             Depth of tree
         """
-        return self.root.max_depth
+        return self.node.max_depth
 
     # Construct methods
     @classmethod
@@ -239,7 +239,7 @@ class Tree:
 
         Accepts the same arguments as `add_dataframe_to_tree_by_path`.
         """
-        construct.add_dataframe_to_tree_by_path(self.root, data, *args, **kwargs)
+        construct.add_dataframe_to_tree_by_path(self.node, data, *args, **kwargs)
 
     def add_dataframe_by_name(
         self, data: pd.DataFrame, *args: Any, **kwargs: Any
@@ -248,21 +248,21 @@ class Tree:
 
         Accepts the same arguments as `add_dataframe_to_tree_by_name`.
         """
-        construct.add_dataframe_to_tree_by_name(self.root, data, *args, **kwargs)
+        construct.add_dataframe_to_tree_by_name(self.node, data, *args, **kwargs)
 
     def add_polars_by_path(self, data: pl.DataFrame, *args: Any, **kwargs: Any) -> None:
         """See `add_polars_to_tree_by_path` for full details.
 
         Accepts the same arguments as `add_polars_to_tree_by_path`.
         """
-        construct.add_polars_to_tree_by_path(self.root, data, *args, **kwargs)
+        construct.add_polars_to_tree_by_path(self.node, data, *args, **kwargs)
 
     def add_polars_by_name(self, data: pl.DataFrame, *args: Any, **kwargs: Any) -> None:
         """See `add_polars_to_tree_by_name` for full details.
 
         Accepts the same arguments as `add_polars_to_tree_by_name`.
         """
-        construct.add_polars_to_tree_by_name(self.root, data, *args, **kwargs)
+        construct.add_polars_to_tree_by_name(self.node, data, *args, **kwargs)
 
     def add_dict_by_path(
         self, path_attrs: Mapping[str, Mapping[str, Any]], *args: Any, **kwargs: Any
@@ -271,14 +271,14 @@ class Tree:
 
         Accepts the same arguments as `add_dict_to_tree_by_path`.
         """
-        construct.add_dict_to_tree_by_path(self.root, path_attrs, *args, **kwargs)
+        construct.add_dict_to_tree_by_path(self.node, path_attrs, *args, **kwargs)
 
     def add_dict_by_name(self, name_attrs: Mapping[str, Mapping[str, Any]]) -> None:
         """See `add_dict_to_tree_by_name` for full details.
 
         Accepts the same arguments as `add_dict_to_tree_by_name`.
         """
-        construct.add_dict_to_tree_by_name(self.root, name_attrs)
+        construct.add_dict_to_tree_by_name(self.node, name_attrs)
 
     # Export methods
     def to_dataframe(self, *args: Any, **kwargs: Any) -> pd.DataFrame:
@@ -286,42 +286,42 @@ class Tree:
 
         Accepts the same arguments as `tree_to_dataframe`.
         """
-        return export.tree_to_dataframe(self.root, *args, **kwargs)
+        return export.tree_to_dataframe(self.node, *args, **kwargs)
 
     def to_polars(self, *args: Any, **kwargs: Any) -> pl.DataFrame:
         """See `tree_to_polars` for full details.
 
         Accepts the same arguments as `tree_to_polars`.
         """
-        return export.tree_to_polars(self.root, *args, **kwargs)
+        return export.tree_to_polars(self.node, *args, **kwargs)
 
     def to_dict(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
         """See `tree_to_dict` for full details.
 
         Accepts the same arguments as `tree_to_dict`.
         """
-        return export.tree_to_dict(self.root, *args, **kwargs)
+        return export.tree_to_dict(self.node, *args, **kwargs)
 
     def to_nested_dict(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
         """See `tree_to_nested_dict` for full details.
 
         Accepts the same arguments as `tree_to_nested_dict`.
         """
-        return export.tree_to_nested_dict(self.root, *args, **kwargs)
+        return export.tree_to_nested_dict(self.node, *args, **kwargs)
 
     def to_nested_dict_key(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
         """See `tree_to_nested_dict_key` for full details.
 
         Accepts the same arguments as `tree_to_nested_dict_key`.
         """
-        return export.tree_to_nested_dict_key(self.root, *args, **kwargs)
+        return export.tree_to_nested_dict_key(self.node, *args, **kwargs)
 
     def to_newick(self, *args: Any, **kwargs: Any) -> str:
         """See `tree_to_newick` for full details.
 
         Accepts the same arguments as `tree_to_newick`.
         """
-        return export.tree_to_newick(self.root, *args, **kwargs)
+        return export.tree_to_newick(self.node, *args, **kwargs)
 
     @exceptions.optional_dependencies_image("pydot")
     def to_dot(self, *args: Any, **kwargs: Any) -> pydot.Dot:
@@ -329,7 +329,7 @@ class Tree:
 
         Accepts the same arguments as `tree_to_dot`.
         """
-        return export.tree_to_dot(self.root, *args, **kwargs)
+        return export.tree_to_dot(self.node, *args, **kwargs)
 
     @exceptions.optional_dependencies_image("Pillow")
     def to_pillow_graph(self, *args: Any, **kwargs: Any) -> Image.Image:
@@ -337,7 +337,7 @@ class Tree:
 
         Accepts the same arguments as `tree_to_pillow_graph`.
         """
-        return export.tree_to_pillow_graph(self.root, *args, **kwargs)
+        return export.tree_to_pillow_graph(self.node, *args, **kwargs)
 
     @exceptions.optional_dependencies_image("Pillow")
     def to_pillow(self, *args: Any, **kwargs: Any) -> Image.Image:
@@ -345,14 +345,14 @@ class Tree:
 
         Accepts the same arguments as `tree_to_pillow`.
         """
-        return export.tree_to_pillow(self.root, *args, **kwargs)
+        return export.tree_to_pillow(self.node, *args, **kwargs)
 
     def to_mermaid(self, *args: Any, **kwargs: Any) -> str:
         """See `tree_to_mermaid` for full details.
 
         Accepts the same arguments as `tree_to_mermaid`.
         """
-        return export.tree_to_mermaid(self.root, *args, **kwargs)
+        return export.tree_to_mermaid(self.node, *args, **kwargs)
 
     @exceptions.optional_dependencies_vis
     def to_vis(self, *args: Any, **kwargs: Any) -> pyvis.network.Network:
@@ -360,7 +360,7 @@ class Tree:
 
         Accepts the same arguments as `tree_to_vis`.
         """
-        return export.tree_to_vis(self.root, *args, **kwargs)
+        return export.tree_to_vis(self.node, *args, **kwargs)
 
     # Helper methods
     def clone(self, node_type: type[BaseNodeT]) -> "Tree":
@@ -368,32 +368,30 @@ class Tree:
 
         Accepts the same arguments as `clone_tree`.
         """
-        return type(self)(helper.clone_tree(self.root, node_type))  # type: ignore
+        return type(self)(helper.clone_tree(self.node, node_type))  # type: ignore
 
     def prune(self, *args: Any, **kwargs: Any) -> "Tree":
         """See `prune_tree` for full details.
 
         Accepts the same arguments as `prune_tree`.
         """
-        return type(self)(helper.prune_tree(self.root, *args, **kwargs))
+        return type(self)(helper.prune_tree(self.node, *args, **kwargs))
 
-    def diff_dataframe(
-        self, other_tree: node.Node, *args: Any, **kwargs: Any
-    ) -> pd.DataFrame:
+    def diff_dataframe(self, other_tree: T, *args: Any, **kwargs: Any) -> pd.DataFrame:
         """See `get_tree_diff_dataframe` for full details.
 
         Accepts the same arguments as `get_tree_diff_dataframe`.
         """
         return helper.get_tree_diff_dataframe(
-            self.root, other_tree.root, *args, **kwargs
+            self.node, other_tree.node, *args, **kwargs
         )
 
-    def diff(self, other_tree: node.Node, *args: Any, **kwargs: Any) -> node.Node:
+    def diff(self, other_tree: T, *args: Any, **kwargs: Any) -> node.Node:
         """See `get_tree_diff` for full details.
 
         Accepts the same arguments as `get_tree_diff`.
         """
-        return helper.get_tree_diff(self.root, other_tree.root, *args, **kwargs)
+        return helper.get_tree_diff(self.node, other_tree.node, *args, **kwargs)
 
     # Query methods
     def query(
@@ -403,7 +401,7 @@ class Tree:
 
         Accepts the same arguments as `query_tree`.
         """
-        return query.query_tree(self.root, query_str, *args, **kwargs)
+        return query.query_tree(self.node, query_str, *args, **kwargs)
 
     # Search methods
     def findall(self, *args: Any, **kwargs: Any) -> tuple[basenode.BaseNode, ...]:
@@ -411,84 +409,98 @@ class Tree:
 
         Accepts the same arguments as `findall`.
         """
-        return search.findall(self.root, *args, **kwargs)
+        return search.findall(self.node, *args, **kwargs)
 
     def find(self, *args: Any, **kwargs: Any) -> basenode.BaseNode:
         """See `find` for full details.
 
         Accepts the same arguments as `find`.
         """
-        return search.find(self.root, *args, **kwargs)
+        return search.find(self.node, *args, **kwargs)
 
     def find_name(self, *args: Any, **kwargs: Any) -> node.Node:
         """See `find_name` for full details.
 
         Accepts the same arguments as `find_name`.
         """
-        return search.find_name(self.root, *args, **kwargs)
+        return search.find_name(self.node, *args, **kwargs)
 
     def find_names(self, *args: Any, **kwargs: Any) -> Iterable[node.Node]:
         """See `find_names` for full details.
 
         Accepts the same arguments as `find_names`.
         """
-        return search.find_names(self.root, *args, **kwargs)
+        return search.find_names(self.node, *args, **kwargs)
+
+    def find_relative_path(self, *args: Any, **kwargs: Any) -> node.Node:
+        """See `find_relative_path` for full details.
+
+        Accepts the same arguments as `find_relative_path`.
+        """
+        return search.find_relative_path(self.node, *args, **kwargs)
+
+    def find_relative_paths(self, *args: Any, **kwargs: Any) -> Iterable[node.Node]:
+        """See `find_relative_paths` for full details.
+
+        Accepts the same arguments as `find_relative_paths`.
+        """
+        return search.find_relative_paths(self.node, *args, **kwargs)
 
     def find_full_path(self, *args: Any, **kwargs: Any) -> node.Node:
         """See `find_full_path` for full details.
 
         Accepts the same arguments as `find_full_path`.
         """
-        return search.find_full_path(self.root, *args, **kwargs)
+        return search.find_full_path(self.node, *args, **kwargs)
 
     def find_path(self, *args: Any, **kwargs: Any) -> node.Node:
         """See `find_path` for full details.
 
         Accepts the same arguments as `find_path`.
         """
-        return search.find_path(self.root, *args, **kwargs)
+        return search.find_path(self.node, *args, **kwargs)
 
     def find_paths(self, *args: Any, **kwargs: Any) -> Iterable[node.Node]:
         """See `find_paths` for full details.
 
         Accepts the same arguments as `find_paths`.
         """
-        return search.find_paths(self.root, *args, **kwargs)
+        return search.find_paths(self.node, *args, **kwargs)
 
     def find_attr(self, *args: Any, **kwargs: Any) -> basenode.BaseNode:
         """See `find_attr` for full details.
 
         Accepts the same arguments as `find_attr`.
         """
-        return search.find_attr(self.root, *args, **kwargs)
+        return search.find_attr(self.node, *args, **kwargs)
 
     def find_attrs(self, *args: Any, **kwargs: Any) -> Iterable[basenode.BaseNode]:
         """See `find_attrs` for full details.
 
         Accepts the same arguments as `find_attrs`.
         """
-        return search.find_attrs(self.root, *args, **kwargs)
+        return search.find_attrs(self.node, *args, **kwargs)
 
     def find_children(self, *args: Any, **kwargs: Any) -> tuple[node.Node, ...]:
         """See `find_children` for full details.
 
         Accepts the same arguments as `find_children`.
         """
-        return search.find_children(self.root, *args, **kwargs)
+        return search.find_children(self.node, *args, **kwargs)
 
     def find_child(self, *args: Any, **kwargs: Any) -> node.Node:
         """See `find_child` for full details.
 
         Accepts the same arguments as `find_child`.
         """
-        return search.find_child(self.root, *args, **kwargs)
+        return search.find_child(self.node, *args, **kwargs)
 
     def find_child_by_name(self, *args: Any, **kwargs: Any) -> node.Node:
         """See `find_child_by_name` for full details.
 
         Accepts the same arguments as `find_child_by_name`.
         """
-        return search.find_child_by_name(self.root, *args, **kwargs)
+        return search.find_child_by_name(self.node, *args, **kwargs)
 
     # Iterator methods
     def preorder_iter(self, *args: Any, **kwargs: Any) -> Iterable[node.Node]:
@@ -496,21 +508,21 @@ class Tree:
 
         Accepts the same arguments as `preorder_iter`.
         """
-        return iterators.preorder_iter(self.root, *args, **kwargs)
+        return iterators.preorder_iter(self.node, *args, **kwargs)
 
     def postorder_iter(self, *args: Any, **kwargs: Any) -> Iterable[basenode.BaseNode]:
         """See `postorder_iter` for full details.
 
         Accepts the same arguments as `postorder_iter`.
         """
-        return iterators.postorder_iter(self.root, *args, **kwargs)
+        return iterators.postorder_iter(self.node, *args, **kwargs)
 
     def levelorder_iter(self, *args: Any, **kwargs: Any) -> Iterable[basenode.BaseNode]:
         """See `levelorder_iter` for full details.
 
         Accepts the same arguments as `levelorder_iter`.
         """
-        return iterators.levelorder_iter(self.root, *args, **kwargs)
+        return iterators.levelorder_iter(self.node, *args, **kwargs)
 
     def levelordergroup_iter(
         self, *args: Any, **kwargs: Any
@@ -519,14 +531,14 @@ class Tree:
 
         Accepts the same arguments as `levelordergroup_iter`.
         """
-        return iterators.levelordergroup_iter(self.root, *args, **kwargs)
+        return iterators.levelordergroup_iter(self.node, *args, **kwargs)
 
     def zigzag_iter(self, *args: Any, **kwargs: Any) -> Iterable[basenode.BaseNode]:
         """See `zigzag_iter` for full details.
 
         Accepts the same arguments as `zigzag_iter`.
         """
-        return iterators.zigzag_iter(self.root, *args, **kwargs)
+        return iterators.zigzag_iter(self.node, *args, **kwargs)
 
     def zigzaggroup_iter(
         self, *args: Any, **kwargs: Any
@@ -535,7 +547,7 @@ class Tree:
 
         Accepts the same arguments as `zigzaggroup_iter`.
         """
-        return iterators.zigzaggroup_iter(self.root, *args, **kwargs)
+        return iterators.zigzaggroup_iter(self.node, *args, **kwargs)
 
     # Magic methods
     def __getitem__(self, child_name: str) -> "Tree":
@@ -547,7 +559,7 @@ class Tree:
         Returns:
             Child node as tree
         """
-        return type(self)(self.root[child_name])
+        return type(self)(self.node[child_name])
 
     def __delitem__(self, child_name: str) -> None:
         """Delete child by name identifier, will not throw error if child does not exist.
@@ -557,7 +569,7 @@ class Tree:
         """
         from bigtree.tree.search import find_child_by_name
 
-        child = find_child_by_name(self.root, child_name)
+        child = find_child_by_name(self.node, child_name)
         if child:
             child.parent = None
 
@@ -586,9 +598,9 @@ class Tree:
             Print format of Tree
         """
         class_name = self.__class__.__name__
-        node_dict = self.root.describe(exclude_prefix="_", exclude_attributes=["name"])
+        node_dict = self.node.describe(exclude_prefix="_", exclude_attributes=["name"])
         node_description = ", ".join([f"{k}={v}" for k, v in node_dict])
-        return f"{class_name}({self.root.path_name}, {node_description})"
+        return f"{class_name}({self.node.path_name}, {node_description})"
 
 
 T = TypeVar("T", bound=Tree)

@@ -17,13 +17,13 @@ class TestBinaryTreeConstruct(unittest.TestCase):
     def test_from_heapq_list():
         nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
         tree = BinaryTree.from_heapq_list(nums_list)
-        assert_binarytree_structure_root2(tree.root)
+        assert_binarytree_structure_root2(tree.node)
 
     @staticmethod
     def test_from_list():
         path_list = ["1/2/4/8", "1/2/5", "1/3/6", "1/3/7"]
         tree = BinaryTree.from_list(path_list)
-        assert_binarytree_structure_root2(tree.root)
+        assert_binarytree_structure_root2(tree.node)
 
     @staticmethod
     def test_from_list_relation():
@@ -37,7 +37,7 @@ class TestBinaryTreeConstruct(unittest.TestCase):
             ("4", "8"),
         ]
         tree = BinaryTree.from_list_relation(relations)
-        assert_binarytree_structure_root2(tree.root)
+        assert_binarytree_structure_root2(tree.node)
 
     @staticmethod
     def test_from_dict():
@@ -52,7 +52,7 @@ class TestBinaryTreeConstruct(unittest.TestCase):
             "1/2/4/8": {"age": 6},
         }
         tree = BinaryTree.from_dict(path_dict)
-        assert_binarytree_structure_root2(tree.root)
+        assert_binarytree_structure_root2(tree.node)
 
     @staticmethod
     def test_from_nested_dict():
@@ -79,7 +79,7 @@ class TestBinaryTreeConstruct(unittest.TestCase):
             ],
         }
         tree = BinaryTree.from_nested_dict(path_dict)
-        assert_binarytree_structure_root2(tree.root)
+        assert_binarytree_structure_root2(tree.node)
 
     @staticmethod
     def test_from_dataframe():
@@ -97,7 +97,7 @@ class TestBinaryTreeConstruct(unittest.TestCase):
             columns=["PATH", "age"],
         )
         tree = BinaryTree.from_dataframe(path_data)
-        assert_binarytree_structure_root2(tree.root)
+        assert_binarytree_structure_root2(tree.node)
 
     @staticmethod
     def test_from_dataframe_relation():
@@ -115,7 +115,7 @@ class TestBinaryTreeConstruct(unittest.TestCase):
             columns=["child", "parent", "age"],
         )
         tree = BinaryTree.from_dataframe_relation(relation_data)
-        assert_binarytree_structure_root2(tree.root)
+        assert_binarytree_structure_root2(tree.node)
 
     @staticmethod
     def test_from_polars():
@@ -133,7 +133,7 @@ class TestBinaryTreeConstruct(unittest.TestCase):
             schema=["PATH", "age"],
         )
         tree = BinaryTree.from_polars(path_data)
-        assert_binarytree_structure_root2(tree.root)
+        assert_binarytree_structure_root2(tree.node)
 
     @staticmethod
     def test_from_polars_relation():
@@ -151,7 +151,7 @@ class TestBinaryTreeConstruct(unittest.TestCase):
             schema=["child", "parent", "age"],
         )
         tree = BinaryTree.from_polars_relation(relation_data)
-        assert_binarytree_structure_root2(tree.root)
+        assert_binarytree_structure_root2(tree.node)
 
 
 class TestBinaryTreeExport:
@@ -279,7 +279,7 @@ class TestBinaryTreeHelper:
     @staticmethod
     def test_clone(binarytree_tree):
         tree_clone = binarytree_tree.clone(node_type=node.Node)
-        assert isinstance(tree_clone.root, node.Node), "Wrong type returned"
+        assert isinstance(tree_clone.node, node.Node), "Wrong type returned"
         expected_str = (
             "1\n"
             "├── 2\n"

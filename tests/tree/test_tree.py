@@ -33,9 +33,9 @@ class TestTree:
         tree_shallow_copy = copy.copy(tree_tree)
         del tree_shallow_copy["b"]
         del tree_shallow_copy["something"]
-        assert len(tree_tree.root.children) == 1
-        assert len(tree_shallow_copy.root.children) == 1
-        assert len(tree_deep_copy.root.children) == 2
+        assert len(tree_tree.node.children) == 1
+        assert len(tree_shallow_copy.node.children) == 1
+        assert len(tree_deep_copy.node.children) == 2
 
 
 class TestTreeConstruct(unittest.TestCase):
@@ -56,9 +56,9 @@ class TestTreeConstruct(unittest.TestCase):
         )
         tree = Tree.from_dataframe(path_data)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_basenode_root_attr(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_basenode_root_attr(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     @staticmethod
     def test_from_dataframe_relation():
@@ -77,9 +77,9 @@ class TestTreeConstruct(unittest.TestCase):
         )
         tree = Tree.from_dataframe_relation(relation_data)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_basenode_root_attr(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_basenode_root_attr(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     @staticmethod
     def test_from_polars():
@@ -98,9 +98,9 @@ class TestTreeConstruct(unittest.TestCase):
         )
         tree = Tree.from_polars(path_data)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_basenode_root_attr(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_basenode_root_attr(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     @staticmethod
     def test_from_polars_relation():
@@ -119,9 +119,9 @@ class TestTreeConstruct(unittest.TestCase):
         )
         tree = Tree.from_polars_relation(relation_data)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_basenode_root_attr(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_basenode_root_attr(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     @staticmethod
     def test_from_dict():
@@ -137,9 +137,9 @@ class TestTreeConstruct(unittest.TestCase):
         }
         tree = Tree.from_dict(path_dict)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_basenode_root_attr(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_basenode_root_attr(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     @staticmethod
     def test_from_nested_dict():
@@ -167,9 +167,9 @@ class TestTreeConstruct(unittest.TestCase):
         }
         tree = Tree.from_nested_dict(nested_dict)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_basenode_root_attr(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_basenode_root_attr(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     @staticmethod
     def test_from_nested_dict_key():
@@ -196,17 +196,17 @@ class TestTreeConstruct(unittest.TestCase):
         }
         tree = Tree.from_nested_dict_key(nested_dict)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_basenode_root_attr(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_basenode_root_attr(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     @staticmethod
     def test_from_list():
         path_list = ["a/b/d", "a/b/e", "a/b/e/g", "a/b/e/h", "a/c/f"]
         tree = Tree.from_list(path_list)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     @staticmethod
     def test_from_list_relation():
@@ -221,23 +221,23 @@ class TestTreeConstruct(unittest.TestCase):
         ]
         tree = Tree.from_list_relation(relations)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     @staticmethod
     def test_from_str():
         tree_str = "a\n├── b\n│   ├── d\n│   └── e\n│       ├── g\n│       └── h\n└── c\n    └── f"
         tree = Tree.from_str(tree_str)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     @staticmethod
     def test_from_newick():
         newick_str = "((d,(g,h)e)b,(f)c)a"
         tree = Tree.from_newick(newick_str)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
 
 
 class TestTreeAdd(unittest.TestCase):
@@ -274,9 +274,9 @@ class TestTreeAdd(unittest.TestCase):
         )
         tree.add_dataframe_by_path(data)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_basenode_root_attr(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_basenode_root_attr(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     def test_add_dataframe_by_name(self):
         data = pd.DataFrame(
@@ -294,9 +294,9 @@ class TestTreeAdd(unittest.TestCase):
         )
         self.tree.add_dataframe_by_name(data)
         assert_tree_structure_basenode_tree(self.tree)
-        assert_tree_structure_basenode_root(self.tree.root)
-        assert_tree_structure_basenode_root_attr(self.tree.root)
-        assert_tree_structure_node_root(self.tree.root)
+        assert_tree_structure_basenode_root(self.tree.node)
+        assert_tree_structure_basenode_root_attr(self.tree.node)
+        assert_tree_structure_node_root(self.tree.node)
 
     @staticmethod
     def test_add_polars_by_path():
@@ -316,9 +316,9 @@ class TestTreeAdd(unittest.TestCase):
         )
         tree.add_polars_by_path(data)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_basenode_root_attr(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_basenode_root_attr(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     def test_add_polars_by_name(self):
         data = pl.DataFrame(
@@ -336,9 +336,9 @@ class TestTreeAdd(unittest.TestCase):
         )
         self.tree.add_polars_by_name(data)
         assert_tree_structure_basenode_tree(self.tree)
-        assert_tree_structure_basenode_root(self.tree.root)
-        assert_tree_structure_basenode_root_attr(self.tree.root)
-        assert_tree_structure_node_root(self.tree.root)
+        assert_tree_structure_basenode_root(self.tree.node)
+        assert_tree_structure_basenode_root_attr(self.tree.node)
+        assert_tree_structure_node_root(self.tree.node)
 
     @staticmethod
     def test_add_dict_by_path():
@@ -355,9 +355,9 @@ class TestTreeAdd(unittest.TestCase):
         }
         tree.add_dict_by_path(paths)
         assert_tree_structure_basenode_tree(tree)
-        assert_tree_structure_basenode_root(tree.root)
-        assert_tree_structure_basenode_root_attr(tree.root)
-        assert_tree_structure_node_root(tree.root)
+        assert_tree_structure_basenode_root(tree.node)
+        assert_tree_structure_basenode_root_attr(tree.node)
+        assert_tree_structure_node_root(tree.node)
 
     def test_add_dict_by_name(self):
         name_dict = {
@@ -372,9 +372,9 @@ class TestTreeAdd(unittest.TestCase):
         }
         self.tree.add_dict_by_name(name_dict)
         assert_tree_structure_basenode_tree(self.tree)
-        assert_tree_structure_basenode_root(self.tree.root)
-        assert_tree_structure_basenode_root_attr(self.tree.root)
-        assert_tree_structure_node_root(self.tree.root)
+        assert_tree_structure_basenode_root(self.tree.node)
+        assert_tree_structure_basenode_root_attr(self.tree.node)
+        assert_tree_structure_node_root(self.tree.node)
 
 
 class TestTreeExport:
@@ -560,19 +560,19 @@ class TestTreeHelper:
     @staticmethod
     def test_clone(tree_tree):
         tree_clone = tree_tree.clone(node_type=basenode.BaseNode)
-        assert isinstance(tree_clone.root, basenode.BaseNode), "Wrong type returned"
-        assert_tree_structure_basenode_root(tree_clone.root)
-        assert_tree_structure_basenode_root_attr(tree_clone.root)
+        assert isinstance(tree_clone.node, basenode.BaseNode), "Wrong type returned"
+        assert_tree_structure_basenode_root(tree_clone.node)
+        assert_tree_structure_basenode_root_attr(tree_clone.node)
 
     @staticmethod
     def test_prune(tree_tree):
         # Pruned tree is a/b/d, a/b/e/g, a/b/e/h
         tree_prune = tree_tree.prune("a/b")
 
-        assert len(list(tree_prune.root.children)) == 1
-        assert len(tree_prune.root.children[0].children) == 2
-        assert len(tree_prune.root.children[0].children[0].children) == 0
-        assert len(tree_prune.root.children[0].children[1].children) == 2
+        assert len(list(tree_prune.node.children)) == 1
+        assert len(tree_prune.node.children[0].children) == 2
+        assert len(tree_prune.node.children[0].children[0].children) == 0
+        assert len(tree_prune.node.children[0].children[1].children) == 2
 
     @staticmethod
     def test_diff_dataframe(tree_tree):
@@ -617,7 +617,7 @@ class TestTreeSearch:
     @staticmethod
     def test_find_all(tree_tree):
         actual = tree_tree.findall(lambda _node: _node.age >= 60)
-        expected = (tree_tree.root, tree_tree.root["b"], tree_tree.root["c"])
+        expected = (tree_tree.node, tree_tree.node["b"], tree_tree.node["c"])
         assert (
             actual == expected
         ), f"Expected find_all to return {expected}, received {actual}"
@@ -625,7 +625,7 @@ class TestTreeSearch:
     @staticmethod
     def test_find(tree_tree):
         actual = tree_tree.find(lambda _node: _node.age == 60)
-        expected = tree_tree.root["c"]
+        expected = tree_tree.node["c"]
         assert (
             actual == expected
         ), f"Expected find to return {expected}, received {actual}"
@@ -633,7 +633,7 @@ class TestTreeSearch:
     @staticmethod
     def test_find_name(tree_tree):
         actual = tree_tree.find_name("a")
-        expected = tree_tree.root
+        expected = tree_tree.node
         assert (
             actual == expected
         ), f"Expected find_name to return {expected}, received {actual}"
@@ -641,7 +641,25 @@ class TestTreeSearch:
     @staticmethod
     def test_find_names(tree_tree):
         actual = tree_tree.find_names("a")
-        expected = (tree_tree.root,)
+        expected = (tree_tree.node,)
+        assert (
+            actual == expected
+        ), f"Expected find_name to return {expected}, received {actual}"
+
+    @staticmethod
+    def test_find_relative_path(tree_tree):
+        inputs = (".", "b")
+        expected_ans = (tree_tree.node, tree_tree.node["b"])
+        for input_, expected in zip(inputs, expected_ans):
+            actual = tree_tree.find_relative_path(input_)
+            assert (
+                actual == expected
+            ), f"Expected find_path to return {expected}, received {actual}"
+
+    @staticmethod
+    def test_find_relative_paths(tree_tree):
+        actual = tree_tree.find_relative_paths("*")
+        expected = (tree_tree.node["b"], tree_tree.node["c"])
         assert (
             actual == expected
         ), f"Expected find_name to return {expected}, received {actual}"
@@ -653,7 +671,7 @@ class TestTreeSearch:
             "a/b",
             "a/c",
         ]
-        expected_ans = (tree_tree.root, tree_tree.root["b"], tree_tree.root["c"])
+        expected_ans = (tree_tree.node, tree_tree.node["b"], tree_tree.node["c"])
         for input_, expected in zip(inputs, expected_ans):
             actual = tree_tree.find_full_path(input_)
             assert (
@@ -667,7 +685,7 @@ class TestTreeSearch:
             "a/b",
             "a/c",
         ]
-        expected_ans = (tree_tree.root, tree_tree.root["b"], tree_tree.root["c"])
+        expected_ans = (tree_tree.node, tree_tree.node["b"], tree_tree.node["c"])
         for input_, expected in zip(inputs, expected_ans):
             actual = tree_tree.find_path(input_)
             assert (
@@ -682,9 +700,9 @@ class TestTreeSearch:
             "a/c",
         ]
         expected_ans = (
-            (tree_tree.root,),
-            (tree_tree.root["b"],),
-            (tree_tree.root["c"],),
+            (tree_tree.node,),
+            (tree_tree.node["b"],),
+            (tree_tree.node["c"],),
         )
         for input_, expected in zip(inputs, expected_ans):
             actual = tree_tree.find_paths(input_)
@@ -695,7 +713,7 @@ class TestTreeSearch:
     @staticmethod
     def test_find_attr(tree_tree):
         inputs = ["a", "b", "c", "i"]
-        expected_ans = (tree_tree.root, tree_tree.root["b"], tree_tree.root["c"], None)
+        expected_ans = (tree_tree.node, tree_tree.node["b"], tree_tree.node["c"], None)
         for input_, expected in zip(inputs, expected_ans):
             actual = tree_tree.find_attr("name", input_)
             assert (
@@ -703,7 +721,7 @@ class TestTreeSearch:
             ), f"Expected find_attr to return {expected}, received {actual}"
 
         inputs = [90, 65, 60, 1]
-        expected_ans = (tree_tree.root, tree_tree.root["b"], tree_tree.root["c"], None)
+        expected_ans = (tree_tree.node, tree_tree.node["b"], tree_tree.node["c"], None)
         for input_, expected in zip(inputs, expected_ans):
             actual = tree_tree.find_attr("age", input_)
             assert (
@@ -714,9 +732,9 @@ class TestTreeSearch:
     def test_find_attrs(tree_tree):
         inputs = ["a", "b", "c", "i"]
         expected_ans = (
-            (tree_tree.root,),
-            (tree_tree.root["b"],),
-            (tree_tree.root["c"],),
+            (tree_tree.node,),
+            (tree_tree.node["b"],),
+            (tree_tree.node["c"],),
             (),
         )
         for input_, expected in zip(inputs, expected_ans):
@@ -727,9 +745,9 @@ class TestTreeSearch:
 
         inputs = [90, 65, 60, 1]
         expected_ans = (
-            (tree_tree.root,),
-            (tree_tree.root["b"],),
-            (tree_tree.root["c"],),
+            (tree_tree.node,),
+            (tree_tree.node["b"],),
+            (tree_tree.node["c"],),
             (),
         )
         for input_, expected in zip(inputs, expected_ans):
@@ -741,7 +759,7 @@ class TestTreeSearch:
     @staticmethod
     def test_find_children(tree_tree):
         actual = tree_tree.find_children(lambda _node: _node.age > 1)
-        expected = (tree_tree.root["b"], tree_tree.root["c"])
+        expected = (tree_tree.node["b"], tree_tree.node["c"])
         assert (
             actual == expected
         ), f"Expected find_attr to return {expected}, received {actual}"
@@ -750,10 +768,10 @@ class TestTreeSearch:
     def test_find_child(tree_tree):
         inputs = [tree_tree, tree_tree["b"], tree_tree["c"], tree_tree["b"]["e"]]
         expected_ans = (
-            tree_tree.root["b"],
-            tree_tree.root["b"]["e"],
-            tree_tree.root["c"]["f"],
-            tree_tree.root["b"]["e"]["g"],
+            tree_tree.node["b"],
+            tree_tree.node["b"]["e"],
+            tree_tree.node["c"]["f"],
+            tree_tree.node["b"]["e"]["g"],
         )
         for input_, expected in zip(inputs, expected_ans):
             actual = input_.find_child(
@@ -770,10 +788,10 @@ class TestTreeSearch:
         inputs1 = [tree_tree, tree_tree["b"], tree_tree["c"], tree_tree["b"]["e"]]
         inputs2 = ["b", "e", "f", "g"]
         expected_ans = (
-            tree_tree.root["b"],
-            tree_tree.root["b"]["e"],
-            tree_tree.root["c"]["f"],
-            tree_tree.root["b"]["e"]["g"],
+            tree_tree.node["b"],
+            tree_tree.node["b"]["e"],
+            tree_tree.node["c"]["f"],
+            tree_tree.node["b"]["e"]["g"],
         )
         for input1_, input2_, expected in zip(inputs1, inputs2, expected_ans):
             actual = input1_.find_child_by_name(input2_)
