@@ -83,6 +83,37 @@ class TestPrintTree:
         )
 
     @staticmethod
+    def test_print_tree_subtree_b(tree_node):
+        # fmt: off
+        expected_str = (
+            "b\n"
+            "├── d\n"
+            "└── e\n"
+            "    ├── g\n"
+            "    └── h\n"
+        )
+        # fmt: on
+        assert_print_statement(
+            export.print_tree,
+            expected_str,
+            tree=tree_node["b"],
+        )
+
+    @staticmethod
+    def test_print_tree_subtree_c(tree_node):
+        # fmt: off
+        expected_str = (
+            "c\n"
+            "└── f\n"
+        )
+        # fmt: on
+        assert_print_statement(
+            export.print_tree,
+            expected_str,
+            tree=tree_node["c"],
+        )
+
+    @staticmethod
     def test_print_tree_alias(tree_node):
         expected_str = (
             "alias a\n"

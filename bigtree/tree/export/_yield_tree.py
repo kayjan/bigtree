@@ -147,7 +147,7 @@ class YieldTree(BaseYieldTree):
         for _node in iterators.preorder_iter(self.tree):
             pre_str = ""
             fill_str = ""
-            if not _node.is_root:
+            if _node != self.tree:
                 node_depth = _node.depth - initial_depth
 
                 # Get fill_str (style_branch or style_stem_final)
