@@ -1580,6 +1580,8 @@
       
         
       
+        
+      
     
     
       
@@ -1614,6 +1616,27 @@
             🌵 Binary Tree
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bigtree/binarytree/binarytree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binary Tree
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1659,6 +1682,8 @@
       
         
       
+        
+      
     
     
       
@@ -1693,6 +1718,27 @@
             🌴 DAG
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bigtree/dag/dag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DAG
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1788,6 +1834,8 @@
       
         
       
+        
+      
     
     
       
@@ -1822,6 +1870,27 @@
             🌲 Tree
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bigtree/tree/tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tree
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2691,6 +2760,9 @@
 
 
 <h1 id="dag-demonstration">📋 DAG Demonstration</h1>
+<p>Conceptually, DAGs are made up of nodes, and they are synonymous; a dag is a node. In bigtree implementation, node
+refers to the <code>DAGNode</code> class, whereas dag refers to the <code>DAG</code> class. DAG is implemented as a wrapper around a DAGNode
+to implement dag-level methods (for construct/export etc.) for a more intuitive API.</p>
 <p>Compared to nodes in tree, nodes in DAG are able to have multiple parents.</p>
 <h2 id="construct-dag">Construct DAG</h2>
 <h3 id="1-from-dagnode">1. From DAGNode</h3>
@@ -2701,7 +2773,7 @@
 <li>Using bitshift operator with the convention <code>parent_node &gt;&gt; child_node</code> or <code>child_node &lt;&lt; parent_node</code></li>
 <li>Using <code>.append(child)</code> or <code>.extend([child1, child2])</code> methods</li>
 </ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">DAGNode</span><span class="p">,</span> <span class="n">dag_to_dot</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">DAGNode</span><span class="p">,</span> <span class="n">DAG</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">a</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">b</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
@@ -2712,23 +2784,23 @@
 </span></span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">h</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="hll"><span class="n">g</span> <span class="o">=</span> <span class="n">DAGNode</span><span class="p">(</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">h</span><span class="p">])</span>
 </span></span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">graph</span> <span class="o">=</span> <span class="n">dag_to_dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">node_colour</span><span class="o">=</span><span class="s2">&quot;gold&quot;</span><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">graph</span> <span class="o">=</span> <span class="n">DAG</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">to_dot</span><span class="p">(</span><span class="n">node_colour</span><span class="o">=</span><span class="s2">&quot;gold&quot;</span><span class="p">)</span>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">&quot;assets/demo/dag.png&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 <p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/demo/dag.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Sample DAG Output" src="https://github.com/kayjan/bigtree/raw/master/assets/demo/dag.png" title="Sample DAG Output" /></a></p>
 <h3 id="2-from-list">2. From list</h3>
 <p>Construct nodes only, list contains parent-child tuples.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">list_to_dag</span><span class="p">,</span> <span class="n">dag_iterator</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">DAG</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="hll"><span class="n">relations_list</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">)]</span>
-</span></span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">dag</span> <span class="o">=</span> <span class="n">list_to_dag</span><span class="p">(</span><span class="n">relations_list</span><span class="p">)</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nb">print</span><span class="p">([(</span><span class="n">parent</span><span class="o">.</span><span class="n">node_name</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">node_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">parent</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">dag_iterator</span><span class="p">(</span><span class="n">dag</span><span class="p">)])</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">relations_list</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">)]</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="hll"><span class="n">dag</span> <span class="o">=</span> <span class="n">DAG</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="n">relations_list</span><span class="p">)</span>
+</span></span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nb">print</span><span class="p">([(</span><span class="n">parent</span><span class="o">.</span><span class="n">node_name</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">node_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">parent</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">iterate</span><span class="p">()])</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># [(&#39;a&#39;, &#39;d&#39;), (&#39;c&#39;, &#39;d&#39;), (&#39;d&#39;, &#39;e&#39;), (&#39;a&#39;, &#39;c&#39;), (&#39;b&#39;, &#39;c&#39;)]</span>
 </span></code></pre></div>
 <h3 id="3-from-nested-dictionary">3. From nested dictionary</h3>
 <p>Construct nodes with attributes, <code>key</code>: child name, <code>value</code>: dict of parent name, child node attributes.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">dict_to_dag</span><span class="p">,</span> <span class="n">dag_iterator</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">DAG</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">relation_dict</span> <span class="o">=</span> <span class="p">{</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
@@ -2737,15 +2809,15 @@
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;parents&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">],</span> <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;parents&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">],</span> <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="hll"><span class="n">dag</span> <span class="o">=</span> <span class="n">dict_to_dag</span><span class="p">(</span><span class="n">relation_dict</span><span class="p">,</span> <span class="n">parent_key</span><span class="o">=</span><span class="s2">&quot;parents&quot;</span><span class="p">)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="hll"><span class="n">dag</span> <span class="o">=</span> <span class="n">DAG</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">relation_dict</span><span class="p">,</span> <span class="n">parent_key</span><span class="o">=</span><span class="s2">&quot;parents&quot;</span><span class="p">)</span>
 </span></span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nb">print</span><span class="p">([(</span><span class="n">parent</span><span class="o">.</span><span class="n">node_name</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">node_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">parent</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">dag_iterator</span><span class="p">(</span><span class="n">dag</span><span class="p">)])</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nb">print</span><span class="p">([(</span><span class="n">parent</span><span class="o">.</span><span class="n">node_name</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">node_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">parent</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">iterate</span><span class="p">()])</span>
 </span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># [(&#39;a&#39;, &#39;d&#39;), (&#39;c&#39;, &#39;d&#39;), (&#39;d&#39;, &#39;e&#39;), (&#39;a&#39;, &#39;c&#39;), (&#39;b&#39;, &#39;c&#39;)]</span>
 </span></code></pre></div>
 <h3 id="4-from-pandas-dataframe">4. From pandas DataFrame</h3>
 <p>Construct nodes with attributes, <em>pandas DataFrame</em> contains child column, parent column, and attribute columns.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">dataframe_to_dag</span><span class="p">,</span> <span class="n">dag_iterator</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">DAG</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">path_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="p">[</span>
@@ -2759,17 +2831,17 @@
 </span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="p">],</span>
 </span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="s2">&quot;step&quot;</span><span class="p">],</span>
 </span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">)</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="hll"><span class="n">dag</span> <span class="o">=</span> <span class="n">dataframe_to_dag</span><span class="p">(</span><span class="n">path_data</span><span class="p">)</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="hll"><span class="n">dag</span> <span class="o">=</span> <span class="n">DAG</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">path_data</span><span class="p">)</span>
 </span></span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="nb">print</span><span class="p">([(</span><span class="n">parent</span><span class="o">.</span><span class="n">node_name</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">node_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">parent</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">dag_iterator</span><span class="p">(</span><span class="n">dag</span><span class="p">)])</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="nb">print</span><span class="p">([(</span><span class="n">parent</span><span class="o">.</span><span class="n">node_name</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">node_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">parent</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">iterate</span><span class="p">()])</span>
 </span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="c1"># [(&#39;a&#39;, &#39;d&#39;), (&#39;c&#39;, &#39;d&#39;), (&#39;d&#39;, &#39;e&#39;), (&#39;a&#39;, &#39;c&#39;), (&#39;b&#39;, &#39;c&#39;)]</span>
 </span></code></pre></div>
 <h2 id="dag-attributes-and-operations">DAG Attributes and Operations</h2>
 <p>Note that using <code>DAGNode</code> as superclass inherits the default class attributes (properties) and operations (methods).</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">list_to_dag</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">DAG</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">relations_list</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">)]</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">dag</span> <span class="o">=</span> <span class="n">list_to_dag</span><span class="p">(</span><span class="n">relations_list</span><span class="p">)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">dag</span> <span class="o">=</span> <span class="n">DAG</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="n">relations_list</span><span class="p">)</span><span class="o">.</span><span class="n">dag</span>
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">dag</span>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># DAGNode(d, )</span>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
@@ -2858,7 +2930,7 @@
 <tr>
 <td>Find path(s) from one node to another</td>
 <td><code>node_a.go_to(dag)</code></td>
-<td>[[DAGNode(a, ), DAGNode(c, ), DAGNode(d, description=dag-tag)], [DAGNode(a, ), DAGNode(d, description=dag-tag)]]</td>
+<td>[[DAGNode(a, ), DAGNode(c, ), DAGNode(d, )], [DAGNode(a, ), DAGNode(d, )]]</td>
 </tr>
 <tr>
 <td>Add child to node</td>

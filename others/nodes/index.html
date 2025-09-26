@@ -1473,6 +1473,8 @@
       
         
       
+        
+      
     
     
       
@@ -1507,6 +1509,27 @@
             🌵 Binary Tree
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bigtree/binarytree/binarytree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binary Tree
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1552,6 +1575,8 @@
       
         
       
+        
+      
     
     
       
@@ -1586,6 +1611,27 @@
             🌴 DAG
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bigtree/dag/dag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DAG
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1681,6 +1727,8 @@
       
         
       
+        
+      
     
     
       
@@ -1715,6 +1763,27 @@
             🌲 Tree
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bigtree/tree/tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tree
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2611,7 +2680,7 @@
 <li>For example, <code>Node</code> class extends <code>BaseNode</code> and added the <code>name</code> functionality with pre-assign checks to ensure no duplicate path names</li>
 </ul>
 <h2 id="population-node-add-functionalitymethodproperty">Population Node (add functionality/method/property)</h2>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">print_tree</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">class</span> <span class="nc">PopulationNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
@@ -2640,7 +2709,7 @@
 </span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="n">b2</span> <span class="o">=</span> <span class="n">PopulationNode</span><span class="p">(</span><span class="s2">&quot;Country B&quot;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
 </span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="n">b3</span> <span class="o">=</span> <span class="n">PopulationNode</span><span class="p">(</span><span class="s2">&quot;Country C&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="n">print_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;population&quot;</span><span class="p">,</span> <span class="s2">&quot;percentage&quot;</span><span class="p">])</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="n">root</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;population&quot;</span><span class="p">,</span> <span class="s2">&quot;percentage&quot;</span><span class="p">])</span>
 </span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="c1"># World [population=450, percentage=1]</span>
 </span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="c1"># ├── Country A [population=150, percentage=0.33]</span>
 </span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="c1"># │   ├── State A1 [population=100, percentage=0.22]</span>

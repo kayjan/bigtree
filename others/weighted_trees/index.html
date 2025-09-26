@@ -1473,6 +1473,8 @@
       
         
       
+        
+      
     
     
       
@@ -1507,6 +1509,27 @@
             🌵 Binary Tree
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bigtree/binarytree/binarytree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binary Tree
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1552,6 +1575,8 @@
       
         
       
+        
+      
     
     
       
@@ -1586,6 +1611,27 @@
             🌴 DAG
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bigtree/dag/dag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DAG
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1681,6 +1727,8 @@
       
         
       
+        
+      
     
     
       
@@ -1715,6 +1763,27 @@
             🌲 Tree
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bigtree/tree/tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tree
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2538,7 +2607,7 @@
 <p>Edge weights should be defined in the child node for the parent-child edge since each node can only have one parent.</p>
 <p>We can simply add <code>weight</code> attribute to the <code>Node</code> class.
 However, if we want to visualize the weighted tree, we can create a <code>WeightedNode</code> class to generate the edge attribute dictionary.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">tree_to_dot</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">Tree</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">class</span> <span class="nc">WeightedNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -2558,7 +2627,7 @@ However, if we want to visualize the weighted tree, we can create a <code>Weight
 </span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="n">c</span> <span class="o">=</span> <span class="n">WeightedNode</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="n">d</span> <span class="o">=</span> <span class="n">WeightedNode</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_to_dot</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node_colour</span><span class="o">=</span><span class="s2">&quot;gold&quot;</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">=</span><span class="s2">&quot;edge_attr&quot;</span><span class="p">)</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="n">graph</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">to_dot</span><span class="p">(</span><span class="n">node_colour</span><span class="o">=</span><span class="s2">&quot;gold&quot;</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">=</span><span class="s2">&quot;edge_attr&quot;</span><span class="p">)</span>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">&quot;assets/docs/weighted_tree.png&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 <p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/docs/weighted_tree.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Weighted Tree Output" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/weighted_tree.png" title="Weighted Tree Output" /></a></p>

@@ -1471,6 +1471,8 @@
       
         
       
+        
+      
     
     
       
@@ -1505,6 +1507,27 @@
             🌵 Binary Tree
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bigtree/binarytree/binarytree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binary Tree
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1550,6 +1573,8 @@
       
         
       
+        
+      
     
     
       
@@ -1584,6 +1609,27 @@
             🌴 DAG
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bigtree/dag/dag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DAG
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1679,6 +1725,8 @@
       
         
       
+        
+      
     
     
       
@@ -1713,6 +1761,27 @@
             🌲 Tree
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bigtree/tree/tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tree
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2544,13 +2613,13 @@ utilises and builds on top of the existing pydot package.</p>
 </ol>
 <p>Using these x- and y- coordinates, we can display it on a pydot plot using the <code>pos</code> node attribute. In the example
 below, we will make use of option (2) to generate our tree plot with custom coordinates.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">clone_tree</span><span class="p">,</span> <span class="n">list_to_tree</span><span class="p">,</span> <span class="n">reingold_tilford</span><span class="p">,</span> <span class="n">tree_to_dot</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">reingold_tilford</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Create tree</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">root</span> <span class="o">=</span> <span class="n">list_to_tree</span><span class="p">([</span><span class="s2">&quot;a/b/d&quot;</span><span class="p">,</span> <span class="s2">&quot;a/c&quot;</span><span class="p">])</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="o">.</span><span class="n">from_list</span><span class="p">([</span><span class="s2">&quot;a/b/d&quot;</span><span class="p">,</span> <span class="s2">&quot;a/c&quot;</span><span class="p">])</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Modify from the Reingold Tilford algorithm</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">reingold_tilford</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">reingold_tilford</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">class</span> <span class="nc">CoordinateNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
@@ -2559,7 +2628,7 @@ below, we will make use of option (2) to generate our tree plot with custom coor
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>  <span class="c1"># example</span>
 </span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
 </span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">root_coordinate</span> <span class="o">=</span> <span class="n">clone_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">CoordinateNode</span><span class="p">)</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">tree_coordinate</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">CoordinateNode</span><span class="p">)</span>
 </span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
 </span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1"># Export tree to dot (pydot)</span>
@@ -2567,7 +2636,7 @@ below, we will make use of option (2) to generate our tree plot with custom coor
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_node</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">_node</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">}</span>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_to_dot</span><span class="p">(</span><span class="n">root_coordinate</span><span class="p">,</span> <span class="n">node_attr</span><span class="o">=</span><span class="n">node_pos</span><span class="p">)</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="n">graph</span> <span class="o">=</span> <span class="n">tree_coordinate</span><span class="o">.</span><span class="n">to_dot</span><span class="p">(</span><span class="n">node_attr</span><span class="o">=</span><span class="n">node_pos</span><span class="p">)</span>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="hll"><span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">&quot;assets/docs/coordinate_tree.png&quot;</span><span class="p">,</span> <span class="n">prog</span><span class="o">=</span><span class="s2">&quot;neato&quot;</span><span class="p">)</span>
 </span></span></code></pre></div>
 <p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/docs/coordinate_tree.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Custom Coordinate Tree Output" src="https://github.com/kayjan/bigtree/raw/master/assets/docs/coordinate_tree.png" title="Custom Coordinate Tree Output" /></a></p>

@@ -4,36 +4,36 @@
   <head>
     
 <meta name="keywords" content="Python, Tree, Bigtree">
-<meta property="og:url" content="https://kayjan.github.io/bigtree/others/list_dir/" />
+<meta property="og:url" content="https://kayjan.github.io/bigtree/bigtree/dag/dag/" />
 
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
       
-        <link rel="canonical" href="https://kayjan.github.io/bigtree/others/list_dir/">
+        <link rel="canonical" href="https://kayjan.github.io/bigtree/bigtree/dag/dag/">
       
       
-        <link rel="prev" href="../work_with_classes/">
+        <link rel="prev" href="../../binarytree/construct/">
       
       
-        <link rel="next" href="../weighted_trees/">
+        <link rel="next" href="../construct/">
       
       
-      <link rel="icon" href="../../_static/favicon.ico">
+      <link rel="icon" href="../../../_static/favicon.ico">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
     
 
     
       
-        <title>List Directory - bigtree Documentation</title>
+        <title>DAG - bigtree Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.bcfcd587.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.bcfcd587.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -52,15 +52,15 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../_static/custom.css">
+      <link rel="stylesheet" href="../../../_static/custom.css">
     
-      <link rel="stylesheet" href="../../_static/playground.css">
+      <link rel="stylesheet" href="../../../_static/playground.css">
     
-      <link rel="stylesheet" href="../../termynal.css">
+      <link rel="stylesheet" href="../../../termynal.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -69,11 +69,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="List Directory - bigtree Documentation" >
+        <meta  property="og:title"  content="DAG - bigtree Documentation" >
       
         <meta  property="og:description"  content="None" >
       
-        <meta  property="og:image"  content="https://kayjan.github.io/bigtree/assets/images/social/others/list_dir.png" >
+        <meta  property="og:image"  content="https://kayjan.github.io/bigtree/assets/images/social/bigtree/dag/dag.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -81,19 +81,19 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://kayjan.github.io/bigtree/others/list_dir/" >
+        <meta  property="og:url"  content="https://kayjan.github.io/bigtree/bigtree/dag/dag/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="List Directory - bigtree Documentation" >
+        <meta  name="twitter:title"  content="DAG - bigtree Documentation" >
       
         <meta  name="twitter:description"  content="None" >
       
-        <meta  name="twitter:image"  content="https://kayjan.github.io/bigtree/assets/images/social/others/list_dir.png" >
+        <meta  name="twitter:image"  content="https://kayjan.github.io/bigtree/assets/images/social/bigtree/dag/dag.png" >
       
     
     
-   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
     .gslide-title { margin-top: 0px; user-select: text; }
     .gslide-desc { color: #666; user-select: text; }
@@ -102,7 +102,7 @@
     .gdesc-inner { font-size: 0.75rem; }
     body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
     body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -121,7 +121,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#list-directory" class="md-skip">
+        <a href="#dag" class="md-skip">
           Skip to content
         </a>
       
@@ -141,9 +141,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="bigtree Documentation" class="md-header__button md-logo" aria-label="bigtree Documentation" data-md-component="logo">
+    <a href="../../.." title="bigtree Documentation" class="md-header__button md-logo" aria-label="bigtree Documentation" data-md-component="logo">
       
-  <img src="../../_static/favicon.svg" alt="logo">
+  <img src="../../../_static/favicon.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -160,7 +160,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              List Directory
+              DAG
             
           </span>
         </div>
@@ -263,7 +263,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../.." class="md-tabs__link">
+        <a href="../../.." class="md-tabs__link">
           
   
     
@@ -289,7 +289,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../gettingstarted/demo/tree/" class="md-tabs__link">
+        <a href="../../../gettingstarted/demo/tree/" class="md-tabs__link">
           
   
     
@@ -312,7 +312,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../playground/" class="md-tabs__link">
+        <a href="../../../playground/" class="md-tabs__link">
           
   
     
@@ -328,17 +328,21 @@
         
   
   
+    
+  
   
     
     
       
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../bigtree/node/basenode/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../node/basenode/" class="md-tabs__link">
           
   
     
@@ -357,7 +361,11 @@
         
   
   
+  
     
+    
+      
+  
   
   
     
@@ -365,21 +373,11 @@
       
   
   
-    
-  
   
     
     
-      
-  
-  
-    
-  
-  
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../remove_checks/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../others/remove_checks/" class="md-tabs__link">
           
   
     
@@ -426,9 +424,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="bigtree Documentation" class="md-nav__button md-logo" aria-label="bigtree Documentation" data-md-component="logo">
+    <a href="../../.." title="bigtree Documentation" class="md-nav__button md-logo" aria-label="bigtree Documentation" data-md-component="logo">
       
-  <img src="../../_static/favicon.svg" alt="logo">
+  <img src="../../../_static/favicon.svg" alt="logo">
 
     </a>
     bigtree Documentation
@@ -490,7 +488,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../.." class="md-nav__link ">
+            <a href="../../.." class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -523,7 +521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/" class="md-nav__link">
+      <a href="../../../home/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -544,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/install/" class="md-nav__link">
+      <a href="../../../home/install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -615,7 +613,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/tree/" class="md-nav__link">
+      <a href="../../../home/tree/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -636,7 +634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/binarytree/" class="md-nav__link">
+      <a href="../../../home/binarytree/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -657,7 +655,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/dag/" class="md-nav__link">
+      <a href="../../../home/dag/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -736,7 +734,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/community/" class="md-nav__link">
+      <a href="../../../home/community/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -757,7 +755,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/contributing/" class="md-nav__link">
+      <a href="../../../home/contributing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -778,7 +776,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/convention/" class="md-nav__link">
+      <a href="../../../home/convention/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -855,7 +853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/benchmarks/" class="md-nav__link">
+      <a href="../../../home/benchmarks/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -876,7 +874,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/changelog/" class="md-nav__link">
+      <a href="../../../home/changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1012,7 +1010,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../gettingstarted/demo/tree/" class="md-nav__link">
+      <a href="../../../gettingstarted/demo/tree/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1033,7 +1031,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../gettingstarted/demo/binarytree/" class="md-nav__link">
+      <a href="../../../gettingstarted/demo/binarytree/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1054,7 +1052,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../gettingstarted/demo/dag/" class="md-nav__link">
+      <a href="../../../gettingstarted/demo/dag/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1075,7 +1073,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../gettingstarted/demo/Workflow%20Demonstration/" class="md-nav__link">
+      <a href="../../../gettingstarted/demo/Workflow%20Demonstration/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1152,7 +1150,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../gettingstarted/resources/articles/" class="md-nav__link">
+      <a href="../../../gettingstarted/resources/articles/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1173,7 +1171,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../gettingstarted/resources/glossary/" class="md-nav__link">
+      <a href="../../../gettingstarted/resources/glossary/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1234,7 +1232,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../playground/" class="md-nav__link ">
+            <a href="../../../playground/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1266,8 +1264,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -1286,21 +1286,22 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1311,7 +1312,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Code Documentation
@@ -1340,10 +1341,13 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -1352,7 +1356,7 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_1" >
         
           
-          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1377,7 +1381,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/node/basenode/" class="md-nav__link">
+      <a href="../../node/basenode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1398,7 +1402,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/node/node/" class="md-nav__link">
+      <a href="../../node/node/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1419,7 +1423,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/node/binarynode/" class="md-nav__link">
+      <a href="../../node/binarynode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1440,7 +1444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/node/dagnode/" class="md-nav__link">
+      <a href="../../node/dagnode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1480,10 +1484,13 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -1492,7 +1499,7 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
         
           
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1517,7 +1524,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/binarytree/binarytree/" class="md-nav__link">
+      <a href="../../binarytree/binarytree/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1538,7 +1545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/binarytree/construct/" class="md-nav__link">
+      <a href="../../binarytree/construct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1564,8 +1571,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1581,20 +1590,21 @@
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
         
           
+          
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1605,7 +1615,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4_3">
             <span class="md-nav__icon md-icon"></span>
             🌴 DAG
@@ -1616,10 +1626,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../bigtree/dag/dag/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    DAG
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1628,6 +1658,164 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dag-construct-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      DAG Construct Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dag-export-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      DAG Export Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iterator-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Iterator Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bigtree.dag.dag" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;dag
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" dag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;DAG
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" DAG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.from_dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_dataframe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.from_dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_dict
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.from_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.to_dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;to_dataframe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.to_dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;to_dict
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.to_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;to_list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.to_dot" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;to_dot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.iterate" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;iterate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;copy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1640,7 +1828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/dag/construct/" class="md-nav__link">
+      <a href="../construct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1661,7 +1849,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/dag/export/" class="md-nav__link">
+      <a href="../export/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1682,7 +1870,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/dag/parsing/" class="md-nav__link">
+      <a href="../parsing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1734,10 +1922,13 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -1746,7 +1937,7 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_4" >
         
           
-          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1771,7 +1962,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/tree/tree/" class="md-nav__link">
+      <a href="../../tree/tree/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1792,7 +1983,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/tree/construct/" class="md-nav__link">
+      <a href="../../tree/construct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1813,7 +2004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/tree/export/" class="md-nav__link">
+      <a href="../../tree/export/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1834,7 +2025,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/tree/helper/" class="md-nav__link">
+      <a href="../../tree/helper/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1855,7 +2046,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/tree/modify/" class="md-nav__link">
+      <a href="../../tree/modify/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1876,7 +2067,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/tree/parsing/" class="md-nav__link">
+      <a href="../../tree/parsing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1897,7 +2088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/tree/search/" class="md-nav__link">
+      <a href="../../tree/search/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1918,7 +2109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/tree/query/" class="md-nav__link">
+      <a href="../../tree/query/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1958,10 +2149,13 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -1970,7 +2164,7 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_5" >
         
           
-          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1995,7 +2189,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/utils/iterators/" class="md-nav__link">
+      <a href="../../utils/iterators/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2016,7 +2210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/utils/plot/" class="md-nav__link">
+      <a href="../../utils/plot/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2056,10 +2250,13 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -2068,7 +2265,7 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_6" >
         
           
-          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -2093,7 +2290,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/workflows/app_todo/" class="md-nav__link">
+      <a href="../../workflows/app_todo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2114,7 +2311,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bigtree/workflows/app_calendar/" class="md-nav__link">
+      <a href="../../workflows/app_calendar/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2147,10 +2344,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -2159,22 +2354,21 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -2185,7 +2379,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Others
@@ -2196,10 +2390,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -2213,21 +2405,20 @@
     
       
       
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
         
           
-          
         
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_1" >
         
           
-          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -2238,7 +2429,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_1">
             <span class="md-nav__icon md-icon"></span>
             💡 Tips and Tricks
@@ -2298,7 +2489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../remove_checks/" class="md-nav__link">
+      <a href="../../../others/remove_checks/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2375,7 +2566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../nodes/" class="md-nav__link">
+      <a href="../../../others/nodes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2396,7 +2587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../work_with_classes/" class="md-nav__link">
+      <a href="../../../others/work_with_classes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2422,10 +2613,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -2443,11 +2632,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_3" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_1_3" >
         
           
           <label class="md-nav__link" for="__nav_5_1_3" id="__nav_5_1_3_label" tabindex="0">
@@ -2461,7 +2652,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_1_3">
             <span class="md-nav__icon md-icon"></span>
             Tree
@@ -2472,19 +2663,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../others/list_dir/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2493,7 +2675,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -2506,7 +2687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../weighted_trees/" class="md-nav__link">
+      <a href="../../../others/weighted_trees/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2527,7 +2708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom_coordinates/" class="md-nav__link">
+      <a href="../../../others/custom_coordinates/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2584,6 +2765,152 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dag-construct-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      DAG Construct Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dag-export-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      DAG Export Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iterator-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Iterator Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bigtree.dag.dag" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;dag
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" dag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;DAG
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" DAG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.from_dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_dataframe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.from_dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_dict
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.from_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.to_dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;to_dataframe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.to_dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;to_dict
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.to_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;to_list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.to_dot" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;to_dot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.iterate" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;iterate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.dag.dag.DAG.copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;copy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2600,25 +2927,396 @@
   
 
 
-<h1 id="list-directory">List Directory</h1>
-<blockquote>
-<p>Topic: construct</p>
-</blockquote>
-<p>To list directories recursively using bigtree, we can use the <code>glob</code> built-in Python package to extract a list of paths.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">glob</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Tree</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Get all directories recursively</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">path_list</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;./**/*.py&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">path_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Construct tree</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="n">path_list</span><span class="p">)</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># View tree</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">tree</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<h1 id="dag">🎄 DAG</h1>
+<p>Conceptually, DAGs are made up of nodes, and they are synonymous; a dag is a node. In bigtree implementation, node
+refers to the <code>DAGNode</code> class, whereas dag refers to the <code>DAG</code> class. DAG is implemented as a wrapper around a DAGNode
+to implement dag-level methods (for construct/export etc.) for a more intuitive API.</p>
+<p>Construct, export, and iterator methods encapsulated in DAG class.</p>
+<h2 id="dag-construct-methods">DAG Construct Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Construct DAG from</th>
+<th>Using parent-child relation</th>
+<th>Add node attributes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List</td>
+<td><code>DAG.from_list</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Dictionary</td>
+<td><code>DAG.from_dict</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>DataFrame</td>
+<td><code>DAG.from_dataframe</code></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dag-export-methods">DAG Export Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Export DAG to</th>
+<th>Method</th>
+<th>Extract node attributes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List</td>
+<td><code>to_list</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Dictionary</td>
+<td><code>to_dict</code></td>
+<td>Yes with <code>attr_dict</code> or <code>all_attrs</code></td>
+</tr>
+<tr>
+<td>DataFrame</td>
+<td><code>to_dataframe</code></td>
+<td>Yes with <code>attr_dict</code> or <code>all_attrs</code></td>
+</tr>
+<tr>
+<td>Dot (for .dot, .png, .svg, .jpeg, etc.)</td>
+<td><code>to_dot</code></td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h2 id="iterator-methods">Iterator Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Data Structure</th>
+<th>Algorithm</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DAG</td>
+<td><code>iterate</code></td>
+<td>Depth-First Search</td>
+</tr>
+</tbody>
+</table>
+<hr />
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="bigtree.dag.dag" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">bigtree.dag.dag</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="bigtree.dag.dag.DAG" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">DAG</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">DAG</span><span class="p">(</span><span class="n">dag</span><span class="p">)</span>
 </span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+        <p>DAG wraps around DAGNode class to provide a quick, intuitive, Pythonic API for</p>
+<div class="language-text highlight"><pre><span></span><code>* Construction with dataframe, dictionary, or list
+* Export to dataframe, dictionary, list, or images
+</code></pre></div>
+<p>Do refer to the various modules respectively on the keyword parameters.</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="bigtree.dag.dag.DAG.from_dataframe" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">from_dataframe</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>See <code>dataframe_to_dag</code> for full details.</p>
+<p>Accepts the same arguments as <code>dataframe_to_dag</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="bigtree.dag.dag.DAG.from_dict" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">from_dict</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_dict</span><span class="p">(</span><span class="n">relation_attrs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>See <code>dict_to_dag</code> for full details.</p>
+<p>Accepts the same arguments as <code>dict_to_dag</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="bigtree.dag.dag.DAG.from_list" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">from_list</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_list</span><span class="p">(</span><span class="n">relations</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>See <code>list_to_dag</code> for full details.</p>
+<p>Accepts the same arguments as <code>list_to_dag</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="bigtree.dag.dag.DAG.to_dataframe" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">to_dataframe</span>
+
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">to_dataframe</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>See <code>dag_to_dataframe</code> for full details.</p>
+<p>Accepts the same arguments as <code>dag_to_dataframe</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="bigtree.dag.dag.DAG.to_dict" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">to_dict</span>
+
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">to_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>See <code>dag_to_dict</code> for full details.</p>
+<p>Accepts the same arguments as <code>dag_to_dict</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="bigtree.dag.dag.DAG.to_list" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">to_list</span>
+
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">to_list</span><span class="p">()</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>See <code>dag_to_list</code> for full details.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="bigtree.dag.dag.DAG.to_dot" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">to_dot</span>
+
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">to_dot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>See <code>dag_to_dot</code> for full details.</p>
+<p>Accepts the same arguments as <code>dag_to_dot</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="bigtree.dag.dag.DAG.iterate" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">iterate</span>
+
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">iterate</span><span class="p">()</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>See <code>dag_iterator</code> for full details.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="bigtree.dag.dag.DAG.copy" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">copy</span>
+
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">copy</span><span class="p">()</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Deep copy self; clone DAG.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="bigtree.dag.dag.T">T</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Cloned copy of DAG</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
 
 
 
@@ -2711,20 +3409,20 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.expand", "navigation.indexes", "navigation.sections", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.expand", "navigation.indexes", "navigation.sections", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.1e8ae164.min.js"></script>
       
-        <script src="../../_static/custom.js"></script>
+        <script src="../../../_static/custom.js"></script>
       
-        <script src="../../_static/playground-config.js"></script>
+        <script src="../../../_static/playground-config.js"></script>
       
-        <script src="../../_static/playground.js"></script>
+        <script src="../../../_static/playground.js"></script>
       
         <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
       
-        <script src="../../termynal.js"></script>
+        <script src="../../../termynal.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
