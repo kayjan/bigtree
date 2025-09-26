@@ -27,7 +27,7 @@ class TestPlotTree(unittest.TestCase):
         ax = fig.add_subplot(111)
         fig = plot.plot_tree(root, ax=ax)
         if LOCAL:
-            fig.savefig("tests/plot.plot_tree_fig.png")
+            fig.savefig(f"{Constants.LOCAL_FILE}/test_plot_tree_with_fig.png")
         assert isinstance(fig, plt.Figure)
 
     def test_plot_tree_with_fig_and_args(self):
@@ -38,7 +38,7 @@ class TestPlotTree(unittest.TestCase):
         ax = fig.add_subplot(111)
         fig = plot.plot_tree(root, "-ok", ax=ax)
         if LOCAL:
-            fig.savefig("tests/plot.plot_tree_fig_and_args.png")
+            fig.savefig(f"{Constants.LOCAL_FILE}/test_plot_tree_with_fig_and_args.png")
         assert isinstance(fig, plt.Figure)
 
 

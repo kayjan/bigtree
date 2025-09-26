@@ -702,6 +702,23 @@ class TestBaseNode(unittest.TestCase):
         assert isinstance(fig, plt.Figure)
 
 
+def assert_tree_structure_basenode_tree(tree):
+    """Test tree structure (i.e., diameter, depth etc.)"""
+    # Test diameter
+    expected = 5
+    actual = tree.diameter
+    assert (
+        actual == expected
+    ), f"Tree {tree} diameter should be {expected}, but it is {actual}"
+
+    # Test depth
+    expected = 4
+    actual = tree.depth
+    assert (
+        actual == expected
+    ), f"Tree {tree} depth should be {expected}, but it is {actual}"
+
+
 def assert_tree_structure_basenode_root(root):
     """Test tree structure (i.e., ancestors, descendants, leaves, siblings, etc.)"""
     # Test ancestors

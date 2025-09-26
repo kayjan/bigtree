@@ -4,6 +4,10 @@ title: Tree Demonstration
 
 # 📋 Tree Demonstration
 
+Conceptually, trees are made up of nodes, and they are synonymous; a tree is a node. In bigtree implementation, node
+refers to the `Node` class, whereas tree refers to the `Tree` class. Tree is implemented as a wrapper around a Node to
+implement tree-level methods for a more intuitive API.
+
 Here are some codes to get started.
 
 ## Construct Tree
@@ -21,7 +25,7 @@ Nodes can be linked to each other in the following ways:
 
 === "`parent` and `children` setter methods"
     ```python hl_lines="8-9"
-    from bigtree import Node, tree_to_dot
+    from bigtree import Node, Tree
 
     root = Node("a")
     b = Node("b")
@@ -31,18 +35,19 @@ Nodes can be linked to each other in the following ways:
     root.children = [b, c]
     d.parent = b
 
-    root.show()
+    tree = Tree(root)
+    tree.show()
     # a
     # ├── b
     # │   └── d
     # └── c
 
-    root.hshow()
+    tree.hshow()
     #      ┌─ b ─── d
     # ─ a ─┤
     #      └─ c
 
-    root.vshow()
+    tree.vshow()
     #    ┌───┐
     #    │ a │
     #    └─┬─┘
@@ -55,7 +60,7 @@ Nodes can be linked to each other in the following ways:
     # │ d │
     # └───┘
 
-    graph = tree_to_dot(root, node_colour="gold")
+    graph = tree.to_dot(node_colour="gold")
     graph.write_png("assets/demo/tree.png")
     ```
 
@@ -104,7 +109,7 @@ Construct nodes only. Newick string notation supports parsing attributes.
 
 === "Tree string"
     ```python hl_lines="13"
-    from bigtree import str_to_tree
+    from bigtree import Tree
 
     tree_str = """
     a
@@ -116,9 +121,9 @@ Construct nodes only. Newick string notation supports parsing attributes.
     └── c
         └── f
     """
-    root = str_to_tree(tree_str)
+    tree = Tree.from_str(tree_str)
 
-    root.show()
+    tree.show()
     # a
     # ├── b
     # │   ├── d
@@ -131,12 +136,12 @@ Construct nodes only. Newick string notation supports parsing attributes.
 
 === "Newick string"
     ```python hl_lines="4"
-    from bigtree import newick_to_tree
+    from bigtree import Tree
 
     newick_str = "((d,(g,h)e)b,(f)c)a"
-    root = newick_to_tree(newick_str)
+    tree = Tree.from_newick(newick_str)
 
-    root.show()
+    tree.show()
     # a
     # ├── b
     # │   ├── d
@@ -153,11 +158,11 @@ Construct nodes only. List can contain either <mark>full paths</mark> or tuples 
 
 === "Full paths"
     ```python hl_lines="3"
-    from bigtree import list_to_tree
+    from bigtree import Tree
 
-    root = list_to_tree(["a/b/d", "a/c"])
+    tree = Tree.from_list(["a/b/d", "a/c"])
 
-    root.show()
+    tree.show()
     # a
     # ├── b
     # │   └── d
@@ -166,11 +171,11 @@ Construct nodes only. List can contain either <mark>full paths</mark> or tuples 
 
 === "Parent-child names"
     ```python hl_lines="3"
-    from bigtree import list_to_tree_by_relation
+    from bigtree import Tree
 
-    root = list_to_tree_by_relation([("a", "b"), ("a", "c"), ("b", "d")])
+    tree = Tree.from_list_relation([("a", "b"), ("a", "c"), ("b", "d")])
 
-    root.show()
+    tree.show()
     # a
     # ├── b
     # │   └── d
@@ -185,7 +190,7 @@ names and `value` is node attribute values, and list of children (recursive).
 
 === "Flat structure"
     ```python hl_lines="9"
-    from bigtree import dict_to_tree
+    from bigtree import Tree
 
     path_dict = {
        "a": {"age": 90},
@@ -193,9 +198,9 @@ names and `value` is node attribute values, and list of children (recursive).
        "a/c": {"age": 60},
        "a/b/d": {"age": 40},
     }
-    root = dict_to_tree(path_dict)
+    tree = Tree.from_dict(path_dict)
 
-    root.show(attr_list=["age"])
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # │   └── d [age=40]
@@ -204,7 +209,7 @@ names and `value` is node attribute values, and list of children (recursive).
 
 === "Recursive structure"
     ```python hl_lines="17"
-    from bigtree import nested_dict_to_tree
+    from bigtree import Tree
 
     nested_dict = {
        "name": "a",
@@ -220,9 +225,9 @@ names and `value` is node attribute values, and list of children (recursive).
           {"name": "c", "age": 60},
        ],
     }
-    root = nested_dict_to_tree(nested_dict)
+    tree = Tree.from_nested_dict(nested_dict)
 
-    root.show(attr_list=["age"])
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # │   └── d [age=40]
@@ -231,7 +236,7 @@ names and `value` is node attribute values, and list of children (recursive).
 
 === "Recursive structure by key"
     ```python hl_lines="17 31"
-    from bigtree import nested_dict_key_to_tree
+    from bigtree import Tree
 
     nested_dict = {
         "a": {
@@ -247,9 +252,9 @@ names and `value` is node attribute values, and list of children (recursive).
             },
         }
     }
-    root = nested_dict_key_to_tree(nested_dict)
+    tree = Tree.from_nested_dict_key(nested_dict)
 
-    root.show(attr_list=["age"])
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # │   └── d [age=40]
@@ -261,9 +266,9 @@ names and `value` is node attribute values, and list of children (recursive).
             "c": {},
         }
     }
-    root = nested_dict_key_to_tree(nested_dict, child_key=None)
+    tree = Tree.from_nested_dict_key(nested_dict, child_key=None)
 
-    root.show()
+    tree.show()
     # a
     # ├── b
     # │   └── d
@@ -280,7 +285,7 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
     ```python hl_lines="14"
     import pandas as pd
 
-    from bigtree import dataframe_to_tree
+    from bigtree import Tree
 
     data = pd.DataFrame(
        [
@@ -291,9 +296,9 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
        ],
        columns=["path", "age"],
     )
-    root = dataframe_to_tree(data)
+    tree = Tree.from_dataframe(data)
 
-    root.show(attr_list=["age"])
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # │   └── d [age=40]
@@ -304,7 +309,7 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
     ```python hl_lines="14"
     import pandas as pd
 
-    from bigtree import dataframe_to_tree_by_relation
+    from bigtree import Tree
 
     data = pd.DataFrame(
        [
@@ -315,9 +320,9 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
        ],
        columns=["child", "parent", "age"],
     )
-    root = dataframe_to_tree_by_relation(data)
+    tree = Tree.from_dataframe_relation(data)
 
-    root.show(attr_list=["age"])
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # │   └── d [age=40]
@@ -328,7 +333,7 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
     ```python hl_lines="14"
     import polars as pl
 
-    from bigtree import polars_to_tree
+    from bigtree import Tree
 
     data = pl.DataFrame(
        [
@@ -339,9 +344,9 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
        ],
        schema=["path", "age"],
     )
-    root = polars_to_tree(data)
+    tree = Tree.from_polars(data)
 
-    root.show(attr_list=["age"])
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # │   └── d [age=40]
@@ -352,7 +357,7 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
     ```python hl_lines="14"
     import polars as pl
 
-    from bigtree import polars_to_tree_by_relation
+    from bigtree import Tree
 
     data = pl.DataFrame(
        [
@@ -363,9 +368,9 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
        ],
        schema=["child", "parent", "age"],
     )
-    root = polars_to_tree_by_relation(data)
+    tree = Tree.from_polars_relation(data)
 
-    root.show(attr_list=["age"])
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # │   └── d [age=40]
@@ -385,28 +390,29 @@ After tree is constructed, it can be viewed by printing to console using `show`,
 for compact, horizontal, and vertical orientation respectively.
 Alternatively, the `print_tree`, `hprint_tree`, or `vprint_tree` method can be used.
 
-```python hl_lines="8 15 21"
-from bigtree import Node, print_tree, hprint_tree, vprint_tree
+```python hl_lines="9 16 22"
+from bigtree import Node, Tree
 
 root = Node("a", alias="alias-a", age=90, gender="F")
 b = Node("b", age=65, gender="M", parent=root)
 c = Node("c", alias="alias-c", age=60, gender="M", parent=root)
 d = Node("d", age=40, gender="F", parent=b)
 e = Node("e", age=35, gender="M", parent=b)
-print_tree(root) # (1)!
+tree = Tree(root)
+tree.show() # (1)!
 # a
 # ├── b
 # │   ├── d
 # │   └── e
 # └── c
 
-hprint_tree(root) # (2)!
+tree.hshow() # (2)!
 #            ┌─ d
 #      ┌─ b ─┤
 # ─ a ─┤     └─ e
 #      └─ c
 
-vprint_tree(root) # (3)!
+tree.vshow() # (3)!
 #         ┌───┐
 #         │ a │
 #         └─┬─┘
@@ -420,9 +426,9 @@ vprint_tree(root) # (3)!
 # └───┘  └───┘
 ```
 
-1. Alternatively, `root.show()` can be used
-2. Alternatively, `root.hshow()` can be used
-3. Alternatively, `root.vshow()` can be used
+1. Alternatively, `print_tree(tree.root)` can be used
+2. Alternatively, `hprint_tree(tree.root)` can be used
+3. Alternatively, `vprint_tree(tree.root)` can be used
 
 Other customisations for printing are also available, such as:
 
@@ -433,7 +439,7 @@ Other customisations for printing are also available, such as:
 
 === "Alias"
     ```python hl_lines="1"
-    root.show(alias="alias")
+    tree.show(alias="alias")
     # alias-a
     # ├── b
     # │   ├── d
@@ -442,33 +448,40 @@ Other customisations for printing are also available, such as:
     ```
 === "Subtree"
     ```python hl_lines="1 6"
-    root.show(node_name_or_path="b")
+    tree.show(node_name_or_path="b")
     # b
     # ├── d
     # └── e
 
-    root.show(max_depth=2)
+    tree.show(max_depth=2)
     # a
     # ├── b
     # └── c
     ```
 === "Tree with attributes"
-    ```python hl_lines="1 8 15"
-    root.show(attr_list=["age"])
+    ```python hl_lines="1 8 15 22"
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # │   ├── d [age=40]
     # │   └── e [age=35]
     # └── c [age=60]
 
-    root.show(attr_list=["age"], attr_bracket=["*(", ")"])
+    tree.show(attr_list=["age"], attr_format="{k}:{v}", attr_sep="; ")
+    # a [age:90]
+    # ├── b [age:65]
+    # │   ├── d [age:40]
+    # │   └── e [age:35]
+    # └── c [age:60]
+
+    tree.show(attr_list=["age"], attr_bracket=["*(", ")"])
     # a *(age=90)
     # ├── b *(age=65)
     # │   ├── d *(age=40)
     # │   └── e *(age=35)
     # └── c *(age=60)
 
-    root.show(all_attrs=True)
+    tree.show(all_attrs=True)
     # a [age=90, gender=F]
     # ├── b [age=65, gender=M]
     # │   ├── d [age=40, gender=F]
@@ -477,7 +490,7 @@ Other customisations for printing are also available, such as:
     ```
 === "Style - ansi"
     ```python
-    root.show(style="ansi")
+    tree.show(style="ansi")
     # a
     # |-- b
     # |   |-- d
@@ -486,7 +499,7 @@ Other customisations for printing are also available, such as:
     ```
 === "Style - ascii"
     ```python
-    root.show(style="ascii")
+    tree.show(style="ascii")
     # a
     # |-- b
     # |   |-- d
@@ -495,7 +508,7 @@ Other customisations for printing are also available, such as:
     ```
 === "Style - const"
     ```python
-    root.show(style="const")
+    tree.show(style="const")
     # a
     # ├── b
     # │   ├── d
@@ -504,7 +517,7 @@ Other customisations for printing are also available, such as:
     ```
 === "Style - const_bold"
     ```python
-    root.show(style="const_bold")
+    tree.show(style="const_bold")
     # a
     # ┣━━ b
     # ┃   ┣━━ d
@@ -513,7 +526,7 @@ Other customisations for printing are also available, such as:
     ```
 === "Style - rounded"
     ```python
-    root.show(style="rounded")
+    tree.show(style="rounded")
     # a
     # ├── b
     # │   ├── d
@@ -522,7 +535,7 @@ Other customisations for printing are also available, such as:
     ```
 === "Style - double"
     ```python
-    root.show(style="double")
+    tree.show(style="double")
     # a
     # ╠══ b
     # ║   ╠══ d
@@ -531,7 +544,7 @@ Other customisations for printing are also available, such as:
     ```
 === "Style - custom style"
     ```python
-    root.show(style=("│  ", "├→ ", "╰→ "))
+    tree.show(style=("│  ", "├→ ", "╰→ "))
     # a
     # ├→ b
     # │  ├→ d
@@ -550,23 +563,23 @@ function. A *plt.Figure* object is returned if you want to do further customisat
 save the figure to image.
 
 ```python hl_lines="9-10"
-from bigtree import Node, reingold_tilford, plot_tree
+from bigtree import Node, Tree
 
 root = Node("a", age=90, gender="F")
 b = Node("b", age=65, gender="M", parent=root)
 c = Node("c", age=60, gender="M", parent=root)
 d = Node("d", age=40, gender="F", parent=b)
 e = Node("e", age=35, gender="M", parent=b)
+tree = Tree(root)
 
-reingold_tilford(root)
-fig = plot_tree(root, "-ok") # (1)!
+fig = tree.plot("-ok") # (1)!
 fig.axes[0].set_title("Tree Plot Demonstration")
 
 fig.show()  # Show figure
 fig.savefig("assets/demo/tree_plot.png")  # Save figure
 ```
 
-1. Alternatively, `root.plot("-ok")` can be used
+1. Alternatively, `plot_tree(tree.node, "-ok")` can be used
 
 ![Tree Plot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/tree_plot.png "Tree Plot Image Output")
 
@@ -576,7 +589,7 @@ Note that using `BaseNode` or `Node` as superclass inherits the default class at
 and operations (methods).
 
 ```python
-from bigtree import str_to_tree
+from bigtree import Tree
 
 # Initialize tree
 tree_str = """
@@ -590,7 +603,7 @@ a
 └── c
     └── g
 """
-root = str_to_tree(tree_str)
+root = Tree.from_str(tree_str).node
 
 # Accessing children
 node_b = root["b"]
@@ -644,18 +657,10 @@ Below is the table of operations available to `BaseNode` and `Node` classes.
 
 Tree can be traversed using the following traversal methods.
 
-```python hl_lines="19 22 25 28 31 34"
-from bigtree import (
-    levelorder_iter,
-    levelordergroup_iter,
-    postorder_iter,
-    preorder_iter,
-    str_to_tree,
-    zigzag_iter,
-    zigzaggroup_iter,
-)
+```python hl_lines="11 14 17 20 23 26"
+from bigtree import Tree
 
-root = str_to_tree("""
+tree = Tree.from_str("""
 a
 ├── b
 │   ├── d
@@ -663,22 +668,22 @@ a
 └── c
 """)
 
-[node.node_name for node in preorder_iter(root)]
+[node.node_name for node in tree.preorder_iter()]
 # ['a', 'b', 'd', 'e', 'c']
 
-[node.node_name for node in postorder_iter(root)]
+[node.node_name for node in tree.postorder_iter()]
 # ['d', 'e', 'b', 'c', 'a']
 
-[node.node_name for node in levelorder_iter(root)]
+[node.node_name for node in tree.levelorder_iter()]
 # ['a', 'b', 'c', 'd', 'e']
 
-[[node.node_name for node in node_group] for node_group in levelordergroup_iter(root)]
+[[node.node_name for node in node_group] for node_group in tree.levelordergroup_iter()]
 # [['a'], ['b', 'c'], ['d', 'e']]
 
-[node.node_name for node in zigzag_iter(root)]
+[node.node_name for node in tree.zigzag_iter()]
 # ['a', 'c', 'b', 'd', 'e']
 
-[[node.node_name for node in node_group] for node_group in zigzaggroup_iter(root)]
+[[node.node_name for node in node_group] for node_group in tree.zigzaggroup_iter()]
 # [['a'], ['c', 'b'], ['d', 'e']]
 ```
 
@@ -693,11 +698,11 @@ for more examples.
 
 === "Shift nodes"
 ```python hl_lines="12-16 24-28"
-from bigtree import list_to_tree, shift_nodes, shift_and_replace_nodes
+from bigtree import Tree, shift_nodes, shift_and_replace_nodes
 
-root = list_to_tree(
+root = Tree.from_list(
     ["Downloads/Pictures", "Downloads/photo1.jpg", "Downloads/file1.doc"]
-)
+).node
 root.show()
 # Downloads
 # ├── Pictures
@@ -734,11 +739,11 @@ root.show()
 
 === "Copy nodes"
 ```python hl_lines="12-16"
-from bigtree import list_to_tree, copy_nodes
+from bigtree import Tree, copy_nodes
 
-root = list_to_tree(
+root = Tree.from_list(
     ["Downloads/Pictures", "Downloads/photo1.jpg", "Downloads/file1.doc"]
-)
+).node
 root.show()
 # Downloads
 # ├── Pictures
@@ -766,18 +771,17 @@ root.show()
 4. Original `file1.doc` still remains
 
 === "Copy nodes between two trees"
-```python hl_lines="19-28 43-48"
+```python hl_lines="18-27 42-47"
 from bigtree import (
     Node,
+    Tree,
     copy_nodes_from_tree_to_tree,
     copy_and_replace_nodes_from_tree_to_tree,
-    list_to_tree,
-    str_to_tree,
 )
 
-root = list_to_tree(
+root = Tree.from_list(
     ["Downloads/Pictures", "Downloads/photo1.jpg", "Downloads/file1.doc"]
-)
+).node
 root.show()
 # Downloads
 # ├── Pictures
@@ -802,12 +806,12 @@ root_other.show()
 # └── Files
 #     └── file1.doc (3)
 
-root_other = str_to_tree("""
+root_other = Tree.from_str("""
 Documents
 ├── Pictures
 │   └── photo2.jpg
 └── file2.doc
-""")
+""").node
 
 copy_and_replace_nodes_from_tree_to_tree(
     from_tree=root,
@@ -835,89 +839,92 @@ It is also possible to search for one or more child node(s) based on attributes,
 it does not require traversing the whole tree to find the node(s).
 
 === "Find single node"
-    ```python hl_lines="12 15 18 21 24 27"
-    from bigtree import Node, find, find_name, find_path, find_relative_path, find_full_path, find_attr
+    ```python hl_lines="13 16 19 22 25 28"
+    from bigtree import Node, Tree
     root = Node("a", age=90)
     b = Node("b", age=65, parent=root)
     c = Node("c", age=60, parent=root)
     d = Node("d", age=40, parent=c)
-    root.show(attr_list=["age"])
+    tree = Tree(root)
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # └── c [age=60]
     #     └── d [age=40]
 
-    find(root, lambda node: node.age == 60)
+    tree.find(lambda node: node.age == 60)
     # Node(/a/c, age=60)
 
-    find_name(root, "d")
+    tree.find_name("d")
     # Node(/a/c/d, age=40)
 
-    find_relative_path(c, "../b")  # relative path
+    tree["c"].find_relative_path("../b")  # relative path
     # Node(/a/b, age=65)
 
-    find_path(root, "/c/d")  # partial path
+    tree.find_path("/c/d")  # partial path
     # Node(/a/c/d, age=40)
 
-    find_full_path(root, "a/c/d")  # full path
+    tree.find_full_path("a/c/d")  # full path
     # Node(/a/c/d, age=40)
 
-    find_attr(root, "age", 40)
+    tree.find_attr("age", 40)
     # Node(/a/c/d, age=40)
     ```
 
 === "Find multiple nodes"
-    ```python hl_lines="12 15 18 21 24"
-    from bigtree import Node, findall, find_names, find_relative_paths, find_paths, find_attrs
+    ```python hl_lines="13 16 19 22 25"
+    from bigtree import Node, Tree
     root = Node("a", age=90)
     b = Node("b", age=65, parent=root)
     c = Node("c", age=60, parent=root)
     d = Node("c", age=40, parent=c)
-    root.show(attr_list=["age"])
+    tree = Tree(root)
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # └── c [age=60]
     #     └── c [age=40]
 
-    findall(root, lambda node: node.age >= 65)
+    tree.findall(lambda node: node.age >= 65)
     # (Node(/a, age=90), Node(/a/b, age=65))
 
-    find_names(root, "c")
+    tree.find_names("c")
     # (Node(/a/c, age=60), Node(/a/c/c, age=40))
 
-    find_relative_paths(c, "../*")  # relative path
+    tree["c"].find_relative_paths("../*")  # relative path
     # (Node(/a/b, age=65), Node(/a/c, age=60))
 
-    find_paths(root, "/c")  # partial path
+    tree.find_paths("/c")  # partial path
     # (Node(/a/c, age=60), Node(/a/c/c, age=40))
 
-    find_attrs(root, "age", 40)
+    tree.find_attrs("age", 40)
     # (Node(/a/c/c, age=40),)
     ```
 
 === "Find child nodes"
-    ```python hl_lines="12 15 18 21"
-    from bigtree import Node, find_children, find_child, find_child_by_name
+    ```python hl_lines="13 16 19 22"
+    from bigtree import Node, Tree
     root = Node("a", age=90)
     b = Node("b", age=65, parent=root)
     c = Node("c", age=60, parent=root)
     d = Node("c", age=40, parent=c)
-    root.show(attr_list=["age"])
+    tree = Tree(root)
+    tree.show(attr_list=["age"])
     # a [age=90]
     # ├── b [age=65]
     # └── c [age=60]
     #     └── c [age=40]
 
-    find_children(root, lambda node: node.age >= 60)
+    tree.find_children(lambda node: node.age >= 60)
     # (Node(/a/b, age=65), Node(/a/c, age=60))
 
-    find_child(root, lambda node: node.node_name == "c")
+    tree.find_child(lambda node: node.node_name == "c")
     # Node(/a/c, age=60)
 
-    find_child_by_name(root, "c")
+    tree.find_child_by_name("c")
     # Node(/a/c, age=60)
 
-    find_child_by_name(c, "c")
+    tree["c"].find_child_by_name("c")
     # Node(/a/c/c, age=40)
     ```
 
@@ -970,9 +977,9 @@ Trees can be pruned by one or more of the following filters:
 
 === "Prune by path"
     ```python hl_lines="12"
-    from bigtree import str_to_tree, prune_tree
+    from bigtree import Tree
 
-    root = str_to_tree("""
+    tree = Tree.from_str("""
     a
     ├── b
     │   ├── d
@@ -981,8 +988,8 @@ Trees can be pruned by one or more of the following filters:
         └── f
     """)
 
-    root_pruned = prune_tree(root, "a/b")
-    root_pruned.show()
+    tree_pruned = tree.prune("a/b")
+    tree_pruned.show()
     # a
     # └── b
     #     ├── d
@@ -990,9 +997,9 @@ Trees can be pruned by one or more of the following filters:
     ```
 === "Prune by exact path"
     ```python hl_lines="12"
-    from bigtree import str_to_tree, prune_tree
+    from bigtree import Tree
 
-    root = str_to_tree("""
+    tree = Tree.from_str("""
     a
     ├── b
     │   ├── d
@@ -1001,16 +1008,16 @@ Trees can be pruned by one or more of the following filters:
         └── f
     """)
 
-    root_pruned = prune_tree(root, "a/b", exact=True)
-    root_pruned.show()
+    tree_pruned = tree.prune("a/b", exact=True)
+    tree_pruned.show()
     # a
     # └── b
     ```
 === "Prune by depth"
     ```python hl_lines="12"
-    from bigtree import str_to_tree, prune_tree
+    from bigtree import Tree
 
-    root = str_to_tree("""
+    tree = Tree.from_str("""
     a
     ├── b
     │   ├── d
@@ -1019,8 +1026,8 @@ Trees can be pruned by one or more of the following filters:
         └── f
     """)
 
-    root_pruned = prune_tree(root, "c", max_depth=2)
-    root_pruned.show()
+    tree_pruned = tree.prune("c", max_depth=2)
+    tree_pruned.show()
     # a
     # └── c
     ```
@@ -1052,9 +1059,9 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
 
 === "Only differences"
     ```python hl_lines="20"
-    from bigtree import str_to_tree, get_tree_diff
+    from bigtree import Tree
 
-    root = str_to_tree("""
+    tree = Tree.from_str("""
     a
     ├── b
     │   ├── d
@@ -1063,7 +1070,7 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
         └── f
     """)
 
-    root_other = str_to_tree("""
+    tree_other = Tree.from_str("""
     a
     ├── b
     │   └── d
@@ -1071,7 +1078,7 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
         └── g
     """)
 
-    tree_diff = get_tree_diff(root, root_other)
+    tree_diff = tree.diff(tree_other)
     tree_diff.show()
     # a
     # ├── b
@@ -1082,9 +1089,9 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
     ```
 === "Full original tree"
     ```python hl_lines="20"
-    from bigtree import str_to_tree, get_tree_diff
+    from bigtree import Tree
 
-    root = str_to_tree("""
+    tree = Tree.from_str("""
     a
     ├── b
     │   ├── d
@@ -1093,7 +1100,7 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
         └── f
     """)
 
-    root_other = str_to_tree("""
+    tree_other = Tree.from_str("""
     a
     ├── b
     │   └── d
@@ -1101,7 +1108,7 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
         └── g
     """)
 
-    tree_diff = get_tree_diff(root, root_other, only_diff=False)
+    tree_diff = tree.diff(tree_other, only_diff=False)
     tree_diff.show()
     # a
     # ├── b
@@ -1113,9 +1120,9 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
     ```
 === "With details"
     ```python hl_lines="23"
-    from bigtree import str_to_tree, get_tree_diff
+    from bigtree import Tree
 
-    root = str_to_tree("""
+    tree = Tree.from_str("""
     a
     ├── b
     │   ├── d
@@ -1125,7 +1132,7 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
         └── f
     """)
 
-    root_other = str_to_tree("""
+    tree_other = Tree.from_str("""
     a
     ├── b
     │   └── h
@@ -1135,7 +1142,7 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
         └── f
     """)
 
-    tree_diff = get_tree_diff(root, root_other, detail=True)
+    tree_diff = tree.diff(tree_other, detail=True)
     tree_diff.show()
     # a
     # ├── b
@@ -1149,9 +1156,9 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
     ```
 === "With aggregated differences"
     ```python hl_lines="23"
-    from bigtree import str_to_tree, get_tree_diff
+    from bigtree import Tree
 
-    root = str_to_tree("""
+    tree = Tree.from_str("""
     a
     ├── b
     │   ├── d
@@ -1161,7 +1168,7 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
         └── f
     """)
 
-    root_other = str_to_tree("""
+    tree_other = Tree.from_str("""
     a
     ├── b
     │   └── h
@@ -1171,7 +1178,7 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
         └── f
     """)
 
-    tree_diff = get_tree_diff(root, root_other, detail=True, aggregate=True)
+    tree_diff = tree.diff(tree_other, detail=True, aggregate=True)
     tree_diff.show()
     # a
     # ├── b
@@ -1184,14 +1191,15 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
     #         └── g
     ```
 === "Attribute difference"
-    ```python hl_lines="25"
-    from bigtree import Node, get_tree_diff
+    ```python hl_lines="27"
+    from bigtree import Node, Tree
 
     root = Node("a")
     b = Node("b", parent=root)
     c = Node("c", tags="original c", parent=b)
     d = Node("d", tags="original d", parent=root)
-    root.show(attr_list=["tags"])
+    tree = Tree(root)
+    tree.show(attr_list=["tags"])
     # a
     # ├── b
     # │   └── c [tags=original c]
@@ -1202,14 +1210,15 @@ subtrees are shifted, and if you want to view the shifting at the parent-level.
     c = Node("c", tags="new c", parent=b)
     e = Node("e", tags="new e", parent=b)
     d = Node("d", tags="new d", parent=root_other)
-    root_other.show(attr_list=["tags"])
+    tree_other = Tree(root_other)
+    tree_other.show(attr_list=["tags"])
     # a
     # ├── b
     # │   ├── c [tags=new c]
     # │   └── e [tags=new e]
     # └── d [tags=new d]
 
-    tree_diff = get_tree_diff(root, root_other, attr_list=["tags"])
+    tree_diff = tree.diff(tree_other, attr_list=["tags"])
     tree_diff.show(attr_list=["tags"])
     # a
     # ├── b
@@ -1232,14 +1241,15 @@ Tree can be exported to other data types:
 8. Pyvis Network (can display interactive .html)
 
 ```python
-from bigtree import Node
+from bigtree import Node, Tree
 
 root = Node("a", age=90)
 b = Node("b", age=65, parent=root)
 c = Node("c", age=60, parent=root)
 d = Node("d", age=40, parent=b)
 e = Node("e", age=35, parent=b)
-root.show()
+tree = Tree(root)
+tree.show()
 # a
 # ├── b
 # │   ├── d
@@ -1248,22 +1258,17 @@ root.show()
 ```
 
 === "Newick string notation"
-    ```python hl_lines="3 6"
-    from bigtree import tree_to_newick
-
-    tree_to_newick(root)
+    ```python hl_lines="1 4"
+    tree.to_newick()
     # '((d,e)b,c)a'
 
-    tree_to_newick(root, attr_list=["age"])
+    tree.to_newick(attr_list=["age"])
     # '((d[&&NHX:age=40],e[&&NHX:age=35])b[&&NHX:age=65],c[&&NHX:age=60])a[&&NHX:age=90]'
     ```
 
 === "Dictionary (flat structure)"
-    ```python hl_lines="3-8"
-    from bigtree import tree_to_dict
-
-    tree_to_dict(
-       root,
+    ```python hl_lines="1-5"
+    tree.to_dict(
        name_key="name",
        parent_key="parent",
        attr_dict={"age": "person age"}
@@ -1278,10 +1283,8 @@ root.show()
     ```
 
 === "Dictionary (recursive structure)"
-    ```python hl_lines="3"
-    from bigtree import tree_to_nested_dict
-
-    tree_to_nested_dict(root, all_attrs=True)
+    ```python hl_lines="1"
+    tree.to_nested_dict(all_attrs=True)
     # {
     #    'name': 'a',
     #    'age': 90,
@@ -1309,25 +1312,20 @@ root.show()
     ```
 
 === "Dictionary (recursive structure by key)"
-    ```python hl_lines="3 9"
-    from bigtree import tree_to_nested_dict_key
-
-    tree_to_nested_dict_key(root, all_attrs=True)
+    ```python hl_lines="1 7"
+    tree.to_nested_dict_key(all_attrs=True)
     # {'a': {'age': 90,
     #        'children': {'b': {'age': 65,
     #                           'children': {'d': {'age': 40}, 'e': {'age': 35}}},
     #                     'c': {'age': 60}}}}
 
-    tree_to_nested_dict_key(root, child_key=None)
+    tree.to_nested_dict_key(child_key=None)
     # {'a': {'b': {'d': {}, 'e': {}}, 'c': {}}}
     ```
 
 === "pandas DataFrame"
-    ```python hl_lines="3-9"
-    from bigtree import tree_to_dataframe
-
-    tree_to_dataframe(
-       root,
+    ```python hl_lines="1-6"
+    tree.to_dataframe(
        name_col="name",
        parent_col="parent",
        path_col="path",
@@ -1342,11 +1340,8 @@ root.show()
     ```
 
 === "polars DataFrame"
-    ```python hl_lines="3-9"
-    from bigtree import tree_to_polars
-
-    tree_to_polars(
-       root,
+    ```python hl_lines="1-6"
+    tree.to_polars(
        name_col="name",
        parent_col="parent",
        path_col="path",
@@ -1367,42 +1362,32 @@ root.show()
     ```
 
 === "Dot"
-    ```python hl_lines="3"
-    from bigtree import tree_to_dot
-
-    graph = tree_to_dot(root, node_colour="gold")
+    ```python hl_lines="1"
+    graph = tree.to_dot(node_colour="gold")
     graph.write_png("assets/demo/dot.png")
     ```
 
 === "Pillow Graph"
-    ```python hl_lines="3"
-    from bigtree import tree_to_pillow_graph
-
-    pillow_image = tree_to_pillow_graph(root, node_content="{node_name}\nAge {age}")
+    ```python hl_lines="1"
+    pillow_image = tree.to_pillow_graph(node_content="{node_name}\nAge {age}")
     pillow_image.save("assets/demo/pillow_graph.png")
     ```
 
 === "Pillow"
-    ```python hl_lines="3"
-    from bigtree import tree_to_pillow
-
-    pillow_image = tree_to_pillow(root)
+    ```python hl_lines="1"
+    pillow_image = tree.to_pillow()
     pillow_image.save("assets/demo/pillow.png")
     ```
 
 === "Mermaid Flowchart"
-    ```python hl_lines="3"
-    from bigtree import tree_to_mermaid
-
-    mermaid_md = tree_to_mermaid(root)
+    ```python hl_lines="1"
+    mermaid_md = tree.to_mermaid()
     print(mermaid_md)
     ```
 
 === "Pyvis Network"
-    ```python hl_lines="3"
-    from bigtree import tree_to_vis
-
-    net = tree_to_vis(root)
+    ```python hl_lines="1"
+    net = tree.to_vis()
     net.save_graph("assets/demo/vis.html")
     ```
 

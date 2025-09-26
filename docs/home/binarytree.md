@@ -10,6 +10,9 @@ Binary Node inherits from Node, so the components in Tree implementation are als
 ## [**🌿 Node**](../bigtree/node/binarynode.md)
 - ``BinaryNode``, Node with binary tree rules
 
+## [**🎄 Binary Tree**](../bigtree/binarytree/binarytree.md)
+- ``BinaryTree``, wrapper around ``BinaryNode``, providing high-level APIs to build, iterate, query, and export the entire tree structure
+
 ## [**✨ Constructing Binary Tree**](../bigtree/binarytree/construct.md)
 - From *list*, using flattened list structure
 

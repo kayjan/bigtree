@@ -10,6 +10,9 @@ For **Tree** implementation, there are 11 main components.
 - ``BaseNode``, extendable class
 - ``Node``, BaseNode with node name attribute
 
+## [**🎄 Tree**](../bigtree/tree/tree.md)
+- ``Tree``, wrapper around ``Node``, providing high-level APIs to build, iterate, query, and export the entire tree structure
+
 ## [**✨ Constructing Tree**](../bigtree/tree/construct.md)
 - From `Node`, using parent and children constructors
 - From *str*, using tree display or Newick string notation

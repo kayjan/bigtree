@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2025-09-26
+### Added:
+- Improved API: Introduced BinaryTree, DAG, and Tree classes as a wrapper for all construct, export, helper, iterator
+methods instead of calling the various functions.
+### Changed:
+- Tests: Save images/files to a folder defined in Constants.
+
 ## [0.31.2] - 2025-09-25
 ### Fixed:
 - Docs: Upgrade docs to use Python 3.10.
@@ -830,7 +837,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/0.31.2...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/kayjan/bigtree/compare/0.31.2...1.0.0
 [0.31.2]: https://github.com/kayjan/bigtree/compare/0.31.1...0.31.2
 [0.31.1]: https://github.com/kayjan/bigtree/compare/0.31.0...0.31.1
 [0.31.0]: https://github.com/kayjan/bigtree/compare/0.30.1...0.31.0

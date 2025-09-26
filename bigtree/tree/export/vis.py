@@ -44,13 +44,14 @@ def tree_to_vis(
     Refer to pyvis [documentation](https://pyvis.readthedocs.io/en/latest/documentation.html) for more information.
 
     Examples:
-        >>> from bigtree import Node, tree_to_vis
+        >>> from bigtree import Node, Tree
         >>> root = Node("a", age=90)
         >>> b = Node("b", age=65, parent=root)
         >>> c = Node("c", age=60, parent=root)
         >>> d = Node("d", age=40, parent=b)
         >>> e = Node("e", age=35, parent=b)
-        >>> net = tree_to_vis(root)
+        >>> tree = Tree(root)
+        >>> net = tree.to_vis()
 
         Export to visualisation (html) file, etc.
 

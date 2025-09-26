@@ -31,13 +31,13 @@ def dag_to_list(
     """Export DAG to list of tuples containing parent-child names.
 
     Examples:
-        >>> from bigtree import DAGNode, dag_to_list
+        >>> from bigtree import DAGNode, DAG
         >>> a = DAGNode("a", step=1)
         >>> b = DAGNode("b", step=1)
         >>> c = DAGNode("c", step=2, parents=[a, b])
         >>> d = DAGNode("d", step=2, parents=[a, c])
         >>> e = DAGNode("e", step=3, parents=[d])
-        >>> dag_to_list(a)
+        >>> DAG(a).to_list()
         [('a', 'c'), ('a', 'd'), ('b', 'c'), ('c', 'd'), ('d', 'e')]
 
     Args:
@@ -62,13 +62,13 @@ def dag_to_dict(
     names and node attributes.
 
     Examples:
-        >>> from bigtree import DAGNode, dag_to_dict
+        >>> from bigtree import DAGNode, DAG
         >>> a = DAGNode("a", step=1)
         >>> b = DAGNode("b", step=1)
         >>> c = DAGNode("c", step=2, parents=[a, b])
         >>> d = DAGNode("d", step=2, parents=[a, c])
         >>> e = DAGNode("e", step=3, parents=[d])
-        >>> dag_to_dict(a, parent_key="parent", attr_dict={"step": "step no."})
+        >>> DAG(a).to_dict(parent_key="parent", attr_dict={"step": "step no."})
         {'a': {'step no.': 1}, 'c': {'parent': ['a', 'b'], 'step no.': 2}, 'd': {'parent': ['a', 'c'], 'step no.': 2}, 'b': {'step no.': 1}, 'e': {'parent': ['d'], 'step no.': 3}}
 
     Args:
@@ -112,13 +112,13 @@ def dag_to_dataframe(
     """Export DAG to pandas DataFrame.
 
     Examples:
-        >>> from bigtree import DAGNode, dag_to_dataframe
+        >>> from bigtree import DAGNode, DAG
         >>> a = DAGNode("a", step=1)
         >>> b = DAGNode("b", step=1)
         >>> c = DAGNode("c", step=2, parents=[a, b])
         >>> d = DAGNode("d", step=2, parents=[a, c])
         >>> e = DAGNode("e", step=3, parents=[d])
-        >>> dag_to_dataframe(a, name_col="name", parent_col="parent", attr_dict={"step": "step no."})
+        >>> DAG(a).to_dataframe(name_col="name", parent_col="parent", attr_dict={"step": "step no."})
           name parent  step no.
         0    a   None         1
         1    c      a         2
@@ -178,13 +178,13 @@ def dag_to_dot(
     fillcolor, or shape.
 
     Examples:
-        >>> from bigtree import DAGNode, dag_to_dot
+        >>> from bigtree import DAGNode, DAG
         >>> a = DAGNode("a", step=1)
         >>> b = DAGNode("b", step=1)
         >>> c = DAGNode("c", step=2, parents=[a, b])
         >>> d = DAGNode("d", step=2, parents=[a, c])
         >>> e = DAGNode("e", step=3, parents=[d])
-        >>> dag_graph = dag_to_dot(a)
+        >>> dag_graph = DAG(a).to_dot()
 
         Display image directly without saving (requires IPython)
 
