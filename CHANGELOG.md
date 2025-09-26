@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2025-09-25
+## [1.0.0] - 2025-09-26
 ### Added:
 - Improved API: Introduced BinaryTree, DAG, and Tree classes as a wrapper for all construct, export, helper, iterator
 methods instead of calling the various functions.
