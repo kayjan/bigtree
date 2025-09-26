@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added:
 - Improved API: Introduced BinaryTree, DAG, and Tree classes as a wrapper for all construct, export, helper, iterator
 methods instead of calling the various functions.
+### Changed:
+- Tests: Save images/files to a folder defined in Constants.
 
 ## [0.31.2] - 2025-09-25
 ### Fixed:
