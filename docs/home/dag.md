@@ -9,6 +9,9 @@ For **Directed Acyclic Graph (DAG)** implementation, there are 5 main components
 ## [**🌼 Node**](../bigtree/node/dagnode.md)
 - ``DAGNode``, extendable class for constructing Directed Acyclic Graph (DAG)
 
+## [**🎄 DAG**](../bigtree/dag/dag.md)
+- ``DAG``, wrapper around ``DAGNode``, providing high-level APIs to build, export, and iterate the entire DAG
+
 ## [**✨ Constructing DAG**](../bigtree/dag/construct.md)
 - From *list*, containing parent-child tuples
 - From *nested dictionary*

@@ -6,7 +6,7 @@ To list directories recursively using bigtree, we can use the `glob` built-in Py
 
 ```python
 import glob
-from bigtree import list_to_tree, print_tree
+from bigtree import Tree
 
 # Get all directories recursively
 path_list = []
@@ -14,8 +14,8 @@ for f in glob.glob("./**/*.py", recursive=True):
     path_list.append(f)
 
 # Construct tree
-root = list_to_tree(path_list)
+tree = Tree.from_list(path_list)
 
 # View tree
-print_tree(root, max_depth=3)
+tree.show(max_depth=3)
 ```

@@ -60,6 +60,7 @@ NodeT = TypeVar("NodeT", bound=node.Node)
 class Tree:
     """
     Tree wraps around Node class to provide a quick, intuitive, Pythonic API for
+
         - Construction with dataframe, dictionary, list, or string
         - Export to dataframe, dictionary, list, string, or images
         - Helper methods for cloning, pruning, getting tree diff

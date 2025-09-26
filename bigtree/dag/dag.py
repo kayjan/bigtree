@@ -3,11 +3,16 @@ from __future__ import annotations
 import copy
 from typing import Any, Collection, Iterable, Mapping, TypeVar
 
-import pandas as pd
-
 from bigtree.dag import construct, export
 from bigtree.node import dagnode
 from bigtree.utils import exceptions, iterators
+
+try:
+    import pandas as pd
+except ImportError:  # pragma: no cover
+    from unittest.mock import MagicMock
+
+    pd = MagicMock()
 
 try:
     import pydot
@@ -20,6 +25,7 @@ except ImportError:  # pragma: no cover
 class DAG:
     """
     DAG wraps around DAGNode class to provide a quick, intuitive, Pythonic API for
+
         - Construction with dataframe, dictionary, or list
         - Export to dataframe, dictionary, list, or images
 

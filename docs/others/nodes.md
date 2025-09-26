@@ -7,7 +7,7 @@ Nodes can be extended from `BaseNode` or `Node` class to have extended functiona
 ## Population Node (add functionality/method/property)
 
 ```python hl_lines="10-20"
-from bigtree import Node, print_tree
+from bigtree import Node
 
 
 class PopulationNode(Node):
@@ -36,7 +36,7 @@ c2 = PopulationNode("State A2", 50, parent=b1)
 b2 = PopulationNode("Country B", 200, parent=root)
 b3 = PopulationNode("Country C", 100, parent=root)
 
-print_tree(root, attr_list=["population", "percentage"])
+root.show(attr_list=["population", "percentage"])
 # World [population=450, percentage=1]
 # ├── Country A [population=150, percentage=0.33]
 # │   ├── State A1 [population=100, percentage=0.22]

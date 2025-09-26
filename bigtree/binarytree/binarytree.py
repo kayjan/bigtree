@@ -9,6 +9,7 @@ from bigtree.utils import iterators
 class BinaryTree(Tree):
     """
     BinaryTree wraps around BinaryNode class to provide a quick, intuitive, Pythonic API for
+
         - Construction with dataframe, dictionary, list, or string
         - Export to dataframe, dictionary, list, string, or images
         - Helper methods for cloning, pruning, getting tree diff
