@@ -93,7 +93,7 @@ Binary Node inherits from Node, so the components in Tree implementation are als
 
 1. [**🌿 Node**](https://bigtree.readthedocs.io/stable/bigtree/node/binarynode)
    1. ``BinaryNode``, Node with binary tree rules
-2. [**🎄 Binary Tree**](https://bigtree.readthedocs.io/stable/bigtree/dag/dag/)
+2. [**🎄 Binary Tree**](https://bigtree.readthedocs.io/stable/bigtree/binarytree/binarytree/)
    1. ``BinaryTree``, wrapper around ``BinaryNode``, providing high-level APIs to build, iterate, query, and export the entire tree structure
 3. [**✨ Constructing Binary Tree**](https://bigtree.readthedocs.io/stable/bigtree/binarytree/construct/)
    1. From *list*, using flattened list structure

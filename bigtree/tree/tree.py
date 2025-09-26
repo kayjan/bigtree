@@ -52,6 +52,12 @@ except ImportError:  # pragma: no cover
 
     pyvis = MagicMock()
 
+try:
+    import matplotlib.pyplot as plt
+except ImportError:  # pragma: no cover
+    plt = None
+
+
 BaseNodeT = TypeVar("BaseNodeT", bound=basenode.BaseNode)
 BinaryNodeT = TypeVar("BinaryNodeT", bound=binarynode.BinaryNode)
 NodeT = TypeVar("NodeT", bound=node.Node)
@@ -549,6 +555,19 @@ class Tree:
         Accepts the same arguments as `zigzaggroup_iter`.
         """
         return iterators.zigzaggroup_iter(self.node, *args, **kwargs)
+
+    # Plot methods
+    def plot(self, *args: Any, **kwargs: Any) -> plt.Figure:
+        """Plot tree in line form. Accepts args and kwargs for matplotlib.pyplot.plot() function.
+
+        Examples:
+            >>> from bigtree import Tree
+            >>> path_list = ["a/b/d", "a/b/e/g", "a/b/e/h", "a/c/f"]
+            >>> tree = Tree.from_list(path_list)
+            >>> tree.plot("-ok")
+            <Figure size 1280x960 with 1 Axes>
+        """
+        return self.node.plot(*args, **kwargs)
 
     # Magic methods
     def __getitem__(self, child_name: str) -> "Tree":
