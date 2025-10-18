@@ -127,12 +127,6 @@ class Node(basenode.BaseNode):
         sep = ancestors[-1].sep
         return sep + sep.join([str(node.node_name) for node in reversed(ancestors)])
 
-    def show(self, **kwargs: Any) -> None:
-        """Print tree to console, takes in same keyword arguments as `print_tree` function."""
-        from bigtree.tree.export import print_tree
-
-        print_tree(self, **kwargs)
-
     def _BaseNode__pre_assign_parent(self: T, new_parent: T) -> None:
         """Do not allow duplicate nodes of same path.
 
@@ -168,6 +162,12 @@ class Node(basenode.BaseNode):
                     f"Duplicate node with same path\n"
                     f"Attempting to add nodes with same path {duplicate_names_str}"
                 )
+
+    def show(self, **kwargs: Any) -> None:
+        """Print tree to console, takes in same keyword arguments as `print_tree` function."""
+        from bigtree.tree.export import print_tree
+
+        print_tree(self, **kwargs)
 
     def hshow(self, **kwargs: Any) -> None:
         """Print tree in horizontal orientation to console, takes in same keyword arguments as `hprint_tree` function."""
