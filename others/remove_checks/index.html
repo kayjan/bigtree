@@ -813,6 +813,8 @@
       
         
       
+        
+      
     
     
       
@@ -860,6 +862,27 @@
   
   <span class="md-ellipsis">
     Benchmarks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../home/Benchmark%20Library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Benchmark Library
   </span>
   
 
@@ -2605,11 +2628,20 @@
 <p class="admonition-title">Note</p>
 <p>Available from version 0.16.2 onwards</p>
 </div>
-<p>When constructing trees, there are a few checks done that slow down performance.
+<p>When constructing trees, there are a few checks done in BaseNode class that slow down performance.
 This slowness will be more apparent with very large trees. The checks are to</p>
 <ul>
 <li>Check parent/children data type</li>
 <li>Check for loops (expensive for trees that are deep as it checks the ancestors of node)</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Available from version 1.0.1 onwards</p>
+</div>
+<p>The further checks are removed from Node class.</p>
+<ul>
+<li>Check for empty node name</li>
+<li>Check for duplicated paths (expensive for trees that are wide as it checks the siblings of node)</li>
 </ul>
 <p>These checks are enabled by default. To turn off these checks, you can set environment variable before importing <code>bigtree</code>.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">os</span>
