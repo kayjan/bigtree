@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections import Counter
 from typing import Any, TypeVar
 
+from bigtree.globals import ASSERTIONS
 from bigtree.node import basenode
 from bigtree.utils import exceptions
 
@@ -83,7 +84,7 @@ class Node(basenode.BaseNode):
         self.name = name
         self._sep = sep
         super().__init__(**kwargs)
-        if not self.node_name:
+        if ASSERTIONS and not self.node_name:
             raise exceptions.TreeError("Node must have a `name` attribute")
 
     @property
@@ -126,47 +127,13 @@ class Node(basenode.BaseNode):
         sep = ancestors[-1].sep
         return sep + sep.join([str(node.node_name) for node in reversed(ancestors)])
 
-    def __pre_assign_children(self: T, new_children: list[T]) -> None:
-        """Custom method to check before attaching children
-        Can be overridden with `_Node__pre_assign_children()`
-
-        Args:
-            new_children (list[Self]): new children to be added
-        """
-        pass
-
-    def __post_assign_children(self: T, new_children: list[T]) -> None:
-        """Custom method to check after attaching children. Can be overridden with `_Node__post_assign_children()`.
-
-        Args:
-            new_children: new children to be added
-        """
-        pass
-
-    def __pre_assign_parent(self: T, new_parent: T) -> None:
-        """Custom method to check before attaching parent. Can be overridden with `_Node__pre_assign_parent()`.
-
-        Args:
-            new_parent: new parent to be added
-        """
-        pass
-
-    def __post_assign_parent(self: T, new_parent: T) -> None:
-        """Custom method to check after attaching parent. Can be overridden with `_Node__post_assign_parent()`.
-
-        Args:
-            new_parent: new parent to be added
-        """
-        pass
-
     def _BaseNode__pre_assign_parent(self: T, new_parent: T) -> None:
         """Do not allow duplicate nodes of same path.
 
         Args:
             new_parent: new parent to be added
         """
-        self.__pre_assign_parent(new_parent)
-        if new_parent is not None:
+        if ASSERTIONS and new_parent is not None:
             if any(
                 child.node_name == self.node_name and child is not self
                 for child in new_parent.children
@@ -176,41 +143,25 @@ class Node(basenode.BaseNode):
                     f"There exist a node with same path {new_parent.path_name}{new_parent.sep}{self.node_name}"
                 )
 
-    def _BaseNode__post_assign_parent(self: T, new_parent: T) -> None:
-        """No rules.
-
-        Args:
-            new_parent: new parent to be added
-        """
-        self.__post_assign_parent(new_parent)
-
     def _BaseNode__pre_assign_children(self: T, new_children: list[T]) -> None:
         """Do not allow duplicate nodes of same path.
 
         Args:
             new_children: new children to be added
         """
-        self.__pre_assign_children(new_children)
-        children_names = [node.node_name for node in new_children]
-        duplicate_names = [
-            item[0] for item in Counter(children_names).items() if item[1] > 1
-        ]
-        if len(duplicate_names):
-            duplicate_names_str = " and ".join(
-                [f"{self.path_name}{self.sep}{name}" for name in duplicate_names]
-            )
-            raise exceptions.TreeError(
-                f"Duplicate node with same path\n"
-                f"Attempting to add nodes with same path {duplicate_names_str}"
-            )
-
-    def _BaseNode__post_assign_children(self: T, new_children: list[T]) -> None:
-        """No rules.
-
-        Args:
-            new_children: new children to be added
-        """
-        self.__post_assign_children(new_children)
+        if ASSERTIONS:
+            children_names = [node.node_name for node in new_children]
+            duplicate_names = [
+                item[0] for item in Counter(children_names).items() if item[1] > 1
+            ]
+            if len(duplicate_names):
+                duplicate_names_str = " and ".join(
+                    [f"{self.path_name}{self.sep}{name}" for name in duplicate_names]
+                )
+                raise exceptions.TreeError(
+                    f"Duplicate node with same path\n"
+                    f"Attempting to add nodes with same path {duplicate_names_str}"
+                )
 
     def show(self, **kwargs: Any) -> None:
         """Print tree to console, takes in same keyword arguments as `print_tree` function."""

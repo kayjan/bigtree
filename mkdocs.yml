@@ -17,6 +17,7 @@ nav:
       - home/convention.md
     - Changes:
       - home/benchmarks.md
+      - home/Benchmark Library.ipynb
       - home/changelog.md
   - Getting Started:
     - Demonstration:
