@@ -1,4 +1,4 @@
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 from bigtree.binarytree.binarytree import BinaryTree
 from bigtree.binarytree.construct import list_to_binarytree
