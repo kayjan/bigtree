@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import copy
-from typing import Any, Collection, Iterable, Mapping, TypeVar
+import functools
+from typing import Any, Callable, TypeVar
 
 from bigtree.dag import construct, export
 from bigtree.node import dagnode
-from bigtree.utils import exceptions, iterators
+from bigtree.utils import iterators
 
 try:
     import pandas as pd
@@ -32,73 +33,44 @@ class DAG:
     Do refer to the various modules respectively on the keyword parameters.
     """
 
+    _plugins: dict[str, Callable[..., Any]] = {}
     construct_kwargs: dict[str, Any] = dict()
 
     def __init__(self, dag: dagnode.DAGNode):
         self.dag = dag
 
-    # Construct methods
     @classmethod
-    def from_dataframe(cls, data: pd.DataFrame, **kwargs: Any) -> "DAG":
-        """See `dataframe_to_dag` for full details.
+    def register_plugin(
+        cls, name: str, func: Callable[..., Any], is_classmethod: bool
+    ) -> None:
+        base_func = func.func if isinstance(func, functools.partial) else func
 
-        Accepts the same arguments as `dataframe_to_dag`.
-        """
-        construct_kwargs = {**cls.construct_kwargs, **kwargs}
-        root_node = construct.dataframe_to_dag(data, **construct_kwargs)
-        return cls(root_node)
+        if is_classmethod:
+
+            def wrapper(cls, *args, **kwargs):  # type: ignore
+                construct_kwargs = {**cls.construct_kwargs, **kwargs}
+                root_node = func(*args, **construct_kwargs)
+                return cls(root_node)
+
+        else:
+
+            def wrapper(self, *args, **kwargs):  # type: ignore
+                return func(self.dag, *args, **kwargs)
+
+        functools.update_wrapper(wrapper, base_func)
+        wrapper.__name__ = name
+        if is_classmethod:
+            setattr(cls, name, classmethod(wrapper))  # type: ignore
+        else:
+            setattr(cls, name, wrapper)
+        cls._plugins[name] = func
 
     @classmethod
-    def from_dict(cls, relation_attrs: Mapping[str, Any], **kwargs: Any) -> "DAG":
-        """See `dict_to_dag` for full details.
-
-        Accepts the same arguments as `dict_to_dag`.
-        """
-        construct_kwargs = {**cls.construct_kwargs, **kwargs}
-        root_node = construct.dict_to_dag(relation_attrs, **construct_kwargs)
-        return cls(root_node)
-
-    @classmethod
-    def from_list(cls, relations: Collection[tuple[str, str]], **kwargs: Any) -> "DAG":
-        """See `list_to_dag` for full details.
-
-        Accepts the same arguments as `list_to_dag`.
-        """
-        construct_kwargs = {**cls.construct_kwargs, **kwargs}
-        root_node = construct.list_to_dag(relations, **construct_kwargs)
-        return cls(root_node)
-
-    # Export methods
-    def to_dataframe(self, *args: Any, **kwargs: Any) -> pd.DataFrame:
-        """See `dag_to_dataframe` for full details.
-
-        Accepts the same arguments as `dag_to_dataframe`.
-        """
-        return export.dag_to_dataframe(self.dag, *args, **kwargs)
-
-    def to_dict(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-        """See `dag_to_dict` for full details.
-
-        Accepts the same arguments as `dag_to_dict`.
-        """
-        return export.dag_to_dict(self.dag, *args, **kwargs)
-
-    def to_list(self) -> list[tuple[str, str]]:
-        """See `dag_to_list` for full details."""
-        return export.dag_to_list(self.dag)
-
-    @exceptions.optional_dependencies_image("pydot")
-    def to_dot(self, *args: Any, **kwargs: Any) -> pydot.Dot:
-        """See `dag_to_dot` for full details.
-
-        Accepts the same arguments as `dag_to_dot`.
-        """
-        return export.dag_to_dot(self.dag, *args, **kwargs)
-
-    # Iterator methods
-    def iterate(self) -> Iterable[tuple[dagnode.DAGNode, dagnode.DAGNode]]:
-        """See `dag_iterator` for full details."""
-        return iterators.dag_iterator(self.dag)
+    def register_plugins(
+        cls, mapping: dict[str, Callable[..., Any]], is_classmethod: bool = False
+    ) -> None:
+        for name, func in mapping.items():
+            cls.register_plugin(name, func, is_classmethod)
 
     # Magic methods
     def __getitem__(self, child_name: str) -> "DAG":
@@ -160,3 +132,24 @@ class DAG:
 
 
 T = TypeVar("T", bound=DAG)
+
+DAG.register_plugins(
+    {
+        # Construct methods
+        "from_dataframe": construct.dataframe_to_dag,
+        "from_dict": construct.dict_to_dag,
+        "from_list": construct.list_to_dag,
+    },
+    is_classmethod=True,
+)
+DAG.register_plugins(
+    {
+        # Export methods
+        "to_dataframe": export.dag_to_dataframe,
+        "to_dict": export.dag_to_dict,
+        "to_list": export.dag_to_list,
+        "to_dot": export.dag_to_dot,
+        # Iterator methods
+        "iterate": iterators.dag_iterator,
+    },
+)
