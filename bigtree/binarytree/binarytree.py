@@ -29,7 +29,7 @@ BinaryTree.register_plugins(
         # Append methods
         "from_heapq_list": construct.list_to_binarytree,
     },
-    is_classmethod=True,
+    method="class",
 )
 BinaryTree.register_plugins(
     {
