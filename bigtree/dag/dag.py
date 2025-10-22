@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import copy
 import functools
-from typing import Any, Callable, TypeVar
+from typing import Any, Callable, Literal, TypeVar
 
 from bigtree.dag import construct, export
 from bigtree.node import dagnode
@@ -41,25 +41,25 @@ class DAG:
 
     @classmethod
     def register_plugin(
-        cls, name: str, func: Callable[..., Any], is_classmethod: bool
+        cls, name: str, func: Callable[..., Any], method: Literal["default", "class"]
     ) -> None:
         base_func = func.func if isinstance(func, functools.partial) else func
 
-        if is_classmethod:
+        if method == "default":
+
+            def wrapper(self, *args, **kwargs):  # type: ignore
+                return func(self.dag, *args, **kwargs)
+
+        else:
 
             def wrapper(cls, *args, **kwargs):  # type: ignore
                 construct_kwargs = {**cls.construct_kwargs, **kwargs}
                 root_node = func(*args, **construct_kwargs)
                 return cls(root_node)
 
-        else:
-
-            def wrapper(self, *args, **kwargs):  # type: ignore
-                return func(self.dag, *args, **kwargs)
-
         functools.update_wrapper(wrapper, base_func)
         wrapper.__name__ = name
-        if is_classmethod:
+        if method == "class":
             setattr(cls, name, classmethod(wrapper))  # type: ignore
         else:
             setattr(cls, name, wrapper)
@@ -67,10 +67,12 @@ class DAG:
 
     @classmethod
     def register_plugins(
-        cls, mapping: dict[str, Callable[..., Any]], is_classmethod: bool = False
+        cls,
+        mapping: dict[str, Callable[..., Any]],
+        method: Literal["default", "class"] = "default",
     ) -> None:
         for name, func in mapping.items():
-            cls.register_plugin(name, func, is_classmethod)
+            cls.register_plugin(name, func, method)
 
     # Magic methods
     def __getitem__(self, child_name: str) -> "DAG":
@@ -140,7 +142,7 @@ DAG.register_plugins(
         "from_dict": construct.dict_to_dag,
         "from_list": construct.list_to_dag,
     },
-    is_classmethod=True,
+    method="class",
 )
 DAG.register_plugins(
     {

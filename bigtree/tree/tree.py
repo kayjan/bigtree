@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import copy
 import functools
-from typing import Any, Callable, TypeVar
+from typing import Any, Callable, Literal, TypeVar
 
 from bigtree.node import basenode, binarynode, node
 from bigtree.tree import construct, export, helper, query, search
@@ -85,25 +85,38 @@ class Tree:
 
     @classmethod
     def register_plugin(
-        cls, name: str, func: Callable[..., Any], is_classmethod: bool
+        cls,
+        name: str,
+        func: Callable[..., Any],
+        method: Literal["default", "class", "helper", "diff"],
     ) -> None:
         base_func = func.func if isinstance(func, functools.partial) else func
 
-        if is_classmethod:
+        if method == "default":
+
+            def wrapper(self, *args, **kwargs):  # type: ignore
+                return func(self.node, *args, **kwargs)
+
+        elif method == "class":
 
             def wrapper(cls, *args, **kwargs):  # type: ignore
                 construct_kwargs = {**cls.construct_kwargs, **kwargs}
                 root_node = func(*args, **construct_kwargs)
                 return cls(root_node)
 
-        else:
+        elif method == "helper":
 
             def wrapper(self, *args, **kwargs):  # type: ignore
-                return func(self.node, *args, **kwargs)
+                return type(self)(func(self.node, *args, **kwargs))
+
+        elif method == "diff":
+
+            def wrapper(self, other_tree: T, *args, **kwargs):  # type: ignore
+                return func(self.node, other_tree.node, *args, **kwargs)
 
         functools.update_wrapper(wrapper, base_func)
         wrapper.__name__ = name
-        if is_classmethod:
+        if method == "class":
             setattr(cls, name, classmethod(wrapper))  # type: ignore
         else:
             setattr(cls, name, wrapper)
@@ -111,10 +124,12 @@ class Tree:
 
     @classmethod
     def register_plugins(
-        cls, mapping: dict[str, Callable[..., Any]], is_classmethod: bool = False
+        cls,
+        mapping: dict[str, Callable[..., Any]],
+        method: Literal["default", "class", "helper", "diff"] = "default",
     ) -> None:
         for name, func in mapping.items():
-            cls.register_plugin(name, func, is_classmethod)
+            cls.register_plugin(name, func, method)
 
     def show(self, **kwargs: Any) -> None:
         self.node.show(**kwargs)
@@ -142,37 +157,6 @@ class Tree:
             Depth of tree
         """
         return self.node.max_depth
-
-    # Helper methods
-    def clone(self, node_type: type[BaseNodeT]) -> "Tree":
-        """See `clone_tree` for full details.
-
-        Accepts the same arguments as `clone_tree`.
-        """
-        return type(self)(helper.clone_tree(self.node, node_type))  # type: ignore
-
-    def prune(self, *args: Any, **kwargs: Any) -> "Tree":
-        """See `prune_tree` for full details.
-
-        Accepts the same arguments as `prune_tree`.
-        """
-        return type(self)(helper.prune_tree(self.node, *args, **kwargs))
-
-    def diff_dataframe(self, other_tree: T, *args: Any, **kwargs: Any) -> pd.DataFrame:
-        """See `get_tree_diff_dataframe` for full details.
-
-        Accepts the same arguments as `get_tree_diff_dataframe`.
-        """
-        return helper.get_tree_diff_dataframe(
-            self.node, other_tree.node, *args, **kwargs
-        )
-
-    def diff(self, other_tree: T, *args: Any, **kwargs: Any) -> node.Node:
-        """See `get_tree_diff` for full details.
-
-        Accepts the same arguments as `get_tree_diff`.
-        """
-        return helper.get_tree_diff(self.node, other_tree.node, *args, **kwargs)
 
     # Plot methods
     def plot(self, *args: Any, **kwargs: Any) -> plt.Figure:
@@ -259,7 +243,7 @@ Tree.register_plugins(
         "from_str": construct.str_to_tree,
         "from_newick": construct.newick_to_tree,
     },
-    is_classmethod=True,
+    method="class",
 )
 
 Tree.register_plugins(
@@ -308,4 +292,20 @@ Tree.register_plugins(
         "zigzag_iter": iterators.zigzag_iter,
         "zigzaggroup_iter": iterators.zigzaggroup_iter,
     }
+)
+Tree.register_plugins(
+    {
+        # Helper methods
+        "clone": helper.clone_tree,
+        "prune": helper.prune_tree,
+    },
+    method="helper",
+)
+Tree.register_plugins(
+    {
+        # Helper methods
+        "diff_dataframe": helper.get_tree_diff_dataframe,
+        "diff": helper.get_tree_diff,
+    },
+    method="diff",
 )
