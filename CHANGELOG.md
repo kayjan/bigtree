@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - Test: Fix code coverage.
+### Changed:
+- Refactor: Use plugin for Tree/BinaryTree/DAG API, help() and `__doc__` works, suggestions also work.
 
 ## [1.0.1] - 2025-10-18
 ### Added:
