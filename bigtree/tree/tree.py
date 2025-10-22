@@ -109,7 +109,7 @@ class Tree:
             def wrapper(self, *args, **kwargs):  # type: ignore
                 return type(self)(func(self.node, *args, **kwargs))
 
-        elif method == "diff":
+        else:
 
             def wrapper(self, other_tree: T, *args, **kwargs):  # type: ignore
                 return func(self.node, other_tree.node, *args, **kwargs)
