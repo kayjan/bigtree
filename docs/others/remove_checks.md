@@ -27,3 +27,10 @@ os.environ["BIGTREE_CONF_ASSERTIONS"] = ""
 
 import bigtree
 ```
+
+Alternatively, if you have already imported bigtree, you can set the configuration manually.
+
+```python
+import bigtree
+bigtree.ASSERTIONS.FLAG = False
+```

@@ -7,7 +7,7 @@ from bigtree.node import basenode, binarynode, node
 from bigtree.utils.exceptions import TreeError
 
 
-@patch("bigtree.node.binarynode.ASSERTIONS", "")
+@patch("bigtree.node.binarynode.ASSERTIONS.FLAG", "")
 class TestBinaryNodeNoAssertions(unittest.TestCase):
     def setUp(self):
         self.a = binarynode.BinaryNode(1)
