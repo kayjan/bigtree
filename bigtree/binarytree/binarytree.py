@@ -1,4 +1,4 @@
-from typing import Any, Iterable, Sequence
+from typing import Any
 
 from bigtree.binarytree import construct
 from bigtree.node import binarynode
@@ -23,25 +23,17 @@ class BinaryTree(Tree):
     def __init__(self, root: binarynode.BinaryNode):
         super().__init__(root)
 
-    @classmethod
-    def from_heapq_list(
-        cls, heapq_list: Sequence[int], *args: Any, **kwargs: Any
-    ) -> "BinaryTree":
-        """See `list_to_binarytree` for full details.
 
-        Accepts the same arguments as `list_to_binarytree`.
-        """
-        construct_kwargs = {**cls.construct_kwargs, **kwargs}
-        root_node = construct.list_to_binarytree(heapq_list, *args, **construct_kwargs)
-        return cls(root_node)
-
-    # Iterator methods
-    def inorder_iter(
-        self, *args: Any, **kwargs: Any
-    ) -> Iterable[binarynode.BinaryNode]:
-        """See `inorder_iter` for full details.
-
-        Accepts the same arguments as `inorder_iter`.
-        """
-        self.node: binarynode.BinaryNode
-        return iterators.inorder_iter(self.node, *args, **kwargs)
+BinaryTree.register_plugins(
+    {
+        # Append methods
+        "from_heapq_list": construct.list_to_binarytree,
+    },
+    is_classmethod=True,
+)
+BinaryTree.register_plugins(
+    {
+        # Iterator methods
+        "inorder_iter": iterators.inorder_iter,
+    },
+)
