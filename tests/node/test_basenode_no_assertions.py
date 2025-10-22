@@ -6,7 +6,7 @@ import pytest
 from bigtree.node import basenode
 
 
-@patch("bigtree.node.basenode.ASSERTIONS", "")
+@patch("bigtree.node.basenode.ASSERTIONS.FLAG", "")
 class TestBaseNodeNoAssertions(unittest.TestCase):
     def setUp(self):
         """

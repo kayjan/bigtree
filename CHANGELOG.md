@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.2] - 2025-10-23
 ### Added:
+- Optional checks: Able to toggle for optional checks after importing bigtree. Previously, you can only set the
+environment variables before import.
+
+## [1.0.2] - 2025-10-23
+### Added:
 - Test: Fix code coverage.
 ### Changed:
 - Refactor: Use plugin for Tree/BinaryTree/DAG API, help() and `__doc__` works, suggestions also work.

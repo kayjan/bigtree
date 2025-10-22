@@ -6,7 +6,7 @@ import pytest
 from bigtree.node import basenode, dagnode, node
 
 
-@patch("bigtree.node.dagnode.ASSERTIONS", "")
+@patch("bigtree.node.dagnode.ASSERTIONS.FLAG", "")
 class TestDAGNodeNoAssertions(unittest.TestCase):
     def setUp(self):
         """

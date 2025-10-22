@@ -212,7 +212,7 @@ class DAGNode:
         Args:
             new_parents: parent nodes
         """
-        if ASSERTIONS:
+        if ASSERTIONS.FLAG:
             self.__check_parent_type(new_parents)
             self.__check_parent_loop(new_parents)
 
@@ -311,7 +311,7 @@ class DAGNode:
         Args:
             new_children: child node
         """
-        if ASSERTIONS:
+        if ASSERTIONS.FLAG:
             self.__check_children_type(new_children)
             self.__check_children_loop(new_children)
 
