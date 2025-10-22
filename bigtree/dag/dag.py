@@ -8,20 +8,6 @@ from bigtree.dag import construct, export
 from bigtree.node import dagnode
 from bigtree.utils import iterators
 
-try:
-    import pandas as pd
-except ImportError:  # pragma: no cover
-    from unittest.mock import MagicMock
-
-    pd = MagicMock()
-
-try:
-    import pydot
-except ImportError:  # pragma: no cover
-    from unittest.mock import MagicMock
-
-    pydot = MagicMock()
-
 
 class DAG:
     """

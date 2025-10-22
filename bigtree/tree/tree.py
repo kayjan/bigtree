@@ -9,51 +9,6 @@ from bigtree.tree import construct, export, helper, query, search
 from bigtree.utils import iterators
 
 try:
-    import pandas as pd
-except ImportError:  # pragma: no cover
-    from unittest.mock import MagicMock
-
-    pd = MagicMock()
-
-try:
-    import polars as pl
-except ImportError:  # pragma: no cover
-    from unittest.mock import MagicMock
-
-    pl = MagicMock()
-
-
-try:
-    import pydot
-except ImportError:  # pragma: no cover
-    from unittest.mock import MagicMock
-
-    pydot = MagicMock()
-
-try:
-    from PIL import Image, ImageDraw, ImageFont
-except ImportError:  # pragma: no cover
-    from unittest.mock import MagicMock
-
-    Image = ImageDraw = ImageFont = MagicMock()
-
-try:
-    import matplotlib as mpl
-    from matplotlib.colors import Normalize
-except ImportError:  # pragma: no cover
-    from unittest.mock import MagicMock
-
-    mpl = MagicMock()
-    Normalize = MagicMock()
-
-try:
-    import pyvis
-except ImportError:  # pragma: no cover
-    from unittest.mock import MagicMock
-
-    pyvis = MagicMock()
-
-try:
     import matplotlib.pyplot as plt
 except ImportError:  # pragma: no cover
     plt = None
@@ -158,7 +113,6 @@ class Tree:
         """
         return self.node.max_depth
 
-    # Plot methods
     def plot(self, *args: Any, **kwargs: Any) -> plt.Figure:
         """Plot tree in line form. Accepts args and kwargs for matplotlib.pyplot.plot() function.
 
