@@ -19,7 +19,7 @@ The further checks are removed from Node class.
 - Check for empty node name
 - Check for duplicated paths (expensive for trees that are wide as it checks the siblings of node)
 
---
+---
 
 These checks are enabled by default. To turn off these checks, you can set environment variable before importing `bigtree`.
 
