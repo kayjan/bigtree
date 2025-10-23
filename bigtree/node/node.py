@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections import Counter
 from typing import Any, TypeVar
 
-from bigtree.globals import ASSERTIONS
+from bigtree._globals import Globals
 from bigtree.node import basenode
 from bigtree.utils import exceptions
 
@@ -84,7 +84,7 @@ class Node(basenode.BaseNode):
         self.name = name
         self._sep = sep
         super().__init__(**kwargs)
-        if ASSERTIONS.FLAG and not self.node_name:
+        if Globals.ASSERTIONS and not self.node_name:
             raise exceptions.TreeError("Node must have a `name` attribute")
 
     @property
@@ -133,7 +133,7 @@ class Node(basenode.BaseNode):
         Args:
             new_parent: new parent to be added
         """
-        if ASSERTIONS.FLAG and new_parent is not None:
+        if Globals.ASSERTIONS and new_parent is not None:
             if any(
                 child.node_name == self.node_name and child is not self
                 for child in new_parent.children
@@ -149,7 +149,7 @@ class Node(basenode.BaseNode):
         Args:
             new_children: new children to be added
         """
-        if ASSERTIONS.FLAG:
+        if Globals.ASSERTIONS:
             children_names = [node.node_name for node in new_children]
             duplicate_names = [
                 item[0] for item in Counter(children_names).items() if item[1] > 1
