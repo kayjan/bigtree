@@ -3,7 +3,7 @@ from __future__ import annotations
 import copy
 from typing import Any, Generator, Iterable, Mapping, TypeVar
 
-from bigtree.globals import ASSERTIONS
+from bigtree._globals import Globals
 from bigtree.utils import exceptions, iterators
 
 
@@ -212,7 +212,7 @@ class DAGNode:
         Args:
             new_parents: parent nodes
         """
-        if ASSERTIONS.FLAG:
+        if Globals.ASSERTIONS:
             self.__check_parent_type(new_parents)
             self.__check_parent_loop(new_parents)
 
@@ -311,7 +311,7 @@ class DAGNode:
         Args:
             new_children: child node
         """
-        if ASSERTIONS.FLAG:
+        if Globals.ASSERTIONS:
             self.__check_children_type(new_children)
             self.__check_children_loop(new_children)
 

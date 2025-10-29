@@ -6,7 +6,7 @@ title: Tree Construct
 
 ## Tree Construct Methods
 
-Construct Tree from list, dictionary, and pandas DataFrame.
+Construct Tree from list, dictionary, and pandas/polars DataFrame.
 
 To decide which method to use, consider your data type and data values.
 

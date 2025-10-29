@@ -182,7 +182,7 @@ class TestNode(unittest.TestCase):
             path=path
         )
 
-    @patch("bigtree.node.node.ASSERTIONS.FLAG", "")
+    @patch("bigtree.node.node.Globals.ASSERTIONS", "")
     def test_set_children_sep_different_no_assertion(self):
         b = node.Node("b", sep="\\")
         self.a.children = [self.b, b]

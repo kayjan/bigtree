@@ -4,7 +4,7 @@ import copy
 import heapq
 from typing import Any, Generator, Iterable, Mapping, TypeVar
 
-from bigtree.globals import ASSERTIONS
+from bigtree._globals import Globals
 from bigtree.utils import exceptions, iterators
 
 try:
@@ -192,7 +192,7 @@ class BaseNode:
         Args:
             new_parent: parent node
         """
-        if ASSERTIONS.FLAG:
+        if Globals.ASSERTIONS:
             self.__check_parent_type(new_parent)
             self.__check_parent_loop(new_parent)
 
@@ -335,7 +335,7 @@ class BaseNode:
         Args:
             new_children: child node
         """
-        if ASSERTIONS.FLAG:
+        if Globals.ASSERTIONS:
             self.__check_children_type(new_children)
             self.__check_children_loop(new_children)
         new_children = list(new_children)

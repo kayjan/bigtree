@@ -86,15 +86,6 @@ class Tree:
         for name, func in mapping.items():
             cls.register_plugin(name, func, method)
 
-    def show(self, **kwargs: Any) -> None:
-        self.node.show(**kwargs)
-
-    def hshow(self, **kwargs: Any) -> None:
-        self.node.hshow(**kwargs)
-
-    def vshow(self, **kwargs: Any) -> None:
-        self.node.vshow(**kwargs)
-
     @property
     def diameter(self) -> int:
         """Get diameter of tree, the length of longest path between any two nodes.
@@ -210,6 +201,12 @@ Tree.register_plugins(
         "add_dict_by_path": construct.add_dict_to_tree_by_path,
         "add_dict_by_name": construct.add_dict_to_tree_by_name,
         # Export methods
+        "show": export.print_tree,
+        "hshow": export.hprint_tree,
+        "vshow": export.vprint_tree,
+        "yield": export.yield_tree,
+        "hyield": export.hyield_tree,
+        "vyield": export.vyield_tree,
         "to_dataframe": export.tree_to_dataframe,
         "to_polars": export.tree_to_polars,
         "to_dict": export.tree_to_dict,

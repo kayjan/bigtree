@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, TypeVar
 
-from bigtree.globals import ASSERTIONS
+from bigtree._globals import Globals
 from bigtree.node import node
 from bigtree.utils import exceptions
 
@@ -166,7 +166,7 @@ class BinaryNode(node.Node):
         Args:
             new_parent: parent node
         """
-        if ASSERTIONS.FLAG:
+        if Globals.ASSERTIONS:
             self.__check_parent_type(new_parent)
             self._BaseNode__check_parent_loop(new_parent)  # type: ignore
 
@@ -296,7 +296,7 @@ class BinaryNode(node.Node):
         """
         self._BaseNode__check_children_type(_new_children)  # type: ignore
         new_children = self.__check_children_type(_new_children)
-        if ASSERTIONS.FLAG:
+        if Globals.ASSERTIONS:
             self.__check_children_loop(new_children)
 
         current_new_children = {
