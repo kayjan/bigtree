@@ -2628,8 +2628,8 @@
 <p class="admonition-title">Note</p>
 <p>Available from version 0.16.2 onwards</p>
 </div>
-<p>When constructing trees, there are a few checks done in BaseNode class that slow down performance.
-This slowness will be more apparent with very large trees. The checks are to</p>
+<p>When constructing trees, there are a few checks done in BaseNode and DAGNode class that slow down performance. This
+slowness will be more apparent with very large trees. The checks are to</p>
 <ul>
 <li>Check parent/children data type</li>
 <li>Check for loops (expensive for trees that are deep as it checks the ancestors of node)</li>
@@ -2643,11 +2643,17 @@ This slowness will be more apparent with very large trees. The checks are to</p>
 <li>Check for empty node name</li>
 <li>Check for duplicated paths (expensive for trees that are wide as it checks the siblings of node)</li>
 </ul>
+<hr />
 <p>These checks are enabled by default. To turn off these checks, you can set environment variable before importing <code>bigtree</code>.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">os</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;BIGTREE_CONF_ASSERTIONS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">import</span> <span class="nn">bigtree</span>
+</span></code></pre></div>
+<p>Alternatively, if you have already imported bigtree, you can set the configuration manually.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">bigtree</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">bigtree</span><span class="o">.</span><span class="n">Globals</span><span class="o">.</span><span class="n">ASSERTIONS</span> <span class="o">=</span> <span class="kc">False</span>
 </span></code></pre></div>
 
 
