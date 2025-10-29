@@ -50,7 +50,7 @@ def test_node_benchmark_width_2_depth_10(benchmark):
 
 
 @pytest.mark.benchmark(group="width_1_depth_10")
-@patch("bigtree.node.basenode.ASSERTIONS.FLAG", "")
+@patch("bigtree.node.basenode.Globals.ASSERTIONS", "")
 def test_node_benchmark_width_1_depth_10_no_assertions(benchmark):
     benchmark.pedantic(run_construct_node, (10, 1), iterations=10, rounds=2)
 
@@ -63,7 +63,7 @@ def test_node_benchmark_width_1_depth_10_no_assertions_config(benchmark):
 
 
 @pytest.mark.benchmark(group="width_1_depth_100")
-@patch("bigtree.node.basenode.ASSERTIONS.FLAG", "")
+@patch("bigtree.node.basenode.Globals.ASSERTIONS", "")
 def test_node_benchmark_width_1_depth_100_no_assertions(benchmark):
     benchmark.pedantic(run_construct_node, (100, 1), iterations=10, rounds=2)
 
@@ -76,7 +76,7 @@ def test_node_benchmark_width_1_depth_100_no_assertions_config(benchmark):
 
 
 @pytest.mark.benchmark(group="width_1_depth_1000")
-@patch("bigtree.node.basenode.ASSERTIONS.FLAG", "")
+@patch("bigtree.node.basenode.Globals.ASSERTIONS", "")
 def test_node_benchmark_width_1_depth_1000_no_assertions(benchmark):
     benchmark.pedantic(run_construct_node, (1000, 1), iterations=10, rounds=2)
 
@@ -89,7 +89,7 @@ def test_node_benchmark_width_1_depth_1000_no_assertions_config(benchmark):
 
 
 @pytest.mark.benchmark(group="width_2_depth_10")
-@patch("bigtree.node.basenode.ASSERTIONS.FLAG", "")
+@patch("bigtree.node.basenode.Globals.ASSERTIONS", "")
 def test_node_benchmark_width_2_depth_10_no_assertions(benchmark):
     benchmark.pedantic(run_construct_node, (10, 2), iterations=10, rounds=2)
 

@@ -6,10 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.2] - 2025-10-23
+## [1.0.3] - 2025-10-30
 ### Added:
 - Optional checks: Able to toggle for optional checks after importing bigtree. Previously, it is set at the start using
-environment variables before import and not able to toggle after.
+environment variables before import and not able to toggle after. Implemented as a bigtree._globals.Globals class.
 
 ## [1.0.2] - 2025-10-23
 ### Added:
@@ -856,7 +856,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/1.0.2...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/1.0.3...HEAD
+[1.0.3]: https://github.com/kayjan/bigtree/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/kayjan/bigtree/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/kayjan/bigtree/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/kayjan/bigtree/compare/0.31.2...1.0.0

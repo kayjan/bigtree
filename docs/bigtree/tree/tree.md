@@ -12,7 +12,7 @@ Construct, export, helper, query, search, and iterator methods encapsulated in T
 
 ## Tree Construct Methods
 
-Construct Tree from list, dictionary, and pandas DataFrame.
+Construct Tree from list, dictionary, and pandas/polars DataFrame.
 
 To decide which method to use, consider your data type and data values.
 
@@ -44,6 +44,7 @@ Export Tree to list, dictionary, pandas/polars DataFrame, and various formats.
 | Export Tree to                          | Method                                            |
 |-----------------------------------------|---------------------------------------------------|
 | Command Line / Print                    | `show`, `hshow`, `vshow`                          |
+| Generator (versatile)                   | `yield`, `hyield`, `vyield`                       |
 | String                                  | `to_newick`                                       |
 | Dictionary                              | `to_dict`, `to_nested_dict`, `to_nested_dict_key` |
 | DataFrame (pandas, polars)              | `to_dataframe`, `to_polars`                       |

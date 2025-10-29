@@ -21,7 +21,6 @@ Export Tree to list, dictionary, pandas/polars DataFrame, and various formats.
 | Visualization                           | `tree_to_vis`                                                    |
 
 
-
 ## Tree Export Customisations
 
 While exporting to another data type, methods can take in arguments to determine what information to extract.
