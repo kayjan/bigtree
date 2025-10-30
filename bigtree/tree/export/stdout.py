@@ -188,7 +188,7 @@ def print_tree(
         attr_list: node attributes to print
         attr_format: if attributes are displayed, the format in which to display, uses k,v to correspond to
             attribute name and attribute value
-        attr_list_sep: if attributes are displayed, the separator of attributes, defaults to comma
+        attr_sep: if attributes are displayed, the separator of attributes, defaults to comma
         attr_omit_null: indicator whether to omit showing of null attributes
         attr_bracket: open and close bracket for `all_attrs` or `attr_list`
         style: style of print
