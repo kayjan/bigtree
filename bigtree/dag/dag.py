@@ -4,9 +4,8 @@ import copy
 import functools
 from typing import Any, Callable, Literal, TypeVar
 
-from bigtree.dag import construct, export
+from bigtree._plugins import register_dag_plugins
 from bigtree.node import dagnode
-from bigtree.utils import iterators
 
 
 class DAG:
@@ -121,23 +120,4 @@ class DAG:
 
 T = TypeVar("T", bound=DAG)
 
-DAG.register_plugins(
-    {
-        # Construct methods
-        "from_dataframe": construct.dataframe_to_dag,
-        "from_dict": construct.dict_to_dag,
-        "from_list": construct.list_to_dag,
-    },
-    method="class",
-)
-DAG.register_plugins(
-    {
-        # Export methods
-        "to_dataframe": export.dag_to_dataframe,
-        "to_dict": export.dag_to_dict,
-        "to_list": export.dag_to_list,
-        "to_dot": export.dag_to_dot,
-        # Iterator methods
-        "iterate": iterators.dag_iterator,
-    },
-)
+register_dag_plugins()

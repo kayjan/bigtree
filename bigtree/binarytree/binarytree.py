@@ -1,9 +1,8 @@
 from typing import Any
 
-from bigtree.binarytree import construct
+from bigtree._plugins import register_binarytree_plugins
 from bigtree.node import binarynode
 from bigtree.tree.tree import Tree
-from bigtree.utils import iterators
 
 
 class BinaryTree(Tree):
@@ -24,16 +23,4 @@ class BinaryTree(Tree):
         super().__init__(root)
 
 
-BinaryTree.register_plugins(
-    {
-        # Append methods
-        "from_heapq_list": construct.list_to_binarytree,
-    },
-    method="class",
-)
-BinaryTree.register_plugins(
-    {
-        # Iterator methods
-        "inorder_iter": iterators.inorder_iter,
-    },
-)
+register_binarytree_plugins()
