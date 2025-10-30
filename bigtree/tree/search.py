@@ -55,8 +55,7 @@ def findall(
     min_count: int = 0,
     max_count: int = 0,
 ) -> tuple[T, ...]:
-    """
-    Search tree for one or more nodes matching condition (callable function).
+    """Search tree for one or more nodes matching condition (callable function).
 
     Examples:
         >>> from bigtree import Tree
@@ -90,8 +89,7 @@ def findall(
 
 
 def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
-    """
-    Search tree for a single node matching condition (callable function).
+    """Search tree for a single node matching condition (callable function).
 
     Examples:
         >>> from bigtree import Tree
@@ -124,8 +122,7 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
 
 
 def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT:
-    """
-    Search tree for a single node matching name attribute.
+    """Search tree for a single node matching name attribute.
 
     Examples:
         >>> from bigtree import Tree
@@ -151,8 +148,7 @@ def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT:
 
 
 def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
-    """
-    Search tree for one or more nodes matching name attribute.
+    """Search tree for one or more nodes matching name attribute.
 
     Examples:
         >>> from bigtree import Tree
@@ -180,8 +176,7 @@ def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
 
 
 def find_relative_path(tree: NodeT, path_name: str) -> NodeT:
-    r"""
-    Search tree for a single node matching relative path attribute.
+    r"""Search tree for a single node matching relative path attribute.
 
     - Supports unix folder expression for relative path, i.e., '../../node_name'
     - Supports wildcards, i.e., '\*/node_name'
@@ -222,8 +217,7 @@ def find_relative_paths(
     min_count: int = 0,
     max_count: int = 0,
 ) -> tuple[NodeT, ...]:
-    r"""
-    Search tree for one or more nodes matching relative path attribute.
+    r"""Search tree for one or more nodes matching relative path attribute.
 
     - Supports unix folder expression for relative path, i.e., '../../node_name'
     - Supports wildcards, i.e., '\*/node_name'
@@ -308,8 +302,7 @@ def find_relative_paths(
 
 
 def find_full_path(tree: NodeT, path_name: str) -> NodeT:
-    """
-    Search tree for a single node matching path attribute.
+    """Search tree for a single node matching path attribute.
 
     - Path name can be with or without leading tree path separator symbol
     - Path name must be full path, works similar to `find_path` but faster
@@ -350,8 +343,7 @@ def find_full_path(tree: NodeT, path_name: str) -> NodeT:
 
 
 def find_path(tree: NodeT, path_name: str) -> NodeT:
-    """
-    Search tree for a single node matching path attribute.
+    """Search tree for a single node matching path attribute.
 
     - Path name can be with or without leading tree path separator symbol
     - Path name can be full path or partial path (trailing part of path) or node name
@@ -382,8 +374,7 @@ def find_path(tree: NodeT, path_name: str) -> NodeT:
 
 
 def find_paths(tree: NodeT, path_name: str) -> Iterable[NodeT]:
-    """
-    Search tree for one or more nodes matching path attribute.
+    """Search tree for one or more nodes matching path attribute.
 
     - Path name can be with or without leading tree path separator symbol
     - Path name can be partial path (trailing part of path) or node name
@@ -416,8 +407,7 @@ def find_paths(tree: NodeT, path_name: str) -> Iterable[NodeT]:
 def find_attr(
     tree: basenode.BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
 ) -> basenode.BaseNode:
-    """
-    Search tree for a single node matching custom attribute.
+    """Search tree for a single node matching custom attribute.
 
     Examples:
         >>> from bigtree import Tree
@@ -450,8 +440,7 @@ def find_attr(
 def find_attrs(
     tree: basenode.BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
 ) -> Iterable[basenode.BaseNode]:
-    """
-    Search tree for one or more nodes matching custom attribute.
+    """Search tree for one or more nodes matching custom attribute.
 
     Examples:
         >>> from bigtree import Tree
@@ -487,8 +476,7 @@ def find_children(
     min_count: int = 0,
     max_count: int = 0,
 ) -> tuple[T | DAGNodeT, ...]:
-    """
-    Search children for one or more nodes matching condition (callable function).
+    """Search children for one or more nodes matching condition (callable function).
 
     Examples:
         >>> from bigtree import Node, Tree
@@ -522,8 +510,7 @@ def find_child(
     tree: T | DAGNodeT,
     condition: Callable[[T | DAGNodeT], bool],
 ) -> T | DAGNodeT:
-    """
-    Search children for a single node matching condition (callable function).
+    """Search children for a single node matching condition (callable function).
 
     Examples:
         >>> from bigtree import Node, Tree
@@ -550,8 +537,7 @@ def find_child(
 
 
 def find_child_by_name(tree: NodeT | DAGNodeT, name: str) -> NodeT | DAGNodeT:
-    """
-    Search tree for a single node matching name attribute.
+    """Search tree for a single node matching name attribute.
 
     Examples:
         >>> from bigtree import Node, Tree
