@@ -55,6 +55,7 @@ def add_dict_to_tree_by_path(
         ...     "a/b/e/h": {"age": 6},
         ... }
         >>> tree.add_dict_by_path(path_dict)
+        Node(/a, age=90)
         >>> tree.show()
         a
         ├── b
@@ -109,6 +110,7 @@ def add_dict_to_tree_by_name(tree: T, name_attrs: Mapping[str, Mapping[str, Any]
         ...     "b": {"age": 65},
         ... }
         >>> tree.add_dict_by_name(name_dict)
+        Node(/a, age=90)
         >>> tree.show(attr_list=["age"])
         a [age=90]
         └── b [age=65]

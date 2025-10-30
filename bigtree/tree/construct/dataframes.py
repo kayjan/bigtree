@@ -80,6 +80,7 @@ def add_dataframe_to_tree_by_path(
         ...     columns=["PATH", "age"]
         ... )
         >>> tree.add_dataframe_by_path(path_data)
+        Node(/a, age=90)
         >>> tree.show(attr_list=["age"])
         a [age=90]
         ├── b [age=65]
@@ -159,6 +160,7 @@ def add_dataframe_to_tree_by_name(
         ...     columns=["NAME", "age"]
         ... )
         >>> tree.add_dataframe_by_name(name_data)
+        Node(/a, age=90)
         >>> tree.show(attr_list=["age"])
         a [age=90]
         └── b [age=65]
@@ -244,6 +246,7 @@ def add_polars_to_tree_by_path(
         ...     schema=["PATH", "age"]
         ... )
         >>> tree.add_polars_by_path(path_data)
+        Node(/a, age=90)
         >>> tree.show(attr_list=["age"])
         a [age=90]
         ├── b [age=65]
@@ -323,6 +326,7 @@ def add_polars_to_tree_by_name(
         ...     "age": [90, 65],
         ... })
         >>> tree.add_polars_by_name(name_data)
+        Node(/a, age=90)
         >>> tree.show(attr_list=["age"])
         a [age=90]
         └── b [age=65]
