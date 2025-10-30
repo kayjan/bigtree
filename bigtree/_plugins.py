@@ -18,6 +18,14 @@ def register_binarytree_plugins() -> None:
         },
     )
 
+    plugin_docs = "\n".join(
+        f"- `{name}()` — {getattr(func, '__doc__', '').splitlines()[0] if func.__doc__ else ''}"
+        for name, func in BinaryTree._plugins.items()
+    )
+    BinaryTree.__doc__ = (
+        BinaryTree.__doc__ or ""
+    ) + f"\n\n## Registered Plugins\n\n{plugin_docs}"
+
 
 def register_dag_plugins() -> None:
     """Register plugin for DAG"""
@@ -45,6 +53,12 @@ def register_dag_plugins() -> None:
             "iterate": iterators.dag_iterator,
         },
     )
+
+    plugin_docs = "\n".join(
+        f"- `{name}()` — {getattr(func, '__doc__', '').splitlines()[0] if func.__doc__ else ''}"
+        for name, func in DAG._plugins.items()
+    )
+    DAG.__doc__ = (DAG.__doc__ or "") + f"\n\n## Registered Plugins\n\n{plugin_docs}"
 
 
 def register_tree_plugins() -> None:
@@ -140,3 +154,9 @@ def register_tree_plugins() -> None:
         },
         method="diff",
     )
+
+    plugin_docs = "\n".join(
+        f"- `{name}()` — {getattr(func, '__doc__', '').splitlines()[0] if func.__doc__ else ''}"
+        for name, func in Tree._plugins.items()
+    )
+    Tree.__doc__ = (Tree.__doc__ or "") + f"\n\n## Registered Plugins\n\n{plugin_docs}"

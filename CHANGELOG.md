@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed:
-- Refactor: Combine plugins in one file.
+- Refactor: Combine plugins in one file, add plugins to the class docs dynamically.
 
 ## [1.0.3] - 2025-10-30
 ### Added:
