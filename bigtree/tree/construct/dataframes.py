@@ -482,7 +482,7 @@ def dataframe_to_tree_by_relation(
     allow_duplicates: bool = False,
     node_type: type[T] = _node.Node,  # type: ignore[assignment]
 ) -> T:
-    """Construct tree from pandas DataFrame using parent and child names, return root of tree.
+    """Construct tree from pandas DataFrame using adjacency list (parent and child names), return root of tree.
 
     Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.
 
@@ -714,7 +714,7 @@ def polars_to_tree_by_relation(
     allow_duplicates: bool = False,
     node_type: type[T] = _node.Node,  # type: ignore[assignment]
 ) -> T:
-    """Construct tree from polars DataFrame using parent and child names, return root of tree.
+    """Construct tree from polars DataFrame using adjacency list (parent and child names), return root of tree.
 
     Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.
 
