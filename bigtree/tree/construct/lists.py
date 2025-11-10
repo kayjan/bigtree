@@ -89,7 +89,7 @@ def list_to_tree_by_relation(
     allow_duplicates: bool = False,
     node_type: type[T] = node.Node,  # type: ignore[assignment]
 ) -> T:
-    """Construct tree from list of tuple containing parent-child names.
+    """Construct tree from an adjacency list; list of tuple containing parent-child names.
 
     Root node is inferred when parent is empty, or when name appears as parent but not as child.
 
