@@ -72,7 +72,7 @@ dependencies = [
   "polars",
   "polars-lts-cpu",
   "pydot",
-  "pytest",
+  "pytest<9",
   "pytest-cov",
   "pytest-benchmark[histogram]",
   "pyvis",

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed:
 - Refactor: Combine plugins in one file, add plugins to the class docs dynamically.
 ### Fixed:
+- Test: Downgrade pytest<9 due to bugs in skipif implementation.
 - Tree diff: Handle tree sep that is not the default.
 
 ## [1.0.3] - 2025-10-30
