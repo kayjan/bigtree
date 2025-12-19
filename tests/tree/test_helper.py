@@ -560,6 +560,30 @@ class TestTreeDiff:
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
+    def test_tree_diff_attributes_same_structure_different_attributes_sep(tree_node):
+        tree_node.sep = "."
+        tree_node_copy = tree_node.copy()
+        tree_node_copy["c"]["f"].age += 10
+        tree_node_copy["b"].age += 10
+
+        # Without attributes
+        expected = None
+        actual = helper.get_tree_diff(tree_node, tree_node_copy)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+        # With attributes
+        expected = {
+            ".a": {"name": "a"},
+            ".a.b (~)": {"name": "b (~)", "age": (65, 75)},
+            ".a.c": {"name": "c"},
+            ".a.c.f (~)": {"name": "f (~)", "age": (38, 48)},
+        }
+
+        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
+        actual = export.tree_to_dict(tree_diff, all_attrs=True)
+        assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
     def test_tree_diff_attributes_same_structure_different_attributes_all_diff(
         tree_node,
     ):
