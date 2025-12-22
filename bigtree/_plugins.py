@@ -142,6 +142,7 @@ def register_tree_plugins() -> None:
         {
             # Helper methods
             "clone": helper.clone_tree,
+            "subtree": helper.get_subtree,
             "prune": helper.prune_tree,
         },
         method="helper",
