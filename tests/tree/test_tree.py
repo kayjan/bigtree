@@ -562,36 +562,40 @@ class TestTreeExport:
 class TestTreeHelper:
     @staticmethod
     def test_clone(tree_tree):
-        tree_clone = tree_tree.clone(node_type=basenode.BaseNode)
-        assert isinstance(tree_clone.node, basenode.BaseNode), "Wrong type returned"
-        assert_tree_structure_basenode_root(tree_clone.node)
-        assert_tree_structure_basenode_root_attr(tree_clone.node)
+        clone_tree = tree_tree.clone(node_type=basenode.BaseNode)
+        assert isinstance(clone_tree.node, basenode.BaseNode), "Wrong type returned"
+        assert_tree_structure_basenode_root(clone_tree.node)
+        assert_tree_structure_basenode_root_attr(clone_tree.node)
 
     @staticmethod
     def test_prune(tree_tree):
         # Pruned tree is a/b/d, a/b/e/g, a/b/e/h
-        tree_prune = tree_tree.prune("a/b")
-
-        assert len(list(tree_prune.node.children)) == 1
-        assert len(tree_prune.node.children[0].children) == 2
-        assert len(tree_prune.node.children[0].children[0].children) == 0
-        assert len(tree_prune.node.children[0].children[1].children) == 2
+        prune_tree = tree_tree.prune("a/b")
+        assert isinstance(prune_tree, Tree), "Wrong type returned"
+        prune_node = prune_tree.node
+        assert len(list(prune_node.children)) == 1
+        assert len(prune_node.children[0].children) == 2
+        assert len(prune_node.children[0].children[0].children) == 0
+        assert len(prune_node.children[0].children[1].children) == 2
 
     @staticmethod
-    def test_diff_dataframe(tree_tree):
-        tree_tree_diff = tree_tree.copy()
-        del tree_tree_diff["c"]
+    def test_diff_dataframe(tree_tree, tree_tree_diff):
         actual = tree_tree.diff_dataframe(tree_tree_diff, only_diff=True)
         expected = pd.DataFrame(
             [
                 ["/a", "a", None, "both", None],
-                ["/a/b", "b", "a", "both", None],
-                ["/a/b/d", "d", "b", "both", None],
-                ["/a/b/e", "e", "b", "both", None],
-                ["/a/b/e/g", "g", "e", "both", None],
-                ["/a/b/e/h", "h", "e", "both", None],
-                ["/a/c", "c", "a", "left_only", "-"],
-                ["/a/c/f", "f", "c", "left_only", "-"],
+                ["/a/b", "b", "a", "left_only", "-"],
+                ["/a/b/d", "d", "b", "left_only", "-"],
+                ["/a/b/e", "e", "b", "left_only", "-"],
+                ["/a/b/e/g", "g", "e", "left_only", "-"],
+                ["/a/b/e/h", "h", "e", "left_only", "-"],
+                ["/a/c", "c", "a", "both", None],
+                ["/a/c/e", "e", "c", "right_only", "+"],
+                ["/a/c/e/g", "g", "e", "right_only", "+"],
+                ["/a/c/e/h", "h", "e", "right_only", "+"],
+                ["/a/c/f", "f", "c", "both", None],
+                ["/a/i", "i", "a", "right_only", "+"],
+                ["/a/i/j", "j", "i", "right_only", "+"],
             ],
             columns=["path", "name", "parent", "Exists", "suffix"],
         )
@@ -601,8 +605,20 @@ class TestTreeHelper:
 
     @staticmethod
     def test_diff(tree_tree, tree_tree_diff):
-        tree_diff = tree_tree.diff(tree_tree_diff)
-        assert_print_statement(tree_diff.show, EXPECTED_TREE_NODE_DIFF)
+        diff_tree = tree_tree.diff(tree_tree_diff)
+        assert isinstance(diff_tree, Tree), "Wrong type returned"
+        assert_print_statement(diff_tree.show, EXPECTED_TREE_NODE_DIFF)
+
+    @staticmethod
+    def test_get_subtree(tree_tree):
+        # Subtree is b/d, b/e/g, b/e/h
+        subtree_tree = tree_tree.subtree("a/b")
+        assert isinstance(subtree_tree, Tree), "Wrong type returned"
+        subtree_node = subtree_tree.node
+        assert subtree_node.node_name == "b"
+        assert len(subtree_node.children) == 2
+        assert not len(subtree_node.children[0].children)
+        assert len(subtree_node.children[1].children) == 2
 
 
 class TestTreeQuery:
@@ -807,26 +823,26 @@ class TestTreeIterators:
     @staticmethod
     def test_preorder_iter(tree_tree):
         expected = ["a", "b", "d", "e", "g", "h", "c", "f"]
-        actual = [node.node_name for node in tree_tree.preorder_iter()]
+        actual = [_node.node_name for _node in tree_tree.preorder_iter()]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_postorder_iter(tree_tree):
         expected = ["d", "g", "h", "e", "b", "f", "c", "a"]
-        actual = [node.node_name for node in tree_tree.postorder_iter()]
+        actual = [_node.node_name for _node in tree_tree.postorder_iter()]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_levelorder_iter(tree_tree):
         expected = ["a", "b", "c", "d", "e", "f", "g", "h"]
-        actual = [node.node_name for node in tree_tree.levelorder_iter()]
+        actual = [_node.node_name for _node in tree_tree.levelorder_iter()]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_levelordergroup_iter(tree_tree):
         expected = [["a"], ["b", "c"], ["d", "e", "f"], ["g", "h"]]
         actual = [
-            [node.node_name for node in group]
+            [_node.node_name for _node in group]
             for group in tree_tree.levelordergroup_iter()
         ]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
@@ -834,14 +850,15 @@ class TestTreeIterators:
     @staticmethod
     def test_zigzag_iter(tree_tree):
         expected = ["a", "c", "b", "d", "e", "f", "h", "g"]
-        actual = [node.node_name for node in tree_tree.zigzag_iter()]
+        actual = [_node.node_name for _node in tree_tree.zigzag_iter()]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
     def test_zigzaggroup_iter(tree_tree):
         expected = [["a"], ["c", "b"], ["d", "e", "f"], ["h", "g"]]
         actual = [
-            [node.node_name for node in group] for group in tree_tree.zigzaggroup_iter()
+            [_node.node_name for _node in group]
+            for group in tree_tree.zigzaggroup_iter()
         ]
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 

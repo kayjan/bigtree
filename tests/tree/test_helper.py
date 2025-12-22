@@ -22,145 +22,145 @@ class TestCloneTree:
 
     @staticmethod
     def test_clone_tree_basenode_node(tree_basenode):
-        root_clone = helper.clone_tree(tree_basenode, node_type=node.Node)
-        assert isinstance(root_clone, node.Node), "Wrong type returned"
-        assert_tree_structure_basenode_root(root_clone)
-        assert_tree_structure_basenode_root_attr(root_clone)
+        clone_node = helper.clone_tree(tree_basenode, node_type=node.Node)
+        assert isinstance(clone_node, node.Node), "Wrong type returned"
+        assert_tree_structure_basenode_root(clone_node)
+        assert_tree_structure_basenode_root_attr(clone_node)
 
     @staticmethod
     def test_clone_tree_node_basenode(tree_node):
-        root_clone = helper.clone_tree(tree_node, node_type=basenode.BaseNode)
-        assert isinstance(root_clone, basenode.BaseNode), "Wrong type returned"
-        assert_tree_structure_basenode_root(root_clone)
-        assert_tree_structure_basenode_root_attr(root_clone)
+        clone_basenode = helper.clone_tree(tree_node, node_type=basenode.BaseNode)
+        assert isinstance(clone_basenode, basenode.BaseNode), "Wrong type returned"
+        assert_tree_structure_basenode_root(clone_basenode)
+        assert_tree_structure_basenode_root_attr(clone_basenode)
 
     @staticmethod
     def test_clone_tree_basenode_custom(tree_basenode):
         class NodeA(node.Node):
             pass
 
-        root_clone = helper.clone_tree(tree_basenode, node_type=NodeA)
-        assert isinstance(root_clone, NodeA), Constants.ERROR_CUSTOM_TYPE.format(
+        clone_node = helper.clone_tree(tree_basenode, node_type=NodeA)
+        assert isinstance(clone_node, NodeA), Constants.ERROR_CUSTOM_TYPE.format(
             type="NodeA"
         )
-        assert_tree_structure_basenode_root(root_clone)
-        assert_tree_structure_basenode_root_attr(root_clone)
+        assert_tree_structure_basenode_root(clone_node)
+        assert_tree_structure_basenode_root_attr(clone_node)
 
 
 class TestGetSubtree:
     @staticmethod
     def test_get_subtree(tree_node):
         # Subtree is b/d, b/e/g, b/e/h
-        tree_subtree = helper.get_subtree(tree_node, "a/b")
-        assert tree_subtree.node_name == "b"
-        assert len(tree_subtree.children) == 2
-        assert not len(tree_subtree.children[0].children)
-        assert len(tree_subtree.children[1].children) == 2
+        subtree_node = helper.get_subtree(tree_node, "a/b")
+        assert subtree_node.node_name == "b"
+        assert len(subtree_node.children) == 2
+        assert not len(subtree_node.children[0].children)
+        assert len(subtree_node.children[1].children) == 2
 
     @staticmethod
     def test_get_subtree_sep(tree_node):
         # Subtree is b/d, b/e/g, b/e/h
         tree_node.sep = "."
-        tree_subtree = helper.get_subtree(tree_node, "a.b")
-        assert tree_subtree.children[0].path_name == ".b.d"
-        assert tree_subtree.children[1].path_name == ".b.e"
+        subtree_node = helper.get_subtree(tree_node, "a.b")
+        assert subtree_node.children[0].path_name == ".b.d"
+        assert subtree_node.children[1].path_name == ".b.e"
 
 
 class TestPruneTree:
     @staticmethod
     def test_prune_tree(tree_node):
         # Pruned tree is a/b/d, a/b/e/g, a/b/e/h
-        tree_prune = helper.prune_tree(tree_node, "a/b")
+        prune_node = helper.prune_tree(tree_node, "a/b")
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
-        assert len(list(tree_prune.children)) == 1
-        assert len(tree_prune.children[0].children) == 2
-        assert len(tree_prune.children[0].children[0].children) == 0
-        assert len(tree_prune.children[0].children[1].children) == 2
+        assert len(list(prune_node.children)) == 1
+        assert len(prune_node.children[0].children) == 2
+        assert len(prune_node.children[0].children[0].children) == 0
+        assert len(prune_node.children[0].children[1].children) == 2
 
     @staticmethod
     def test_prune_tree_exact(tree_node):
         # Pruned tree is a/b/e/g
-        tree_prune = helper.prune_tree(tree_node, "a/b/e/g", exact=True)
+        prune_node = helper.prune_tree(tree_node, "a/b/e/g", exact=True)
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
-        assert len(list(tree_prune.children)) == 1
-        assert len(tree_prune.children[0].children) == 1
-        assert len(tree_prune.children[0].children[0].children) == 1
+        assert len(list(prune_node.children)) == 1
+        assert len(prune_node.children[0].children) == 1
+        assert len(prune_node.children[0].children[0].children) == 1
 
     @staticmethod
     def test_prune_tree_list(tree_node):
         # Pruned tree is a/b/d, a/b/e/g, a/b/e/h
-        tree_prune = helper.prune_tree(tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"])
+        prune_node = helper.prune_tree(tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"])
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
-        assert len(list(tree_prune.children)) == 1
-        assert len(tree_prune.children[0].children) == 2
-        assert len(tree_prune.children[0].children[0].children) == 0
-        assert len(tree_prune.children[0].children[1].children) == 2
+        assert len(list(prune_node.children)) == 1
+        assert len(prune_node.children[0].children) == 2
+        assert len(prune_node.children[0].children[0].children) == 0
+        assert len(prune_node.children[0].children[1].children) == 2
 
     @staticmethod
     def test_prune_tree_path_and_depth(tree_node):
         # Pruned tree is a/b/d, a/b/e (a/b/e/g, a/b/e/h pruned away)
-        tree_prune = helper.prune_tree(tree_node, "a/b", max_depth=3)
+        prune_node = helper.prune_tree(tree_node, "a/b", max_depth=3)
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
-        assert len(list(tree_prune.children)) == 1
-        assert len(tree_prune.children[0].children) == 2
-        assert len(tree_prune.children[0].children[0].children) == 0
+        assert len(list(prune_node.children)) == 1
+        assert len(prune_node.children[0].children) == 2
+        assert len(prune_node.children[0].children[0].children) == 0
         assert (
-            len(tree_prune.children[0].children[1].children) == 0
+            len(prune_node.children[0].children[1].children) == 0
         ), "Depth at 4 is not pruned away"
 
     @staticmethod
     def test_prune_tree_path_and_depth_and_list(tree_node):
         # Pruned tree is a/b/d, a/b/e (a/b/e/g, a/b/e/h pruned away)
-        tree_prune = helper.prune_tree(
+        prune_node = helper.prune_tree(
             tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"], max_depth=3
         )
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
-        assert len(list(tree_prune.children)) == 1
-        assert len(tree_prune.children[0].children) == 2
-        assert len(tree_prune.children[0].children[0].children) == 0
+        assert len(list(prune_node.children)) == 1
+        assert len(prune_node.children[0].children) == 2
+        assert len(prune_node.children[0].children[0].children) == 0
         assert (
-            len(tree_prune.children[0].children[1].children) == 0
+            len(prune_node.children[0].children[1].children) == 0
         ), "Depth at 4 is not pruned away"
 
     @staticmethod
     def test_prune_tree_path_and_depth_and_list_and_exact(tree_node):
         # Pruned tree is a/b/d, a/b/e (a/b/e/g, a/b/e/h pruned away)
-        tree_prune = helper.prune_tree(
+        prune_node = helper.prune_tree(
             tree_node, ["a/b/d", "a/b/e/g", "a/b/e/h"], exact=True, max_depth=3
         )
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
-        assert len(list(tree_prune.children)) == 1
-        assert len(tree_prune.children[0].children) == 2
-        assert len(tree_prune.children[0].children[0].children) == 0
+        assert len(list(prune_node.children)) == 1
+        assert len(prune_node.children[0].children) == 2
+        assert len(prune_node.children[0].children[0].children) == 0
         assert (
-            len(tree_prune.children[0].children[1].children) == 0
+            len(prune_node.children[0].children[1].children) == 0
         ), "Depth at 4 is not pruned away"
 
     @staticmethod
     def test_prune_tree_only_depth(tree_node):
         # Pruned tree is a/b, a/c (a/b/e/g, a/b/e/h, a/c/f pruned away)
-        tree_prune = helper.prune_tree(tree_node, max_depth=2)
+        prune_node = helper.prune_tree(tree_node, max_depth=2)
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
-        assert len(list(tree_prune.children)) == 2
+        assert len(list(prune_node.children)) == 2
         assert (
-            len(tree_prune.children[0].children) == 0
+            len(prune_node.children[0].children) == 0
         ), "Depth at 3 is not pruned away"
         assert (
-            len(tree_prune.children[1].children) == 0
+            len(prune_node.children[1].children) == 0
         ), "Depth at 3 is not pruned away"
 
     @staticmethod
