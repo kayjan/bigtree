@@ -166,12 +166,12 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_second_child(tree_node):
         # Pruned tree is a/c/f
-        tree_prune = helper.prune_tree(tree_node, "a/c")
+        prune_node = helper.prune_tree(tree_node, "a/c")
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
-        assert len(list(tree_prune.children)) == 1
-        assert len(tree_prune.children[0].children) == 1
+        assert len(list(prune_node.children)) == 1
+        assert len(prune_node.children[0].children) == 1
 
     @staticmethod
     def test_prune_tree_multiple_path_error(tree_node):
@@ -195,12 +195,12 @@ class TestPruneTree:
     @staticmethod
     def test_prune_tree_sep(tree_node):
         # Pruned tree is a/c/f
-        tree_prune = helper.prune_tree(tree_node, "a\\c", sep="\\")
+        prune_node = helper.prune_tree(tree_node, "a\\c", sep="\\")
 
         assert_tree_structure_basenode_root(tree_node)
         assert_tree_structure_basenode_root_attr(tree_node)
-        assert len(list(tree_prune.children)) == 1
-        assert len(tree_prune.children[0].children) == 1
+        assert len(list(prune_node.children)) == 1
+        assert len(prune_node.children[0].children) == 1
 
     @staticmethod
     def test_prune_tree_sep_error(tree_node):
@@ -252,18 +252,18 @@ EXPECTED_TREE_NODE_DIFF_ALL = (
 class TestTreeDiff:
     @staticmethod
     def test_tree_diff(tree_node, tree_node_diff):
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_diff)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_diff)
         assert_print_statement(
-            export.print_tree, EXPECTED_TREE_NODE_DIFF, tree=tree_diff
+            export.print_tree, EXPECTED_TREE_NODE_DIFF, tree=diff_node
         )
 
     @staticmethod
     def test_tree_diff_same_prefix():
-        tree_node = node.Node(
+        diff_node = node.Node(
             "a", children=[node.Node("bb", children=[node.Node("b")])]
         )
         other_tree_node = node.Node("a", children=[node.Node("b")])
-        tree_diff = helper.get_tree_diff(tree_node, other_tree_node)
+        diff_node = helper.get_tree_diff(diff_node, other_tree_node)
         # fmt: off
         expected_str = (
             "a\n"
@@ -272,7 +272,7 @@ class TestTreeDiff:
             "    └── b (-)\n"
         )
         # fmt: on
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_diff_sep_error(tree_node):
@@ -296,7 +296,7 @@ class TestTreeDiff:
         node.Node("/d", parent=other_tree_node)
         tree_node.sep = "."
         other_tree_node.sep = "."
-        tree_diff = helper.get_tree_diff(tree_node, other_tree_node)
+        diff_node = helper.get_tree_diff(tree_node, other_tree_node)
         expected_str = (
             "a\n"
             "├── /d (+)\n"
@@ -306,28 +306,28 @@ class TestTreeDiff:
             "        ├── g (-)\n"
             "        └── h (-)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_forbidden_sep(tree_node, tree_node_diff):
         for symbol in [".", "-", "+", "~"]:
             tree_node.sep = symbol
             tree_node_diff.sep = symbol
-            tree_diff = helper.get_tree_diff(tree_node, tree_node_diff)
+            diff_node = helper.get_tree_diff(tree_node, tree_node_diff)
             assert_print_statement(
-                export.print_tree, EXPECTED_TREE_NODE_DIFF, tree=tree_diff
+                export.print_tree, EXPECTED_TREE_NODE_DIFF, tree=diff_node
             )
 
     @staticmethod
     def test_tree_diff_all_diff(tree_node, tree_node_diff):
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_diff, only_diff=False)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_diff, only_diff=False)
         assert_print_statement(
-            export.print_tree, EXPECTED_TREE_NODE_DIFF_ALL, tree=tree_diff
+            export.print_tree, EXPECTED_TREE_NODE_DIFF_ALL, tree=diff_node
         )
 
     @staticmethod
     def test_tree_diff_detail(tree_node, tree_node_diff):
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_diff, detail=True)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_diff, detail=True)
         expected_str = (
             "a\n"
             "├── b (removed)\n"
@@ -342,12 +342,12 @@ class TestTreeDiff:
             "└── i (added)\n"
             "    └── j (added)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_detail_clash_names(tree_node, tree_node_diff):
         tree_node_diff.append(node.Node("g"))
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_diff, detail=True)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_diff, detail=True)
         expected_str = (
             "a\n"
             "├── b (removed)\n"
@@ -363,11 +363,11 @@ class TestTreeDiff:
             "└── i (added)\n"
             "    └── j (added)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_aggregate(tree_node, tree_node_diff):
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_diff, aggregate=True)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_diff, aggregate=True)
         expected_str = (
             "a\n"
             "├── b (-)\n"
@@ -380,11 +380,11 @@ class TestTreeDiff:
             "└── i (+)\n"
             "    └── j (+)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_all_diff_detail(tree_node, tree_node_diff):
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_diff, only_diff=False, detail=True
         )
         expected_str = (
@@ -402,11 +402,11 @@ class TestTreeDiff:
             "└── i (added)\n"
             "    └── j (added)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_all_diff_aggregate(tree_node, tree_node_diff):
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_diff, only_diff=False, aggregate=True
         )
         expected_str = (
@@ -424,11 +424,11 @@ class TestTreeDiff:
             "└── i (+)\n"
             "    └── j (+)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_detail_aggregate(tree_node, tree_node_diff):
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_diff, detail=True, aggregate=True
         )
         expected_str = (
@@ -443,12 +443,12 @@ class TestTreeDiff:
             "└── i (added)\n"
             "    └── j (added)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_detail_aggregate_clash_names(tree_node, tree_node_diff):
         tree_node_diff.append(node.Node("g"))
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_diff, detail=True, aggregate=True
         )
         expected_str = (
@@ -464,11 +464,11 @@ class TestTreeDiff:
             "└── i (added)\n"
             "    └── j (added)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_all_diff_detail_aggregate(tree_node, tree_node_diff):
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_diff, only_diff=False, detail=True, aggregate=True
         )
         expected_str = (
@@ -486,14 +486,14 @@ class TestTreeDiff:
             "└── i (added)\n"
             "    └── j (added)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_new_leaf(tree_node):
         other_tree_node = tree_node.copy()
         tree_node_new_parent = other_tree_node["c"]["f"]
         node.Node("i", parent=tree_node_new_parent)
-        tree_diff = helper.get_tree_diff(tree_node, other_tree_node)
+        diff_node = helper.get_tree_diff(tree_node, other_tree_node)
         # fmt: off
         expected_str = (
             "a\n"
@@ -502,14 +502,14 @@ class TestTreeDiff:
             "        └── i (+)\n"
         )
         # fmt: on
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_new_leaf_all_diff(tree_node):
         other_tree_node = tree_node.copy()
         tree_node_new_parent = other_tree_node["c"]["f"]
         node.Node("i", parent=tree_node_new_parent)
-        tree_diff = helper.get_tree_diff(tree_node, other_tree_node, only_diff=False)
+        diff_node = helper.get_tree_diff(tree_node, other_tree_node, only_diff=False)
         expected_str = (
             "a\n"
             "├── b\n"
@@ -521,7 +521,7 @@ class TestTreeDiff:
             "    └── f\n"
             "        └── i (+)\n"
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
     @staticmethod
     def test_tree_diff_same_tree(tree_node):
@@ -532,8 +532,8 @@ class TestTreeDiff:
     @staticmethod
     def test_tree_diff_same_tree_all_diff(tree_node):
         expected = export.tree_to_dict(tree_node)
-        tree_diff = helper.get_tree_diff(tree_node, tree_node, only_diff=False)
-        actual = export.tree_to_dict(tree_diff)
+        diff_node = helper.get_tree_diff(tree_node, tree_node, only_diff=False)
+        actual = export.tree_to_dict(diff_node)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -555,8 +555,8 @@ class TestTreeDiff:
             "/a/c/f (~)": {"name": "f (~)", "age": (38, 48)},
         }
 
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
-        actual = export.tree_to_dict(tree_diff, all_attrs=True)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
+        actual = export.tree_to_dict(diff_node, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -579,8 +579,8 @@ class TestTreeDiff:
             ".a.c.f (~)": {"name": "f (~)", "age": (38, 48)},
         }
 
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
-        actual = export.tree_to_dict(tree_diff, all_attrs=True)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
+        actual = export.tree_to_dict(diff_node, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -593,8 +593,8 @@ class TestTreeDiff:
 
         # Without attributes
         expected = export.tree_to_dict(tree_node)
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, only_diff=False)
-        actual = export.tree_to_dict(tree_diff)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_copy, only_diff=False)
+        actual = export.tree_to_dict(diff_node)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
         # With attributes
@@ -609,10 +609,10 @@ class TestTreeDiff:
             "/a/c/f (~)": {"name": "f (~)", "age": (38, 48)},
         }
 
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_copy, attr_list=["age"], only_diff=False
         )
-        actual = export.tree_to_dict(tree_diff, all_attrs=True)
+        actual = export.tree_to_dict(diff_node, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -640,10 +640,10 @@ class TestTreeDiff:
             "/a/c/f (~)": {"name": "f (~)", "age": (38, 48), "age2": (1, None)},
         }
 
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_copy, attr_list=["age", "age2"]
         )
-        actual = export.tree_to_dict(tree_diff, all_attrs=True)
+        actual = export.tree_to_dict(diff_node, all_attrs=True)
         assert (
             actual.keys() == expected.keys()
         ), f"Expected\n{expected.keys()}\nReceived\n{actual.keys()}"
@@ -675,8 +675,8 @@ class TestTreeDiff:
 
         # Without attributes
         expected = export.tree_to_dict(tree_node)
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, only_diff=False)
-        actual = export.tree_to_dict(tree_diff)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_copy, only_diff=False)
+        actual = export.tree_to_dict(diff_node)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
         # With attributes
@@ -691,10 +691,10 @@ class TestTreeDiff:
             "/a/c/f (~)": {"name": "f (~)", "age": (38, 48), "age2": (1, None)},
         }
 
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_copy, attr_list=["age", "age2"], only_diff=False
         )
-        actual = export.tree_to_dict(tree_diff, all_attrs=True)
+        actual = export.tree_to_dict(diff_node, all_attrs=True)
         assert (
             actual.keys() == expected.keys()
         ), f"Expected\n{expected.keys()}\nReceived\n{actual.keys()}"
@@ -726,8 +726,8 @@ class TestTreeDiff:
 
         # Without attributes
         expected_str = "a\n" "└── b\n" "    └── d (-)\n"
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy)
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_copy)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
         # With attributes
         expected = {
@@ -737,8 +737,8 @@ class TestTreeDiff:
             "/a/c (~)": {"age": (60, 70.0), "name": "c (~)"},
             "/a/c (~)/f (~)": {"age": (38, 48.0), "name": "f (~)"},
         }
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
-        actual = export.tree_to_dict(tree_diff, all_attrs=True)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_copy, attr_list=["age"])
+        actual = export.tree_to_dict(diff_node, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -766,8 +766,8 @@ class TestTreeDiff:
             "└── c\n"
             "    └── f\n"
         )
-        tree_diff = helper.get_tree_diff(tree_node, tree_node_copy, only_diff=False)
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        diff_node = helper.get_tree_diff(tree_node, tree_node_copy, only_diff=False)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
         # With attributes
         expected = {
@@ -780,10 +780,10 @@ class TestTreeDiff:
             "/a/c (~)": {"age": (60, 70.0), "name": "c (~)"},
             "/a/c (~)/f (~)": {"age": (38, 48.0), "name": "f (~)"},
         }
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_copy, only_diff=False, attr_list=["age"]
         )
-        actual = export.tree_to_dict(tree_diff, all_attrs=True)
+        actual = export.tree_to_dict(diff_node, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -811,10 +811,10 @@ class TestTreeDiff:
             "└── c\n"
             "    └── f\n"
         )
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_copy, only_diff=False, detail=True
         )
-        assert_print_statement(export.print_tree, expected_str, tree=tree_diff)
+        assert_print_statement(export.print_tree, expected_str, tree=diff_node)
 
         # With attributes
         expected = {
@@ -827,10 +827,10 @@ class TestTreeDiff:
             "/a/c (~)": {"age": (60, 70.0), "name": "c (~)"},
             "/a/c (~)/f (~)": {"age": (38, 48.0), "name": "f (~)"},
         }
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_copy, only_diff=False, detail=True, attr_list=["age"]
         )
-        actual = export.tree_to_dict(tree_diff, all_attrs=True)
+        actual = export.tree_to_dict(diff_node, all_attrs=True)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
@@ -856,8 +856,8 @@ class TestTreeDiff:
             "/a/c": {"name": "c"},
             "/a/c/f": {"name": "f"},
         }
-        tree_diff = helper.get_tree_diff(
+        diff_node = helper.get_tree_diff(
             tree_node, tree_node_copy, only_diff=False, attr_list=["age2"]
         )
-        actual = export.tree_to_dict(tree_diff)
+        actual = export.tree_to_dict(diff_node)
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
