@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added:
+- Tree: Added get_subtree method as plugin.
+### Changed:
+- Test: Misc rename variables.
+- Tree: Helper methods to return Tree-type object (e.g., clone, prune, subtree, diff methods).
+
 ## [1.0.4] - 2025-12-20
 ### Changed:
 - Refactor: Combine plugins in one file, add plugins to the class docs dynamically.
@@ -719,7 +726,7 @@ ignore null attribute columns.
 
 ## [0.6.4] - 2022-11-16
 ### Fixed
-- BNode: Minor fix on rollback functionality when original children includes None.
+- BNode: Minor fix on rollback functionality when original children include None.
 
 ## [0.6.3] - 2022-11-15
 ### Added

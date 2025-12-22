@@ -14,6 +14,7 @@ class DAG:
 
         * Construction with dataframe, dictionary, or list
         * Export to dataframe, dictionary, list, or images
+        * Iterator methods to parse dag
 
     Do refer to the various modules respectively on the keyword parameters.
     """
