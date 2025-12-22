@@ -29,13 +29,6 @@ class Tree:
         * Query and Search methods to find one or more Nodes
         * Plot methods
 
-    More information:
-
-        - Construction methods are implemented class methods (e.g., `Tree.from_dict(data)`)
-        - Export and Plot methods will return their respective types
-        - Helper methods will return a separate Tree-type object
-        - Iterator, Query, and Search methods will return Node-type object(s)
-
     Do refer to the various modules respectively on the keyword parameters.
     """
 

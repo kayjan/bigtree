@@ -12,6 +12,8 @@ Construct, export, and iterator methods encapsulated in DAG class.
 
 ## DAG Construct Methods
 
+ Construction methods are implemented as class methods.
+
 | Construct DAG from | Using parent-child relation | Add node attributes |
 |--------------------|-----------------------------|---------------------|
 | List               | `DAG.from_list`             | No                  |
@@ -28,6 +30,8 @@ Construct, export, and iterator methods encapsulated in DAG class.
 | Dot (for .dot, .png, .svg, .jpeg, etc.) | `to_dot`       | No                                  |
 
 ## Iterator Methods
+
+Iterator methods will return DAGNode-type object(s).
 
 | Data Structure | Algorithm                   | Description             |
 |----------------|-----------------------------|-------------------------|

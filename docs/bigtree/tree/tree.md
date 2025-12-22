@@ -14,7 +14,8 @@ Construct, export, helper, query, search, and iterator methods encapsulated in T
 
 Construct Tree from list, dictionary, and pandas/polars DataFrame.
 
-To decide which method to use, consider your data type and data values.
+To decide which method to use, consider your data type and data values. Construction methods are implemented as class
+methods.
 
 | Construct tree from | Using full path       | Using parent-child relation                          | Using notation     | Add node attributes                                      |
 |---------------------|-----------------------|------------------------------------------------------|--------------------|----------------------------------------------------------|
@@ -26,11 +27,11 @@ To decide which method to use, consider your data type and data values.
 
 To add attributes to an existing tree,
 
-| Add attributes from | Using full path              | Using node name              |
-|---------------------|------------------------------|------------------------------|
-| Dictionary          | `Tree.add_dict_by_path`      | `Tree.add_dict_by_name`      |
-| pandas DataFrame    | `Tree.add_dataframe_by_path` | `Tree.add_dataframe_by_name` |
-| polars DataFrame    | `Tree.add_polars_by_path`    | `Tree.add_polars_by_name`    |
+| Add attributes from | Using full path         | Using node name         |
+|---------------------|-------------------------|-------------------------|
+| Dictionary          | `add_dict_by_path`      | `add_dict_by_name`      |
+| pandas DataFrame    | `add_dataframe_by_path` | `add_dataframe_by_name` |
+| polars DataFrame    | `add_polars_by_path`    | `add_polars_by_name`    |
 
 !!! note
 
@@ -55,17 +56,18 @@ Export Tree to list, dictionary, pandas/polars DataFrame, and various formats.
 
 ## Tree Helper Methods
 
-Helper functions that can come in handy.
+Helper functions that can come in handy. Helper methods will return a separate Tree-type object.
 
 | Description   | Method                   |
 |---------------|--------------------------|
 | Clone tree    | `clone`                  |
+| Get subtree   | `subtree`                |
 | Prune tree    | `prune`                  |
 | Compare trees | `diff_dataframe`, `diff` |
 
 ## Tree Query and Search Methods
 
-Query and search to find nodes.
+Query and search to find nodes. These methods will return Node-type object(s).
 
 | Search by       | One node                                            | One or more nodes                   |
 |-----------------|-----------------------------------------------------|-------------------------------------|
@@ -76,6 +78,8 @@ Query and search to find nodes.
 | Node attributes | `find_attr`                                         | `find_attrs`                        |
 
 ## Iterator Methods
+
+Iterator methods will return Node-type object(s).
 
 | Data Structure | Algorithm                                 | Description             |
 |----------------|-------------------------------------------|-------------------------|
