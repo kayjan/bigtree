@@ -1,3 +1,35 @@
+
+<div align="right">
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
+      <div align="center">
+        <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=en">English</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=zh-CN">简体中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=zh-TW">繁體中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=ja">日本語</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=ko">한국어</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=hi">हिन्दी</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=th">ไทย</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=fr">Français</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=de">Deutsch</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=es">Español</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=it">Italiano</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=ru">Русский</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=pt">Português</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=nl">Nederlands</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=pl">Polski</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=ar">العربية</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=fa">فارسی</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=tr">Türkçe</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=vi">Tiếng Việt</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=id">Bahasa Indonesia</a>
+        | <a href="https://openaitx.github.io/view.html?user=kayjan&project=bigtree&lang=as">অসমীয়া</
+      </div>
+    </div>
+  </details>
+</div>
+
 # Big Tree Python Package
 
 Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame.
