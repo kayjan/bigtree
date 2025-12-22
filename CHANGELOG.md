@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tree: Added get_subtree method as plugin.
 ### Changed:
 - Test: Misc rename variables.
-- Tree: Helper methods to return Tree-type object (e.g., clone, prune, subtree, diff methods)
+- Tree: Helper methods to return Tree-type object (e.g., clone, prune, subtree, diff methods).
 
 ## [1.0.4] - 2025-12-20
 ### Changed:
