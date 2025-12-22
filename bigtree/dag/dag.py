@@ -14,6 +14,13 @@ class DAG:
 
         * Construction with dataframe, dictionary, or list
         * Export to dataframe, dictionary, list, or images
+        * Iterator methods to parse dag
+
+    More information:
+
+        - Construction methods are implemented class methods (e.g., `DAG.from_dict(data)`)
+        - Export methods will return their respective types
+        - Iterator methods will return DAGNode-type object(s)
 
     Do refer to the various modules respectively on the keyword parameters.
     """

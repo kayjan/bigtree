@@ -24,9 +24,17 @@ class Tree:
 
         * Construction with dataframe, dictionary, list, or string
         * Export to dataframe, dictionary, list, string, or images
-        * Helper methods for cloning, pruning, getting tree diff
+        * Helper methods for cloning, pruning, getting subtree and tree diff
+        * Iterator methods to parse tree
         * Query and Search methods to find one or more Nodes
         * Plot methods
+
+    More information:
+
+        - Construction methods are implemented class methods (e.g., `Tree.from_dict(data)`)
+        - Export and Plot methods will return their respective types
+        - Helper methods will return a separate Tree-type object
+        - Iterator, Query, and Search methods will return Node-type object(s)
 
     Do refer to the various modules respectively on the keyword parameters.
     """
@@ -66,7 +74,10 @@ class Tree:
         else:
 
             def wrapper(self, other_tree: T, *args, **kwargs):  # type: ignore
-                return func(self.node, other_tree.node, *args, **kwargs)
+                results = func(self.node, other_tree.node, *args, **kwargs)
+                if isinstance(results, node.Node):
+                    return type(self)(results)
+                return results
 
         functools.update_wrapper(wrapper, base_func)
         wrapper.__name__ = name
