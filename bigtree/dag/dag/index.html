@@ -2980,6 +2980,7 @@ refers to the <code>DAGNode</code> class, whereas dag refers to the <code>DAG</c
 to implement dag-level methods (for construct/export etc.) for a more intuitive API.</p>
 <p>Construct, export, and iterator methods encapsulated in DAG class.</p>
 <h2 id="dag-construct-methods">DAG Construct Methods</h2>
+<p>Construction methods are implemented as class methods.</p>
 <table>
 <thead>
 <tr>
@@ -3039,6 +3040,7 @@ to implement dag-level methods (for construct/export etc.) for a more intuitive 
 </tbody>
 </table>
 <h2 id="iterator-methods">Iterator Methods</h2>
+<p>Iterator methods will return DAGNode-type object(s).</p>
 <table>
 <thead>
 <tr>
@@ -3108,6 +3110,7 @@ to implement dag-level methods (for construct/export etc.) for a more intuitive 
         <p>DAG wraps around DAGNode class to provide a quick, intuitive, Pythonic API for</p>
 <div class="language-text highlight"><pre><span></span><code>* Construction with dataframe, dictionary, or list
 * Export to dataframe, dictionary, list, or images
+* Iterator methods to parse dag
 </code></pre></div>
 <p>Do refer to the various modules respectively on the keyword parameters.</p>
 

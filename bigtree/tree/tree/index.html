@@ -3071,7 +3071,8 @@ implement tree-level methods for a more intuitive API.</p>
 <p>Construct, export, helper, query, search, and iterator methods encapsulated in Tree class.</p>
 <h2 id="tree-construct-methods">Tree Construct Methods</h2>
 <p>Construct Tree from list, dictionary, and pandas/polars DataFrame.</p>
-<p>To decide which method to use, consider your data type and data values.</p>
+<p>To decide which method to use, consider your data type and data values. Construction methods are implemented as class
+methods.</p>
 <table>
 <thead>
 <tr>
@@ -3132,18 +3133,18 @@ implement tree-level methods for a more intuitive API.</p>
 <tbody>
 <tr>
 <td>Dictionary</td>
-<td><code>Tree.add_dict_by_path</code></td>
-<td><code>Tree.add_dict_by_name</code></td>
+<td><code>add_dict_by_path</code></td>
+<td><code>add_dict_by_name</code></td>
 </tr>
 <tr>
 <td>pandas DataFrame</td>
-<td><code>Tree.add_dataframe_by_path</code></td>
-<td><code>Tree.add_dataframe_by_name</code></td>
+<td><code>add_dataframe_by_path</code></td>
+<td><code>add_dataframe_by_name</code></td>
 </tr>
 <tr>
 <td>polars DataFrame</td>
-<td><code>Tree.add_polars_by_path</code></td>
-<td><code>Tree.add_polars_by_name</code></td>
+<td><code>add_polars_by_path</code></td>
+<td><code>add_polars_by_name</code></td>
 </tr>
 </tbody>
 </table>
@@ -3201,7 +3202,7 @@ If attributes are added to existing tree using <strong>node name</strong>, names
 </tbody>
 </table>
 <h2 id="tree-helper-methods">Tree Helper Methods</h2>
-<p>Helper functions that can come in handy.</p>
+<p>Helper functions that can come in handy. Helper methods will return a separate Tree-type object.</p>
 <table>
 <thead>
 <tr>
@@ -3215,6 +3216,10 @@ If attributes are added to existing tree using <strong>node name</strong>, names
 <td><code>clone</code></td>
 </tr>
 <tr>
+<td>Get subtree</td>
+<td><code>subtree</code></td>
+</tr>
+<tr>
 <td>Prune tree</td>
 <td><code>prune</code></td>
 </tr>
@@ -3225,7 +3230,7 @@ If attributes are added to existing tree using <strong>node name</strong>, names
 </tbody>
 </table>
 <h2 id="tree-query-and-search-methods">Tree Query and Search Methods</h2>
-<p>Query and search to find nodes.</p>
+<p>Query and search to find nodes. These methods will return Node-type object(s).</p>
 <table>
 <thead>
 <tr>
@@ -3263,6 +3268,7 @@ If attributes are added to existing tree using <strong>node name</strong>, names
 </tbody>
 </table>
 <h2 id="iterator-methods">Iterator Methods</h2>
+<p>Iterator methods will return Node-type object(s).</p>
 <table>
 <thead>
 <tr>
@@ -3347,7 +3353,8 @@ If attributes are added to existing tree using <strong>node name</strong>, names
         <p>Tree wraps around Node class to provide a quick, intuitive, Pythonic API for</p>
 <div class="language-text highlight"><pre><span></span><code>* Construction with dataframe, dictionary, list, or string
 * Export to dataframe, dictionary, list, string, or images
-* Helper methods for cloning, pruning, getting tree diff
+* Helper methods for cloning, pruning, getting subtree and tree diff
+* Iterator methods to parse tree
 * Query and Search methods to find one or more Nodes
 * Plot methods
 </code></pre></div>
