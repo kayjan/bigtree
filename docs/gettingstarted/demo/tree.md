@@ -436,6 +436,7 @@ Other customisations for printing are also available, such as:
 - Printing subtree
 - Printing tree with attributes
 - Different built-in or custom style and border style
+- Colours and icons using rich rendering
 
 === "Alias"
     ```python hl_lines="1"
@@ -550,6 +551,15 @@ Other customisations for printing are also available, such as:
     # │  ├→ d
     # │  ╰→ e
     # ╰→ c
+    ```
+=== "Rich Render"
+    ```python
+    tree.show(rich=True, node_format="bold magenta", edge_format="blue")
+    # a
+    # ├── b
+    # │   ├── d
+    # │   └── e
+    # └── c
     ```
 
 ### 2. Plot Tree
