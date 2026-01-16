@@ -14,6 +14,7 @@ except ImportError:  # pragma: no cover
 
 
 __all__ = [
+    "print_rich",
     "print_tree",
     "yield_tree",
     "hprint_tree",

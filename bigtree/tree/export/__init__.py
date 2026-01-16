@@ -13,6 +13,7 @@ from .images import (  # noqa
 from .stdout import (  # noqa
     hprint_tree,
     hyield_tree,
+    print_rich,
     print_tree,
     tree_to_newick,
     vprint_tree,
@@ -31,6 +32,7 @@ __all__ = [
     "tree_to_mermaid",
     "tree_to_pillow",
     "tree_to_pillow_graph",
+    "print_rich",
     "print_tree",
     "yield_tree",
     "hprint_tree",
