@@ -2138,6 +2138,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.export.print_rich" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;print_rich
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.export.print_tree" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;print_tree
@@ -3131,6 +3140,15 @@
   <a href="#bigtree.tree.export.hyield_tree" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;hyield_tree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.export.print_rich" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;print_rich
     </span>
   </a>
   
@@ -6446,6 +6464,220 @@ must be a float/int attribute</p>
 <div class="doc doc-object doc-function">
 
 
+<h3 id="bigtree.tree.export.print_rich" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">print_rich</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">print_rich</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">pre_str</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">fill_str</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">node_str</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">_node</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">console</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="o">*</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">node_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">node_format_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">edge_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">icon_prefix_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">icon_suffix_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="o">**</span><span class="n">kwargs</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Add rich formatting and print tree to console</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>pre_str</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>edge of tree</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>fill_str</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>the empty spaces</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>node_str</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node details</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>_node</code>
+            </td>
+            <td>
+                  <code><span title="bigtree.tree.export.stdout.T">T</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node to print</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>console</code>
+            </td>
+            <td>
+                  <code><span title="rich.Console">Console</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>rich console if exist, otherwise a console will be created</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>node_format</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node format, sets the node format of every node, e.g., bold magenta</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>node_format_attr</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | <span title="typing.Callable">Callable</span>[[<span title="bigtree.tree.export.stdout.T">T</span>], <span title="str">str</span>] | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If string type, it refers to <code>Node</code> attribute for node format. If callable type, it
+takes in the node itself and returns the format. This sets the format of custom nodes, and overrides default
+<code>node_format</code></p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>edge_format</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>edge format, sets the edge format, e.g., bold magenta</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>icon_prefix_attr</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | <span title="typing.Callable">Callable</span>[[<span title="bigtree.tree.export.stdout.T">T</span>], <span title="str">str</span>] | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node icon infront of node name. Accepts emoji code (e.g., <code>:thumbs_up:</code>), unicode characters
+(e.g., <code>😀</code>), or anything rich supports. If string type, it refers to <code>Node</code> attribute for icon.
+If callable type, it takes in the node itself and returns the icon</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>icon_suffix_attr</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | <span title="typing.Callable">Callable</span>[[<span title="bigtree.tree.export.stdout.T">T</span>], <span title="str">str</span>] | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node icon behind node name. Accepts emoji code (e.g., <code>:thumbs_up:</code>), unicode characters
+(e.g., <code>😀</code>), or anything rich supports. If string type, it refers to <code>Node</code> attribute for icon.
+If callable type, it takes in the node itself and returns the icon</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h3 id="bigtree.tree.export.print_tree" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">print_tree</span>
 
@@ -6479,6 +6711,7 @@ must be a float/int attribute</p>
 <li>Able to omit showing of attributes if it is null, using <code>attr_omit_null</code></li>
 <li>Able to customise open and close brackets if attributes are shown, using <code>attr_bracket</code></li>
 <li>Able to customise style, to choose from str, list[str], or inherit from constants.BasePrintStyle, using <code>style</code></li>
+<li>Able to support rich format, using <code>rich=True</code></li>
 </ul>
 <p>For style,</p>
 <ul>
@@ -6487,6 +6720,7 @@ must be a float/int attribute</p>
 <li>(constants.BasePrintStyle): <code>ANSIPrintStyle</code>, <code>ASCIIPrintStyle</code>, <code>ConstPrintStyle</code>, <code>ConstBoldPrintStyle</code>,
     <code>RoundedPrintStyle</code>, <code>DoublePrintStyle</code> style or inherit from <code>constants.BasePrintStyle</code></li>
 </ul>
+<p>For rich format, set <code>rich=True</code> and refer to <code>print_rich</code> for the list of arguments.</p>
 
 
 <p><span class="doc-section-title">Examples:</span></p>
@@ -6609,6 +6843,16 @@ must be a float/int attribute</p>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">│   ├── d</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">│   └── e</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">└── c</span>
+</span></code></pre></div>
+    <p><strong>Printing rich format</strong></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rich.console</span> <span class="kn">import</span> <span class="n">Console</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color_system</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># optional, for doctest for docstring</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">rich</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">node_format</span><span class="o">=</span><span class="s2">&quot;bold magenta&quot;</span><span class="p">,</span> <span class="n">edge_format</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">console</span><span class="o">=</span><span class="n">console</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">a</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">├── b</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">│   ├── d</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">│   └── e</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">└── c</span>
 </span></code></pre></div>
 
 

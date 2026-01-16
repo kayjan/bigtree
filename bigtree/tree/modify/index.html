@@ -3174,14 +3174,14 @@
 
 <h1 id="modify">📝 Modify</h1>
 <h2 id="merging-trees-modification">Merging trees modification</h2>
-<p>There are two types of usage available</p>
+<p>There are two types of merging available</p>
 <ol>
 <li>Merge all nodes of multiple trees together<ul>
 <li>The root node name of the trees can be different, resulting tree will take the root name of the first tree</li>
-<li>Attributes are also merged, if there are clashes in attributes, it will take the attribute of the later tree</li>
+<li>Attributes are also merged, if there are clashes in attributes, it will take the attribute of the latter tree</li>
 </ul>
 </li>
-<li>Create a tree with only branches provided (<code>`exact=True</code>)<ul>
+<li>Create a tree with only branches provided (<code>exact=True</code>)<ul>
 <li>The root node name of the tree must be the same</li>
 <li>Attributes, if any, exist only for the branches provided. Intermediate node(s) will be created, but without attributes</li>
 </ul>
