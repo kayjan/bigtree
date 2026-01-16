@@ -11,4 +11,5 @@ pandas
 Pillow
 pydot
 requests
+rich
 termynal==0.11.1

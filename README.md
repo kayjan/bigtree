@@ -151,7 +151,8 @@ Examples of extra packages include:
 - `matplotlib`: for plotting trees
 - `pandas`: for pandas methods
 - `polars`: for polars methods
-- `query` for tree query methods
+- `query`: for tree query methods
+- `rich`: for printing tree in rich format
 - `vis`: for pyvis visualisation
 
 For `image` extra dependency, you may need to install more plugins.

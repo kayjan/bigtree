@@ -165,7 +165,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -177,7 +177,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_multiple.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -189,7 +189,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_from_child.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -207,7 +207,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_bg_colour.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -222,7 +222,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_fill_colour.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -238,7 +238,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/dag_fill_colour.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -253,7 +253,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_edge_colour.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -269,7 +269,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_edge_colour2.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -281,7 +281,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_node_shape.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -296,7 +296,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_node_attr.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -312,7 +312,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_node_attr2.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -327,7 +327,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_edge_attr.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -343,7 +343,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_edge_attr2.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -366,7 +366,7 @@ class TestDAGToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_dag_to_dot_attr_override.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -392,7 +392,7 @@ class TestDAGToDot:
             graph.write_png(
                 f"{Constants.LOCAL_FILE}/test_dag_to_dot_attr_override2.png"
             )
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"

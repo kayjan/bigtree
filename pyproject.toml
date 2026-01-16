@@ -55,6 +55,7 @@ query = ["lark"]
 vis = [
   "pyvis"
 ]
+rich = ["rich"]
 
 [tool.hatch.version]
 path = "bigtree/__init__.py"
@@ -76,6 +77,7 @@ dependencies = [
   "pytest-cov",
   "pytest-benchmark[histogram]",
   "pyvis",
+  "rich",
   "ruff",
 ]
 

@@ -35,7 +35,7 @@ class TestTreeToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -69,7 +69,7 @@ class TestTreeToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot_multiple.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -102,7 +102,7 @@ class TestTreeToDot:
             graph.write_png(
                 f"{Constants.LOCAL_FILE}/test_tree_to_dot_duplicate_names.png"
             )
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -141,7 +141,7 @@ class TestTreeToDot:
             graph.write_png(
                 f"{Constants.LOCAL_FILE}/test_tree_to_dot_duplicate_names.png"
             )
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -172,7 +172,7 @@ class TestTreeToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot_bg_colour.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -206,7 +206,7 @@ class TestTreeToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot_fill_colour.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -241,7 +241,7 @@ class TestTreeToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot_fill_colour2.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -254,25 +254,25 @@ class TestTreeToDot:
             "rankdir=TB;\n"
             "a0 [label=a];\n"
             "b0 [label=b];\n"
-            "a0 -> b0  [color=red];\n"
+            "a0 -> b0 [color=red];\n"
             "d0 [label=d];\n"
-            "b0 -> d0  [color=red];\n"
+            "b0 -> d0 [color=red];\n"
             "e0 [label=e];\n"
-            "b0 -> e0  [color=red];\n"
+            "b0 -> e0 [color=red];\n"
             "g0 [label=g];\n"
-            "e0 -> g0  [color=red];\n"
+            "e0 -> g0 [color=red];\n"
             "h0 [label=h];\n"
-            "e0 -> h0  [color=red];\n"
+            "e0 -> h0 [color=red];\n"
             "c0 [label=c];\n"
-            "a0 -> c0  [color=red];\n"
+            "a0 -> c0 [color=red];\n"
             "f0 [label=f];\n"
-            "c0 -> f0  [color=red];\n"
+            "c0 -> f0 [color=red];\n"
             "}\n"
         )
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot_edge_colour.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -299,7 +299,7 @@ class TestTreeToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot_node_shape.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -332,7 +332,7 @@ class TestTreeToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot_node_attr.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -353,7 +353,7 @@ class TestTreeToDot:
             "d0 [label=d, style=filled, fillcolor=green];\n"
             "b0 -> d0;\n"
             "g0 [label=g, style=filled, fillcolor=red];\n"
-            "d0 -> g0;\n"
+            "e0 -> g0;\n"
             "e0 [label=e, style=filled, fillcolor=green];\n"
             "b0 -> e0;\n"
             "h0 [label=h, style=filled, fillcolor=red];\n"
@@ -367,7 +367,7 @@ class TestTreeToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot_node_attr2.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -396,7 +396,7 @@ class TestTreeToDot:
             "d0 [fillcolor=green, label=d, style=filled];\n"
             "b0 -> d0;\n"
             "g0 [fillcolor=red, label=g, style=filled];\n"
-            "d0 -> g0;\n"
+            "e0 -> g0;\n"
             "e0 [fillcolor=green, label=e, style=filled];\n"
             "b0 -> e0;\n"
             "h0 [fillcolor=red, label=h, style=filled];\n"
@@ -412,7 +412,7 @@ class TestTreeToDot:
             graph.write_png(
                 f"{Constants.LOCAL_FILE}/test_tree_to_dot_node_attr_callable.png"
             )
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -442,7 +442,7 @@ class TestTreeToDot:
             "d0 [label=d, style=filled, fillcolor=green];\n"
             "b0 -> d0;\n"
             "g0 [label=g, style=filled, fillcolor=red];\n"
-            "d0 -> g0;\n"
+            "e0 -> g0;\n"
             "e0 [label=e, style=filled, fillcolor=green];\n"
             "b0 -> e0;\n"
             "h0 [label=h, style=filled, fillcolor=red];\n"
@@ -458,7 +458,7 @@ class TestTreeToDot:
             graph.write_png(
                 f"{Constants.LOCAL_FILE}/test_tree_to_dot_node_attr_callable2.png"
             )
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -492,7 +492,7 @@ class TestTreeToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot_edge_attr.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -513,7 +513,7 @@ class TestTreeToDot:
             "d0 [label=d];\n"
             "b0 -> d0 [style=bold, label=1];\n"
             "g0 [label=g];\n"
-            "d0 -> g0 [style=bold, label=4];\n"
+            "e0 -> g0 [style=bold, label=4];\n"
             "e0 [label=e];\n"
             "b0 -> e0 [style=bold, label=2];\n"
             "h0 [label=h];\n"
@@ -527,7 +527,7 @@ class TestTreeToDot:
         actual = graph.to_string()
         if LOCAL:
             graph.write_png(f"{Constants.LOCAL_FILE}/test_tree_to_dot_edge_attr2.png")
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -561,7 +561,7 @@ class TestTreeToDot:
             "d0 [label=d];\n"
             "b0 -> d0  [label=1, style=bold];\n"
             "g0 [label=g];\n"
-            "d0 -> g0  [label=4, style=bold];\n"
+            "e0 -> g0  [label=4, style=bold];\n"
             "e0 [label=e];\n"
             "b0 -> e0  [label=2, style=bold];\n"
             "h0 [label=h];\n"
@@ -577,7 +577,7 @@ class TestTreeToDot:
             graph.write_png(
                 f"{Constants.LOCAL_FILE}/test_tree_to_dot_edge_attr_callable.png"
             )
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -611,7 +611,7 @@ class TestTreeToDot:
             "d0 [label=d];\n"
             "b0 -> d0 [style=bold, label=1];\n"
             "g0 [label=g];\n"
-            "d0 -> g0 [style=bold, label=4];\n"
+            "e0 -> g0 [style=bold, label=4];\n"
             "e0 [label=e];\n"
             "b0 -> e0 [style=bold, label=2];\n"
             "h0 [label=h];\n"
@@ -627,7 +627,7 @@ class TestTreeToDot:
             graph.write_png(
                 f"{Constants.LOCAL_FILE}/test_tree_to_dot_edge_attr_callable2.png"
             )
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -671,7 +671,7 @@ class TestTreeToDot:
             graph.write_png(
                 f"{Constants.LOCAL_FILE}/test_tree_to_dot_attr_override.png"
             )
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"
@@ -713,7 +713,7 @@ class TestTreeToDot:
             graph.write_png(
                 f"{Constants.LOCAL_FILE}/test_tree_to_dot_attr_override2.png"
             )
-        for expected_str in expected.split():
+        for expected_str in expected.splitlines():
             assert (
                 expected_str in actual
             ), f"Expected {expected_str} not in actual string"

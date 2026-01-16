@@ -1,9 +1,17 @@
 from __future__ import annotations
 
-from typing import Any, Collection, Iterable, TypeVar
+from typing import Any, Callable, Collection, Iterable, TypeVar
 
 from bigtree.node import node
 from bigtree.utils import common, constants
+
+try:
+    import rich
+except ImportError:  # pragma: no cover
+    from unittest.mock import MagicMock
+
+    rich = MagicMock()
+
 
 __all__ = [
     "print_tree",
@@ -16,6 +24,82 @@ __all__ = [
 ]
 
 T = TypeVar("T", bound=node.Node)
+
+
+def print_rich(
+    pre_str: str,
+    fill_str: str,
+    node_str: str,
+    _node: T,
+    console: rich.Console,
+    *,
+    node_format: str | None = None,
+    node_format_attr: str | Callable[[T], str] | None = None,
+    edge_format: str | None = None,
+    icon_prefix_attr: str | Callable[[T], str] | None = None,
+    icon_suffix_attr: str | Callable[[T], str] | None = None,
+    **kwargs: Any,
+) -> None:
+    """Add rich formatting and print tree to console
+
+    Args:
+        pre_str: edge of tree
+        fill_str: the empty spaces
+        node_str: node details
+        _node: node to print
+        console: rich console if exist, otherwise a console will be created
+        node_format: node format, sets the node format of every node, e.g., bold magenta
+        node_format_attr: If string type, it refers to ``Node`` attribute for node format. If callable type, it
+            takes in the node itself and returns the format. This sets the format of custom nodes, and overrides default
+            `node_format`
+        edge_format: edge format, sets the edge format, e.g., bold magenta
+        icon_prefix_attr: node icon infront of node name. Accepts emoji code (e.g., `:thumbs_up:`), unicode characters
+            (e.g., `\U0001f600`), or anything rich supports. If string type, it refers to ``Node`` attribute for icon.
+            If callable type, it takes in the node itself and returns the icon
+        icon_suffix_attr: node icon behind node name. Accepts emoji code (e.g., `:thumbs_up:`), unicode characters
+            (e.g., `\U0001f600`), or anything rich supports. If string type, it refers to ``Node`` attribute for icon.
+            If callable type, it takes in the node itself and returns the icon
+    """
+
+    def _get_attr(
+        _node: T,
+        attr_parameter: str | Callable[[T], str],
+        default_parameter: str,
+    ) -> str:
+        """Get custom attribute if available, otherwise return default parameter.
+
+        Args:
+            _node: node to get custom attribute, can be accessed as node attribute or a callable that takes in the node
+            attr_parameter: custom attribute parameter
+            default_parameter: default parameter if there is no attr_parameter
+
+        Returns:
+            Node attribute
+        """
+        _choice = default_parameter
+        if attr_parameter:
+            if isinstance(attr_parameter, str):
+                _choice = _node.get_attr(attr_parameter, default_parameter)
+            else:
+                _choice = attr_parameter(_node)
+        return _choice
+
+    # Add rich formatting
+    if icon_prefix_attr:
+        node_str_prefix = _get_attr(_node, icon_prefix_attr, "")
+        node_str = f"{node_str_prefix} {node_str}" if node_str_prefix else node_str
+    if icon_suffix_attr:
+        node_str_suffix = _get_attr(_node, icon_suffix_attr, "")
+        node_str = f"{node_str} {node_str_suffix}" if node_str_suffix else node_str
+    if node_format or node_format_attr:
+        _node_format = _get_attr(_node, node_format_attr, node_format)
+        node_str = (
+            f"[{_node_format}]{node_str}[/{_node_format}]" if _node_format else node_str
+        )
+    if edge_format:
+        pre_str = f"[{edge_format}]{pre_str}[/{edge_format}]"
+        fill_str = f"[{edge_format}]{fill_str}[/{edge_format}]"
+    console.print(f"{pre_str}{fill_str}{node_str}", **kwargs)
 
 
 def print_tree(
@@ -42,6 +126,7 @@ def print_tree(
     - Able to omit showing of attributes if it is null, using `attr_omit_null`
     - Able to customise open and close brackets if attributes are shown, using `attr_bracket`
     - Able to customise style, to choose from str, list[str], or inherit from constants.BasePrintStyle, using `style`
+    - Able to support rich format, using `rich=True`
 
     For style,
 
@@ -49,6 +134,8 @@ def print_tree(
     - (list[str]): Choose own style for stem, branch, and final stem icons, they must have the same number of characters
     - (constants.BasePrintStyle): `ANSIPrintStyle`, `ASCIIPrintStyle`, `ConstPrintStyle`, `ConstBoldPrintStyle`,
         `RoundedPrintStyle`, `DoublePrintStyle` style or inherit from `constants.BasePrintStyle`
+
+    For rich format, set `rich=True` and refer to ``print_rich`` for the list of arguments.
 
     Examples:
         **Printing tree**
@@ -179,6 +266,17 @@ def print_tree(
         └── c
         <BLANKLINE>
 
+        **Printing rich format**
+
+        >>> from rich.console import Console
+        >>> console = Console(record=True, color_system=None)  # optional, for doctest for docstring
+        >>> tree.show(rich=True, node_format="bold magenta", edge_format="blue", console=console)
+        a
+        ├── b
+        │   ├── d
+        │   └── e
+        └── c
+
     Args:
         tree: tree to print
         alias: node attribute to use for node name in tree as alias to `node_name`
@@ -193,6 +291,13 @@ def print_tree(
         attr_bracket: open and close bracket for `all_attrs` or `attr_list`
         style: style of print
     """
+    # Forward-compatible, so signature does not change
+    rich_display = kwargs.pop("rich", False)
+    if rich_display:
+        from rich.console import Console
+
+        kwargs["console"] = kwargs.get("console") or Console(force_terminal=True)
+
     for pre_str, fill_str, _node in yield_tree(
         tree=tree,
         node_name_or_path=node_name_or_path,
@@ -232,7 +337,10 @@ def print_tree(
                 attr_str = f" {attr_bracket_open}{attr_str}{attr_bracket_close}"
         name_str = _node.get_attr(alias) or _node.node_name
         node_str = f"{name_str}{attr_str}"
-        print(f"{pre_str}{fill_str}{node_str}", **kwargs)
+        if rich_display:
+            print_rich(pre_str, fill_str, node_str, _node, **kwargs)
+        else:
+            print(f"{pre_str}{fill_str}{node_str}", **kwargs)
 
 
 def yield_tree(
