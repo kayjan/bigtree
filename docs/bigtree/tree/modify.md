@@ -6,12 +6,12 @@ title: Tree Modify
 
 ## Merging trees modification
 
-There are two types of usage available
+There are two types of merging available
 
 1. Merge all nodes of multiple trees together
    - The root node name of the trees can be different, resulting tree will take the root name of the first tree
-   - Attributes are also merged, if there are clashes in attributes, it will take the attribute of the later tree
-2. Create a tree with only branches provided (``exact=True`)
+   - Attributes are also merged, if there are clashes in attributes, it will take the attribute of the latter tree
+2. Create a tree with only branches provided (`exact=True`)
    - The root node name of the tree must be the same
    - Attributes, if any, exist only for the branches provided. Intermediate node(s) will be created, but without attributes
 

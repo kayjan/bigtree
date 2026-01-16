@@ -548,6 +548,96 @@ class TestPrintTree:
         export.print_tree(tree_node, file=output)
         assert output.getvalue() == tree_node_no_attr_str
 
+    # rich format
+    @staticmethod
+    def test_print_tree_rich(tree_node):
+        assert_print_statement(
+            export.print_tree,
+            tree_node_no_attr_str,
+            tree=tree_node,
+            rich=True,
+        )
+
+    @staticmethod
+    def test_print_tree_rich_node_format(tree_node, rich_console):
+        assert_print_statement(
+            export.print_tree,
+            tree_node_no_attr_str,
+            tree=tree_node,
+            rich=True,
+            node_format="magenta",
+            console=rich_console,
+        )
+
+    @staticmethod
+    def test_print_tree_rich_node_format_attr(tree_node, rich_console):
+        tree_node.set_attrs({"style": "magenta"})
+        assert_print_statement(
+            export.print_tree,
+            tree_node_no_attr_str,
+            tree=tree_node,
+            rich=True,
+            node_format_attr="style",
+            console=rich_console,
+        )
+
+    @staticmethod
+    def test_print_tree_rich_node_format_attr_callable(
+        tree_node_style_callable, rich_console
+    ):
+        def get_node_format(node):
+            if node.get_attr("style") and node.style == 1:
+                return "bold magenta"
+            elif node.get_attr("style") and node.style == "two":
+                return "blue"
+            elif node.node_name in ["d", "e", "f"]:
+                return "green"
+            return "red"
+
+        assert_print_statement(
+            export.print_tree,
+            tree_node_no_attr_str,
+            tree=tree_node_style_callable,
+            rich=True,
+            node_format_attr=get_node_format,
+            console=rich_console,
+        )
+
+    @staticmethod
+    def test_print_tree_rich_edge_format(tree_node, rich_console):
+        assert_print_statement(
+            export.print_tree,
+            tree_node_no_attr_str,
+            tree=tree_node,
+            rich=True,
+            edge_format="magenta",
+            console=rich_console,
+        )
+
+    @staticmethod
+    def test_print_tree_rich_icon_attr(tree_node, rich_console):
+        tree_node_icon_str = (
+            "👍 a\n"
+            "├── b 😄\n"
+            "│   ├── d\n"
+            "│   └── e\n"
+            "│       ├── g\n"
+            "│       └── h\n"
+            "└── c\n"
+            "    └── f\n"
+        )
+        tree_node.set_attrs({"icon": ":thumbs_up:"})
+        tree_node["b"].set_attrs({"icon_suffix": ":smile:"})
+        assert_print_statement(
+            export.print_tree,
+            tree_node_icon_str,
+            tree=tree_node,
+            rich=True,
+            icon_prefix_attr="icon",
+            icon_suffix_attr="icon_suffix",
+            console=rich_console,
+        )
+
 
 class TestHPrintTree:
     @staticmethod

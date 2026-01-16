@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from typing import TypeVar
+from typing import Callable, TypeVar
 
 from bigtree.node import node
 from bigtree.utils.constants import BaseHPrintStyle, BaseVPrintStyle, BorderStyle
 
 __all__ = [
+    "get_attr",
     "calculate_stem_pos",
     "format_node",
     "horizontal_join",
@@ -15,6 +16,30 @@ __all__ = [
 T = TypeVar("T", bound=node.Node)
 
 default_vstyle = BaseVPrintStyle.from_style("const")
+
+
+def get_attr(
+    _node: T,
+    attr_parameter: str | Callable[[T], str],
+    default_parameter: str,
+) -> str:
+    """Get custom attribute if available, otherwise return default parameter.
+
+    Args:
+        _node: node to get custom attribute, can be accessed as node attribute or a callable that takes in the node
+        attr_parameter: custom attribute parameter
+        default_parameter: default parameter if there is no attr_parameter
+
+    Returns:
+        Node attribute
+    """
+    _choice = default_parameter
+    if attr_parameter:
+        if isinstance(attr_parameter, str):
+            _choice = _node.get_attr(attr_parameter, default_parameter)
+        else:
+            _choice = attr_parameter(_node)
+    return _choice
 
 
 def calculate_stem_pos(length: int) -> int:
