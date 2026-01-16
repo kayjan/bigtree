@@ -43,6 +43,7 @@ all = [
   "pydot",
   "Pillow",
   "pyvis",
+  "rich",
 ]
 image = [
   "pydot",
