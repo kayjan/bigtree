@@ -5,6 +5,7 @@ import re
 from typing import Any, Callable, TypeVar
 
 from bigtree.node import node
+from bigtree.tree.export._stdout import get_attr
 from bigtree.tree.export.stdout import yield_tree
 from bigtree.utils import assertions, constants, exceptions
 
@@ -774,29 +775,6 @@ def tree_to_mermaid(
                 return "0"
             return f"{self.parent.mermaid_name}-{self.parent.children.index(self)}"
 
-    def _get_attr(
-        _node: T,
-        attr_parameter: str | Callable[[T], str],
-        default_parameter: str,
-    ) -> str:
-        """Get custom attribute if available, otherwise return default parameter.
-
-        Args:
-            _node: node to get custom attribute, can be accessed as node attribute or a callable that takes in the node
-            attr_parameter: custom attribute parameter
-            default_parameter: default parameter if there is no attr_parameter
-
-        Returns:
-            Node attribute
-        """
-        _choice = default_parameter
-        if attr_parameter:
-            if isinstance(attr_parameter, str):
-                _choice = _node.get_attr(attr_parameter, default_parameter)
-            else:
-                _choice = attr_parameter(_node)
-        return _choice
-
     tree_mermaid: T = clone_tree(tree, MermaidNode)  # type: ignore
     for _, _, _node in yield_tree(tree_mermaid, **kwargs):
         if not _node.is_root:
@@ -806,11 +784,11 @@ def tree_to_mermaid(
             if _node.parent.is_root:
                 # Get custom style for root (node_shape_attr, node_attr)
                 _parent_node_name = node_shapes[
-                    _get_attr(_node.parent, node_shape_attr, node_shape)
+                    get_attr(_node.parent, node_shape_attr, node_shape)
                 ].format(label=_node.parent.node_name)
 
-                if _get_attr(_node.parent, node_attr, "") and len(styles) < 2:
-                    _from_style = _get_attr(_node.parent, node_attr, "")
+                if get_attr(_node.parent, node_attr, "") and len(styles) < 2:
+                    _from_style = get_attr(_node.parent, node_attr, "")
                     _from_style_class = (
                         f"""class{_node.parent.get_attr("mermaid_name")}"""
                     )
@@ -821,11 +799,11 @@ def tree_to_mermaid(
                     )
                     _from_style = f":::{_from_style_class}"
             _node_name = node_shapes[
-                _get_attr(_node, node_shape_attr, node_shape)
+                get_attr(_node, node_shape_attr, node_shape)
             ].format(label=_node.node_name)
 
             # Get custom style (edge_arrow_attr, edge_label)
-            _arrow = edge_arrows[_get_attr(_node, edge_arrow_attr, edge_arrow)]
+            _arrow = edge_arrows[get_attr(_node, edge_arrow_attr, edge_arrow)]
             _arrow_label = (
                 f"|{_node.get_attr(edge_label)}|"
                 if edge_label and _node.get_attr(edge_label)
@@ -833,7 +811,7 @@ def tree_to_mermaid(
             )
 
             # Get custom style (node_attr)
-            _to_style = _get_attr(_node, node_attr, "")
+            _to_style = get_attr(_node, node_attr, "")
             if _to_style:
                 _to_style_class = f"""class{_node.get_attr("mermaid_name")}"""
                 styles.append(

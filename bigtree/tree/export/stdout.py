@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, Callable, Collection, Iterable, TypeVar
 
 from bigtree.node import node
+from bigtree.tree.export._stdout import get_attr
 from bigtree.utils import common, constants
 
 try:
@@ -61,39 +62,15 @@ def print_rich(
             (e.g., `\U0001f600`), or anything rich supports. If string type, it refers to ``Node`` attribute for icon.
             If callable type, it takes in the node itself and returns the icon
     """
-
-    def _get_attr(
-        _node: T,
-        attr_parameter: str | Callable[[T], str],
-        default_parameter: str,
-    ) -> str:
-        """Get custom attribute if available, otherwise return default parameter.
-
-        Args:
-            _node: node to get custom attribute, can be accessed as node attribute or a callable that takes in the node
-            attr_parameter: custom attribute parameter
-            default_parameter: default parameter if there is no attr_parameter
-
-        Returns:
-            Node attribute
-        """
-        _choice = default_parameter
-        if attr_parameter:
-            if isinstance(attr_parameter, str):
-                _choice = _node.get_attr(attr_parameter, default_parameter)
-            else:
-                _choice = attr_parameter(_node)
-        return _choice
-
     # Add rich formatting
     if icon_prefix_attr:
-        node_str_prefix = _get_attr(_node, icon_prefix_attr, "")
+        node_str_prefix = get_attr(_node, icon_prefix_attr, "")
         node_str = f"{node_str_prefix} {node_str}" if node_str_prefix else node_str
     if icon_suffix_attr:
-        node_str_suffix = _get_attr(_node, icon_suffix_attr, "")
+        node_str_suffix = get_attr(_node, icon_suffix_attr, "")
         node_str = f"{node_str} {node_str_suffix}" if node_str_suffix else node_str
     if node_format or node_format_attr:
-        _node_format = _get_attr(_node, node_format_attr, node_format)
+        _node_format = get_attr(_node, node_format_attr, node_format)
         node_str = (
             f"[{_node_format}]{node_str}[/{_node_format}]" if _node_format else node_str
         )
