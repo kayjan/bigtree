@@ -136,7 +136,7 @@ def register_tree_plugins() -> None:
             "levelordergroup_iter": iterators.levelordergroup_iter,
             "zigzag_iter": iterators.zigzag_iter,
             "zigzaggroup_iter": iterators.zigzaggroup_iter,
-            # Modify method
+            # Modify methods
             "shift_nodes": modify.shift_nodes,
             "copy_nodes": modify.copy_nodes,
             "shift_and_replace_nodes": modify.shift_and_replace_nodes,
