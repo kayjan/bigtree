@@ -72,9 +72,48 @@ methods call these 2 methods directly.
 
 ## Tree Modification Illustration
 
+### Shift, Copy, Delete
+
 ![Shift and Copy Example](https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_shift_and_copy.png "Shift and Copy Example")
 
-### Sample Tree Modification (Shift, Copy, Delete)
+<details>
+<summary>Click to expand code</summary>
+
+```python hl_lines="18 27"
+from bigtree import Node
+from bigtree.tree import modify
+
+tree = Node(
+    "a",
+    colour="yellow",
+    children=[
+        Node("b", colour="yellow"),
+        Node("c", colour="red"),
+        Node("d", colour="blue"),
+        Node("e"),
+    ],
+)
+tree.show(rich=True, node_format_attr="colour")
+
+# Shift
+tree_shift = tree.copy()
+modify.shift_nodes(
+    tree_shift,
+    from_paths=["a/c", "a/d", "a/e"],
+    to_paths=["a/b/c", "a/f/d", None],
+)
+tree_shift.show(rich=True, node_format_attr="colour")
+
+# Copy
+tree_copy = tree.copy()
+modify.copy_nodes(
+    tree_copy,
+    from_paths=["a/c"],
+    to_paths=["a/b/c"],
+)
+tree_copy.show(rich=True, node_format_attr="colour")
+```
+</details>
 
 | Setting   | Sample path in `from_paths` | Sample path in `to_paths` | Description                                         |
 |-----------|-----------------------------|---------------------------|-----------------------------------------------------|
@@ -86,9 +125,68 @@ methods call these 2 methods directly.
 
 ---
 
+### Advanced
+
 ![Advanced Shift Example](https://github.com/kayjan/bigtree/raw/master/assets/docs/modify_advanced.png "Advanced Shift Example")
 
-### Sample Tree Modification (Advanced)
+<details>
+<summary>Click to expand code</summary>
+
+```python hl_lines="23 32 41 50"
+from bigtree import Tree
+from bigtree.tree import modify
+
+tree = Tree.from_dict(
+    {
+        "a": dict(colour="yellow"),
+        "a/b": dict(colour="yellow"),
+        "a/b/c": dict(colour="red"),
+        "a/b/c/e": dict(colour="red"),
+        "a/d": dict(colour="blue"),
+        "a/d/c": dict(colour="blue"),
+        "a/d/c/f": dict(colour="blue"),
+        "a/d/g": dict(colour="blue"),
+    }
+)
+tree.show(rich=True, node_format_attr="colour")
+
+# Overriding
+tree_overriding = tree.copy()
+tree_overriding.shift_nodes(
+    from_paths=["a/b/c"],
+    to_paths=["a/d/c"],
+    overriding=True,
+)
+tree_overriding.show(rich=True, node_format_attr="colour")
+
+# Merge children
+tree_merge_children = tree.copy()
+tree_merge_children.shift_nodes(
+    from_paths=["a/b/c"],
+    to_paths=["a/d/c"],
+    merge_children=True,
+)
+tree_merge_children.show(rich=True, node_format_attr="colour")
+
+# Merge leaves
+tree_merge_leaves = tree.copy()
+tree_merge_leaves.shift_nodes(
+    from_paths=["a/b/c"],
+    to_paths=["a/d/c"],
+    merge_leaves=True,
+)
+tree_merge_leaves.show(rich=True, node_format_attr="colour")
+
+# Delete children
+tree_delete_children = tree.copy()
+tree_delete_children.shift_nodes(
+    from_paths=["a/b"],
+    to_paths=["a/d/b"],
+    delete_children=True,
+)
+tree_delete_children.show(rich=True, node_format_attr="colour")
+```
+</details>
 
 | Setting                                     | Sample path in `from_paths` | Sample path in `to_paths` | Description                                                                                                                                                                                                |
 |---------------------------------------------|-----------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
