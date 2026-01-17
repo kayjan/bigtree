@@ -208,3 +208,25 @@ def optional_dependencies_vis(
         return func(*args, **kwargs)
 
     return wrapper
+
+
+def optional_dependencies_rich(
+    func: Callable[..., T],
+) -> Callable[..., T]:  # pragma: no cover
+    """
+    This is a decorator which can be used to import optional rich dependency. It will raise an ImportError if the
+    module is not found.
+    """
+
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> T:
+        try:
+            import rich  # noqa: F401
+        except ImportError:
+            raise ImportError(
+                "rich not available. Please perform a\n\n"
+                "pip install 'bigtree[rich]'\n\nto install required dependencies"
+            ) from None
+        return func(*args, **kwargs)
+
+    return wrapper

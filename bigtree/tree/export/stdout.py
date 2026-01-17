@@ -4,7 +4,7 @@ from typing import Any, Callable, Collection, Iterable, TypeVar
 
 from bigtree.node import node
 from bigtree.tree.export._stdout import get_attr
-from bigtree.utils import common, constants
+from bigtree.utils import common, constants, exceptions
 
 try:
     import rich
@@ -28,6 +28,7 @@ __all__ = [
 T = TypeVar("T", bound=node.Node)
 
 
+@exceptions.optional_dependencies_rich
 def print_rich(
     pre_str: str,
     fill_str: str,
@@ -272,6 +273,7 @@ def print_tree(
     # Forward-compatible, so signature does not change
     rich_display = kwargs.pop("rich", False)
     if rich_display:
+        exceptions.optional_dependencies_rich(lambda: None)()
         from rich.console import Console
 
         kwargs["console"] = kwargs.get("console") or Console(force_terminal=True)
