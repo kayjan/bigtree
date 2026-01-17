@@ -270,7 +270,7 @@ def print_tree(
         attr_bracket: open and close bracket for `all_attrs` or `attr_list`
         style: style of print
     """
-    # Forward-compatible, so signature does not change
+    # Backwards-compatible, so signature does not change
     rich_display = kwargs.pop("rich", False)
     if rich_display:
         exceptions.optional_dependencies_rich(lambda: None)()
