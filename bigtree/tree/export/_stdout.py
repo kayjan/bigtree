@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-from typing import Any, Callable, TypeVar
+from typing import TypeVar
 
 from bigtree.node import node
 from bigtree.utils.constants import BaseHPrintStyle, BaseVPrintStyle, BorderStyle
 
 __all__ = [
-    "get_attr",
     "calculate_stem_pos",
     "format_node",
     "horizontal_join",
@@ -16,43 +15,6 @@ __all__ = [
 T = TypeVar("T", bound=node.Node)
 
 default_vstyle = BaseVPrintStyle.from_style("const")
-
-
-def get_attr(
-    _node: T,
-    attr_parameter: str | Callable[[T], str],
-    default_parameter: Any = None,
-) -> Any:
-    """Get custom attribute if available, otherwise return default parameter.
-
-    - Support nested attribute (e.g., parent.parent.attr_name, data.attr_name)
-    - Support child attribute (e.g., children[0].attr_name)
-
-    Args:
-        _node: node to get custom attribute, can be accessed as node attribute or a callable that takes in the node
-        attr_parameter: custom attribute parameter
-        default_parameter: default parameter if there is no attr_parameter
-
-    Returns:
-        Node attribute
-    """
-    _choice = default_parameter
-    if attr_parameter:
-        if isinstance(attr_parameter, str):
-            # Enable nested parameter (e.g., param1.param2)
-            attr_parameters = attr_parameter.split(".")
-            _choice = _node
-            for _attr_parameter in attr_parameters:
-                if _attr_parameter.startswith("children[") and _attr_parameter.endswith(
-                    "]"
-                ):
-                    child_idx = int(_attr_parameter.split("children[")[1][:-1])
-                    _choice = _choice.children[child_idx]
-                else:
-                    _choice = getattr(_choice, _attr_parameter, default_parameter)
-        else:
-            _choice = attr_parameter(_node)
-    return _choice
 
 
 def calculate_stem_pos(length: int) -> int:

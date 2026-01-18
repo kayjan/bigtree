@@ -2,7 +2,6 @@ import io
 
 import pytest
 
-from bigtree.node import node
 from bigtree.tree import export
 from tests.conftest import assert_print_statement
 from tests.test_constants import Constants
@@ -72,38 +71,6 @@ tree_node_branch_vstr = (
     "       │ g │  │ h │\n"
     "       └───┘  └───┘\n"
 )
-
-
-class TestGetAttr:
-    @staticmethod
-    def test_get_attr():
-        _node = node.Node("a", data="test")
-        assert export._stdout.get_attr(_node, "data") == "test"
-
-    @staticmethod
-    def test_get_attr_children():
-        _node = node.Node("a", children=[node.Node("b", data="test")])
-        assert export._stdout.get_attr(_node, "children[0].data") == "test"
-
-    @staticmethod
-    def test_get_attr_nested_parent():
-        _node = node.Node("a", data="test")
-        _child = node.Node("b", parent=_node)
-        assert export._stdout.get_attr(_child, "parent.data") == "test"
-
-    @staticmethod
-    def test_get_attr_nested_attr():
-        _node = node.Node("a", data=node.Node("b", data2="test"))
-        assert export._stdout.get_attr(_node, "data.data2") == "test"
-
-    @staticmethod
-    def test_get_attr_nested_class():
-        class A:
-            def __init__(self, _data2: str):
-                self.data2 = _data2
-
-        _node = node.Node("a", data=A("test"))
-        assert export._stdout.get_attr(_node, "data.data2") == "test"
 
 
 class TestPrintTree:
@@ -618,12 +585,12 @@ class TestPrintTree:
     def test_print_tree_rich_node_format_attr_callable(
         tree_node_style_callable, rich_console
     ):
-        def get_node_format(node):
-            if node.get_attr("style") and node.style == 1:
+        def get_node_format(_node):
+            if _node.get_attr("style") and _node.style == 1:
                 return "bold magenta"
-            elif node.get_attr("style") and node.style == "two":
+            elif _node.get_attr("style") and _node.style == "two":
                 return "blue"
-            elif node.node_name in ["d", "e", "f"]:
+            elif _node.node_name in ["d", "e", "f"]:
                 return "green"
             return "red"
 
