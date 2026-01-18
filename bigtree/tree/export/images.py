@@ -5,9 +5,8 @@ import re
 from typing import Any, Callable, TypeVar
 
 from bigtree.node import node
-from bigtree.tree.export._stdout import get_attr
 from bigtree.tree.export.stdout import yield_tree
-from bigtree.utils import assertions, constants, exceptions
+from bigtree.utils import assertions, common, constants, exceptions
 
 try:
     import pydot
@@ -784,11 +783,11 @@ def tree_to_mermaid(
             if _node.parent.is_root:
                 # Get custom style for root (node_shape_attr, node_attr)
                 _parent_node_name = node_shapes[
-                    get_attr(_node.parent, node_shape_attr, node_shape)
+                    common.get_attr(_node.parent, node_shape_attr, node_shape)
                 ].format(label=_node.parent.node_name)
 
-                if get_attr(_node.parent, node_attr, "") and len(styles) < 2:
-                    _from_style = get_attr(_node.parent, node_attr, "")
+                if common.get_attr(_node.parent, node_attr, "") and len(styles) < 2:
+                    _from_style = common.get_attr(_node.parent, node_attr, "")
                     _from_style_class = (
                         f"""class{_node.parent.get_attr("mermaid_name")}"""
                     )
@@ -799,11 +798,11 @@ def tree_to_mermaid(
                     )
                     _from_style = f":::{_from_style_class}"
             _node_name = node_shapes[
-                get_attr(_node, node_shape_attr, node_shape)
+                common.get_attr(_node, node_shape_attr, node_shape)
             ].format(label=_node.node_name)
 
             # Get custom style (edge_arrow_attr, edge_label)
-            _arrow = edge_arrows[get_attr(_node, edge_arrow_attr, edge_arrow)]
+            _arrow = edge_arrows[common.get_attr(_node, edge_arrow_attr, edge_arrow)]
             _arrow_label = (
                 f"|{_node.get_attr(edge_label)}|"
                 if edge_label and _node.get_attr(edge_label)
@@ -811,7 +810,7 @@ def tree_to_mermaid(
             )
 
             # Get custom style (node_attr)
-            _to_style = get_attr(_node, node_attr, "")
+            _to_style = common.get_attr(_node, node_attr, "")
             if _to_style:
                 _to_style_class = f"""class{_node.get_attr("mermaid_name")}"""
                 styles.append(

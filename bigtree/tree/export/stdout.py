@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Any, Callable, Collection, Iterable, TypeVar
 
 from bigtree.node import node
-from bigtree.tree.export._stdout import get_attr
 from bigtree.utils import common, constants, exceptions
 
 try:
@@ -65,13 +64,13 @@ def print_rich(
     """
     # Add rich formatting
     if icon_prefix_attr:
-        node_str_prefix = get_attr(_node, icon_prefix_attr, "")
+        node_str_prefix = common.get_attr(_node, icon_prefix_attr, "")
         node_str = f"{node_str_prefix} {node_str}" if node_str_prefix else node_str
     if icon_suffix_attr:
-        node_str_suffix = get_attr(_node, icon_suffix_attr, "")
+        node_str_suffix = common.get_attr(_node, icon_suffix_attr, "")
         node_str = f"{node_str} {node_str_suffix}" if node_str_suffix else node_str
     if node_format or node_format_attr:
-        _node_format = get_attr(_node, node_format_attr, node_format)
+        _node_format = common.get_attr(_node, node_format_attr, node_format)
         node_str = (
             f"[{_node_format}]{node_str}[/{_node_format}]" if _node_format else node_str
         )
