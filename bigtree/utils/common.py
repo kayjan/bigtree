@@ -34,26 +34,26 @@ def get_attr(
     Returns:
         Node attribute
     """
-    _choice = default
+    _attr_value = default
     if attr_name:
         if isinstance(attr_name, str):
             # Enable nested parameter (e.g., param1.param2)
             attr_parameters = attr_name.split(".")
-            _choice = _node
+            _attr_value = _node
             for _attr_parameter in attr_parameters:
                 if _attr_parameter.startswith("children[") and _attr_parameter.endswith(
                     "]"
                 ):
                     try:
                         child_idx = int(_attr_parameter.split("children[")[1][:-1])
-                        _choice = _choice.children[child_idx]
+                        _attr_value = _attr_value.children[child_idx]
                     except (ValueError, IndexError):
                         return default
                 else:
-                    _choice = getattr(_choice, _attr_parameter, default)
+                    _attr_value = getattr(_attr_value, _attr_parameter, default)
         else:
-            _choice = attr_name(_node)
-    return _choice
+            _attr_value = attr_name(_node)
+    return _attr_value
 
 
 def isnull(value: Any) -> bool:
