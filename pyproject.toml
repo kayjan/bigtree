@@ -53,10 +53,8 @@ matplotlib = ["matplotlib"]
 pandas = ["pandas"]
 polars = ["polars"]
 query = ["lark"]
-vis = [
-  "pyvis"
-]
 rich = ["rich"]
+vis = ["pyvis"]
 
 [tool.hatch.version]
 path = "bigtree/__init__.py"

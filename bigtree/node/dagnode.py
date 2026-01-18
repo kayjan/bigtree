@@ -484,10 +484,7 @@ class DAGNode:
         Returns:
             Attribute value of node
         """
-        try:
-            return getattr(self, attr_name)
-        except AttributeError:
-            return default_value
+        return getattr(self, attr_name, default_value)
 
     def set_attrs(self, attrs: Mapping[str, Any]) -> None:
         """Set node attributes.

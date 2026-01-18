@@ -489,53 +489,43 @@ Other customisations for printing are also available, such as:
     # │   └── e [age=35, gender=M]
     # └── c [age=60, gender=M]
     ```
-=== "Style - ansi"
-    ```python
+=== "Built-in style"
+    ```python hl_lines="1 8 15 22 29 36"
     tree.show(style="ansi")
     # a
     # |-- b
     # |   |-- d
     # |   `-- e
     # `-- c
-    ```
-=== "Style - ascii"
-    ```python
+
     tree.show(style="ascii")
     # a
     # |-- b
     # |   |-- d
     # |   +-- e
     # +-- c
-    ```
-=== "Style - const"
-    ```python
+
     tree.show(style="const")
     # a
     # ├── b
     # │   ├── d
     # │   └── e
     # └── c
-    ```
-=== "Style - const_bold"
-    ```python
+
     tree.show(style="const_bold")
     # a
     # ┣━━ b
     # ┃   ┣━━ d
     # ┃   ┗━━ e
     # ┗━━ c
-    ```
-=== "Style - rounded"
-    ```python
+
     tree.show(style="rounded")
     # a
     # ├── b
     # │   ├── d
     # │   ╰── e
     # ╰── c
-    ```
-=== "Style - double"
-    ```python
+
     tree.show(style="double")
     # a
     # ╠══ b
@@ -543,7 +533,7 @@ Other customisations for printing are also available, such as:
     # ║   ╚══ e
     # ╚══ c
     ```
-=== "Style - custom style"
+=== "Custom style"
     ```python
     tree.show(style=("│  ", "├→ ", "╰→ "))
     # a
@@ -554,6 +544,7 @@ Other customisations for printing are also available, such as:
     ```
 === "Rich Render"
     ```python
+    # Does not show up in documentation
     tree.show(rich=True, node_format="bold magenta", edge_format="blue")
     # a
     # ├── b
@@ -572,7 +563,7 @@ Arguments and keyword arguments can be passed in as long as they are compatible 
 function. A *plt.Figure* object is returned if you want to do further customisations such as add title or
 save the figure to image.
 
-```python hl_lines="9-10"
+```python hl_lines="10-11"
 from bigtree import Node, Tree
 
 root = Node("a", age=90, gender="F")
