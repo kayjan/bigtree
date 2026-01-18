@@ -1,16 +1,56 @@
 from __future__ import annotations
 
-from typing import Any, Collection, Mapping, TypeVar, Union
+from typing import Any, Callable, Collection, Mapping, TypeVar, Union
 
-from bigtree.node import dagnode, node
+from bigtree.node import basenode, dagnode, node
 
 T = TypeVar("T", bound=Union[node.Node, dagnode.DAGNode])
+T_Attr = TypeVar("T_Attr", bound=Union[basenode.BaseNode, dagnode.DAGNode])
 
 __all__ = [
+    "get_attr",
     "isnull",
     "filter_attributes",
     "assemble_attributes",
 ]
+
+
+def get_attr(
+    _node: T_Attr,
+    attr_parameter: str | Callable[[T_Attr], Any],
+    default_parameter: Any = None,
+) -> Any:
+    """Get attribute if available, otherwise return default parameter.
+
+    - Support nested attribute (e.g., parent.parent.attr_name, data.attr_name)
+    - Support child attribute (e.g., children[0].attr_name)
+    - Support attr_parameter as a Callable that takes in the node and return the attribute value
+
+    Args:
+        _node: node to get attribute, can be accessed as node attribute or callable that takes in the node
+        attr_parameter: attribute parameter
+        default_parameter: default parameter if there is no attr_parameter
+
+    Returns:
+        Node attribute
+    """
+    _choice = default_parameter
+    if attr_parameter:
+        if isinstance(attr_parameter, str):
+            # Enable nested parameter (e.g., param1.param2)
+            attr_parameters = attr_parameter.split(".")
+            _choice = _node
+            for _attr_parameter in attr_parameters:
+                if _attr_parameter.startswith("children[") and _attr_parameter.endswith(
+                    "]"
+                ):
+                    child_idx = int(_attr_parameter.split("children[")[1][:-1])
+                    _choice = _choice.children[child_idx]
+                else:
+                    _choice = getattr(_choice, _attr_parameter, default_parameter)
+        else:
+            _choice = attr_parameter(_node)
+    return _choice
 
 
 def isnull(value: Any) -> bool:
