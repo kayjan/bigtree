@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added:
+- Tree: Added modify methods as plugins.
+- Docs: Modify docs enhanced with sample code utilising rich format.
+### Changed:
+- Tree Export: show/print_tree method to add exceptions.
+
+## [1.2.0] - 2026-01-17
+### Added:
+- Tree: show/print_tree method to support rich format.
+### Fixed:
+- Tests: Test not showing up correctly with split instead of splitlines.
+
+## [1.1.0] - 2026-01-01
+### Added:
 - Tree: Added get_subtree method as plugin.
 ### Changed:
 - Test: Misc rename variables.
@@ -868,7 +881,9 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/1.0.4...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/kayjan/bigtree/compare/1.1.0...1.2.0
+[1.1.0]: https://github.com/kayjan/bigtree/compare/1.0.4...1.1.0
 [1.0.4]: https://github.com/kayjan/bigtree/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/kayjan/bigtree/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/kayjan/bigtree/compare/1.0.1...1.0.2

@@ -204,7 +204,7 @@ def tree_node_style():
     d.parent = b
     e.parent = b
     f.parent = c
-    g.parent = d
+    g.parent = e
     h.parent = e
     return a
 
@@ -236,7 +236,7 @@ def tree_node_style_callable():
     d.parent = b
     e.parent = b
     f.parent = c
-    g.parent = d
+    g.parent = e
     h.parent = e
     return a
 
