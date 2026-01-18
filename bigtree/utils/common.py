@@ -44,8 +44,11 @@ def get_attr(
                 if _attr_parameter.startswith("children[") and _attr_parameter.endswith(
                     "]"
                 ):
-                    child_idx = int(_attr_parameter.split("children[")[1][:-1])
-                    _choice = _choice.children[child_idx]
+                    try:
+                        child_idx = int(_attr_parameter.split("children[")[1][:-1])
+                        _choice = _choice.children[child_idx]
+                    except (ValueError, IndexError):
+                        return default_parameter
                 else:
                     _choice = getattr(_choice, _attr_parameter, default_parameter)
         else:
