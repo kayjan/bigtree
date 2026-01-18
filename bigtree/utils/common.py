@@ -17,28 +17,28 @@ __all__ = [
 
 def get_attr(
     _node: T_Attr,
-    attr_parameter: str | Callable[[T_Attr], Any],
-    default_parameter: Any = None,
+    attr_name: str | Callable[[T_Attr], Any],
+    default: Any = None,
 ) -> Any:
     """Get attribute if available, otherwise return default parameter.
 
     - Support nested attribute (e.g., parent.parent.attr_name, data.attr_name)
     - Support child attribute (e.g., children[0].attr_name)
-    - Support attr_parameter as a Callable that takes in the node and return the attribute value
+    - Support Callable that takes in the node and return the attribute value
 
     Args:
         _node: node to get attribute, can be accessed as node attribute or callable that takes in the node
-        attr_parameter: attribute parameter
-        default_parameter: default parameter if there is no attr_parameter
+        attr_name: attribute name
+        default: default value if attribute does not exist
 
     Returns:
         Node attribute
     """
-    _choice = default_parameter
-    if attr_parameter:
-        if isinstance(attr_parameter, str):
+    _choice = default
+    if attr_name:
+        if isinstance(attr_name, str):
             # Enable nested parameter (e.g., param1.param2)
-            attr_parameters = attr_parameter.split(".")
+            attr_parameters = attr_name.split(".")
             _choice = _node
             for _attr_parameter in attr_parameters:
                 if _attr_parameter.startswith("children[") and _attr_parameter.endswith(
@@ -48,11 +48,11 @@ def get_attr(
                         child_idx = int(_attr_parameter.split("children[")[1][:-1])
                         _choice = _choice.children[child_idx]
                     except (ValueError, IndexError):
-                        return default_parameter
+                        return default
                 else:
-                    _choice = getattr(_choice, _attr_parameter, default_parameter)
+                    _choice = getattr(_choice, _attr_parameter, default)
         else:
-            _choice = attr_parameter(_node)
+            _choice = attr_name(_node)
     return _choice
 
 

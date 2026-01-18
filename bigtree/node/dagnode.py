@@ -474,7 +474,7 @@ class DAGNode:
             and (not len(exclude_prefix) or not item[0].startswith(exclude_prefix))
         ]
 
-    def get_attr(self, attr_name: str, default_value: Any = None) -> Any:
+    def get_attr(self, attr_name: str, default: Any = None) -> Any:
         """Get value of node attribute. Returns default value if attribute name does not exist.
 
         - Support nested attribute (e.g., parent.parent.attr_name, data.attr_name)
@@ -483,14 +483,14 @@ class DAGNode:
 
         Args:
             attr_name: attribute name
-            default_value: default value if attribute does not exist
+            default: default value if attribute does not exist
 
         Returns:
             Attribute value of node
         """
         from bigtree.utils import common
 
-        return common.get_attr(self, attr_name, default_value)
+        return common.get_attr(self, attr_name, default)
 
     def set_attrs(self, attrs: Mapping[str, Any]) -> None:
         """Set node attributes.

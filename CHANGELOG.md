@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docs: Modify docs enhanced with sample code utilising rich format.
 ### Changed:
 - Tree Export: show/print_tree method to add exceptions.
+- get_attr parameter name: `attr_parameter` rename to `attr_name` and `default_parameter` rename to `default` for
+    clarity and conciseness.
 
 ## [1.2.0] - 2026-01-17
 ### Added:
