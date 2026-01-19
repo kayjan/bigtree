@@ -477,9 +477,9 @@ class DAGNode:
     def get_attr(self, attr_name: str, default: Any = None) -> Any:
         """Get value of node attribute. Returns default value if attribute name does not exist.
 
-        - Support nested attribute (e.g., parent.parent.attr_name, data.attr_name)
-        - Support child attribute (e.g., children[0].attr_name)
-        - Support attr_parameter as a Callable that takes in the node and return the attribute value
+        - Support chained attribute (e.g., `data.attr_name`)
+        - Support nested attribute (e.g., `children[0].attr_name`, `parents[0].attr_name`)
+        - Support Callable that takes in the node and return the attribute value
 
         Args:
             attr_name: attribute name

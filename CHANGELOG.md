@@ -7,8 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - Tree: Added modify methods as plugins.
-- Tree: get_attr enhanced to get nested (e.g., `parent.attr1.attr2`) or child attribute (e.g., `children[0].attr`).
-This will benefit basenode/dagnode (get_attr method) and tree export (print_tree and tree_to_mermaid).
+- Tree: get_attr enhanced to get chained attribute (e.g., `parent.attr1.attr2`) or nested attribute
+(e.g., `attr[0][1]`, `children[0].attr`). This will benefit basenode/dagnode (get_attr method) and tree export
+(`print_tree` and `tree_to_mermaid`).
 - Docs: Modify docs enhanced with sample code utilising rich format.
 ### Changed:
 - Tree Export: show/print_tree method to add exceptions.

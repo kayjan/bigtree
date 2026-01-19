@@ -20,10 +20,10 @@ def get_attr(
     attr_name: str | Callable[[T_Attr], Any],
     default: Any = None,
 ) -> Any:
-    """Get attribute if available, otherwise return default parameter.
+    """Get attribute value if available, otherwise return default value.
 
-    - Support nested attribute (e.g., parent.parent.attr_name, data.attr_name)
-    - Support child attribute (e.g., children[0].attr_name)
+    - Support chained attribute (e.g., `parent.parent.attr_name`, `data.attr_name`)
+    - Support nested attribute (e.g., `children[0].attr_name`)
     - Support Callable that takes in the node and return the attribute value
 
     Args:
@@ -32,28 +32,36 @@ def get_attr(
         default: default value if attribute does not exist
 
     Returns:
-        Node attribute
+        Node attribute value
     """
-    _attr_value = default
+    attr_value = default
     if attr_name:
         if isinstance(attr_name, str):
             # Enable nested parameter (e.g., param1.param2)
             attr_parameters = attr_name.split(".")
-            _attr_value = _node
-            for _attr_parameter in attr_parameters:
-                if _attr_parameter.startswith("children[") and _attr_parameter.endswith(
-                    "]"
-                ):
+            attr_value = _node
+            for attr_parameter in attr_parameters:
+                if "[" in attr_parameter and attr_parameter.endswith("]"):
                     try:
-                        child_idx = int(_attr_parameter.split("children[")[1][:-1])
-                        _attr_value = _attr_value.children[child_idx]
+                        attr_subparameter, attr_remaining = attr_parameter.split(
+                            "[", maxsplit=1
+                        )
+                        attr_idx, attr_remaining = attr_remaining.split("]", maxsplit=1)
+                        attr_value = getattr(attr_value, attr_subparameter)[
+                            int(attr_idx)
+                        ]
+                        while attr_remaining:
+                            attr_idx, attr_remaining = attr_remaining.lstrip("[").split(
+                                "]", maxsplit=1
+                            )
+                            attr_value = attr_value[int(attr_idx)]
                     except (ValueError, IndexError):
                         return default
                 else:
-                    _attr_value = getattr(_attr_value, _attr_parameter, default)
+                    attr_value = getattr(attr_value, attr_parameter, default)
         else:
-            _attr_value = attr_name(_node)
-    return _attr_value
+            attr_value = attr_name(_node)
+    return attr_value
 
 
 def isnull(value: Any) -> bool:
