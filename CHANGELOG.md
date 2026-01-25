@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.3.0] - 2026-01-25
 ### Added:
 - Tree: Added modify methods as plugins.
 - Tree: get_attr enhanced to get chained attribute (e.g., `parent.attr1.attr2`) or nested attribute
@@ -16,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - get_attr parameter name: `attr_parameter` rename to `attr_name` and `default_parameter` rename to `default` for
 clarity and conciseness.
 **This might not be backwards-compatible!**
+### Fixed:
+- Tests: Handle `DataOrientationWarning` and `DeprecationWarning` warnings from polars usage.
+- Tests: Handle `pandas>=3` breaking test cases.
 
 ## [1.2.0] - 2026-01-17
 ### Added:
@@ -887,7 +892,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/1.2.0...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/1.3.0...HEAD
+[1.3.0]: https://github.com/kayjan/bigtree/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/kayjan/bigtree/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/kayjan/bigtree/compare/1.0.4...1.1.0
 [1.0.4]: https://github.com/kayjan/bigtree/compare/1.0.3...1.0.4

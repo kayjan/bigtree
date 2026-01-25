@@ -209,9 +209,8 @@ def assert_dataframe_no_duplicate_children(
         )
         duplicate_check = duplicate_check[duplicate_check["count"] > 1]
     else:
-        data_check = data.unique(subset=[child_col, parent_col])
-        data_check = data_check.filter(
-            data_check[child_col].is_in(data_check[parent_col])
+        data_check = data.unique(subset=[child_col, parent_col]).filter(
+            pl.col(child_col).is_in(pl.col(parent_col).implode())
         )
         duplicate_check = data_check[child_col].value_counts()
         duplicate_check = duplicate_check.filter(duplicate_check["count"] > 1)
