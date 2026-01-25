@@ -3973,12 +3973,17 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_attr</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_attr</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>Get value of node attribute. Returns default value if attribute name does not exist.</p>
+<ul>
+<li>Support chained attribute (e.g., <code>data.attr_name</code>)</li>
+<li>Support nested attribute (e.g., <code>children[0].attr_name</code>, <code>parents[0].attr_name</code>)</li>
+<li>Support Callable that takes in the node and return the attribute value</li>
+</ul>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4010,7 +4015,7 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>default_value</code>
+                <code>default</code>
             </td>
             <td>
                   <code><span title="typing.Any">Any</span></code>
