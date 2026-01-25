@@ -276,6 +276,7 @@ class TestTreeToPolars:
                 ["/a/c/f", "f"],
             ],
             schema=["path", "name"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node)
         assert expected.equals(actual)
@@ -294,6 +295,7 @@ class TestTreeToPolars:
                 ["/a/c/f", "f"],
             ],
             schema=["PATH", "name"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node, path_col="PATH")
         assert expected.equals(actual)
@@ -312,6 +314,7 @@ class TestTreeToPolars:
                 ["f"],
             ],
             schema=["name"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node, path_col="")
         assert expected.equals(actual)
@@ -330,6 +333,7 @@ class TestTreeToPolars:
                 ["/a/c/f", "f"],
             ],
             schema=["path", "NAME"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node, name_col="NAME")
         assert expected.equals(actual)
@@ -348,6 +352,7 @@ class TestTreeToPolars:
                 ["/a/c/f"],
             ],
             schema=["path"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node, name_col="")
         assert expected.equals(actual)
@@ -386,6 +391,7 @@ class TestTreeToPolars:
                 ["/a/c/f", "f", "c"],
             ],
             schema=["path", "name", "parent"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node, parent_col="parent")
         assert expected.equals(actual)
@@ -404,6 +410,7 @@ class TestTreeToPolars:
                 ["/a/c/f", "f", 38],
             ],
             schema=["path", "name", "AGE"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node, attr_dict={"age": "AGE"})
         assert expected.equals(actual)
@@ -422,6 +429,7 @@ class TestTreeToPolars:
                 ["/a/c/f", "f", 38],
             ],
             schema=["path", "name", "age"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node, all_attrs=True)
         assert expected.equals(actual)
@@ -435,6 +443,7 @@ class TestTreeToPolars:
                 ["/a/c", "c"],
             ],
             schema=["path", "name"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node, max_depth=2)
         assert expected.equals(actual)
@@ -450,6 +459,7 @@ class TestTreeToPolars:
                 ["/a/c/f", "f"],
             ],
             schema=["path", "name"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node, skip_depth=2)
         assert expected.equals(actual)
@@ -464,6 +474,7 @@ class TestTreeToPolars:
                 ["/a/c/f", "f"],
             ],
             schema=["path", "name"],
+            orient="row",
         )
         actual = export.tree_to_polars(tree_node, leaf_only=True)
         assert expected.equals(actual)
@@ -482,6 +493,7 @@ class TestTreeToPolars:
                 ["/a/c/f", "f", "c", 38],
             ],
             schema=["PATH", "NAME", "PARENT", "AGE"],
+            orient="row",
         )
         actual = export.tree_to_polars(
             tree_node,
@@ -503,6 +515,7 @@ class TestTreeToPolars:
                 ["/a/b/e/h", "h", "e", 6],
             ],
             schema=["PATH", "NAME", "PARENT", "AGE"],
+            orient="row",
         )
         actual = export.tree_to_polars(
             tree_node.children[0],

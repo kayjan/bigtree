@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 clarity and conciseness.
 **This might not be backwards-compatible!**
 ### Fixed:
-- Tests: Handle `DataOrientationWarning` warning from polars DataFrame.
+- Tests: Handle `DataOrientationWarning` and `DeprecationWarning` warnings from polars usage.
 
 ## [1.2.0] - 2026-01-17
 ### Added:
