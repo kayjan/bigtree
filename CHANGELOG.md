@@ -20,6 +20,7 @@ clarity and conciseness.
 **This might not be backwards-compatible!**
 ### Fixed:
 - Tests: Handle `DataOrientationWarning` and `DeprecationWarning` warnings from polars usage.
+- Tests: Handle `pandas>=3` breaking test cases.
 
 ## [1.2.0] - 2026-01-17
 ### Added:
