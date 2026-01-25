@@ -491,7 +491,7 @@ def _infer_root_node(
         root_names = set(data[data[parent_col].isnull()][child_col])
     else:
         root_names = set(data.filter(data[parent_col].is_null())[child_col])
-    root_names.update(set(data[parent_col]) - set(data[child_col]) - {None, pd.NA})
+    root_names.update(set(data[parent_col].dropna()) - set(data[child_col].dropna()))
     if len(root_names) != 1:
         raise ValueError(
             f"Unable to determine root node\n"
