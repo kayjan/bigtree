@@ -49,6 +49,6 @@ def build_tree(path: Path, depth: int, parent: Node | None = None):
     return parent
 
 root_folder = Path("/Users/path/to/folder/")
-tree = build_tree(root_folder, depth=1)
+tree = build_tree(root_folder, depth=2)
 tree.show(rich=True, node_format_attr="colour")
 ```
