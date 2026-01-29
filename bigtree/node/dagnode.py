@@ -256,7 +256,7 @@ class DAGNode:
         """Check child type.
 
         Args:
-            new_children: child node
+            new_children: child node(s)
         """
         if not isinstance(new_children, Iterable):
             raise TypeError(
@@ -267,7 +267,7 @@ class DAGNode:
         """Check child loop.
 
         Args:
-            new_children: child node
+            new_children: child node(s)
         """
         seen_children = []
         for new_child in new_children:
@@ -309,7 +309,7 @@ class DAGNode:
         """Set child nodes.
 
         Args:
-            new_children: child node
+            new_children: child node(s)
         """
         if Globals.ASSERTIONS:
             self.__check_children_type(new_children)
