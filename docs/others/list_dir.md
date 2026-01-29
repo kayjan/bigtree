@@ -16,7 +16,7 @@ for f in glob.glob("./**/*.py", recursive=True):
     path_list.append(f)
 
 # Construct tree
-tree = Tree.from_list(path_list)
+tree = Tree.from_list(sorted(path_list))
 
 # View tree
 tree.show(max_depth=3)
@@ -30,13 +30,14 @@ from bigtree import Node
 
 
 def build_tree(path: Path, depth: int, parent: Node | None = None):
-    if depth > -1:  # root node does not count as a level
+    if depth:
         new_parent = Node(
             path.name if parent else str(root_folder),
             parent=parent,
         )
 
         if path.is_dir():
+            new_parent.set_attrs({"icon": ":open_file_folder:"})
             try:
                 for child_path in sorted(
                     path.iterdir(),
@@ -45,10 +46,12 @@ def build_tree(path: Path, depth: int, parent: Node | None = None):
                     build_tree(child_path, depth - 1, new_parent)
             except PermissionError:
                 new_parent.set_attrs({"colour": "red"})
+        else:
+            new_parent.set_attrs({"icon": ":memo:"})
         return new_parent
     return parent
 
-root_folder = Path("/Users/path/to/folder/")
-tree = build_tree(root_folder, depth=2)
-tree.show(rich=True, node_format_attr="colour")
+root_folder = Path(".")
+tree = build_tree(root_folder, depth=3)
+tree.show(rich=True, node_format_attr="colour", icon_prefix_attr="icon")
 ```
