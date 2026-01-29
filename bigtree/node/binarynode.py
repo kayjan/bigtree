@@ -234,7 +234,7 @@ class BinaryNode(node.Node):
         """Check child type.
 
         Args:
-            new_children: child node
+            new_children: child node(s)
 
         Returns:
             Child nodes, initialise child to None if no new children defined
@@ -249,7 +249,7 @@ class BinaryNode(node.Node):
         """Check child loop.
 
         Args:
-            new_children: child node
+            new_children: child node(s)
         """
         seen_children = []
         for new_child in new_children:
@@ -292,7 +292,7 @@ class BinaryNode(node.Node):
         """Set child nodes.
 
         Args:
-            _new_children: child node
+            _new_children: child node(s)
         """
         self._BaseNode__check_children_type(_new_children)  # type: ignore
         new_children = self.__check_children_type(_new_children)

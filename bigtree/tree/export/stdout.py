@@ -71,9 +71,7 @@ def print_rich(
         node_str = f"{node_str} {node_str_suffix}" if node_str_suffix else node_str
     if node_format or node_format_attr:
         _node_format = common.get_attr(_node, node_format_attr, node_format)
-        node_str = (
-            f"[{_node_format}]{node_str}[/{_node_format}]" if _node_format else node_str
-        )
+        node_str = f"[{_node_format}]{node_str}[/]" if _node_format else node_str
     if edge_format:
         pre_str = f"[{edge_format}]{pre_str}[/{edge_format}]"
         fill_str = f"[{edge_format}]{fill_str}[/{edge_format}]"
