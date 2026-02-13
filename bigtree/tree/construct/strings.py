@@ -480,6 +480,7 @@ def newick_to_tree(
     return current_node
 
 
+@exceptions.optional_dependencies_rich
 def rich_to_tree(
     rich_tree: rich.tree.Tree, node_format_attr: str = "style"
 ) -> node.Node:
