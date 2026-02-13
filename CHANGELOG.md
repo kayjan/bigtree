@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.3.1] - 2026-02-13
+## [1.3.1] - 2026-02-14
 ### Added:
 - Tree Construct: Construct tree from rich tree using `rich_to_tree` or `Tree.from_rich`.
 - Docs: More examples for listing directories.

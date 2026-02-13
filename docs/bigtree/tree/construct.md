@@ -19,6 +19,10 @@ To decide which method to use, consider your data type and data values.
 | polars DataFrame    | `polars_to_tree`    | `polars_to_tree_by_relation`                     | NA               | Yes                                                  |
 | Interactive UI      | NA                  | `render_tree`                                    | NA               | No                                                   |
 
+| Construct tree from | Notation       | Add node attributes   |
+|---------------------|----------------|-----------------------|
+| rich Tree           | `rich_to_tree` | Only style attributes |
+
 ## Tree Add Attributes Methods
 
 To add attributes to an existing tree,

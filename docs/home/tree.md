@@ -21,6 +21,7 @@ For **Tree** implementation, there are 11 main components.
 - From *pandas DataFrame*, using paths or parent-child columns
 - From *polars DataFrame*, using paths or parent-child columns
 - From *interactive UI*
+- From *rich trees*
 - Add nodes to existing tree using path string
 - Add nodes and attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using path
 - Add only attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using node name
