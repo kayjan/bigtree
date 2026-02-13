@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Callable, Collection, Iterable, TypeVar
+from typing import Any, Callable, Iterable, TypeVar
 
 from bigtree.node import node
 from bigtree.utils import common, constants, exceptions
@@ -62,7 +62,6 @@ def print_rich(
             (e.g., `\U0001f600`), or anything rich supports. If string type, it refers to ``Node`` attribute for icon.
             If callable type, it takes in the node itself and returns the icon
     """
-    # Add rich formatting
     if icon_prefix_attr:
         node_str_prefix = common.get_attr(_node, icon_prefix_attr, "")
         node_str = f"{node_str_prefix} {node_str}" if node_str_prefix else node_str
@@ -73,8 +72,8 @@ def print_rich(
         _node_format = common.get_attr(_node, node_format_attr, node_format)
         node_str = f"[{_node_format}]{node_str}[/]" if _node_format else node_str
     if edge_format:
-        pre_str = f"[{edge_format}]{pre_str}[/{edge_format}]"
-        fill_str = f"[{edge_format}]{fill_str}[/{edge_format}]"
+        pre_str = f"[{edge_format}]{pre_str}[/]"
+        fill_str = f"[{edge_format}]{fill_str}[/]"
     console.print(f"{pre_str}{fill_str}{node_str}", **kwargs)
 
 
@@ -88,7 +87,7 @@ def print_tree(
     attr_format: str = "{k}={v}",
     attr_sep: str = ", ",
     attr_omit_null: bool = False,
-    attr_bracket: Collection[str] = ("[", "]"),
+    attr_bracket: tuple[str, str] = ("[", "]"),
     style: str | Iterable[str] | constants.BasePrintStyle = "const",
     **kwargs: Any,
 ) -> None:
@@ -274,6 +273,9 @@ def print_tree(
         from rich.console import Console
 
         kwargs["console"] = kwargs.get("console") or Console(force_terminal=True)
+        if attr_bracket[0] == "[":
+            # Handle specific case where [ will be mistaken as rich formatting
+            attr_bracket = ("\\" + attr_bracket[0], attr_bracket[1])
 
     for pre_str, fill_str, _node in yield_tree(
         tree=tree,
