@@ -131,6 +131,7 @@ class TestBinaryTreeConstruct(unittest.TestCase):
                 ["1/2/4/8", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         tree = BinaryTree.from_polars(path_data)
         assert_binarytree_structure_root2(tree.node)
@@ -149,6 +150,7 @@ class TestBinaryTreeConstruct(unittest.TestCase):
                 ["8", "4", 6],
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
         tree = BinaryTree.from_polars_relation(relation_data)
         assert_binarytree_structure_root2(tree.node)
@@ -201,6 +203,7 @@ class TestBinaryTreeExport:
                 ["/1/3/7", "7"],
             ],
             schema=["path", "name"],
+            orient="row",
         )
         actual = binarytree_tree.to_polars()
         assert expected.equals(actual)

@@ -604,6 +604,18 @@ class TestPrintTree:
         )
 
     @staticmethod
+    def test_print_tree_rich_node_format_all_attrs(tree_node, rich_console):
+        assert_print_statement(
+            export.print_tree,
+            tree_node_str,
+            tree=tree_node,
+            all_attrs=True,
+            rich=True,
+            node_format="magenta",
+            console=rich_console,
+        )
+
+    @staticmethod
     def test_print_tree_rich_edge_format(tree_node, rich_console):
         assert_print_statement(
             export.print_tree,
@@ -632,6 +644,20 @@ class TestPrintTree:
             export.print_tree,
             tree_node_icon_str,
             tree=tree_node,
+            rich=True,
+            icon_prefix_attr="icon",
+            icon_suffix_attr="icon_suffix",
+            console=rich_console,
+        )
+
+    @staticmethod
+    def test_print_tree_rich_substring(
+        tree_node_rich, tree_node_rich_str, rich_console
+    ):
+        assert_print_statement(
+            export.print_tree,
+            tree_node_rich_str,
+            tree=tree_node_rich,
             rich=True,
             icon_prefix_attr="icon",
             icon_suffix_attr="icon_suffix",

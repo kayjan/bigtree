@@ -1,4 +1,4 @@
-__version__ = "1.2.0"
+__version__ = "1.3.1"
 
 from bigtree._globals import Globals
 from bigtree.binarytree.binarytree import BinaryTree
@@ -30,6 +30,7 @@ from bigtree.tree.construct import (
     polars_to_tree,
     polars_to_tree_by_relation,
     render_tree,
+    rich_to_tree,
     str_to_tree,
 )
 from bigtree.tree.export import (

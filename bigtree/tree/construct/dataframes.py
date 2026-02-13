@@ -474,6 +474,37 @@ def dataframe_to_tree(
     return root_node
 
 
+def _infer_root_node(
+    data: pl.DataFrame | pd.DataFrame, child_col: str, parent_col: str
+) -> str:
+    """Infer root node of tree from data
+
+    Args:
+        data: tree data
+        child_col: column of data containing child name information
+        parent_col: column of data containing parent name information
+
+    Returns:
+        root node
+    """
+    if isinstance(data, pd.DataFrame):
+        root_names = set(data[data[parent_col].isnull()][child_col])
+        root_names.update(
+            set(data[parent_col].dropna()) - set(data[child_col].dropna())
+        )
+    else:
+        root_names = set(data.filter(data[parent_col].is_null())[child_col])
+        root_names.update(
+            set(data[parent_col].drop_nulls()) - set(data[child_col].drop_nulls())
+        )
+    if len(root_names) != 1:
+        raise ValueError(
+            f"Unable to determine root node\n"
+            f"Possible root nodes: {sorted(list(root_names), key=lambda v: (isinstance(v, str), v))}"
+        )
+    return str(list(root_names)[0])
+
+
 def dataframe_to_tree_by_relation(
     data: pd.DataFrame,
     child_col: str | None = None,
@@ -549,15 +580,7 @@ def dataframe_to_tree_by_relation(
     if not allow_duplicates:
         assertions.assert_dataframe_no_duplicate_children(data, child_col, parent_col)
 
-    # Infer root node
-    root_names = set(data[data[parent_col].isnull()][child_col])
-    root_names.update(set(data[parent_col]) - set(data[child_col]) - {None})
-    if len(root_names) != 1:
-        raise ValueError(
-            f"Unable to determine root node\n"
-            f"Possible root nodes: {sorted(list(root_names), key=lambda v: (isinstance(v, str), v))}"
-        )
-    root_name = list(root_names)[0]
+    root_name = _infer_root_node(data, child_col, parent_col)
 
     def _retrieve_attr(_row: dict[str, Any]) -> dict[str, Any]:
         """Retrieve node attributes from dictionary, remove parent and child column from dictionary.
@@ -781,15 +804,7 @@ def polars_to_tree_by_relation(
     if not allow_duplicates:
         assertions.assert_dataframe_no_duplicate_children(data, child_col, parent_col)
 
-    # Infer root node
-    root_names = set(data.filter(data[parent_col].is_null())[child_col])
-    root_names.update(set(data[parent_col]) - set(data[child_col]) - {None})
-    if len(root_names) != 1:
-        raise ValueError(
-            f"Unable to determine root node\n"
-            f"Possible root nodes: {sorted(list(root_names), key=lambda v: (isinstance(v, str), v))}"
-        )
-    root_name = list(root_names)[0]
+    root_name = _infer_root_node(data, child_col, parent_col)
 
     def _retrieve_attr(_row: dict[str, Any]) -> dict[str, Any]:
         """Retrieve node attributes from dictionary, remove parent and child column from dictionary.

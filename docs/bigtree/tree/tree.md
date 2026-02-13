@@ -25,6 +25,10 @@ methods.
 | pandas DataFrame    | `Tree.from_dataframe` | `Tree.from_dataframe_relation`                       | NA                 | Yes                                                      |
 | polars DataFrame    | `Tree.from_polars`    | `Tree.from_polars_relation`                          | NA                 | Yes                                                      |
 
+| Construct tree from | Notation            | Add node attributes   |
+|---------------------|---------------------|-----------------------|
+| rich Tree           | `Tree.from_rich`    | Only style attributes |
+
 To add attributes to an existing tree,
 
 | Add attributes from | Using full path         | Using node name         |

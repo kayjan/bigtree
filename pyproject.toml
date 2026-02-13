@@ -133,8 +133,11 @@ build = "mkdocs build"
 serve = "refresh-js && mkdocs serve"
 deploy = "mkdocs gh-deploy"
 
+[tool.hatch.envs.test]
+description = "Run tests with multiple Python versions"
+
 [[tool.hatch.envs.test.matrix]]
-python = ["310", "311", "312", "313"]
+python = ["3.10", "3.11", "3.12", "3.13"]
 
 [tool.coverage.run]
 branch = true

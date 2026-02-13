@@ -17,7 +17,7 @@ from .dictionaries import (
 )
 from .lists import list_to_tree, list_to_tree_by_relation
 from .render import render_tree
-from .strings import add_path_to_tree, newick_to_tree, str_to_tree
+from .strings import add_path_to_tree, newick_to_tree, rich_to_tree, str_to_tree
 
 __all__ = [
     "add_dataframe_to_tree_by_name",
@@ -38,5 +38,6 @@ __all__ = [
     "render_tree",
     "add_path_to_tree",
     "newick_to_tree",
+    "rich_to_tree",
     "str_to_tree",
 ]

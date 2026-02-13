@@ -793,6 +793,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
 
     def tearDown(self):
@@ -826,6 +827,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "value"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root(self.root)
@@ -856,7 +858,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     def test_add_polars_to_tree_by_path_empty_row_error(self):
-        data = pl.DataFrame(schema=["PATH", "age"])
+        data = pl.DataFrame(schema=["PATH", "age"], orient="row")
         with pytest.raises(ValueError) as exc_info:
             construct.add_polars_to_tree_by_path(self.root, data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
@@ -887,6 +889,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6, "h1"],
             ],
             schema=["PATH", "age", "name"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root(self.root)
@@ -906,6 +909,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6, "h1"],
             ],
             schema=["PATH", "age", "name2"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(
             self.root, data, path_col="PATH", attribute_cols=["age"]
@@ -928,6 +932,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(self.root, data)
         assert self.root.get_attr("age") == 1
@@ -949,6 +954,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h"],
             ],
             schema=["PATH"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root(self.root)
@@ -967,6 +973,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["/a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root(self.root)
@@ -986,6 +993,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h/", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root(self.root)
@@ -1007,6 +1015,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a\\b\\e\\h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         with pytest.raises(exceptions.TreeError) as exc_info:
             construct.add_polars_to_tree_by_path(self.root, data)
@@ -1027,6 +1036,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a\\b\\e\\h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(self.root, data, sep="\\")
         assert_tree_structure_basenode_root(self.root)
@@ -1051,6 +1061,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         with pytest.raises(exceptions.DuplicatedNodeError) as exc_info:
             construct.add_polars_to_tree_by_path(
@@ -1073,6 +1084,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root(self.root)
@@ -1093,6 +1105,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.add_polars_to_tree_by_path(self.root, data)
@@ -1115,6 +1128,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.add_polars_to_tree_by_path(self.root, data)
@@ -1136,6 +1150,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(self.root, data)
         assert_tree_structure_basenode_root(self.root)
@@ -1167,6 +1182,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["a/b/e/h", 6, "h"],
             ],
             schema=["PATH", "custom_field", "custom_field_str"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_path(root, data)
         assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
@@ -1194,6 +1210,7 @@ class TestAddPolarsToTreeByPath(unittest.TestCase):
                 ["b/b/e/h", 6],  # different root
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         with pytest.raises(exceptions.TreeError) as exc_info:
             construct.add_polars_to_tree_by_path(self.root, data)
@@ -1235,6 +1252,7 @@ class TestAddPolarsToTreeByName(unittest.TestCase):
                 ["h", 6],
             ],
             schema=["NAME", "age"],
+            orient="row",
         )
 
     def tearDown(self):
@@ -1286,6 +1304,7 @@ class TestAddPolarsToTreeByName(unittest.TestCase):
                 ["h", 6],
             ],
             schema=["NAME", "value"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_name(self.root, data)
         assert_tree_structure_basenode_root(self.root)
@@ -1305,7 +1324,7 @@ class TestAddPolarsToTreeByName(unittest.TestCase):
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_COL
 
     def test_add_polars_to_tree_by_name_empty_row_error(self):
-        data = pl.DataFrame(schema=["NAME", "age"])
+        data = pl.DataFrame(schema=["NAME", "age"], orient="row")
         with pytest.raises(ValueError) as exc_info:
             construct.add_polars_to_tree_by_name(self.root, data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
@@ -1336,6 +1355,7 @@ class TestAddPolarsToTreeByName(unittest.TestCase):
                 ["h", 6, "h1"],
             ],
             schema=["name2", "age", "name"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_name(self.root, data, name_col="name2")
         assert_tree_structure_basenode_root(self.root)
@@ -1355,6 +1375,7 @@ class TestAddPolarsToTreeByName(unittest.TestCase):
                 ["h", 6, "h1"],
             ],
             schema=["NAME", "age", "name2"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_name(
             self.root, data, name_col="NAME", attribute_cols=["age"]
@@ -1377,6 +1398,7 @@ class TestAddPolarsToTreeByName(unittest.TestCase):
                 ["h", 6],
             ],
             schema=["NAME", "age"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_name(self.root, data)
         assert self.root.get_attr("age") == 1
@@ -1413,6 +1435,7 @@ class TestAddPolarsToTreeByName(unittest.TestCase):
                 ["g", 6],  # duplicate
             ],
             schema=["NAME", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.add_polars_to_tree_by_name(self.root, data)
@@ -1434,6 +1457,7 @@ class TestAddPolarsToTreeByName(unittest.TestCase):
                 ["g", 6],  # duplicate
             ],
             schema=["NAME", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.add_polars_to_tree_by_name(self.root, data)
@@ -1485,6 +1509,7 @@ class TestAddPolarsToTreeByName(unittest.TestCase):
                 ["h", 6, "h"],
             ],
             schema=["NAME", "custom_field", "custom_field_str"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_name(root, data)
         assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
@@ -1505,6 +1530,7 @@ class TestAddPolarsToTreeByName(unittest.TestCase):
                 ["c", 60],
             ],
             schema=["NAME", "age"],
+            orient="row",
         )
         construct.add_polars_to_tree_by_name(self.root, data)
         expected_root_str = "a [age=90]\n" "├── b [age=1]\n" "└── c [age=60]\n"
@@ -2343,6 +2369,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
 
     def tearDown(self):
@@ -2384,6 +2411,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h"],
             ],
             schema=["PATH"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data)
         assert_tree_structure_basenode_root(root)
@@ -2402,6 +2430,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 1],
             ],
             schema=["PATH", "value"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data)
         assert_tree_structure_basenode_root(root)
@@ -2414,7 +2443,7 @@ class TestPolarsToTree(unittest.TestCase):
 
     @staticmethod
     def test_polars_to_tree_empty_row_error():
-        path_data = pl.DataFrame(schema=["PATH", "age"])
+        path_data = pl.DataFrame(schema=["PATH", "age"], orient="row")
         with pytest.raises(ValueError) as exc_info:
             construct.polars_to_tree(path_data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
@@ -2445,6 +2474,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 6, "h1"],
             ],
             schema=["PATH", "age", "name"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data)
         assert_tree_structure_basenode_root(root)
@@ -2465,6 +2495,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 6, "h1"],
             ],
             schema=["PATH", "age", "name2"],
+            orient="row",
         )
         root = construct.polars_to_tree(
             path_data, path_col="PATH", attribute_cols=["age"]
@@ -2488,6 +2519,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data)
         assert not root.get_attr("age")
@@ -2509,6 +2541,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data)
         assert not root.get_attr("age")
@@ -2531,6 +2564,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["/a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data)
         assert path_data["PATH"][0].startswith("/"), "Original dataframe changed"
@@ -2551,6 +2585,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h/", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data)
         assert_tree_structure_basenode_root(root)
@@ -2572,6 +2607,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a\\b\\e\\h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         with pytest.raises(exceptions.TreeError) as exc_info:
             construct.polars_to_tree(path_data)
@@ -2592,6 +2628,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a\\b\\e\\h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data, sep="\\")
         assert_tree_structure_basenode_root(root)
@@ -2613,6 +2650,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 7],  # duplicate
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.polars_to_tree(path_data)
@@ -2636,6 +2674,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 7],  # duplicate
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.polars_to_tree(path_data)
@@ -2658,6 +2697,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 6],  # duplicate
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data)
         assert_tree_structure_basenode_root(root)
@@ -2678,6 +2718,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         with pytest.raises(exceptions.DuplicatedNodeError) as exc_info:
             construct.polars_to_tree(path_data, duplicate_name_allowed=False)
@@ -2699,6 +2740,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 6],
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data)
         assert_tree_structure_basenode_root(root)
@@ -2728,6 +2770,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["a/b/e/h", 6, "h"],
             ],
             schema=["PATH", "custom_field", "custom_field_str"],
+            orient="row",
         )
         root = construct.polars_to_tree(path_data, node_type=CustomNode)
         assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
@@ -2756,6 +2799,7 @@ class TestPolarsToTree(unittest.TestCase):
                 ["b/b/e/h", 6],  # different root
             ],
             schema=["PATH", "age"],
+            orient="row",
         )
         with pytest.raises(exceptions.TreeError) as exc_info:
             construct.polars_to_tree(path_data)
@@ -2778,6 +2822,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
 
     def tearDown(self):
@@ -2825,6 +2870,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],
             ],
             schema=["child", "parent", "value"],
+            orient="row",
         )
         root = construct.polars_to_tree_by_relation(relation_data)
         assert_tree_structure_basenode_root(root)
@@ -2838,7 +2884,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
 
     @staticmethod
     def test_polars_to_tree_by_relation_empty_row_error():
-        relation_data = pl.DataFrame(schema=["child", "parent"])
+        relation_data = pl.DataFrame(schema=["child", "parent"], orient="row")
         with pytest.raises(ValueError) as exc_info:
             construct.polars_to_tree_by_relation(relation_data)
         assert str(exc_info.value) == Constants.ERROR_NODE_DATAFRAME_EMPTY_ROW
@@ -2871,6 +2917,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6, "h1"],
             ],
             schema=["child", "parent", "age", "name"],
+            orient="row",
         )
         root = construct.polars_to_tree_by_relation(relation_data)
         assert_tree_structure_basenode_root(root)
@@ -2891,6 +2938,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6, "h1"],
             ],
             schema=["child", "parent", "age", "name2"],
+            orient="row",
         )
         root = construct.polars_to_tree_by_relation(
             relation_data,
@@ -2917,6 +2965,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree_by_relation(relation_data)
         assert not root.get_attr("age")
@@ -2938,6 +2987,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree_by_relation(relation_data)
         assert not root.get_attr("age")
@@ -2961,6 +3011,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],  # duplicate
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree_by_relation(relation_data)
         expected = (
@@ -2991,6 +3042,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.polars_to_tree_by_relation(relation_data)
@@ -3014,6 +3066,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.polars_to_tree_by_relation(relation_data)
@@ -3036,6 +3089,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
         root = construct.polars_to_tree_by_relation(
             relation_data, allow_duplicates=True
@@ -3066,6 +3120,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6, "h"],
             ],
             schema=["child", "parent", "custom_field", "custom_field_str"],
+            orient="row",
         )
         root = construct.polars_to_tree_by_relation(relation_data, node_type=CustomNode)
         assert isinstance(root, CustomNode), Constants.ERROR_CUSTOM_TYPE.format(
@@ -3092,6 +3147,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.polars_to_tree_by_relation(relation_data)
@@ -3112,6 +3168,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.polars_to_tree_by_relation(relation_data)
@@ -3133,6 +3190,7 @@ class TestPolarsToTreeByRelation(unittest.TestCase):
                 ["h", "e", 6],
             ],
             schema=["child", "parent", "age"],
+            orient="row",
         )
         with pytest.raises(ValueError) as exc_info:
             construct.polars_to_tree_by_relation(relation_data)
