@@ -273,6 +273,9 @@ def print_tree(
         from rich.console import Console
 
         kwargs["console"] = kwargs.get("console") or Console(force_terminal=True)
+        if attr_bracket[0] == "[":
+            # Handle specific case where [ will be mistaken as rich formatting
+            attr_bracket = ("\\" + attr_bracket[0], attr_bracket[1])
 
         # Handle specific case where [ will be mistaken as rich formatting
         attr_bracket = (
