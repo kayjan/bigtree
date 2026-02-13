@@ -8,10 +8,19 @@ from bigtree.node import node
 from bigtree.tree import search
 from bigtree.utils import assertions, constants, exceptions
 
+try:
+    import rich
+except ImportError:  # pragma: no cover
+    from unittest.mock import MagicMock
+
+    rich = MagicMock()
+
+
 __all__ = [
     "add_path_to_tree",
     "str_to_tree",
     "newick_to_tree",
+    "rich_to_tree",
 ]
 
 T = TypeVar("T", bound=node.Node)
@@ -469,3 +478,60 @@ def newick_to_tree(
         current_depth,
     )
     return current_node
+
+
+def rich_to_tree(
+    rich_tree: rich.tree.Tree, node_format_attr: str = "style"
+) -> node.Node:
+    """Construct tree from rich tree to allow more tree operations, return root of tree.
+
+    If the rich node label is of type rich.text.Text, it will save the style, if any, as
+    a node attribute. This does not support inferring rich node label string using
+    square brackets.
+
+    Examples:
+        >>> from bigtree import Tree
+        >>> from rich.tree import Tree as RichTree
+        >>> from rich.text import Text
+        >>> rich_root = RichTree(Text("Grandparent", style="magenta"))
+        >>> child = rich_root.add("Child")
+        >>> _ = child.add(Text("Grandchild", style="red"))
+        >>> _ = rich_root.add("Child 2")
+        >>> tree = Tree.rich_to_tree(rich_root)
+        >>> tree.show(all_attrs=True)  # Try with rich=True, node_format_attr="style"
+        Grandparent [style=magenta]
+        ├── Child
+        │   └── Grandchild [style=red]
+        └── Child 2
+
+    Args:
+        rich_tree: rich Tree
+        node_format_attr: attribute name for the node format
+
+    Returns:
+        Node
+    """
+
+    def extract_label_and_style(label: rich.text.Text | str) -> tuple[str, str | None]:
+        """Extract label and list of styles spans from a rich label.
+
+        Returns:
+            label and style (if label is rich.text.Text and has style)
+        """
+        if isinstance(label, rich.text.Text):
+            return label.plain, label.style
+        else:
+            return str(label), None
+
+    def convert_node(
+        rich_node: rich.tree.Tree, parent: node.Node | None = None
+    ) -> node.Node:
+        node_name, node_format = extract_label_and_style(rich_node.label)
+        _node = node.Node(node_name, parent=parent)
+        if node_format:
+            _node.set_attrs({node_format_attr: node_format})
+        for child in rich_node.children:
+            convert_node(child, parent=_node)
+        return _node
+
+    return convert_node(rich_tree)

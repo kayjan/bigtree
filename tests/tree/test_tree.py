@@ -244,6 +244,23 @@ class TestTreeConstruct(unittest.TestCase):
         assert_tree_structure_basenode_tree(tree)
         assert_tree_structure_basenode_root(tree.node)
 
+    @staticmethod
+    def test_from_rich():
+        from rich.text import Text
+        from rich.tree import Tree as RichTree
+
+        rich_root = RichTree(Text("a", style="magenta"))
+        b = rich_root.add("b", style="red")
+        _ = b.add("d")
+        e = b.add("e")
+        _ = e.add("g", style="yellow")
+        _ = e.add("h", style="yellow")
+        c = rich_root.add("c", style="red")
+        _ = c.add("f")
+        tree = Tree.from_rich(rich_root)
+        assert_tree_structure_basenode_tree(tree)
+        assert_tree_structure_basenode_root(tree.node)
+
 
 class TestTreeAdd(unittest.TestCase):
 

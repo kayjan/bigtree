@@ -30,6 +30,7 @@ from bigtree.tree.construct import (
     polars_to_tree,
     polars_to_tree_by_relation,
     render_tree,
+    rich_to_tree,
     str_to_tree,
 )
 from bigtree.tree.export import (
