@@ -319,3 +319,15 @@ def tree_node_diff(tree_node):
     )
     node.Node("i", parent=other_tree_node, children=[node.Node("j")])
     return other_tree_node
+
+
+@pytest.fixture
+def rich_console():
+    from rich.console import Console
+
+    return Console(
+        # no_color=True,
+        record=False,
+        color_system=None,
+        force_terminal=False,
+    )
