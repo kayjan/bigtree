@@ -277,6 +277,13 @@ def print_tree(
             # Handle specific case where [ will be mistaken as rich formatting
             attr_bracket = ("\\" + attr_bracket[0], attr_bracket[1])
 
+        # Handle specific case where [ will be mistaken as rich formatting
+        attr_bracket = (
+            ("\\" + attr_bracket[0], attr_bracket[1])
+            if attr_bracket[0] == "["
+            else attr_bracket
+        )
+
     for pre_str, fill_str, _node in yield_tree(
         tree=tree,
         node_name_or_path=node_name_or_path,

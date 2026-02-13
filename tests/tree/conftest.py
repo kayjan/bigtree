@@ -326,7 +326,6 @@ def rich_console():
     from rich.console import Console
 
     return Console(
-        # no_color=True,
         record=False,
         color_system=None,
         force_terminal=False,

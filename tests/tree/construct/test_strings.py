@@ -531,3 +531,56 @@ def assert_tree_structure_phylogenetic_attr(root, attrs=["B", "D", "E", "S", "le
         assert (
             expected == actual
         ), f"Expected length to be {expected}, received {actual}"
+
+
+class TestRichtoTree:
+    @staticmethod
+    def test_rich_to_tree(rich_root, rich_console):
+        from bigtree.tree import export
+        from tests.conftest import assert_print_statement
+
+        root = construct.rich_to_tree(rich_root)
+        root_str = "Grandparent\n" "├── Child\n" "│   └── Grandchild\n" "└── Child 2\n"
+        assert_print_statement(
+            export.print_tree,
+            root_str,
+            tree=root,
+            rich=True,
+            console=rich_console,
+        )
+
+    @staticmethod
+    def test_rich_to_tree_attr(rich_root, rich_console):
+        from bigtree.tree import export
+        from tests.conftest import assert_print_statement
+
+        root = construct.rich_to_tree(rich_root)
+        root_str_attr = (
+            "Grandparent [style=magenta]\n"
+            "├── Child\n"
+            "│   └── Grandchild [style=red]\n"
+            "└── Child 2\n"
+        )
+        assert_print_statement(
+            export.print_tree,
+            root_str_attr,
+            tree=root,
+            all_attrs=True,
+        )
+        assert_print_statement(
+            export.print_tree,
+            root_str_attr,
+            tree=root,
+            all_attrs=True,
+            rich=True,
+            console=rich_console,
+        )
+        assert_print_statement(
+            export.print_tree,
+            root_str_attr,
+            tree=root,
+            all_attrs=True,
+            rich=True,
+            node_format_attr="style",
+            console=rich_console,
+        )

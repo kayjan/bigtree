@@ -377,6 +377,31 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
     # └── c [age=60]
     ```
 
+### 6. From rich Trees
+
+Convert rich.tree.Tree to bigtree Trees.
+
+=== "rich"
+    ```python hl_lines="10"
+    from rich.tree import Tree as RichTree
+    from rich.text import Text
+
+    from bigtree import Tree
+
+    rich_root = RichTree(Text("a", style="magenta"))
+    b = rich_root.add(Text("b", style="red"))
+    d = b.add("d")
+    c = rich_root.add(Text("c", style="red"))
+    tree = Tree.from_rich(rich_root)
+
+    # Style does not show up in documentation
+    tree.show(rich=True, node_format_attr="style")
+    # a
+    # ├── b
+    # │   └── d
+    # └── c
+    ```
+
 !!! note
 
     If tree is already created, nodes can still be added using path string, dictionary, and pandas/polars DataFrame!<br>
@@ -544,7 +569,7 @@ Other customisations for printing are also available, such as:
     ```
 === "Rich Render"
     ```python
-    # Does not show up in documentation
+    # Style does not show up in documentation
     tree.show(rich=True, node_format="bold magenta", edge_format="blue")
     # a
     # ├── b

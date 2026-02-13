@@ -5,14 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Added:
-- Docs: More examples for listing directories.
-### Fixed:
-- Docs: Some grammar improvements in docstring.
-- Setup: Test with different Python environments.
 
-## [1.3.1] - 2026-02-13
+## [1.3.1] - 2026-02-14
 ### Added:
+- Tree Construct: Construct tree from rich tree using `rich_to_tree` or `Tree.from_rich`.
 - Docs: More examples for listing directories.
 ### Fixed:
 - Tree Export: Fix attr square brackets being confused as rich formatting.
@@ -905,7 +901,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/1.3.1...HEAD
+[1.3.1]: https://github.com/kayjan/bigtree/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/kayjan/bigtree/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/kayjan/bigtree/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/kayjan/bigtree/compare/1.0.4...1.1.0

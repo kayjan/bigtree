@@ -81,6 +81,7 @@ def register_tree_plugins() -> None:
             "from_list_relation": construct.list_to_tree_by_relation,
             "from_str": construct.str_to_tree,
             "from_newick": construct.newick_to_tree,
+            "from_rich": construct.rich_to_tree,
         },
         method="class",
     )
