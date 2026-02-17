@@ -59,16 +59,25 @@ Export Tree to list, dictionary, pandas/polars DataFrame, and various formats.
 | Mermaid Markdown (for .md)              | `to_mermaid`                                      |
 | Visualization                           | `to_vis`                                          |
 
-## Tree Helper Methods
+## Tree Iterator Methods
 
-Helper functions that can come in handy. Helper methods will return a separate Tree-type object.
+Iterator methods will return Node-type object(s).
 
-| Description   | Method                   |
-|---------------|--------------------------|
-| Clone tree    | `clone`                  |
-| Get subtree   | `subtree`                |
-| Prune tree    | `prune`                  |
-| Compare trees | `diff_dataframe`, `diff` |
+| Data Structure | Algorithm                                 | Description             |
+|----------------|-------------------------------------------|-------------------------|
+| Tree           | `preorder_iter`                           | Depth-First Search, NLR |
+| Tree           | `postorder_iter`                          | Depth-First Search, LRN |
+| Tree           | `levelorder_iter`, `levelordergroup_iter` | Breadth-First Search    |
+| Tree           | `zigzag_iter`, `zigzaggroup_iter`         | Breadth-First Search    |
+
+## Tree Modify Methods
+
+Modification functions can shift and/or copy nodes within the same tree.
+
+| Description   | Method                                    |
+|---------------|-------------------------------------------|
+| Shift node(s) | `shift_nodes` / `shift_and_replace_nodes` |
+| Copy node(s)  | `copy_nodes`                              |
 
 ## Tree Query and Search Methods
 
@@ -82,16 +91,16 @@ Query and search to find nodes. These methods will return Node-type object(s).
 | Node path       | `find_path`, `find_full_path`, `find_relative_path` | `find_paths`, `find_relative_paths` |
 | Node attributes | `find_attr`                                         | `find_attrs`                        |
 
-## Tree Iterator Methods
+## Tree Helper Methods
 
-Iterator methods will return Node-type object(s).
+Helper functions that can come in handy. Helper methods will return a separate Tree-type object.
 
-| Data Structure | Algorithm                                 | Description             |
-|----------------|-------------------------------------------|-------------------------|
-| Tree           | `preorder_iter`                           | Depth-First Search, NLR |
-| Tree           | `postorder_iter`                          | Depth-First Search, LRN |
-| Tree           | `levelorder_iter`, `levelordergroup_iter` | Breadth-First Search    |
-| Tree           | `zigzag_iter`, `zigzaggroup_iter`         | Breadth-First Search    |
+| Description   | Method                   |
+|---------------|--------------------------|
+| Clone tree    | `clone`                  |
+| Get subtree   | `subtree`                |
+| Prune tree    | `prune`                  |
+| Compare trees | `diff_dataframe`, `diff` |
 
 -----
 ::: bigtree.tree.tree

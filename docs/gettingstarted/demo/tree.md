@@ -676,7 +676,7 @@ Below is the table of operations available to `BaseNode` and `Node` classes.
 
 ## Traverse Tree
 
-Tree can be traversed using the following traversal methods. Read more [here](/../../bigtree/tree/tree/#tree-iterator-methods).
+Tree can be traversed using the following traversal methods.
 
 ```python hl_lines="11 14 17 20-23 26 29-32"
 from bigtree import Tree

@@ -12,9 +12,9 @@ class DAG:
     """
     DAG wraps around DAGNode class to provide a quick, intuitive, Pythonic API for
 
-        * Construction with dataframe, dictionary, or list
-        * Export to dataframe, dictionary, list, or images
-        * Iterator methods to parse dag
+    * Construction with dataframe, dictionary, or list
+    * Export to dataframe, dictionary, list, or images
+    * Iterator methods to parse dag
 
     Do refer to the various modules respectively on the keyword parameters.
     """
