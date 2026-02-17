@@ -1,5 +1,6 @@
 site_name: bigtree Documentation
-site_url: https://kayjan.github.io/bigtree
+site_description: Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame
+site_url: https://bigtree.readthedocs.io/
 repo_url: https://github.com/kayjan/bigtree
 repo_name: bigtree
 nav:
