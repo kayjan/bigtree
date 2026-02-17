@@ -1,0 +1,24 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: bigtree
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Kay Jan
+    family-names: Wong
+    email: kayjanw@gmail.com
+repository-code: 'https://github.com/kayjan/bigtree'
+url: 'https://bigtree.readthedocs.io/stable/'
+abstract: >-
+  Tree Implementation and Methods for Python, integrated
+  with list, dictionary, pandas and polars DataFrame.
+keywords:
+  - python
+  - tree
+  - tree-traversal
+  - tree-search
+license: MIT
