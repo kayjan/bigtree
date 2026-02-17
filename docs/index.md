@@ -7,6 +7,8 @@ hide:
 
 # 🌳 Documentation
 
+Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame.
+
 [![pypi-python-version](https://badge.fury.io/py/bigtree.svg "pypi-python-version")](https://badge.fury.io/py/bigtree/)
 [![conda-python-version](https://anaconda.org/conda-forge/bigtree/badges/version.svg "conda-python-version")](https://anaconda.org/conda-forge/bigtree)
 [![documentation-status](https://readthedocs.org/projects/bigtree/badge/?version=latest "documentation-status")](https://bigtree.readthedocs.io/en/latest/?badge=latest)
@@ -18,9 +20,16 @@ hide:
 [![license](https://img.shields.io/static/v1?label=license&message=MIT&color=blue "license")](#)
 [![style](https://img.shields.io/static/v1?label=style&message=black&color=black "style")](#)
 
-Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame.
+---
 
-It is pythonic, making it easy to learn and extendable to many types of workflows.
+Key features:
+
++ A **hierarchical data framework** for Python
++ **Fast**: High performance, faster than other tree libraries. Read more at the section [benchmarks](home/Benchmark Library.ipynb)
++ **Flexible**: Seamlessly convert structured datasets into hierarchical representation
++ **Intuitive**: Pythonic, easy to learn and extend to many types of workflows
++ **Rich API**: Efficient and optimised traversal, parsing, modification, query, and search operations
++ **Scalable**: From simple hierarchies to production-grade workflow with large datasets
 
 <div class="grid cards" markdown>
 

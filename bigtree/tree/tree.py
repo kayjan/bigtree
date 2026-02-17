@@ -22,12 +22,13 @@ class Tree:
     """
     Tree wraps around Node class to provide a quick, intuitive, Pythonic API for
 
-        * Construction with dataframe, dictionary, list, or string
-        * Export to dataframe, dictionary, list, string, or images
-        * Helper methods for cloning, pruning, getting subtree and tree diff
-        * Iterator methods to parse tree
-        * Query and Search methods to find one or more Nodes
-        * Plot methods
+    * Construction with dataframe, dictionary, list, or string
+    * Export to dataframe, dictionary, list, string, or images
+    * Iterator methods to parse tree
+    * Modify methods for shifting and copying nodes
+    * Query and Search methods to find one or more Nodes
+    * Helper methods for cloning, pruning, getting subtree and tree diff
+    * Plot methods
 
     Do refer to the various modules respectively on the keyword parameters.
     """

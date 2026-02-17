@@ -46,35 +46,34 @@ from bigtree import BinaryTree
 
 nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
 tree = BinaryTree.from_heapq_list(nums_list)
-tree.show()
-# 1
-# ├── 2
-# │   ├── 4
-# │   │   └── 8
-# │   └── 5
-# └── 3
-#     ├── 6
-#     └── 7
+tree.hshow()
+#                  ┌─ 8
+#            ┌─ 4 ─┤
+#      ┌─ 2 ─┤     └─
+# ─ 1 ─┤     └─ 5
+#      │     ┌─ 6
+#      └─ 3 ─┤
+#            └─ 7
 ```
 
 ## Traverse Binary Tree
 
 In addition to the traversal methods in the usual tree, binary tree includes in-order traversal method.
 
-```python hl_lines="15 18 21 24 27 30 33"
+```python hl_lines="15 18 21 24 27-30 33 36-39"
 from bigtree import BinaryTree
 
 nums_list = [1, 2, 3, 4, 5, 6, 7, 8]
 tree = tree.from_heapq_list(nums_list)
-tree.show()
-# 1
-# ├── 2
-# │   ├── 4
-# │   │   └── 8
-# │   └── 5
-# └── 3
-#     ├── 6
-#     └── 7
+tree.hshow()
+#                  ┌─ 8
+#            ┌─ 4 ─┤
+#      ┌─ 2 ─┤     └─
+# ─ 1 ─┤     └─ 5
+#      │     ┌─ 6
+#      └─ 3 ─┤
+#            └─ 7
+
 
 [node.node_name for node in tree.inorder_iter()]
 # ['8', '4', '2', '5', '1', '6', '3', '7']
@@ -88,12 +87,18 @@ tree.show()
 [node.node_name for node in tree.levelorder_iter()]
 # ['1', '2', '3', '4', '5', '6', '7', '8']
 
-[[node.node_name for node in node_group] for node_group in tree.levelordergroup_iter()]
+[
+    [node.node_name for node in node_group]
+    for node_group in tree.levelordergroup_iter()
+]
 # [['1'], ['2', '3'], ['4', '5', '6', '7'], ['8']]
 
 [node.node_name for node in tree.zigzag_iter()]
 # ['1', '3', '2', '4', '5', '6', '7', '8']
 
-[[node.node_name for node in node_group] for node_group in tree.zigzaggroup_iter()]
+[
+    [node.node_name for node in node_group]
+    for node_group in tree.zigzaggroup_iter()
+]
 # [['1'], ['3', '2'], ['4', '5', '6', '7'], ['8']]
 ```

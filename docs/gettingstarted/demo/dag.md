@@ -134,12 +134,11 @@ Below are the tables of attributes available to `DAGNode` class.
 
 Below is the table of operations available to `DAGNode` class.
 
-| Operations                            | Code                                          | Returns                                                                    |
-|---------------------------------------|-----------------------------------------------|----------------------------------------------------------------------------|
-| Get node information                  | `dag.describe(exclude_prefix="_")`            | [('name', 'd')]                                                            |
-| Find path(s) from one node to another | `node_a.go_to(dag)`                           | [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, )], [DAGNode(a, ), DAGNode(d, )]] |
-| Add child to node                     | `node_a.append(DAGNode("j"))`                 | DAGNode(a, )                                                               |
-| Add multiple children to node         | `node_a.extend([DAGNode("k"), DAGNode("l")])` | DAGNode(a, )                                                               |
-| Set attribute(s)                      | `dag.set_attrs({"description": "dag-tag"})`   | None                                                                       |
-| Get attribute                         | `dag.get_attr("description")`                 | 'dag-tag'                                                                  |
-| Copy DAG                              | `dag.copy()`                                  | None                                                                       |
+| Operations                            | Code                                                                          | Returns                                                                    |
+|---------------------------------------|-------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| Get node information                  | `dag.describe(exclude_prefix="_")`                                            | [('name', 'd')]                                                            |
+| Find path(s) from one node to another | `node_a.go_to(dag)`                                                           | [[DAGNode(a, ), DAGNode(c, ), DAGNode(d, )], [DAGNode(a, ), DAGNode(d, )]] |
+| Add one or more children to node      | `node_a.append(DAGNode("j"))` / `node_a.extend([DAGNode("k"), DAGNode("l")])` | DAGNode(a, )                                                               |
+| Set attribute(s)                      | `dag.set_attrs({"description": "dag-tag"})`                                   | None                                                                       |
+| Get attribute                         | `dag.get_attr("description")`                                                 | 'dag-tag'                                                                  |
+| Copy DAG                              | `dag.copy()`                                                                  | None                                                                       |
