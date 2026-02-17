@@ -130,7 +130,7 @@ add-cairo = "ln -s /opt/homebrew/lib/libcairo.2.dylib . "
 refresh-js = "python docs/_static/playground_whl.py"
 coverage = "docstr-coverage bigtree --skip-file-doc --skip-init --exclude \"(.*/exceptions.py|.*/constants.py)\""
 build = "mkdocs build"
-serve = "refresh-js && mkdocs serve"
+serve = "refresh-js && mkdocs serve --livereload"
 deploy = "mkdocs gh-deploy"
 
 [tool.hatch.envs.test]

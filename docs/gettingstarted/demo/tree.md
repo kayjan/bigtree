@@ -13,6 +13,7 @@ Here are some codes to get started.
 ## Construct Tree
 
 Nodes can have attributes if they are initialized from `Node`, *dictionary*, *pandas DataFrame*, or *polars DataFrame*.
+Read more [here](/../../bigtree/tree/tree/#tree-construct-methods).
 
 ### 1. From Node
 
@@ -413,7 +414,6 @@ Convert rich.tree.Tree to bigtree Trees.
 
 After tree is constructed, it can be viewed by printing to console using `show`, `hshow`, or `vshow` method directly,
 for compact, horizontal, and vertical orientation respectively.
-Alternatively, the `print_tree`, `hprint_tree`, or `vprint_tree` method can be used.
 
 ```python hl_lines="9 16 22"
 from bigtree import Node, Tree
@@ -493,19 +493,19 @@ Other customisations for printing are also available, such as:
     # │   └── e [age=35]
     # └── c [age=60]
 
-    tree.show(attr_list=["age"], attr_format="{k}:{v}", attr_sep="; ")
-    # a [age:90]
-    # ├── b [age:65]
-    # │   ├── d [age:40]
-    # │   └── e [age:35]
-    # └── c [age:60]
+    tree.show(attr_list=["age", "gender"], attr_format="{k}:{v}", attr_sep="; ")
+    # a [age:90; gender:F]
+    # ├── b [age:65; gender:M]
+    # │   ├── d [age:40; gender:F]
+    # │   └── e [age:35; gender:M]
+    # └── c [age:60; gender:M]
 
-    tree.show(attr_list=["age"], attr_bracket=["*(", ")"])
-    # a *(age=90)
-    # ├── b *(age=65)
-    # │   ├── d *(age=40)
-    # │   └── e *(age=35)
-    # └── c *(age=60)
+    tree.show(attr_list=["age"], attr_bracket=["*(", ")*"])
+    # a *(age=90)*
+    # ├── b *(age=65)*
+    # │   ├── d *(age=40)*
+    # │   └── e *(age=35)*
+    # └── c *(age=60)*
 
     tree.show(all_attrs=True)
     # a [age=90, gender=F]
@@ -559,7 +559,7 @@ Other customisations for printing are also available, such as:
     # ╚══ c
     ```
 === "Custom style"
-    ```python
+    ```python hl_lines="1"
     tree.show(style=("│  ", "├→ ", "╰→ "))
     # a
     # ├→ b
@@ -568,7 +568,7 @@ Other customisations for printing are also available, such as:
     # ╰→ c
     ```
 === "Rich Render"
-    ```python
+    ```python hl_lines="2"
     # Style does not show up in documentation
     tree.show(rich=True, node_format="bold magenta", edge_format="blue")
     # a
@@ -581,8 +581,6 @@ Other customisations for printing are also available, such as:
 ### 2. Plot Tree
 
 Tree can also be plotted using `plot` method directly with the help of `matplotlib` library.
-Alternatively, the `plot_tree` method can be used, but remember to run the `reingold_tilford` algorithm
-first to retrieve the *x* and *y* coordinates.
 
 Arguments and keyword arguments can be passed in as long as they are compatible with the `plt.plot()`
 function. A *plt.Figure* object is returned if you want to do further customisations such as add title or
@@ -638,16 +636,16 @@ node_e = root["b"]["e"]
 
 Below are the tables of attributes available to `BaseNode` and `Node` classes.
 
-|         Attributes wrt self          | Code               | Returns                    |
-|:------------------------------------:|--------------------|----------------------------|
-|            Check if root             | `root.is_root`     | True                       |
-|          Check if leaf node          | `root.is_leaf`     | False                      |
-|        Check diameter of tree        | `node_b.diameter`  | 3                          |
-|         Check depth of node          | `node_b.depth`     | 2                          |
-|         Check depth of tree          | `node_b.max_depth` | 4                          |
-|           Get root of tree           | `node_b.root`      | Node(/a, )                 |
-|            Get node path             | `node_b.node_path` | (Node(/a, ), Node(/a/b, )) |
-|   Get node name (only for `Node`)    | `node_b.node_name` | 'b'                        |
+| Attributes wrt self                  | Code               | Returns                    |
+|--------------------------------------|--------------------|----------------------------|
+| Check if root                        | `root.is_root`     | True                       |
+| Check if leaf node                   | `root.is_leaf`     | False                      |
+| Check diameter of tree               | `node_b.diameter`  | 3                          |
+| Check depth of node                  | `node_b.depth`     | 2                          |
+| Check depth of tree                  | `node_b.max_depth` | 4                          |
+| Get root of tree                     | `node_b.root`      | Node(/a, )                 |
+| Get node path                        | `node_b.node_path` | (Node(/a, ), Node(/a/b, )) |
+| Get node name (only for `Node`)      | `node_b.node_name` | 'b'                        |
 | Get node path name (only for `Node`) | `node_b.path_name` | '/a/b'                     |
 
 | Attributes wrt structure          | Code                       | Returns                                                                              |
@@ -663,27 +661,24 @@ Below are the tables of attributes available to `BaseNode` and `Node` classes.
 
 Below is the table of operations available to `BaseNode` and `Node` classes.
 
-| Operations                                      | Code                                                       | Returns                                    |
-|-------------------------------------------------|------------------------------------------------------------|--------------------------------------------|
-| Visualize tree (only for `Node`)                | `root.show()`                                              | None                                       |
-| Visualize tree (horizontally) (only for `Node`) | `root.hshow()`                                             | None                                       |
-| Visualize tree (vertically) (only for `Node`)   | `root.vshow()`                                             | None                                       |
-| Get node information                            | `root.describe(exclude_prefix="_")`                        | [('name', 'a')]                            |
-| Find path from one node to another              | `root.go_to(node_e)`                                       | [Node(/a, ), Node(/a/b, ), Node(/a/b/e, )] |
-| Add child to node                               | `root.append(Node("j"))`                                   | Node(/a, )                                 |
-| Add multiple children to node                   | `root.extend([Node("k"), Node("l")])`                      | Node(/a, )                                 |
-| Set attribute(s)                                | `root.set_attrs({"description": "root-tag"})`              | None                                       |
-| Get attribute                                   | `root.get_attr("description")`                             | 'root-tag'                                 |
-| Copy tree                                       | `root.copy()`                                              | None                                       |
-| Sort children                                   | `root.sort(key=lambda node: node.node_name, reverse=True)` | None                                       |
-| Plot tree                                       | `root.plot("-ok")`                                         | plt.Figure()                               |
-| Query tree                                      | `root.query('name == "b"')`                                | [Node(/a/b, )]                             |
+| Operations                         | Code                                                             | Returns                                    |
+|------------------------------------|------------------------------------------------------------------|--------------------------------------------|
+| Visualize tree (only for `Node`)   | `root.show()` / `root.hshow()` / `root.vshow()`                  | None                                       |
+| Get node information               | `root.describe(exclude_prefix="_")`                              | [('name', 'a')]                            |
+| Find path from one node to another | `root.go_to(node_e)`                                             | [Node(/a, ), Node(/a/b, ), Node(/a/b/e, )] |
+| Add one or more children to node   | `root.append(Node("j"))` / `root.extend([Node("k"), Node("l")])` | Node(/a, )                                 |
+| Set attribute(s)                   | `root.set_attrs({"description": "root-tag"})`                    | None                                       |
+| Get attribute                      | `root.get_attr("description")`                                   | 'root-tag'                                 |
+| Copy tree                          | `root.copy()`                                                    | None                                       |
+| Sort children                      | `root.sort(key=lambda node: node.node_name, reverse=True)`       | None                                       |
+| Plot tree                          | `root.plot("-ok")`                                               | plt.Figure()                               |
+| Query tree                         | `root.query('name == "b"')`                                      | [Node(/a/b, )]                             |
 
 ## Traverse Tree
 
-Tree can be traversed using the following traversal methods.
+Tree can be traversed using the following traversal methods. Read more [here](/../../bigtree/tree/tree/#tree-iterator-methods).
 
-```python hl_lines="11 14 17 20 23 26"
+```python hl_lines="11 14 17 20-23 26 29-32"
 from bigtree import Tree
 
 tree = Tree.from_str("""
@@ -703,13 +698,19 @@ a
 [node.node_name for node in tree.levelorder_iter()]
 # ['a', 'b', 'c', 'd', 'e']
 
-[[node.node_name for node in node_group] for node_group in tree.levelordergroup_iter()]
+[
+    [node.node_name for node in node_group]
+    for node_group in tree.levelordergroup_iter()
+]
 # [['a'], ['b', 'c'], ['d', 'e']]
 
 [node.node_name for node in tree.zigzag_iter()]
 # ['a', 'c', 'b', 'd', 'e']
 
-[[node.node_name for node in node_group] for node_group in tree.zigzaggroup_iter()]
+[
+    [node.node_name for node in node_group]
+    for node_group in tree.zigzaggroup_iter()
+]
 # [['a'], ['c', 'b'], ['d', 'e']]
 ```
 
@@ -864,6 +865,8 @@ One or multiple nodes can be searched based on name, path, attribute value, or u
 It is also possible to search for one or more child node(s) based on attributes, this search will be faster as
 it does not require traversing the whole tree to find the node(s).
 
+Read more [here](/../../bigtree/tree/tree/#tree-query-and-search-methods).
+
 === "Find single node"
     ```python hl_lines="13 16 19 22 25 28"
     from bigtree import Node, Tree
@@ -956,6 +959,8 @@ it does not require traversing the whole tree to find the node(s).
 
 ## Helper Utility
 
+Read more [here](/../../bigtree/tree/tree/#tree-helper-methods).
+
 ### 1. Clone tree
 
 Trees can be cloned to another Node type. If the same type is desired, use `tree.copy()` instead.
@@ -995,8 +1000,7 @@ root_subtree.show()
 
 ### 3. Prune tree
 
-Pruned tree refers to a smaller tree with the same tree root.
-Trees can be pruned by one or more of the following filters:
+Pruned tree refers to a smaller tree with the same tree root. Trees can be pruned by one or more of the following filters:
 
 - Path: keep all descendants by default, set `exact=True` to prune the path exactly
 - Depth: prune tree by depth
@@ -1060,10 +1064,8 @@ Trees can be pruned by one or more of the following filters:
 
 ### 4. Get tree differences
 
-View the differences in structure and/or attributes between two trees.
-The changes reflected are relative to the first tree.
-By default, only the differences are shown.
-It is possible to view the full original tree with the differences.
+View the differences in structure and/or attributes between two trees.  The changes reflected are relative to the first
+tree. By default, only the differences are shown. It is possible to view the full original tree with the differences.
 
 To compare tree attributes:
 
@@ -1071,12 +1073,11 @@ To compare tree attributes:
 - `(-)`: Node is removed in second tree
 - `(~)`: Node has different attributes, only available when comparing attributes
 
-For more details, `(moved from)`, `(moved to)`, `(added)`, and `(removed)` can
-be indicated instead if `(+)` and `(-)` by passing `detail=True`.
+For more details, `(moved from)`, `(moved to)`, `(added)`, and `(removed)` can be indicated instead if `(+)` and `(-)`
+by passing `detail=True`.
 
-For aggregating the differences at the parent-level instead of having `(+)` and
-`(-)` at every child node, pass in `aggregate=True`. This is useful if
-subtrees are shifted, and if you want to view the shifting at the parent-level.
+For aggregating the differences at the parent-level instead of having `(+)` and `(-)` at every child node, pass in
+`aggregate=True`. This is useful if subtrees are shifted, and if you want to view the shifting at the parent-level.
 
 !!! note
 
@@ -1265,6 +1266,8 @@ Tree can be exported to other data types:
 6. Pillow (can save to .png, .jpg)
 7. Mermaid Flowchart (can display on .md)
 8. Pyvis Network (can display interactive .html)
+
+Read more [here](/../../bigtree/tree/tree/#tree-export-methods).
 
 ```python
 from bigtree import Node, Tree
