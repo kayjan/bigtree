@@ -157,7 +157,7 @@ class BaseNode:
             )
 
     def __check_parent_loop(self, new_parent: T) -> None:
-        """Check parent type.
+        """Check parent loop.
 
         Args:
             new_parent: parent node
