@@ -616,6 +616,19 @@ class TestPrintTree:
         )
 
     @staticmethod
+    def test_print_tree_rich_attr_bracket(tree_node, rich_console):
+        assert_print_statement(
+            export.print_tree,
+            tree_node_str.replace("[", "(").replace("]", ")"),
+            tree=tree_node,
+            all_attrs=True,
+            rich=True,
+            node_format="magenta",
+            console=rich_console,
+            attr_bracket=["(", ")"],
+        )
+
+    @staticmethod
     def test_print_tree_rich_edge_format(tree_node, rich_console):
         assert_print_statement(
             export.print_tree,

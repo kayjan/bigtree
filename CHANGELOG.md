@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Misc: Citation file.
 ### Changed:
 - Docs: Clean up and make more succinct.
+- DAGNode: Ancestor and descendant methods to return iterator.
 
 ## [1.3.1] - 2026-02-14
 ### Added:

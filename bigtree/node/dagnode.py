@@ -4,7 +4,7 @@ import copy
 from typing import Any, Generator, Iterable, Mapping, TypeVar
 
 from bigtree._globals import Globals
-from bigtree.utils import exceptions, iterators
+from bigtree.utils import exceptions
 
 
 class DAGNode:
@@ -164,7 +164,7 @@ class DAGNode:
             )
 
     def __check_parent_loop(self: T, new_parents: list[T]) -> None:
-        """Check parent type.
+        """Check parent loop.
 
         Args:
             new_parents: parent nodes
@@ -182,11 +182,14 @@ class DAGNode:
                 raise exceptions.LoopError(
                     "Error setting parent: Node cannot be parent of itself"
                 )
-            if new_parent.ancestors:
-                if any(ancestor is self for ancestor in new_parent.ancestors):
-                    raise exceptions.LoopError(
-                        "Error setting parent: Node cannot be ancestor of itself"
-                    )
+            if any(
+                ancestor is self
+                for ancestor in new_parent.ancestors
+                if new_parent.ancestors
+            ):
+                raise exceptions.LoopError(
+                    "Error setting parent: Node cannot be ancestor of itself"
+                )
 
             # Check for duplicate children
             if id(new_parent) in seen_parent:
@@ -365,7 +368,9 @@ class DAGNode:
             Ancestor(s) of node excluding itself
         """
         if not len(list(self.parents)):
-            return ()
+            return
+
+        visited: set[T] = set()
 
         def _recursive_parent(node: T) -> Iterable[T]:
             """Recursively yield parent of current node, returns earliest to latest ancestor.
@@ -377,11 +382,12 @@ class DAGNode:
                 Parent node
             """
             for _node in node.parents:
-                yield from _recursive_parent(_node)
-                yield _node
+                if _node not in visited:
+                    yield from _recursive_parent(_node)
+                    yield _node
+                    visited.add(_node)
 
-        ancestors = list(_recursive_parent(self))
-        return list(dict.fromkeys(ancestors))
+        yield from _recursive_parent(self)
 
     @property
     def descendants(self: T) -> Iterable[T]:
@@ -390,10 +396,16 @@ class DAGNode:
         Returns:
             Descendant(s) of node excluding itself
         """
-        descendants = iterators.preorder_iter(
-            self, filter_condition=lambda _node: _node != self
-        )
-        return list(dict.fromkeys(descendants))
+        visited: set[T] = {self}
+        stack = list(reversed(list(self.children)))
+
+        while stack:
+            node = stack.pop()
+            if node not in visited:
+                visited.add(node)
+                yield node
+                for child in reversed(list(node.children)):
+                    stack.append(child)
 
     @property
     def siblings(self: T) -> Iterable[T]:
