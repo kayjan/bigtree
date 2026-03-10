@@ -182,11 +182,14 @@ class DAGNode:
                 raise exceptions.LoopError(
                     "Error setting parent: Node cannot be parent of itself"
                 )
-            if new_parent.ancestors:
-                if any(ancestor is self for ancestor in new_parent.ancestors):
-                    raise exceptions.LoopError(
-                        "Error setting parent: Node cannot be ancestor of itself"
-                    )
+            if any(
+                ancestor is self
+                for ancestor in new_parent.ancestors
+                if new_parent.ancestors
+            ):
+                raise exceptions.LoopError(
+                    "Error setting parent: Node cannot be ancestor of itself"
+                )
 
             # Check for duplicate children
             if id(new_parent) in seen_parent:
@@ -381,9 +384,8 @@ class DAGNode:
             for _node in node.parents:
                 if _node not in visited:
                     yield from _recursive_parent(_node)
-                    if _node not in visited:
-                        yield _node
-                        visited.add(_node)
+                    yield _node
+                    visited.add(_node)
 
         yield from _recursive_parent(self)
 
@@ -403,8 +405,7 @@ class DAGNode:
                 visited.add(node)
                 yield node
                 for child in reversed(list(node.children)):
-                    if child not in visited:
-                        stack.append(child)
+                    stack.append(child)
 
     @property
     def siblings(self: T) -> Iterable[T]:
