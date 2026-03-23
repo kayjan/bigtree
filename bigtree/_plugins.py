@@ -97,6 +97,7 @@ def register_tree_plugins() -> None:
             "add_dict_by_name": construct.add_dict_to_tree_by_name,
             # Export methods
             "show": export.print_tree,
+            "ishow": export.iprint_tree,
             "hshow": export.hprint_tree,
             "vshow": export.vprint_tree,
             "yield": export.yield_tree,
@@ -108,6 +109,7 @@ def register_tree_plugins() -> None:
             "to_nested_dict": export.tree_to_nested_dict,
             "to_nested_dict_key": export.tree_to_nested_dict_key,
             "to_newick": export.tree_to_newick,
+            "to_html": export.tree_to_html,
             "to_dot": export.tree_to_dot,
             "to_pillow_graph": export.tree_to_pillow_graph,
             "to_pillow": export.tree_to_pillow,
