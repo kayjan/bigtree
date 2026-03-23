@@ -1370,7 +1370,6 @@ def tree_to_newick(
 
 DEFAULT_NODE_COLOUR = "#f8f9fa"
 DEFAULT_BORDER_COLOUR = "#dee2e6"
-DEFAULT_EDGE_COLOUR = "#ccc"
 DEFAULT_FONT_COLOUR = "#333"
 DEFAULT_BORDER_WIDTH = 1
 
@@ -1379,14 +1378,14 @@ def tree_to_html(
     tree: T,
     all_attrs: bool = False,
     attr_list: Iterable[str] | None = None,
-    node_colour: str = DEFAULT_NODE_COLOUR,
+    node_colour: str = "#f8f9fa",
     node_width: int = 160,
-    border_colour: str = DEFAULT_BORDER_COLOUR,
-    border_width: float | int | str = DEFAULT_BORDER_WIDTH,
+    border_colour: str = "#dee2e6",
     border_radius: int = 12,
-    edge_colour: str = DEFAULT_EDGE_COLOUR,
+    border_width: float | int | str = 1,
+    edge_colour: str = "#ccc",
     edge_width: float | int = 1.5,
-    font_colour: str = DEFAULT_FONT_COLOUR,
+    font_colour: str = "#333",
     font_title_size: int = 13,
     font_size: int = 11,
     height: int = 500,
@@ -1502,7 +1501,7 @@ def iprint_tree(
     - Edge colour, width
     - Font colour, title size, size
 
-    Example:
+    Examples:
         >>> from bigtree import Node
         >>> root = Node("a", species="human")
         >>> b = Node("b", age=65, species="human", parent=root)
