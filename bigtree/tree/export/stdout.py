@@ -1421,7 +1421,7 @@ def tree_to_html(
     from bigtree.tree.export import tree_to_nested_dict
 
     tree_id = f"tree_{uuid.uuid4().hex[:6]}"
-    attr_list = list(attr_list) or []
+    attr_list = list(attr_list) if attr_list else []
 
     additional_attr_list: list[str] = []
 
