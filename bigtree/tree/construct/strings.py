@@ -498,7 +498,7 @@ def rich_to_tree(
         >>> child = rich_root.add("Child")
         >>> _ = child.add(Text("Grandchild", style="red"))
         >>> _ = rich_root.add("Child 2")
-        >>> tree = Tree.rich_to_tree(rich_root)
+        >>> tree = Tree.from_rich(rich_root)
         >>> tree.show(all_attrs=True)  # Try with rich=True, node_format_attr="style"
         Grandparent [style=magenta]
         ├── Child
