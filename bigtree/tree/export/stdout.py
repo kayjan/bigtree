@@ -486,42 +486,6 @@ def yield_tree(
     yield from yield_class.yield_tree()
 
 
-def iprint_tree(
-    tree: T,
-    **kwargs: Any,
-) -> None:
-    """Display tree in jupyter notebooks.
-
-    Refer to ``tree_to_html`` for list of parameters.
-
-    Customisations include
-
-    - Node colour (generic or custom), width
-    - Border colour (generic or custom), width, radius
-    - Edge colour, width
-    - Font colour, title size, size
-
-    Examples:
-        >>> from bigtree import Node
-        >>> root = Node("a", species="human")
-        >>> b = Node("b", age=65, species="human", parent=root)
-        >>> c = Node("c", age=60, species="human", parent=root)
-        >>> d = Node("d", age=40, species="human", parent=b)
-        >>> e = Node("e", age=35, species="human", parent=b)
-        >>> root.ishow(all_attrs=True)
-        <IPython.core.display.HTML object>
-
-    Args:
-        tree: tree to display
-        **kwargs: refer to ``tree_to_html`` for list of parameters
-    """
-    tree_html = tree_to_html(
-        tree,
-        **kwargs,
-    )
-    display(HTML(tree_html))
-
-
 def hprint_tree(
     tree: T,
     alias: str = "node_name",
@@ -1282,6 +1246,42 @@ def vyield_tree(
         border_style,
     )
     return yield_class.yield_tree(strip)
+
+
+def iprint_tree(
+    tree: T,
+    **kwargs: Any,
+) -> None:
+    """Display tree interactively on jupyter notebook.
+
+    Refer to ``tree_to_html`` for list of parameters.
+
+    Customisations include
+
+    - Node colour (generic or custom), width
+    - Border colour (generic or custom), width, radius
+    - Edge colour, width
+    - Font colour, title size, size
+
+    Examples:
+        >>> from bigtree import Node
+        >>> root = Node("a", species="human")
+        >>> b = Node("b", age=65, species="human", parent=root)
+        >>> c = Node("c", age=60, species="human", parent=root)
+        >>> d = Node("d", age=40, species="human", parent=b)
+        >>> e = Node("e", age=35, species="human", parent=b)
+        >>> root.ishow(all_attrs=True)
+        <IPython.core.display.HTML object>
+
+    Args:
+        tree: tree to display
+        **kwargs: refer to ``tree_to_html`` for list of parameters
+    """
+    tree_html = tree_to_html(
+        tree,
+        **kwargs,
+    )
+    display(HTML(tree_html))
 
 
 DEFAULT_NODE_COLOUR = "#f8f9fa"
