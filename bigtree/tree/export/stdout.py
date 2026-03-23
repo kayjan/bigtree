@@ -35,9 +35,9 @@ __all__ = [
     "hyield_tree",
     "vprint_tree",
     "vyield_tree",
-    "tree_to_newick",
-    "tree_to_html",
     "iprint_tree",
+    "tree_to_html",
+    "tree_to_newick",
 ]
 
 T = TypeVar("T", bound=node.Node)

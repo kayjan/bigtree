@@ -170,12 +170,6 @@ class Node(basenode.BaseNode):
 
         print_tree(self, **kwargs)
 
-    def ishow(self, **kwargs: Any) -> None:
-        """Display tree interactively on jupyter notebook"""
-        from bigtree.tree.export import iprint_tree
-
-        iprint_tree(self, **kwargs)
-
     def hshow(self, **kwargs: Any) -> None:
         """Print tree in horizontal orientation to console, takes in same keyword arguments as `hprint_tree` function."""
         from bigtree.tree.export import hprint_tree
@@ -187,6 +181,12 @@ class Node(basenode.BaseNode):
         from bigtree.tree.export import vprint_tree
 
         vprint_tree(self, **kwargs)
+
+    def ishow(self, **kwargs: Any) -> None:
+        """Display tree interactively on jupyter notebook"""
+        from bigtree.tree.export import iprint_tree
+
+        iprint_tree(self, **kwargs)
 
     def __getitem__(self, child_name: str) -> "Node":
         """Get child by name identifier.

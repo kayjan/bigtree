@@ -2129,98 +2129,6 @@ class TestVPrintTree:
         assert str(exc_info.value) == Constants.ERROR_NODE_EXPORT_BORDER_STYLE_SELECT
 
 
-class TestTreeToNewick:
-    @staticmethod
-    def test_tree_to_newick(tree_node):
-        newick_str = export.tree_to_newick(tree_node)
-        expected_str = "((d,(g,h)e)b,(f)c)a"
-        assert newick_str == expected_str
-
-    @staticmethod
-    def test_tree_to_newick_length(tree_node):
-        newick_str = export.tree_to_newick(tree_node, length_attr="age")
-        expected_str = "((d:40,(g:10,h:6)e:35)b:65,(f:38)c:60)a"
-        assert newick_str == expected_str
-
-    @staticmethod
-    def test_tree_to_newick_length_invalid_error(tree_node):
-        with pytest.raises(ValueError) as exc_info:
-            export.tree_to_newick(tree_node, length_attr="age2")
-        assert str(exc_info.value).startswith(Constants.ERROR_NODE_NEWICK_ATTR_INVALID)
-
-    @staticmethod
-    def test_tree_to_newick_length_sep(tree_node):
-        newick_str = export.tree_to_newick(tree_node, length_attr="age", length_sep=";")
-        expected_str = "((d;40,(g;10,h;6)e;35)b;65,(f;38)c;60)a"
-        assert newick_str == expected_str
-
-    @staticmethod
-    def test_tree_to_newick_attr_list(tree_node):
-        newick_str = export.tree_to_newick(tree_node, attr_list=["age"])
-        expected_str = "((d[&&NHX:age=40],(g[&&NHX:age=10],h[&&NHX:age=6])e[&&NHX:age=35])b[&&NHX:age=65],(f[&&NHX:age=38])c[&&NHX:age=60])a[&&NHX:age=90]"
-        assert newick_str == expected_str
-
-    @staticmethod
-    def test_tree_to_newick_attr_list_invalid(tree_node):
-        newick_str = export.tree_to_newick(tree_node, attr_list=["age2"])
-        expected_str = """((d,(g,h)e)b,(f)c)a"""
-        assert newick_str == expected_str
-
-    @staticmethod
-    def test_tree_to_newick_attr_prefix(tree_node):
-        newick_str = export.tree_to_newick(tree_node, attr_list=["age"], attr_prefix="")
-        expected_str = "((d[age=40],(g[age=10],h[age=6])e[age=35])b[age=65],(f[age=38])c[age=60])a[age=90]"
-        assert newick_str == expected_str
-
-    @staticmethod
-    def test_tree_to_newick_intermediate_node_name(tree_node):
-        newick_str = export.tree_to_newick(
-            tree_node, intermediate_node_name=False, attr_list=["age"]
-        )
-        expected_str = "((d[&&NHX:age=40],(g[&&NHX:age=10],h[&&NHX:age=6])[&&NHX:age=35])[&&NHX:age=65],(f[&&NHX:age=38])[&&NHX:age=60])[&&NHX:age=90]"
-        assert newick_str == expected_str
-
-    @staticmethod
-    def test_tree_to_newick_special_character():
-        from bigtree.node.node import Node
-
-        root = Node("(root)")
-        b = Node("[b]", parent=root)
-        c = Node("c:", parent=root)
-        _ = Node("d,", parent=b)
-        e = Node(":e", parent=b)
-        _ = Node("f=", parent=c)
-        _ = Node('"g"', parent=e)
-        _ = Node("'h'", parent=e)
-
-        newick_str = export.tree_to_newick(root)
-        expected_str = """(('d,',("g",'"h"')':e')'[b]',('f=')'c:')'(root)'"""
-        assert newick_str == expected_str
-
-    @staticmethod
-    def test_tree_to_newick_phylogenetic(phylogenetic_tree):
-        newick_str = export.tree_to_newick(
-            phylogenetic_tree,
-            intermediate_node_name=False,
-            length_attr="length",
-            attr_list=["S", "E", "D", "B"],
-        )
-        expected_str = "(((ADH2:0.1[&&NHX:S=human:E=1.1.1.1],ADH1:0.11[&&NHX:S=human:E=1.1.1.1]):0.05[&&NHX:S=Primates:E=1.1.1.1:D=Y:B=100],ADHY:0.1[&&NHX:S=nematode:E=1.1.1.1],ADHX:0.12[&&NHX:S=insect:E=1.1.1.1]):0.1[&&NHX:S=Metazoa:E=1.1.1.1:D=N],(ADH4:0.09[&&NHX:S=yeast:E=1.1.1.1],ADH3:0.13[&&NHX:S=yeast:E=1.1.1.1],ADH2:0.12[&&NHX:S=yeast:E=1.1.1.1],ADH1:0.11[&&NHX:S=yeast:E=1.1.1.1]):0.1[&&NHX:S=Fungi])[&&NHX:E=1.1.1.1:D=N]"
-        assert newick_str == expected_str
-
-    @staticmethod
-    def test_tree_to_newick_phylogenetic_attr_sep(phylogenetic_tree):
-        newick_str = export.tree_to_newick(
-            phylogenetic_tree,
-            intermediate_node_name=False,
-            length_attr="length",
-            attr_list=["S", "E", "D", "B"],
-            attr_sep=";",
-        )
-        expected_str = "(((ADH2:0.1[&&NHX:S=human;E=1.1.1.1],ADH1:0.11[&&NHX:S=human;E=1.1.1.1]):0.05[&&NHX:S=Primates;E=1.1.1.1;D=Y;B=100],ADHY:0.1[&&NHX:S=nematode;E=1.1.1.1],ADHX:0.12[&&NHX:S=insect;E=1.1.1.1]):0.1[&&NHX:S=Metazoa;E=1.1.1.1;D=N],(ADH4:0.09[&&NHX:S=yeast;E=1.1.1.1],ADH3:0.13[&&NHX:S=yeast;E=1.1.1.1],ADH2:0.12[&&NHX:S=yeast;E=1.1.1.1],ADH1:0.11[&&NHX:S=yeast;E=1.1.1.1]):0.1[&&NHX:S=Fungi])[&&NHX:E=1.1.1.1;D=N]"
-        assert newick_str == expected_str
-
-
 class TestTreeToHtml:
     folder_path = "tests/tree/export/data"
 
@@ -2380,3 +2288,95 @@ class TestTreeToHtml:
         with open(f"{self.folder_path}/tree_font_custom.html", "r") as file:
             expected_html = file.read()
         assert html == expected_html
+
+
+class TestTreeToNewick:
+    @staticmethod
+    def test_tree_to_newick(tree_node):
+        newick_str = export.tree_to_newick(tree_node)
+        expected_str = "((d,(g,h)e)b,(f)c)a"
+        assert newick_str == expected_str
+
+    @staticmethod
+    def test_tree_to_newick_length(tree_node):
+        newick_str = export.tree_to_newick(tree_node, length_attr="age")
+        expected_str = "((d:40,(g:10,h:6)e:35)b:65,(f:38)c:60)a"
+        assert newick_str == expected_str
+
+    @staticmethod
+    def test_tree_to_newick_length_invalid_error(tree_node):
+        with pytest.raises(ValueError) as exc_info:
+            export.tree_to_newick(tree_node, length_attr="age2")
+        assert str(exc_info.value).startswith(Constants.ERROR_NODE_NEWICK_ATTR_INVALID)
+
+    @staticmethod
+    def test_tree_to_newick_length_sep(tree_node):
+        newick_str = export.tree_to_newick(tree_node, length_attr="age", length_sep=";")
+        expected_str = "((d;40,(g;10,h;6)e;35)b;65,(f;38)c;60)a"
+        assert newick_str == expected_str
+
+    @staticmethod
+    def test_tree_to_newick_attr_list(tree_node):
+        newick_str = export.tree_to_newick(tree_node, attr_list=["age"])
+        expected_str = "((d[&&NHX:age=40],(g[&&NHX:age=10],h[&&NHX:age=6])e[&&NHX:age=35])b[&&NHX:age=65],(f[&&NHX:age=38])c[&&NHX:age=60])a[&&NHX:age=90]"
+        assert newick_str == expected_str
+
+    @staticmethod
+    def test_tree_to_newick_attr_list_invalid(tree_node):
+        newick_str = export.tree_to_newick(tree_node, attr_list=["age2"])
+        expected_str = """((d,(g,h)e)b,(f)c)a"""
+        assert newick_str == expected_str
+
+    @staticmethod
+    def test_tree_to_newick_attr_prefix(tree_node):
+        newick_str = export.tree_to_newick(tree_node, attr_list=["age"], attr_prefix="")
+        expected_str = "((d[age=40],(g[age=10],h[age=6])e[age=35])b[age=65],(f[age=38])c[age=60])a[age=90]"
+        assert newick_str == expected_str
+
+    @staticmethod
+    def test_tree_to_newick_intermediate_node_name(tree_node):
+        newick_str = export.tree_to_newick(
+            tree_node, intermediate_node_name=False, attr_list=["age"]
+        )
+        expected_str = "((d[&&NHX:age=40],(g[&&NHX:age=10],h[&&NHX:age=6])[&&NHX:age=35])[&&NHX:age=65],(f[&&NHX:age=38])[&&NHX:age=60])[&&NHX:age=90]"
+        assert newick_str == expected_str
+
+    @staticmethod
+    def test_tree_to_newick_special_character():
+        from bigtree.node.node import Node
+
+        root = Node("(root)")
+        b = Node("[b]", parent=root)
+        c = Node("c:", parent=root)
+        _ = Node("d,", parent=b)
+        e = Node(":e", parent=b)
+        _ = Node("f=", parent=c)
+        _ = Node('"g"', parent=e)
+        _ = Node("'h'", parent=e)
+
+        newick_str = export.tree_to_newick(root)
+        expected_str = """(('d,',("g",'"h"')':e')'[b]',('f=')'c:')'(root)'"""
+        assert newick_str == expected_str
+
+    @staticmethod
+    def test_tree_to_newick_phylogenetic(phylogenetic_tree):
+        newick_str = export.tree_to_newick(
+            phylogenetic_tree,
+            intermediate_node_name=False,
+            length_attr="length",
+            attr_list=["S", "E", "D", "B"],
+        )
+        expected_str = "(((ADH2:0.1[&&NHX:S=human:E=1.1.1.1],ADH1:0.11[&&NHX:S=human:E=1.1.1.1]):0.05[&&NHX:S=Primates:E=1.1.1.1:D=Y:B=100],ADHY:0.1[&&NHX:S=nematode:E=1.1.1.1],ADHX:0.12[&&NHX:S=insect:E=1.1.1.1]):0.1[&&NHX:S=Metazoa:E=1.1.1.1:D=N],(ADH4:0.09[&&NHX:S=yeast:E=1.1.1.1],ADH3:0.13[&&NHX:S=yeast:E=1.1.1.1],ADH2:0.12[&&NHX:S=yeast:E=1.1.1.1],ADH1:0.11[&&NHX:S=yeast:E=1.1.1.1]):0.1[&&NHX:S=Fungi])[&&NHX:E=1.1.1.1:D=N]"
+        assert newick_str == expected_str
+
+    @staticmethod
+    def test_tree_to_newick_phylogenetic_attr_sep(phylogenetic_tree):
+        newick_str = export.tree_to_newick(
+            phylogenetic_tree,
+            intermediate_node_name=False,
+            length_attr="length",
+            attr_list=["S", "E", "D", "B"],
+            attr_sep=";",
+        )
+        expected_str = "(((ADH2:0.1[&&NHX:S=human;E=1.1.1.1],ADH1:0.11[&&NHX:S=human;E=1.1.1.1]):0.05[&&NHX:S=Primates;E=1.1.1.1;D=Y;B=100],ADHY:0.1[&&NHX:S=nematode;E=1.1.1.1],ADHX:0.12[&&NHX:S=insect;E=1.1.1.1]):0.1[&&NHX:S=Metazoa;E=1.1.1.1;D=N],(ADH4:0.09[&&NHX:S=yeast;E=1.1.1.1],ADH3:0.13[&&NHX:S=yeast;E=1.1.1.1],ADH2:0.12[&&NHX:S=yeast;E=1.1.1.1],ADH1:0.11[&&NHX:S=yeast;E=1.1.1.1]):0.1[&&NHX:S=Fungi])[&&NHX:E=1.1.1.1;D=N]"
+        assert newick_str == expected_str
