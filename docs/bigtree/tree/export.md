@@ -10,9 +10,9 @@ Export Tree to list, dictionary, pandas/polars DataFrame, and various formats.
 
 | Export Tree to                          | Method                                                           |
 |-----------------------------------------|------------------------------------------------------------------|
-| Command Line / Print                    | `print_tree`, `hprint_tree`, `vprint_tree`                       |
+| Command Line / Print                    | `print_tree`, `hprint_tree`, `vprint_tree`, `iprint_tree`        |
 | Generator (versatile)                   | `yield_tree`, `hyield_tree`, `vyield_tree`                       |
-| String                                  | `tree_to_newick`                                                 |
+| String                                  | `tree_to_newick`, `tree_to_html`                                 |
 | Dictionary                              | `tree_to_dict`, `tree_to_nested_dict`, `tree_to_nested_dict_key` |
 | DataFrame (pandas, polars)              | `tree_to_dataframe`, `tree_to_polars`                            |
 | Dot (for .dot, .png, .svg, .jpeg, etc.) | `tree_to_dot`                                                    |
@@ -33,6 +33,8 @@ While exporting to another data type, methods can take in arguments to determine
 | `hyield_tree`             | No                                  | Yes                   | No         | Yes, by hiding intermediate node name | Tree style, border style                             |
 | `vprint_tree`             | No                                  | Yes                   | No         | Yes, by hiding intermediate node name | Tree style, border style                             |
 | `vyield_tree`             | No                                  | Yes                   | No         | Yes, by hiding intermediate node name | Tree style, border style                             |
+| `iprint_tree`             | Yes with `attr_list`                | No                    | No         | No                                    | Node, border, edge, font customisations              |
+| `tree_to_html`            | Yes with `attr_list`                | No                    | No         | No                                    | Node, border, edge, font customisations              |
 | `tree_to_newick`          | Yes with `attr_list`                | No                    | No         | Yes, by hiding intermediate node name | Length separator and attribute prefix and separator  |
 | `tree_to_dict`            | Yes with `attr_dict` or `all_attrs` | Yes                   | Yes        | Yes with `leaf_only`                  | Dict key for parent                                  |
 | `tree_to_nested_dict`     | Yes with `attr_dict` or `all_attrs` | Yes                   | No         | No                                    | Dict key for node name and node children             |

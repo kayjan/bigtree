@@ -578,7 +578,35 @@ Other customisations for printing are also available, such as:
     # └── c
     ```
 
-### 2. Plot Tree
+### 2. Display on Jupyter Notebook
+
+Tree can be displayed interactively on jupyter notebook using `ishow`.
+
+```python hl_lines="9"
+from bigtree import Node, Tree
+
+root = Node("a", age=90, gender="F")
+b = Node("b", age=65, gender="M", parent=root)
+c = Node("c", age=60, gender="M", parent=root)
+d = Node("d", age=40, gender="F", parent=b)
+e = Node("e", age=35, gender="M", parent=b)
+tree = Tree(root)
+tree.ishow(all_attrs=True, height=400) # (1)!
+```
+
+1. Alternatively, `iprint_tree(tree.root)` can be used
+
+<div style="background-color: white;">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{%
+    include-markdown "../../../assets/demo/tree.html"
+    start="<body>"
+    end="</body>"
+%}
+</div>
+
+
+### 3. Plot Tree
 
 Tree can also be plotted using `plot` method directly with the help of `matplotlib` library.
 
@@ -1258,7 +1286,7 @@ For aggregating the differences at the parent-level instead of having `(+)` and 
 
 Tree can be exported to other data types:
 
-1. Newick string notation
+1. HTML, newick string notation
 2. Nested dictionary (flat structure and recursive structure)
 3. pandas DataFrame
 4. polars DataFrame
@@ -1285,6 +1313,11 @@ tree.show()
 # │   └── e
 # └── c
 ```
+
+=== "HTML"
+    ```python hl_lines="1"
+    tree.to_html()
+    ```
 
 === "Newick string notation"
     ```python hl_lines="1 4"

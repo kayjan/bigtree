@@ -79,11 +79,12 @@ For **Tree** implementation, there are 12 main components.
    2. Plot tree using matplotlib (optional dependency)
 11. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/export/)
    1. Print to console, in vertical or horizontal orientation
-   2. Export to *Newick string notation*, *dictionary*, *nested dictionary*, *pandas DataFrame*, or *polars DataFrame*
-   3. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
-   4. Export tree to *Pillow* (can save to .png, .jpg)
-   5. Export tree to *Mermaid Flowchart* (can display on .md)
-   6. Export tree to *Pyvis Network* (can display interactive .html)
+   2. Display on jupyter notebook
+   3. Export to *html*, *Newick string notation*, *dictionary*, *nested dictionary*, *pandas DataFrame*, or *polars DataFrame*
+   4. Export tree to *dot* (can save to .dot, .png, .svg, .jpeg files)
+   5. Export tree to *Pillow* (can save to .png, .jpg)
+   6. Export tree to *Mermaid Flowchart* (can display on .md)
+   7. Export tree to *Pyvis Network* (can display interactive .html)
 12. [**✔️ Workflows**](https://bigtree.readthedocs.io/stable/bigtree/workflows/app_todo)
    1. Sample workflows for tree demonstration!
 
