@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 import pandas as pd
 import polars as pl
@@ -492,6 +493,15 @@ class TestTreeExport:
         }
         actual = tree_tree.to_nested_dict_key()
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
+
+    @staticmethod
+    @patch("bigtree.tree.export.html.uuid.uuid4")
+    def test_to_html(mock_uuid4, tree_tree):
+        mock_uuid4.return_value.hex = "123456"
+        html_str = tree_tree.to_html()
+        with open("tests/tree/data/tree.html", "r") as file:
+            expected_html = file.read()
+        assert html_str == expected_html
 
     @staticmethod
     def test_print_tree(tree_tree):

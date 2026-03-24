@@ -419,6 +419,9 @@ def assert_tree_structure_node_self(self):
         expected_str,
     )
 
+    # Test ishow() -- bypass
+    self.a.ishow()
+
     # Test query()
     results = self.a.query("age >= 30")
     expected = ["a", "b", "d", "e", "c", "f"]

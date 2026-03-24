@@ -158,7 +158,7 @@ class TestBinaryTreeConstruct(unittest.TestCase):
 
 class TestBinaryTreeExport:
     @staticmethod
-    def test_show(binarytree_tree):
+    def test_print_tree(binarytree_tree):
         expected_str = (
             """1\n"""
             """├── 2\n"""

@@ -49,9 +49,9 @@ Export Tree to list, dictionary, pandas/polars DataFrame, and various formats.
 
 | Export Tree to                          | Method                                            |
 |-----------------------------------------|---------------------------------------------------|
-| Command Line / Print                    | `show`, `hshow`, `vshow`                          |
+| Command Line / Print                    | `show`, `hshow`, `vshow`, `ishow`                 |
 | Generator (versatile)                   | `yield`, `hyield`, `vyield`                       |
-| String                                  | `to_newick`                                       |
+| String                                  | `to_html`, `to_newick`                            |
 | Dictionary                              | `to_dict`, `to_nested_dict`, `to_nested_dict_key` |
 | DataFrame (pandas, polars)              | `to_dataframe`, `to_polars`                       |
 | Dot (for .dot, .png, .svg, .jpeg, etc.) | `to_dot`                                          |

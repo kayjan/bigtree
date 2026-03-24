@@ -1,0 +1,97 @@
+
+<div id="tree_123456" style="width: 100%; height: 700px; overflow: hidden;">
+    <script>
+        (function() {
+            const loadD3 = (callback) => {
+                if (window.d3) return callback(window.d3);
+                const script = document.createElement("script");
+                script.src = "https://d3js.org/d3.v7.min.js";
+                script.onload = () => callback(window.d3);
+                document.head.appendChild(script);
+            };
+
+            loadD3((d3) => {
+                const data = {"name": "abcdef", "age": 90, "cname": "Alice", "fillcolor": "gold", "children": [{"name": "a very long name for test", "age": "65", "cname": "Bob", "fillcolor": "lightblue", "children": [{"name": "d", "age": null, "cname": "Dan", "fillcolor": "green"}, {"name": "e", "age": null, "cname": null, "fillcolor": null, "children": [{"name": "g", "age": 10, "cname": null, "fillcolor": "red"}, {"name": "h", "age": 6, "cname": null, "fillcolor": "red"}]}]}, {"name": "c", "age": 60, "cname": null, "fillcolor": "lightblue", "children": [{"name": "f", "age": null, "cname": null, "fillcolor": "green"}]}]};
+                const width = 900;
+                const height = 700;
+                const nodeW = 160;
+                const nodeH = 150;
+                const rx = 12;
+
+                const container = d3.select("#tree_123456");
+                container.selectAll("svg").remove(); // Clean up for re-runs
+
+                const svg = container.append("svg")
+                    .attr("width", "100%")
+                    .attr("height", "100%")
+                    .attr("viewBox", `0 0 ${width} ${height}`)
+                    .call(d3.zoom().on("zoom", (e) => g.attr("transform", e.transform)));
+
+                const g = svg.append("g");
+                const tree = d3.tree().nodeSize([nodeW + 40, nodeH]);
+                const root = d3.hierarchy(data);
+                tree(root);
+
+                // Dynamic calculation for centering
+                const initialTransform = d3.zoomIdentity.translate(width/2, 60).scale(0.9);
+                svg.call(d3.zoom().transform, initialTransform);
+                g.attr("transform", initialTransform);
+
+                // Draw Links
+                g.selectAll(".link")
+                    .data(root.links())
+                    .join("path")
+                    .attr("fill", "none")
+                    .attr("stroke", "#ccc")
+                    .attr("stroke-width", 1.5)
+                    .attr("d", d3.linkVertical().x(d => d.x).y(d => d.y));
+
+                // Create Nodes
+                const node = g.selectAll(".node")
+                    .data(root.descendants())
+                    .join("g")
+                    .attr("transform", d => `translate(${d.x},${d.y})`);
+
+                // Calculate attributes to display (excluding structural keys)
+                const getAttrs = (d) => Object.entries(d.data)
+                    .filter(([k]) => !['name', 'children', 'fillcolor'].includes(k));
+
+                // Node Background
+                node.append("rect")
+                    .attr("x", -nodeW / 2)
+                    .attr("y", d => -20)
+                    .attr("width", nodeW)
+                    .attr("height", d => 40 + (getAttrs(d).length * 15))
+                    .attr("rx", rx)
+                    .style("fill", d => d.data.None || "#f8f9fa")
+                    .style("stroke", d => d.data.None || "#dee2e6")
+                    .style("stroke-width", d => d.data.None || "1px");
+
+                // Node Title (Name)
+                node.append("text")
+                    .attr("dy", "3")
+                    .attr("text-anchor", "middle")
+                    .style("font-family", "sans-serif")
+                    .style("font-weight", "bold")
+                    .style("font-size", "13px")
+                    .style("fill", d => d.data.fillcolor || "#333")
+                    .text(d => d.data.name);
+
+                // Dynamic Attributes (Loop through anything else)
+                node.each(function(d) {
+                    const attrs = getAttrs(d);
+                    const el = d3.select(this);
+                    attrs.forEach(([key, val], i) => {
+                        el.append("text")
+                            .attr("dy", 20 + (i * 15))
+                            .attr("text-anchor", "middle")
+                            .style("font-family", "monospace")
+                            .style("font-size", "11px")
+                            .style("fill", d.data.fillcolor || "#333")
+                            .text(`${key}: ${val}`);
+                    });
+                });
+            });
+        })();
+    </script>
+</div>

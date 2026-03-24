@@ -210,6 +210,85 @@ def tree_node_style():
 
 
 @pytest.fixture
+def tree_node_style2():
+    """
+    Tree should have structure
+    a
+    |-- b
+    |   |-- d
+    |   +-- e
+    |       |-- g
+    |       +-- h
+    +-- c
+        +-- f
+    """
+    a = node.Node(
+        "a",
+        cname="Alice",
+        age=90,
+        fillcolor="gold",
+        border_width="1.5px",
+        border_colour="black",
+    )
+    b = node.Node(
+        "b",
+        cname="Bob",
+        age="65",
+        fillcolor="lightblue",
+        border_width="1px",
+        border_colour="purple",
+    )
+    c = node.Node(
+        "c",
+        age=60,
+        fillcolor="lightblue",
+        border_width="1px",
+        border_colour="purple",
+    )
+    d = node.Node(
+        "d",
+        cname="Dan",
+        fillcolor="green",
+        fontcolor="white",
+        border_width="1px",
+        border_colour="red",
+    )
+    e = node.Node(
+        "e",
+        border_width="1px",
+        border_colour="red",
+    )
+    f = node.Node(
+        "f",
+        fillcolor="green",
+        border_colour="red",
+        fontcolor="white",
+    )
+    g = node.Node(
+        "g",
+        age=10,
+        fillcolor="red",
+        border_width="3px",
+    )
+    h = node.Node(
+        "h",
+        age=6,
+        fillcolor="red",
+        border_width="3px",
+        border_colour="blue",
+    )
+
+    b.parent = a
+    c.parent = a
+    d.parent = b
+    e.parent = b
+    f.parent = c
+    g.parent = e
+    h.parent = e
+    return a
+
+
+@pytest.fixture
 def tree_node_style_callable():
     """
     Tree should have structure

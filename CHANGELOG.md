@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - Misc: Citation file.
+- Tree Export: Export to HTML, which also allows tree to be displayed interactively on jupyter notebook.
 ### Changed:
 - Docs: Clean up and make more succinct.
 - DAGNode: Ancestor and descendant methods to return iterator.

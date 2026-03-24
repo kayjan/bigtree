@@ -4,6 +4,7 @@ from .dictionaries import (  # noqa
     tree_to_nested_dict,
     tree_to_nested_dict_key,
 )
+from .html import iprint_tree, tree_to_html  # noqa
 from .images import (  # noqa
     tree_to_dot,
     tree_to_mermaid,
@@ -32,6 +33,8 @@ __all__ = [
     "tree_to_mermaid",
     "tree_to_pillow",
     "tree_to_pillow_graph",
+    "iprint_tree",
+    "tree_to_html",
     "print_rich",
     "print_tree",
     "yield_tree",
