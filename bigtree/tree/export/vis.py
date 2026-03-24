@@ -83,12 +83,6 @@ def tree_to_vis(
         **pyvis_params.DEFAULT_CUSTOM_NODE_KWARGS,
         **(custom_node_kwargs or {}),
     }
-
-    plot_kwargs = {**pyvis_params.DEFAULT_PLOT_KWARGS, **(plot_kwargs or {})}
-    custom_node_kwargs = {
-        **pyvis_params.DEFAULT_CUSTOM_NODE_KWARGS,
-        **(custom_node_kwargs or {}),
-    }
     node_kwargs = {**pyvis_params.DEFAULT_NODE_KWARGS, **(node_kwargs or {})}
     custom_edge_kwargs = custom_edge_kwargs or {}
     edge_kwargs = edge_kwargs or {}
