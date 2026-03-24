@@ -4,14 +4,16 @@
   <head>
     
 <meta name="keywords" content="Python, Tree, Bigtree">
-<meta property="og:url" content="https://kayjan.github.io/bigtree/bigtree/tree/tree/" />
+<meta property="og:url" content="https://bigtree.readthedocs.io/bigtree/tree/tree/" />
 
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame">
       
       
-        <link rel="canonical" href="https://kayjan.github.io/bigtree/bigtree/tree/tree/">
+      
+        <link rel="canonical" href="https://bigtree.readthedocs.io/bigtree/tree/tree/">
       
       
         <link rel="prev" href="../../dag/parsing/">
@@ -71,9 +73,9 @@
       
         <meta  property="og:title"  content="Tree - bigtree Documentation" >
       
-        <meta  property="og:description"  content="None" >
+        <meta  property="og:description"  content="Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame" >
       
-        <meta  property="og:image"  content="https://kayjan.github.io/bigtree/assets/images/social/bigtree/tree/tree.png" >
+        <meta  property="og:image"  content="https://bigtree.readthedocs.io/assets/images/social/bigtree/tree/tree.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -81,15 +83,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://kayjan.github.io/bigtree/bigtree/tree/tree/" >
+        <meta  property="og:url"  content="https://bigtree.readthedocs.io/bigtree/tree/tree/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
         <meta  name="twitter:title"  content="Tree - bigtree Documentation" >
       
-        <meta  name="twitter:description"  content="None" >
+        <meta  name="twitter:description"  content="Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame" >
       
-        <meta  name="twitter:image"  content="https://kayjan.github.io/bigtree/assets/images/social/bigtree/tree/tree.png" >
+        <meta  name="twitter:image"  content="https://bigtree.readthedocs.io/assets/images/social/bigtree/tree/tree.png" >
       
     
     
@@ -1983,9 +1985,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tree-helper-methods" class="md-nav__link">
+  <a href="#tree-iterator-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      Tree Helper Methods
+      Tree Iterator Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tree-modify-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tree Modify Methods
     </span>
   </a>
   
@@ -2001,9 +2012,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#iterator-methods" class="md-nav__link">
+  <a href="#tree-helper-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      Iterator Methods
+      Tree Helper Methods
     </span>
   </a>
   
@@ -2953,9 +2964,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tree-helper-methods" class="md-nav__link">
+  <a href="#tree-iterator-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      Tree Helper Methods
+      Tree Iterator Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tree-modify-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tree Modify Methods
     </span>
   </a>
   
@@ -2971,9 +2991,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#iterator-methods" class="md-nav__link">
+  <a href="#tree-helper-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      Iterator Methods
+      Tree Helper Methods
     </span>
   </a>
   
@@ -3079,44 +3099,32 @@ methods.</p>
 <th>Construct tree from</th>
 <th>Using full path</th>
 <th>Using parent-child relation</th>
-<th>Using notation</th>
 <th>Add node attributes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>String</td>
-<td><code>Tree.from_str</code></td>
-<td>NA</td>
-<td><code>Tree.from_newick</code></td>
-<td>No (for <code>Tree.from_str</code>)<br>Yes (for <code>Tree.from_newick</code>)</td>
-</tr>
-<tr>
 <td>List</td>
 <td><code>Tree.from_list</code></td>
 <td><code>Tree.from_list_relation</code></td>
-<td>NA</td>
 <td>No</td>
 </tr>
 <tr>
 <td>Dictionary</td>
 <td><code>Tree.from_dict</code></td>
 <td><code>Tree.from_nested_dict</code>, <code>Tree.from_nested_dict_key</code></td>
-<td>NA</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td>pandas DataFrame</td>
 <td><code>Tree.from_dataframe</code></td>
 <td><code>Tree.from_dataframe_relation</code></td>
-<td>NA</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td>polars DataFrame</td>
 <td><code>Tree.from_polars</code></td>
 <td><code>Tree.from_polars_relation</code></td>
-<td>NA</td>
 <td>Yes</td>
 </tr>
 </tbody>
@@ -3130,6 +3138,16 @@ methods.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>String</td>
+<td><code>Tree.from_str</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Newick string</td>
+<td><code>Tree.from_newick</code></td>
+<td>Yes</td>
+</tr>
 <tr>
 <td>rich Tree</td>
 <td><code>Tree.from_rich</code></td>
@@ -3181,7 +3199,7 @@ If attributes are added to existing tree using <strong>node name</strong>, names
 <tbody>
 <tr>
 <td>Command Line / Print</td>
-<td><code>show</code>, <code>hshow</code>, <code>vshow</code></td>
+<td><code>show</code>, <code>hshow</code>, <code>vshow</code>, <code>ishow</code></td>
 </tr>
 <tr>
 <td>Generator (versatile)</td>
@@ -3189,7 +3207,7 @@ If attributes are added to existing tree using <strong>node name</strong>, names
 </tr>
 <tr>
 <td>String</td>
-<td><code>to_newick</code></td>
+<td><code>to_html</code>, <code>to_newick</code></td>
 </tr>
 <tr>
 <td>Dictionary</td>
@@ -3217,8 +3235,41 @@ If attributes are added to existing tree using <strong>node name</strong>, names
 </tr>
 </tbody>
 </table>
-<h2 id="tree-helper-methods">Tree Helper Methods</h2>
-<p>Helper functions that can come in handy. Helper methods will return a separate Tree-type object.</p>
+<h2 id="tree-iterator-methods">Tree Iterator Methods</h2>
+<p>Iterator methods will return Node-type object(s).</p>
+<table>
+<thead>
+<tr>
+<th>Data Structure</th>
+<th>Algorithm</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tree</td>
+<td><code>preorder_iter</code></td>
+<td>Depth-First Search, NLR</td>
+</tr>
+<tr>
+<td>Tree</td>
+<td><code>postorder_iter</code></td>
+<td>Depth-First Search, LRN</td>
+</tr>
+<tr>
+<td>Tree</td>
+<td><code>levelorder_iter</code>, <code>levelordergroup_iter</code></td>
+<td>Breadth-First Search</td>
+</tr>
+<tr>
+<td>Tree</td>
+<td><code>zigzag_iter</code>, <code>zigzaggroup_iter</code></td>
+<td>Breadth-First Search</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tree-modify-methods">Tree Modify Methods</h2>
+<p>Modification functions can shift and/or copy nodes within the same tree.</p>
 <table>
 <thead>
 <tr>
@@ -3228,20 +3279,12 @@ If attributes are added to existing tree using <strong>node name</strong>, names
 </thead>
 <tbody>
 <tr>
-<td>Clone tree</td>
-<td><code>clone</code></td>
+<td>Shift node(s)</td>
+<td><code>shift_nodes</code> / <code>shift_and_replace_nodes</code></td>
 </tr>
 <tr>
-<td>Get subtree</td>
-<td><code>subtree</code></td>
-</tr>
-<tr>
-<td>Prune tree</td>
-<td><code>prune</code></td>
-</tr>
-<tr>
-<td>Compare trees</td>
-<td><code>diff_dataframe</code>, <code>diff</code></td>
+<td>Copy node(s)</td>
+<td><code>copy_nodes</code></td>
 </tr>
 </tbody>
 </table>
@@ -3283,36 +3326,31 @@ If attributes are added to existing tree using <strong>node name</strong>, names
 </tr>
 </tbody>
 </table>
-<h2 id="iterator-methods">Iterator Methods</h2>
-<p>Iterator methods will return Node-type object(s).</p>
+<h2 id="tree-helper-methods">Tree Helper Methods</h2>
+<p>Helper functions that can come in handy. Helper methods will return a separate Tree-type object.</p>
 <table>
 <thead>
 <tr>
-<th>Data Structure</th>
-<th>Algorithm</th>
 <th>Description</th>
+<th>Method</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Tree</td>
-<td><code>preorder_iter</code></td>
-<td>Depth-First Search, NLR</td>
+<td>Clone tree</td>
+<td><code>clone</code></td>
 </tr>
 <tr>
-<td>Tree</td>
-<td><code>postorder_iter</code></td>
-<td>Depth-First Search, LRN</td>
+<td>Get subtree</td>
+<td><code>subtree</code></td>
 </tr>
 <tr>
-<td>Tree</td>
-<td><code>levelorder_iter</code>, <code>levelordergroup_iter</code></td>
-<td>Breadth-First Search</td>
+<td>Prune tree</td>
+<td><code>prune</code></td>
 </tr>
 <tr>
-<td>Tree</td>
-<td><code>zigzag_iter</code>, <code>zigzaggroup_iter</code></td>
-<td>Breadth-First Search</td>
+<td>Compare trees</td>
+<td><code>diff_dataframe</code>, <code>diff</code></td>
 </tr>
 </tbody>
 </table>
@@ -3367,13 +3405,15 @@ If attributes are added to existing tree using <strong>node name</strong>, names
 
 
         <p>Tree wraps around Node class to provide a quick, intuitive, Pythonic API for</p>
-<div class="language-text highlight"><pre><span></span><code>* Construction with dataframe, dictionary, list, or string
-* Export to dataframe, dictionary, list, string, or images
-* Helper methods for cloning, pruning, getting subtree and tree diff
-* Iterator methods to parse tree
-* Query and Search methods to find one or more Nodes
-* Plot methods
-</code></pre></div>
+<ul>
+<li>Construction with dataframe, dictionary, list, or string</li>
+<li>Export to dataframe, dictionary, list, string, or images</li>
+<li>Iterator methods to parse tree</li>
+<li>Modify methods for shifting and copying nodes</li>
+<li>Query and Search methods to find one or more Nodes</li>
+<li>Helper methods for cloning, pruning, getting subtree and tree diff</li>
+<li>Plot methods</li>
+</ul>
 <p>Do refer to the various modules respectively on the keyword parameters.</p>
 
 

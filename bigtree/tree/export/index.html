@@ -4,14 +4,16 @@
   <head>
     
 <meta name="keywords" content="Python, Tree, Bigtree">
-<meta property="og:url" content="https://kayjan.github.io/bigtree/bigtree/tree/export/" />
+<meta property="og:url" content="https://bigtree.readthedocs.io/bigtree/tree/export/" />
 
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame">
       
       
-        <link rel="canonical" href="https://kayjan.github.io/bigtree/bigtree/tree/export/">
+      
+        <link rel="canonical" href="https://bigtree.readthedocs.io/bigtree/tree/export/">
       
       
         <link rel="prev" href="../construct/">
@@ -71,9 +73,9 @@
       
         <meta  property="og:title"  content="Tree Export - bigtree Documentation" >
       
-        <meta  property="og:description"  content="None" >
+        <meta  property="og:description"  content="Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame" >
       
-        <meta  property="og:image"  content="https://kayjan.github.io/bigtree/assets/images/social/bigtree/tree/export.png" >
+        <meta  property="og:image"  content="https://bigtree.readthedocs.io/assets/images/social/bigtree/tree/export.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -81,15 +83,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://kayjan.github.io/bigtree/bigtree/tree/export/" >
+        <meta  property="og:url"  content="https://bigtree.readthedocs.io/bigtree/tree/export/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
         <meta  name="twitter:title"  content="Tree Export - bigtree Documentation" >
       
-        <meta  name="twitter:description"  content="None" >
+        <meta  name="twitter:description"  content="Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame" >
       
-        <meta  name="twitter:image"  content="https://kayjan.github.io/bigtree/assets/images/social/bigtree/tree/export.png" >
+        <meta  name="twitter:image"  content="https://bigtree.readthedocs.io/assets/images/social/bigtree/tree/export.png" >
       
     
     
@@ -2084,6 +2086,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.export.iprint_tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;iprint_tree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.export.tree_to_html" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;tree_to_html
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.export.tree_to_dot" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;tree_to_dot
@@ -3092,6 +3112,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.tree.export.iprint_tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;iprint_tree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.tree.export.tree_to_html" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;tree_to_html
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.tree.export.tree_to_dot" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;tree_to_dot
@@ -3245,7 +3283,7 @@
 <tbody>
 <tr>
 <td>Command Line / Print</td>
-<td><code>print_tree</code>, <code>hprint_tree</code>, <code>vprint_tree</code></td>
+<td><code>print_tree</code>, <code>hprint_tree</code>, <code>vprint_tree</code>, <code>iprint_tree</code></td>
 </tr>
 <tr>
 <td>Generator (versatile)</td>
@@ -3253,7 +3291,7 @@
 </tr>
 <tr>
 <td>String</td>
-<td><code>tree_to_newick</code></td>
+<td><code>tree_to_html</code>, <code>tree_to_newick</code></td>
 </tr>
 <tr>
 <td>Dictionary</td>
@@ -3342,6 +3380,22 @@
 <td>No</td>
 <td>Yes, by hiding intermediate node name</td>
 <td>Tree style, border style</td>
+</tr>
+<tr>
+<td><code>iprint_tree</code></td>
+<td>Yes with <code>attr_list</code></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Node, border, edge, font customisations</td>
+</tr>
+<tr>
+<td><code>tree_to_html</code></td>
+<td>Yes with <code>attr_list</code></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Node, border, edge, font customisations</td>
 </tr>
 <tr>
 <td><code>tree_to_newick</code></td>
@@ -4501,6 +4555,417 @@ If child_key is None, the children key is nested recursive dictionary of node na
             <td>
               <div class="doc-md-description">
                 <p>Dictionary containing tree information</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="bigtree.tree.export.iprint_tree" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">iprint_tree</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">iprint_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Display tree interactively on jupyter notebook.</p>
+<p>Refer to <code>tree_to_html</code> for full list of parameters.</p>
+<p>Customisations that applies to whole tree include</p>
+<ul>
+<li>Node colour, width</li>
+<li>Border colour, radius, width</li>
+<li>Edge colour, width</li>
+<li>Font colour, title size, size</li>
+</ul>
+<p>Customisations available on a per-node basis include</p>
+<ul>
+<li>Node colour</li>
+<li>Border colour, width</li>
+<li>Font colour</li>
+</ul>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="language-pycon highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">Node</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s2">&quot;human&quot;</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">ishow</span><span class="p">(</span><span class="n">all_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">&lt;IPython.core.display.HTML object&gt;</span>
+</span></code></pre></div>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>tree</code>
+            </td>
+            <td>
+                  <code><span title="bigtree.tree.export.html.T">T</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tree to display</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>refer to <code>tree_to_html</code> for list of parameters</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="bigtree.tree.export.tree_to_html" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">tree_to_html</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">tree_to_html</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">tree</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">all_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">attr_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">node_colour</span><span class="o">=</span><span class="s2">&quot;#f8f9fa&quot;</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">node_width</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">border_colour</span><span class="o">=</span><span class="s2">&quot;#dee2e6&quot;</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">border_radius</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">border_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">edge_colour</span><span class="o">=</span><span class="s2">&quot;#ccc&quot;</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">edge_width</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">font_colour</span><span class="o">=</span><span class="s2">&quot;#333&quot;</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">font_title_size</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">font_size</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Get html tree diagram.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>tree</code>
+            </td>
+            <td>
+                  <code><span title="bigtree.tree.export.html.T">T</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>tree to display</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>all_attrs</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>indicator to show all attributes, overrides <code>attr_list</code></p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>attr_list</code>
+            </td>
+            <td>
+                  <code><span title="typing.Iterable">Iterable</span>[<span title="str">str</span>] | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node attributes to print</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>node_colour</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>fill colour of nodes, accepts hexcode (starts with #), otherwise will be
+interpreted as the <code>Node</code> attribute for node_colour</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;#f8f9fa&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>node_width</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node width of nodes</p>
+              </div>
+            </td>
+            <td>
+                  <code>160</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>border_colour</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>colour of node borders, accepts hexcode (starts with #), otherwise will be
+interpreted as the <code>Node</code> attribute for custom border_colour</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;#dee2e6&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>border_radius</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node radius of nodes</p>
+              </div>
+            </td>
+            <td>
+                  <code>12</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>border_width</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span> | <span title="int">int</span> | <span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>width of node borders, accepts int/float, otherwise if it is string it will
+be interpreted as the <code>Node</code> attribute for custom border_width</p>
+              </div>
+            </td>
+            <td>
+                  <code>1</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>edge_colour</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>colour of edges</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;#ccc&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>edge_width</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span> | <span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>width of edges</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.5</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>font_colour</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>font colour, accepts hexcode (starts with #), otherwise will be
+interpreted as the <code>Node</code> attribute for custom font_colour</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;#333&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>font_title_size</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>font size of title text in node</p>
+              </div>
+            </td>
+            <td>
+                  <code>13</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>font_size</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>font size of attribute text in node</p>
+              </div>
+            </td>
+            <td>
+                  <code>11</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>height</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>height of diagram</p>
+              </div>
+            </td>
+            <td>
+                  <code>500</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>width</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>width of diagram</p>
+              </div>
+            </td>
+            <td>
+                  <code>900</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>HTML string to display</p>
               </div>
             </td>
           </tr>

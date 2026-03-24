@@ -1,203 +1,203 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://kayjan.github.io/bigtree/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/_static/playground/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/_static/playground/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/_static/playground_whl/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/_static/playground_whl/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/binarytree/binarytree/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/binarytree/binarytree/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/binarytree/construct/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/binarytree/construct/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/dag/construct/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/dag/construct/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/dag/dag/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/dag/dag/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/dag/export/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/dag/export/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/dag/parsing/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/dag/parsing/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/node/basenode/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/node/basenode/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/node/binarynode/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/node/binarynode/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/node/dagnode/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/node/dagnode/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/node/node/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/node/node/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/tree/construct/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/tree/construct/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/tree/export/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/tree/export/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/tree/helper/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/tree/helper/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/tree/modify/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/tree/modify/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/tree/parsing/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/tree/parsing/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/tree/query/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/tree/query/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/tree/search/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/tree/search/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/tree/tree/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/tree/tree/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/utils/iterators/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/utils/iterators/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/utils/plot/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/utils/plot/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/workflows/app_calendar/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/workflows/app_calendar/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/bigtree/workflows/app_todo/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/bigtree/workflows/app_todo/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/gettingstarted/demo/Workflow%20Demonstration/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/gettingstarted/demo/Workflow%20Demonstration/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/gettingstarted/demo/binarytree/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/gettingstarted/demo/binarytree/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/gettingstarted/demo/dag/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/gettingstarted/demo/dag/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/gettingstarted/demo/tree/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/gettingstarted/demo/tree/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/gettingstarted/demo/workflow/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/gettingstarted/demo/workflow/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/gettingstarted/resources/articles/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/gettingstarted/resources/articles/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/gettingstarted/resources/glossary/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/gettingstarted/resources/glossary/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/Benchmark%20Library/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/Benchmark%20Library/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/benchmarks/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/benchmarks/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/binarytree/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/binarytree/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/changelog/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/changelog/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/community/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/community/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/contributing/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/contributing/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/convention/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/convention/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/dag/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/dag/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/install/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/install/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/home/tree/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/home/tree/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/others/custom_coordinates/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/others/custom_coordinates/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/others/list_dir/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/others/list_dir/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/others/nodes/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/others/nodes/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/others/remove_checks/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/others/remove_checks/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/others/weighted_trees/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/others/weighted_trees/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/others/work_with_classes/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/others/work_with_classes/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
     <url>
-         <loc>https://kayjan.github.io/bigtree/playground/</loc>
-         <lastmod>2026-02-13</lastmod>
+         <loc>https://bigtree.readthedocs.io/playground/</loc>
+         <lastmod>2026-03-24</lastmod>
     </url>
 </urlset>

@@ -4,14 +4,16 @@
   <head>
     
 <meta name="keywords" content="Python, Tree, Bigtree">
-<meta property="og:url" content="https://kayjan.github.io/bigtree/bigtree/tree/construct/" />
+<meta property="og:url" content="https://bigtree.readthedocs.io/bigtree/tree/construct/" />
 
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame">
       
       
-        <link rel="canonical" href="https://kayjan.github.io/bigtree/bigtree/tree/construct/">
+      
+        <link rel="canonical" href="https://bigtree.readthedocs.io/bigtree/tree/construct/">
       
       
         <link rel="prev" href="../tree/">
@@ -71,9 +73,9 @@
       
         <meta  property="og:title"  content="Tree Construct - bigtree Documentation" >
       
-        <meta  property="og:description"  content="None" >
+        <meta  property="og:description"  content="Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame" >
       
-        <meta  property="og:image"  content="https://kayjan.github.io/bigtree/assets/images/social/bigtree/tree/construct.png" >
+        <meta  property="og:image"  content="https://bigtree.readthedocs.io/assets/images/social/bigtree/tree/construct.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -81,15 +83,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://kayjan.github.io/bigtree/bigtree/tree/construct/" >
+        <meta  property="og:url"  content="https://bigtree.readthedocs.io/bigtree/tree/construct/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
         <meta  name="twitter:title"  content="Tree Construct - bigtree Documentation" >
       
-        <meta  name="twitter:description"  content="None" >
+        <meta  name="twitter:description"  content="Tree Implementation and Methods for Python, integrated with list, dictionary, pandas and polars DataFrame" >
       
-        <meta  name="twitter:image"  content="https://kayjan.github.io/bigtree/assets/images/social/bigtree/tree/construct.png" >
+        <meta  name="twitter:image"  content="https://bigtree.readthedocs.io/assets/images/social/bigtree/tree/construct.png" >
       
     
     
@@ -3278,51 +3280,38 @@
 <th>Construct tree from</th>
 <th>Using full path</th>
 <th>Using parent-child relation</th>
-<th>Using notation</th>
 <th>Add node attributes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>String</td>
-<td><code>str_to_tree</code></td>
-<td>NA</td>
-<td><code>newick_to_tree</code></td>
-<td>No (for <code>str_to_tree</code>)<br>Yes (for <code>newick_to_tree</code>)</td>
-</tr>
-<tr>
 <td>List</td>
 <td><code>list_to_tree</code></td>
 <td><code>list_to_tree_by_relation</code></td>
-<td>NA</td>
 <td>No</td>
 </tr>
 <tr>
 <td>Dictionary</td>
 <td><code>dict_to_tree</code></td>
 <td><code>nested_dict_to_tree</code>, <code>nested_dict_key_to_tree</code></td>
-<td>NA</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td>pandas DataFrame</td>
 <td><code>dataframe_to_tree</code></td>
 <td><code>dataframe_to_tree_by_relation</code></td>
-<td>NA</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td>polars DataFrame</td>
 <td><code>polars_to_tree</code></td>
 <td><code>polars_to_tree_by_relation</code></td>
-<td>NA</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td>Interactive UI</td>
 <td>NA</td>
 <td><code>render_tree</code></td>
-<td>NA</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -3336,6 +3325,16 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>String</td>
+<td><code>str_to_tree</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Newick string</td>
+<td><code>newick_to_tree</code></td>
+<td>Yes</td>
+</tr>
 <tr>
 <td>rich Tree</td>
 <td><code>rich_to_tree</code></td>
@@ -6492,7 +6491,7 @@ square brackets.</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">child</span> <span class="o">=</span> <span class="n">rich_root</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;Child&quot;</span><span class="p">)</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Grandchild&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">))</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">rich_root</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;Child 2&quot;</span><span class="p">)</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="o">.</span><span class="n">rich_to_tree</span><span class="p">(</span><span class="n">rich_root</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="o">.</span><span class="n">from_rich</span><span class="p">(</span><span class="n">rich_root</span><span class="p">)</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">all_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Try with rich=True, node_format_attr=&quot;style&quot;</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">Grandparent [style=magenta]</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">├── Child</span>
