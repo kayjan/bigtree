@@ -495,6 +495,15 @@ class TestTreeExport:
         assert actual == expected, f"Expected\n{expected}\nReceived\n{actual}"
 
     @staticmethod
+    @patch("bigtree.tree.export.html.uuid.uuid4")
+    def test_to_html(mock_uuid4, tree_tree):
+        mock_uuid4.return_value.hex = "123456"
+        html_str = tree_tree.to_html()
+        with open("tests/tree/data/tree.html", "r") as file:
+            expected_html = file.read()
+        assert html_str == expected_html
+
+    @staticmethod
     def test_print_tree(tree_tree):
         assert_print_statement(
             tree_tree.show,
@@ -520,15 +529,6 @@ class TestTreeExport:
         newick_str = tree_tree.to_newick()
         expected_str = "((d,(g,h)e)b,(f)c)a"
         assert newick_str == expected_str
-
-    @staticmethod
-    @patch("bigtree.tree.export.stdout.uuid.uuid4")
-    def test_to_html(mock_uuid4, tree_tree):
-        mock_uuid4.return_value.hex = "123456"
-        html_str = tree_tree.to_html()
-        with open("tests/tree/data/tree.html", "r") as file:
-            expected_html = file.read()
-        assert html_str == expected_html
 
     @staticmethod
     def test_to_dot(tree_tree):
