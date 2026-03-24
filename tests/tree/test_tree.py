@@ -524,8 +524,7 @@ class TestTreeExport:
     @staticmethod
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_to_html(mock_uuid4, tree_tree):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
         html_str = tree_tree.to_html()
         with open("tests/tree/data/tree.html", "r") as file:
             expected_html = file.read()

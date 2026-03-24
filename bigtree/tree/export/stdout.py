@@ -1254,14 +1254,20 @@ def iprint_tree(
 ) -> None:
     """Display tree interactively on jupyter notebook.
 
-    Refer to ``tree_to_html`` for list of parameters.
+    Refer to ``tree_to_html`` for full list of parameters.
 
-    Customisations include
+    Customisations that applies to whole tree include
 
-    - Node colour (generic or custom), width
-    - Border colour (generic or custom), width, radius
+    - Node colour, width
+    - Border colour, radius, width
     - Edge colour, width
     - Font colour, title size, size
+
+    Customisations available on a per-node basis include
+
+    - Node colour
+    - Border colour, width
+    - Font colour
 
     Examples:
         >>> from bigtree import Node
@@ -1358,6 +1364,7 @@ def tree_to_html(
             int_param = default_param
         return int_param, param_attr
 
+    # Evaluate whether customisations are generic or from node attribute
     node_colour, node_colour_attr = _get_colour_or_attr(
         node_colour, DEFAULT_NODE_COLOUR
     )
@@ -1370,6 +1377,7 @@ def tree_to_html(
     border_width, border_width_attr = _get_int_or_attr(
         border_width, DEFAULT_BORDER_WIDTH
     )
+
     attr_dict: dict[str, str] = dict(
         zip(attr_list + additional_attr_list, attr_list + additional_attr_list)
     )

@@ -2134,8 +2134,7 @@ class TestTreeToHtml:
 
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_tree_to_html(self, mock_uuid4, tree_node_style2):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
         html = export.tree_to_html(tree_node_style2)
         with open(f"{self.folder_path}/tree.html", "r") as file:
             expected_html = file.read()
@@ -2143,8 +2142,7 @@ class TestTreeToHtml:
 
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_tree_to_html_all_attrs(self, mock_uuid4, tree_node_style2):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
         html = export.tree_to_html(tree_node_style2, all_attrs=True)
         with open(f"{self.folder_path}/tree_all_attrs.html", "r") as file:
             expected_html = file.read()
@@ -2152,8 +2150,7 @@ class TestTreeToHtml:
 
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_tree_to_html_attr_list(self, mock_uuid4, tree_node_style2):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
         html = export.tree_to_html(tree_node_style2, attr_list=["age"])
         with open(f"{self.folder_path}/tree_attr_list.html", "r") as file:
             expected_html = file.read()
@@ -2161,8 +2158,7 @@ class TestTreeToHtml:
 
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_tree_to_html_node_width_and_colour(self, mock_uuid4, tree_node_style2):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
 
         # Make the name longer
         tree_node_style2.name = "abcdefghijklmnopqrstuvwxyz"
@@ -2181,8 +2177,7 @@ class TestTreeToHtml:
 
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_tree_to_html_node_custom(self, mock_uuid4, tree_node_style2):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
 
         # Make the name longer
         tree_node_style2.name = "abcdefghijklmnopqrstuvwxyz"
@@ -2201,8 +2196,7 @@ class TestTreeToHtml:
 
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_tree_to_html_border(self, mock_uuid4, tree_node_style2):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
 
         html = export.tree_to_html(
             tree_node_style2,
@@ -2218,8 +2212,7 @@ class TestTreeToHtml:
 
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_tree_to_html_border_custom(self, mock_uuid4, tree_node_style2):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
 
         html = export.tree_to_html(
             tree_node_style2,
@@ -2234,8 +2227,7 @@ class TestTreeToHtml:
 
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_tree_to_html_edge(self, mock_uuid4, tree_node_style2):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
 
         html = export.tree_to_html(
             tree_node_style2,
@@ -2250,8 +2242,7 @@ class TestTreeToHtml:
 
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_tree_to_html_font(self, mock_uuid4, tree_node_style2):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
 
         # Make the name longer
         tree_node_style2.name = "abcdef"
@@ -2272,8 +2263,7 @@ class TestTreeToHtml:
 
     @patch("bigtree.tree.export.stdout.uuid.uuid4")
     def test_tree_to_html_font_custom(self, mock_uuid4, tree_node_style2):
-        mock_hex_value = "123456"
-        mock_uuid4.return_value.hex = mock_hex_value
+        mock_uuid4.return_value.hex = "123456"
 
         # Make the name longer
         tree_node_style2.name = "abcdef"
