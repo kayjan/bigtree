@@ -5,11 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed:
+- Misc: Clean up and remove redundant lines.
 
 ## [1.4.0] - 2026-03-24
 ### Added:
 - Misc: Citation file.
-- Tree Export: Export to HTML, which also allows tree to be displayed interactively on jupyter notebook.
+- Tree Export: Export to HTML, which also allows tree to be displayed interactively in jupyter notebook.
 ### Changed:
 - Docs: Clean up and make more succinct.
 - DAGNode: Ancestor and descendant methods to return iterator.

@@ -54,7 +54,7 @@ def tree_to_dot(
     node_attr: Callable[[T], dict[str, Any]] | str | None = None,
     edge_attr: Callable[[T], dict[str, Any]] | str | None = None,
 ) -> pydot.Dot:
-    r"""Export tree(s) to pydot.Dot object. Object can be converted to other format, such as png, dot file or dot string.
+    r"""Export tree(s) to pydot.Dot object. Object can be converted to other formats, such as png, dot file or dot string.
     Dot string can be imported to work with networkx.
 
     Possible node attributes include style, fillcolor, shape.
