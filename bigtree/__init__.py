@@ -1,4 +1,4 @@
-__version__ = "1.3.1"
+__version__ = "1.4.0"
 
 from bigtree._globals import Globals
 from bigtree.binarytree.binarytree import BinaryTree
