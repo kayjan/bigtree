@@ -88,7 +88,7 @@ def findall(
     return result
 
 
-def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
+def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T | None:
     """Search tree for a single node matching condition (callable function).
 
     Examples:
@@ -121,7 +121,7 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T:
         return result[0]
 
 
-def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT:
+def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT | None:
     """Search tree for a single node matching name attribute.
 
     Examples:
@@ -175,7 +175,7 @@ def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
     return findall(tree, lambda _node: _node.node_name == name, max_depth)
 
 
-def find_relative_path(tree: NodeT, path_name: str) -> NodeT:
+def find_relative_path(tree: NodeT, path_name: str) -> NodeT | None:
     r"""Search tree for a single node matching relative path attribute.
 
     - Supports unix folder expression for relative path, i.e., '../../node_name'
@@ -301,7 +301,7 @@ def find_relative_paths(
     return result
 
 
-def find_full_path(tree: NodeT, path_name: str) -> NodeT:
+def find_full_path(tree: NodeT, path_name: str) -> NodeT | None:
     """Search tree for a single node matching path attribute.
 
     - Path name can be with or without leading tree path separator symbol
@@ -342,7 +342,7 @@ def find_full_path(tree: NodeT, path_name: str) -> NodeT:
     return child_node
 
 
-def find_path(tree: NodeT, path_name: str) -> NodeT:
+def find_path(tree: NodeT, path_name: str) -> NodeT | None:
     """Search tree for a single node matching path attribute.
 
     - Path name can be with or without leading tree path separator symbol
@@ -406,7 +406,7 @@ def find_paths(tree: NodeT, path_name: str) -> Iterable[NodeT]:
 
 def find_attr(
     tree: basenode.BaseNode, attr_name: str, attr_value: Any, max_depth: int = 0
-) -> basenode.BaseNode:
+) -> basenode.BaseNode | None:
     """Search tree for a single node matching custom attribute.
 
     Examples:
@@ -509,7 +509,7 @@ def find_children(
 def find_child(
     tree: T | DAGNodeT,
     condition: Callable[[T | DAGNodeT], bool],
-) -> T | DAGNodeT:
+) -> T | DAGNodeT | None:
     """Search children for a single node matching condition (callable function).
 
     Examples:
@@ -536,7 +536,7 @@ def find_child(
         return result[0]
 
 
-def find_child_by_name(tree: NodeT | DAGNodeT, name: str) -> NodeT | DAGNodeT:
+def find_child_by_name(tree: NodeT | DAGNodeT, name: str) -> NodeT | DAGNodeT | None:
     """Search tree for a single node matching name attribute.
 
     Examples:
