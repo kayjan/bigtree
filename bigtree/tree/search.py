@@ -117,8 +117,7 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T | Non
         Search result
     """
     result = findall(tree, condition, max_depth, max_count=1)
-    if result:
-        return result[0]
+    return result[0] if result else None
 
 
 def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT | None:
@@ -206,9 +205,7 @@ def find_relative_path(tree: NodeT, path_name: str) -> NodeT | None:
         Search result
     """
     result = find_relative_paths(tree, path_name, max_count=1)
-
-    if result:
-        return result[0]
+    return result[0] if result else None
 
 
 def find_relative_paths(
@@ -532,8 +529,7 @@ def find_child(
         Search result
     """
     result = find_children(tree, condition, max_count=1)
-    if result:
-        return result[0]
+    return result[0] if result else None
 
 
 def find_child_by_name(tree: NodeT | DAGNodeT, name: str) -> NodeT | DAGNodeT | None:

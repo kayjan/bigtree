@@ -458,6 +458,7 @@ class BaseNode:
             child_idx = children.index(self)
             if child_idx:
                 return self.parent.children[child_idx - 1]
+        return None
 
     @property
     def right_sibling(self: T) -> T | None:
@@ -471,6 +472,7 @@ class BaseNode:
             child_idx = children.index(self)
             if child_idx + 1 < len(children):
                 return self.parent.children[child_idx + 1]
+        return None
 
     @property
     def node_path(self: T) -> Iterable[T]:

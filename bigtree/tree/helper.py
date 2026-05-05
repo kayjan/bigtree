@@ -441,7 +441,7 @@ def get_tree_diff(
     aggregate: bool = False,
     attr_list: Iterable[str] | None = None,
     fallback_sep: str = "/",
-) -> node.Node:
+) -> node.Node | None:
     """Get difference of `tree` to `other_tree`, changes are relative to `tree`.
 
     Compares the difference in tree structure (default), but can also compare tree attributes using `attr_list`.
@@ -692,3 +692,4 @@ def get_tree_diff(
                 _node = search.find_full_path(tree_diff, path)
                 _node.name += " (~)"
         return tree_diff
+    return None
