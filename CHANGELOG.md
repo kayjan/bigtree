@@ -5,10 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- BaseNode: Method `gca` for getting common ancestors.
 
 ## [1.4.1] - 2026-05-02
 ### Changed:
-- Tree Helper: Tree diff modify type hint to include returning None.
+- Tree Diff: Modify type hint to include returning None.
 - Misc: Mypy type checks to remove ignoring warn_no_return.
 
 ## [1.4.1] - 2026-05-02
