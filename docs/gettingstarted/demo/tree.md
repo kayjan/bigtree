@@ -693,7 +693,8 @@ Below is the table of operations available to `BaseNode` and `Node` classes.
 |------------------------------------|------------------------------------------------------------------|--------------------------------------------|
 | Visualize tree (only for `Node`)   | `root.show()` / `root.hshow()` / `root.vshow()`                  | None                                       |
 | Get node information               | `root.describe(exclude_prefix="_")`                              | [('name', 'a')]                            |
-| Find path from one node to another | `root.go_to(node_e)`                                             | [Node(/a, ), Node(/a/b, ), Node(/a/b/e, )] |
+| Find common ancestors              | `root.get_common_ancestors(node_e)`                              | [Node(/a/b, ), Node(/a/b/e, )]             |
+| Find path from one node to another | `node_b.go_to(node_e)`                                           | [Node(/a, ), Node(/a/b, ), Node(/a/b/e, )] |
 | Add one or more children to node   | `root.append(Node("j"))` / `root.extend([Node("k"), Node("l")])` | Node(/a, )                                 |
 | Set attribute(s)                   | `root.set_attrs({"description": "root-tag"})`                    | None                                       |
 | Get attribute                      | `root.get_attr("description")`                                   | 'root-tag'                                 |
