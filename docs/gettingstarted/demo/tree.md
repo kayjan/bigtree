@@ -10,12 +10,12 @@ implement tree-level methods for a more intuitive API.
 
 Here are some codes to get started.
 
-## Construct Tree
+## 1. Construct Tree
 
 Nodes can have attributes if they are initialized from `Node`, *dictionary*, *pandas DataFrame*, or *polars DataFrame*.
 Read more [here](/../../bigtree/tree/tree/#tree-construct-methods).
 
-### 1. From Node
+### 1.1 From Node
 
 Nodes can be linked to each other in the following ways:
 
@@ -104,7 +104,7 @@ Nodes can be linked to each other in the following ways:
 
 ![Sample Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/tree.png "Sample Tree Output")
 
-### 2. From str
+### 1.2 From str
 
 Construct nodes only. Newick string notation supports parsing attributes.
 
@@ -153,7 +153,7 @@ Construct nodes only. Newick string notation supports parsing attributes.
     #     └── f
     ```
 
-### 3. From list
+### 1.3 From list
 
 Construct nodes only. List can contain either <mark>full paths</mark> or tuples of <mark>parent-child names</mark>.
 
@@ -183,7 +183,7 @@ Construct nodes only. List can contain either <mark>full paths</mark> or tuples 
     # └── c
     ```
 
-### 4. From nested dictionary
+### 1.4 From nested dictionary
 
 Construct nodes with attributes. Dictionary can be in a <mark>flat structure</mark> where `key` is path and `value` is
 dictionary of node attribute names and values, or in a <mark>recursive structure</mark> where `key` is node attribute
@@ -277,7 +277,7 @@ names and `value` is node attribute values, and list of children (recursive).
     ```
 
 
-### 5. From pandas/polars DataFrame
+### 1.5 From pandas/polars DataFrame
 
 Construct nodes with attributes. *DataFrame* can contain either <mark>path column</mark> or
 <mark>parent-child columns</mark>. Other columns can be used to specify attributes.
@@ -378,7 +378,7 @@ Construct nodes with attributes. *DataFrame* can contain either <mark>path colum
     # └── c [age=60]
     ```
 
-### 6. From rich Trees
+### 1.6 From rich Trees
 
 Convert rich.tree.Tree to bigtree Trees.
 
@@ -408,9 +408,9 @@ Convert rich.tree.Tree to bigtree Trees.
     If tree is already created, nodes can still be added using path string, dictionary, and pandas/polars DataFrame!<br>
     Attributes can be added to existing nodes using a dictionary or pandas/polars DataFrame.
 
-## View Tree
+## 2. View Tree
 
-### 1. Print Tree
+### 2.1 Print Tree
 
 After tree is constructed, it can be viewed by printing to console using `show`, `hshow`, or `vshow` method directly,
 for compact, horizontal, and vertical orientation respectively.
@@ -578,7 +578,7 @@ Other customisations for printing are also available, such as:
     # └── c
     ```
 
-### 2. Display on Jupyter Notebook
+### 2.2 Display in Jupyter Notebook
 
 Tree can be displayed interactively on jupyter notebook using `ishow`.
 
@@ -606,7 +606,7 @@ tree.ishow(all_attrs=True, height=400) # (1)!
 </div>
 
 
-### 3. Plot Tree
+### 2.3 Plot Tree
 
 Tree can also be plotted using `plot` method directly with the help of `matplotlib` library.
 
@@ -635,7 +635,7 @@ fig.savefig("assets/demo/tree_plot.png")  # Save figure
 
 ![Tree Plot Image Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/tree_plot.png "Tree Plot Image Output")
 
-## Tree Attributes and Operations
+## 3. Tree Attributes and Operations
 
 Note that using `BaseNode` or `Node` as superclass inherits the default class attributes (properties)
 and operations (methods).
@@ -702,7 +702,7 @@ Below is the table of operations available to `BaseNode` and `Node` classes.
 | Plot tree                          | `root.plot("-ok")`                                               | plt.Figure()                               |
 | Query tree                         | `root.query('name == "b"')`                                      | [Node(/a/b, )]                             |
 
-## Traverse Tree
+## 4. Traverse Tree
 
 Tree can be traversed using the following traversal methods.
 
@@ -742,7 +742,7 @@ a
 # [['a'], ['c', 'b'], ['d', 'e']]
 ```
 
-## Modify Tree
+## 5. Modify Tree
 
 Nodes can be <mark>shifted</mark> (with or without replacement) or <mark>copied</mark> (without replacement)
 from one path to another, this changes the tree in-place.
@@ -887,7 +887,7 @@ root_other.show()
 4. The first copy and replace of `Documents/Pictures/photo2.jpg` with `photo1.jpg`
 5. The second copy and replace of `Documents/file2.doc` with `file1.doc`
 
-## Tree Search
+## 6. Tree Search
 
 One or multiple nodes can be searched based on name, path, attribute value, or user-defined condition.
 It is also possible to search for one or more child node(s) based on attributes, this search will be faster as
@@ -985,11 +985,11 @@ Read more [here](/../../bigtree/tree/tree/#tree-query-and-search-methods).
     # Node(/a/c/c, age=40)
     ```
 
-## Helper Utility
+## 7. Helper Utility
 
 Read more [here](/../../bigtree/tree/tree/#tree-helper-methods).
 
-### 1. Clone tree
+### 7.1 Clone tree
 
 Trees can be cloned to another Node type. If the same type is desired, use `tree.copy()` instead.
 
@@ -1003,7 +1003,7 @@ clone_tree(root, Node)  # clone from `BaseNode` to `Node` type
 # Node(/a, )
 ```
 
-### 2. Get subtree
+### 7.2 Get subtree
 
 Subtree refers to a smaller tree with a different tree root.
 
@@ -1026,7 +1026,7 @@ root_subtree.show()
 # └── e
 ```
 
-### 3. Prune tree
+### 7.3 Prune tree
 
 Pruned tree refers to a smaller tree with the same tree root. Trees can be pruned by one or more of the following filters:
 
@@ -1090,7 +1090,7 @@ Pruned tree refers to a smaller tree with the same tree root. Trees can be prune
     # └── c
     ```
 
-### 4. Get tree differences
+### 7.4 Get tree differences
 
 View the differences in structure and/or attributes between two trees.  The changes reflected are relative to the first
 tree. By default, only the differences are shown. It is possible to view the full original tree with the differences.
@@ -1282,7 +1282,7 @@ For aggregating the differences at the parent-level instead of having `(+)` and 
     # └── d (~) [tags=('original d', 'new d')]
     ```
 
-## Export Tree
+## 8. Export Tree
 
 Tree can be exported to other data types:
 
