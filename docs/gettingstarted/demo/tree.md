@@ -13,7 +13,7 @@ Here are some codes to get started.
 ## 1. Construct Tree
 
 Nodes can have attributes if they are initialized from `Node`, *dictionary*, *pandas DataFrame*, or *polars DataFrame*.
-Read more [here](/../../bigtree/tree/tree/#tree-construct-methods).
+Read more [here](https://bigtree.readthedocs.io/stable/bigtree/tree/construct/#tree-construct-methods).
 
 ### 1.1 From Node
 
@@ -888,13 +888,15 @@ root_other.show()
 4. The first copy and replace of `Documents/Pictures/photo2.jpg` with `photo1.jpg`
 5. The second copy and replace of `Documents/file2.doc` with `file1.doc`
 
-## 6. Tree Search
+## 6. Tree Search and Query
 
 One or multiple nodes can be searched based on name, path, attribute value, or user-defined condition.
 It is also possible to search for one or more child node(s) based on attributes, this search will be faster as
 it does not require traversing the whole tree to find the node(s).
 
-Read more [here](/../../bigtree/tree/tree/#tree-query-and-search-methods).
+Tree can be queried using Tree Query Language.
+
+Read more [here](https://bigtree.readthedocs.io/stable/bigtree/tree/tree/#tree-query-and-search-methods).
 
 === "Find single node"
     ```python hl_lines="13 16 19 22 25 28"
@@ -986,9 +988,30 @@ Read more [here](/../../bigtree/tree/tree/#tree-query-and-search-methods).
     # Node(/a/c/c, age=40)
     ```
 
+=== "Tree Query"
+    ```python hl_lines="13 16"
+    from bigtree import Node, Tree
+    root = Node("a", age=90)
+    b = Node("b", age=65, parent=root)
+    c = Node("c", age=60, parent=root)
+    d = Node("d", age=40, parent=c)
+    tree = Tree(root)
+    tree.show(attr_list=["age"])
+    # a [age=90]
+    # ├── b [age=65]
+    # └── c [age=60]
+    #     └── d [age=40]
+
+    tree.query('name == "b" OR age <= 40')
+    # [Node(/a/b, age=65), Node(/a/c/d, age=40)]
+
+    tree.query("is_leaf")
+    # [Node(/a/b, age=65), Node(/a/c/d, age=40)]
+    ```
+
 ## 7. Helper Utility
 
-Read more [here](/../../bigtree/tree/tree/#tree-helper-methods).
+Read more [here](https://bigtree.readthedocs.io/stable/bigtree/tree/tree/#tree-helper-methods).
 
 ### 7.1 Clone tree
 
@@ -1296,7 +1319,7 @@ Tree can be exported to other data types:
 7. Mermaid Flowchart (can display on .md)
 8. Pyvis Network (can display interactive .html)
 
-Read more [here](/../../bigtree/tree/tree/#tree-export-methods).
+Read more [here](https://bigtree.readthedocs.io/stable/bigtree/tree/tree/#tree-export-methods).
 
 ```python
 from bigtree import Node, Tree
