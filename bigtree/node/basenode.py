@@ -114,13 +114,14 @@ class BaseNode:
     1. ``describe()``: Get node information sorted by attributes, return list of tuples
     2. ``get_attr(attr_name: str)``: Get value of node attribute
     3. ``set_attrs(attrs: dict)``: Set node attribute name(s) and value(s)
-    4. ``go_to(node: Self)``: Get a path from own node to another node from same tree
-    5. ``append(node: Self)``: Add child to node
-    6. ``extend(nodes: list[Self])``: Add multiple children to node
-    7. ``copy()``: Deep copy self
-    8. ``sort()``: Sort child nodes
-    9. ``plot()``: Plot tree in line form
-    10. ``query(query: str)``: Filter tree using Tree Query Language
+    4. ``get_common_ancestors(node: Self)``: Get common ancestors with another node from same tree
+    5. ``go_to(node: Self)``: Get a path from own node to another node from same tree
+    6. ``append(node: Self)``: Add child to node
+    7. ``extend(nodes: list[Self])``: Add multiple children to node
+    8. ``copy()``: Deep copy self
+    9. ``sort()``: Sort child nodes
+    10. ``plot()``: Plot tree in line form
+    11. ``query(query: str)``: Filter tree using Tree Query Language
 
     ----
 
@@ -652,8 +653,18 @@ class BaseNode:
         """
         self.__dict__.update(attrs)
 
+    def get_common_ancestors(self: T, node: T) -> Iterable[T]:
+        """Get common ancestors of current node and specified node from same tree.
+
+        Args:
+            node: node to get common ancestors
+        """
+        from bigtree.tree.parsing import get_common_ancestors
+
+        return get_common_ancestors([self, node])
+
     def go_to(self: T, node: T) -> Iterable[T]:
-        """Get path from current node to specified node from same tree, uses `get_path` function.
+        """Get path from current node to specified node from same tree.
 
         Args:
             node: node to travel to from current node, inclusive of start and end node

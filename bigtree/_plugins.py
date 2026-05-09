@@ -16,6 +16,7 @@ def register_binarytree_plugins() -> None:
             # Iterator methods
             "inorder_iter": iterators.inorder_iter,
         },
+        method="default",
     )
 
     plugin_docs = "\n".join(
@@ -52,6 +53,7 @@ def register_dag_plugins() -> None:
             # Iterator methods
             "iterate": iterators.dag_iterator,
         },
+        method="default",
     )
 
     plugin_docs = "\n".join(
@@ -143,7 +145,8 @@ def register_tree_plugins() -> None:
             "find_children": search.find_children,
             "find_child": search.find_child,
             "find_child_by_name": search.find_child_by_name,
-        }
+        },
+        method="default",
     )
     Tree.register_plugins(
         {

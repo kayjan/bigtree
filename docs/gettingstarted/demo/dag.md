@@ -10,9 +10,9 @@ to implement dag-level methods (for construct/export etc.) for a more intuitive 
 
 Compared to nodes in tree, nodes in DAG are able to have multiple parents.
 
-## Construct DAG
+## 1. Construct DAG
 
-### 1. From DAGNode
+### 1.1 From DAGNode
 
 DAGNodes can be linked to each other in the following ways:
 
@@ -39,7 +39,7 @@ graph.write_png("assets/demo/dag.png")
 
 ![Sample DAG Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/dag.png "Sample DAG Output")
 
-### 2. From list
+### 1.2 From list
 
 Construct nodes only, list contains parent-child tuples.
 
@@ -53,7 +53,7 @@ print([(parent.node_name, child.node_name) for parent, child in dag.iterate()])
 # [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 ```
 
-### 3. From nested dictionary
+### 1.3 From nested dictionary
 
 Construct nodes with attributes, `key`: child name, `value`: dict of parent name, child node attributes.
 
@@ -73,7 +73,7 @@ print([(parent.node_name, child.node_name) for parent, child in dag.iterate()])
 # [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 ```
 
-### 4. From pandas DataFrame
+### 1.4 From pandas DataFrame
 
 Construct nodes with attributes, *pandas DataFrame* contains child column, parent column, and attribute columns.
 
@@ -99,7 +99,7 @@ print([(parent.node_name, child.node_name) for parent, child in dag.iterate()])
 # [('a', 'd'), ('c', 'd'), ('d', 'e'), ('a', 'c'), ('b', 'c')]
 ```
 
-## DAG Attributes and Operations
+## 2. DAG Attributes and Operations
 
 Note that using `DAGNode` as superclass inherits the default class attributes (properties) and operations (methods).
 

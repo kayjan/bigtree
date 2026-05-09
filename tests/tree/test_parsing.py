@@ -103,7 +103,57 @@ class TestParsing(unittest.TestCase):
                 actual_path == expected_path
             ), f"Wrong path for {node_pair}, expected {expected_path}, received {actual_path}"
 
+    def test_get_common_ancestors(self):
+        # Using get_common_ancestors from BaseNode
+        assert_tree_structure_basenode_root(self.a)
+        assert_tree_structure_basenode_root_attr(self.a)
+        assert_tree_structure_basenode_self(self)
+        assert_tree_structure_node_root(self.a)
+        assert_tree_structure_node_self(self)
+
+        expected_paths = [
+            ["a"],
+            ["a"],
+            ["a"],
+            ["a"],
+            ["a"],
+            ["a"],
+            ["a"],
+            ["b", "a"],
+            ["b", "a"],
+            ["b", "a"],
+            ["b", "a"],
+            ["a"],
+            ["a"],
+            ["b", "a"],
+            ["b", "a"],
+            ["b", "a"],
+            ["a"],
+            ["a"],
+            ["e", "b", "a"],
+            ["e", "b", "a"],
+            ["a"],
+            ["a"],
+            ["e", "b", "a"],
+            ["a"],
+            ["a"],
+            ["a"],
+            ["a"],
+            ["c", "a"],
+        ]
+        for node_pair, expected in zip(
+            combinations(list(iterators.preorder_iter(self.a)), 2), expected_paths
+        ):
+            actual = [
+                _node.node_name
+                for _node in node_pair[0].get_common_ancestors(node_pair[1])
+            ]
+            assert (
+                actual == expected
+            ), f"Wrong ancestors for {node_pair}, expected {expected}, received {actual}"
+
     def test_go_to(self):
+        # Using go_to from BaseNode
         assert_tree_structure_basenode_root(self.a)
         assert_tree_structure_basenode_root_attr(self.a)
         assert_tree_structure_basenode_self(self)
@@ -140,25 +190,21 @@ class TestParsing(unittest.TestCase):
             ["h", "e", "b", "a", "c", "f"],
             ["c", "f"],
         ]
-        for node_pair, expected_path in zip(
+        for node_pair, expected in zip(
             combinations(list(iterators.preorder_iter(self.a)), 2), expected_paths
         ):
-            actual_path = [
-                _node.node_name for _node in node_pair[0].go_to(node_pair[1])
-            ]
+            actual = [_node.node_name for _node in node_pair[0].go_to(node_pair[1])]
             assert (
-                actual_path == expected_path
-            ), f"Wrong path for {node_pair}, expected {expected_path}, received {actual_path}"
+                actual == expected
+            ), f"Wrong path for {node_pair}, expected {expected}, received {actual}"
 
     def test_get_path_same_node(self):
         for _node in iterators.preorder_iter(self.a):
-            actual_path = [
-                _node1.node_name for _node1 in parsing.get_path(_node, _node)
-            ]
-            expected_path = [_node.node_name]
+            actual = [_node1.node_name for _node1 in parsing.get_path(_node, _node)]
+            expected = [_node.node_name]
             assert (
-                actual_path == expected_path
-            ), f"Wrong path for {_node}, expected {expected_path}, received {actual_path}"
+                actual == expected
+            ), f"Wrong path for {_node}, expected {expected}, received {actual}"
 
     def test_get_path_type_error(self):
         source = node.Node("a")

@@ -12,9 +12,9 @@ Compared to nodes in tree, nodes in Binary Tree are only allowed maximum of 2 ch
 Since BinaryNode extends from Node, construct, traverse, search, export methods from Node are applicable to
 Binary Tree as well.
 
-## Construct Binary Tree
+## 1. Construct Binary Tree
 
-### 1. From BinaryNode
+### 1.1 From BinaryNode
 
 BinaryNode can be linked to each other with `parent`, `children`, `left`, and `right` setter methods,
 or using bitshift operator with the convention `parent_node >> child_node` or `child_node << parent_node`.
@@ -37,7 +37,7 @@ graph.write_png("assets/demo/binarytree.png")
 
 ![Sample Binary Tree Output](https://github.com/kayjan/bigtree/raw/master/assets/demo/binarytree.png "Sample Binary Tree Output")
 
-### 2. From list
+### 1.2 From list
 
 Construct nodes only, list has similar format as `heapq` list.
 
@@ -56,7 +56,7 @@ tree.hshow()
 #            └─ 7
 ```
 
-## Traverse Binary Tree
+## 2. Traverse Binary Tree
 
 In addition to the traversal methods in the usual tree, binary tree includes in-order traversal method.
 
