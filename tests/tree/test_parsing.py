@@ -144,7 +144,10 @@ class TestParsing(unittest.TestCase):
         for node_pair, expected in zip(
             combinations(list(iterators.preorder_iter(self.a)), 2), expected_paths
         ):
-            actual = [_node.node_name for _node in node_pair[0].gca(node_pair[1])]
+            actual = [
+                _node.node_name
+                for _node in node_pair[0].get_common_ancestors(node_pair[1])
+            ]
             assert (
                 actual == expected
             ), f"Wrong ancestors for {node_pair}, expected {expected}, received {actual}"
