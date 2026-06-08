@@ -101,9 +101,9 @@ def tree_to_dataframe(
                     _node,
                     attr_dict,
                     all_attrs,
-                    path_col=path_col,
-                    name_col=name_col,
-                    parent_col=parent_col,
+                    path_key=path_col,
+                    name_key=name_col,
+                    parent_key=parent_col,
                 )
                 data_list.append(data_child)
             for _child in _node.children:
@@ -198,9 +198,9 @@ def tree_to_polars(
                     _node,
                     attr_dict,
                     all_attrs,
-                    path_col=path_col,
-                    name_col=name_col,
-                    parent_col=parent_col,
+                    path_key=path_col,
+                    name_key=name_col,
+                    parent_key=parent_col,
                 )
                 data_list.append(data_child)
             for _child in _node.children:
