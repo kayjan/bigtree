@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BaseNode: Method `get_common_ancestors` for getting common ancestors, this was already available in parsing module.
 - Docs: Enumerate the demonstration page, fix url links.
 - Docs: Update demonstration to include query examples.
+- Docs: Update variable name for common module.
 
 ## [1.4.1] - 2026-05-02
 ### Changed:
