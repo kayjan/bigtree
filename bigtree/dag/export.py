@@ -95,7 +95,7 @@ def dag_to_dict(
                 child_node,
                 attr_dict,
                 all_attrs,
-                parent_col=(parent_key, [parent_node.node_name]),
+                parent_key=(parent_key, [parent_node.node_name]),
             )
             data_dict[child_node.node_name] = data_child
     return data_dict
@@ -147,8 +147,8 @@ def dag_to_dataframe(
                 parent_node,
                 attr_dict,
                 all_attrs,
-                name_col=name_col,
-                parent_col=(parent_col, None),
+                name_key=name_col,
+                parent_key=(parent_col, None),
             )
             data_list.append(data_parent)
 
@@ -156,8 +156,8 @@ def dag_to_dataframe(
             child_node,
             attr_dict,
             all_attrs,
-            name_col=name_col,
-            parent_col=(parent_col, parent_node.node_name),
+            name_key=name_col,
+            parent_key=(parent_col, parent_node.node_name),
         )
         data_list.append(data_child)
     return pd.DataFrame(data_list).drop_duplicates().reset_index(drop=True)

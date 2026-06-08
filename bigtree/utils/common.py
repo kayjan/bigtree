@@ -108,9 +108,9 @@ def assemble_attributes(
     _node: T,
     attr_dict: Mapping[str, str] | None,
     all_attrs: bool,
-    path_col: str | None = None,
-    name_col: str | None = None,
-    parent_col: str | tuple[str, Any] | None = None,
+    path_key: str | None = None,
+    name_key: str | None = None,
+    parent_key: str | tuple[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Assemble attributes of node into a dictionary.
 
@@ -118,9 +118,9 @@ def assemble_attributes(
         _node: node
         attr_dict: node attributes mapped to dictionary key, key: node attributes, value: corresponding dictionary key
         all_attrs: indicator whether to retrieve all ``Node`` attributes, overrides `attr_dict`
-        path_col: column name for `_node.path_name`, if present
-        name_col: column name for `_node.node_name`, if present
-        parent_col: if Node, column name for `_node.parent.node_name`. If DAGNode, tuple of column name and value for
+        path_key: dict key for `_node.path_name`, if present
+        name_key: dict key for `_node.node_name`, if present
+        parent_key: if Node, dict key for `_node.parent.node_name`. If DAGNode, tuple of dict key and value for
             `_node.parent.node_name`.
 
     Returns:
@@ -129,21 +129,21 @@ def assemble_attributes(
     data_attrs = {}
 
     # Main attributes
-    if path_col:
+    if path_key:
         assert isinstance(_node, node.Node)
-        data_attrs[path_col] = _node.path_name
-    if name_col:
-        data_attrs[name_col] = _node.node_name
-    if parent_col:
+        data_attrs[path_key] = _node.path_name
+    if name_key:
+        data_attrs[name_key] = _node.node_name
+    if parent_key:
         if isinstance(_node, node.Node):
-            assert isinstance(parent_col, str)
+            assert isinstance(parent_key, str)
             parent_name = None
             if _node.parent:
                 parent_name = _node.parent.node_name
-            data_attrs[parent_col] = parent_name
+            data_attrs[parent_key] = parent_name
         else:
-            assert isinstance(parent_col, tuple)
-            data_attrs[parent_col[0]] = parent_col[1]
+            assert isinstance(parent_key, tuple)
+            data_attrs[parent_key[0]] = parent_key[1]
 
     # Other attributes
     if all_attrs:

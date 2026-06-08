@@ -78,8 +78,8 @@ def tree_to_dict(
                     _node,
                     attr_dict,
                     all_attrs,
-                    name_col=name_key,
-                    parent_col=parent_key,
+                    name_key=name_key,
+                    parent_key=parent_key,
                 )
                 data_dict[_node.path_name] = data_child
             for _child in _node.children:
@@ -137,7 +137,7 @@ def tree_to_nested_dict(
         if _node:
             if not max_depth or _node.depth <= max_depth:
                 data_child = common.assemble_attributes(
-                    _node, attr_dict, all_attrs, name_col=name_key
+                    _node, attr_dict, all_attrs, name_key=name_key
                 )
                 if child_key in parent_dict:
                     parent_dict[child_key].append(data_child)
