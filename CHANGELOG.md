@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - BaseNode: Method `get_common_ancestors` for getting common ancestors, this was already available in parsing module.
+- Node: Method `rename` to rename node safely.
 ### Changed:
 - Docs: Enumerate the demonstration page, fix url links.
 - Docs: Update demonstration to include query examples.
