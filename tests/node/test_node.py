@@ -287,6 +287,17 @@ class TestNode(unittest.TestCase):
         b = node.Node(1, parent=self.a)
         assert b.path_name == "/a/1"
 
+    def test_rename(self):
+        self.a.rename("a_new")
+        assert self.a.name == "a_new"
+        assert self.a.node_name == "a_new"
+
+    def test_rename_error(self):
+        self.a.children = [self.b, self.c]
+        with pytest.raises(exceptions.TreeError) as exc_info:
+            self.b.rename("c")
+        assert str(exc_info.value).startswith(Constants.ERROR_RENAME.format(name="c"))
+
 
 def assert_tree_structure_node_root(
     root,

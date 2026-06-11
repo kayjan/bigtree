@@ -106,8 +106,8 @@ def filter_attributes(
 
 def assemble_attributes(
     _node: T,
-    attr_dict: Mapping[str, str] | None,
-    all_attrs: bool,
+    attr_dict: Mapping[str, str] | None = None,
+    all_attrs: bool = True,
     path_key: str | None = None,
     name_key: str | None = None,
     parent_key: str | tuple[str, Any] | None = None,

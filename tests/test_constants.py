@@ -96,6 +96,7 @@ class Constants:
     ERROR_NODE_SAME_CHILDREN_PATH = (
         "Duplicate node with same path\nAttempting to add nodes with same path {path}"
     )
+    ERROR_RENAME = "There exist another sibling with the same name: {name}"
 
     # tree/construct
     ERROR_NODE_DATAFRAME_EMPTY_ROW = "Data does not contain any rows, check `data`"
