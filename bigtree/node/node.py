@@ -117,6 +117,20 @@ class Node(basenode.BaseNode):
         """
         return self.name
 
+    def rename(self, name: str) -> None:
+        """Rename node.
+
+        Args:
+            name: new node name
+        """
+        if self.parent and not all(
+            child.name != name for child in self.parent.children
+        ):
+            raise exceptions.TreeError(
+                f"There exist another sibling with the same name: {name}"
+            )
+        self.name = name
+
     @property
     def path_name(self) -> str:
         """Get path name, separated by self.sep.
