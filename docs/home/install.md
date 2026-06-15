@@ -41,6 +41,7 @@ Examples of extra packages include:
 - `polars`: for polars methods
 - `query`: for tree query methods
 - `rich`: for printing tree in rich format
+- `studio`: for using bigtree terminal UI
 - `vis`: for pyvis visualisation
 
 For `image` extra dependency, you may need to install more plugins.

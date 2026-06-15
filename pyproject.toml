@@ -44,6 +44,7 @@ all = [
   "Pillow",
   "pyvis",
   "rich",
+  "textual>=0.6.0",
 ]
 image = [
   "pydot",
@@ -54,6 +55,7 @@ pandas = ["pandas"]
 polars = ["polars"]
 query = ["lark"]
 rich = ["rich"]
+studio = ["textual>=0.6.0"]
 vis = ["pyvis"]
 
 [tool.hatch.version]
@@ -145,7 +147,8 @@ parallel = true
 omit = [
   "*/tests/*",
   "*/workflows/*",
-  "bigtree/tree/construct/render.py"
+  "bigtree/tree/construct/render.py",
+  "bigtree/tree/studio/*"
 ]
 
 [tool.coverage.report]
