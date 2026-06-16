@@ -1046,6 +1046,8 @@
       
         
       
+        
+      
     
     
     
@@ -1097,6 +1099,29 @@
   
   <span class="md-ellipsis">
     Tree Demonstration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gettingstarted/demo/tree_studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Studio Demonstration
     
   </span>
   
@@ -1735,6 +1760,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.node.basenode.BaseNode.get_common_ancestors" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_common_ancestors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.node.basenode.BaseNode.go_to" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;go_to
@@ -2184,6 +2218,8 @@
       
         
       
+        
+      
     
     
     
@@ -2376,6 +2412,29 @@
   
   <span class="md-ellipsis">
     Tree Search
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tree/studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Studio
     
   </span>
   
@@ -3299,6 +3358,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.node.basenode.BaseNode.get_common_ancestors" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_common_ancestors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.node.basenode.BaseNode.go_to" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;go_to
@@ -3531,6 +3599,7 @@ dictionary, all keys of dictionary will be stored as class attributes.</p>
 <li><code>describe()</code>: Get node information sorted by attributes, return list of tuples</li>
 <li><code>get_attr(attr_name: str)</code>: Get value of node attribute</li>
 <li><code>set_attrs(attrs: dict)</code>: Set node attribute name(s) and value(s)</li>
+<li><code>get_common_ancestors(node: Self)</code>: Get common ancestors with another node from same tree</li>
 <li><code>go_to(node: Self)</code>: Get a path from own node to another node from same tree</li>
 <li><code>append(node: Self)</code>: Add child to node</li>
 <li><code>extend(nodes: list[Self])</code>: Add multiple children to node</li>
@@ -4671,6 +4740,57 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
 <div class="doc doc-object doc-function">
 
 
+<h4 id="bigtree.node.basenode.BaseNode.get_common_ancestors" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">get_common_ancestors</span>
+
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_common_ancestors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Get common ancestors of current node and specified node from same tree.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>node</code>
+            </td>
+            <td>
+                  <code><span title="bigtree.node.basenode.T">T</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node to get common ancestors</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h4 id="bigtree.node.basenode.BaseNode.go_to" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">go_to</span>
 
@@ -4681,7 +4801,7 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
 
     <div class="doc doc-contents ">
 
-        <p>Get path from current node to specified node from same tree, uses <code>get_path</code> function.</p>
+        <p>Get path from current node to specified node from same tree.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>

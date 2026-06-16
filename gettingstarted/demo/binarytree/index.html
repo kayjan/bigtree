@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://bigtree.readthedocs.io/gettingstarted/demo/binarytree/">
       
       
-        <link rel="prev" href="../tree/">
+        <link rel="prev" href="../tree_studio/">
       
       
         <link rel="next" href="../dag/">
@@ -1051,6 +1051,8 @@
       
         
       
+        
+      
     
     
     
@@ -1103,6 +1105,29 @@
   
   <span class="md-ellipsis">
     Tree Demonstration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tree_studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Studio Demonstration
     
   </span>
   
@@ -1170,28 +1195,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#construct-binary-tree" class="md-nav__link">
+  <a href="#1-construct-binary-tree" class="md-nav__link">
     <span class="md-ellipsis">
-      Construct Binary Tree
+      1. Construct Binary Tree
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Construct Binary Tree">
+    <nav class="md-nav" aria-label="1. Construct Binary Tree">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-from-binarynode" class="md-nav__link">
+  <a href="#11-from-binarynode" class="md-nav__link">
     <span class="md-ellipsis">
-      1. From BinaryNode
+      1.1 From BinaryNode
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-from-list" class="md-nav__link">
+  <a href="#12-from-list" class="md-nav__link">
     <span class="md-ellipsis">
-      2. From list
+      1.2 From list
     </span>
   </a>
   
@@ -1203,9 +1228,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#traverse-binary-tree" class="md-nav__link">
+  <a href="#2-traverse-binary-tree" class="md-nav__link">
     <span class="md-ellipsis">
-      Traverse Binary Tree
+      2. Traverse Binary Tree
     </span>
   </a>
   
@@ -1950,6 +1975,8 @@
       
         
       
+        
+      
     
     
     
@@ -2139,6 +2166,29 @@
   
   <span class="md-ellipsis">
     Tree Search
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bigtree/tree/studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Studio
     
   </span>
   
@@ -2856,28 +2906,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#construct-binary-tree" class="md-nav__link">
+  <a href="#1-construct-binary-tree" class="md-nav__link">
     <span class="md-ellipsis">
-      Construct Binary Tree
+      1. Construct Binary Tree
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Construct Binary Tree">
+    <nav class="md-nav" aria-label="1. Construct Binary Tree">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-from-binarynode" class="md-nav__link">
+  <a href="#11-from-binarynode" class="md-nav__link">
     <span class="md-ellipsis">
-      1. From BinaryNode
+      1.1 From BinaryNode
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-from-list" class="md-nav__link">
+  <a href="#12-from-list" class="md-nav__link">
     <span class="md-ellipsis">
-      2. From list
+      1.2 From list
     </span>
   </a>
   
@@ -2889,9 +2939,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#traverse-binary-tree" class="md-nav__link">
+  <a href="#2-traverse-binary-tree" class="md-nav__link">
     <span class="md-ellipsis">
-      Traverse Binary Tree
+      2. Traverse Binary Tree
     </span>
   </a>
   
@@ -2923,8 +2973,8 @@ implemented as a wrapper around a BinaryNode to implement tree-level methods for
 <p>Compared to nodes in tree, nodes in Binary Tree are only allowed maximum of 2 children.
 Since BinaryNode extends from Node, construct, traverse, search, export methods from Node are applicable to
 Binary Tree as well.</p>
-<h2 id="construct-binary-tree">Construct Binary Tree</h2>
-<h3 id="1-from-binarynode">1. From BinaryNode</h3>
+<h2 id="1-construct-binary-tree">1. Construct Binary Tree</h2>
+<h3 id="11-from-binarynode">1.1 From BinaryNode</h3>
 <p>BinaryNode can be linked to each other with <code>parent</code>, <code>children</code>, <code>left</code>, and <code>right</code> setter methods,
 or using bitshift operator with the convention <code>parent_node &gt;&gt; child_node</code> or <code>child_node &lt;&lt; parent_node</code>.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">BinaryNode</span><span class="p">,</span> <span class="n">BinaryTree</span>
@@ -2942,7 +2992,7 @@ or using bitshift operator with the convention <code>parent_node &gt;&gt; child_
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s2">&quot;assets/demo/binarytree.png&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 <p><a class="glightbox" href="https://github.com/kayjan/bigtree/raw/master/assets/demo/binarytree.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Sample Binary Tree Output" src="https://github.com/kayjan/bigtree/raw/master/assets/demo/binarytree.png" title="Sample Binary Tree Output" /></a></p>
-<h3 id="2-from-list">2. From list</h3>
+<h3 id="12-from-list">1.2 From list</h3>
 <p>Construct nodes only, list has similar format as <code>heapq</code> list.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">BinaryTree</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
@@ -2957,7 +3007,7 @@ or using bitshift operator with the convention <code>parent_node &gt;&gt; child_
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1">#      └─ 3 ─┤</span>
 </span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1">#            └─ 7</span>
 </span></code></pre></div>
-<h2 id="traverse-binary-tree">Traverse Binary Tree</h2>
+<h2 id="2-traverse-binary-tree">2. Traverse Binary Tree</h2>
 <p>In addition to the traversal methods in the usual tree, binary tree includes in-order traversal method.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">bigtree</span> <span class="kn">import</span> <span class="n">BinaryTree</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>

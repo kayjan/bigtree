@@ -1046,6 +1046,8 @@
       
         
       
+        
+      
     
     
     
@@ -1097,6 +1099,29 @@
   
   <span class="md-ellipsis">
     Tree Demonstration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gettingstarted/demo/tree_studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Studio Demonstration
     
   </span>
   
@@ -1835,6 +1860,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.node.binarynode.BinaryNode.get_common_ancestors" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_common_ancestors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.node.binarynode.BinaryNode.go_to" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;go_to
@@ -1883,6 +1917,15 @@
   <a href="#bigtree.node.binarynode.BinaryNode.query" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;query
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.node.binarynode.BinaryNode.rename" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;rename
     </span>
   </a>
   
@@ -2265,6 +2308,8 @@
       
         
       
+        
+      
     
     
     
@@ -2457,6 +2502,29 @@
   
   <span class="md-ellipsis">
     Tree Search
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tree/studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Studio
     
   </span>
   
@@ -3434,6 +3502,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bigtree.node.binarynode.BinaryNode.get_common_ancestors" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_common_ancestors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bigtree.node.binarynode.BinaryNode.go_to" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;go_to
@@ -3482,6 +3559,15 @@
   <a href="#bigtree.node.binarynode.BinaryNode.query" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;query
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bigtree.node.binarynode.BinaryNode.rename" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;rename
     </span>
   </a>
   
@@ -5060,6 +5146,57 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
 <div class="doc doc-object doc-function">
 
 
+<h4 id="bigtree.node.binarynode.BinaryNode.get_common_ancestors" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">get_common_ancestors</span>
+
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_common_ancestors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Get common ancestors of current node and specified node from same tree.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>node</code>
+            </td>
+            <td>
+                  <code><span title="bigtree.node.basenode.T">T</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>node to get common ancestors</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h4 id="bigtree.node.binarynode.BinaryNode.go_to" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">go_to</span>
 
@@ -5070,7 +5207,7 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
 
     <div class="doc doc-contents ">
 
-        <p>Get path from current node to specified node from same tree, uses <code>get_path</code> function.</p>
+        <p>Get path from current node to specified node from same tree.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -5401,6 +5538,57 @@ Input dictionary must have key <code>name</code> if not <code>Node</code> will n
               <div class="doc-md-description">
                 <p>List of nodes that fulfil the condition of query</p>
               </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="bigtree.node.binarynode.BinaryNode.rename" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">rename</span>
+
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">rename</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Rename node.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>new node name</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
             </td>
           </tr>
       </tbody>
