@@ -190,3 +190,6 @@ ignore = [
   "UP015",  # unnecessry mode argument for open
   "UP037",  # Remove quotes from type annotation
 ]
+
+[project.scripts]
+bigtree-studio = "bigtree.tree.studio.app:run_app_cli"

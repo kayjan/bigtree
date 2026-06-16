@@ -13,6 +13,9 @@ For **Tree** implementation, there are 11 main components.
 ## [**🎄 Tree**](../bigtree/tree/tree.md)
 - ``Tree``, wrapper around ``Node``, providing high-level APIs to build, iterate, query, and export the entire tree structure
 
+## [**🎬 Studio**](https://bigtree.readthedocs.io/stable/gettingstarted/demo/tree_studio/)
+- Construct, modify, search, and export tree with a Terminal interface
+
 ## [**✨ Constructing Tree**](../bigtree/tree/construct.md)
 - From `Node`, using parent and children constructors
 - From *str*, using tree display or Newick string notation

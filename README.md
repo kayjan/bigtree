@@ -34,7 +34,9 @@ For **Tree** implementation, there are 12 main components.
     2. ``Node``, BaseNode with node name attribute
 2. [**🎄 Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/tree/)
     1. ``Tree``, wrapper around ``Node``, providing high-level APIs to build, iterate, query, and export the entire tree structure
-3. [**✨ Constructing Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/construct/)
+3. [**🎬 Studio**](https://bigtree.readthedocs.io/stable/gettingstarted/demo/tree_studio/)
+   1. Construct, modify, search, export tree with a Terminal interface
+4. [**✨ Constructing Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/construct/)
     1. From `Node`, using parent and children constructors
     2. From *str*, using tree display or Newick string notation
     3. From *list*, using paths or parent-child tuples
@@ -46,38 +48,38 @@ For **Tree** implementation, there are 12 main components.
     9. Add nodes to existing tree using path string
     10. Add nodes and attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using path
     11. Add only attributes to existing tree using *dictionary*, *pandas DataFrame*, or *polars DataFrame*, using node name
-4. [**➰ Traversing Tree**](https://bigtree.readthedocs.io/stable/bigtree/utils/iterators/)
+5. [**➰ Traversing Tree**](https://bigtree.readthedocs.io/stable/bigtree/utils/iterators/)
     1. Pre-Order Traversal
     2. Post-Order Traversal
     3. Level-Order Traversal
     4. Level-Order-Group Traversal
     5. ZigZag Traversal
     6. ZigZag-Group Traversal
-5. [**🧩 Parsing Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/parsing/)
+6. [**🧩 Parsing Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/parsing/)
     1. Get common ancestors between nodes
     2. Get path from one node to another node
-6. [**📝 Modifying Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/modify/)
+7. [**📝 Modifying Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/modify/)
     1. Copy nodes from location to destination
     2. Shift nodes from location to destination
     3. Shift and replace nodes from location to destination
     4. Copy nodes from one tree to another
     5. Copy and replace nodes from one tree to another
-7. [**📌 Querying Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/query/)
+8. [**📌 Querying Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/query/)
     1. Filter tree using Tree Query Language
-8. [**🔍 Tree Search**](https://bigtree.readthedocs.io/stable/bigtree/tree/search/)
+9. [**🔍 Tree Search**](https://bigtree.readthedocs.io/stable/bigtree/tree/search/)
     1. Find multiple nodes based on name, partial path, relative path, attribute value, user-defined condition
     2. Find single nodes based on name, partial path, relative path, full path, attribute value, user-defined condition
     3. Find multiple child nodes based on user-defined condition
     4. Find single child node based on name, user-defined condition
-9. [**🔧 Helper Function**](https://bigtree.readthedocs.io/stable/bigtree/tree/helper/)
-    1. Cloning tree to another `Node` type
-    2. Get subtree (smaller tree with different root)
-    3. Prune tree (smaller tree with same root)
-    4. Get difference between two trees
-10. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/stable/bigtree/utils/plot/)
+10. [**🔧 Helper Function**](https://bigtree.readthedocs.io/stable/bigtree/tree/helper/)
+     1. Cloning tree to another `Node` type
+     2. Get subtree (smaller tree with different root)
+     3. Prune tree (smaller tree with same root)
+     4. Get difference between two trees
+11. [**📊 Plotting Tree**](https://bigtree.readthedocs.io/stable/bigtree/utils/plot/)
     1. Enhanced Reingold Tilford Algorithm to retrieve (x, y) coordinates for a tree structure
     2. Plot tree using matplotlib (optional dependency)
-11. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/export/)
+12. [**🔨 Exporting Tree**](https://bigtree.readthedocs.io/stable/bigtree/tree/export/)
     1. Print to console, in vertical or horizontal orientation
     2. Display on jupyter notebook
     3. Export to *html*, *Newick string notation*, *dictionary*, *nested dictionary*, *pandas DataFrame*, or *polars DataFrame*
@@ -85,7 +87,7 @@ For **Tree** implementation, there are 12 main components.
     5. Export tree to *Pillow* (can save to .png, .jpg)
     6. Export tree to *Mermaid Flowchart* (can display on .md)
     7. Export tree to *Pyvis Network* (can display interactive .html)
-12. [**✔️ Workflows**](https://bigtree.readthedocs.io/stable/bigtree/workflows/app_todo)
+13. [**✔️ Workflows**](https://bigtree.readthedocs.io/stable/bigtree/workflows/app_todo)
     1. Sample workflows for tree demonstration!
 
 --------

@@ -10,11 +10,15 @@
 Visualise and interact with trees using terminal interface.
 
 Usage:
-    Using blank tree
+    Start the terminal interface
     ```
-    python bigtree/tree/studio/app.py
+    bigtree-studio
     ```
 
+    Open an existing tree
+    ```
+    bigtree-studio tree.json --depth 2
+    ```
     Sample json file:
     ```
     {
@@ -26,12 +30,8 @@ Usage:
       "/Company/Finance": {}
     }
     ```
-    For new trees (in JSON)
-    ```
-    python bigtree/tree/studio/app.py tree.json --depth 2
-    ```
 
-Example layout:
+Example Terminal layout:
 ```
 ┌───────────────────────────────────────────────────────────┐
 │                       Bigtree Studio                      │
@@ -96,9 +96,9 @@ except ImportError:  # pragma: no cover
     from unittest.mock import MagicMock
 
     App = ComposeResult = MagicMock()
-    Tree = Static = Footer = Header = MagicMock()
-    TreeNode = MagicMock()
     Horizontal = MagicMock()
+    Footer = Header = Static = Tree = MagicMock()
+    TreeNode = MagicMock()
 
 
 __all__ = ["run_app"]
@@ -156,6 +156,7 @@ class Studio(App):  # type: ignore[misc]
 
     def on_mount(self) -> None:
         self.title = "Bigtree Studio"
+        self.theme = "textual-dark"
         self.textual_tree = self.query_one(Tree)
         studio_utils.populate_textual_tree(self.bt_tree, self.textual_tree, self.depth)
 
@@ -305,8 +306,18 @@ class Studio(App):  # type: ignore[misc]
 
 def run_app_cli() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("file", nargs="?", default=None)
-    parser.add_argument("--depth", type=int, default=2)
+    parser.add_argument(
+        "file",
+        nargs="?",
+        default=None,
+        help="Input JSON file in a flattened tree format. If not specified, a blank tree will be created",
+    )
+    parser.add_argument(
+        "--depth",
+        type=int,
+        help="Initial tree depth to display, defaults to 2",
+        default=2,
+    )
     args = parser.parse_args()
 
     if args.file:

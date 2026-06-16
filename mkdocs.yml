@@ -23,6 +23,7 @@ nav:
   - Getting Started:
     - Demonstration:
       - gettingstarted/demo/tree.md
+      - gettingstarted/demo/tree_studio.md
       - gettingstarted/demo/binarytree.md
       - gettingstarted/demo/dag.md
       - gettingstarted/demo/Workflow Demonstration.ipynb
