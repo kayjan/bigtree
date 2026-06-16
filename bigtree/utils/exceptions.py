@@ -41,6 +41,25 @@ class SearchError(TreeError):
     pass
 
 
+def safe_action(func: Callable[..., None]) -> Callable[..., None]:  # pragma: no cover
+    """
+    This is a decorator for studio which performs safe actions and raises error in notify pop-up.
+    """
+
+    @wraps(func)
+    def wrapper(self: Any, *args: Any, **kwargs: Any) -> None:
+        try:
+            return func(self, *args, **kwargs)
+        except Exception as e:
+            self.notify(
+                str(e),
+                title=type(e).__name__,
+                severity="error",
+            )
+
+    return wrapper
+
+
 def deprecated(
     alias: str,
 ) -> Callable[[Callable[..., T]], Callable[..., T]]:  # pragma: no cover
@@ -188,28 +207,6 @@ def optional_dependencies_query(
     return wrapper
 
 
-def optional_dependencies_vis(
-    func: Callable[..., T],
-) -> Callable[..., T]:  # pragma: no cover
-    """
-    This is a decorator which can be used to import optional pyvis dependency. It will raise an ImportError if the
-    module is not found.
-    """
-
-    @wraps(func)
-    def wrapper(*args: Any, **kwargs: Any) -> T:
-        try:
-            import pyvis  # noqa: F401
-        except ImportError:
-            raise ImportError(
-                "pyvis not available. Please perform a\n\n"
-                "pip install 'bigtree[vis]'\n\nto install required dependencies"
-            ) from None
-        return func(*args, **kwargs)
-
-    return wrapper
-
-
 def optional_dependencies_rich(
     func: Callable[..., T],
 ) -> Callable[..., T]:  # pragma: no cover
@@ -226,6 +223,50 @@ def optional_dependencies_rich(
             raise ImportError(
                 "rich not available. Please perform a\n\n"
                 "pip install 'bigtree[rich]'\n\nto install required dependencies"
+            ) from None
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+def optional_dependencies_studio(
+    func: Callable[..., T],
+) -> Callable[..., T]:  # pragma: no cover
+    """
+    This is a decorator which can be used to import optional textual dependency. It will raise an ImportError if the
+    module is not found.
+    """
+
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> T:
+        try:
+            import textual  # noqa: F401
+        except ImportError:
+            raise ImportError(
+                "textual not available. Please perform a\n\n"
+                "pip install 'bigtree[studio]'\n\nto install required dependencies"
+            ) from None
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+def optional_dependencies_vis(
+    func: Callable[..., T],
+) -> Callable[..., T]:  # pragma: no cover
+    """
+    This is a decorator which can be used to import optional pyvis dependency. It will raise an ImportError if the
+    module is not found.
+    """
+
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> T:
+        try:
+            import pyvis  # noqa: F401
+        except ImportError:
+            raise ImportError(
+                "pyvis not available. Please perform a\n\n"
+                "pip install 'bigtree[vis]'\n\nto install required dependencies"
             ) from None
         return func(*args, **kwargs)
 

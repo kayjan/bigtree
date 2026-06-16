@@ -23,6 +23,7 @@ nav:
   - Getting Started:
     - Demonstration:
       - gettingstarted/demo/tree.md
+      - gettingstarted/demo/tree_studio.md
       - gettingstarted/demo/binarytree.md
       - gettingstarted/demo/dag.md
       - gettingstarted/demo/Workflow Demonstration.ipynb
@@ -53,6 +54,7 @@ nav:
       - bigtree/tree/modify.md
       - bigtree/tree/parsing.md
       - bigtree/tree/search.md
+      - bigtree/tree/studio.md
       - bigtree/tree/query.md
     - 🔧 Utils:
         - bigtree/utils/iterators.md

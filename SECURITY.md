@@ -5,7 +5,7 @@
 The latest version of bigtree is supported with security updates.
 
 | Version   | Supported          |
-|-----------| ------------------ |
+|-----------|--------------------|
 | >= 0.12.x | :white_check_mark: |
 
 
