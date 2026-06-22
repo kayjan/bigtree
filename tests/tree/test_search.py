@@ -139,6 +139,17 @@ class TestSearch(unittest.TestCase):
                 actual == expected
             ), f"Expected find_name to return {expected}, received {actual}"
 
+    def test_find_name_regex(self):
+        self.b.rename("bob")
+        self.c.rename("bobby")
+        inputs = ["bobb.*", "b.*y"]
+        expected_ans = [self.c, self.c]
+        for input_, expected in zip(inputs, expected_ans):
+            actual = search.find_name(self.a, input_, regex=True)
+            assert (
+                actual == expected
+            ), f"Expected find_name to return {expected}, received {actual}"
+
     def test_find_names(self):
         inputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
         expected_ans = [
@@ -157,6 +168,17 @@ class TestSearch(unittest.TestCase):
             assert (
                 actual == expected
             ), f"Expected find_names to return {expected}, received {actual}"
+
+    def test_find_names_regex(self):
+        self.b.rename("bob")
+        self.c.rename("bobby")
+        inputs = ["bob.*"]
+        expected_ans = [(self.b, self.c)]
+        for input_, expected in zip(inputs, expected_ans):
+            actual = search.find_names(self.a, input_, regex=True)
+            assert (
+                actual == expected
+            ), f"Expected find_name to return {expected}, received {actual}"
 
     def test_find_relative_path_current_position(self):
         nodes = [self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h]
