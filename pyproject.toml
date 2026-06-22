@@ -80,6 +80,7 @@ dependencies = [
   "pyvis",
   "rich",
   "ruff",
+  "textual",
 ]
 
 [tool.hatch.envs.default.scripts]
