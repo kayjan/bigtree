@@ -3,6 +3,15 @@ from typing import Any, Callable, Iterable, TypeVar
 from bigtree.node import basenode, dagnode, node
 from bigtree.utils import exceptions, iterators
 
+try:
+    import re
+
+except ImportError:  # pragma: no cover
+    from unittest.mock import MagicMock
+
+    re = MagicMock()
+
+
 __all__ = [
     "findall",
     "find",
@@ -120,7 +129,9 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T | Non
     return result[0] if result else None
 
 
-def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT | None:
+def find_name(
+    tree: NodeT, name: str, max_depth: int = 0, regex: bool = False
+) -> NodeT | None:
     """Search tree for a single node matching name attribute.
 
     Examples:
@@ -139,14 +150,22 @@ def find_name(tree: NodeT, name: str, max_depth: int = 0) -> NodeT | None:
         tree: tree to search
         name: value to match for name attribute
         max_depth: maximum depth to search for, based on the `depth` attribute
+        regex: match by regex
 
     Returns:
         Search result
     """
+    if regex:
+        pattern = re.compile(name)
+        return find(
+            tree, lambda _node: bool(re.search(pattern, _node.node_name)), max_depth
+        )
     return find(tree, lambda _node: _node.node_name == name, max_depth)
 
 
-def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
+def find_names(
+    tree: NodeT, name: str, max_depth: int = 0, regex: bool = False
+) -> Iterable[NodeT]:
     """Search tree for one or more nodes matching name attribute.
 
     Examples:
@@ -167,10 +186,16 @@ def find_names(tree: NodeT, name: str, max_depth: int = 0) -> Iterable[NodeT]:
         tree: tree to search
         name: value to match for name attribute
         max_depth: maximum depth to search for, based on the `depth` attribute
+        regex: match by regex
 
     Returns:
         Search results
     """
+    if regex:
+        pattern = re.compile(name)
+        return findall(
+            tree, lambda _node: bool(re.search(pattern, _node.node_name)), max_depth
+        )
     return findall(tree, lambda _node: _node.node_name == name, max_depth)
 
 

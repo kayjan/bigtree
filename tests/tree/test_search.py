@@ -139,6 +139,17 @@ class TestSearch(unittest.TestCase):
                 actual == expected
             ), f"Expected find_name to return {expected}, received {actual}"
 
+    def test_find_name_regex(self):
+        self.b.rename("bob")
+        self.c.rename("bobby")
+        inputs = ["bobb.*", "b.*y"]
+        expected_ans = [self.c, self.c]
+        for input_, expected in zip(inputs, expected_ans):
+            actual = search.find_name(self.a, input_, regex=True)
+            assert (
+                actual == expected
+            ), f"Expected find_name to return {expected}, received {actual}"
+
     def test_find_names(self):
         inputs = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
         expected_ans = [
