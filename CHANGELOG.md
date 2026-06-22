@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - Search: Search by name/names to allow regex match.
+### Fixed:
+- Query: Query method for inequality to cover cases where attribute is not present.
 
 ## [1.5.0]
 ### Added:

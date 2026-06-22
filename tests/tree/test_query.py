@@ -15,6 +15,16 @@ class TestQueryTree:
         ), f"Wrong query results, expected {expected}, received {actual}"
 
     @staticmethod
+    def test_query_tree_missing_attr(tree_node):
+        del tree_node.root.age
+        results = query.query_tree(tree_node, "age >= 30", debug=True)
+        expected = ["b", "d", "e", "c", "f"]
+        actual = [_node.node_name for _node in results]
+        assert (
+            actual == expected
+        ), f"Wrong query results, expected {expected}, received {actual}"
+
+    @staticmethod
     def test_query_tree_empty_string(tree_node):
         with pytest.raises(ValueError) as exc_info:
             query.query_tree(tree_node, "")
