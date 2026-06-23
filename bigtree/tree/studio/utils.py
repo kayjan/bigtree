@@ -45,9 +45,9 @@ __all__ = [
 
 
 SEARCH_EXAMPLES = """[b]Examples[/]
-[cyan]alice[/]                                        Exact node name
-[cyan]name:^ali.*[/]                                  Regex node name
-[cyan]query:age >= 30 OR node_name IN ["alice"][/]    Advanced query"""
+[cyan]alice[/]                                    Exact name
+[cyan]name:^ali.*[/]                              Regex name
+[cyan]query:age >= 30 OR node_name LIKE ".*e"[/]  Advanced query"""
 
 
 def _get_textual_node_path(textual_node: TreeNode, sep: str = "/") -> str:
