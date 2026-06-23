@@ -32,23 +32,49 @@ class Prompt(ModalScreen[str]):  # type: ignore[misc]
         width: 100%;
         border: round $primary;
     }
+
+    .context {
+        color: $text-muted;
+        margin-bottom: 1;
+    }
     """
 
-    def __init__(self, title: str, placeholder: str = "", value: str = ""):
+    def __init__(
+        self,
+        title: str,
+        placeholder: str = "",
+        value: str = "",
+        additional_context: str = "",
+    ):
         super().__init__()
         self.title = title
         self.placeholder = placeholder
         self.value = value
+        self.additional_context = additional_context
         self.result: str | None = None
 
     def compose(self) -> ComposeResult:
-        yield Vertical(
-            Label(self.title),
-            Input(
-                placeholder=self.placeholder, value=self.value, select_on_focus=False
-            ),
-            Static("Enter to confirm, Esc to cancel", classes="hint"),
-        )
+        if self.additional_context:
+            yield Vertical(
+                Label(self.title),
+                Input(
+                    placeholder=self.placeholder,
+                    value=self.value,
+                    select_on_focus=False,
+                ),
+                Static(self.additional_context, classes="context"),
+                Static("Enter to confirm, Esc to cancel", classes="hint"),
+            )
+        else:
+            yield Vertical(
+                Label(self.title),
+                Input(
+                    placeholder=self.placeholder,
+                    value=self.value,
+                    select_on_focus=False,
+                ),
+                Static("Enter to confirm, Esc to cancel", classes="hint"),
+            )
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         self.dismiss(event.value)
