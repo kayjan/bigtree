@@ -269,7 +269,7 @@ def select_edit_attr(bt_tree: tree.Tree, textual_node: TreeNode) -> str:
         Formatted attribute (e.g., key=value,key1=value1)
     """
     attrs = _get_attr_bt_node(bt_tree, textual_node)
-    return ",".join(f"{k}={v}" for k, v in attrs.items())
+    return ",".join(f"{k}={repr(v)}" for k, v in attrs.items())
 
 
 def action_edit_attr(
