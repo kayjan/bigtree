@@ -149,7 +149,9 @@ omit = [
   "*/tests/*",
   "*/workflows/*",
   "bigtree/tree/construct/render.py",
-  "bigtree/tree/studio/*"
+  "bigtree/tree/studio/app.py",
+  "bigtree/tree/studio/details.py",
+  "bigtree/tree/studio/prompt.py",
 ]
 
 [tool.coverage.report]
