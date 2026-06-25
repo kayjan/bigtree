@@ -5,6 +5,13 @@ from bigtree.tree import tree
 from bigtree.utils import common
 
 try:
+    import ast
+except ImportError:  # pragma: no cover
+    from unittest.mock import MagicMock
+
+    ast = MagicMock()
+
+try:
     import json
 except ImportError:  # pragma: no cover
     from unittest.mock import MagicMock
@@ -32,8 +39,15 @@ __all__ = [
     "action_rename_node",
     "select_edit_attr",
     "action_edit_attr",
+    "action_search",
     "action_save_as",
 ]
+
+
+SEARCH_EXAMPLES = """[b]Examples[/]
+[cyan]alice[/]                                    Exact name
+[cyan]name:^ali.*[/]                              Regex name
+[cyan]query:age >= 30 OR node_name LIKE ".*e"[/]  Advanced query"""
 
 
 def _get_textual_node_path(textual_node: TreeNode, sep: str = "/") -> str:
@@ -68,6 +82,30 @@ def _get_corresponding_bt_node(bt_tree: tree.Tree, textual_node: TreeNode) -> no
     return bt_tree.find_full_path(node_path)  # type: ignore[attr-defined, no-any-return]
 
 
+def _get_corresponding_textual_nodes(
+    textual_tree: tree.Tree, paths: list[str]
+) -> list[TreeNode]:
+    """Get textual nodes that matches paths
+
+    Args:
+        paths: list of tree paths to retrieve textual nodes
+
+    Returns:
+        list of textual nodes that matches paths
+    """
+    matches = []
+
+    def walk(item: TreeNode) -> None:
+        if item.data["path_name"] in paths:
+            matches.append(item)
+        for _child in item.children:
+            walk(_child)
+
+    for child in textual_tree.root.children:  # type: ignore[attr-defined]
+        walk(child)
+    return matches
+
+
 def _get_attr_bt_node(
     bt_tree: tree.Tree, textual_node: TreeNode, **kwargs: Any
 ) -> dict[str, Any]:
@@ -87,7 +125,7 @@ def _get_attr_bt_node(
 def populate_textual_tree(
     bt_tree: tree.Tree,
     textual_tree: TreeNode,
-    max_depth: int,
+    max_depth: int = 2,
 ) -> None:
     """Populate textual tree with bigtree tree.
 
@@ -96,17 +134,23 @@ def populate_textual_tree(
         textual_tree: textual tree
         max_depth: maximum depth of tree to expand
     """
-    textual_tree.clear()
-    textual_tree.root.label = bt_tree.node.name
-    textual_tree.root.expand()
+
+    def assemble_data(bt_node: node.Node) -> dict[str, str]:
+        return {"path_name": bt_node.path_name}
 
     def add(bt_parent: node.Node, textual_parent: TreeNode, depth: int = 1) -> None:
         # Depth + 1 because we are calculating the depth of children
         expand = True if depth + 1 < max_depth else False
         for bt_child in bt_parent.children:
-            textual_child = textual_parent.add(bt_child.node_name, expand=expand)
+            textual_child = textual_parent.add(
+                bt_child.node_name, data=assemble_data(bt_child), expand=expand
+            )
             add(bt_child, textual_child, depth + 1)
 
+    textual_tree.clear()
+    textual_tree.root.label = bt_tree.node.name
+    textual_tree.root.data = assemble_data(bt_tree.node)
+    textual_tree.root.expand()
     add(bt_tree.node, textual_tree.root)
 
 
@@ -225,7 +269,7 @@ def select_edit_attr(bt_tree: tree.Tree, textual_node: TreeNode) -> str:
         Formatted attribute (e.g., key=value,key1=value1)
     """
     attrs = _get_attr_bt_node(bt_tree, textual_node)
-    return ",".join(f"{k}={v}" for k, v in attrs.items())
+    return ",".join(f"{k}={repr(v)}" for k, v in attrs.items())
 
 
 def action_edit_attr(
@@ -241,8 +285,9 @@ def action_edit_attr(
     if not textual_node or not value:
         return
     kv_pairs = [kv.strip().split("=") for kv in value.split(",")]
+    kv_pairs_eval = [(k, ast.literal_eval(v)) for k, v in kv_pairs]
     try:
-        new_attrs = dict(kv_pairs)
+        new_attrs = dict(kv_pairs_eval)
     except ValueError as err:
         raise ValueError(f"Input malformed, check `{value}`") from err
     bt_node = _get_corresponding_bt_node(bt_tree, textual_node)
@@ -251,6 +296,27 @@ def action_edit_attr(
     for attr_to_remove in attrs_to_remove:
         del bt_node.__dict__[attr_to_remove]
     bt_node.set_attrs(new_attrs)
+
+
+def action_search(
+    bt_tree: tree.Tree, textual_node: TreeNode, value: str | None
+) -> list[TreeNode]:
+    """Search tree, for partial/full match in name or queries.
+
+    Args:
+        bt_tree: bigtree tree
+        textual_node: textual tree node
+        value: search query
+    """
+    if value.startswith("query:"):
+        bt_matches = bt_tree.query(value[6:])  # type: ignore[attr-defined]
+    elif value.startswith("name:"):
+        bt_matches = bt_tree.find_names(value[5:], regex=True)  # type: ignore[attr-defined]
+    else:
+        bt_matches = bt_tree.find_names(value)  # type: ignore[attr-defined]
+
+    bt_matches_path = [bt_node.path_name for bt_node in bt_matches]
+    return _get_corresponding_textual_nodes(textual_node, bt_matches_path)
 
 
 def action_save_as(bt_tree: tree.Tree, value: str | None) -> None:

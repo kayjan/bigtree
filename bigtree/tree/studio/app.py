@@ -240,23 +240,20 @@ class Studio(App):  # type: ignore[misc]
         self._update_details(sel)
 
     def action_search(self) -> None:
-        self.push_screen(Prompt("Search node name"), self._search)
+        self.push_screen(
+            Prompt(
+                "Search by name, attribute, or query",
+                additional_context=studio_utils.SEARCH_EXAMPLES,
+            ),
+            self._search,
+        )
 
+    @exceptions.safe_action
     def _search(self, value: Optional[str]) -> None:
         if not value:
             return
 
-        matches = []
-
-        def walk(item: TreeNode) -> None:
-            if value == str(item.label):
-                matches.append(item)
-            for _child in item.children:
-                walk(_child)
-
-        for child in self.textual_tree.root.children:
-            walk(child)
-
+        matches = studio_utils.action_search(self.bt_tree, self.textual_tree, value)
         self.search_matches = matches
         self.search_index = 0
 

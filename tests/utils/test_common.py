@@ -1,3 +1,5 @@
+import unittest
+
 import pytest
 
 from bigtree.node import dagnode, node
@@ -100,3 +102,48 @@ class TestGetAttr:
     def test_get_attr_callable():
         _node = node.Node("a")
         assert common.get_attr(_node, lambda x: "test") == "test"
+
+
+class TestAssembleAttributes(unittest.TestCase):
+    def setUp(self):
+        self.node = node.Node("a", data="test", age=1)
+        self.b = node.Node("b", parent=self.node)
+
+    def tearDown(self):
+        self.node = None
+        self.b = None
+
+    def test_assemble_attributes(self):
+        assert common.assemble_attributes(self.node) == {"data": "test", "age": 1}
+
+    def test_assemble_attributes_attr_dict(self):
+        assert common.assemble_attributes(
+            self.node, attr_dict={"data": "title", "age": "age"}, all_attrs=False
+        ) == {"title": "test", "age": 1}
+
+    def test_assemble_attributes_all_attrs(self):
+        assert common.assemble_attributes(
+            self.node, attr_dict={"data": "title"}, all_attrs=False
+        ) == {"title": "test"}
+
+    def test_assemble_attributes_path_key(self):
+        assert common.assemble_attributes(self.node, path_key="path_test") == {
+            "data": "test",
+            "age": 1,
+            "path_test": "/a",
+        }
+
+    def test_assemble_attributes_parent_key(self):
+        assert common.assemble_attributes(self.node, parent_key="parent_test") == {
+            "data": "test",
+            "age": 1,
+            "parent_test": None,
+        }
+        assert common.assemble_attributes(self.b, parent_key="parent_test") == {
+            "parent_test": "a"
+        }
+
+    @staticmethod
+    def test_assemble_attributes_dict_attr():
+        _node = node.Node("a", data={"a": 1, "b": 2})
+        assert common.assemble_attributes(_node) == {"data": {"a": 1, "b": 2}}

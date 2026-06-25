@@ -83,7 +83,7 @@ class QueryTransformer(Transformer):  # type: ignore
     def condition(self, args: list[Token]) -> Callable[[T], bool]:
         attr, op, value = args
         op_func = self.OPERATORS[op]
-        return lambda node: op_func(attr(node), value)
+        return lambda node: op_func(attr(node), value) if attr(node) else False
 
     def string_condition(self, args: list[Token]) -> Callable[[T], bool]:
         attr, op, value = args
