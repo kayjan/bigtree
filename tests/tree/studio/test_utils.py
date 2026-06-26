@@ -2,6 +2,7 @@ import pytest
 from textual.widgets import Tree
 
 import bigtree.tree.studio.utils as studio_utils
+from tests.node.test_node import assert_tree_structure_node_root
 from tests.test_constants import Constants
 
 
@@ -22,9 +23,10 @@ def assert_textual_tree_structure(textual_tree):
     assert h_node.data["path_name"] == "/a/b/e/h"
 
 
-def test_populate_textual_tree(tree_node, textual_tree):
+def test_populate_textual_tree(tree_tree, textual_tree):
     assert_textual_tree_structure(textual_tree)
-    assert textual_tree.root.data["path_name"] == tree_node.path_name
+    assert_tree_structure_node_root(tree_tree.node)
+    assert textual_tree.root.data["path_name"] == tree_tree.node.path_name
 
 
 def test_get_textual_node_path(textual_tree):
@@ -48,7 +50,7 @@ def test_get_corresponding_bt_node(tree_tree, textual_tree):
     )
 
 
-def test_get_corresponding_textual_nodes(tree_node, textual_tree):
+def test_get_corresponding_textual_nodes(textual_tree):
     actual_nodes = studio_utils._get_corresponding_textual_nodes(
         textual_tree, ["/a/b", "/a/b/e"]
     )
@@ -98,9 +100,11 @@ class TestActionAddNode:
         b_node = list(textual_tree.root.children)[0]
         assert len(list(b_node.children)) == 2
         studio_utils.action_add_node(tree_tree, b_node, "b_child")
+        # Check textual tree
         assert len(list(b_node.children)) == 3
         b_child = list(b_node.children)[-1]
         assert b_child.data["path_name"] == "/a/b/b_child"
+        # Check bigtree tree
         assert len(tree_tree["b"].node.children) == 3
         assert tree_tree["b"].node.children[-1].name == "b_child"
 
@@ -110,11 +114,14 @@ class TestActionAddNode:
         assert len(list(b_node.children)) == 2
         studio_utils.action_add_node(tree_tree, b_node, "")
         assert len(list(b_node.children)) == 2
+        assert_textual_tree_structure(textual_tree)
+        assert_tree_structure_node_root(tree_tree.node)
 
     @staticmethod
     def test_action_add_node_empty_textual_node(tree_tree, textual_tree):
         studio_utils.action_add_node(tree_tree, None, "b_child")
         assert_textual_tree_structure(textual_tree)
+        assert_tree_structure_node_root(tree_tree.node)
 
 
 class TestActionAddSibling:
@@ -124,9 +131,11 @@ class TestActionAddSibling:
         e_node = list(b_node.children)[-1]
         assert len(list(b_node.children)) == 2
         studio_utils.action_add_sibling(tree_tree, e_node, "b_child")
+        # Check textual tree
         assert len(list(b_node.children)) == 3
         b_child = list(b_node.children)[-1]
         assert b_child.data["path_name"] == "/a/b/b_child"
+        # Check bigtree tree
         assert len(tree_tree["b"].node.children) == 3
         assert tree_tree["b"].node.children[-1].name == "b_child"
 
@@ -143,8 +152,60 @@ class TestActionAddSibling:
         assert len(list(b_node.children)) == 2
         studio_utils.action_add_sibling(tree_tree, e_node, "")
         assert len(list(b_node.children)) == 2
+        assert_textual_tree_structure(textual_tree)
+        assert_tree_structure_node_root(tree_tree.node)
 
     @staticmethod
     def test_action_add_sibling_empty_textual_node(tree_tree, textual_tree):
         studio_utils.action_add_sibling(tree_tree, None, "b_child")
         assert_textual_tree_structure(textual_tree)
+        assert_tree_structure_node_root(tree_tree.node)
+
+
+class TestActionDeleteNode:
+    @staticmethod
+    def test_action_delete_node(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        assert len(list(b_node.children)) == 2
+        studio_utils.action_delete_node(tree_tree, e_node)
+        assert len(list(b_node.children)) == 1
+        assert len(list(tree_tree["b"].node.children)) == 1
+
+    @staticmethod
+    def test_action_delete_node_empty_textual_node(tree_tree, textual_tree):
+        studio_utils.action_delete_node(tree_tree, None)
+        assert_textual_tree_structure(textual_tree)
+        assert_tree_structure_node_root(tree_tree.node)
+
+
+class TestActionRenameNode:
+    @staticmethod
+    def test_action_rename_node(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        assert len(list(b_node.children)) == 2
+        studio_utils.action_rename_node(tree_tree, e_node, "e_new")
+        # Check textual tree
+        assert len(list(b_node.children)) == 2
+        b_child = list(b_node.children)[-1]
+        assert b_child.data["path_name"] == "/a/b/e_new"
+        # Check bigtree tree
+        assert len(tree_tree["b"].node.children) == 2
+        assert tree_tree["b"].node.children[-1].name == "e_new"
+
+    @staticmethod
+    def test_action_rename_node_empty_value(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        assert len(list(b_node.children)) == 2
+        studio_utils.action_rename_node(tree_tree, e_node, "")
+        assert len(list(b_node.children)) == 2
+        assert_textual_tree_structure(textual_tree)
+        assert_tree_structure_node_root(tree_tree.node)
+
+    @staticmethod
+    def test_action_rename_node_empty_textual_node(tree_tree, textual_tree):
+        studio_utils.action_rename_node(tree_tree, None, "e_new")
+        assert_textual_tree_structure(textual_tree)
+        assert_tree_structure_node_root(tree_tree.node)

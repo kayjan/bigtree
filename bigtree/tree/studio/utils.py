@@ -236,7 +236,7 @@ def action_add_sibling(
     textual_node.parent.add(value, data=_assemble_data(bt_child))
 
 
-def action_delete_node(bt_tree: tree.Tree, textual_node: TreeNode) -> None:
+def action_delete_node(bt_tree: tree.Tree, textual_node: TreeNode | None) -> None:
     """Delete node, implements for bigtree tree and textual tree in-place.
 
     Args:
@@ -265,6 +265,7 @@ def action_rename_node(
     bt_node = _get_corresponding_bt_node(bt_tree, textual_node)
     bt_node.rename(value)
     textual_node.set_label(value)
+    textual_node.data = _assemble_data(bt_node)
 
 
 def select_edit_attr(bt_tree: tree.Tree, textual_node: TreeNode) -> str:
