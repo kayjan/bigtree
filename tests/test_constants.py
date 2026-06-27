@@ -176,6 +176,7 @@ class Constants:
 
     # tree/studio
     ERROR_STUDIO_ADD_SIBLING = "Cannot add sibling for root node."
+    ERROR_STUDIO_EDIT_ATTR = "Input malformed, check "
 
     # tree/helper
     ERROR_NODE_PRUNE_ARGUMENT = (

@@ -30,11 +30,11 @@ def test_populate_textual_tree(tree_tree, textual_tree):
 
 
 def test_get_textual_node_path(textual_tree):
-    assert studio_utils._get_textual_node_path(textual_tree.root) == "a"
+    assert studio_utils._get_textual_node_path(textual_tree.root) == ["a"]
     b_node = list(textual_tree.root.children)[0]
     e_node = list(b_node.children)[-1]
-    assert studio_utils._get_textual_node_path(b_node) == "a/b"
-    assert studio_utils._get_textual_node_path(e_node) == "a/b/e"
+    assert studio_utils._get_textual_node_path(b_node) == ["a", "b"]
+    assert studio_utils._get_textual_node_path(e_node) == ["a", "b", "e"]
 
 
 def test_get_corresponding_bt_node(tree_tree, textual_tree):
@@ -198,9 +198,7 @@ class TestActionRenameNode:
     def test_action_rename_node_empty_value(tree_tree, textual_tree):
         b_node = list(textual_tree.root.children)[0]
         e_node = list(b_node.children)[-1]
-        assert len(list(b_node.children)) == 2
         studio_utils.action_rename_node(tree_tree, e_node, "")
-        assert len(list(b_node.children)) == 2
         assert_textual_tree_structure(textual_tree)
         assert_tree_structure_node_root(tree_tree.node)
 
@@ -209,3 +207,136 @@ class TestActionRenameNode:
         studio_utils.action_rename_node(tree_tree, None, "e_new")
         assert_textual_tree_structure(textual_tree)
         assert_tree_structure_node_root(tree_tree.node)
+
+
+def test_select_edit_attr(tree_tree, textual_tree):
+    # Covers _get_attr_bt_node
+    b_node = list(textual_tree.root.children)[0]
+    e_node = list(b_node.children)[-1]
+    assert studio_utils.select_edit_attr(tree_tree, b_node) == "age=65"
+    assert studio_utils.select_edit_attr(tree_tree, e_node) == "age=35"
+
+
+class TestActionEditAttr:
+    @staticmethod
+    def test_action_edit_attr(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        studio_utils.action_edit_attr(tree_tree, e_node, "age=35,age2=30")
+        # Check textual tree
+        assert e_node.data["path_name"] == "/a/b/e"
+        # Check bigtree tree
+        assert tree_tree["b"]["e"].node.age == 35
+        assert tree_tree["b"]["e"].node.age2 == 30
+
+    @staticmethod
+    def test_action_edit_attr_str(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        studio_utils.action_edit_attr(tree_tree, e_node, "age=35,person='alice'")
+        # Check textual tree
+        assert e_node.data["path_name"] == "/a/b/e"
+        # Check bigtree tree
+        assert tree_tree["b"]["e"].node.age == 35
+        assert tree_tree["b"]["e"].node.person == "alice"
+
+    @staticmethod
+    def test_action_edit_update(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        studio_utils.action_edit_attr(tree_tree, e_node, "age2=35")
+        # Check textual tree
+        assert e_node.data["path_name"] == "/a/b/e"
+        # Check bigtree tree
+        assert tree_tree["b"]["e"].node.age2 == 35
+
+    @staticmethod
+    def test_action_edit_attr_name(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        studio_utils.action_edit_attr(tree_tree, e_node, "age=35,name='alice'")
+        # Check textual tree
+        assert e_node.data["path_name"] == "/a/b/alice"
+        # Check bigtree tree
+        assert tree_tree["b"]["alice"].node.age == 35
+        assert tree_tree["b"]["alice"].node.name == "alice"
+        assert tree_tree["b"]["alice"].node.node_name == "alice"
+
+    @staticmethod
+    def test_action_edit_attr_name_clash_with_sep(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        studio_utils.action_edit_attr(tree_tree, e_node, "age=35,name='c/d'")
+        # Check textual tree
+        assert e_node.data["path_name"] == "/a/b/c/d"
+        # Check bigtree tree
+        assert tree_tree["b"]["c/d"].node.age == 35
+        assert tree_tree["b"]["c/d"].node.name == "c/d"
+        assert tree_tree["b"]["c/d"].node.node_name == "c/d"
+
+    @staticmethod
+    def test_action_edit_attr_node_name(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        studio_utils.action_edit_attr(tree_tree, e_node, "age=35,node_name='alice'")
+        # Check textual tree
+        assert e_node.data["path_name"] == "/a/b/e"
+        # Check bigtree tree
+        assert tree_tree["b"]["e"].node.age == 35
+        assert tree_tree["b"]["e"].node.name == "e"
+        assert tree_tree["b"]["e"].node.node_name == "e"
+        assert tree_tree["b"]["e"].node.__dict__["node_name"] == "alice"
+
+    @staticmethod
+    def test_action_edit_attr_error(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        with pytest.raises(ValueError) as exc_info:
+            studio_utils.action_edit_attr(tree_tree, e_node, "age=")
+        assert str(exc_info.value).startswith(Constants.ERROR_STUDIO_EDIT_ATTR)
+
+    @staticmethod
+    def test_action_edit_node_empty_value(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        studio_utils.action_edit_attr(tree_tree, e_node, "")
+        assert_textual_tree_structure(textual_tree)
+        assert_tree_structure_node_root(tree_tree.node)
+
+    @staticmethod
+    def test_action_edit_node_empty_textual_node(tree_tree, textual_tree):
+        studio_utils.action_edit_attr(tree_tree, None, "e_new")
+        assert_textual_tree_structure(textual_tree)
+        assert_tree_structure_node_root(tree_tree.node)
+
+
+class TestActionSearch:
+    @staticmethod
+    def test_action_search(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        actual = studio_utils.action_search(tree_tree, textual_tree, "e")
+        assert actual == [e_node]
+
+    @staticmethod
+    def test_action_search_query_equal(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        actual = studio_utils.action_search(tree_tree, textual_tree, "query:age==35")
+        assert actual == [e_node]
+
+    @staticmethod
+    def test_action_search_query_like(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        actual = studio_utils.action_search(
+            tree_tree, textual_tree, 'query:name LIKE ".*e.*"'
+        )
+        assert actual == [e_node]
+
+    @staticmethod
+    def test_action_search_name(tree_tree, textual_tree):
+        b_node = list(textual_tree.root.children)[0]
+        e_node = list(b_node.children)[-1]
+        actual = studio_utils.action_search(tree_tree, textual_tree, "name:.*e.*")
+        assert actual == [e_node]

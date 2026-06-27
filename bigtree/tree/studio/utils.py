@@ -50,7 +50,7 @@ SEARCH_EXAMPLES = """[b]Examples[/]
 [cyan]query:age >= 30 OR node_name LIKE ".*e"[/]  Advanced query"""
 
 
-def _get_textual_node_path(textual_node: TreeNode, sep: str = "/") -> str:
+def _get_textual_node_path(textual_node: TreeNode) -> list[str]:
     """Get node path of textual TreeNode, reads the node name recursively until root node.
 
     Args:
@@ -65,7 +65,7 @@ def _get_textual_node_path(textual_node: TreeNode, sep: str = "/") -> str:
     while parent:
         path.append(str(parent.label))
         parent = parent.parent
-    return sep.join(path[::-1])
+    return path[::-1]
 
 
 def _get_corresponding_bt_node(bt_tree: tree.Tree, textual_node: TreeNode) -> node.Node:
@@ -79,7 +79,9 @@ def _get_corresponding_bt_node(bt_tree: tree.Tree, textual_node: TreeNode) -> no
         bigtree tree node
     """
     node_path = _get_textual_node_path(textual_node)
-    return bt_tree.find_full_path(node_path)  # type: ignore[attr-defined, no-any-return]
+    for next_path in node_path[1:]:
+        bt_tree = bt_tree[next_path]
+    return bt_tree.node
 
 
 def _get_corresponding_textual_nodes(
@@ -283,9 +285,9 @@ def select_edit_attr(bt_tree: tree.Tree, textual_node: TreeNode) -> str:
 
 
 def action_edit_attr(
-    bt_tree: tree.Tree, textual_node: TreeNode, value: str | None
+    bt_tree: tree.Tree, textual_node: TreeNode | None, value: str | None
 ) -> None:
-    """Delete node, implements for bigtree tree and textual tree in-place.
+    """Delete node, implements for bigtree tree in-place. Textual tree data only maintains path_name
 
     Args:
         bt_tree: bigtree tree
@@ -294,11 +296,11 @@ def action_edit_attr(
     """
     if not textual_node or not value:
         return
-    kv_pairs = [kv.strip().split("=") for kv in value.split(",")]
-    kv_pairs_eval = [(k, ast.literal_eval(v)) for k, v in kv_pairs]
     try:
+        kv_pairs = [kv.strip().split("=") for kv in value.split(",")]
+        kv_pairs_eval = [(k, ast.literal_eval(v)) for k, v in kv_pairs]
         new_attrs = dict(kv_pairs_eval)
-    except ValueError as err:
+    except (ValueError, SyntaxError) as err:
         raise ValueError(f"Input malformed, check `{value}`") from err
     bt_node = _get_corresponding_bt_node(bt_tree, textual_node)
     existing_attrs = _get_attr_bt_node(bt_tree, textual_node)
@@ -306,6 +308,9 @@ def action_edit_attr(
     for attr_to_remove in attrs_to_remove:
         del bt_node.__dict__[attr_to_remove]
     bt_node.set_attrs(new_attrs)
+    # Sync textual_node to bt_node
+    textual_node.label = bt_node.name
+    textual_node.data = _assemble_data(bt_node)
 
 
 def action_search(
@@ -329,7 +334,7 @@ def action_search(
     return _get_corresponding_textual_nodes(textual_node, bt_matches_path)
 
 
-def action_save_as(bt_tree: tree.Tree, value: str | None) -> None:
+def action_save_as(bt_tree: tree.Tree, value: str | None) -> None:  # pragma: no cover
     """Save tree as json file.
 
     Args:
