@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added:
 - Search: Search by name/names to allow regex match.
 - Studio: Enhance search to be by name, regex, or attribute query.
+- Test: Test for studio.
 ### Fixed:
 - Query: Query method for inequality to cover cases where attribute is not present.
 

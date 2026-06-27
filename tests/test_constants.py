@@ -174,6 +174,10 @@ class Constants:
     )
     ERROR_NODE_NEWICK_ATTR_INVALID = "Length attribute does not exist for node "
 
+    # tree/studio
+    ERROR_STUDIO_ADD_SIBLING = "Cannot add sibling for root node."
+    ERROR_STUDIO_EDIT_ATTR = "Input malformed, check "
+
     # tree/helper
     ERROR_NODE_PRUNE_ARGUMENT = (
         "Please specify either `prune_path` or `max_depth` or both."
