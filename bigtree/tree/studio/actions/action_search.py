@@ -20,7 +20,7 @@ class ActionSearch(Action):
         super().__init__(*args, **kwargs)
 
     def _run(self) -> list[TreeNode]:
-        """Search tree, for full/regex match in name or queries"""
+        """Search tree, for full/partial/regex match in name or queries"""
         if self.value.startswith("query:"):
             bt_matches = self.bt_tree.query(self.value[6:])  # type: ignore[attr-defined]
         elif self.value.startswith("name:"):
