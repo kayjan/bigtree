@@ -56,6 +56,7 @@ Example Terminal layout:
 
 from typing import List, Optional
 
+import bigtree.tree.studio.actions as actions
 import bigtree.tree.studio.utils as studio_utils
 from bigtree.tree.studio.details import Details
 from bigtree.tree.studio.prompt import Prompt
@@ -200,7 +201,7 @@ class Studio(App):  # type: ignore[misc]
     @exceptions.safe_action
     def _add_node(self, value: str | None) -> None:
         sel = self._get_selected()
-        studio_utils.action_add_node(self.bt_tree, sel, value)
+        actions.ActionAddNode(self.bt_tree, sel, value).run()
 
     def action_add_sibling(self) -> None:
         self.push_screen(Prompt("Add sibling node"), self._add_sibling)
@@ -208,11 +209,11 @@ class Studio(App):  # type: ignore[misc]
     @exceptions.safe_action
     def _add_sibling(self, value: Optional[str]) -> None:
         sel = self._get_selected()
-        studio_utils.action_add_sibling(self.bt_tree, sel, value)
+        actions.ActionAddSibling(self.bt_tree, sel, value).run()
 
     def action_delete_node(self) -> None:
         sel = self._get_selected()
-        studio_utils.action_delete_node(self.bt_tree, sel)
+        actions.ActionDeleteNode(self.bt_tree, sel).run()
 
     def action_rename_node(self) -> None:
         self.push_screen(Prompt("Rename node"), self._rename_node)
@@ -220,7 +221,8 @@ class Studio(App):  # type: ignore[misc]
     @exceptions.safe_action
     def _rename_node(self, value: Optional[str]) -> None:
         sel = self._get_selected()
-        studio_utils.action_rename_node(self.bt_tree, sel, value)
+        actions.ActionRenameNode(self.bt_tree, sel, value).run()
+        self._update_details(sel)
 
     def action_edit_attr(self) -> None:
         sel = self._get_selected()
@@ -236,7 +238,7 @@ class Studio(App):  # type: ignore[misc]
     @exceptions.safe_action
     def _edit_attr(self, value: Optional[str]) -> None:
         sel = self._get_selected()
-        studio_utils.action_edit_attr(self.bt_tree, sel, value)
+        actions.ActionEditAttr(self.bt_tree, sel, value).run()
         self._update_details(sel)
 
     def action_search(self) -> None:
@@ -253,7 +255,7 @@ class Studio(App):  # type: ignore[misc]
         if not value:
             return
 
-        matches = studio_utils.action_search(self.bt_tree, self.textual_tree, value)
+        matches = actions.ActionSearch(self.bt_tree, self.textual_tree, value).run()
         self.search_matches = matches
         self.search_index = 0
 
@@ -295,7 +297,7 @@ class Studio(App):  # type: ignore[misc]
 
     @exceptions.safe_action
     def _save_as(self, value: Optional[str]) -> None:
-        studio_utils.action_save_as(self.bt_tree, value)
+        actions.ActionSaveAs(self.bt_tree, value=value).run()
         self.notify(
             f"Saved to {value}", title="Save Successful", severity="information"
         )
