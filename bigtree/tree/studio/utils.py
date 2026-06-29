@@ -26,6 +26,49 @@ __all__ = [
 ]
 
 
+# Shortcut, key binding function, footer description, help description
+HELP: dict[str, list[tuple[str, ...]]] = {
+    "Navigation": [
+        ("↑ / ↓", "Move selection"),
+        ("Enter / Click", "View node attributes"),
+        ("Space / Double Click", "Expand or collapse node"),
+    ],
+    "Editing": [
+        ("a", "add_node", "Add Child", "Add child node"),
+        ("A", "add_sibling", "Add Sibling", "Add sibling node"),
+        ("r", "rename_node", "Rename", "Rename selected node"),
+        ("d", "delete_node", "Delete", "Delete selected node"),
+        ("t", "edit_attr", "Edit Attributes", "Edit attributes"),
+    ],
+    "Search": [
+        ("/", "search", "Search", "Search"),
+        ("n", "next_match", "Next", "Next search result"),
+        ("N", "prev_match", "Prev", "Previous search result"),
+    ],
+    "View": [
+        ("e", "toggle_expand", "Expand", "Toggle expand"),
+        ("E", "expand_all", "Expand All", "Expand all"),
+        ("z", "collapse_all", "Collapse All", "Collapse all"),
+    ],
+    "File": [
+        ("S", "save_as", "Save As", "Save As"),
+        ("q", "quit", "Quit", "Quit Studio"),
+    ],
+}
+
+BINDINGS = [
+    # enter / single click: View attribute
+    # space / double click: Expand or collapse
+    *(
+        (item[0], item[1], item[2])
+        for section, items in HELP.items()
+        if section in ["Editing", "Search", "View", "File"]
+        for item in items
+    ),
+    ("?", "help", "Help"),
+]
+
+
 SEARCH_EXAMPLES = """[b]Examples[/]
 [cyan]alice[/]                                    Exact name
 [cyan]name:^ali.*[/]                              Regex name
