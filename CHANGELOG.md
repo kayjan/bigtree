@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.5.1] - 2026-06-29
 ### Added:
 - Search: Search by name/names to allow regex match.
 - Studio: Enhance search to be by name, regex, or attribute query.
@@ -14,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed:
 - Query: Query method for inequality to cover cases where attribute is not present.
 
-## [1.5.0]
+## [1.5.0] - 2026-06-16
 ### Added:
 - BaseNode: Method `get_common_ancestors` for getting common ancestors, this was already available in parsing module.
 - Node: Method `rename` to rename node safely.
@@ -938,7 +940,8 @@ ignore null attribute columns.
 - Utility Iterator: Tree traversal methods.
 - Workflow To Do App: Tree use case with to-do list implementation.
 
-[Unreleased]: https://github.com/kayjan/bigtree/compare/1.5.0...HEAD
+[Unreleased]: https://github.com/kayjan/bigtree/compare/1.5.1...HEAD
+[1.5.1]: https://github.com/kayjan/bigtree/compare/1.5.0...1.5.1
 [1.5.0]: https://github.com/kayjan/bigtree/compare/1.4.1...1.5.0
 [1.4.1]: https://github.com/kayjan/bigtree/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/kayjan/bigtree/compare/1.3.1...1.4.0
