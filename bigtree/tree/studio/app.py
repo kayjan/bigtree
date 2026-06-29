@@ -58,8 +58,7 @@ from typing import List, Optional
 
 import bigtree.tree.studio.actions as actions
 import bigtree.tree.studio.utils as studio_utils
-from bigtree.tree.studio.details import Details
-from bigtree.tree.studio.prompt import Prompt
+from bigtree.tree.studio.screens import Details, Help, Prompt
 from bigtree.tree.tree import Tree as BTTree
 from bigtree.utils import exceptions
 
@@ -116,25 +115,7 @@ class Studio(App):  # type: ignore[misc]
         padding: 1;
     }
     """
-
-    BINDINGS = [
-        # space: Expand
-        # single click: view attribute
-        # double click: Expand
-        ("a", "add_node", "Add Child"),
-        ("A", "add_sibling", "Add Sibling"),
-        ("d", "delete_node", "Delete"),
-        ("r", "rename_node", "Rename"),
-        ("t", "edit_attr", "Edit Attribute"),
-        ("/", "search", "Search"),
-        ("n", "next_match", "Next"),
-        ("N", "prev_match", "Prev"),
-        ("e", "toggle_expand", "Expand"),
-        ("E", "expand_all", "Expand All"),
-        ("z", "collapse_all", "Collapse All"),
-        ("S", "save_as", "Save As"),
-        ("q", "quit", "Quit"),
-    ]
+    BINDINGS = studio_utils.BINDINGS
 
     def __init__(self, tree: BTTree, depth: int = 2):
         super().__init__()
@@ -301,6 +282,9 @@ class Studio(App):  # type: ignore[misc]
         self.notify(
             f"Saved to {value}", title="Save Successful", severity="information"
         )
+
+    def action_help(self) -> None:
+        self.push_screen(Help())
 
 
 def run_app_cli() -> None:
