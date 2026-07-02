@@ -4,15 +4,15 @@ try:
     from textual.app import ComposeResult
     from textual.containers import Vertical
     from textual.screen import ModalScreen
-    from textual.widgets import Input, Label, Static
+    from textual.widgets import Input, Label, Rule, Static
 
 except ImportError:  # pragma: no cover
     from unittest.mock import MagicMock
 
     ComposeResult = MagicMock()
     Vertical = MagicMock()
-    Static = Input = Label = MagicMock()
     ModalScreen = MagicMock()
+    Input = Label = Rule = Static = MagicMock()
 
 
 class Help(ModalScreen[str]):  # type: ignore[misc]
@@ -34,7 +34,6 @@ class Help(ModalScreen[str]):  # type: ignore[misc]
     .title {
         text-style: bold;
         content-align: center middle;
-        margin-bottom: 1;
     }
 
     .section {
@@ -53,6 +52,7 @@ class Help(ModalScreen[str]):  # type: ignore[misc]
     def compose(self) -> ComposeResult:
         yield Vertical(
             Label("Keyboard Shortcuts", classes="title"),
+            Rule(line_style="ascii"),
             *self._build_help(),
             Static("[dim]Press Esc to close[/]", classes="footer"),
         )
@@ -71,6 +71,6 @@ class Help(ModalScreen[str]):  # type: ignore[misc]
         return widgets
 
     def on_key(self, event: Input.Submitted) -> None:
-        if event.key in ("escape", "question_mark"):
+        if event.key in ("escape", "q", "question_mark"):
             event.stop()
             self.dismiss(None)
