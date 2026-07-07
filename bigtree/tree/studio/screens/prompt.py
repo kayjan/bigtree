@@ -9,8 +9,8 @@ except ImportError:  # pragma: no cover
 
     ComposeResult = MagicMock()
     Vertical = MagicMock()
-    Static = Input = Label = MagicMock()
     ModalScreen = MagicMock()
+    Input = Label = Static = MagicMock()
 
 
 class Prompt(ModalScreen[str]):  # type: ignore[misc]
