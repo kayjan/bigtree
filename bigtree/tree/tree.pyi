@@ -21,6 +21,7 @@ if TYPE_CHECKING:
     BinaryNodeT = TypeVar("BinaryNodeT", bound=binarynode.BinaryNode)
     DAGNodeT = TypeVar("DAGNodeT", bound=dagnode.DAGNode)
     NodeT = TypeVar("NodeT", bound=_node.Node)
+    Tr = TypeVar("Tr", bound=Tree)
 
 try:
     import pandas as pd
@@ -89,6 +90,13 @@ class Tree:
         mapping: dict[str, Callable[..., Any]],
         method: Literal["default", "class", "helper", "diff"] = "default",
     ) -> None: ...
+    @property
+    def diameter(self) -> int: ...
+    @property
+    def depth(self) -> int: ...
+    def plot(self, *args: Any, **kwargs: Any) -> plt.Figure: ...
+    def copy(self: Tr) -> Tr: ...
+    # Plugins
     @classmethod
     def from_dataframe(
         cls,
