@@ -13,12 +13,6 @@ class BinaryTree(Tree):
     construct_kwargs: dict[str, Any] = dict()
 
     @classmethod
-    def register_plugins(
-        cls,
-        mapping: dict[str, Callable[..., Any]],
-        method: Literal["default", "class", "helper", "diff"] = "default",
-    ) -> None: ...
-    @classmethod
     def from_heapq_list(
         cls,
         heapq_list: Sequence[int],

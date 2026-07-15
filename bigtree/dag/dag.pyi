@@ -15,6 +15,7 @@ if TYPE_CHECKING:
     from bigtree.node import dagnode
 
     T = TypeVar("T", bound=dagnode.DAGNode)
+    Td = TypeVar("Td", bound=DAG)
 
 from bigtree.node import dagnode
 
@@ -43,6 +44,8 @@ class DAG:
         mapping: dict[str, Callable[..., Any]],
         method: Literal["default", "class"] = "default",
     ) -> None: ...
+    def copy(self: Td) -> Td: ...
+    # Plugins
     @classmethod
     def from_dataframe(
         cls,
