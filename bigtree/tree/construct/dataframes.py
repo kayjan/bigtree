@@ -373,8 +373,8 @@ def dataframe_to_tree(
     attribute_cols: list[str] | None = None,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_type: type[T] = _node.Node,  # type: ignore[assignment]
-) -> T:
+    node_type: type[_node.Node] = _node.Node,
+) -> _node.Node:
     """Construct tree from pandas DataFrame using path, return root of tree.
 
     `path_col` and `attribute_cols` specify columns for node path and attributes to construct tree. If columns are not
@@ -511,8 +511,8 @@ def dataframe_to_tree_by_relation(
     parent_col: str | None = None,
     attribute_cols: list[str] | None = None,
     allow_duplicates: bool = False,
-    node_type: type[T] = _node.Node,  # type: ignore[assignment]
-) -> T:
+    node_type: type[_node.Node] = _node.Node,
+) -> _node.Node:
     """Construct tree from pandas DataFrame using adjacency list (parent and child names), return root of tree.
 
     Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.
@@ -627,8 +627,8 @@ def polars_to_tree(
     attribute_cols: list[str] | None = None,
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_type: type[T] = _node.Node,  # type: ignore[assignment]
-) -> T:
+    node_type: type[_node.Node] = _node.Node,
+) -> _node.Node:
     """Construct tree from polars DataFrame using path, return root of tree.
 
     `path_col` and `attribute_cols` specify columns for node path and attributes to construct tree. If columns are not
@@ -735,8 +735,8 @@ def polars_to_tree_by_relation(
     parent_col: str | None = None,
     attribute_cols: list[str] | None = None,
     allow_duplicates: bool = False,
-    node_type: type[T] = _node.Node,  # type: ignore[assignment]
-) -> T:
+    node_type: type[_node.Node] = _node.Node,
+) -> _node.Node:
     """Construct tree from polars DataFrame using adjacency list (parent and child names), return root of tree.
 
     Root node is inferred when parent name is empty, or when name appears in parent column but not in child column.

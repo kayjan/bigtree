@@ -27,8 +27,8 @@ def list_to_tree(
     paths: list[str],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_type: type[T] = node.Node,  # type: ignore[assignment]
-) -> T:
+    node_type: type[node.Node] = node.Node,
+) -> node.Node:
     """Construct tree from list of path strings.
 
     Path should contain ``Node`` name, separated by `sep`.
@@ -87,8 +87,8 @@ def list_to_tree(
 def list_to_tree_by_relation(
     relations: list[tuple[str, str]],
     allow_duplicates: bool = False,
-    node_type: type[T] = node.Node,  # type: ignore[assignment]
-) -> T:
+    node_type: type[node.Node] = node.Node,
+) -> node.Node:
     """Construct tree from an adjacency list; list of tuple containing parent-child names.
 
     Root node is inferred when parent is empty, or when name appears as parent but not as child.

@@ -105,7 +105,7 @@ class Tree:
         attribute_cols: list[str] | None = None,
         sep: str = "/",
         duplicate_name_allowed: bool = True,
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_dataframe_relation(
@@ -115,7 +115,7 @@ class Tree:
         parent_col: str | None = None,
         attribute_cols: list[str] | None = None,
         allow_duplicates: bool = False,
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_polars(
@@ -125,7 +125,7 @@ class Tree:
         attribute_cols: list[str] | None = None,
         sep: str = "/",
         duplicate_name_allowed: bool = True,
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_polars_relation(
@@ -135,7 +135,7 @@ class Tree:
         attribute_cols: list[str] | None = None,
         sep: str = "/",
         duplicate_name_allowed: bool = True,
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_dict(
@@ -143,7 +143,7 @@ class Tree:
         path_attrs: Mapping[str, Any],
         sep: str = "/",
         duplicate_name_allowed: bool = True,
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_nested_dict(
@@ -151,14 +151,14 @@ class Tree:
         node_attrs: Mapping[str, Any],
         name_key: str = "name",
         child_key: str = "children",
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_nested_dict_key(
         cls,
         node_attrs: Mapping[str, Mapping[str, Any]],
         child_key: str | None = "children",
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_list(
@@ -166,21 +166,21 @@ class Tree:
         paths: list[str],
         sep: str = "/",
         duplicate_name_allowed: bool = True,
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_list_relation(
         cls,
         relations: list[tuple[str, str]],
         allow_duplicates: bool = False,
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_str(
         cls,
         tree_string: str,
         tree_prefix_list: Iterable[str] = (),
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_newick(
@@ -188,7 +188,7 @@ class Tree:
         tree_string: str,
         length_attr: str = "length",
         attr_prefix: str = "&&NHX:",
-        node_type: type[NodeT] = _node.Node,  # type: ignore[assignment]
+        node_type: type[_node.Node] = _node.Node,
     ) -> Tree: ...
     @classmethod
     def from_rich(

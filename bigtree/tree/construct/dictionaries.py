@@ -142,8 +142,8 @@ def dict_to_tree(
     path_attrs: Mapping[str, Any],
     sep: str = "/",
     duplicate_name_allowed: bool = True,
-    node_type: type[T] = node.Node,  # type: ignore[assignment]
-) -> T:
+    node_type: type[node.Node] = node.Node,
+) -> node.Node:
     """Construct tree from nested dictionary using path, ``key``: path, ``value``: dict of attribute name and attribute
     value.
 
@@ -232,8 +232,8 @@ def nested_dict_to_tree(
     node_attrs: Mapping[str, Any],
     name_key: str = "name",
     child_key: str = "children",
-    node_type: type[T] = node.Node,  # type: ignore[assignment]
-) -> T:
+    node_type: type[node.Node] = node.Node,
+) -> node.Node:
     """Construct tree from nested recursive dictionary.
 
     - ``key``: `name_key`, `child_key`, or any attributes key
@@ -279,8 +279,8 @@ def nested_dict_to_tree(
     assertions.assert_length_not_empty(node_attrs, "Dictionary", "node_attrs")
 
     def _recursive_add_child(
-        child_dict: Mapping[str, Any], parent_node: T | None = None
-    ) -> T:
+        child_dict: Mapping[str, Any], parent_node: node.Node | None = None
+    ) -> node.Node:
         """Recursively add child to tree, given child attributes and parent node.
 
         Args:

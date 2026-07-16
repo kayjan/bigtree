@@ -114,8 +114,8 @@ def add_path_to_tree(
 def str_to_tree(
     tree_string: str,
     tree_prefix_list: Iterable[str] = (),
-    node_type: type[T] = node.Node,  # type: ignore[assignment]
-) -> T:
+    node_type: type[node.Node] = node.Node,
+) -> node.Node:
     r"""Construct tree from tree string.
 
     Examples:
@@ -192,8 +192,8 @@ def newick_to_tree(
     tree_string: str,
     length_attr: str = "length",
     attr_prefix: str = "&&NHX:",
-    node_type: type[T] = node.Node,  # type: ignore[assignment]
-) -> T:
+    node_type: type[node.Node] = node.Node,
+) -> node.Node:
     """Construct tree from Newick notation, return root of tree.
 
     In the Newick Notation (or New Hampshire Notation)
@@ -250,24 +250,24 @@ def newick_to_tree(
     assertions.assert_length_not_empty(tree_string, "Tree string", "tree_string")
 
     # Store results (for tracking)
-    depth_nodes: dict[int, list[T]] = defaultdict(list)
+    depth_nodes: dict[int, list[node.Node]] = defaultdict(list)
     unlabelled_node_counter: int = 0
     current_depth: int = 1
     tree_string_idx: int = 0
 
     # Store states (for assertions and checks)
     current_state: constants.NewickState = constants.NewickState.PARSE_STRING
-    current_node: T | None = None
+    current_node: node.Node | None = None
     cumulative_string: str = ""
     cumulative_string_value: str = ""
 
     def _create_node(
-        _new_node: T | None,
+        _new_node: node.Node | None,
         _cumulative_string: str,
         _unlabelled_node_counter: int,
-        _depth_nodes: dict[int, list[T]],
+        _depth_nodes: dict[int, list[node.Node]],
         _current_depth: int,
-    ) -> tuple[T, int]:
+    ) -> tuple[node.Node, int]:
         """Create node at checkpoint.
 
         Args:

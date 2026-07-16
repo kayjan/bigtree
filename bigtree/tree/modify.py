@@ -22,9 +22,9 @@ T = TypeVar("T", bound=node.Node)
 
 
 def merge_trees(
-    trees: Sequence[T],
+    trees: Sequence[node.Node],
     exact: bool = False,
-) -> T:
+) -> node.Node:
     """Merge multiple trees into a single tree. Returns a new tree.
 
     If trees have different root names, it will take the root name of the first tree. If same path exists, the
@@ -1123,8 +1123,12 @@ def copy_and_replace_nodes_from_tree_to_tree(
 
 
 def _merge_attribute(
-    from_node: T, to_node: T, copy: bool, merge_children: bool, merge_leaves: bool
-) -> T:
+    from_node: node.Node,
+    to_node: node.Node,
+    copy: bool,
+    merge_children: bool,
+    merge_leaves: bool,
+) -> node.Node:
     import pandas as pd
 
     from bigtree.tree import export
@@ -1178,7 +1182,7 @@ def _merge_attribute(
 
 
 def copy_or_shift_logic(
-    tree: T,
+    tree: node.Node,
     from_paths: Collection[str],
     to_paths: Collection[str | None],
     sep: str = "/",
@@ -1189,7 +1193,7 @@ def copy_or_shift_logic(
     merge_children: bool = False,
     merge_leaves: bool = False,
     delete_children: bool = False,
-    to_tree: T | None = None,
+    to_tree: node.Node | None = None,
     with_full_path: bool = False,
 ) -> None:
     """Shift or copy nodes from `from_paths` to `to_paths` *in-place*.
