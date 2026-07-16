@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added:
 - Stubs: Complete for non-plugin methods.
+### Changed:
+- Remove `type: ignore[assignment]` in various places and fix type hints.
 
 ## [1.5.3] - 2026-07-17
 ### Added:

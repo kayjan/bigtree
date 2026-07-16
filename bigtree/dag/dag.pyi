@@ -11,13 +11,12 @@ from typing import (
     TypeVar,
 )
 
+from bigtree.node import dagnode
+
 if TYPE_CHECKING:
-    from bigtree.node import dagnode
 
     T = TypeVar("T", bound=dagnode.DAGNode)
     Td = TypeVar("Td", bound=DAG)
-
-from bigtree.node import dagnode
 
 try:
     import pandas as pd

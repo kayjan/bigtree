@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Callable, Iterable, Mapping, Sequence, TypeVar
 
+from bigtree.node import binarynode
 from bigtree.node import node as _node
 from bigtree.tree.tree import Tree
 
 if TYPE_CHECKING:
-    from bigtree.node import binarynode
 
     BinaryNodeT = TypeVar("BinaryNodeT", bound=binarynode.BinaryNode)
 

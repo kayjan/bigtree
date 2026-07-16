@@ -11,11 +11,11 @@ from typing import (
     TypeVar,
 )
 
+from bigtree.node import basenode, binarynode, dagnode
 from bigtree.node import node as _node
 from bigtree.utils import constants
 
 if TYPE_CHECKING:
-    from bigtree.node import basenode, binarynode, dagnode
 
     BaseNodeT = TypeVar("BaseNodeT", bound=basenode.BaseNode)
     BinaryNodeT = TypeVar("BinaryNodeT", bound=binarynode.BinaryNode)
