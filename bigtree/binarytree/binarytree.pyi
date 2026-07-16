@@ -17,7 +17,7 @@ class BinaryTree(Tree):
         cls,
         heapq_list: Sequence[int],
         node_type: type[T] = binarynode.BinaryNode,  # type: ignore[assignment]
-    ) -> T: ...
+    ) -> BinaryTree: ...
     def inorder_iter(
         self,
         filter_condition: Callable[[T], bool] | None = None,

@@ -54,20 +54,20 @@ class DAG:
         parent_col: str | None = None,
         attribute_cols: list[str] | None = None,
         node_type: type[T] = dagnode.DAGNode,  # type: ignore[assignment]
-    ) -> T: ...
+    ) -> DAG: ...
     @classmethod
     def from_dict(
         cls,
         relation_attrs: Mapping[str, Any],
         parent_key: str = "parents",
         node_type: type[T] = dagnode.DAGNode,  # type: ignore[assignment]
-    ) -> T: ...
+    ) -> DAG: ...
     @classmethod
     def from_list(
         cls,
         relations: Collection[tuple[str, str]],
         node_type: type[T] = dagnode.DAGNode,  # type: ignore[assignment]
-    ) -> T: ...
+    ) -> DAG: ...
     def to_dataframe(
         self,
         name_col: str = "name",
