@@ -201,13 +201,13 @@ class Tree:
         attribute_cols: list[str] | None = None,
         sep: str = "/",
         duplicate_name_allowed: bool = True,
-    ) -> type[_node.Node]: ...
+    ) -> _node.Node: ...
     def add_dataframe_by_name(
         self,
         data: pd.DataFrame,
         name_col: str | None = None,
         attribute_cols: list[str] | None = None,
-    ) -> type[_node.Node]: ...
+    ) -> _node.Node: ...
     def add_polars_by_path(
         self,
         data: pl.DataFrame,
@@ -215,25 +215,25 @@ class Tree:
         attribute_cols: list[str] | None = None,
         sep: str = "/",
         duplicate_name_allowed: bool = True,
-    ) -> type[_node.Node]: ...
+    ) -> _node.Node: ...
     def add_polars_by_name(
         self,
         data: pl.DataFrame,
         name_col: str | None = None,
         attribute_cols: list[str] | None = None,
-    ) -> type[_node.Node]: ...
+    ) -> _node.Node: ...
     def add_dict_by_path(
         self,
         data: pl.DataFrame,
         name_col: str | None = None,
         attribute_cols: list[str] | None = None,
-    ) -> type[_node.Node]: ...
+    ) -> _node.Node: ...
     def add_dict_by_name(
         self,
         path_attrs: Mapping[str, Mapping[str, Any]],
         sep: str = "/",
         duplicate_name_allowed: bool = True,
-    ) -> type[_node.Node]: ...
+    ) -> _node.Node: ...
     def show(
         self,
         alias: str = "node_name",
@@ -518,9 +518,7 @@ class Tree:
         delete_children: bool = False,
         with_full_path: bool = False,
     ) -> None: ...
-    def query(
-        self, tree_node: BaseNodeT, query: str, debug: bool = False
-    ) -> list[BaseNodeT]: ...
+    def query(self, query: str, debug: bool = False) -> list[BaseNodeT]: ...
     def findall(
         self,
         condition: Callable[[BaseNodeT], bool],
