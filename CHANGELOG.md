@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stubs: Complete for non-plugin methods.
 ### Fixed:
 - Stubs: Incorrect stubs for classmethods.
+- Linting: Fix pylance import error when importing directly from bigtree.
 
 ## [1.5.2] - 2026-07-15
 ### Added:
