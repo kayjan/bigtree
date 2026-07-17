@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed:
-- Stubs: Signautre for tree.query.
+- Stubs: Signature for tree.query.
 
 ## [1.5.3] - 2026-07-17
 ### Added:
