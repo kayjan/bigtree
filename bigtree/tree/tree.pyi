@@ -518,9 +518,7 @@ class Tree:
         delete_children: bool = False,
         with_full_path: bool = False,
     ) -> None: ...
-    def query(
-        self, tree_node: BaseNodeT, query: str, debug: bool = False
-    ) -> list[BaseNodeT]: ...
+    def query(self, query: str, debug: bool = False) -> list[BaseNodeT]: ...
     def findall(
         self,
         condition: Callable[[BaseNodeT], bool],
