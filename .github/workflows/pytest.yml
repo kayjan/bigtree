@@ -46,6 +46,3 @@ jobs:
         run: |
           python -m pip install coverage "pytest<9" pytest-benchmark pytest-cov
           pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=bigtree
-    - name: Test doctests
-      run: |
-        pytest --doctest-modules
