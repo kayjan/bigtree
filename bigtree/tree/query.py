@@ -63,7 +63,7 @@ def query_tree(tree_node: T, query: str, debug: bool = False) -> list[T]:
 
         **Nested attribute conditions**
 
-        >>> results = query_tree(root, "parent.is_root")
+        >>> results = tree.query("parent.is_root")
         >>> [result.node_name for result in results]
         ['b', 'c']
 

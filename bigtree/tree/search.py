@@ -114,7 +114,7 @@ def find(tree: T, condition: Callable[[T], bool], max_depth: int = 0) -> T | Non
         >>> tree.find(lambda node: node.age > 5)
         Traceback (most recent call last):
             ...
-        bigtree.utils.exceptions.exceptions.SearchError: Expected less than or equal to 1 element(s), found 4 elements
+        bigtree.utils.exceptions.SearchError: Expected less than or equal to 1 element(s), found 4 elements
         (Node(/a, age=90), Node(/a/b, age=65), Node(/a/c, age=60), Node(/a/c/d, age=40))
 
     Args:
@@ -219,7 +219,7 @@ def find_relative_path(tree: NodeT, path_name: str) -> NodeT | None:
         >>> find_relative_path(d, "../../*")
         Traceback (most recent call last):
             ...
-        bigtree.utils.exceptions.exceptions.SearchError: Expected less than or equal to 1 element(s), found 2 elements
+        bigtree.utils.exceptions.SearchError: Expected less than or equal to 1 element(s), found 2 elements
         (Node(/a/b, age=65), Node(/a/c, age=60))
 
     Args:

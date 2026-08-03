@@ -102,6 +102,7 @@ docstrings</mark>. Refer to the console log for information on the file location
 $ python -m pip install hatch
 $ hatch run docs:coverage
 $ hatch run docs:doctest
+$ pytest --doctest-modules
 ```
 
 ## Consequent Changes

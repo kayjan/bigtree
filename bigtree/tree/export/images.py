@@ -631,7 +631,7 @@ def tree_to_mermaid(
         Advanced mermaid flowchart functionalities such as subgraphs and interactions (script, click) are not supported.
 
     Examples:
-        >>> from bigtree import Tree
+        >>> from bigtree import Node, Tree
         >>> root = Node("a", node_shape="rhombus")
         >>> b = Node("b", edge_arrow="bold", edge_label="Child 1", parent=root)
         >>> c = Node("c", edge_arrow="dotted", edge_label="Child 2", parent=root)
