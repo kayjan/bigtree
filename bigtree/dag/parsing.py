@@ -30,7 +30,7 @@ def get_path_dag(from_node: T, to_node: T) -> list[list[T]]:
         >>> get_path_dag(a, b)
         Traceback (most recent call last):
             ...
-        bigtree.utils.exceptions.exceptions.TreeError: It is not possible to go to DAGNode(b, )
+        bigtree.utils.exceptions.TreeError: It is not possible to go to DAGNode(b, )
 
     Args:
         from_node: start point of path, node to travel from
