@@ -178,4 +178,10 @@ $ conda install -c conda-forge bigtree
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=kayjan/bigtree&type=Date)](https://star-history.com/#kayjan/bigtree&Date)
+<a href="https://www.star-history.com/?type=date&repos=kayjan%2Fbigtree">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=kayjan/bigtree&type=date&theme=dark&legend=top-left&sealed_token=MwnIk39QB5lJJuv4A2-efDArhKjnS0S_B8ojiFrS6h9ijUbXYMPHu3pIqUbJv214BUL5_u2qjkkccahehMgBLppZ_k6HUuMfpOUweZz4GiiMrhLfRpWIhg" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=kayjan/bigtree&type=date&legend=top-left&sealed_token=MwnIk39QB5lJJuv4A2-efDArhKjnS0S_B8ojiFrS6h9ijUbXYMPHu3pIqUbJv214BUL5_u2qjkkccahehMgBLppZ_k6HUuMfpOUweZz4GiiMrhLfRpWIhg" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=kayjan/bigtree&type=date&legend=top-left&sealed_token=MwnIk39QB5lJJuv4A2-efDArhKjnS0S_B8ojiFrS6h9ijUbXYMPHu3pIqUbJv214BUL5_u2qjkkccahehMgBLppZ_k6HUuMfpOUweZz4GiiMrhLfRpWIhg" />
+ </picture>
+</a>
