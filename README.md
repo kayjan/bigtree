@@ -142,7 +142,7 @@ $ pip install bigtree
 
 #### Installing optional dependencies
 
-`bigtree` have a number of optional dependencies, which can be installed using "extras" syntax.
+`bigtree` has a number of optional dependencies, which can be installed using "extras" syntax.
 
 ```console
 $ pip install 'bigtree[extra_1, extra_2]'
@@ -157,6 +157,7 @@ Examples of extra packages include:
 - `polars`: for polars methods
 - `query`: for tree query methods
 - `rich`: for printing tree in rich format
+- `studio`: for interactive usage in terminal
 - `vis`: for pyvis visualisation
 
 For `image` extra dependency, you may need to install more plugins.

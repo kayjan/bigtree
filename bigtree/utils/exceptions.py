@@ -1,6 +1,6 @@
 from functools import wraps
 from typing import Any, Callable, TypeVar
-from warnings import simplefilter, warn
+from warnings import warn
 
 T = TypeVar("T")
 
@@ -71,13 +71,11 @@ def deprecated(
 
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> T:
-            simplefilter("always", DeprecationWarning)
             warn(
                 f"{func.__name__} is going to be deprecated, use {alias} instead",
-                category=DeprecationWarning,
+                category=FutureWarning,
                 stacklevel=2,
             )
-            simplefilter("default", DeprecationWarning)  # reset filter
             return func(*args, **kwargs)
 
         return wrapper

@@ -25,7 +25,7 @@ Installed
 
 ### Installing optional dependencies
 
-`bigtree` have a number of optional dependencies, which can be installed using "extras" syntax.
+`bigtree` has a number of optional dependencies, which can be installed using "extras" syntax.
 
 <!-- termynal -->
 ```console
