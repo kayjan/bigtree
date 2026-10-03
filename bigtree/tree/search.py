@@ -85,7 +85,7 @@ def findall(
         min_count: checks for minimum number of occurrences, raise exceptions.SearchError if the number of results do
             not meet min_count
         max_count: checks for maximum number of occurrences, raise exceptions.SearchError if the number of results do
-            not meet min_count
+            not meet max_count
 
     Returns:
         Search results
@@ -264,7 +264,7 @@ def find_relative_paths(
         min_count: checks for minimum number of occurrences, raise exceptions.SearchError if the number of results do
             not meet min_count
         max_count: checks for maximum number of occurrences, raise exceptions.SearchError if the number of results do
-            not meet min_count
+            not meet max_count
 
     Returns:
         Search results
@@ -518,7 +518,7 @@ def find_children(
         min_count: checks for minimum number of occurrences, raise exceptions.SearchError if the number of results do
             not meet min_count
         max_count: checks for maximum number of occurrences, raise exceptions.SearchError if the number of results do
-            not meet min_count
+            not meet max_count
 
     Returns:
         Search results
