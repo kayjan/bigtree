@@ -239,6 +239,14 @@ class TestStrToTree(unittest.TestCase):
             branch=branch
         )
 
+    def test_non_ascii_character_node_names(self):
+        tree_str = "根\n└── éclair\n    └── 東京"
+        root = construct.str_to_tree(tree_str)
+
+        assert root.node_name == "根"
+        assert root.children[0].node_name == "éclair"
+        assert root.children[0].children[0].node_name == "東京"
+
 
 class TestNewickToTree(unittest.TestCase):
     def setUp(self):

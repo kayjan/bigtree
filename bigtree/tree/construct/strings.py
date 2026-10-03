@@ -162,7 +162,7 @@ def str_to_tree(
         if tree_prefix_list:
             node_name = re.split("|".join(tree_prefix_list), node_str)[-1].lstrip()
         else:
-            node_name = node_str.encode("ascii", "ignore").decode("ascii").lstrip()
+            node_name = re.sub(r"^[\s\u2500-\u257F]+", "", node_str).lstrip()
 
         # Find node parent
         if not prefix_length:
