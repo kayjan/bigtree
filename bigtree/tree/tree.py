@@ -30,7 +30,8 @@ class Tree:
     * Helper methods for cloning, pruning, getting subtree and tree diff
     * Plot methods
 
-    Do refer to the various modules respectively on the keyword parameters.
+    Registered methods are listed in `register_tree_plugins()`, and refer to the various modules
+    respectively for the method arguments.
     """
 
     _plugins: dict[str, Callable[..., Any]] = {}
